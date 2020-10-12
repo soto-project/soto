@@ -46,6 +46,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -117,7 +119,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description. 
+    ///  Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -144,6 +146,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -242,6 +246,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -291,6 +296,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -340,6 +346,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -389,6 +396,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -411,7 +419,7 @@ extension SecurityHub {
         )
     }
 
-    ///  Lists all Security Hub membership invitations that were sent to the current AWS account. 
+    ///  Lists all Security Hub membership invitations that were sent to the current AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -438,6 +446,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -487,6 +496,7 @@ extension SecurityHub {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

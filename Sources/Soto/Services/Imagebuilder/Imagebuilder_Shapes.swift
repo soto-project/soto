@@ -32,12 +32,12 @@ extension Imagebuilder {
     }
 
     public enum EbsVolumeType: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case io1 = "io1"
-        case io2 = "io2"
-        case gp2 = "gp2"
-        case sc1 = "sc1"
-        case st1 = "st1"
+        case standard
+        case io1
+        case io2
+        case gp2
+        case sc1
+        case st1
         public var description: String { return self.rawValue }
     }
 
@@ -84,16 +84,15 @@ extension Imagebuilder {
     // MARK: Shapes
 
     public struct Ami: AWSDecodableShape {
-
-        ///  The account ID of the owner of the AMI. 
+        ///  The account ID of the owner of the AMI.
         public let accountId: String?
-        /// The description of the EC2 AMI. 
+        /// The description of the EC2 AMI.
         public let description: String?
-        /// The AMI ID of the EC2 AMI. 
+        /// The AMI ID of the EC2 AMI.
         public let image: String?
-        /// The name of the EC2 AMI. 
+        /// The name of the EC2 AMI.
         public let name: String?
-        /// The AWS Region of the EC2 AMI. 
+        /// The AWS Region of the EC2 AMI.
         public let region: String?
         public let state: ImageState?
 
@@ -107,28 +106,27 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case description = "description"
-            case image = "image"
-            case name = "name"
-            case region = "region"
-            case state = "state"
+            case accountId
+            case description
+            case image
+            case name
+            case region
+            case state
         }
     }
 
     public struct AmiDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
-
-        /// The tags to apply to AMIs distributed to this Region. 
+        /// The tags to apply to AMIs distributed to this Region.
         public let amiTags: [String: String]?
-        /// The description of the distribution configuration. 
+        /// The description of the distribution configuration.
         public let description: String?
-        ///  The KMS key identifier used to encrypt the distributed image. 
+        ///  The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
-        ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances. 
+        ///  Launch permissions can be used to configure which AWS accounts can use the AMI to launch instances.
         public let launchPermission: LaunchPermissionConfiguration?
-        /// The name of the distribution configuration. 
+        /// The name of the distribution configuration.
         public let name: String?
-        ///  The ID of an account to which you want to distribute an image. 
+        ///  The ID of an account to which you want to distribute an image.
         public let targetAccountIds: [String]?
 
         public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil, targetAccountIds: [String]? = nil) {
@@ -163,17 +161,16 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiTags = "amiTags"
-            case description = "description"
-            case kmsKeyId = "kmsKeyId"
-            case launchPermission = "launchPermission"
-            case name = "name"
-            case targetAccountIds = "targetAccountIds"
+            case amiTags
+            case description
+            case kmsKeyId
+            case launchPermission
+            case name
+            case targetAccountIds
         }
     }
 
     public struct CancelImageCreationRequest: AWSEncodableShape {
-
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image whose creation you want to cancel.
@@ -191,13 +188,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imageBuildVersionArn = "imageBuildVersionArn"
+            case clientToken
+            case imageBuildVersionArn
         }
     }
 
     public struct CancelImageCreationResponse: AWSDecodableShape {
-
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image whose creation has been cancelled.
@@ -212,14 +208,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imageBuildVersionArn = "imageBuildVersionArn"
-            case requestId = "requestId"
+            case clientToken
+            case imageBuildVersionArn
+            case requestId
         }
     }
 
     public struct Component: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
         /// The change description of the component.
@@ -240,7 +235,7 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
-        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
@@ -267,26 +262,25 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case changeDescription = "changeDescription"
-            case data = "data"
-            case dateCreated = "dateCreated"
-            case description = "description"
-            case encrypted = "encrypted"
-            case kmsKeyId = "kmsKeyId"
-            case name = "name"
-            case owner = "owner"
-            case platform = "platform"
-            case supportedOsVersions = "supportedOsVersions"
-            case tags = "tags"
-            case `type` = "type"
-            case version = "version"
+            case arn
+            case changeDescription
+            case data
+            case dateCreated
+            case description
+            case encrypted
+            case kmsKeyId
+            case name
+            case owner
+            case platform
+            case supportedOsVersions
+            case tags
+            case `type`
+            case version
         }
     }
 
     public struct ComponentConfiguration: AWSEncodableShape & AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the component. 
+        /// The Amazon Resource Name (ARN) of the component.
         public let componentArn: String
 
         public init(componentArn: String) {
@@ -298,12 +292,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn = "componentArn"
+            case componentArn
         }
     }
 
     public struct ComponentSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
         /// The change description of the component.
@@ -318,7 +311,7 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
-        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        /// The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The tags associated with the component.
         public let tags: [String: String]?
@@ -342,22 +335,21 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case changeDescription = "changeDescription"
-            case dateCreated = "dateCreated"
-            case description = "description"
-            case name = "name"
-            case owner = "owner"
-            case platform = "platform"
-            case supportedOsVersions = "supportedOsVersions"
-            case tags = "tags"
-            case `type` = "type"
-            case version = "version"
+            case arn
+            case changeDescription
+            case dateCreated
+            case description
+            case name
+            case owner
+            case platform
+            case supportedOsVersions
+            case tags
+            case `type`
+            case version
         }
     }
 
     public struct ComponentVersion: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the component.
         public let arn: String?
         /// The date that the component was created.
@@ -370,7 +362,7 @@ extension Imagebuilder {
         public let owner: String?
         /// The platform of the component.
         public let platform: Platform?
-        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let `type`: ComponentType?
@@ -390,20 +382,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case description = "description"
-            case name = "name"
-            case owner = "owner"
-            case platform = "platform"
-            case supportedOsVersions = "supportedOsVersions"
-            case `type` = "type"
-            case version = "version"
+            case arn
+            case dateCreated
+            case description
+            case name
+            case owner
+            case platform
+            case supportedOsVersions
+            case `type`
+            case version
         }
     }
 
     public struct CreateComponentRequest: AWSEncodableShape {
-
         /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
         public let changeDescription: String?
         /// The idempotency token of the component.
@@ -420,7 +411,7 @@ extension Imagebuilder {
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
         public let semanticVersion: String
-        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation. 
+        ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The tags of the component.
         public let tags: [String: String]?
@@ -468,22 +459,21 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeDescription = "changeDescription"
-            case clientToken = "clientToken"
-            case data = "data"
-            case description = "description"
-            case kmsKeyId = "kmsKeyId"
-            case name = "name"
-            case platform = "platform"
-            case semanticVersion = "semanticVersion"
-            case supportedOsVersions = "supportedOsVersions"
-            case tags = "tags"
-            case uri = "uri"
+            case changeDescription
+            case clientToken
+            case data
+            case description
+            case kmsKeyId
+            case name
+            case platform
+            case semanticVersion
+            case supportedOsVersions
+            case tags
+            case uri
         }
     }
 
     public struct CreateComponentResponse: AWSDecodableShape {
-
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the component that was created by this request.
@@ -498,23 +488,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case componentBuildVersionArn = "componentBuildVersionArn"
-            case requestId = "requestId"
+            case clientToken
+            case componentBuildVersionArn
+            case requestId
         }
     }
 
     public struct CreateDistributionConfigurationRequest: AWSEncodableShape {
-
-        ///  The idempotency token of the distribution configuration. 
+        ///  The idempotency token of the distribution configuration.
         public let clientToken: String
-        ///  The description of the distribution configuration. 
+        ///  The description of the distribution configuration.
         public let description: String?
-        ///  The distributions of the distribution configuration. 
+        ///  The distributions of the distribution configuration.
         public let distributions: [Distribution]
-        ///  The name of the distribution configuration. 
+        ///  The name of the distribution configuration.
         public let name: String
-        ///  The tags of the distribution configuration. 
+        ///  The tags of the distribution configuration.
         public let tags: [String: String]?
 
         public init(clientToken: String = CreateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributions: [Distribution], name: String, tags: [String: String]? = nil) {
@@ -543,21 +532,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case distributions = "distributions"
-            case name = "name"
-            case tags = "tags"
+            case clientToken
+            case description
+            case distributions
+            case name
+            case tags
         }
     }
 
     public struct CreateDistributionConfigurationResponse: AWSDecodableShape {
-
-        ///  The idempotency token used to make this request idempotent. 
+        ///  The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that was created by this request. 
+        ///  The Amazon Resource Name (ARN) of the distribution configuration that was created by this request.
         public let distributionConfigurationArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        ///  The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, distributionConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -567,35 +555,34 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case requestId = "requestId"
+            case clientToken
+            case distributionConfigurationArn
+            case requestId
         }
     }
 
     public struct CreateImagePipelineRequest: AWSEncodableShape {
-
-        ///  The idempotency token used to make this request idempotent. 
+        ///  The idempotency token used to make this request idempotent.
         public let clientToken: String
-        ///  The description of the image pipeline. 
+        ///  The description of the image pipeline.
         public let description: String?
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images created by this image pipeline. 
+        ///  The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images created by this image pipeline.
         public let distributionConfigurationArn: String?
-        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public let enhancedImageMetadataEnabled: Bool?
-        ///  The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline. 
+        ///  The Amazon Resource Name (ARN) of the image recipe that will be used to configure images created by this image pipeline.
         public let imageRecipeArn: String
-        ///  The image test configuration of the image pipeline. 
+        ///  The image test configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline. 
+        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images created by this image pipeline.
         public let infrastructureConfigurationArn: String
-        ///  The name of the image pipeline. 
+        ///  The name of the image pipeline.
         public let name: String
-        ///  The schedule of the image pipeline. 
+        ///  The schedule of the image pipeline.
         public let schedule: Schedule?
-        ///  The status of the image pipeline. 
+        ///  The status of the image pipeline.
         public let status: PipelineStatus?
-        ///  The tags of the image pipeline. 
+        ///  The tags of the image pipeline.
         public let tags: [String: String]?
 
         public init(clientToken: String = CreateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, name: String, schedule: Schedule? = nil, status: PipelineStatus? = nil, tags: [String: String]? = nil) {
@@ -632,27 +619,26 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
-            case imageRecipeArn = "imageRecipeArn"
-            case imageTestsConfiguration = "imageTestsConfiguration"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case name = "name"
-            case schedule = "schedule"
-            case status = "status"
-            case tags = "tags"
+            case clientToken
+            case description
+            case distributionConfigurationArn
+            case enhancedImageMetadataEnabled
+            case imageRecipeArn
+            case imageTestsConfiguration
+            case infrastructureConfigurationArn
+            case name
+            case schedule
+            case status
+            case tags
         }
     }
 
     public struct CreateImagePipelineResponse: AWSDecodableShape {
-
-        ///  The idempotency token used to make this request idempotent. 
+        ///  The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the image pipeline that was created by this request. 
+        ///  The Amazon Resource Name (ARN) of the image pipeline that was created by this request.
         public let imagePipelineArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        ///  The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, imagePipelineArn: String? = nil, requestId: String? = nil) {
@@ -662,29 +648,28 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imagePipelineArn = "imagePipelineArn"
-            case requestId = "requestId"
+            case clientToken
+            case imagePipelineArn
+            case requestId
         }
     }
 
     public struct CreateImageRecipeRequest: AWSEncodableShape {
-
-        /// The block device mappings of the image recipe. 
+        /// The block device mappings of the image recipe.
         public let blockDeviceMappings: [InstanceBlockDeviceMapping]?
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The components of the image recipe. 
+        /// The components of the image recipe.
         public let components: [ComponentConfiguration]
-        ///  The description of the image recipe. 
+        ///  The description of the image recipe.
         public let description: String?
-        ///  The name of the image recipe. 
+        ///  The name of the image recipe.
         public let name: String
-        /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder. 
+        /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder.
         public let parentImage: String
-        /// The semantic version of the image recipe. 
+        /// The semantic version of the image recipe.
         public let semanticVersion: String
-        ///  The tags of the image recipe. 
+        ///  The tags of the image recipe.
         public let tags: [String: String]?
         /// The working directory to be used during build and test workflows.
         public let workingDirectory: String?
@@ -728,25 +713,24 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case blockDeviceMappings = "blockDeviceMappings"
-            case clientToken = "clientToken"
-            case components = "components"
-            case description = "description"
-            case name = "name"
-            case parentImage = "parentImage"
-            case semanticVersion = "semanticVersion"
-            case tags = "tags"
-            case workingDirectory = "workingDirectory"
+            case blockDeviceMappings
+            case clientToken
+            case components
+            case description
+            case name
+            case parentImage
+            case semanticVersion
+            case tags
+            case workingDirectory
         }
     }
 
     public struct CreateImageRecipeResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the image recipe that was created by this request. 
+        /// The Amazon Resource Name (ARN) of the image recipe that was created by this request.
         public let imageRecipeArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -756,27 +740,26 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imageRecipeArn = "imageRecipeArn"
-            case requestId = "requestId"
+            case clientToken
+            case imageRecipeArn
+            case requestId
         }
     }
 
     public struct CreateImageRequest: AWSEncodableShape {
-
-        ///  The idempotency token used to make this request idempotent. 
+        ///  The idempotency token used to make this request idempotent.
         public let clientToken: String
-        ///  The Amazon Resource Name (ARN) of the distribution configuration that defines and configures the outputs of your pipeline. 
+        ///  The Amazon Resource Name (ARN) of the distribution configuration that defines and configures the outputs of your pipeline.
         public let distributionConfigurationArn: String?
-        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public let enhancedImageMetadataEnabled: Bool?
-        ///  The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed. 
+        ///  The Amazon Resource Name (ARN) of the image recipe that defines how images are configured, tested, and assessed.
         public let imageRecipeArn: String
-        ///  The image tests configuration of the image. 
+        ///  The image tests configuration of the image.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested. 
+        ///  The Amazon Resource Name (ARN) of the infrastructure configuration that defines the environment in which your image will be built and tested.
         public let infrastructureConfigurationArn: String
-        ///  The tags of the image. 
+        ///  The tags of the image.
         public let tags: [String: String]?
 
         public init(clientToken: String = CreateImageRequest.idempotencyToken(), distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, tags: [String: String]? = nil) {
@@ -805,23 +788,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
-            case imageRecipeArn = "imageRecipeArn"
-            case imageTestsConfiguration = "imageTestsConfiguration"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case tags = "tags"
+            case clientToken
+            case distributionConfigurationArn
+            case enhancedImageMetadataEnabled
+            case imageRecipeArn
+            case imageTestsConfiguration
+            case infrastructureConfigurationArn
+            case tags
         }
     }
 
     public struct CreateImageResponse: AWSDecodableShape {
-
-        ///  The idempotency token used to make this request idempotent. 
+        ///  The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        ///  The Amazon Resource Name (ARN) of the image that was created by this request. 
+        ///  The Amazon Resource Name (ARN) of the image that was created by this request.
         public let imageBuildVersionArn: String?
-        ///  The request ID that uniquely identifies this request. 
+        ///  The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -831,39 +813,38 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imageBuildVersionArn = "imageBuildVersionArn"
-            case requestId = "requestId"
+            case clientToken
+            case imageBuildVersionArn
+            case requestId
         }
     }
 
     public struct CreateInfrastructureConfigurationRequest: AWSEncodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The description of the infrastructure configuration. 
+        /// The description of the infrastructure configuration.
         public let description: String?
-        /// The instance profile to associate with the instance used to customize your EC2 AMI. 
+        /// The instance profile to associate with the instance used to customize your EC2 AMI.
         public let instanceProfileName: String
-        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
+        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability.
         public let instanceTypes: [String]?
-        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
+        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image.
         public let keyPair: String?
-        /// The logging configuration of the infrastructure configuration. 
+        /// The logging configuration of the infrastructure configuration.
         public let logging: Logging?
-        /// The name of the infrastructure configuration. 
+        /// The name of the infrastructure configuration.
         public let name: String
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
-        /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
+        /// The security group IDs to associate with the instance used to customize your EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The SNS topic on which to send image build events. 
+        /// The SNS topic on which to send image build events.
         public let snsTopicArn: String?
-        /// The subnet ID in which to place the instance used to customize your EC2 AMI. 
+        /// The subnet ID in which to place the instance used to customize your EC2 AMI.
         public let subnetId: String?
-        /// The tags of the infrastructure configuration. 
+        /// The tags of the infrastructure configuration.
         public let tags: [String: String]?
-        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails.
         public let terminateInstanceOnFailure: Bool?
 
         public init(clientToken: String = CreateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, name: String, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, tags: [String: String]? = nil, terminateInstanceOnFailure: Bool? = nil) {
@@ -915,29 +896,28 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case instanceProfileName = "instanceProfileName"
-            case instanceTypes = "instanceTypes"
-            case keyPair = "keyPair"
-            case logging = "logging"
-            case name = "name"
-            case resourceTags = "resourceTags"
-            case securityGroupIds = "securityGroupIds"
-            case snsTopicArn = "snsTopicArn"
-            case subnetId = "subnetId"
-            case tags = "tags"
-            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
+            case clientToken
+            case description
+            case instanceProfileName
+            case instanceTypes
+            case keyPair
+            case logging
+            case name
+            case resourceTags
+            case securityGroupIds
+            case snsTopicArn
+            case subnetId
+            case tags
+            case terminateInstanceOnFailure
         }
     }
 
     public struct CreateInfrastructureConfigurationResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was created by this request.
         public let infrastructureConfigurationArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -947,9 +927,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case requestId = "requestId"
+            case clientToken
+            case infrastructureConfigurationArn
+            case requestId
         }
     }
 
@@ -958,7 +938,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "componentBuildVersionArn", location: .querystring(locationName: "componentBuildVersionArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the component build version to delete. 
+        /// The Amazon Resource Name (ARN) of the component build version to delete.
         public let componentBuildVersionArn: String
 
         public init(componentBuildVersionArn: String) {
@@ -973,10 +953,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteComponentResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the component build version that was deleted. 
+        /// The Amazon Resource Name (ARN) of the component build version that was deleted.
         public let componentBuildVersionArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(componentBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -985,8 +964,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentBuildVersionArn = "componentBuildVersionArn"
-            case requestId = "requestId"
+            case componentBuildVersionArn
+            case requestId
         }
     }
 
@@ -995,7 +974,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the distribution configuration to delete. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration to delete.
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
@@ -1010,10 +989,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteDistributionConfigurationResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the distribution configuration that was deleted. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that was deleted.
         public let distributionConfigurationArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(distributionConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -1022,8 +1000,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case requestId = "requestId"
+            case distributionConfigurationArn
+            case requestId
         }
     }
 
@@ -1032,7 +1010,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image pipeline to delete. 
+        /// The Amazon Resource Name (ARN) of the image pipeline to delete.
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
@@ -1047,10 +1025,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteImagePipelineResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image pipeline that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that was deleted.
         public let imagePipelineArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imagePipelineArn: String? = nil, requestId: String? = nil) {
@@ -1059,8 +1036,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipelineArn = "imagePipelineArn"
-            case requestId = "requestId"
+            case imagePipelineArn
+            case requestId
         }
     }
 
@@ -1069,7 +1046,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image recipe to delete. 
+        /// The Amazon Resource Name (ARN) of the image recipe to delete.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1084,10 +1061,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageRecipeResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image recipe that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image recipe that was deleted.
         public let imageRecipeArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -1096,8 +1072,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-            case requestId = "requestId"
+            case imageRecipeArn
+            case requestId
         }
     }
 
@@ -1106,7 +1082,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image to delete. 
+        /// The Amazon Resource Name (ARN) of the image to delete.
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
@@ -1121,10 +1097,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteImageResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image that was deleted. 
+        /// The Amazon Resource Name (ARN) of the image that was deleted.
         public let imageBuildVersionArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -1133,8 +1108,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageBuildVersionArn = "imageBuildVersionArn"
-            case requestId = "requestId"
+            case imageBuildVersionArn
+            case requestId
         }
     }
 
@@ -1143,7 +1118,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration to delete.
         public let infrastructureConfigurationArn: String
 
         public init(infrastructureConfigurationArn: String) {
@@ -1158,10 +1133,9 @@ extension Imagebuilder {
     }
 
     public struct DeleteInfrastructureConfigurationResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was deleted.
         public let infrastructureConfigurationArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -1170,18 +1144,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case requestId = "requestId"
+            case infrastructureConfigurationArn
+            case requestId
         }
     }
 
     public struct Distribution: AWSEncodableShape & AWSDecodableShape {
-
-        /// The specific AMI settings (for example, launch permissions, AMI tags). 
+        /// The specific AMI settings (for example, launch permissions, AMI tags).
         public let amiDistributionConfiguration: AmiDistributionConfiguration?
         /// The License Manager Configuration to associate with the AMI in the specified Region.
         public let licenseConfigurationArns: [String]?
-        /// The target Region. 
+        /// The target Region.
         public let region: String
 
         public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, licenseConfigurationArns: [String]? = nil, region: String) {
@@ -1202,14 +1175,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amiDistributionConfiguration = "amiDistributionConfiguration"
-            case licenseConfigurationArns = "licenseConfigurationArns"
-            case region = "region"
+            case amiDistributionConfiguration
+            case licenseConfigurationArns
+            case region
         }
     }
 
     public struct DistributionConfiguration: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
         /// The date on which this distribution configuration was created.
@@ -1239,19 +1211,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case dateUpdated = "dateUpdated"
-            case description = "description"
-            case distributions = "distributions"
-            case name = "name"
-            case tags = "tags"
-            case timeoutMinutes = "timeoutMinutes"
+            case arn
+            case dateCreated
+            case dateUpdated
+            case description
+            case distributions
+            case name
+            case tags
+            case timeoutMinutes
         }
     }
 
     public struct DistributionConfigurationSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the distribution configuration.
         public let arn: String?
         /// The date on which the distribution configuration was created.
@@ -1275,17 +1246,16 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case dateUpdated = "dateUpdated"
-            case description = "description"
-            case name = "name"
-            case tags = "tags"
+            case arn
+            case dateCreated
+            case dateUpdated
+            case description
+            case name
+            case tags
         }
     }
 
     public struct EbsInstanceBlockDeviceSpecification: AWSEncodableShape & AWSDecodableShape {
-
         /// Use to configure delete on termination of the associated device.
         public let deleteOnTermination: Bool?
         /// Use to configure device encryption.
@@ -1323,21 +1293,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deleteOnTermination = "deleteOnTermination"
-            case encrypted = "encrypted"
-            case iops = "iops"
-            case kmsKeyId = "kmsKeyId"
-            case snapshotId = "snapshotId"
-            case volumeSize = "volumeSize"
-            case volumeType = "volumeType"
+            case deleteOnTermination
+            case encrypted
+            case iops
+            case kmsKeyId
+            case snapshotId
+            case volumeSize
+            case volumeType
         }
     }
 
     public struct Filter: AWSEncodableShape {
-
-        /// The name of the filter. Filter names are case-sensitive. 
+        /// The name of the filter. Filter names are case-sensitive.
         public let name: String?
-        /// The filter values. Filter values are case-sensitive. 
+        /// The filter values. Filter values are case-sensitive.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -1355,8 +1324,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case values = "values"
+            case name
+            case values
         }
     }
 
@@ -1365,7 +1334,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "componentArn", location: .querystring(locationName: "componentArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the component whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the component whose policy you want to retrieve.
         public let componentArn: String
 
         public init(componentArn: String) {
@@ -1380,10 +1349,9 @@ extension Imagebuilder {
     }
 
     public struct GetComponentPolicyResponse: AWSDecodableShape {
-
-        /// The component policy. 
+        /// The component policy.
         public let policy: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1392,8 +1360,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-            case requestId = "requestId"
+            case policy
+            case requestId
         }
     }
 
@@ -1417,10 +1385,9 @@ extension Imagebuilder {
     }
 
     public struct GetComponentResponse: AWSDecodableShape {
-
-        /// The component object associated with the specified ARN. 
+        /// The component object associated with the specified ARN.
         public let component: Component?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(component: Component? = nil, requestId: String? = nil) {
@@ -1429,8 +1396,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case component = "component"
-            case requestId = "requestId"
+            case component
+            case requestId
         }
     }
 
@@ -1439,7 +1406,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "distributionConfigurationArn", location: .querystring(locationName: "distributionConfigurationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to retrieve.
         public let distributionConfigurationArn: String
 
         public init(distributionConfigurationArn: String) {
@@ -1454,10 +1421,9 @@ extension Imagebuilder {
     }
 
     public struct GetDistributionConfigurationResponse: AWSDecodableShape {
-
-        /// The distribution configuration object. 
+        /// The distribution configuration object.
         public let distributionConfiguration: DistributionConfiguration?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(distributionConfiguration: DistributionConfiguration? = nil, requestId: String? = nil) {
@@ -1466,8 +1432,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfiguration = "distributionConfiguration"
-            case requestId = "requestId"
+            case distributionConfiguration
+            case requestId
         }
     }
 
@@ -1476,7 +1442,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imagePipelineArn", location: .querystring(locationName: "imagePipelineArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to retrieve.
         public let imagePipelineArn: String
 
         public init(imagePipelineArn: String) {
@@ -1491,10 +1457,9 @@ extension Imagebuilder {
     }
 
     public struct GetImagePipelineResponse: AWSDecodableShape {
-
-        /// The image pipeline object. 
+        /// The image pipeline object.
         public let imagePipeline: ImagePipeline?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imagePipeline: ImagePipeline? = nil, requestId: String? = nil) {
@@ -1503,8 +1468,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipeline = "imagePipeline"
-            case requestId = "requestId"
+            case imagePipeline
+            case requestId
         }
     }
 
@@ -1513,7 +1478,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageArn", location: .querystring(locationName: "imageArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image whose policy you want to retrieve.
         public let imageArn: String
 
         public init(imageArn: String) {
@@ -1528,10 +1493,9 @@ extension Imagebuilder {
     }
 
     public struct GetImagePolicyResponse: AWSDecodableShape {
-
-        /// The image policy object. 
+        /// The image policy object.
         public let policy: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1540,8 +1504,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-            case requestId = "requestId"
+            case policy
+            case requestId
         }
     }
 
@@ -1550,7 +1514,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image recipe whose policy you want to retrieve.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1565,10 +1529,9 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipePolicyResponse: AWSDecodableShape {
-
-        /// The image recipe policy object. 
+        /// The image recipe policy object.
         public let policy: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(policy: String? = nil, requestId: String? = nil) {
@@ -1577,8 +1540,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
-            case requestId = "requestId"
+            case policy
+            case requestId
         }
     }
 
@@ -1587,7 +1550,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageRecipeArn", location: .querystring(locationName: "imageRecipeArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image recipe that you want to retrieve.
         public let imageRecipeArn: String
 
         public init(imageRecipeArn: String) {
@@ -1602,10 +1565,9 @@ extension Imagebuilder {
     }
 
     public struct GetImageRecipeResponse: AWSDecodableShape {
-
-        /// The image recipe object. 
+        /// The image recipe object.
         public let imageRecipe: ImageRecipe?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageRecipe: ImageRecipe? = nil, requestId: String? = nil) {
@@ -1614,8 +1576,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipe = "imageRecipe"
-            case requestId = "requestId"
+            case imageRecipe
+            case requestId
         }
     }
 
@@ -1624,7 +1586,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "imageBuildVersionArn", location: .querystring(locationName: "imageBuildVersionArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the image that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image that you want to retrieve.
         public let imageBuildVersionArn: String
 
         public init(imageBuildVersionArn: String) {
@@ -1639,10 +1601,9 @@ extension Imagebuilder {
     }
 
     public struct GetImageResponse: AWSDecodableShape {
-
-        /// The image object. 
+        /// The image object.
         public let image: Image?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(image: Image? = nil, requestId: String? = nil) {
@@ -1651,8 +1612,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case image = "image"
-            case requestId = "requestId"
+            case image
+            case requestId
         }
     }
 
@@ -1661,7 +1622,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "infrastructureConfigurationArn", location: .querystring(locationName: "infrastructureConfigurationArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to retrieve.
         public let infrastructureConfigurationArn: String
 
         public init(infrastructureConfigurationArn: String) {
@@ -1676,10 +1637,9 @@ extension Imagebuilder {
     }
 
     public struct GetInfrastructureConfigurationResponse: AWSDecodableShape {
-
-        /// The infrastructure configuration object. 
+        /// The infrastructure configuration object.
         public let infrastructureConfiguration: InfrastructureConfiguration?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(infrastructureConfiguration: InfrastructureConfiguration? = nil, requestId: String? = nil) {
@@ -1688,20 +1648,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfiguration = "infrastructureConfiguration"
-            case requestId = "requestId"
+            case infrastructureConfiguration
+            case requestId
         }
     }
 
     public struct Image: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
         /// The date on which this image was created.
         public let dateCreated: String?
         /// The distribution configuration used when creating this image.
         public let distributionConfiguration: DistributionConfiguration?
-        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public let enhancedImageMetadataEnabled: Bool?
         /// The image recipe used when creating the image.
         public let imageRecipe: ImageRecipe?
@@ -1711,7 +1670,7 @@ extension Imagebuilder {
         public let infrastructureConfiguration: InfrastructureConfiguration?
         /// The name of the image.
         public let name: String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
         /// The output resources produced when creating this image.
         public let outputResources: OutputResources?
@@ -1748,27 +1707,26 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case distributionConfiguration = "distributionConfiguration"
-            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
-            case imageRecipe = "imageRecipe"
-            case imageTestsConfiguration = "imageTestsConfiguration"
-            case infrastructureConfiguration = "infrastructureConfiguration"
-            case name = "name"
-            case osVersion = "osVersion"
-            case outputResources = "outputResources"
-            case platform = "platform"
-            case sourcePipelineArn = "sourcePipelineArn"
-            case sourcePipelineName = "sourcePipelineName"
-            case state = "state"
-            case tags = "tags"
-            case version = "version"
+            case arn
+            case dateCreated
+            case distributionConfiguration
+            case enhancedImageMetadataEnabled
+            case imageRecipe
+            case imageTestsConfiguration
+            case infrastructureConfiguration
+            case name
+            case osVersion
+            case outputResources
+            case platform
+            case sourcePipelineArn
+            case sourcePipelineName
+            case state
+            case tags
+            case version
         }
     }
 
     public struct ImagePipeline: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image pipeline.
         public let arn: String?
         /// The date on which this image pipeline was created.
@@ -1783,7 +1741,7 @@ extension Imagebuilder {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the distribution configuration associated with this image pipeline.
         public let distributionConfigurationArn: String?
-        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public let enhancedImageMetadataEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the image recipe associated with this image pipeline.
         public let imageRecipeArn: String?
@@ -1822,27 +1780,26 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case dateLastRun = "dateLastRun"
-            case dateNextRun = "dateNextRun"
-            case dateUpdated = "dateUpdated"
-            case description = "description"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
-            case imageRecipeArn = "imageRecipeArn"
-            case imageTestsConfiguration = "imageTestsConfiguration"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case name = "name"
-            case platform = "platform"
-            case schedule = "schedule"
-            case status = "status"
-            case tags = "tags"
+            case arn
+            case dateCreated
+            case dateLastRun
+            case dateNextRun
+            case dateUpdated
+            case description
+            case distributionConfigurationArn
+            case enhancedImageMetadataEnabled
+            case imageRecipeArn
+            case imageTestsConfiguration
+            case infrastructureConfigurationArn
+            case name
+            case platform
+            case schedule
+            case status
+            case tags
         }
     }
 
     public struct ImageRecipe: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
         /// The block device mappings to apply when creating images from this recipe.
@@ -1884,23 +1841,22 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case blockDeviceMappings = "blockDeviceMappings"
-            case components = "components"
-            case dateCreated = "dateCreated"
-            case description = "description"
-            case name = "name"
-            case owner = "owner"
-            case parentImage = "parentImage"
-            case platform = "platform"
-            case tags = "tags"
-            case version = "version"
-            case workingDirectory = "workingDirectory"
+            case arn
+            case blockDeviceMappings
+            case components
+            case dateCreated
+            case description
+            case name
+            case owner
+            case parentImage
+            case platform
+            case tags
+            case version
+            case workingDirectory
         }
     }
 
     public struct ImageRecipeSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image recipe.
         public let arn: String?
         /// The date on which this image recipe was created.
@@ -1927,21 +1883,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case name = "name"
-            case owner = "owner"
-            case parentImage = "parentImage"
-            case platform = "platform"
-            case tags = "tags"
+            case arn
+            case dateCreated
+            case name
+            case owner
+            case parentImage
+            case platform
+            case tags
         }
     }
 
     public struct ImageState: AWSDecodableShape {
-
-        /// The reason for the image's status. 
+        /// The reason for the image's status.
         public let reason: String?
-        /// The status of the image. 
+        /// The status of the image.
         public let status: ImageStatus?
 
         public init(reason: String? = nil, status: ImageStatus? = nil) {
@@ -1950,20 +1905,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason = "reason"
-            case status = "status"
+            case reason
+            case status
         }
     }
 
     public struct ImageSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
         /// The date on which this image was created.
         public let dateCreated: String?
         /// The name of the image.
         public let name: String?
-        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        /// The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
         /// The output resources produced when creating this image.
         public let outputResources: OutputResources?
@@ -1992,21 +1946,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case name = "name"
-            case osVersion = "osVersion"
-            case outputResources = "outputResources"
-            case owner = "owner"
-            case platform = "platform"
-            case state = "state"
-            case tags = "tags"
-            case version = "version"
+            case arn
+            case dateCreated
+            case name
+            case osVersion
+            case outputResources
+            case owner
+            case platform
+            case state
+            case tags
+            case version
         }
     }
 
     public struct ImageTestsConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Defines if tests should be executed when building this image.
         public let imageTestsEnabled: Bool?
         /// The maximum time in minutes that tests are permitted to run.
@@ -2023,20 +1976,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageTestsEnabled = "imageTestsEnabled"
-            case timeoutMinutes = "timeoutMinutes"
+            case imageTestsEnabled
+            case timeoutMinutes
         }
     }
 
     public struct ImageVersion: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the image semantic version.
         public let arn: String?
         /// The date at which this image semantic version was created.
         public let dateCreated: String?
         /// The name of the image semantic version.
         public let name: String?
-        ///  The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019. 
+        ///  The operating system version of the instance. For example, Amazon Linux 2, Ubuntu 18, or Microsoft Windows Server 2019.
         public let osVersion: String?
         /// The owner of the image semantic version.
         public let owner: String?
@@ -2056,41 +2008,40 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case name = "name"
-            case osVersion = "osVersion"
-            case owner = "owner"
-            case platform = "platform"
-            case version = "version"
+            case arn
+            case dateCreated
+            case name
+            case osVersion
+            case owner
+            case platform
+            case version
         }
     }
 
     public struct ImportComponentRequest: AWSEncodableShape {
-
-        /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component. 
+        /// The change description of the component. Describes what change has been made in this version, or what makes this version different from other versions of this component.
         public let changeDescription: String?
-        /// The idempotency token of the component. 
+        /// The idempotency token of the component.
         public let clientToken: String
         /// The data of the component. Used to specify the data inline. Either data or uri can be used to specify the data within the component.
         public let data: String?
-        /// The description of the component. Describes the contents of the component. 
+        /// The description of the component. Describes the contents of the component.
         public let description: String?
-        /// The format of the resource that you want to import as a component. 
+        /// The format of the resource that you want to import as a component.
         public let format: ComponentFormat
-        /// The ID of the KMS key that should be used to encrypt this component. 
+        /// The ID of the KMS key that should be used to encrypt this component.
         public let kmsKeyId: String?
-        ///  The name of the component. 
+        ///  The name of the component.
         public let name: String
-        /// The platform of the component. 
+        /// The platform of the component.
         public let platform: Platform
         /// The semantic version of the component. This version follows the semantic version syntax. For example, major.minor.patch. This could be versioned like software (2.0.1) or like a date (2019.12.01).
         public let semanticVersion: String
-        /// The tags of the component. 
+        /// The tags of the component.
         public let tags: [String: String]?
-        /// The type of the component denotes whether the component is used to build the image or only to test it. 
+        /// The type of the component denotes whether the component is used to build the image or only to test it.
         public let `type`: ComponentType
-        /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component. 
+        /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
         public init(changeDescription: String? = nil, clientToken: String = ImportComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, format: ComponentFormat, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, type: ComponentType, uri: String? = nil) {
@@ -2130,28 +2081,27 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case changeDescription = "changeDescription"
-            case clientToken = "clientToken"
-            case data = "data"
-            case description = "description"
-            case format = "format"
-            case kmsKeyId = "kmsKeyId"
-            case name = "name"
-            case platform = "platform"
-            case semanticVersion = "semanticVersion"
-            case tags = "tags"
-            case `type` = "type"
-            case uri = "uri"
+            case changeDescription
+            case clientToken
+            case data
+            case description
+            case format
+            case kmsKeyId
+            case name
+            case platform
+            case semanticVersion
+            case tags
+            case `type`
+            case uri
         }
     }
 
     public struct ImportComponentResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the imported component. 
+        /// The Amazon Resource Name (ARN) of the imported component.
         public let componentBuildVersionArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, componentBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -2161,14 +2111,13 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case componentBuildVersionArn = "componentBuildVersionArn"
-            case requestId = "requestId"
+            case clientToken
+            case componentBuildVersionArn
+            case requestId
         }
     }
 
     public struct InfrastructureConfiguration: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
         /// The date on which the infrastructure configuration was created.
@@ -2219,26 +2168,25 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case dateUpdated = "dateUpdated"
-            case description = "description"
-            case instanceProfileName = "instanceProfileName"
-            case instanceTypes = "instanceTypes"
-            case keyPair = "keyPair"
-            case logging = "logging"
-            case name = "name"
-            case resourceTags = "resourceTags"
-            case securityGroupIds = "securityGroupIds"
-            case snsTopicArn = "snsTopicArn"
-            case subnetId = "subnetId"
-            case tags = "tags"
-            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
+            case arn
+            case dateCreated
+            case dateUpdated
+            case description
+            case instanceProfileName
+            case instanceTypes
+            case keyPair
+            case logging
+            case name
+            case resourceTags
+            case securityGroupIds
+            case snsTopicArn
+            case subnetId
+            case tags
+            case terminateInstanceOnFailure
         }
     }
 
     public struct InfrastructureConfigurationSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
         /// The date on which the infrastructure configuration was created.
@@ -2265,18 +2213,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case dateCreated = "dateCreated"
-            case dateUpdated = "dateUpdated"
-            case description = "description"
-            case name = "name"
-            case resourceTags = "resourceTags"
-            case tags = "tags"
+            case arn
+            case dateCreated
+            case dateUpdated
+            case description
+            case name
+            case resourceTags
+            case tags
         }
     }
 
     public struct InstanceBlockDeviceMapping: AWSEncodableShape & AWSDecodableShape {
-
         /// The device to which these mappings apply.
         public let deviceName: String?
         /// Use to manage Amazon EBS-specific configuration for this mapping.
@@ -2304,18 +2251,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceName = "deviceName"
-            case ebs = "ebs"
-            case noDevice = "noDevice"
-            case virtualName = "virtualName"
+            case deviceName
+            case ebs
+            case noDevice
+            case virtualName
         }
     }
 
     public struct LaunchPermissionConfiguration: AWSEncodableShape & AWSDecodableShape {
-
-        /// The name of the group. 
+        /// The name of the group.
         public let userGroups: [String]?
-        /// The AWS account ID. 
+        /// The AWS account ID.
         public let userIds: [String]?
 
         public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
@@ -2336,18 +2282,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userGroups = "userGroups"
-            case userIds = "userIds"
+            case userGroups
+            case userIds
         }
     }
 
     public struct ListComponentBuildVersionsRequest: AWSEncodableShape {
-
-        /// The component version Amazon Resource Name (ARN) whose versions you want to list. 
+        /// The component version Amazon Resource Name (ARN) whose versions you want to list.
         public let componentVersionArn: String
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(componentVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2365,19 +2310,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersionArn = "componentVersionArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case componentVersionArn
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListComponentBuildVersionsResponse: AWSDecodableShape {
-
-        /// The list of component summaries for the specified semantic version. 
+        /// The list of component summaries for the specified semantic version.
         public let componentSummaryList: [ComponentSummary]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(componentSummaryList: [ComponentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2387,21 +2331,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentSummaryList = "componentSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case componentSummaryList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListComponentsRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
-        /// The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers. 
+        /// The owner defines which components you want to list. By default, this request will only show components owned by your account. You can use this field to specify if you want to view components owned by yourself, by Amazon, or those components that have been shared with you by other customers.
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -2424,20 +2367,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case owner = "owner"
+            case filters
+            case maxResults
+            case nextToken
+            case owner
         }
     }
 
     public struct ListComponentsResponse: AWSDecodableShape {
-
-        /// The list of component semantic versions. 
+        /// The list of component semantic versions.
         public let componentVersionList: [ComponentVersion]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(componentVersionList: [ComponentVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2447,19 +2389,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentVersionList = "componentVersionList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case componentVersionList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListDistributionConfigurationsRequest: AWSEncodableShape {
-
-        /// The filters.     name - The name of this distribution configuration.  
+        /// The filters.     name - The name of this distribution configuration.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2481,19 +2422,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListDistributionConfigurationsResponse: AWSDecodableShape {
-
-        /// The list of distributions. 
+        /// The list of distributions.
         public let distributionConfigurationSummaryList: [DistributionConfigurationSummary]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(distributionConfigurationSummaryList: [DistributionConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2503,21 +2443,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case distributionConfigurationSummaryList = "distributionConfigurationSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case distributionConfigurationSummaryList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListImageBuildVersionsRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the image whose build versions you want to retrieve.
         public let imageVersionArn: String
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, imageVersionArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2541,20 +2480,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case imageVersionArn = "imageVersionArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case imageVersionArn
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListImageBuildVersionsResponse: AWSDecodableShape {
-
-        /// The list of image build versions. 
+        /// The list of image build versions.
         public let imageSummaryList: [ImageSummary]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2564,21 +2502,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageSummaryList = "imageSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case imageSummaryList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListImagePipelineImagesRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view. 
+        /// The Amazon Resource Name (ARN) of the image pipeline whose images you want to view.
         public let imagePipelineArn: String
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, imagePipelineArn: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2602,20 +2539,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case imagePipelineArn = "imagePipelineArn"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case imagePipelineArn
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListImagePipelineImagesResponse: AWSDecodableShape {
-
-        /// The list of images built by this pipeline. 
+        /// The list of images built by this pipeline.
         public let imageSummaryList: [ImageSummary]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageSummaryList: [ImageSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2625,19 +2561,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageSummaryList = "imageSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case imageSummaryList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListImagePipelinesRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2659,19 +2594,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListImagePipelinesResponse: AWSDecodableShape {
-
-        /// The list of image pipelines. 
+        /// The list of image pipelines.
         public let imagePipelineList: [ImagePipeline]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imagePipelineList: [ImagePipeline]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2681,21 +2615,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imagePipelineList = "imagePipelineList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case imagePipelineList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListImageRecipesRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
-        /// The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers. 
+        /// The owner defines which image recipes you want to list. By default, this request will only show image recipes owned by your account. You can use this field to specify if you want to view image recipes owned by yourself, by Amazon, or those image recipes that have been shared with you by other customers.
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -2718,20 +2651,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case owner = "owner"
+            case filters
+            case maxResults
+            case nextToken
+            case owner
         }
     }
 
     public struct ListImageRecipesResponse: AWSDecodableShape {
-
-        /// The list of image pipelines. 
+        /// The list of image pipelines.
         public let imageRecipeSummaryList: [ImageRecipeSummary]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageRecipeSummaryList: [ImageRecipeSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2741,21 +2673,20 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeSummaryList = "imageRecipeSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case imageRecipeSummaryList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListImagesRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
-        /// The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers. 
+        /// The owner defines which images you want to list. By default, this request will only show images owned by your account. You can use this field to specify if you want to view images owned by yourself, by Amazon, or those images that have been shared with you by other customers.
         public let owner: Ownership?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, owner: Ownership? = nil) {
@@ -2778,20 +2709,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case owner = "owner"
+            case filters
+            case maxResults
+            case nextToken
+            case owner
         }
     }
 
     public struct ListImagesResponse: AWSDecodableShape {
-
-        /// The list of image semantic versions. 
+        /// The list of image semantic versions.
         public let imageVersionList: [ImageVersion]?
-        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects. 
+        /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageVersionList: [ImageVersion]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2801,19 +2731,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageVersionList = "imageVersionList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case imageVersionList
+            case nextToken
+            case requestId
         }
     }
 
     public struct ListInfrastructureConfigurationsRequest: AWSEncodableShape {
-
-        /// The filters. 
+        /// The filters.
         public let filters: [Filter]?
-        /// The maximum items to return in a request. 
+        /// The maximum items to return in a request.
         public let maxResults: Int?
-        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2835,19 +2764,18 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListInfrastructureConfigurationsResponse: AWSDecodableShape {
-
-        /// The list of infrastructure configurations. 
+        /// The list of infrastructure configurations.
         public let infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]?
         /// The next token used for paginated responses. When this is not empty, there are additional elements that the service has not included in this request. Use this token with the next request to retrieve additional objects.
         public let nextToken: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(infrastructureConfigurationSummaryList: [InfrastructureConfigurationSummary]? = nil, nextToken: String? = nil, requestId: String? = nil) {
@@ -2857,9 +2785,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case infrastructureConfigurationSummaryList = "infrastructureConfigurationSummaryList"
-            case nextToken = "nextToken"
-            case requestId = "requestId"
+            case infrastructureConfigurationSummaryList
+            case nextToken
+            case requestId
         }
     }
 
@@ -2868,7 +2796,7 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve. 
+        /// The Amazon Resource Name (ARN) of the resource whose tags you want to retrieve.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2883,8 +2811,7 @@ extension Imagebuilder {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
-        /// The tags for the specified resource. 
+        /// The tags for the specified resource.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -2892,12 +2819,11 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct Logging: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon S3 logging configuration.
         public let s3Logs: S3Logs?
 
@@ -2910,13 +2836,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Logs = "s3Logs"
+            case s3Logs
         }
     }
 
     public struct OutputResources: AWSDecodableShape {
-
-        /// The EC2 AMIs created by this image. 
+        /// The EC2 AMIs created by this image.
         public let amis: [Ami]?
 
         public init(amis: [Ami]? = nil) {
@@ -2924,15 +2849,14 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amis = "amis"
+            case amis
         }
     }
 
     public struct PutComponentPolicyRequest: AWSEncodableShape {
-
-        /// The Amazon Resource Name (ARN) of the component that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the component that this policy should be applied to.
         public let componentArn: String
-        /// The policy to apply. 
+        /// The policy to apply.
         public let policy: String
 
         public init(componentArn: String, policy: String) {
@@ -2947,16 +2871,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn = "componentArn"
-            case policy = "policy"
+            case componentArn
+            case policy
         }
     }
 
     public struct PutComponentPolicyResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the component that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the component that this policy was applied to.
         public let componentArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(componentArn: String? = nil, requestId: String? = nil) {
@@ -2965,16 +2888,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case componentArn = "componentArn"
-            case requestId = "requestId"
+            case componentArn
+            case requestId
         }
     }
 
     public struct PutImagePolicyRequest: AWSEncodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the image that this policy should be applied to.
         public let imageArn: String
-        /// The policy to apply. 
+        /// The policy to apply.
         public let policy: String
 
         public init(imageArn: String, policy: String) {
@@ -2989,16 +2911,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageArn = "imageArn"
-            case policy = "policy"
+            case imageArn
+            case policy
         }
     }
 
     public struct PutImagePolicyResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the image that this policy was applied to.
         public let imageArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageArn: String? = nil, requestId: String? = nil) {
@@ -3007,16 +2928,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageArn = "imageArn"
-            case requestId = "requestId"
+            case imageArn
+            case requestId
         }
     }
 
     public struct PutImageRecipePolicyRequest: AWSEncodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to. 
+        /// The Amazon Resource Name (ARN) of the image recipe that this policy should be applied to.
         public let imageRecipeArn: String
-        /// The policy to apply. 
+        /// The policy to apply.
         public let policy: String
 
         public init(imageRecipeArn: String, policy: String) {
@@ -3031,16 +2951,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-            case policy = "policy"
+            case imageRecipeArn
+            case policy
         }
     }
 
     public struct PutImageRecipePolicyResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the image recipe that this policy was applied to. 
+        /// The Amazon Resource Name (ARN) of the image recipe that this policy was applied to.
         public let imageRecipeArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(imageRecipeArn: String? = nil, requestId: String? = nil) {
@@ -3049,13 +2968,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageRecipeArn = "imageRecipeArn"
-            case requestId = "requestId"
+            case imageRecipeArn
+            case requestId
         }
     }
 
     public struct S3Logs: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon S3 bucket in which to store the logs.
         public let s3BucketName: String?
         /// The Amazon S3 path in which to store the logs.
@@ -3074,13 +2992,12 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3BucketName = "s3BucketName"
-            case s3KeyPrefix = "s3KeyPrefix"
+            case s3BucketName
+            case s3KeyPrefix
         }
     }
 
     public struct Schedule: AWSEncodableShape & AWSDecodableShape {
-
         /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the source image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see CreateComponent in the  EC2 Image Builder API Reference.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
         /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use cron expressions in EC2 Image Builder.
@@ -3097,16 +3014,15 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pipelineExecutionStartCondition = "pipelineExecutionStartCondition"
-            case scheduleExpression = "scheduleExpression"
+            case pipelineExecutionStartCondition
+            case scheduleExpression
         }
     }
 
     public struct StartImagePipelineExecutionRequest: AWSEncodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to manually invoke.
         public let imagePipelineArn: String
 
         public init(clientToken: String = StartImagePipelineExecutionRequest.idempotencyToken(), imagePipelineArn: String) {
@@ -3121,18 +3037,17 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imagePipelineArn = "imagePipelineArn"
+            case clientToken
+            case imagePipelineArn
         }
     }
 
     public struct StartImagePipelineExecutionResponse: AWSDecodableShape {
-
         /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image that was created by this request.
         public let imageBuildVersionArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, imageBuildVersionArn: String? = nil, requestId: String? = nil) {
@@ -3142,9 +3057,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imageBuildVersionArn = "imageBuildVersionArn"
-            case requestId = "requestId"
+            case clientToken
+            case imageBuildVersionArn
+            case requestId
         }
     }
 
@@ -3153,9 +3068,9 @@ extension Imagebuilder {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource that you want to tag. 
+        /// The Amazon Resource Name (ARN) of the resource that you want to tag.
         public let resourceArn: String
-        /// The tags to apply to the resource. 
+        /// The tags to apply to the resource.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3174,27 +3089,23 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource that you want to untag. 
+        /// The Amazon Resource Name (ARN) of the resource that you want to untag.
         public let resourceArn: String
-        /// The tag keys to remove from the resource. 
+        /// The tag keys to remove from the resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3217,22 +3128,17 @@ extension Imagebuilder {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDistributionConfigurationRequest: AWSEncodableShape {
-
-        /// The idempotency token of the distribution configuration. 
+        /// The idempotency token of the distribution configuration.
         public let clientToken: String
-        /// The description of the distribution configuration. 
+        /// The description of the distribution configuration.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to update. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that you want to update.
         public let distributionConfigurationArn: String
-        /// The distributions of the distribution configuration. 
+        /// The distributions of the distribution configuration.
         public let distributions: [Distribution]
 
         public init(clientToken: String = UpdateDistributionConfigurationRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String, distributions: [Distribution]) {
@@ -3254,20 +3160,19 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case distributions = "distributions"
+            case clientToken
+            case description
+            case distributionConfigurationArn
+            case distributions
         }
     }
 
     public struct UpdateDistributionConfigurationResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that was updated by this request.
         public let distributionConfigurationArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, distributionConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -3277,33 +3182,32 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case requestId = "requestId"
+            case clientToken
+            case distributionConfigurationArn
+            case requestId
         }
     }
 
     public struct UpdateImagePipelineRequest: AWSEncodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The description of the image pipeline. 
+        /// The description of the image pipeline.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the distribution configuration that will be used to configure and distribute images updated by this image pipeline.
         public let distributionConfigurationArn: String?
-        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default. 
+        ///  Collects additional information about the image being created, including the operating system (OS) version and package list. This information is used to enhance the overall experience of using EC2 Image Builder. Enabled by default.
         public let enhancedImageMetadataEnabled: Bool?
-        /// The Amazon Resource Name (ARN) of the image pipeline that you want to update. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that you want to update.
         public let imagePipelineArn: String
-        /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the image recipe that will be used to configure images updated by this image pipeline.
         public let imageRecipeArn: String
-        /// The image test configuration of the image pipeline. 
+        /// The image test configuration of the image pipeline.
         public let imageTestsConfiguration: ImageTestsConfiguration?
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that will be used to build images updated by this image pipeline.
         public let infrastructureConfigurationArn: String
-        /// The schedule of the image pipeline. 
+        /// The schedule of the image pipeline.
         public let schedule: Schedule?
-        /// The status of the image pipeline. 
+        /// The status of the image pipeline.
         public let status: PipelineStatus?
 
         public init(clientToken: String = UpdateImagePipelineRequest.idempotencyToken(), description: String? = nil, distributionConfigurationArn: String? = nil, enhancedImageMetadataEnabled: Bool? = nil, imagePipelineArn: String, imageRecipeArn: String, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfigurationArn: String, schedule: Schedule? = nil, status: PipelineStatus? = nil) {
@@ -3333,26 +3237,25 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case distributionConfigurationArn = "distributionConfigurationArn"
-            case enhancedImageMetadataEnabled = "enhancedImageMetadataEnabled"
-            case imagePipelineArn = "imagePipelineArn"
-            case imageRecipeArn = "imageRecipeArn"
-            case imageTestsConfiguration = "imageTestsConfiguration"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case schedule = "schedule"
-            case status = "status"
+            case clientToken
+            case description
+            case distributionConfigurationArn
+            case enhancedImageMetadataEnabled
+            case imagePipelineArn
+            case imageRecipeArn
+            case imageTestsConfiguration
+            case infrastructureConfigurationArn
+            case schedule
+            case status
         }
     }
 
     public struct UpdateImagePipelineResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the image pipeline that was updated by this request.
         public let imagePipelineArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, imagePipelineArn: String? = nil, requestId: String? = nil) {
@@ -3362,37 +3265,36 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case imagePipelineArn = "imagePipelineArn"
-            case requestId = "requestId"
+            case clientToken
+            case imagePipelineArn
+            case requestId
         }
     }
 
     public struct UpdateInfrastructureConfigurationRequest: AWSEncodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String
-        /// The description of the infrastructure configuration. 
+        /// The description of the infrastructure configuration.
         public let description: String?
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that you want to update.
         public let infrastructureConfigurationArn: String
-        /// The instance profile to associate with the instance used to customize your EC2 AMI. 
+        /// The instance profile to associate with the instance used to customize your EC2 AMI.
         public let instanceProfileName: String
-        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability. 
+        /// The instance types of the infrastructure configuration. You can specify one or more instance types to use for this build. The service will pick one of these instance types based on availability.
         public let instanceTypes: [String]?
-        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image. 
+        /// The key pair of the infrastructure configuration. This can be used to log on to and debug the instance used to create your image.
         public let keyPair: String?
-        /// The logging configuration of the infrastructure configuration. 
+        /// The logging configuration of the infrastructure configuration.
         public let logging: Logging?
         /// The tags attached to the resource created by Image Builder.
         public let resourceTags: [String: String]?
-        /// The security group IDs to associate with the instance used to customize your EC2 AMI. 
+        /// The security group IDs to associate with the instance used to customize your EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The SNS topic on which to send image build events. 
+        /// The SNS topic on which to send image build events.
         public let snsTopicArn: String?
-        /// The subnet ID to place the instance used to customize your EC2 AMI in. 
+        /// The subnet ID to place the instance used to customize your EC2 AMI in.
         public let subnetId: String?
-        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails. 
+        /// The terminate instance on failure setting of the infrastructure configuration. Set to false if you want Image Builder to retain the instance used to configure your AMI if the build or test phase of your workflow fails.
         public let terminateInstanceOnFailure: Bool?
 
         public init(clientToken: String = UpdateInfrastructureConfigurationRequest.idempotencyToken(), description: String? = nil, infrastructureConfigurationArn: String, instanceProfileName: String, instanceTypes: [String]? = nil, keyPair: String? = nil, logging: Logging? = nil, resourceTags: [String: String]? = nil, securityGroupIds: [String]? = nil, snsTopicArn: String? = nil, subnetId: String? = nil, terminateInstanceOnFailure: Bool? = nil) {
@@ -3437,28 +3339,27 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case description = "description"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case instanceProfileName = "instanceProfileName"
-            case instanceTypes = "instanceTypes"
-            case keyPair = "keyPair"
-            case logging = "logging"
-            case resourceTags = "resourceTags"
-            case securityGroupIds = "securityGroupIds"
-            case snsTopicArn = "snsTopicArn"
-            case subnetId = "subnetId"
-            case terminateInstanceOnFailure = "terminateInstanceOnFailure"
+            case clientToken
+            case description
+            case infrastructureConfigurationArn
+            case instanceProfileName
+            case instanceTypes
+            case keyPair
+            case logging
+            case resourceTags
+            case securityGroupIds
+            case snsTopicArn
+            case subnetId
+            case terminateInstanceOnFailure
         }
     }
 
     public struct UpdateInfrastructureConfigurationResponse: AWSDecodableShape {
-
-        /// The idempotency token used to make this request idempotent. 
+        /// The idempotency token used to make this request idempotent.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request. 
+        /// The Amazon Resource Name (ARN) of the infrastructure configuration that was updated by this request.
         public let infrastructureConfigurationArn: String?
-        /// The request ID that uniquely identifies this request. 
+        /// The request ID that uniquely identifies this request.
         public let requestId: String?
 
         public init(clientToken: String? = nil, infrastructureConfigurationArn: String? = nil, requestId: String? = nil) {
@@ -3468,9 +3369,9 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
-            case infrastructureConfigurationArn = "infrastructureConfigurationArn"
-            case requestId = "requestId"
+            case clientToken
+            case infrastructureConfigurationArn
+            case requestId
         }
     }
 }

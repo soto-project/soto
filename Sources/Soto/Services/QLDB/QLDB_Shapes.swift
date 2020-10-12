@@ -66,7 +66,7 @@ extension QLDB {
 
     public struct CancelJournalKinesisStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")),
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
@@ -93,7 +93,6 @@ extension QLDB {
     }
 
     public struct CancelJournalKinesisStreamResponse: AWSDecodableShape {
-
         /// The unique ID that QLDB assigns to each QLDB journal stream.
         public let streamId: String?
 
@@ -107,7 +106,6 @@ extension QLDB {
     }
 
     public struct CreateLedgerRequest: AWSEncodableShape {
-
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger using the QLDB API or the AWS Command Line Interface (AWS CLI). You can disable it by calling the UpdateLedger operation to set the flag to false. The QLDB console disables deletion protection for you when you use it to delete a ledger.
         public let deletionProtection: Bool?
         /// The name of the ledger that you want to create. The name must be unique among all of your ledgers in the current AWS Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
@@ -145,7 +143,6 @@ extension QLDB {
     }
 
     public struct CreateLedgerResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -197,7 +194,7 @@ extension QLDB {
 
     public struct DescribeJournalKinesisStreamRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")),
             AWSMemberEncoding(label: "streamId", location: .uri(locationName: "streamId"))
         ]
 
@@ -224,7 +221,6 @@ extension QLDB {
     }
 
     public struct DescribeJournalKinesisStreamResponse: AWSDecodableShape {
-
         /// Information about the QLDB journal stream returned by a DescribeJournalS3Export request.
         public let stream: JournalKinesisStreamDescription?
 
@@ -239,7 +235,7 @@ extension QLDB {
 
     public struct DescribeJournalS3ExportRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId")), 
+            AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId")),
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
@@ -266,7 +262,6 @@ extension QLDB {
     }
 
     public struct DescribeJournalS3ExportResponse: AWSDecodableShape {
-
         /// Information about the journal export job returned by a DescribeJournalS3Export request.
         public let exportDescription: JournalS3ExportDescription
 
@@ -301,7 +296,6 @@ extension QLDB {
     }
 
     public struct DescribeLedgerResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -341,7 +335,7 @@ extension QLDB {
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.  
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
         public let roleArn: String
         /// The configuration settings of the Amazon S3 bucket destination for your export request.
         public let s3ExportConfiguration: S3ExportConfiguration
@@ -372,7 +366,6 @@ extension QLDB {
     }
 
     public struct ExportJournalToS3Response: AWSDecodableShape {
-
         /// The unique ID that QLDB assigns to each journal export job. To describe your export request and check the status of the job, you can use ExportId to call DescribeJournalS3Export.
         public let exportId: String
 
@@ -390,9 +383,9 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
+        /// The location of the block that you want to request. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}
         public let blockAddress: ValueHolder
-        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49} 
+        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}
         public let digestTipAddress: ValueHolder?
         /// The name of the ledger.
         public let name: String
@@ -418,7 +411,6 @@ extension QLDB {
     }
 
     public struct GetBlockResponse: AWSDecodableShape {
-
         /// The block data object in Amazon Ion format.
         public let block: ValueHolder
         /// The proof object in Amazon Ion format returned by a GetBlock request. A proof contains the list of hash values required to recalculate the specified digest using a Merkle tree, starting with the specified block.
@@ -457,7 +449,6 @@ extension QLDB {
     }
 
     public struct GetDigestResponse: AWSDecodableShape {
-
         /// The 256-bit hash value representing the digest returned by a GetDigest request.
         public let digest: Data
         /// The latest block location covered by the digest that you requested. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo.
@@ -479,9 +470,9 @@ extension QLDB {
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
-        /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14} 
+        /// The block location of the document revision to be verified. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:14}
         public let blockAddress: ValueHolder
-        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49} 
+        /// The latest block location covered by the digest for which to request a proof. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo. For example: {strandId:"BlFTjlSXze9BIh1KOszcE3",sequenceNo:49}
         public let digestTipAddress: ValueHolder?
         /// The unique ID of the document to be verified.
         public let documentId: String
@@ -514,7 +505,6 @@ extension QLDB {
     }
 
     public struct GetRevisionResponse: AWSDecodableShape {
-
         /// The proof object in Amazon Ion format returned by a GetRevision request. A proof contains the list of hash values that are required to recalculate the specified digest using a Merkle tree, starting with the specified document revision.
         public let proof: ValueHolder?
         /// The document revision data object in Amazon Ion format.
@@ -532,7 +522,6 @@ extension QLDB {
     }
 
     public struct JournalKinesisStreamDescription: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the QLDB journal stream.
         public let arn: String?
         /// The date and time, in epoch time format, when the QLDB journal stream was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -586,7 +575,6 @@ extension QLDB {
     }
 
     public struct JournalS3ExportDescription: AWSDecodableShape {
-
         /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
         public let exclusiveEndTime: Date
         /// The date and time, in epoch time format, when the export job was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -597,7 +585,7 @@ extension QLDB {
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let ledgerName: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.  
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in AWS Key Management Service (AWS KMS) for server-side encryption of your exported data.
         public let roleArn: String
         public let s3ExportConfiguration: S3ExportConfiguration
         /// The current state of the journal export job.
@@ -627,7 +615,6 @@ extension QLDB {
     }
 
     public struct KinesisConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Enables QLDB to publish multiple data records in a single Kinesis Data Streams record. To learn more, see KPL Key Concepts in the Amazon Kinesis Data Streams Developer Guide.
         public let aggregationEnabled: Bool?
         /// The Amazon Resource Name (ARN) of the Kinesis data stream resource.
@@ -650,7 +637,6 @@ extension QLDB {
     }
 
     public struct LedgerSummary: AWSDecodableShape {
-
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let creationDateTime: Date?
         /// The name of the ledger.
@@ -673,8 +659,8 @@ extension QLDB {
 
     public struct ListJournalKinesisStreamsForLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -706,8 +692,7 @@ extension QLDB {
     }
 
     public struct ListJournalKinesisStreamsForLedgerResponse: AWSDecodableShape {
-
-        ///   If NextToken is empty, the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, more results are available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalKinesisStreamsForLedger call.  
+        ///   If NextToken is empty, the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, more results are available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalKinesisStreamsForLedger call.
         public let nextToken: String?
         /// The array of QLDB journal stream descriptors that are associated with the given ledger.
         public let streams: [JournalKinesisStreamDescription]?
@@ -725,8 +710,8 @@ extension QLDB {
 
     public struct ListJournalS3ExportsForLedgerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
-            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
+            AWSMemberEncoding(label: "name", location: .uri(locationName: "name")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -758,10 +743,9 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsForLedgerResponse: AWSDecodableShape {
-
         /// The array of journal export job descriptions that are associated with the specified ledger.
         public let journalS3Exports: [JournalS3ExportDescription]?
-        ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3ExportsForLedger call.  
+        ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3ExportsForLedger call.
         public let nextToken: String?
 
         public init(journalS3Exports: [JournalS3ExportDescription]? = nil, nextToken: String? = nil) {
@@ -777,7 +761,7 @@ extension QLDB {
 
     public struct ListJournalS3ExportsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -803,10 +787,9 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsResponse: AWSDecodableShape {
-
         /// The array of journal export job descriptions for all ledgers that are associated with the current AWS account and Region.
         public let journalS3Exports: [JournalS3ExportDescription]?
-        ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3Exports call.  
+        ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3Exports call.
         public let nextToken: String?
 
         public init(journalS3Exports: [JournalS3ExportDescription]? = nil, nextToken: String? = nil) {
@@ -822,7 +805,7 @@ extension QLDB {
 
     public struct ListLedgersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -848,10 +831,9 @@ extension QLDB {
     }
 
     public struct ListLedgersResponse: AWSDecodableShape {
-
         /// The array of ledger summaries that are associated with the current AWS account and Region.
         public let ledgers: [LedgerSummary]?
-        /// A pagination token, indicating whether there are more results available:   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListLedgers call.  
+        /// A pagination token, indicating whether there are more results available:   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListLedgers call.
         public let nextToken: String?
 
         public init(ledgers: [LedgerSummary]? = nil, nextToken: String? = nil) {
@@ -870,7 +852,7 @@ extension QLDB {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
+        /// The Amazon Resource Name (ARN) for which you want to list the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -886,7 +868,6 @@ extension QLDB {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// The tags that are currently associated with the specified Amazon QLDB resource.
         public let tags: [String: String]?
 
@@ -900,7 +881,6 @@ extension QLDB {
     }
 
     public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for a symmetric customer master key (CMK) in AWS Key Management Service (AWS KMS). Amazon QLDB does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
@@ -923,12 +903,11 @@ extension QLDB {
     }
 
     public struct S3ExportConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon S3 bucket name in which a journal export job writes the journal contents. The bucket name must comply with the Amazon S3 bucket naming conventions. For more information, see Bucket Restrictions and Limitations in the Amazon S3 Developer Guide.
         public let bucket: String
         /// The encryption settings that are used by a journal export job to write data in an Amazon S3 bucket.
         public let encryptionConfiguration: S3EncryptionConfiguration
-        /// The prefix for the Amazon S3 bucket in which a journal export job writes the journal contents. The prefix must comply with Amazon S3 key naming rules and restrictions. For more information, see Object Key and Metadata in the Amazon S3 Developer Guide. The following are examples of valid Prefix values:    JournalExports-ForMyLedger/Testing/     JournalExports     My:Tests/   
+        /// The prefix for the Amazon S3 bucket in which a journal export job writes the journal contents. The prefix must comply with Amazon S3 key naming rules and restrictions. For more information, see Object Key and Metadata in the Amazon S3 Developer Guide. The following are examples of valid Prefix values:    JournalExports-ForMyLedger/Testing/     JournalExports     My:Tests/
         public let prefix: String
 
         public init(bucket: String, encryptionConfiguration: S3EncryptionConfiguration, prefix: String) {
@@ -958,7 +937,7 @@ extension QLDB {
             AWSMemberEncoding(label: "ledgerName", location: .uri(locationName: "name"))
         ]
 
-        /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z 
+        /// The exclusive date and time that specifies when the stream ends. If you don't define this parameter, the stream runs indefinitely until you cancel it. The ExclusiveEndTime must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z
         public let exclusiveEndTime: Date?
         /// The inclusive start date and time from which to start streaming journal data. This parameter must be in ISO 8601 date and time format and in Universal Coordinated Time (UTC). For example: 2019-06-13T21:36:34Z  The InclusiveStartTime cannot be in the future and must be before ExclusiveEndTime. If you provide an InclusiveStartTime that is before the ledger's CreationDateTime, QLDB effectively defaults it to the ledger's CreationDateTime.
         public let inclusiveStartTime: Date
@@ -1012,7 +991,6 @@ extension QLDB {
     }
 
     public struct StreamJournalToKinesisResponse: AWSDecodableShape {
-
         /// The unique ID that QLDB assigns to each QLDB journal stream.
         public let streamId: String?
 
@@ -1030,7 +1008,7 @@ extension QLDB {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
+        /// The Amazon Resource Name (ARN) to which you want to add the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
         /// The key-value pairs to add as tags to the specified QLDB resource. Tag keys are case sensitive. If you specify a key that already exists for the resource, your request fails and returns an error. Tag values are case sensitive and can be null.
         public let tags: [String: String]
@@ -1057,20 +1035,16 @@ extension QLDB {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) from which you want to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger 
+        /// The Amazon Resource Name (ARN) from which you want to remove the tags. For example:  arn:aws:qldb:us-east-1:123456789012:ledger/exampleLedger
         public let resourceArn: String
         /// The list of tag keys that you want to remove.
         public let tagKeys: [String]
@@ -1095,11 +1069,7 @@ extension QLDB {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateLedgerRequest: AWSEncodableShape {
@@ -1129,7 +1099,6 @@ extension QLDB {
     }
 
     public struct UpdateLedgerResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the ledger.
         public let arn: String?
         /// The date and time, in epoch time format, when the ledger was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
@@ -1159,7 +1128,6 @@ extension QLDB {
     }
 
     public struct ValueHolder: AWSEncodableShape & AWSDecodableShape {
-
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?
 
@@ -1168,7 +1136,7 @@ extension QLDB {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ionText, name: "ionText", parent: name, max: 1048576)
+            try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }
 

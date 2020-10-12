@@ -46,6 +46,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -242,6 +246,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -291,6 +296,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -340,6 +346,7 @@ extension CloudWatchLogs {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

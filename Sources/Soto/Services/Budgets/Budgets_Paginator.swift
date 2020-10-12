@@ -46,6 +46,7 @@ extension Budgets {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -68,7 +69,7 @@ extension Budgets {
         )
     }
 
-    ///  Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
+    ///  Lists the budgets that are associated with an account.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -95,6 +96,7 @@ extension Budgets {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension Budgets {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension Budgets {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

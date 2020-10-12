@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS APIGateway service.
+ Client object for interacting with AWS APIGateway service.
 
-Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
-*/
+ Amazon API Gateway Amazon API Gateway helps developers deliver robust, secure, and scalable mobile and web application back ends. API Gateway allows developers to securely connect mobile and web applications to APIs that run on AWS Lambda, Amazon EC2, or other publicly addressable web services that are hosted outside of AWS.
+ */
 public struct APIGateway: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct APIGateway: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Create an ApiKey resource.  AWS CLI
@@ -117,12 +116,12 @@ public struct APIGateway: AWSService {
         return self.client.execute(operation: "CreateRestApi", path: "/restapis", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a new Stage resource that references a pre-existing Deployment for the API. 
+    ///  Creates a new Stage resource that references a pre-existing Deployment for the API.
     public func createStage(_ input: CreateStageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Stage> {
         return self.client.execute(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload. 
+    ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
     public func createUsagePlan(_ input: CreateUsagePlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlan> {
         return self.client.execute(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -528,7 +527,7 @@ public struct APIGateway: AWSService {
         return self.client.execute(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer 
+    ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer
     public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
         return self.client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

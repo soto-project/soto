@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS ServiceCatalog service.
+ Client object for interacting with AWS ServiceCatalog service.
 
-AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for use on AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
-*/
+ AWS Service Catalog  AWS Service Catalog enables organizations to create and manage catalogs of IT services that are approved for use on AWS. To get the most out of this documentation, you should be familiar with the terminology discussed in AWS Service Catalog Concepts.
+ */
 public struct ServiceCatalog: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct ServiceCatalog: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Accepts an offer to share the specified portfolio.
@@ -244,7 +243,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "DescribeProvisioningParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to see the product's history from when he was the owner. 
+    ///  Gets information about the specified request operation. Use this operation after calling a request operation (for example, ProvisionProduct, TerminateProvisionedProduct, or UpdateProvisionedProduct).   If a provisioned product was transferred to a new owner using UpdateProvisionedProductProperties, the new owner will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to use ListRecordHistory to see the product's history from when he was the owner.
     public func describeRecord(_ input: DescribeRecordInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRecordOutput> {
         return self.client.execute(operation: "DescribeRecord", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -394,7 +393,7 @@ public struct ServiceCatalog: AWSService {
         return self.client.execute(operation: "ListServiceActionsForProvisioningArtifact", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific AWS account name or region. 
+    ///  Returns summary information about stack instances that are associated with the specified CFN_STACKSET type provisioned product. You can filter for stack instances that are associated with a specific AWS account name or region.
     public func listStackInstancesForProvisionedProduct(_ input: ListStackInstancesForProvisionedProductInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListStackInstancesForProvisionedProductOutput> {
         return self.client.execute(operation: "ListStackInstancesForProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

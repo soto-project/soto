@@ -46,6 +46,7 @@ extension AugmentedAIRuntime {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

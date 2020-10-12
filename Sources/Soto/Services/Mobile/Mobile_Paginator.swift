@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Mobile {
-    ///   List all available bundles. 
+    ///   List all available bundles.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension Mobile {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -68,7 +69,7 @@ extension Mobile {
         )
     }
 
-    ///   Lists projects in AWS Mobile Hub. 
+    ///   Lists projects in AWS Mobile Hub.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -95,6 +96,7 @@ extension Mobile {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

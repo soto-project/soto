@@ -333,7 +333,6 @@ extension Glue {
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
-
         /// The job arguments used when this trigger fires. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The name of the crawler to be used with this action.
@@ -381,7 +380,6 @@ extension Glue {
     }
 
     public struct BatchCreatePartitionRequest: AWSEncodableShape {
-
         /// The ID of the catalog in which the partition is to be created. Currently, this should be the AWS account ID.
         public let catalogId: String?
         /// The name of the metadata database in which the partition is to be created.
@@ -424,7 +422,6 @@ extension Glue {
     }
 
     public struct BatchCreatePartitionResponse: AWSDecodableShape {
-
         /// The errors encountered when trying to create the requested partitions.
         public let errors: [PartitionError]?
 
@@ -438,7 +435,6 @@ extension Glue {
     }
 
     public struct BatchDeleteConnectionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of names of the connections to delete.
@@ -469,7 +465,6 @@ extension Glue {
     }
 
     public struct BatchDeleteConnectionResponse: AWSDecodableShape {
-
         /// A map of the names of connections that were not successfully deleted to error details.
         public let errors: [String: ErrorDetail]?
         /// A list of names of the connection definitions that were successfully deleted.
@@ -487,7 +482,6 @@ extension Glue {
     }
 
     public struct BatchDeletePartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
@@ -530,7 +524,6 @@ extension Glue {
     }
 
     public struct BatchDeletePartitionResponse: AWSDecodableShape {
-
         /// The errors encountered when trying to delete the requested partitions.
         public let errors: [PartitionError]?
 
@@ -544,7 +537,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the tables to delete reside. For Hive compatibility, this name is entirely lowercase.
@@ -582,7 +574,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableResponse: AWSDecodableShape {
-
         /// A list of errors encountered in attempting to delete the specified tables.
         public let errors: [TableError]?
 
@@ -596,7 +587,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableVersionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -641,7 +631,6 @@ extension Glue {
     }
 
     public struct BatchDeleteTableVersionResponse: AWSDecodableShape {
-
         /// A list of errors encountered while trying to delete the specified table versions.
         public let errors: [TableVersionError]?
 
@@ -655,7 +644,6 @@ extension Glue {
     }
 
     public struct BatchGetCrawlersRequest: AWSEncodableShape {
-
         /// A list of crawler names, which might be the names returned from the ListCrawlers operation.
         public let crawlerNames: [String]
 
@@ -679,7 +667,6 @@ extension Glue {
     }
 
     public struct BatchGetCrawlersResponse: AWSDecodableShape {
-
         /// A list of crawler definitions.
         public let crawlers: [Crawler]?
         /// A list of names of crawlers that were not found.
@@ -697,7 +684,6 @@ extension Glue {
     }
 
     public struct BatchGetDevEndpointsRequest: AWSEncodableShape {
-
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
 
@@ -716,7 +702,6 @@ extension Glue {
     }
 
     public struct BatchGetDevEndpointsResponse: AWSDecodableShape {
-
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
         /// A list of DevEndpoints not found.
@@ -734,7 +719,6 @@ extension Glue {
     }
 
     public struct BatchGetJobsRequest: AWSEncodableShape {
-
         /// A list of job names, which might be the names returned from the ListJobs operation.
         public let jobNames: [String]
 
@@ -756,7 +740,6 @@ extension Glue {
     }
 
     public struct BatchGetJobsResponse: AWSDecodableShape {
-
         /// A list of job definitions.
         public let jobs: [Job]?
         /// A list of names of jobs not found.
@@ -774,7 +757,6 @@ extension Glue {
     }
 
     public struct BatchGetPartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
@@ -817,7 +799,6 @@ extension Glue {
     }
 
     public struct BatchGetPartitionResponse: AWSDecodableShape {
-
         /// A list of the requested partitions.
         public let partitions: [Partition]?
         /// A list of the partition values in the request for which partitions were not returned.
@@ -835,7 +816,6 @@ extension Glue {
     }
 
     public struct BatchGetTriggersRequest: AWSEncodableShape {
-
         /// A list of trigger names, which may be the names returned from the ListTriggers operation.
         public let triggerNames: [String]
 
@@ -857,7 +837,6 @@ extension Glue {
     }
 
     public struct BatchGetTriggersResponse: AWSDecodableShape {
-
         /// A list of trigger definitions.
         public let triggers: [Trigger]?
         /// A list of names of triggers not found.
@@ -875,7 +854,6 @@ extension Glue {
     }
 
     public struct BatchGetWorkflowsRequest: AWSEncodableShape {
-
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
         /// A list of workflow names, which may be the names returned from the ListWorkflows operation.
@@ -903,7 +881,6 @@ extension Glue {
     }
 
     public struct BatchGetWorkflowsResponse: AWSDecodableShape {
-
         /// A list of names of workflows not found.
         public let missingWorkflows: [String]?
         /// A list of workflow resource metadata.
@@ -921,7 +898,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunError: AWSDecodableShape {
-
         /// Specifies details about the error that was encountered.
         public let errorDetail: ErrorDetail?
         /// The name of the job definition that is used in the job run in question.
@@ -943,7 +919,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunRequest: AWSEncodableShape {
-
         /// The name of the job definition for which to stop job runs.
         public let jobName: String
         /// A list of the JobRunIds that should be stopped for that job definition.
@@ -974,7 +949,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunResponse: AWSDecodableShape {
-
         /// A list of the errors that were encountered in trying to stop JobRuns, including the JobRunId for which each error was encountered and details about the error.
         public let errors: [BatchStopJobRunError]?
         /// A list of the JobRuns that were successfully submitted for stopping.
@@ -992,7 +966,6 @@ extension Glue {
     }
 
     public struct BatchStopJobRunSuccessfulSubmission: AWSDecodableShape {
-
         /// The name of the job definition used in the job run that was stopped.
         public let jobName: String?
         /// The JobRunId of the job run that was stopped.
@@ -1010,7 +983,6 @@ extension Glue {
     }
 
     public struct BatchUpdatePartitionFailureEntry: AWSDecodableShape {
-
         /// The details about the batch update partition error.
         public let errorDetail: ErrorDetail?
         /// A list of values defining the partitions.
@@ -1028,7 +1000,6 @@ extension Glue {
     }
 
     public struct BatchUpdatePartitionRequest: AWSEncodableShape {
-
         /// The ID of the catalog in which the partition is to be updated. Currently, this should be the AWS account ID.
         public let catalogId: String?
         /// The name of the metadata database in which the partition is to be updated.
@@ -1071,7 +1042,6 @@ extension Glue {
     }
 
     public struct BatchUpdatePartitionRequestEntry: AWSEncodableShape {
-
         /// The structure used to update a partition.
         public let partitionInput: PartitionInput
         /// A list of values defining the partitions.
@@ -1098,7 +1068,6 @@ extension Glue {
     }
 
     public struct BatchUpdatePartitionResponse: AWSDecodableShape {
-
         /// The errors encountered when trying to update the requested partitions. A list of BatchUpdatePartitionFailureEntry objects.
         public let errors: [BatchUpdatePartitionFailureEntry]?
 
@@ -1112,7 +1081,6 @@ extension Glue {
     }
 
     public struct BinaryColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Average length of the column.
         public let averageLength: Double
         /// Maximum length of the column.
@@ -1140,7 +1108,6 @@ extension Glue {
     }
 
     public struct BooleanColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Number of false value.
         public let numberOfFalses: Int64
         /// Number of nulls.
@@ -1168,7 +1135,6 @@ extension Glue {
     }
 
     public struct CancelMLTaskRunRequest: AWSEncodableShape {
-
         /// A unique identifier for the task run.
         public let taskRunId: String
         /// The unique identifier of the machine learning transform.
@@ -1195,7 +1161,6 @@ extension Glue {
     }
 
     public struct CancelMLTaskRunResponse: AWSDecodableShape {
-
         /// The status for this run.
         public let status: TaskStatusType?
         /// The unique identifier for the task run.
@@ -1217,7 +1182,6 @@ extension Glue {
     }
 
     public struct CatalogEntry: AWSEncodableShape {
-
         /// The database in which the table metadata resides.
         public let databaseName: String
         /// The name of the table in question.
@@ -1244,7 +1208,6 @@ extension Glue {
     }
 
     public struct CatalogImportStatus: AWSDecodableShape {
-
         ///  True if the migration has completed, or False otherwise.
         public let importCompleted: Bool?
         /// The name of the person who initiated the migration.
@@ -1266,7 +1229,6 @@ extension Glue {
     }
 
     public struct CatalogTarget: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the database to be synchronized.
         public let databaseName: String
         /// A list of the tables to be synchronized.
@@ -1296,7 +1258,6 @@ extension Glue {
     }
 
     public struct Classifier: AWSDecodableShape {
-
         /// A classifier for comma-separated values (CSV).
         public let csvClassifier: CsvClassifier?
         /// A classifier that uses grok.
@@ -1322,7 +1283,6 @@ extension Glue {
     }
 
     public struct CloudWatchEncryption: AWSEncodableShape & AWSDecodableShape {
-
         /// The encryption mode to use for CloudWatch data.
         public let cloudWatchEncryptionMode: CloudWatchEncryptionMode?
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
@@ -1344,7 +1304,6 @@ extension Glue {
     }
 
     public struct CodeGenEdge: AWSEncodableShape & AWSDecodableShape {
-
         /// The ID of the node at which the edge starts.
         public let source: String
         /// The ID of the node at which the edge ends.
@@ -1375,7 +1334,6 @@ extension Glue {
     }
 
     public struct CodeGenNode: AWSEncodableShape & AWSDecodableShape {
-
         /// Properties of the node, in the form of name-value pairs.
         public let args: [CodeGenNodeArg]
         /// A node identifier that is unique within the node's graph.
@@ -1409,7 +1367,6 @@ extension Glue {
     }
 
     public struct CodeGenNodeArg: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the argument or property.
         public let name: String
         /// True if the value is used as a parameter.
@@ -1431,7 +1388,6 @@ extension Glue {
     }
 
     public struct Column: AWSEncodableShape & AWSDecodableShape {
-
         /// A free-form text comment.
         public let comment: String?
         /// The name of the Column.
@@ -1459,9 +1415,9 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 131072)
+            try self.validate(self.`type`, name: "`type`", parent: name, max: 131_072)
             try self.validate(self.`type`, name: "`type`", parent: name, min: 0)
             try self.validate(self.`type`, name: "`type`", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
@@ -1475,7 +1431,6 @@ extension Glue {
     }
 
     public struct ColumnError: AWSDecodableShape {
-
         /// The name of the column.
         public let columnName: String?
         /// The error message occurred during operation.
@@ -1493,7 +1448,6 @@ extension Glue {
     }
 
     public struct ColumnStatistics: AWSEncodableShape & AWSDecodableShape {
-
         /// The analyzed time of the column statistics.
         public let analyzedTime: Date
         /// The name of the column.
@@ -1529,7 +1483,6 @@ extension Glue {
     }
 
     public struct ColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Binary Column Statistics Data.
         public let binaryColumnStatisticsData: BinaryColumnStatisticsData?
         /// Boolean Column Statistics Data.
@@ -1581,7 +1534,6 @@ extension Glue {
     }
 
     public struct ColumnStatisticsError: AWSDecodableShape {
-
         /// The ColumnStatistics of the column.
         public let columnStatistics: ColumnStatistics?
         /// The error message occurred during operation.
@@ -1599,7 +1551,6 @@ extension Glue {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the crawler to which this condition applies.
         public let crawlerName: String?
         /// The state of the crawler to which this condition applies.
@@ -1638,7 +1589,6 @@ extension Glue {
     }
 
     public struct ConfusionMatrix: AWSDecodableShape {
-
         /// The number of matches in the data that the transform didn't find, in the confusion matrix for your transform.
         public let numFalseNegatives: Int64?
         /// The number of nonmatches in the data that the transform incorrectly classified as a match, in the confusion matrix for your transform.
@@ -1664,8 +1614,7 @@ extension Glue {
     }
 
     public struct Connection: AWSDecodableShape {
-
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1710,7 +1659,6 @@ extension Glue {
     }
 
     public struct ConnectionInput: AWSEncodableShape {
-
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
         /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).   SFTP is not supported.
@@ -1764,10 +1712,9 @@ extension Glue {
     }
 
     public struct ConnectionPasswordEncryption: AWSEncodableShape & AWSDecodableShape {
-
         /// An AWS KMS key that is used to encrypt the connection password.  If connection password protection is enabled, the caller of CreateConnection and UpdateConnection needs at least kms:Encrypt permission on the specified AWS KMS key, to encrypt passwords before storing them in the Data Catalog.  You can set the decrypt permission to enable or restrict access on the password key according to your security requirements.
         public let awsKmsKeyId: String?
-        /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption. 
+        /// When the ReturnConnectionPasswordEncrypted flag is set to "true", passwords remain encrypted in the responses of GetConnection and GetConnections. This encryption takes effect independently from catalog encryption.
         public let returnConnectionPasswordEncrypted: Bool
 
         public init(awsKmsKeyId: String? = nil, returnConnectionPasswordEncrypted: Bool) {
@@ -1788,7 +1735,6 @@ extension Glue {
     }
 
     public struct ConnectionsList: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of connections used by the job.
         public let connections: [String]?
 
@@ -1802,7 +1748,6 @@ extension Glue {
     }
 
     public struct Crawl: AWSDecodableShape {
-
         /// The date and time on which the crawl completed.
         public let completedOn: Date?
         /// The error message associated with the crawl.
@@ -1836,7 +1781,6 @@ extension Glue {
     }
 
     public struct Crawler: AWSDecodableShape {
-
         /// A list of UTF-8 strings that specify the custom classifiers that are associated with the crawler.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
@@ -1914,7 +1858,6 @@ extension Glue {
     }
 
     public struct CrawlerMetrics: AWSDecodableShape {
-
         /// The name of the crawler.
         public let crawlerName: String?
         /// The duration of the crawler's most recent run, in seconds.
@@ -1956,7 +1899,6 @@ extension Glue {
     }
 
     public struct CrawlerNodeDetails: AWSDecodableShape {
-
         /// A list of crawls represented by the crawl node.
         public let crawls: [Crawl]?
 
@@ -1970,7 +1912,6 @@ extension Glue {
     }
 
     public struct CrawlerTargets: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies AWS Glue Data Catalog targets.
         public let catalogTargets: [CatalogTarget]?
         /// Specifies Amazon DynamoDB targets.
@@ -2006,7 +1947,6 @@ extension Glue {
     }
 
     public struct CreateClassifierRequest: AWSEncodableShape {
-
         /// A CsvClassifier object specifying the classifier to create.
         public let csvClassifier: CreateCsvClassifierRequest?
         /// A GrokClassifier object specifying the classifier to create.
@@ -2039,15 +1979,10 @@ extension Glue {
     }
 
     public struct CreateClassifierResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateConnectionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which to create the connection. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A ConnectionInput object defining the connection to create.
@@ -2072,15 +2007,10 @@ extension Glue {
     }
 
     public struct CreateConnectionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateCrawlerRequest: AWSEncodableShape {
-
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
@@ -2163,15 +2093,10 @@ extension Glue {
     }
 
     public struct CreateCrawlerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateCsvClassifierRequest: AWSEncodableShape {
-
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
         /// Indicates whether the CSV file contains a header.
@@ -2226,7 +2151,6 @@ extension Glue {
     }
 
     public struct CreateDatabaseRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which to create the database. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The metadata for the database.
@@ -2251,32 +2175,27 @@ extension Glue {
     }
 
     public struct CreateDatabaseResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateDevEndpointRequest: AWSEncodableShape {
-
         /// A map of arguments used to configure the DevEndpoint.
         public let arguments: [String: String]?
         /// The name to be assigned to the new DevEndpoint.
         public let endpointName: String
         /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.
         public let extraJarsS3Path: String?
-        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported. 
+        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not yet supported.
         public let extraPythonLibsS3Path: String?
         /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.  For more information about the available AWS Glue versions and corresponding Spark and Python versions, see Glue version in the developer guide. Development endpoints that are created without specifying a Glue version default to Glue 0.9. You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let glueVersion: String?
         /// The number of AWS Glue Data Processing Units (DPUs) to allocate to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
         public let publicKey: String?
-        /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        /// A list of public keys to be used by the development endpoints for authentication. The use of this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute.
         public let publicKeys: [String]?
         /// The IAM role for the DevEndpoint.
         public let roleArn: String
@@ -2288,7 +2207,7 @@ extension Glue {
         public let subnetId: String?
         /// The tags to use with this DevEndpoint. You may use tags to limit access to the DevEndpoint. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
-        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, endpointName: String, extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil, glueVersion: String? = nil, numberOfNodes: Int? = nil, numberOfWorkers: Int? = nil, publicKey: String? = nil, publicKeys: [String]? = nil, roleArn: String, securityConfiguration: String? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [String: String]? = nil, workerType: WorkerType? = nil) {
@@ -2346,7 +2265,6 @@ extension Glue {
     }
 
     public struct CreateDevEndpointResponse: AWSDecodableShape {
-
         /// The map of arguments used to configure this DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The AWS Availability Zone where this DevEndpoint is located.
@@ -2361,7 +2279,7 @@ extension Glue {
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
-        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints. 
+        /// Glue version determines the versions of Apache Spark and Python that AWS Glue supports. The Python version indicates the version supported for running your ETL scripts on development endpoints.
         public let glueVersion: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
@@ -2432,7 +2350,6 @@ extension Glue {
     }
 
     public struct CreateGrokClassifierRequest: AWSEncodableShape {
-
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String
         /// Optional custom grok patterns used by this classifier.
@@ -2470,7 +2387,6 @@ extension Glue {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
-
         /// The JobCommand that executes this job.
         public let command: JobCommand
         /// The connections used for this job.
@@ -2485,7 +2401,7 @@ extension Glue {
         public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
@@ -2495,7 +2411,7 @@ extension Glue {
         public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
-        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String
@@ -2505,7 +2421,7 @@ extension Glue {
         public let tags: [String: String]?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
         public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -2576,7 +2492,6 @@ extension Glue {
     }
 
     public struct CreateJobResponse: AWSDecodableShape {
-
         /// The unique name that was provided for this job definition.
         public let name: String?
 
@@ -2590,7 +2505,6 @@ extension Glue {
     }
 
     public struct CreateJsonClassifierRequest: AWSEncodableShape {
-
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String
         /// The name of the classifier.
@@ -2614,7 +2528,6 @@ extension Glue {
     }
 
     public struct CreateMLTransformRequest: AWSEncodableShape {
-
         /// A description of the machine learning transform that is being defined. The default is an empty string.
         public let description: String?
         /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
@@ -2631,13 +2544,13 @@ extension Glue {
         public let numberOfWorkers: Int?
         /// The algorithmic parameters that are specific to the transform type used. Conditionally dependent on the transform type.
         public let parameters: TransformParameters
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
         public let role: String
         /// The tags to use with this machine learning transform. You may use tags to limit access to the machine learning transform. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
         /// The timeout of the task run for this transform in minutes. This is the maximum time that a task run for this transform can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
         public init(description: String? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable], maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, numberOfWorkers: Int? = nil, parameters: TransformParameters, role: String, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -2697,7 +2610,6 @@ extension Glue {
     }
 
     public struct CreateMLTransformResponse: AWSDecodableShape {
-
         /// A unique identifier that is generated for the transform.
         public let transformId: String?
 
@@ -2711,7 +2623,6 @@ extension Glue {
     }
 
     public struct CreatePartitionRequest: AWSEncodableShape {
-
         /// The AWS account ID of the catalog in which the partition is to be created.
         public let catalogId: String?
         /// The name of the metadata database in which the partition is to be created.
@@ -2750,15 +2661,10 @@ extension Glue {
     }
 
     public struct CreatePartitionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateScriptRequest: AWSEncodableShape {
-
         /// A list of the edges in the DAG.
         public let dagEdges: [CodeGenEdge]?
         /// A list of the nodes in the DAG.
@@ -2789,7 +2695,6 @@ extension Glue {
     }
 
     public struct CreateScriptResponse: AWSDecodableShape {
-
         /// The Python script generated from the DAG.
         public let pythonScript: String?
         /// The Scala code generated from the DAG.
@@ -2807,7 +2712,6 @@ extension Glue {
     }
 
     public struct CreateSecurityConfigurationRequest: AWSEncodableShape {
-
         /// The encryption configuration for the new security configuration.
         public let encryptionConfiguration: EncryptionConfiguration
         /// The name for the new security configuration.
@@ -2832,7 +2736,6 @@ extension Glue {
     }
 
     public struct CreateSecurityConfigurationResponse: AWSDecodableShape {
-
         /// The time at which the new security configuration was created.
         public let createdTimestamp: Date?
         /// The name assigned to the new security configuration.
@@ -2850,7 +2753,6 @@ extension Glue {
     }
 
     public struct CreateTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which to create the Table. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// The catalog database in which to create the new table. For Hive compatibility, this name is entirely lowercase.
@@ -2890,15 +2792,10 @@ extension Glue {
     }
 
     public struct CreateTableResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateTriggerRequest: AWSEncodableShape {
-
         /// The actions initiated by this trigger when it fires.
         public let actions: [Action]
         /// A description of the new trigger.
@@ -2911,7 +2808,7 @@ extension Glue {
         public let schedule: String?
         /// Set to true to start SCHEDULED and CONDITIONAL triggers when created. True is not supported for ON_DEMAND triggers.
         public let startOnCreation: Bool?
-        /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide. 
+        /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
         /// The type of the new trigger.
         public let `type`: TriggerType
@@ -2966,7 +2863,6 @@ extension Glue {
     }
 
     public struct CreateTriggerResponse: AWSDecodableShape {
-
         /// The name of the trigger.
         public let name: String?
 
@@ -2980,7 +2876,6 @@ extension Glue {
     }
 
     public struct CreateUserDefinedFunctionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which to create the function. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which to create the function.
@@ -3012,15 +2907,10 @@ extension Glue {
     }
 
     public struct CreateUserDefinedFunctionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateWorkflowRequest: AWSEncodableShape {
-
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
         /// A description of the workflow.
@@ -3067,7 +2957,6 @@ extension Glue {
     }
 
     public struct CreateWorkflowResponse: AWSDecodableShape {
-
         /// The name of the workflow which was provided as part of the request.
         public let name: String?
 
@@ -3081,7 +2970,6 @@ extension Glue {
     }
 
     public struct CreateXMLClassifierRequest: AWSEncodableShape {
-
         /// An identifier of the data format that the classifier matches.
         public let classification: String
         /// The name of the classifier.
@@ -3109,7 +2997,6 @@ extension Glue {
     }
 
     public struct CsvClassifier: AWSDecodableShape {
-
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
         /// Indicates whether the CSV file contains a header.
@@ -3159,7 +3046,6 @@ extension Glue {
     }
 
     public struct DataCatalogEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
-
         /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
         public let connectionPasswordEncryption: ConnectionPasswordEncryption?
         /// Specifies the encryption-at-rest configuration for the Data Catalog.
@@ -3182,7 +3068,6 @@ extension Glue {
     }
 
     public struct DataLakePrincipal: AWSEncodableShape & AWSDecodableShape {
-
         /// An identifier for the AWS Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
 
@@ -3201,10 +3086,9 @@ extension Glue {
     }
 
     public struct Database: AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the database resides.
         public let catalogId: String?
-        /// Creates a set of default permissions on the table for principals. 
+        /// Creates a set of default permissions on the table for principals.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// The time at which the metadata database was created in the catalog.
         public let createTime: Date?
@@ -3243,7 +3127,6 @@ extension Glue {
     }
 
     public struct DatabaseIdentifier: AWSEncodableShape & AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the database resides.
         public let catalogId: String?
         /// The name of the catalog database.
@@ -3270,12 +3153,11 @@ extension Glue {
     }
 
     public struct DatabaseInput: AWSEncodableShape {
-
-        /// Creates a set of default permissions on the table for principals. 
+        /// Creates a set of default permissions on the table for principals.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// A description of the database.
         public let description: String?
-        /// The location of the database (for example, an HDFS path). 
+        /// The location of the database (for example, an HDFS path).
         public let locationUri: String?
         /// The name of the database. For Hive compatibility, this is folded to lowercase when it is stored.
         public let name: String
@@ -3310,7 +3192,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.targetDatabase?.validate(name: "\(name).targetDatabase")
         }
@@ -3326,7 +3208,6 @@ extension Glue {
     }
 
     public struct DateColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Maximum value of the column.
         public let maximumValue: Date?
         /// Minimum value of the column.
@@ -3357,7 +3238,6 @@ extension Glue {
     }
 
     public struct DecimalColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Maximum value of the column.
         public let maximumValue: DecimalNumber?
         /// Minimum value of the column.
@@ -3388,7 +3268,6 @@ extension Glue {
     }
 
     public struct DecimalNumber: AWSEncodableShape & AWSDecodableShape {
-
         /// The scale that determines where the decimal point falls in the unscaled value.
         public let scale: Int
         /// The unscaled numeric value.
@@ -3406,7 +3285,6 @@ extension Glue {
     }
 
     public struct DeleteClassifierRequest: AWSEncodableShape {
-
         /// Name of the classifier to remove.
         public let name: String
 
@@ -3426,15 +3304,10 @@ extension Glue {
     }
 
     public struct DeleteClassifierResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteColumnStatisticsForPartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// Name of the column.
@@ -3482,15 +3355,10 @@ extension Glue {
     }
 
     public struct DeleteColumnStatisticsForPartitionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteColumnStatisticsForTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the column.
@@ -3531,15 +3399,10 @@ extension Glue {
     }
 
     public struct DeleteColumnStatisticsForTableResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the connection to delete.
@@ -3566,15 +3429,10 @@ extension Glue {
     }
 
     public struct DeleteConnectionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteCrawlerRequest: AWSEncodableShape {
-
         /// The name of the crawler to remove.
         public let name: String
 
@@ -3594,15 +3452,10 @@ extension Glue {
     }
 
     public struct DeleteCrawlerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteDatabaseRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the database to delete. For Hive compatibility, this must be all lowercase.
@@ -3629,15 +3482,10 @@ extension Glue {
     }
 
     public struct DeleteDatabaseResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteDevEndpointRequest: AWSEncodableShape {
-
         /// The name of the DevEndpoint.
         public let endpointName: String
 
@@ -3651,15 +3499,10 @@ extension Glue {
     }
 
     public struct DeleteDevEndpointResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteJobRequest: AWSEncodableShape {
-
         /// The name of the job definition to delete.
         public let jobName: String
 
@@ -3679,7 +3522,6 @@ extension Glue {
     }
 
     public struct DeleteJobResponse: AWSDecodableShape {
-
         /// The name of the job definition that was deleted.
         public let jobName: String?
 
@@ -3693,7 +3535,6 @@ extension Glue {
     }
 
     public struct DeleteMLTransformRequest: AWSEncodableShape {
-
         /// The unique identifier of the transform to delete.
         public let transformId: String
 
@@ -3713,7 +3554,6 @@ extension Glue {
     }
 
     public struct DeleteMLTransformResponse: AWSDecodableShape {
-
         /// The unique identifier of the transform that was deleted.
         public let transformId: String?
 
@@ -3727,7 +3567,6 @@ extension Glue {
     }
 
     public struct DeletePartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partition to be deleted resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
@@ -3768,15 +3607,10 @@ extension Glue {
     }
 
     public struct DeletePartitionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-
         /// The hash value returned when this policy was set.
         public let policyHashCondition: String?
         /// The ARN of the AWS Glue resource for the resource policy to be deleted.
@@ -3803,15 +3637,10 @@ extension Glue {
     }
 
     public struct DeleteResourcePolicyResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteSecurityConfigurationRequest: AWSEncodableShape {
-
         /// The name of the security configuration to delete.
         public let name: String
 
@@ -3831,15 +3660,10 @@ extension Glue {
     }
 
     public struct DeleteSecurityConfigurationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -3873,15 +3697,10 @@ extension Glue {
     }
 
     public struct DeleteTableResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteTableVersionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -3922,15 +3741,10 @@ extension Glue {
     }
 
     public struct DeleteTableVersionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteTriggerRequest: AWSEncodableShape {
-
         /// The name of the trigger to delete.
         public let name: String
 
@@ -3950,7 +3764,6 @@ extension Glue {
     }
 
     public struct DeleteTriggerResponse: AWSDecodableShape {
-
         /// The name of the trigger that was deleted.
         public let name: String?
 
@@ -3964,7 +3777,6 @@ extension Glue {
     }
 
     public struct DeleteUserDefinedFunctionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the function to be deleted is located. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the function is located.
@@ -3998,15 +3810,10 @@ extension Glue {
     }
 
     public struct DeleteUserDefinedFunctionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteWorkflowRequest: AWSEncodableShape {
-
         /// Name of the workflow to be deleted.
         public let name: String
 
@@ -4026,7 +3833,6 @@ extension Glue {
     }
 
     public struct DeleteWorkflowResponse: AWSDecodableShape {
-
         /// Name of the workflow specified in input.
         public let name: String?
 
@@ -4040,7 +3846,6 @@ extension Glue {
     }
 
     public struct DevEndpoint: AWSDecodableShape {
-
         /// A map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let arguments: [String: String]?
         /// The AWS Availability Zone where this DevEndpoint is located.
@@ -4049,9 +3854,9 @@ extension Glue {
         public let createdTimestamp: Date?
         /// The name of the DevEndpoint.
         public let endpointName: String?
-        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
+        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint.
         public let extraJarsS3Path: String?
-        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported. 
+        /// The paths to one or more Python libraries in an Amazon S3 bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported.
         public let extraPythonLibsS3Path: String?
         /// The reason for a current failure in this DevEndpoint.
         public let failureReason: String?
@@ -4063,7 +3868,7 @@ extension Glue {
         public let lastUpdateStatus: String?
         /// The number of AWS Glue Data Processing Units (DPUs) allocated to this DevEndpoint.
         public let numberOfNodes: Int?
-        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated to the development endpoint. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// A private IP address to access the DevEndpoint within a VPC if the DevEndpoint is created within one. The PrivateAddress field is present only when you create the DevEndpoint within your VPC.
         public let privateAddress: String?
@@ -4071,7 +3876,7 @@ extension Glue {
         public let publicAddress: String?
         /// The public key to be used by this DevEndpoint for authentication. This attribute is provided for backward compatibility because the recommended attribute to use is public keys.
         public let publicKey: String?
-        /// A list of public keys to be used by the DevEndpoints for authentication. Using this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API operation with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute. 
+        /// A list of public keys to be used by the DevEndpoints for authentication. Using this attribute is preferred over a single public key because the public keys allow you to have a different private key per client.  If you previously created an endpoint with a public key, you must remove that key to be able to set a list of public keys. Call the UpdateDevEndpoint API operation with the public key content in the deletePublicKeys attribute, and the list of new keys in the addPublicKeys attribute.
         public let publicKeys: [String]?
         /// The Amazon Resource Name (ARN) of the IAM role used in this DevEndpoint.
         public let roleArn: String?
@@ -4085,7 +3890,7 @@ extension Glue {
         public let subnetId: String?
         /// The ID of the virtual private cloud (VPC) used by this DevEndpoint.
         public let vpcId: String?
-        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk. 
+        /// The type of predefined worker that is allocated to the development endpoint. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   Known issue: when a development endpoint is created with the G.2X WorkerType configuration, the Spark drivers for the development endpoint will run on 4 vCPU, 16 GB of memory, and a 64 GB disk.
         public let workerType: WorkerType?
         /// The YARN endpoint address used by this DevEndpoint.
         public let yarnEndpointAddress: String?
@@ -4150,10 +3955,9 @@ extension Glue {
     }
 
     public struct DevEndpointCustomLibraries: AWSEncodableShape {
-
-        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint. 
+        /// The path to one or more Java .jar files in an S3 bucket that should be loaded in your DevEndpoint.  You can only use pure Java/Scala libraries with a DevEndpoint.
         public let extraJarsS3Path: String?
-        /// The paths to one or more Python libraries in an Amazon Simple Storage Service (Amazon S3) bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported. 
+        /// The paths to one or more Python libraries in an Amazon Simple Storage Service (Amazon S3) bucket that should be loaded in your DevEndpoint. Multiple values must be complete paths separated by a comma.  You can only use pure Python libraries with a DevEndpoint. Libraries that rely on C extensions, such as the pandas Python data analysis library, are not currently supported.
         public let extraPythonLibsS3Path: String?
 
         public init(extraJarsS3Path: String? = nil, extraPythonLibsS3Path: String? = nil) {
@@ -4168,7 +3972,6 @@ extension Glue {
     }
 
     public struct DoubleColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Maximum value of the column.
         public let maximumValue: Double?
         /// Minimum value of the column.
@@ -4199,7 +4002,6 @@ extension Glue {
     }
 
     public struct DynamoDBTarget: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the DynamoDB table to crawl.
         public let path: String?
         /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
@@ -4215,13 +4017,12 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case path = "Path"
-            case scanAll = "scanAll"
-            case scanRate = "scanRate"
+            case scanAll
+            case scanRate
         }
     }
 
     public struct Edge: AWSDecodableShape {
-
         /// The unique of the node within the workflow where the edge ends.
         public let destinationId: String?
         /// The unique of the node within the workflow where the edge starts.
@@ -4239,7 +4040,6 @@ extension Glue {
     }
 
     public struct EncryptionAtRest: AWSEncodableShape & AWSDecodableShape {
-
         /// The encryption-at-rest mode for encrypting Data Catalog data.
         public let catalogEncryptionMode: CatalogEncryptionMode
         /// The ID of the AWS KMS key to use for encryption at rest.
@@ -4263,7 +4063,6 @@ extension Glue {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// The encryption configuration for Amazon CloudWatch.
         public let cloudWatchEncryption: CloudWatchEncryption?
         /// The encryption configuration for job bookmarks.
@@ -4293,7 +4092,6 @@ extension Glue {
     }
 
     public struct ErrorDetail: AWSDecodableShape {
-
         /// The code associated with this error.
         public let errorCode: String?
         /// A message describing the error.
@@ -4311,7 +4109,6 @@ extension Glue {
     }
 
     public struct EvaluationMetrics: AWSDecodableShape {
-
         /// The evaluation metrics for the find matches algorithm.
         public let findMatchesMetrics: FindMatchesMetrics?
         /// The type of machine learning transform.
@@ -4329,7 +4126,6 @@ extension Glue {
     }
 
     public struct ExecutionProperty: AWSEncodableShape & AWSDecodableShape {
-
         /// The maximum number of concurrent runs allowed for the job. The default is 1. An error is returned when this threshold is reached. The maximum value you can specify is controlled by a service limit.
         public let maxConcurrentRuns: Int?
 
@@ -4343,7 +4139,6 @@ extension Glue {
     }
 
     public struct ExportLabelsTaskRunProperties: AWSDecodableShape {
-
         /// The Amazon Simple Storage Service (Amazon S3) path where you will export the labels.
         public let outputS3Path: String?
 
@@ -4357,7 +4152,6 @@ extension Glue {
     }
 
     public struct FindMatchesMetrics: AWSDecodableShape {
-
         /// The area under the precision/recall curve (AUPRC) is a single number measuring the overall quality of the transform, that is independent of the choice made for precision vs. recall. Higher values indicate that you have a more attractive precision vs. recall tradeoff. For more information, see Precision and recall in Wikipedia.
         public let areaUnderPRCurve: Double?
         /// The confusion matrix shows you what your transform is predicting accurately and what types of errors it is making. For more information, see Confusion matrix in Wikipedia.
@@ -4387,7 +4181,6 @@ extension Glue {
     }
 
     public struct FindMatchesParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The value that is selected when tuning your transform for a balance between accuracy and cost. A value of 0.5 means that the system balances accuracy and cost concerns. A value of 1.0 means a bias purely for accuracy, which typically results in a higher cost, sometimes substantially higher. A value of 0.0 means a bias purely for cost, which results in a less accurate FindMatches transform, sometimes with unacceptable accuracy. Accuracy measures how well the transform finds true positives and true negatives. Increasing accuracy requires more machine resources and cost. But it also results in increased recall.  Cost measures how many compute resources, and thus money, are consumed to run the transform.
         public let accuracyCostTradeoff: Double?
         /// The value to switch on or off to force the output to match the provided labels from users. If the value is True, the find matches transform forces the output to match the provided labels. The results override the normal conflation results. If the value is False, the find matches transform does not ensure all the labels provided are respected, and the results rely on the trained model. Note that setting this value to true may increase the conflation execution time.
@@ -4423,7 +4216,6 @@ extension Glue {
     }
 
     public struct FindMatchesTaskRunProperties: AWSDecodableShape {
-
         /// The job ID for the Find Matches task run.
         public let jobId: String?
         /// The name assigned to the job for the Find Matches task run.
@@ -4445,7 +4237,6 @@ extension Glue {
     }
 
     public struct GetCatalogImportStatusRequest: AWSEncodableShape {
-
         /// The ID of the catalog to migrate. Currently, this should be the AWS account ID.
         public let catalogId: String?
 
@@ -4465,7 +4256,6 @@ extension Glue {
     }
 
     public struct GetCatalogImportStatusResponse: AWSDecodableShape {
-
         /// The status of the specified catalog migration.
         public let importStatus: CatalogImportStatus?
 
@@ -4479,7 +4269,6 @@ extension Glue {
     }
 
     public struct GetClassifierRequest: AWSEncodableShape {
-
         /// Name of the classifier to retrieve.
         public let name: String
 
@@ -4499,7 +4288,6 @@ extension Glue {
     }
 
     public struct GetClassifierResponse: AWSDecodableShape {
-
         /// The requested classifier.
         public let classifier: Classifier?
 
@@ -4513,7 +4301,6 @@ extension Glue {
     }
 
     public struct GetClassifiersRequest: AWSEncodableShape {
-
         /// The size of the list to return (optional).
         public let maxResults: Int?
         /// An optional continuation token.
@@ -4536,7 +4323,6 @@ extension Glue {
     }
 
     public struct GetClassifiersResponse: AWSDecodableShape {
-
         /// The requested list of classifier objects.
         public let classifiers: [Classifier]?
         /// A continuation token.
@@ -4554,7 +4340,6 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsForPartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of the column names.
@@ -4606,7 +4391,6 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsForPartitionResponse: AWSDecodableShape {
-
         /// List of ColumnStatistics that failed to be retrieved.
         public let columnStatisticsList: [ColumnStatistics]?
         /// Error occurred during retrieving column statistics data.
@@ -4624,7 +4408,6 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsForTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of the column names.
@@ -4669,7 +4452,6 @@ extension Glue {
     }
 
     public struct GetColumnStatisticsForTableResponse: AWSDecodableShape {
-
         /// List of ColumnStatistics that failed to be retrieved.
         public let columnStatisticsList: [ColumnStatistics]?
         /// List of ColumnStatistics that failed to be retrieved.
@@ -4687,7 +4469,6 @@ extension Glue {
     }
 
     public struct GetConnectionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// Allows you to retrieve the connection metadata without returning the password. For instance, the AWS Glue console uses this flag to retrieve the connection, and does not display the password. Set this parameter when the caller might not have permission to use the AWS KMS key to decrypt the password, but it does have permission to access the rest of the connection properties.
@@ -4718,7 +4499,6 @@ extension Glue {
     }
 
     public struct GetConnectionResponse: AWSDecodableShape {
-
         /// The requested connection definition.
         public let connection: Connection?
 
@@ -4732,7 +4512,6 @@ extension Glue {
     }
 
     public struct GetConnectionsFilter: AWSEncodableShape {
-
         /// The type of connections to return. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
         /// A criteria string that must match the criteria recorded in the connection definition for that connection definition to be returned.
@@ -4760,7 +4539,6 @@ extension Glue {
     }
 
     public struct GetConnectionsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the connections reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A filter that controls which connections are returned.
@@ -4799,7 +4577,6 @@ extension Glue {
     }
 
     public struct GetConnectionsResponse: AWSDecodableShape {
-
         /// A list of requested connection definitions.
         public let connectionList: [Connection]?
         /// A continuation token, if the list of connections returned does not include the last of the filtered connections.
@@ -4817,7 +4594,6 @@ extension Glue {
     }
 
     public struct GetCrawlerMetricsRequest: AWSEncodableShape {
-
         /// A list of the names of crawlers about which to retrieve metrics.
         public let crawlerNameList: [String]?
         /// The maximum size of a list to return.
@@ -4851,7 +4627,6 @@ extension Glue {
     }
 
     public struct GetCrawlerMetricsResponse: AWSDecodableShape {
-
         /// A list of metrics for the specified crawler.
         public let crawlerMetricsList: [CrawlerMetrics]?
         /// A continuation token, if the returned list does not contain the last metric available.
@@ -4869,7 +4644,6 @@ extension Glue {
     }
 
     public struct GetCrawlerRequest: AWSEncodableShape {
-
         /// The name of the crawler to retrieve metadata for.
         public let name: String
 
@@ -4889,7 +4663,6 @@ extension Glue {
     }
 
     public struct GetCrawlerResponse: AWSDecodableShape {
-
         /// The metadata for the specified crawler.
         public let crawler: Crawler?
 
@@ -4903,7 +4676,6 @@ extension Glue {
     }
 
     public struct GetCrawlersRequest: AWSEncodableShape {
-
         /// The number of crawlers to return on each call.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -4926,7 +4698,6 @@ extension Glue {
     }
 
     public struct GetCrawlersResponse: AWSDecodableShape {
-
         /// A list of crawler metadata.
         public let crawlers: [Crawler]?
         /// A continuation token, if the returned list has not reached the end of those defined in this customer account.
@@ -4944,7 +4715,6 @@ extension Glue {
     }
 
     public struct GetDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog to retrieve the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
 
@@ -4964,7 +4734,6 @@ extension Glue {
     }
 
     public struct GetDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
-
         /// The requested security configuration.
         public let dataCatalogEncryptionSettings: DataCatalogEncryptionSettings?
 
@@ -4978,7 +4747,6 @@ extension Glue {
     }
 
     public struct GetDatabaseRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the database to retrieve. For Hive compatibility, this should be all lowercase.
@@ -5005,7 +4773,6 @@ extension Glue {
     }
 
     public struct GetDatabaseResponse: AWSDecodableShape {
-
         /// The definition of the specified database in the Data Catalog.
         public let database: Database?
 
@@ -5019,14 +4786,13 @@ extension Glue {
     }
 
     public struct GetDatabasesRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog from which to retrieve Databases. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The maximum number of databases to return in one response.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
         public let nextToken: String?
-        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.   
+        /// Allows you to specify that you want to list the databases shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will list the databases shared with your account.    If set to ALL, will list the databases shared with your account, as well as the databases in yor local account.
         public let resourceShareType: ResourceShareType?
 
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
@@ -5053,7 +4819,6 @@ extension Glue {
     }
 
     public struct GetDatabasesResponse: AWSDecodableShape {
-
         /// A list of Database objects from the specified catalog.
         public let databaseList: [Database]
         /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
@@ -5071,7 +4836,6 @@ extension Glue {
     }
 
     public struct GetDataflowGraphRequest: AWSEncodableShape {
-
         /// The Python script to transform.
         public let pythonScript: String?
 
@@ -5085,7 +4849,6 @@ extension Glue {
     }
 
     public struct GetDataflowGraphResponse: AWSDecodableShape {
-
         /// A list of the edges in the resulting DAG.
         public let dagEdges: [CodeGenEdge]?
         /// A list of the nodes in the resulting DAG.
@@ -5103,7 +4866,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointRequest: AWSEncodableShape {
-
         /// Name of the DevEndpoint to retrieve information for.
         public let endpointName: String
 
@@ -5117,7 +4879,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointResponse: AWSDecodableShape {
-
         /// A DevEndpoint definition.
         public let devEndpoint: DevEndpoint?
 
@@ -5131,7 +4892,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointsRequest: AWSEncodableShape {
-
         /// The maximum size of information to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
@@ -5154,7 +4914,6 @@ extension Glue {
     }
 
     public struct GetDevEndpointsResponse: AWSDecodableShape {
-
         /// A list of DevEndpoint definitions.
         public let devEndpoints: [DevEndpoint]?
         /// A continuation token, if not all DevEndpoint definitions have yet been returned.
@@ -5172,7 +4931,6 @@ extension Glue {
     }
 
     public struct GetJobBookmarkRequest: AWSEncodableShape {
-
         /// The name of the job in question.
         public let jobName: String
         /// The unique run identifier associated with this job run.
@@ -5190,7 +4948,6 @@ extension Glue {
     }
 
     public struct GetJobBookmarkResponse: AWSDecodableShape {
-
         /// A structure that defines a point that a job can resume processing.
         public let jobBookmarkEntry: JobBookmarkEntry?
 
@@ -5204,7 +4961,6 @@ extension Glue {
     }
 
     public struct GetJobRequest: AWSEncodableShape {
-
         /// The name of the job definition to retrieve.
         public let jobName: String
 
@@ -5224,7 +4980,6 @@ extension Glue {
     }
 
     public struct GetJobResponse: AWSDecodableShape {
-
         /// The requested job definition.
         public let job: Job?
 
@@ -5238,7 +4993,6 @@ extension Glue {
     }
 
     public struct GetJobRunRequest: AWSEncodableShape {
-
         /// Name of the job definition being run.
         public let jobName: String
         /// True if a list of predecessor runs should be returned.
@@ -5269,7 +5023,6 @@ extension Glue {
     }
 
     public struct GetJobRunResponse: AWSDecodableShape {
-
         /// The requested job-run metadata.
         public let jobRun: JobRun?
 
@@ -5283,7 +5036,6 @@ extension Glue {
     }
 
     public struct GetJobRunsRequest: AWSEncodableShape {
-
         /// The name of the job definition for which to retrieve all job runs.
         public let jobName: String
         /// The maximum size of the response.
@@ -5313,7 +5065,6 @@ extension Glue {
     }
 
     public struct GetJobRunsResponse: AWSDecodableShape {
-
         /// A list of job-run metadata objects.
         public let jobRuns: [JobRun]?
         /// A continuation token, if not all requested job runs have been returned.
@@ -5331,7 +5082,6 @@ extension Glue {
     }
 
     public struct GetJobsRequest: AWSEncodableShape {
-
         /// The maximum size of the response.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
@@ -5354,7 +5104,6 @@ extension Glue {
     }
 
     public struct GetJobsResponse: AWSDecodableShape {
-
         /// A list of job definitions.
         public let jobs: [Job]?
         /// A continuation token, if not all job definitions have yet been returned.
@@ -5372,7 +5121,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunRequest: AWSEncodableShape {
-
         /// The unique identifier of the task run.
         public let taskRunId: String
         /// The unique identifier of the machine learning transform.
@@ -5399,7 +5147,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunResponse: AWSDecodableShape {
-
         /// The date and time when this task run was completed.
         public let completedOn: Date?
         /// The error strings that are associated with the task run.
@@ -5449,10 +5196,9 @@ extension Glue {
     }
 
     public struct GetMLTaskRunsRequest: AWSEncodableShape {
-
         /// The filter criteria, in the TaskRunFilterCriteria structure, for the task run.
         public let filter: TaskRunFilterCriteria?
-        /// The maximum number of results to return. 
+        /// The maximum number of results to return.
         public let maxResults: Int?
         /// A token for pagination of the results. The default is empty.
         public let nextToken: String?
@@ -5487,7 +5233,6 @@ extension Glue {
     }
 
     public struct GetMLTaskRunsResponse: AWSDecodableShape {
-
         /// A pagination token, if more results are available.
         public let nextToken: String?
         /// A list of task runs that are associated with the transform.
@@ -5505,7 +5250,6 @@ extension Glue {
     }
 
     public struct GetMLTransformRequest: AWSEncodableShape {
-
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String
 
@@ -5525,7 +5269,6 @@ extension Glue {
     }
 
     public struct GetMLTransformResponse: AWSDecodableShape {
-
         /// The date and time when the transform was created.
         public let createdOn: Date?
         /// A description of the transform.
@@ -5560,7 +5303,7 @@ extension Glue {
         public let timeout: Int?
         /// The unique identifier of the transform, generated at the time that the transform was created.
         public let transformId: String?
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
@@ -5607,7 +5350,6 @@ extension Glue {
     }
 
     public struct GetMLTransformsRequest: AWSEncodableShape {
-
         /// The filter transformation criteria.
         public let filter: TransformFilterCriteria?
         /// The maximum number of results to return.
@@ -5639,7 +5381,6 @@ extension Glue {
     }
 
     public struct GetMLTransformsResponse: AWSDecodableShape {
-
         /// A pagination token, if more results are available.
         public let nextToken: String?
         /// A list of machine learning transforms.
@@ -5657,7 +5398,6 @@ extension Glue {
     }
 
     public struct GetMappingRequest: AWSEncodableShape {
-
         /// Parameters for the mapping.
         public let location: Location?
         /// A list of target tables.
@@ -5687,7 +5427,6 @@ extension Glue {
     }
 
     public struct GetMappingResponse: AWSDecodableShape {
-
         /// A list of mappings to the specified targets.
         public let mapping: [MappingEntry]
 
@@ -5701,7 +5440,6 @@ extension Glue {
     }
 
     public struct GetPartitionIndexesRequest: AWSEncodableShape {
-
         /// The catalog ID where the table resides.
         public let catalogId: String?
         /// Specifies the name of a database from which you want to retrieve partition indexes.
@@ -5739,7 +5477,6 @@ extension Glue {
     }
 
     public struct GetPartitionIndexesResponse: AWSDecodableShape {
-
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
         /// A list of index descriptors.
@@ -5757,7 +5494,6 @@ extension Glue {
     }
 
     public struct GetPartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partition in question resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partition resides.
@@ -5798,7 +5534,6 @@ extension Glue {
     }
 
     public struct GetPartitionResponse: AWSDecodableShape {
-
         /// The requested information, in the form of a Partition object.
         public let partition: Partition?
 
@@ -5812,12 +5547,11 @@ extension Glue {
     }
 
     public struct GetPartitionsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the partitions reside.
         public let databaseName: String
-        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call: 
+        /// An expression that filters the partitions to be returned. The expression uses SQL syntax similar to the SQL WHERE filter clause. The SQL statement parser JSQLParser parses the expression.   Operators: The following are the operators that you can use in the Expression API call:  =  Checks whether the values of the two operands are equal; if yes, then the condition becomes true. Example: Assume 'variable a' holds 10 and 'variable b' holds 20.  (a = b) is not true.  &lt; &gt;  Checks whether the values of two operands are equal; if the values are not equal, then the condition becomes true. Example: (a &lt; &gt; b) is true.  &gt;  Checks whether the value of the left operand is greater than the value of the right operand; if yes, then the condition becomes true. Example: (a &gt; b) is not true.  &lt;  Checks whether the value of the left operand is less than the value of the right operand; if yes, then the condition becomes true. Example: (a &lt; b) is true.  &gt;=  Checks whether the value of the left operand is greater than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &gt;= b) is not true.  &lt;=  Checks whether the value of the left operand is less than or equal to the value of the right operand; if yes, then the condition becomes true. Example: (a &lt;= b) is true.  AND, OR, IN, BETWEEN, LIKE, NOT, IS NULL  Logical operators.    Supported Partition Key Types: The following are the supported partition keys.    string     date     timestamp     int     bigint     long     tinyint     smallint     decimal    If an invalid type is encountered, an exception is thrown.  The following list shows the valid operators on each type. When you define a crawler, the partitionKey type is created as a STRING, to be compatible with the catalog partitions.   Sample API Call:
         public let expression: String?
         /// The maximum number of partitions to return in a single response.
         public let maxResults: Int?
@@ -5868,7 +5602,6 @@ extension Glue {
     }
 
     public struct GetPartitionsResponse: AWSDecodableShape {
-
         /// A continuation token, if the returned list of partitions does not include the last one.
         public let nextToken: String?
         /// A list of requested partitions.
@@ -5886,7 +5619,6 @@ extension Glue {
     }
 
     public struct GetPlanRequest: AWSEncodableShape {
-
         /// A map to hold additional optional key-value parameters.
         public let additionalPlanOptionsMap: [String: String]?
         /// The programming language of the code to perform the mapping.
@@ -5928,7 +5660,6 @@ extension Glue {
     }
 
     public struct GetPlanResponse: AWSDecodableShape {
-
         /// A Python script to perform the mapping.
         public let pythonScript: String?
         /// The Scala code to perform the mapping.
@@ -5946,7 +5677,6 @@ extension Glue {
     }
 
     public struct GetResourcePoliciesRequest: AWSEncodableShape {
-
         /// The maximum size of a list to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -5969,7 +5699,6 @@ extension Glue {
     }
 
     public struct GetResourcePoliciesResponse: AWSDecodableShape {
-
         /// A list of the individual resource policies and the account-level resource policy.
         public let getResourcePoliciesResponseList: [GluePolicy]?
         /// A continuation token, if the returned list does not contain the last resource policy available.
@@ -5987,8 +5716,7 @@ extension Glue {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-
-        /// The ARN of the AWS Glue resource for the resource policy to be retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern 
+        /// The ARN of the AWS Glue resource for the resource policy to be retrieved. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
         public let resourceArn: String?
 
         public init(resourceArn: String? = nil) {
@@ -6007,7 +5735,6 @@ extension Glue {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
-
         /// The date and time at which the policy was created.
         public let createTime: Date?
         /// Contains the hash value associated with this policy.
@@ -6033,7 +5760,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationRequest: AWSEncodableShape {
-
         /// The name of the security configuration to retrieve.
         public let name: String
 
@@ -6053,7 +5779,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationResponse: AWSDecodableShape {
-
         /// The requested security configuration.
         public let securityConfiguration: SecurityConfiguration?
 
@@ -6067,7 +5792,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationsRequest: AWSEncodableShape {
-
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation call.
@@ -6090,7 +5814,6 @@ extension Glue {
     }
 
     public struct GetSecurityConfigurationsResponse: AWSDecodableShape {
-
         /// A continuation token, if there are more security configurations to return.
         public let nextToken: String?
         /// A list of security configurations.
@@ -6108,7 +5831,6 @@ extension Glue {
     }
 
     public struct GetTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -6142,7 +5864,6 @@ extension Glue {
     }
 
     public struct GetTableResponse: AWSDecodableShape {
-
         /// The Table object that defines the specified table.
         public let table: Table?
 
@@ -6156,14 +5877,13 @@ extension Glue {
     }
 
     public struct GetTableVersionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
         public let databaseName: String
         /// The name of the table. For Hive compatibility, this name is entirely lowercase.
         public let tableName: String
-        /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1. 
+        /// The ID value of the table version to be retrieved. A VersionID is a string representation of an integer. Each version is incremented by 1.
         public let versionId: String?
 
         public init(catalogId: String? = nil, databaseName: String, tableName: String, versionId: String? = nil) {
@@ -6197,7 +5917,6 @@ extension Glue {
     }
 
     public struct GetTableVersionResponse: AWSDecodableShape {
-
         /// The requested table version.
         public let tableVersion: TableVersion?
 
@@ -6211,7 +5930,6 @@ extension Glue {
     }
 
     public struct GetTableVersionsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -6255,7 +5973,6 @@ extension Glue {
     }
 
     public struct GetTableVersionsResponse: AWSDecodableShape {
-
         /// A continuation token, if the list of available versions does not include the last one.
         public let nextToken: String?
         /// A list of strings identifying available versions of the specified table.
@@ -6273,7 +5990,6 @@ extension Glue {
     }
 
     public struct GetTablesRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the tables reside. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The database in the catalog whose tables to list. For Hive compatibility, this name is entirely lowercase.
@@ -6317,7 +6033,6 @@ extension Glue {
     }
 
     public struct GetTablesResponse: AWSDecodableShape {
-
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
         /// A list of the requested Table objects.
@@ -6335,7 +6050,6 @@ extension Glue {
     }
 
     public struct GetTagsRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource for which to retrieve tags.
         public let resourceArn: String
 
@@ -6355,7 +6069,6 @@ extension Glue {
     }
 
     public struct GetTagsResponse: AWSDecodableShape {
-
         /// The requested tags.
         public let tags: [String: String]?
 
@@ -6369,7 +6082,6 @@ extension Glue {
     }
 
     public struct GetTriggerRequest: AWSEncodableShape {
-
         /// The name of the trigger to retrieve.
         public let name: String
 
@@ -6389,7 +6101,6 @@ extension Glue {
     }
 
     public struct GetTriggerResponse: AWSDecodableShape {
-
         /// The requested trigger definition.
         public let trigger: Trigger?
 
@@ -6403,7 +6114,6 @@ extension Glue {
     }
 
     public struct GetTriggersRequest: AWSEncodableShape {
-
         /// The name of the job to retrieve triggers for. The trigger that can start this job is returned, and if there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of the response.
@@ -6433,7 +6143,6 @@ extension Glue {
     }
 
     public struct GetTriggersResponse: AWSDecodableShape {
-
         /// A continuation token, if not all the requested triggers have yet been returned.
         public let nextToken: String?
         /// A list of triggers for the specified job.
@@ -6451,7 +6160,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the function to be retrieved is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the function is located.
@@ -6485,7 +6193,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionResponse: AWSDecodableShape {
-
         /// The requested function definition.
         public let userDefinedFunction: UserDefinedFunction?
 
@@ -6499,7 +6206,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the functions to be retrieved are located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the functions are located. If none is provided, functions from all the databases across the catalog will be returned.
@@ -6543,7 +6249,6 @@ extension Glue {
     }
 
     public struct GetUserDefinedFunctionsResponse: AWSDecodableShape {
-
         /// A continuation token, if the list of functions returned does not include the last requested function.
         public let nextToken: String?
         /// A list of requested function definitions.
@@ -6561,7 +6266,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRequest: AWSEncodableShape {
-
         /// Specifies whether to include a graph when returning the workflow resource metadata.
         public let includeGraph: Bool?
         /// The name of the workflow to retrieve.
@@ -6585,7 +6289,6 @@ extension Glue {
     }
 
     public struct GetWorkflowResponse: AWSDecodableShape {
-
         /// The resource metadata for the workflow.
         public let workflow: Workflow?
 
@@ -6599,7 +6302,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunPropertiesRequest: AWSEncodableShape {
-
         /// Name of the workflow which was run.
         public let name: String
         /// The ID of the workflow run whose run properties should be returned.
@@ -6626,7 +6328,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunPropertiesResponse: AWSDecodableShape {
-
         /// The workflow run properties which were set during the specified run.
         public let runProperties: [String: String]?
 
@@ -6640,7 +6341,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunRequest: AWSEncodableShape {
-
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
         /// Name of the workflow being run.
@@ -6671,7 +6371,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunResponse: AWSDecodableShape {
-
         /// The requested workflow run metadata.
         public let run: WorkflowRun?
 
@@ -6685,7 +6384,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunsRequest: AWSEncodableShape {
-
         /// Specifies whether to include the workflow graph in response or not.
         public let includeGraph: Bool?
         /// The maximum number of workflow runs to be included in the response.
@@ -6719,7 +6417,6 @@ extension Glue {
     }
 
     public struct GetWorkflowRunsResponse: AWSDecodableShape {
-
         /// A continuation token, if not all requested workflow runs have been returned.
         public let nextToken: String?
         /// A list of workflow run metadata objects.
@@ -6737,7 +6434,6 @@ extension Glue {
     }
 
     public struct GluePolicy: AWSDecodableShape {
-
         /// The date and time at which the policy was created.
         public let createTime: Date?
         /// Contains the hash value associated with this policy.
@@ -6763,7 +6459,6 @@ extension Glue {
     }
 
     public struct GlueTable: AWSEncodableShape & AWSDecodableShape {
-
         /// A unique identifier for the AWS Glue Data Catalog.
         public let catalogId: String?
         /// The name of the connection to the AWS Glue Data Catalog.
@@ -6804,7 +6499,6 @@ extension Glue {
     }
 
     public struct GrokClassifier: AWSDecodableShape {
-
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, and so on.
         public let classification: String
         /// The time that this classifier was registered.
@@ -6842,7 +6536,6 @@ extension Glue {
     }
 
     public struct ImportCatalogToGlueRequest: AWSEncodableShape {
-
         /// The ID of the catalog to import. Currently, this should be the AWS account ID.
         public let catalogId: String?
 
@@ -6862,15 +6555,10 @@ extension Glue {
     }
 
     public struct ImportCatalogToGlueResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct ImportLabelsTaskRunProperties: AWSDecodableShape {
-
         /// The Amazon Simple Storage Service (Amazon S3) path from where you will import the labels.
         public let inputS3Path: String?
         /// Indicates whether to overwrite your existing labels.
@@ -6888,7 +6576,6 @@ extension Glue {
     }
 
     public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
@@ -6910,7 +6597,6 @@ extension Glue {
     }
 
     public struct Job: AWSDecodableShape {
-
         /// The JobCommand that executes this job.
         public let command: JobCommand?
         /// The connections used for this job.
@@ -6929,7 +6615,7 @@ extension Glue {
         public let lastModifiedOn: Date?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, an Apache Spark ETL job, or an Apache Spark streaming ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job after a JobRun fails.
         public let maxRetries: Int?
@@ -6939,7 +6625,7 @@ extension Glue {
         public let nonOverridableArguments: [String: String]?
         /// Specifies configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
-        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job.
         public let role: String?
@@ -6947,7 +6633,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
         public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -6996,7 +6682,6 @@ extension Glue {
     }
 
     public struct JobBookmarkEntry: AWSDecodableShape {
-
         /// The attempt ID number.
         public let attempt: Int?
         /// The bookmark itself.
@@ -7034,7 +6719,6 @@ extension Glue {
     }
 
     public struct JobBookmarksEncryption: AWSEncodableShape & AWSDecodableShape {
-
         /// The encryption mode to use for job bookmarks data.
         public let jobBookmarksEncryptionMode: JobBookmarksEncryptionMode?
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
@@ -7056,7 +6740,6 @@ extension Glue {
     }
 
     public struct JobCommand: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the job command. For an Apache Spark ETL job, this must be glueetl. For a Python shell job, it must be pythonshell. For an Apache Spark streaming ETL job, this must be gluestreaming.
         public let name: String?
         /// The Python version being used to execute a Python shell job. Allowed values are 2 or 3.
@@ -7082,7 +6765,6 @@ extension Glue {
     }
 
     public struct JobNodeDetails: AWSDecodableShape {
-
         /// The information for the job runs represented by the job node.
         public let jobRuns: [JobRun]?
 
@@ -7096,7 +6778,6 @@ extension Glue {
     }
 
     public struct JobRun: AWSDecodableShape {
-
         /// The job arguments associated with this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The number of the attempt to run this job.
@@ -7119,11 +6800,11 @@ extension Glue {
         public let lastModifiedOn: Date?
         /// The name of the log group for secure logging that can be server-side encrypted in Amazon CloudWatch using AWS KMS. This name can be /aws-glue/jobs/, in which case the default encryption is NONE. If you add a role name and SecurityConfiguration name (in other words, /aws-glue/jobs-yourRoleName-yourSecurityConfigurationName/), then that security configuration is used to encrypt the log group.
         public let logGroupName: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
-        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// A list of predecessors to this job run.
         public let predecessorRuns: [Predecessor]?
@@ -7137,7 +6818,7 @@ extension Glue {
         public let timeout: Int?
         /// The name of the trigger that started this job run.
         public let triggerName: String?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
@@ -7190,7 +6871,6 @@ extension Glue {
     }
 
     public struct JobUpdate: AWSEncodableShape {
-
         /// The JobCommand that executes this job (required).
         public let command: JobCommand?
         /// The connections used for this job.
@@ -7205,7 +6885,7 @@ extension Glue {
         public let glueVersion: String?
         /// This field is reserved for future use.
         public let logUri: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl") or Apache Spark streaming ETL job (JobCommand.Name="gluestreaming"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// The maximum number of times to retry this job if it fails.
         public let maxRetries: Int?
@@ -7213,7 +6893,7 @@ extension Glue {
         public let nonOverridableArguments: [String: String]?
         /// Specifies the configuration properties of a job notification.
         public let notificationProperty: NotificationProperty?
-        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with this job (required).
         public let role: String?
@@ -7221,7 +6901,7 @@ extension Glue {
         public let securityConfiguration: String?
         /// The job timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours).
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
         public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -7279,7 +6959,6 @@ extension Glue {
     }
 
     public struct JsonClassifier: AWSDecodableShape {
-
         /// The time that this classifier was registered.
         public let creationTime: Date?
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
@@ -7309,7 +6988,6 @@ extension Glue {
     }
 
     public struct KeySchemaElement: AWSDecodableShape {
-
         /// The name of a partition key.
         public let name: String
         /// The type of a partition key.
@@ -7327,7 +7005,6 @@ extension Glue {
     }
 
     public struct LabelingSetGenerationTaskRunProperties: AWSDecodableShape {
-
         /// The Amazon Simple Storage Service (Amazon S3) path where you will generate the labeling set.
         public let outputS3Path: String?
 
@@ -7341,7 +7018,6 @@ extension Glue {
     }
 
     public struct LastCrawlInfo: AWSDecodableShape {
-
         /// If an error occurred, the error information about the last crawl.
         public let errorMessage: String?
         /// The log group for the last crawl.
@@ -7375,7 +7051,6 @@ extension Glue {
     }
 
     public struct ListCrawlersRequest: AWSEncodableShape {
-
         /// The maximum size of a list to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -7408,7 +7083,6 @@ extension Glue {
     }
 
     public struct ListCrawlersResponse: AWSDecodableShape {
-
         /// The names of all crawlers in the account, or the crawlers with the specified tags.
         public let crawlerNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
@@ -7426,7 +7100,6 @@ extension Glue {
     }
 
     public struct ListDevEndpointsRequest: AWSEncodableShape {
-
         /// The maximum size of a list to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -7459,7 +7132,6 @@ extension Glue {
     }
 
     public struct ListDevEndpointsResponse: AWSDecodableShape {
-
         /// The names of all the DevEndpoints in the account, or the DevEndpoints with the specified tags.
         public let devEndpointNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
@@ -7477,7 +7149,6 @@ extension Glue {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-
         /// The maximum size of a list to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -7510,7 +7181,6 @@ extension Glue {
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
-
         /// The names of all jobs in the account, or the jobs with the specified tags.
         public let jobNames: [String]?
         /// A continuation token, if the returned list does not contain the last metric available.
@@ -7528,7 +7198,6 @@ extension Glue {
     }
 
     public struct ListMLTransformsRequest: AWSEncodableShape {
-
         /// A TransformFilterCriteria used to filter the machine learning transforms.
         public let filter: TransformFilterCriteria?
         /// The maximum size of a list to return.
@@ -7570,7 +7239,6 @@ extension Glue {
     }
 
     public struct ListMLTransformsResponse: AWSDecodableShape {
-
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
         /// The identifiers of all the machine learning transforms in the account, or the machine learning transforms with the specified tags.
@@ -7588,7 +7256,6 @@ extension Glue {
     }
 
     public struct ListTriggersRequest: AWSEncodableShape {
-
         ///  The name of the job for which to retrieve triggers. The trigger that can start this job is returned. If there is no such trigger, all triggers are returned.
         public let dependentJobName: String?
         /// The maximum size of a list to return.
@@ -7628,7 +7295,6 @@ extension Glue {
     }
 
     public struct ListTriggersResponse: AWSDecodableShape {
-
         /// A continuation token, if the returned list does not contain the last metric available.
         public let nextToken: String?
         /// The names of all triggers in the account, or the triggers with the specified tags.
@@ -7646,7 +7312,6 @@ extension Glue {
     }
 
     public struct ListWorkflowsRequest: AWSEncodableShape {
-
         /// The maximum size of a list to return.
         public let maxResults: Int?
         /// A continuation token, if this is a continuation request.
@@ -7669,7 +7334,6 @@ extension Glue {
     }
 
     public struct ListWorkflowsResponse: AWSDecodableShape {
-
         /// A continuation token, if not all workflow names have been returned.
         public let nextToken: String?
         /// List of names of workflows in the account.
@@ -7687,7 +7351,6 @@ extension Glue {
     }
 
     public struct Location: AWSEncodableShape {
-
         /// An Amazon DynamoDB table location.
         public let dynamoDB: [CodeGenNodeArg]?
         /// A JDBC location.
@@ -7718,7 +7381,6 @@ extension Glue {
     }
 
     public struct LongColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Maximum value of the column.
         public let maximumValue: Int64?
         /// Minimum value of the column.
@@ -7749,7 +7411,6 @@ extension Glue {
     }
 
     public struct MLTransform: AWSDecodableShape {
-
         /// A timestamp. The time and date that this machine learning transform was created.
         public let createdOn: Date?
         /// A user-defined, long-form description text for the machine learning transform. Descriptions are not guaranteed to be unique and can be changed at any time.
@@ -7774,7 +7435,7 @@ extension Glue {
         public let numberOfWorkers: Int?
         /// A TransformParameters object. You can use parameters to tune (customize) the behavior of the machine learning transform by specifying what data it learns from and your preference on various tradeoffs (such as precious vs. recall, or accuracy vs. cost).
         public let parameters: TransformParameters?
-        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.  
+        /// The name or Amazon Resource Name (ARN) of the IAM role with the required permissions. The required permissions include both AWS Glue service role permissions to AWS Glue resources, and Amazon S3 permissions required by the transform.    This role needs AWS Glue service role permissions to allow access to resources in AWS Glue. See Attach a Policy to IAM Users That Access AWS Glue.   This role needs permission to your Amazon Simple Storage Service (Amazon S3) sources, targets, temporary directory, scripts, and any libraries used by the task run for this transform.
         public let role: String?
         /// A map of key-value pairs representing the columns and data types that this transform can run against. Has an upper bound of 100 columns.
         public let schema: [SchemaColumn]?
@@ -7784,7 +7445,7 @@ extension Glue {
         public let timeout: Int?
         /// The unique transform ID that is generated for the machine learning transform. The ID is guaranteed to be unique and does not change.
         public let transformId: String?
-        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.  
+        /// The type of predefined worker that is allocated when a task of this transform runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.    MaxCapacity is a mutually exclusive option with NumberOfWorkers and WorkerType.   If either NumberOfWorkers or WorkerType is set, then MaxCapacity cannot be set.   If MaxCapacity is set then neither NumberOfWorkers or WorkerType can be set.   If WorkerType is set, then NumberOfWorkers is required (and vice versa).    MaxCapacity and NumberOfWorkers must both be at least 1.
         public let workerType: WorkerType?
 
         public init(createdOn: Date? = nil, description: String? = nil, evaluationMetrics: EvaluationMetrics? = nil, glueVersion: String? = nil, inputRecordTables: [GlueTable]? = nil, labelCount: Int? = nil, lastModifiedOn: Date? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, schema: [SchemaColumn]? = nil, status: TransformStatusType? = nil, timeout: Int? = nil, transformId: String? = nil, workerType: WorkerType? = nil) {
@@ -7831,7 +7492,6 @@ extension Glue {
     }
 
     public struct MappingEntry: AWSEncodableShape & AWSDecodableShape {
-
         /// The source path.
         public let sourcePath: String?
         /// The name of the source table.
@@ -7865,7 +7525,6 @@ extension Glue {
     }
 
     public struct MongoDBTarget: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the connection to use to connect to the Amazon DocumentDB or MongoDB target.
         public let connectionName: String?
         /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
@@ -7887,7 +7546,6 @@ extension Glue {
     }
 
     public struct Node: AWSDecodableShape {
-
         /// Details of the crawler when the node represents a crawler.
         public let crawlerDetails: CrawlerNodeDetails?
         /// Details of the Job when the node represents a Job.
@@ -7921,7 +7579,6 @@ extension Glue {
     }
 
     public struct NotificationProperty: AWSEncodableShape & AWSDecodableShape {
-
         /// After a job run starts, the number of minutes to wait before sending a job run delay notification.
         public let notifyDelayAfter: Int?
 
@@ -7939,7 +7596,6 @@ extension Glue {
     }
 
     public struct Order: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the column.
         public let column: String
         /// Indicates that the column is sorted in ascending order (== 1), or in descending order (==0).
@@ -7965,7 +7621,6 @@ extension Glue {
     }
 
     public struct Partition: AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the partition resides.
         public let catalogId: String?
         /// The time at which the partition was created.
@@ -8011,7 +7666,6 @@ extension Glue {
     }
 
     public struct PartitionError: AWSDecodableShape {
-
         /// The details about the partition error.
         public let errorDetail: ErrorDetail?
         /// The values that define the partition.
@@ -8029,7 +7683,6 @@ extension Glue {
     }
 
     public struct PartitionIndex: AWSEncodableShape {
-
         /// The name of the partition index.
         public let indexName: String
         /// The keys for the partition index.
@@ -8059,10 +7712,9 @@ extension Glue {
     }
 
     public struct PartitionIndexDescriptor: AWSDecodableShape {
-
         /// The name of the partition index.
         public let indexName: String
-        /// The status of the partition index. 
+        /// The status of the partition index.
         public let indexStatus: PartitionIndexStatus
         /// A list of one or more keys, as KeySchemaElement structures, for the partition index.
         public let keys: [KeySchemaElement]
@@ -8081,7 +7733,6 @@ extension Glue {
     }
 
     public struct PartitionInput: AWSEncodableShape {
-
         /// The last time at which the partition was accessed.
         public let lastAccessTime: Date?
         /// The last time at which column statistics were computed for this partition.
@@ -8106,7 +7757,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
             try self.values?.forEach {
@@ -8124,7 +7775,6 @@ extension Glue {
     }
 
     public struct PartitionValueList: AWSEncodableShape & AWSDecodableShape {
-
         /// The list of values.
         public let values: [String]
 
@@ -8144,7 +7794,6 @@ extension Glue {
     }
 
     public struct PhysicalConnectionRequirements: AWSEncodableShape & AWSDecodableShape {
-
         /// The connection's Availability Zone. This field is redundant because the specified subnet implies the Availability Zone to be used. Currently the field must be populated, but it will be deprecated in the future.
         public let availabilityZone: String?
         /// The security group ID list used by the connection.
@@ -8182,7 +7831,6 @@ extension Glue {
     }
 
     public struct Predecessor: AWSDecodableShape {
-
         /// The name of the job definition used by the predecessor job run.
         public let jobName: String?
         /// The job-run ID of the predecessor job run.
@@ -8200,7 +7848,6 @@ extension Glue {
     }
 
     public struct Predicate: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of the conditions that determine when the trigger will fire.
         public let conditions: [Condition]?
         /// An optional field if only one condition is listed. If multiple conditions are listed, then this field is required.
@@ -8224,7 +7871,6 @@ extension Glue {
     }
 
     public struct PrincipalPermissions: AWSEncodableShape & AWSDecodableShape {
-
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
         /// The principal who is granted permissions.
@@ -8246,7 +7892,6 @@ extension Glue {
     }
 
     public struct PropertyPredicate: AWSEncodableShape {
-
         /// The comparator used to compare this property to others.
         public let comparator: Comparator?
         /// The key of the property.
@@ -8273,7 +7918,6 @@ extension Glue {
     }
 
     public struct PutDataCatalogEncryptionSettingsRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog to set the security configuration for. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The security configuration to set.
@@ -8298,15 +7942,10 @@ extension Glue {
     }
 
     public struct PutDataCatalogEncryptionSettingsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-
         /// Allows you to specify if you want to use both resource-level and account/catalog-level resource policies. A resource-level policy is a policy attached to an individual resource such as a database or a table. The default value of NO indicates that resource-level policies cannot co-exist with an account-level policy. A value of YES means the use of both resource-level and account/catalog-level resource policies is allowed.
         public let enableHybrid: EnableHybridValues?
         /// A value of MUST_EXIST is used to update a policy. A value of NOT_EXIST is used to create a new policy. If a value of NONE or a null value is used, the call will not depend on the existence of a policy.
@@ -8315,7 +7954,7 @@ extension Glue {
         public let policyHashCondition: String?
         /// Contains the policy document to set, in JSON format.
         public let policyInJson: String
-        /// The ARN of the AWS Glue resource for the resource policy to be set. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern 
+        /// The ARN of the AWS Glue resource for the resource policy to be set. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern
         public let resourceArn: String?
 
         public init(enableHybrid: EnableHybridValues? = nil, policyExistsCondition: ExistCondition? = nil, policyHashCondition: String? = nil, policyInJson: String, resourceArn: String? = nil) {
@@ -8347,7 +7986,6 @@ extension Glue {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-
         /// A hash of the policy that has just been set. This must be included in a subsequent call that overwrites or updates this policy.
         public let policyHash: String?
 
@@ -8361,7 +7999,6 @@ extension Glue {
     }
 
     public struct PutWorkflowRunPropertiesRequest: AWSEncodableShape {
-
         /// Name of the workflow which was run.
         public let name: String
         /// The ID of the workflow run for which the run properties should be updated.
@@ -8397,15 +8034,10 @@ extension Glue {
     }
 
     public struct PutWorkflowRunPropertiesResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct ResetJobBookmarkRequest: AWSEncodableShape {
-
         /// The name of the job in question.
         public let jobName: String
         /// The unique run identifier associated with this job run.
@@ -8423,7 +8055,6 @@ extension Glue {
     }
 
     public struct ResetJobBookmarkResponse: AWSDecodableShape {
-
         /// The reset bookmark entry.
         public let jobBookmarkEntry: JobBookmarkEntry?
 
@@ -8437,7 +8068,6 @@ extension Glue {
     }
 
     public struct ResourceUri: AWSEncodableShape & AWSDecodableShape {
-
         /// The type of the resource.
         public let resourceType: ResourceType?
         /// The URI for accessing the resource.
@@ -8461,7 +8091,6 @@ extension Glue {
     }
 
     public struct ResumeWorkflowRunRequest: AWSEncodableShape {
-
         /// The name of the workflow to resume.
         public let name: String
         /// A list of the node IDs for the nodes you want to restart. The nodes that are to be restarted must have a run attempt in the original run.
@@ -8497,7 +8126,6 @@ extension Glue {
     }
 
     public struct ResumeWorkflowRunResponse: AWSDecodableShape {
-
         /// A list of the node IDs for the nodes that were actually restarted.
         public let nodeIds: [String]?
         /// The new ID assigned to the resumed workflow run. Each resume of a workflow run will have a new run ID.
@@ -8515,7 +8143,6 @@ extension Glue {
     }
 
     public struct S3Encryption: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
         /// The encryption mode to use for Amazon S3 data.
@@ -8537,7 +8164,6 @@ extension Glue {
     }
 
     public struct S3Target: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of a connection which allows a job or crawler to access data in Amazon S3 within an Amazon Virtual Private Cloud environment (Amazon VPC).
         public let connectionName: String?
         /// A list of glob patterns used to exclude from the crawl. For more information, see Catalog Tables with a Crawler.
@@ -8559,7 +8185,6 @@ extension Glue {
     }
 
     public struct Schedule: AWSDecodableShape {
-
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
         public let scheduleExpression: String?
         /// The state of the schedule.
@@ -8577,7 +8202,6 @@ extension Glue {
     }
 
     public struct SchemaChangePolicy: AWSEncodableShape & AWSDecodableShape {
-
         /// The deletion behavior when the crawler finds a deleted object.
         public let deleteBehavior: DeleteBehavior?
         /// The update behavior when the crawler finds a changed schema.
@@ -8595,7 +8219,6 @@ extension Glue {
     }
 
     public struct SchemaColumn: AWSEncodableShape & AWSDecodableShape {
-
         /// The type of data in the column.
         public let dataType: String?
         /// The name of the column.
@@ -8607,7 +8230,7 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.dataType, name: "dataType", parent: name, max: 131072)
+            try self.validate(self.dataType, name: "dataType", parent: name, max: 131_072)
             try self.validate(self.dataType, name: "dataType", parent: name, min: 0)
             try self.validate(self.dataType, name: "dataType", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
@@ -8622,7 +8245,6 @@ extension Glue {
     }
 
     public struct SearchTablesRequest: AWSEncodableShape {
-
         /// A unique identifier, consisting of  account_id .
         public let catalogId: String?
         /// A list of key-value pairs, and a comparator used to filter the search results. Returns all entities matching the predicate. The Comparator member of the PropertyPredicate struct is used only for time fields, and can be omitted for other field types. Also, when comparing string values, such as when Key=Name, a fuzzy match algorithm is used. The Key field (for example, the value of the Name field) is split on certain punctuation characters, for example, -, :, #, etc. into tokens. Then each token is exact-match compared with the Value member of PropertyPredicate. For example, if Key=Name and Value=link, tables named customer-link and xx-link-yy are returned, but xxlinkyy is not returned.
@@ -8631,7 +8253,7 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
-        /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will search the tables shared with your account.    If set to ALL, will search the tables shared with your account, as well as the tables in yor local account.   
+        /// Allows you to specify that you want to search the tables shared with your account. The allowable values are FOREIGN or ALL.    If set to FOREIGN, will search the tables shared with your account.    If set to ALL, will search the tables shared with your account, as well as the tables in yor local account.
         public let resourceShareType: ResourceShareType?
         /// A string used for a text search. Specifying a value in quotes filters based on an exact match to the value.
         public let searchText: String?
@@ -8677,7 +8299,6 @@ extension Glue {
     }
 
     public struct SearchTablesResponse: AWSDecodableShape {
-
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
         /// A list of the requested Table objects. The SearchTables response returns only the tables that you have access to.
@@ -8695,7 +8316,6 @@ extension Glue {
     }
 
     public struct SecurityConfiguration: AWSDecodableShape {
-
         /// The time at which this security configuration was created.
         public let createdTimeStamp: Date?
         /// The encryption configuration associated with this security configuration.
@@ -8717,7 +8337,6 @@ extension Glue {
     }
 
     public struct Segment: AWSEncodableShape {
-
         /// The zero-based index number of the segment. For example, if the total number of segments is 4, SegmentNumber values range from 0 through 3.
         public let segmentNumber: Int
         /// The total number of segments.
@@ -8741,7 +8360,6 @@ extension Glue {
     }
 
     public struct SerDeInfo: AWSEncodableShape & AWSDecodableShape {
-
         /// Name of the SerDe.
         public let name: String?
         /// These key-value pairs define initialization parameters for the SerDe.
@@ -8763,7 +8381,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, max: 255)
             try self.validate(self.serializationLibrary, name: "serializationLibrary", parent: name, min: 1)
@@ -8778,7 +8396,6 @@ extension Glue {
     }
 
     public struct SkewedInfo: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of names of columns that contain skewed values.
         public let skewedColumnNames: [String]?
         /// A mapping of skewed values to the columns that contain them.
@@ -8808,7 +8425,6 @@ extension Glue {
     }
 
     public struct SortCriterion: AWSEncodableShape {
-
         /// The name of the field on which to sort.
         public let fieldName: String?
         /// An ascending or descending sort.
@@ -8830,7 +8446,6 @@ extension Glue {
     }
 
     public struct StartCrawlerRequest: AWSEncodableShape {
-
         /// Name of the crawler to start.
         public let name: String
 
@@ -8850,15 +8465,10 @@ extension Glue {
     }
 
     public struct StartCrawlerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StartCrawlerScheduleRequest: AWSEncodableShape {
-
         /// Name of the crawler to schedule.
         public let crawlerName: String
 
@@ -8878,15 +8488,10 @@ extension Glue {
     }
 
     public struct StartCrawlerScheduleResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StartExportLabelsTaskRunRequest: AWSEncodableShape {
-
         /// The Amazon S3 path where you export the labels.
         public let outputS3Path: String
         /// The unique identifier of the machine learning transform.
@@ -8910,7 +8515,6 @@ extension Glue {
     }
 
     public struct StartExportLabelsTaskRunResponse: AWSDecodableShape {
-
         /// The unique identifier for the task run.
         public let taskRunId: String?
 
@@ -8924,7 +8528,6 @@ extension Glue {
     }
 
     public struct StartImportLabelsTaskRunRequest: AWSEncodableShape {
-
         /// The Amazon Simple Storage Service (Amazon S3) path from where you import the labels.
         public let inputS3Path: String
         /// Indicates whether to overwrite your existing labels.
@@ -8952,7 +8555,6 @@ extension Glue {
     }
 
     public struct StartImportLabelsTaskRunResponse: AWSDecodableShape {
-
         /// The unique identifier for the task run.
         public let taskRunId: String?
 
@@ -8966,24 +8568,23 @@ extension Glue {
     }
 
     public struct StartJobRunRequest: AWSEncodableShape {
-
         /// The job arguments specifically for this run. For this job run, they replace the default arguments set in the job definition itself. You can specify arguments here that your own job-execution script consumes, as well as arguments that AWS Glue itself consumes. For information about how to specify and consume your own Job arguments, see the Calling AWS Glue APIs in Python topic in the developer guide. For information about the key-value pairs that AWS Glue consumes to set up your job, see the Special Parameters Used by AWS Glue topic in the developer guide.
         public let arguments: [String: String]?
         /// The name of the job definition to use.
         public let jobName: String
         /// The ID of a previous JobRun to retry.
         public let jobRunId: String?
-        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.  
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when this job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the AWS Glue pricing page. Do not set Max Capacity if using WorkerType and NumberOfWorkers. The value that can be allocated for MaxCapacity depends on whether you are running a Python shell job, or an Apache Spark ETL job:   When you specify a Python shell job (JobCommand.Name="pythonshell"), you can allocate either 0.0625 or 1 DPU. The default is 0.0625 DPU.   When you specify an Apache Spark ETL job (JobCommand.Name="glueetl"), you can allocate from 2 to 100 DPUs. The default is 10 DPUs. This job type cannot have a fractional DPU allocation.
         public let maxCapacity: Double?
         /// Specifies configuration properties of a job run notification.
         public let notificationProperty: NotificationProperty?
-        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X. 
+        /// The number of workers of a defined workerType that are allocated when a job runs. The maximum number of workers you can define are 299 for G.1X, and 149 for G.2X.
         public let numberOfWorkers: Int?
         /// The name of the SecurityConfiguration structure to be used with this job run.
         public let securityConfiguration: String?
         /// The JobRun timeout in minutes. This is the maximum time that a job run can consume resources before it is terminated and enters TIMEOUT status. The default is 2,880 minutes (48 hours). This overrides the timeout value set in the parent job.
         public let timeout: Int?
-        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(arguments: [String: String]? = nil, jobName: String, jobRunId: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
@@ -9026,7 +8627,6 @@ extension Glue {
     }
 
     public struct StartJobRunResponse: AWSDecodableShape {
-
         /// The ID assigned to this job run.
         public let jobRunId: String?
 
@@ -9040,7 +8640,6 @@ extension Glue {
     }
 
     public struct StartMLEvaluationTaskRunRequest: AWSEncodableShape {
-
         /// The unique identifier of the machine learning transform.
         public let transformId: String
 
@@ -9060,7 +8659,6 @@ extension Glue {
     }
 
     public struct StartMLEvaluationTaskRunResponse: AWSDecodableShape {
-
         /// The unique identifier associated with this run.
         public let taskRunId: String?
 
@@ -9074,7 +8672,6 @@ extension Glue {
     }
 
     public struct StartMLLabelingSetGenerationTaskRunRequest: AWSEncodableShape {
-
         /// The Amazon Simple Storage Service (Amazon S3) path where you generate the labeling set.
         public let outputS3Path: String
         /// The unique identifier of the machine learning transform.
@@ -9098,7 +8695,6 @@ extension Glue {
     }
 
     public struct StartMLLabelingSetGenerationTaskRunResponse: AWSDecodableShape {
-
         /// The unique run identifier that is associated with this task run.
         public let taskRunId: String?
 
@@ -9112,7 +8708,6 @@ extension Glue {
     }
 
     public struct StartTriggerRequest: AWSEncodableShape {
-
         /// The name of the trigger to start.
         public let name: String
 
@@ -9132,7 +8727,6 @@ extension Glue {
     }
 
     public struct StartTriggerResponse: AWSDecodableShape {
-
         /// The name of the trigger that was started.
         public let name: String?
 
@@ -9146,7 +8740,6 @@ extension Glue {
     }
 
     public struct StartWorkflowRunRequest: AWSEncodableShape {
-
         /// The name of the workflow to start.
         public let name: String
 
@@ -9166,7 +8759,6 @@ extension Glue {
     }
 
     public struct StartWorkflowRunResponse: AWSDecodableShape {
-
         /// An Id for the new run.
         public let runId: String?
 
@@ -9180,7 +8772,6 @@ extension Glue {
     }
 
     public struct StopCrawlerRequest: AWSEncodableShape {
-
         /// Name of the crawler to stop.
         public let name: String
 
@@ -9200,15 +8791,10 @@ extension Glue {
     }
 
     public struct StopCrawlerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StopCrawlerScheduleRequest: AWSEncodableShape {
-
         /// Name of the crawler whose schedule state to set.
         public let crawlerName: String
 
@@ -9228,15 +8814,10 @@ extension Glue {
     }
 
     public struct StopCrawlerScheduleResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StopTriggerRequest: AWSEncodableShape {
-
         /// The name of the trigger to stop.
         public let name: String
 
@@ -9256,7 +8837,6 @@ extension Glue {
     }
 
     public struct StopTriggerResponse: AWSDecodableShape {
-
         /// The name of the trigger that was stopped.
         public let name: String?
 
@@ -9270,7 +8850,6 @@ extension Glue {
     }
 
     public struct StopWorkflowRunRequest: AWSEncodableShape {
-
         /// The name of the workflow to stop.
         public let name: String
         /// The ID of the workflow run to stop.
@@ -9297,15 +8876,10 @@ extension Glue {
     }
 
     public struct StopWorkflowRunResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StorageDescriptor: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
         public let bucketColumns: [String]?
         /// A list of the Columns in the table.
@@ -9365,7 +8939,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.serdeInfo?.validate(name: "\(name).serdeInfo")
             try self.skewedInfo?.validate(name: "\(name).skewedInfo")
@@ -9391,7 +8965,6 @@ extension Glue {
     }
 
     public struct StringColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
-
         /// Average value of the column.
         public let averageLength: Double
         /// Maximum value of the column.
@@ -9424,7 +8997,6 @@ extension Glue {
     }
 
     public struct Table: AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the table resides.
         public let catalogId: String?
         /// The person or entity who created the table.
@@ -9447,7 +9019,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
@@ -9510,7 +9082,6 @@ extension Glue {
     }
 
     public struct TableError: AWSDecodableShape {
-
         /// The details about the error.
         public let errorDetail: ErrorDetail?
         /// The name of the table. For Hive compatibility, this must be entirely lowercase.
@@ -9528,7 +9099,6 @@ extension Glue {
     }
 
     public struct TableIdentifier: AWSEncodableShape & AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the table resides.
         public let catalogId: String?
         /// The name of the catalog database that contains the target table.
@@ -9562,7 +9132,6 @@ extension Glue {
     }
 
     public struct TableInput: AWSEncodableShape {
-
         /// A description of the table.
         public let description: String?
         /// The last time that the table was accessed.
@@ -9575,7 +9144,7 @@ extension Glue {
         public let owner: String?
         /// These key-value pairs define properties associated with the table.
         public let parameters: [String: String]?
-        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": [] 
+        /// A list of columns by which the table is partitioned. Only primitive types are supported as partition keys. When you create a table used by Amazon Athena, and you do not specify any partitionKeys, you must at least set the value of partitionKeys to an empty list. For example:  "PartitionKeys": []
         public let partitionKeys: [Column]?
         /// The retention time for this table.
         public let retention: Int?
@@ -9620,7 +9189,7 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, max: 255)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
-                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512000)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
             try self.partitionKeys?.forEach {
                 try $0.validate(name: "\(name).partitionKeys[]")
@@ -9629,8 +9198,8 @@ extension Glue {
             try self.storageDescriptor?.validate(name: "\(name).storageDescriptor")
             try self.validate(self.tableType, name: "tableType", parent: name, max: 255)
             try self.targetTable?.validate(name: "\(name).targetTable")
-            try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409600)
-            try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409600)
+            try self.validate(self.viewExpandedText, name: "viewExpandedText", parent: name, max: 409_600)
+            try self.validate(self.viewOriginalText, name: "viewOriginalText", parent: name, max: 409_600)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9651,7 +9220,6 @@ extension Glue {
     }
 
     public struct TableVersion: AWSDecodableShape {
-
         /// The table in question.
         public let table: Table?
         /// The ID value that identifies this table version. A VersionId is a string representation of an integer. Each version is incremented by 1.
@@ -9669,7 +9237,6 @@ extension Glue {
     }
 
     public struct TableVersionError: AWSDecodableShape {
-
         /// The details about the error.
         public let errorDetail: ErrorDetail?
         /// The name of the table in question.
@@ -9691,7 +9258,6 @@ extension Glue {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-
         /// The ARN of the AWS Glue resource to which to add the tags. For more information about AWS Glue resource ARNs, see the AWS Glue ARN string pattern.
         public let resourceArn: String
         /// Tags to add to this resource.
@@ -9721,15 +9287,10 @@ extension Glue {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct TaskRun: AWSDecodableShape {
-
         /// The last point in time that the requested task run was completed.
         public let completedOn: Date?
         /// The list of error strings associated with this task run.
@@ -9779,7 +9340,6 @@ extension Glue {
     }
 
     public struct TaskRunFilterCriteria: AWSEncodableShape {
-
         /// Filter on task runs started after this date.
         public let startedAfter: Date?
         /// Filter on task runs started before this date.
@@ -9805,7 +9365,6 @@ extension Glue {
     }
 
     public struct TaskRunProperties: AWSDecodableShape {
-
         /// The configuration properties for an exporting labels task run.
         public let exportLabelsTaskRunProperties: ExportLabelsTaskRunProperties?
         /// The configuration properties for a find matches task run.
@@ -9835,7 +9394,6 @@ extension Glue {
     }
 
     public struct TaskRunSortCriteria: AWSEncodableShape {
-
         /// The column to be used to sort the list of task runs for the machine learning transform.
         public let column: TaskRunSortColumnType
         /// The sort direction to be used to sort the list of task runs for the machine learning transform.
@@ -9853,7 +9411,6 @@ extension Glue {
     }
 
     public struct TransformFilterCriteria: AWSEncodableShape {
-
         /// The time and date after which the transforms were created.
         public let createdAfter: Date?
         /// The time and date before which the transforms were created.
@@ -9912,7 +9469,6 @@ extension Glue {
     }
 
     public struct TransformParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The parameters for the find matches algorithm.
         public let findMatchesParameters: FindMatchesParameters?
         /// The type of machine learning transform. For information about the types of machine learning transforms, see Creating Machine Learning Transforms.
@@ -9934,7 +9490,6 @@ extension Glue {
     }
 
     public struct TransformSortCriteria: AWSEncodableShape {
-
         /// The column to be used in the sorting criteria that are associated with the machine learning transform.
         public let column: TransformSortColumnType
         /// The sort direction to be used in the sorting criteria that are associated with the machine learning transform.
@@ -9952,7 +9507,6 @@ extension Glue {
     }
 
     public struct Trigger: AWSDecodableShape {
-
         /// The actions initiated by this trigger.
         public let actions: [Action]?
         /// A description of this trigger.
@@ -9998,7 +9552,6 @@ extension Glue {
     }
 
     public struct TriggerNodeDetails: AWSDecodableShape {
-
         /// The information of the trigger represented by the trigger node.
         public let trigger: Trigger?
 
@@ -10012,7 +9565,6 @@ extension Glue {
     }
 
     public struct TriggerUpdate: AWSEncodableShape {
-
         /// The actions initiated by this trigger.
         public let actions: [Action]?
         /// A description of this trigger.
@@ -10055,7 +9607,6 @@ extension Glue {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
         public let resourceArn: String
         /// Tags to remove from this resource.
@@ -10085,15 +9636,10 @@ extension Glue {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateClassifierRequest: AWSEncodableShape {
-
         /// A CsvClassifier object with updated fields.
         public let csvClassifier: UpdateCsvClassifierRequest?
         /// A GrokClassifier object with updated fields.
@@ -10126,15 +9672,10 @@ extension Glue {
     }
 
     public struct UpdateClassifierResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateColumnStatisticsForPartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of the column statistics.
@@ -10184,7 +9725,6 @@ extension Glue {
     }
 
     public struct UpdateColumnStatisticsForPartitionResponse: AWSDecodableShape {
-
         /// Error occurred during updating column statistics data.
         public let errors: [ColumnStatisticsError]?
 
@@ -10198,7 +9738,6 @@ extension Glue {
     }
 
     public struct UpdateColumnStatisticsForTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partitions in question reside. If none is supplied, the AWS account ID is used by default.
         public let catalogId: String?
         /// A list of the column statistics.
@@ -10241,7 +9780,6 @@ extension Glue {
     }
 
     public struct UpdateColumnStatisticsForTableResponse: AWSDecodableShape {
-
         /// List of ColumnStatisticsErrors.
         public let errors: [ColumnStatisticsError]?
 
@@ -10255,7 +9793,6 @@ extension Glue {
     }
 
     public struct UpdateConnectionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the connection resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A ConnectionInput object that redefines the connection in question.
@@ -10287,15 +9824,10 @@ extension Glue {
     }
 
     public struct UpdateConnectionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateCrawlerRequest: AWSEncodableShape {
-
         /// A list of custom classifiers that the user has registered. By default, all built-in classifiers are included in a crawl, but these custom classifiers always override the default classifiers for a given classification.
         public let classifiers: [String]?
         /// Crawler configuration information. This versioned JSON string allows users to specify aspects of a crawler's behavior. For more information, see Configuring a Crawler.
@@ -10368,15 +9900,10 @@ extension Glue {
     }
 
     public struct UpdateCrawlerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateCrawlerScheduleRequest: AWSEncodableShape {
-
         /// The name of the crawler whose schedule to update.
         public let crawlerName: String
         /// The updated cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
@@ -10400,15 +9927,10 @@ extension Glue {
     }
 
     public struct UpdateCrawlerScheduleResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateCsvClassifierRequest: AWSEncodableShape {
-
         /// Enables the processing of files that contain only one column.
         public let allowSingleColumn: Bool?
         /// Indicates whether the CSV file contains a header.
@@ -10463,7 +9985,6 @@ extension Glue {
     }
 
     public struct UpdateDatabaseRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog in which the metadata database resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// A DatabaseInput object specifying the new definition of the metadata database in the catalog.
@@ -10495,15 +10016,10 @@ extension Glue {
     }
 
     public struct UpdateDatabaseResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDevEndpointRequest: AWSEncodableShape {
-
         /// The map of arguments to add the map of arguments used to configure the DevEndpoint. Valid arguments are:    "--enable-glue-datacatalog": ""     "GLUE_PYTHON_VERSION": "3"     "GLUE_PYTHON_VERSION": "2"    You can specify a version of Python support for development endpoints by using the Arguments parameter in the CreateDevEndpoint or UpdateDevEndpoint APIs. If no arguments are provided, the version defaults to Python 2.
         public let addArguments: [String: String]?
         /// The list of public keys for the DevEndpoint to use.
@@ -10550,15 +10066,10 @@ extension Glue {
     }
 
     public struct UpdateDevEndpointResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateGrokClassifierRequest: AWSEncodableShape {
-
         /// An identifier of the data format that the classifier matches, such as Twitter, JSON, Omniture logs, Amazon CloudWatch Logs, and so on.
         public let classification: String?
         /// Optional custom grok patterns used by this classifier.
@@ -10596,7 +10107,6 @@ extension Glue {
     }
 
     public struct UpdateJobRequest: AWSEncodableShape {
-
         /// The name of the job definition to update.
         public let jobName: String
         /// Specifies the values with which to update the job definition.
@@ -10621,7 +10131,6 @@ extension Glue {
     }
 
     public struct UpdateJobResponse: AWSDecodableShape {
-
         /// Returns the name of the updated job definition.
         public let jobName: String?
 
@@ -10635,7 +10144,6 @@ extension Glue {
     }
 
     public struct UpdateJsonClassifierRequest: AWSEncodableShape {
-
         /// A JsonPath string defining the JSON data for the classifier to classify. AWS Glue supports a subset of JsonPath, as described in Writing JsonPath Custom Classifiers.
         public let jsonPath: String?
         /// The name of the classifier.
@@ -10659,7 +10167,6 @@ extension Glue {
     }
 
     public struct UpdateMLTransformRequest: AWSEncodableShape {
-
         /// A description of the transform. The default is an empty string.
         public let description: String?
         /// This value determines which version of AWS Glue this machine learning transform is compatible with. Glue 1.0 is recommended for most customers. If the value is not set, the Glue compatibility defaults to Glue 0.9. For more information, see AWS Glue Versions in the developer guide.
@@ -10680,7 +10187,7 @@ extension Glue {
         public let timeout: Int?
         /// A unique identifier that was generated when the transform was created.
         public let transformId: String
-        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.  
+        /// The type of predefined worker that is allocated when this task runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
         public init(description: String? = nil, glueVersion: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, numberOfWorkers: Int? = nil, parameters: TransformParameters? = nil, role: String? = nil, timeout: Int? = nil, transformId: String, workerType: WorkerType? = nil) {
@@ -10730,7 +10237,6 @@ extension Glue {
     }
 
     public struct UpdateMLTransformResponse: AWSDecodableShape {
-
         /// The unique identifier for the transform that was updated.
         public let transformId: String?
 
@@ -10744,7 +10250,6 @@ extension Glue {
     }
 
     public struct UpdatePartitionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the partition to be updated resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table in question resides.
@@ -10792,15 +10297,10 @@ extension Glue {
     }
 
     public struct UpdatePartitionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateTableRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the table resides. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database in which the table resides. For Hive compatibility, this name is entirely lowercase.
@@ -10836,15 +10336,10 @@ extension Glue {
     }
 
     public struct UpdateTableResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateTriggerRequest: AWSEncodableShape {
-
         /// The name of the trigger to update.
         public let name: String
         /// The new values with which to update the trigger.
@@ -10869,7 +10364,6 @@ extension Glue {
     }
 
     public struct UpdateTriggerResponse: AWSDecodableShape {
-
         /// The resulting trigger definition.
         public let trigger: Trigger?
 
@@ -10883,7 +10377,6 @@ extension Glue {
     }
 
     public struct UpdateUserDefinedFunctionRequest: AWSEncodableShape {
-
         /// The ID of the Data Catalog where the function to be updated is located. If none is provided, the AWS account ID is used by default.
         public let catalogId: String?
         /// The name of the catalog database where the function to be updated is located.
@@ -10922,15 +10415,10 @@ extension Glue {
     }
 
     public struct UpdateUserDefinedFunctionResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateWorkflowRequest: AWSEncodableShape {
-
         /// A collection of properties to be used as part of each execution of the workflow.
         public let defaultRunProperties: [String: String]?
         /// The description of the workflow.
@@ -10967,7 +10455,6 @@ extension Glue {
     }
 
     public struct UpdateWorkflowResponse: AWSDecodableShape {
-
         /// The name of the workflow which was specified in input.
         public let name: String?
 
@@ -10981,7 +10468,6 @@ extension Glue {
     }
 
     public struct UpdateXMLClassifierRequest: AWSEncodableShape {
-
         /// An identifier of the data format that the classifier matches.
         public let classification: String?
         /// The name of the classifier.
@@ -11009,7 +10495,6 @@ extension Glue {
     }
 
     public struct UserDefinedFunction: AWSDecodableShape {
-
         /// The ID of the Data Catalog in which the function resides.
         public let catalogId: String?
         /// The Java class that contains the function code.
@@ -11051,7 +10536,6 @@ extension Glue {
     }
 
     public struct UserDefinedFunctionInput: AWSEncodableShape {
-
         /// The Java class that contains the function code.
         public let className: String?
         /// The name of the function.
@@ -11098,7 +10582,6 @@ extension Glue {
     }
 
     public struct Workflow: AWSDecodableShape {
-
         /// The date and time when the workflow was created.
         public let createdOn: Date?
         /// A collection of properties to be used as part of each execution of the workflow.
@@ -11140,7 +10623,6 @@ extension Glue {
     }
 
     public struct WorkflowGraph: AWSDecodableShape {
-
         /// A list of all the directed connections between the nodes belonging to the workflow.
         public let edges: [Edge]?
         /// A list of the the AWS Glue components belong to the workflow represented as nodes.
@@ -11158,7 +10640,6 @@ extension Glue {
     }
 
     public struct WorkflowRun: AWSDecodableShape {
-
         /// The date and time when the workflow run completed.
         public let completedOn: Date?
         /// This error message describes any error that may have occurred in starting the workflow run. Currently the only error message is "Concurrent runs exceeded for workflow: foo."
@@ -11208,7 +10689,6 @@ extension Glue {
     }
 
     public struct WorkflowRunStatistics: AWSDecodableShape {
-
         /// Total number of Actions that have failed.
         public let failedActions: Int?
         /// Total number Actions in running state.
@@ -11242,7 +10722,6 @@ extension Glue {
     }
 
     public struct XMLClassifier: AWSDecodableShape {
-
         /// An identifier of the data format that the classifier matches.
         public let classification: String
         /// The time that this classifier was registered.

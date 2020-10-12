@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS WorkLink service.
+ Client object for interacting with AWS WorkLink service.
 
-Amazon WorkLink is a cloud-based service that provides secure access to internal websites and web apps from iOS and Android phones. In a single step, your users, such as employees, can access internal websites as efficiently as they access any other public website. They enter a URL in their web browser, or choose a link to an internal website in an email. Amazon WorkLink authenticates the user's access and securely renders authorized internal web content in a secure rendering service in the AWS cloud. Amazon WorkLink doesn't download or store any internal web content on mobile devices.
-*/
+ Amazon WorkLink is a cloud-based service that provides secure access to internal websites and web apps from iOS and Android phones. In a single step, your users, such as employees, can access internal websites as efficiently as they access any other public website. They enter a URL in their web browser, or choose a link to an internal website in an email. Amazon WorkLink authenticates the user's access and securely renders authorized internal web content in a secure rendering service in the AWS cloud. Amazon WorkLink doesn't download or store any internal web content on mobile devices.
+ */
 public struct WorkLink: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct WorkLink: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Specifies a domain to be associated to Amazon WorkLink.
@@ -83,7 +82,7 @@ public struct WorkLink: AWSService {
         return self.client.execute(operation: "CreateFleet", path: "/createFleet", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a fleet. Prevents users from accessing previously associated websites. 
+    ///  Deletes a fleet. Prevents users from accessing previously associated websites.
     public func deleteFleet(_ input: DeleteFleetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteFleetResponse> {
         return self.client.execute(operation: "DeleteFleet", path: "/deleteFleet", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -128,7 +127,7 @@ public struct WorkLink: AWSService {
         return self.client.execute(operation: "DescribeWebsiteCertificateAuthority", path: "/describeWebsiteCertificateAuthority", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain with Amazon WorkLink. 
+    ///  Disassociates a domain from Amazon WorkLink. End users lose the ability to access the domain with Amazon WorkLink.
     public func disassociateDomain(_ input: DisassociateDomainRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateDomainResponse> {
         return self.client.execute(operation: "DisassociateDomain", path: "/disassociateDomain", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

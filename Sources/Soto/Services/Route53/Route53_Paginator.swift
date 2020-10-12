@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Route53 {
-    ///  Retrieve a list of the health checks that are associated with the current AWS account. 
+    ///  Retrieve a list of the health checks that are associated with the current AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -47,6 +47,7 @@ extension Route53 {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -98,6 +99,7 @@ extension Route53 {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -148,6 +150,7 @@ extension Route53 {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -198,6 +201,7 @@ extension Route53 {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

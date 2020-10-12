@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension FMS {
-    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy. 
+    ///  Returns an array of PolicyComplianceStatus objects. Use PolicyComplianceStatus to get a summary of which member accounts are protected by the specified policy.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension FMS {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension FMS {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension FMS {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

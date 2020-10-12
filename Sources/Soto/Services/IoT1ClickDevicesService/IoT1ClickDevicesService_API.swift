@@ -17,14 +17,13 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS IoT1ClickDevicesService service.
+ Client object for interacting with AWS IoT1ClickDevicesService service.
 
-Describes all of the AWS IoT 1-Click device-related API operations for the service.
- Also provides sample requests, responses, and errors for the supported web services
- protocols.
-*/
+ Describes all of the AWS IoT 1-Click device-related API operations for the service.
+  Also provides sample requests, responses, and errors for the supported web services
+  protocols.
+ */
 public struct IoT1ClickDevicesService: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -63,7 +62,7 @@ public struct IoT1ClickDevicesService: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Adds device(s) to your account (i.e., claim one or more devices) if and only if you
@@ -82,7 +81,7 @@ public struct IoT1ClickDevicesService: AWSService {
     ///   Claiming a device consists of initiating a claim, then publishing a device event,
     ///   and finalizing the claim. For a device of type button, a device event can
     ///   be published by simply clicking the device.
-    ///   
+    ///
     public func finalizeDeviceClaim(_ input: FinalizeDeviceClaimRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<FinalizeDeviceClaimResponse> {
         return self.client.execute(operation: "FinalizeDeviceClaim", path: "/devices/{deviceId}/finalize-claim", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -96,7 +95,7 @@ public struct IoT1ClickDevicesService: AWSService {
     ///   Claiming a device consists of initiating a claim, then publishing a device event,
     ///   and finalizing the claim. For a device of type button, a device event can
     ///   be published by simply clicking the device.
-    ///   
+    ///
     public func initiateDeviceClaim(_ input: InitiateDeviceClaimRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InitiateDeviceClaimResponse> {
         return self.client.execute(operation: "InitiateDeviceClaim", path: "/devices/{deviceId}/initiate-claim", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

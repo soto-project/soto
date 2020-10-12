@@ -47,6 +47,7 @@ extension CloudFront {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -98,6 +99,7 @@ extension CloudFront {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -121,7 +123,7 @@ extension CloudFront {
         )
     }
 
-    ///  Lists invalidation batches. 
+    ///  Lists invalidation batches.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -149,6 +151,7 @@ extension CloudFront {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -172,7 +175,7 @@ extension CloudFront {
         )
     }
 
-    ///  List streaming distributions. 
+    ///  List streaming distributions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -200,6 +203,7 @@ extension CloudFront {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

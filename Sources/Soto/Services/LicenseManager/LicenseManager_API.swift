@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS LicenseManager service.
+ Client object for interacting with AWS LicenseManager service.
 
- AWS License Manager  AWS License Manager makes it easier to manage licenses from software vendors across multiple AWS accounts and on-premises servers.
-*/
+  AWS License Manager  AWS License Manager makes it easier to manage licenses from software vendors across multiple AWS accounts and on-premises servers.
+ */
 public struct LicenseManager: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct LicenseManager: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Creates a license configuration. A license configuration is an abstraction of a customer license agreement that can be consumed and enforced by License Manager. Components include specifications for the license type (licensing by instance, socket, CPU, or vCPU), allowed tenancy (shared tenancy, Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a license must be associated with a host), and the number of licenses purchased and used.

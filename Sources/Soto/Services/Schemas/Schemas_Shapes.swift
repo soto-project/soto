@@ -41,7 +41,6 @@ extension Schemas {
     // MARK: Shapes
 
     public struct CreateDiscovererRequest: AWSEncodableShape {
-
         public let description: String?
         public let sourceArn: String
         public let tags: [String: String]?
@@ -62,12 +61,11 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case sourceArn = "SourceArn"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct CreateDiscovererResponse: AWSDecodableShape {
-
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -90,7 +88,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags = "tags"
+            case tags
         }
     }
 
@@ -116,12 +114,11 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct CreateRegistryResponse: AWSDecodableShape {
-
         public let description: String?
         public let registryArn: String?
         public let registryName: String?
@@ -138,13 +135,13 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct CreateSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
             AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName"))
         ]
 
@@ -165,7 +162,7 @@ extension Schemas {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.content, name: "content", parent: name, max: 100000)
+            try self.validate(self.content, name: "content", parent: name, max: 100_000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
@@ -174,13 +171,12 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
-            case tags = "tags"
+            case tags
             case `type` = "Type"
         }
     }
 
     public struct CreateSchemaResponse: AWSDecodableShape {
-
         public let description: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
@@ -209,7 +205,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags = "tags"
+            case tags
             case `type` = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
@@ -259,7 +255,7 @@ extension Schemas {
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
             AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName"))
         ]
 
@@ -276,8 +272,8 @@ extension Schemas {
 
     public struct DeleteSchemaVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
             AWSMemberEncoding(label: "schemaVersion", location: .uri(locationName: "schemaVersion"))
         ]
 
@@ -296,9 +292,9 @@ extension Schemas {
 
     public struct DescribeCodeBindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")), 
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")),
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
             AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
@@ -318,7 +314,6 @@ extension Schemas {
     }
 
     public struct DescribeCodeBindingResponse: AWSDecodableShape {
-
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -356,7 +351,6 @@ extension Schemas {
     }
 
     public struct DescribeDiscovererResponse: AWSDecodableShape {
-
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -379,7 +373,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags = "tags"
+            case tags
         }
     }
 
@@ -398,7 +392,6 @@ extension Schemas {
     }
 
     public struct DescribeRegistryResponse: AWSDecodableShape {
-
         public let description: String?
         public let registryArn: String?
         public let registryName: String?
@@ -415,14 +408,14 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct DescribeSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
             AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
@@ -440,7 +433,6 @@ extension Schemas {
     }
 
     public struct DescribeSchemaResponse: AWSDecodableShape {
-
         public let content: String?
         public let description: String?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -472,14 +464,13 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags = "tags"
+            case tags
             case `type` = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
     }
 
     public struct DiscovererSummary: AWSDecodableShape {
-
         /// The ARN of the discoverer.
         public let discovererArn: String?
         /// The ID of the discoverer.
@@ -504,15 +495,15 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct ExportSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
-            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
+            AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion")),
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
@@ -532,7 +523,6 @@ extension Schemas {
     }
 
     public struct ExportSchemaResponse: AWSDecodableShape {
-
         public let content: String?
         public let schemaArn: String?
         public let schemaName: String?
@@ -558,9 +548,9 @@ extension Schemas {
 
     public struct GetCodeBindingSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")), 
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")),
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
             AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
@@ -599,7 +589,6 @@ extension Schemas {
     }
 
     public struct GetDiscoveredSchemaRequest: AWSEncodableShape {
-
         public let events: [String]
         public let `type`: `Type`
 
@@ -610,7 +599,7 @@ extension Schemas {
 
         public func validate(name: String) throws {
             try self.events.forEach {
-                try validate($0, name: "events[]", parent: name, max: 100000)
+                try validate($0, name: "events[]", parent: name, max: 100_000)
                 try validate($0, name: "events[]", parent: name, min: 1)
             }
             try self.validate(self.events, name: "events", parent: name, max: 10)
@@ -624,7 +613,6 @@ extension Schemas {
     }
 
     public struct GetDiscoveredSchemaResponse: AWSDecodableShape {
-
         public let content: String?
 
         public init(content: String? = nil) {
@@ -651,7 +639,6 @@ extension Schemas {
     }
 
     public struct GetResourcePolicyResponse: AWSDecodableShape {
-
         public let policy: String?
         public let revisionId: String?
 
@@ -668,9 +655,9 @@ extension Schemas {
 
     public struct ListDiscoverersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "discovererIdPrefix", location: .querystring(locationName: "discovererIdPrefix")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "discovererIdPrefix", location: .querystring(locationName: "discovererIdPrefix")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "sourceArnPrefix", location: .querystring(locationName: "sourceArnPrefix"))
         ]
 
@@ -690,7 +677,6 @@ extension Schemas {
     }
 
     public struct ListDiscoverersResponse: AWSDecodableShape {
-
         public let discoverers: [DiscovererSummary]?
         public let nextToken: String?
 
@@ -707,9 +693,9 @@ extension Schemas {
 
     public struct ListRegistriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "registryNamePrefix", location: .querystring(locationName: "registryNamePrefix")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "registryNamePrefix", location: .querystring(locationName: "registryNamePrefix")),
             AWSMemberEncoding(label: "scope", location: .querystring(locationName: "scope"))
         ]
 
@@ -729,7 +715,6 @@ extension Schemas {
     }
 
     public struct ListRegistriesResponse: AWSDecodableShape {
-
         public let nextToken: String?
         public let registries: [RegistrySummary]?
 
@@ -746,9 +731,9 @@ extension Schemas {
 
     public struct ListSchemaVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
             AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName"))
         ]
 
@@ -768,7 +753,6 @@ extension Schemas {
     }
 
     public struct ListSchemaVersionsResponse: AWSDecodableShape {
-
         public let nextToken: String?
         public let schemaVersions: [SchemaVersionSummary]?
 
@@ -785,9 +769,9 @@ extension Schemas {
 
     public struct ListSchemasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
             AWSMemberEncoding(label: "schemaNamePrefix", location: .querystring(locationName: "schemaNamePrefix"))
         ]
 
@@ -807,7 +791,6 @@ extension Schemas {
     }
 
     public struct ListSchemasResponse: AWSDecodableShape {
-
         public let nextToken: String?
         public let schemas: [SchemaSummary]?
 
@@ -837,7 +820,6 @@ extension Schemas {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -845,15 +827,15 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct PutCodeBindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")), 
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
-            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")), 
+            AWSMemberEncoding(label: "language", location: .uri(locationName: "language")),
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
+            AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName")),
             AWSMemberEncoding(label: "schemaVersion", location: .querystring(locationName: "schemaVersion"))
         ]
 
@@ -873,7 +855,6 @@ extension Schemas {
     }
 
     public struct PutCodeBindingResponse: AWSDecodableShape {
-
         @OptionalCustomCoding<ISO8601DateCoder>
         public var creationDate: Date?
         @OptionalCustomCoding<ISO8601DateCoder>
@@ -918,7 +899,6 @@ extension Schemas {
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-
         public let policy: String?
         public let revisionId: String?
 
@@ -934,7 +914,6 @@ extension Schemas {
     }
 
     public struct RegistrySummary: AWSDecodableShape {
-
         /// The ARN of the registry.
         public let registryArn: String?
         /// The name of the registry.
@@ -951,12 +930,11 @@ extension Schemas {
         private enum CodingKeys: String, CodingKey {
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct SchemaSummary: AWSDecodableShape {
-
         /// The date and time that schema was modified.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
@@ -981,13 +959,12 @@ extension Schemas {
             case lastModified = "LastModified"
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
-            case tags = "tags"
+            case tags
             case versionCount = "VersionCount"
         }
     }
 
     public struct SchemaVersionSummary: AWSDecodableShape {
-
         /// The ARN of the schema version.
         public let schemaArn: String?
         /// The name of the schema.
@@ -1012,7 +989,6 @@ extension Schemas {
     }
 
     public struct SearchSchemaSummary: AWSDecodableShape {
-
         /// The name of the registry.
         public let registryName: String?
         /// The ARN of the schema.
@@ -1038,7 +1014,6 @@ extension Schemas {
     }
 
     public struct SearchSchemaVersionSummary: AWSDecodableShape {
-
         /// The date the schema version was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdDate: Date?
@@ -1061,9 +1036,9 @@ extension Schemas {
 
     public struct SearchSchemasRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "keywords", location: .querystring(locationName: "keywords")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "keywords", location: .querystring(locationName: "keywords")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName"))
         ]
 
@@ -1083,7 +1058,6 @@ extension Schemas {
     }
 
     public struct SearchSchemasResponse: AWSDecodableShape {
-
         public let nextToken: String?
         public let schemas: [SearchSchemaSummary]?
 
@@ -1113,7 +1087,6 @@ extension Schemas {
     }
 
     public struct StartDiscovererResponse: AWSDecodableShape {
-
         public let discovererId: String?
         public let state: DiscovererState?
 
@@ -1143,7 +1116,6 @@ extension Schemas {
     }
 
     public struct StopDiscovererResponse: AWSDecodableShape {
-
         public let discovererId: String?
         public let state: DiscovererState?
 
@@ -1172,13 +1144,13 @@ extension Schemas {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1217,7 +1189,6 @@ extension Schemas {
     }
 
     public struct UpdateDiscovererResponse: AWSDecodableShape {
-
         public let description: String?
         public let discovererArn: String?
         public let discovererId: String?
@@ -1240,7 +1211,7 @@ extension Schemas {
             case discovererId = "DiscovererId"
             case sourceArn = "SourceArn"
             case state = "State"
-            case tags = "tags"
+            case tags
         }
     }
 
@@ -1268,7 +1239,6 @@ extension Schemas {
     }
 
     public struct UpdateRegistryResponse: AWSDecodableShape {
-
         public let description: String?
         public let registryArn: String?
         public let registryName: String?
@@ -1285,13 +1255,13 @@ extension Schemas {
             case description = "Description"
             case registryArn = "RegistryArn"
             case registryName = "RegistryName"
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct UpdateSchemaRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")), 
+            AWSMemberEncoding(label: "registryName", location: .uri(locationName: "registryName")),
             AWSMemberEncoding(label: "schemaName", location: .uri(locationName: "schemaName"))
         ]
 
@@ -1314,7 +1284,7 @@ extension Schemas {
         public func validate(name: String) throws {
             try self.validate(self.clientTokenId, name: "clientTokenId", parent: name, max: 36)
             try self.validate(self.clientTokenId, name: "clientTokenId", parent: name, min: 0)
-            try self.validate(self.content, name: "content", parent: name, max: 100000)
+            try self.validate(self.content, name: "content", parent: name, max: 100_000)
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 0)
@@ -1329,7 +1299,6 @@ extension Schemas {
     }
 
     public struct UpdateSchemaResponse: AWSDecodableShape {
-
         public let description: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastModified: Date?
@@ -1358,7 +1327,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case tags = "tags"
+            case tags
             case `type` = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }

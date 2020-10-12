@@ -21,10 +21,10 @@ extension ForecastService {
     // MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
-        case string = "string"
-        case integer = "integer"
-        case float = "float"
-        case timestamp = "timestamp"
+        case string
+        case integer
+        case float
+        case timestamp
         public var description: String { return self.rawValue }
     }
 
@@ -53,7 +53,7 @@ extension ForecastService {
     }
 
     public enum FeaturizationMethodName: String, CustomStringConvertible, Codable {
-        case filling = "filling"
+        case filling
         public var description: String { return self.rawValue }
     }
 
@@ -74,7 +74,6 @@ extension ForecastService {
     // MARK: Shapes
 
     public struct CategoricalParameterRange: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the categorical hyperparameter to tune.
         public let name: String
         /// A list of the tunable categories for the hyperparameter.
@@ -104,7 +103,6 @@ extension ForecastService {
     }
 
     public struct ContinuousParameterRange: AWSEncodableShape & AWSDecodableShape {
-
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Double
         /// The minimum tunable value of the hyperparameter.
@@ -136,14 +134,13 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupRequest: AWSEncodableShape {
-
         /// An array of Amazon Resource Names (ARNs) of the datasets that you want to include in the dataset group.
         public let datasetArns: [String]?
         /// A name for the dataset group.
         public let datasetGroupName: String
         /// The domain associated with the dataset group. When you add a dataset to a dataset group, this value and the value specified for the Domain parameter of the CreateDataset operation must match. The Domain and DatasetType that you choose determine the fields that must be present in training data that you import to a dataset. For example, if you choose the RETAIL domain and TARGET_TIME_SERIES as the DatasetType, Amazon Forecast requires that item_id, timestamp, and demand fields are present in your data. For more information, see howitworks-datasets-groups.
         public let domain: Domain
-        /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the dataset group to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
         public init(datasetArns: [String]? = nil, datasetGroupName: String, domain: Domain, tags: [Tag]? = nil) {
@@ -177,7 +174,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetGroupResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
 
@@ -191,14 +187,13 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the Amazon Forecast dataset that you want to import data to.
         public let datasetArn: String
         /// The name for the dataset import job. We recommend including the current timestamp in the name, for example, 20190721DatasetImport. This can help you avoid getting a ResourceAlreadyExistsException exception.
         public let datasetImportJobName: String
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource must include an AWS Key Management Service (KMS) key and the IAM role must allow Amazon Forecast permission to access the key. The KMS key and IAM role must match those specified in the EncryptionConfig parameter of the CreateDataset operation.
         public let dataSource: DataSource
-        /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the dataset import job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D   If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss".
         public let timestampFormat: String?
@@ -237,7 +232,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetImportJobResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String?
 
@@ -251,7 +245,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
-
         /// The frequency of data collection. This parameter is required for RELATED_TIME_SERIES datasets. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "D" indicates every day and "15min" indicates every 15 minutes.
         public let dataFrequency: String?
         /// A name for the dataset.
@@ -264,7 +257,7 @@ extension ForecastService {
         public let encryptionConfig: EncryptionConfig?
         /// The schema for the dataset. The schema attributes and their order must match the fields in your data. The dataset Domain and DatasetType that you choose determine the minimum required fields in your training data. For information about the required fields for a specific dataset domain and type, see howitworks-domains-ds-types.
         public let schema: Schema
-        /// The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the dataset to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
         public init(dataFrequency: String? = nil, datasetName: String, datasetType: DatasetType, domain: Domain, encryptionConfig: EncryptionConfig? = nil, schema: Schema, tags: [Tag]? = nil) {
@@ -303,7 +296,6 @@ extension ForecastService {
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
 
@@ -317,14 +309,13 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobRequest: AWSEncodableShape {
-
         /// The location where you want to save the forecast and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the location. The forecast must be exported to an Amazon S3 bucket. If encryption is used, Destination must include an AWS Key Management Service (KMS) key. The IAM role must allow Amazon Forecast permission to access the key.
         public let destination: DataDestination
         /// The Amazon Resource Name (ARN) of the forecast that you want to export.
         public let forecastArn: String
         /// The name for the forecast export job.
         public let forecastExportJobName: String
-        /// The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the forecast export job to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
         public init(destination: DataDestination, forecastArn: String, forecastExportJobName: String, tags: [Tag]? = nil) {
@@ -357,7 +348,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastExportJobResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the export job.
         public let forecastExportJobArn: String?
 
@@ -371,14 +361,13 @@ extension ForecastService {
     }
 
     public struct CreateForecastRequest: AWSEncodableShape {
-
         /// A name for the forecast.
         public let forecastName: String
         /// The quantiles at which probabilistic forecasts are generated. You can currently specify up to 5 quantiles per forecast. Accepted values include 0.01 to 0.99 (increments of .01 only) and mean. The mean forecast is different from the median (0.50) when the distribution is not symmetric (for example, Beta and Negative Binomial). The default value is ["0.1", "0.5", "0.9"].
         public let forecastTypes: [String]?
         /// The Amazon Resource Name (ARN) of the predictor to use to generate the forecast.
         public let predictorArn: String
-        /// The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the forecast to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
 
         public init(forecastName: String, forecastTypes: [String]? = nil, predictorArn: String, tags: [Tag]? = nil) {
@@ -415,7 +404,6 @@ extension ForecastService {
     }
 
     public struct CreateForecastResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String?
 
@@ -429,8 +417,7 @@ extension ForecastService {
     }
 
     public struct CreatePredictorRequest: AWSEncodableShape {
-
-        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus  Supports hyperparameter optimization (HPO)    arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet   
+        /// The Amazon Resource Name (ARN) of the algorithm to use for model training. Required if PerformAutoML is not set to true.  Supported algorithms:     arn:aws:forecast:::algorithm/ARIMA     arn:aws:forecast:::algorithm/Deep_AR_Plus  Supports hyperparameter optimization (HPO)    arn:aws:forecast:::algorithm/ETS     arn:aws:forecast:::algorithm/NPTS     arn:aws:forecast:::algorithm/Prophet
         public let algorithmArn: String?
         /// An AWS Key Management Service (KMS) key and the AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the key.
         public let encryptionConfig: EncryptionConfig?
@@ -446,11 +433,11 @@ extension ForecastService {
         public let inputDataConfig: InputDataConfig
         /// Whether to perform AutoML. When Amazon Forecast performs AutoML, it evaluates the algorithms it provides and chooses the best algorithm and configuration for your training dataset. The default value is false. In this case, you are required to specify an algorithm. Set PerformAutoML to true to have Amazon Forecast perform AutoML. This is a good option if you aren't sure which algorithm is suitable for your training data. In this case, PerformHPO must be false.
         public let performAutoML: Bool?
-        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithm supports HPO:   DeepAR+  
+        /// Whether to perform hyperparameter optimization (HPO). HPO finds optimal hyperparameter values for your training data. The process of performing HPO is known as running a hyperparameter tuning job. The default value is false. In this case, Amazon Forecast uses default hyperparameter values from the chosen algorithm. To override the default values, set PerformHPO to true and, optionally, supply the HyperParameterTuningJobConfig object. The tuning job specifies a metric to optimize, which hyperparameters participate in tuning, and the valid range for each tunable hyperparameter. In this case, you are required to specify an algorithm and PerformAutoML must be false. The following algorithm supports HPO:   DeepAR+
         public let performHPO: Bool?
         /// A name for the predictor.
         public let predictorName: String
-        /// The optional metadata that you apply to the predictor to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The optional metadata that you apply to the predictor to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]?
         /// The hyperparameters to override for model training. The hyperparameters that you can override are listed in the individual algorithms. For the list of supported algorithms, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
@@ -510,7 +497,6 @@ extension ForecastService {
     }
 
     public struct CreatePredictorResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the predictor.
         public let predictorArn: String?
 
@@ -524,7 +510,6 @@ extension ForecastService {
     }
 
     public struct DataDestination: AWSEncodableShape & AWSDecodableShape {
-
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the bucket.
         public let s3Config: S3Config
 
@@ -542,7 +527,6 @@ extension ForecastService {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-
         /// The path to the training data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         public let s3Config: S3Config
 
@@ -560,7 +544,6 @@ extension ForecastService {
     }
 
     public struct DatasetGroupSummary: AWSDecodableShape {
-
         /// When the dataset group was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -586,7 +569,6 @@ extension ForecastService {
     }
 
     public struct DatasetImportJobSummary: AWSDecodableShape {
-
         /// When the dataset import job was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -595,11 +577,11 @@ extension ForecastService {
         public let datasetImportJobName: String?
         /// The location of the training data to import and an AWS Identity and Access Management (IAM) role that Amazon Forecast can assume to access the data. The training data must be stored in an Amazon S3 bucket. If encryption is used, DataSource includes an AWS Key Management Service (KMS) key.
         public let dataSource: DataSource?
-        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.  
+        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED   
+        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSource: DataSource? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -624,7 +606,6 @@ extension ForecastService {
     }
 
     public struct DatasetSummary: AWSDecodableShape {
-
         /// When the dataset was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -658,7 +639,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetGroupRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset group to delete.
         public let datasetGroupArn: String
 
@@ -677,7 +657,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetImportJobRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset import job to delete.
         public let datasetImportJobArn: String
 
@@ -696,7 +675,6 @@ extension ForecastService {
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
@@ -715,7 +693,6 @@ extension ForecastService {
     }
 
     public struct DeleteForecastExportJobRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the forecast export job to delete.
         public let forecastExportJobArn: String
 
@@ -734,7 +711,6 @@ extension ForecastService {
     }
 
     public struct DeleteForecastRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the forecast to delete.
         public let forecastArn: String
 
@@ -753,7 +729,6 @@ extension ForecastService {
     }
 
     public struct DeletePredictorRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the predictor to delete.
         public let predictorArn: String
 
@@ -772,7 +747,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
 
@@ -791,7 +765,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetGroupResponse: AWSDecodableShape {
-
         /// When the dataset group was created.
         public let creationTime: Date?
         /// An array of Amazon Resource Names (ARNs) of the datasets contained in the dataset group.
@@ -804,7 +777,7 @@ extension ForecastService {
         public let domain: Domain?
         /// When the dataset group was created or last updated from a call to the UpdateDatasetGroup operation. While the dataset group is being updated, LastModificationTime is the current time of the DescribeDatasetGroup call.
         public let lastModificationTime: Date?
-        /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when you call the UpdateDatasetGroup operation.  The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor. 
+        /// The status of the dataset group. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply when you call the UpdateDatasetGroup operation.  The Status of the dataset group must be ACTIVE before you can use the dataset group to create a predictor.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetArns: [String]? = nil, datasetGroupArn: String? = nil, datasetGroupName: String? = nil, domain: Domain? = nil, lastModificationTime: Date? = nil, status: String? = nil) {
@@ -829,7 +802,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset import job.
         public let datasetImportJobArn: String
 
@@ -848,7 +820,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetImportJobResponse: AWSDecodableShape {
-
         /// When the dataset import job was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset that the training data was imported to.
@@ -863,13 +834,13 @@ extension ForecastService {
         public let dataSource: DataSource?
         /// Statistical information about each field in the input data.
         public let fieldStatistics: [String: Statistics]?
-        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.  
+        /// The last time that the dataset was modified. The time depends on the status of the job, as follows:    CREATE_PENDING - The same time as CreationTime.    CREATE_IN_PROGRESS - The current timestamp.    ACTIVE or CREATE_FAILED - When the job finished or failed.
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED   
+        /// The status of the dataset import job. The status is reflected in the status of the dataset. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
-        /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D  
+        /// The format of timestamps in the dataset. The format that you specify depends on the DataFrequency specified when the dataset was created. The following formats are supported   "yyyy-MM-dd" For the following data frequencies: Y, M, W, and D   "yyyy-MM-dd HH:mm:ss" For the following data frequencies: H, 30min, 15min, and 1min; and optionally, for: Y, M, W, and D
         public let timestampFormat: String?
 
         public init(creationTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, datasetImportJobName: String? = nil, dataSize: Double? = nil, dataSource: DataSource? = nil, fieldStatistics: [String: Statistics]? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil, timestampFormat: String? = nil) {
@@ -902,7 +873,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String
 
@@ -921,7 +891,6 @@ extension ForecastService {
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
-
         /// When the dataset was created.
         public let creationTime: Date?
         /// The frequency of data collection. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "M" indicates every month and "30min" indicates every 30 minutes.
@@ -940,7 +909,7 @@ extension ForecastService {
         public let lastModificationTime: Date?
         /// An array of SchemaAttribute objects that specify the dataset fields. Each SchemaAttribute specifies the name and data type of a field.
         public let schema: Schema?
-        /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation and reflect the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data. 
+        /// The status of the dataset. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED    The UPDATE states apply while data is imported to the dataset from a call to the CreateDatasetImportJob operation and reflect the status of the dataset import job. For example, when the import job status is CREATE_IN_PROGRESS, the status of the dataset is UPDATE_IN_PROGRESS.  The Status of the dataset must be ACTIVE before you can import training data.
         public let status: String?
 
         public init(creationTime: Date? = nil, dataFrequency: String? = nil, datasetArn: String? = nil, datasetName: String? = nil, datasetType: DatasetType? = nil, domain: Domain? = nil, encryptionConfig: EncryptionConfig? = nil, lastModificationTime: Date? = nil, schema: Schema? = nil, status: String? = nil) {
@@ -971,7 +940,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the forecast export job.
         public let forecastExportJobArn: String
 
@@ -990,7 +958,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastExportJobResponse: AWSDecodableShape {
-
         /// When the forecast export job was created.
         public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -1005,7 +972,7 @@ extension ForecastService {
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket. 
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastArn: String? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -1032,7 +999,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the forecast.
         public let forecastArn: String
 
@@ -1051,7 +1017,6 @@ extension ForecastService {
     }
 
     public struct DescribeForecastResponse: AWSDecodableShape {
-
         /// When the forecast creation task was created.
         public let creationTime: Date?
         /// The ARN of the dataset group that provided the data used to train the predictor.
@@ -1068,7 +1033,7 @@ extension ForecastService {
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
         public let predictorArn: String?
-        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast. 
+        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
@@ -1097,7 +1062,6 @@ extension ForecastService {
     }
 
     public struct DescribePredictorRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the predictor that you want information about.
         public let predictorArn: String
 
@@ -1116,7 +1080,6 @@ extension ForecastService {
     }
 
     public struct DescribePredictorResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the algorithm used for model training.
         public let algorithmArn: String?
         /// When PerformAutoML is specified, the ARN of the chosen algorithm.
@@ -1151,7 +1114,7 @@ extension ForecastService {
         public let predictorExecutionDetails: PredictorExecutionDetails?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast. 
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
         /// The default training parameters or overrides selected during model training. If using the AutoML algorithm or if HPO is turned on while using the DeepAR+ algorithms, the optimized values for the chosen hyperparameters are returned. For more information, see aws-forecast-choosing-recipes.
         public let trainingParameters: [String: String]?
@@ -1202,7 +1165,6 @@ extension ForecastService {
     }
 
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the KMS key.
         public let kMSKeyArn: String
         /// The ARN of the IAM role that Amazon Forecast can assume to access the AWS KMS key. Passing a role across AWS accounts is not allowed. If you pass a role that isn't in your account, you get an InvalidInputException error.
@@ -1227,7 +1189,6 @@ extension ForecastService {
     }
 
     public struct EvaluationParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The point from the end of the dataset where you want to split the data for model training and testing (evaluation). Specify the value as the number of data points. The default is the value of the forecast horizon. BackTestWindowOffset can be used to mimic a past virtual forecast start date. This value must be greater than or equal to the forecast horizon and less than half of the TARGET_TIME_SERIES dataset length.  ForecastHorizon &lt;= BackTestWindowOffset &lt; 1/2 * TARGET_TIME_SERIES dataset length
         public let backTestWindowOffset: Int?
         /// The number of times to split the input data. The default is 1. Valid values are 1 through 5.
@@ -1245,7 +1206,6 @@ extension ForecastService {
     }
 
     public struct EvaluationResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the algorithm that was evaluated.
         public let algorithmArn: String?
         /// The array of test windows used for evaluating the algorithm. The NumberOfBacktestWindows from the EvaluationParameters object determines the number of windows in the array.
@@ -1263,7 +1223,6 @@ extension ForecastService {
     }
 
     public struct Featurization: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the schema attribute that specifies the data field to be featurized. Amazon Forecast supports the target field of the TARGET_TIME_SERIES and the RELATED_TIME_SERIES datasets. For example, for the RETAIL domain, the target is demand, and for the CUSTOM domain, the target is target_value. For more information, see howitworks-missing-values.
         public let attributeName: String
         /// An array of one FeaturizationMethod object that specifies the feature transformation method.
@@ -1292,7 +1251,6 @@ extension ForecastService {
     }
 
     public struct FeaturizationConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// An array of featurization (transformation) information for the fields of a dataset.
         public let featurizations: [Featurization]?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, suppose that you are generating a forecast for item sales across all of your stores, and your dataset contains a store_id field. If you want the sales forecast for each item by store, you would specify store_id as the dimension. All forecast dimensions specified in the TARGET_TIME_SERIES dataset don't need to be specified in the CreatePredictor request. All forecast dimensions specified in the RELATED_TIME_SERIES dataset must be specified in the CreatePredictor request.
@@ -1330,10 +1288,9 @@ extension ForecastService {
     }
 
     public struct FeaturizationMethod: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the method. The "filling" method is the only supported method.
         public let featurizationMethodName: FeaturizationMethodName
-        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max   
+        /// The method parameters (key-value pairs), which are a map of override parameters. Specify these parameters to override the default values. Related Time Series attributes do not accept aggregation parameters. The following list shows the parameters and their valid values for the "filling" featurization method for a Target Time Series dataset. Bold signifies the default value.    aggregation: sum, avg, first, min, max     frontfill: none     middlefill: zero, nan (not a number), value, median, mean, min, max     backfill: zero, nan, value, median, mean, min, max    The following list shows the parameters and their valid values for a Related Time Series featurization method (there are no defaults):    middlefill: zero, value, median, mean, min, max     backfill: zero, value, median, mean, min, max     futurefill: zero, value, median, mean, min, max
         public let featurizationMethodParameters: [String: String]?
 
         public init(featurizationMethodName: FeaturizationMethodName, featurizationMethodParameters: [String: String]? = nil) {
@@ -1357,7 +1314,6 @@ extension ForecastService {
     }
 
     public struct Filter: AWSEncodableShape {
-
         /// The condition to apply. To include the objects that match the statement, specify IS. To exclude matching objects, specify IS_NOT.
         public let condition: FilterConditionString
         /// The name of the parameter to filter on.
@@ -1386,7 +1342,6 @@ extension ForecastService {
     }
 
     public struct ForecastExportJobSummary: AWSDecodableShape {
-
         /// When the forecast export job was created.
         public let creationTime: Date?
         /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the forecast is exported.
@@ -1399,7 +1354,7 @@ extension ForecastService {
         public let lastModificationTime: Date?
         /// If an error occurred, an informational message about the error.
         public let message: String?
-        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket. 
+        /// The status of the forecast export job. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast export job must be ACTIVE before you can access the forecast in your S3 bucket.
         public let status: String?
 
         public init(creationTime: Date? = nil, destination: DataDestination? = nil, forecastExportJobArn: String? = nil, forecastExportJobName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, status: String? = nil) {
@@ -1424,7 +1379,6 @@ extension ForecastService {
     }
 
     public struct ForecastSummary: AWSDecodableShape {
-
         /// When the forecast creation task was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that provided the data used to train the predictor.
@@ -1439,7 +1393,7 @@ extension ForecastService {
         public let message: String?
         /// The ARN of the predictor used to generate the forecast.
         public let predictorArn: String?
-        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast. 
+        /// The status of the forecast. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     The Status of the forecast must be ACTIVE before you can query or export the forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, forecastArn: String? = nil, forecastName: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, status: String? = nil) {
@@ -1466,7 +1420,6 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the predictor to get metrics for.
         public let predictorArn: String
 
@@ -1485,7 +1438,6 @@ extension ForecastService {
     }
 
     public struct GetAccuracyMetricsResponse: AWSDecodableShape {
-
         /// An array of results from evaluating the predictor.
         public let predictorEvaluationResults: [EvaluationResult]?
 
@@ -1499,7 +1451,6 @@ extension ForecastService {
     }
 
     public struct HyperParameterTuningJobConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies the ranges of valid values for the hyperparameters.
         public let parameterRanges: ParameterRanges?
 
@@ -1517,7 +1468,6 @@ extension ForecastService {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String
         /// An array of supplementary features. The only supported feature is a holiday calendar.
@@ -1545,7 +1495,6 @@ extension ForecastService {
     }
 
     public struct IntegerParameterRange: AWSEncodableShape & AWSDecodableShape {
-
         /// The maximum tunable value of the hyperparameter.
         public let maxValue: Int
         /// The minimum tunable value of the hyperparameter.
@@ -1577,7 +1526,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsRequest: AWSEncodableShape {
-
         /// The number of items to return in the response.
         public let maxResults: Int?
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -1602,7 +1550,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetGroupsResponse: AWSDecodableShape {
-
         /// An array of objects that summarize each dataset group's properties.
         public let datasetGroups: [DatasetGroupSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1620,8 +1567,7 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsRequest: AWSEncodableShape {
-
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetArn and Status.    Value - The value to match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the datasets that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the datasets that match the statement, specify IS. To exclude matching datasets, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetArn and Status.    Value - The value to match.   For example, to list all dataset import jobs whose status is ACTIVE, you specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1652,7 +1598,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetImportJobsResponse: AWSDecodableShape {
-
         /// An array of objects that summarize each dataset import job's properties.
         public let datasetImportJobs: [DatasetImportJobSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1670,7 +1615,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
-
         /// The number of items to return in the response.
         public let maxResults: Int?
         /// If the result of the previous request was truncated, the response includes a NextToken. To retrieve the next set of results, use the token in the next request. Tokens expire after 24 hours.
@@ -1695,7 +1639,6 @@ extension ForecastService {
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
-
         /// An array of objects that summarize each dataset's properties.
         public let datasets: [DatasetSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1713,8 +1656,7 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsRequest: AWSEncodableShape {
-
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are ForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityforecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecast export jobs that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecast export jobs that match the statement, specify IS. To exclude matching forecast export jobs, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are ForecastArn and Status.    Value - The value to match.   For example, to list all jobs that export a forecast named electricityforecast, specify the following filter:  "Filters": [ { "Condition": "IS", "Key": "ForecastArn", "Value": "arn:aws:forecast:us-west-2:&lt;acct-id&gt;:forecast/electricityforecast" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1745,7 +1687,6 @@ extension ForecastService {
     }
 
     public struct ListForecastExportJobsResponse: AWSDecodableShape {
-
         /// An array of objects that summarize each export job's properties.
         public let forecastExportJobs: [ForecastExportJobSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1763,8 +1704,7 @@ extension ForecastService {
     }
 
     public struct ListForecastsRequest: AWSEncodableShape {
-
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn, PredictorArn, and Status.    Value - The value to match.   For example, to list all forecasts whose status is not ACTIVE, you would specify:  "Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value": "ACTIVE" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the forecasts that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the forecasts that match the statement, specify IS. To exclude matching forecasts, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn, PredictorArn, and Status.    Value - The value to match.   For example, to list all forecasts whose status is not ACTIVE, you would specify:  "Filters": [ { "Condition": "IS_NOT", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1795,7 +1735,6 @@ extension ForecastService {
     }
 
     public struct ListForecastsResponse: AWSDecodableShape {
-
         /// An array of objects that summarize each forecast's properties.
         public let forecasts: [ForecastSummary]?
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
@@ -1813,8 +1752,7 @@ extension ForecastService {
     }
 
     public struct ListPredictorsRequest: AWSEncodableShape {
-
-        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ] 
+        /// An array of filters. For each filter, you provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the predictors that match the statement from the list, respectively. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT. To include the predictors that match the statement, specify IS. To exclude matching predictors, specify IS_NOT.    Key - The name of the parameter to filter on. Valid values are DatasetGroupArn and Status.    Value - The value to match.   For example, to list all predictors whose status is ACTIVE, you would specify:  "Filters": [ { "Condition": "IS", "Key": "Status", "Value": "ACTIVE" } ]
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -1845,7 +1783,6 @@ extension ForecastService {
     }
 
     public struct ListPredictorsResponse: AWSDecodableShape {
-
         /// If the response is truncated, Amazon Forecast returns this token. To retrieve the next set of results, use the token in the next request.
         public let nextToken: String?
         /// An array of objects that summarize each predictor's properties.
@@ -1863,7 +1800,6 @@ extension ForecastService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
         public let resourceArn: String
 
@@ -1882,7 +1818,6 @@ extension ForecastService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// The tags for the resource.
         public let tags: [Tag]?
 
@@ -1896,7 +1831,6 @@ extension ForecastService {
     }
 
     public struct Metrics: AWSDecodableShape {
-
         /// The root mean square error (RMSE).
         public let rmse: Double?
         /// An array of weighted quantile losses. Quantiles divide a probability distribution into regions of equal probability. The distribution in this case is the loss function.
@@ -1914,7 +1848,6 @@ extension ForecastService {
     }
 
     public struct ParameterRanges: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies the tunable range for each categorical hyperparameter.
         public let categoricalParameterRanges: [CategoricalParameterRange]?
         /// Specifies the tunable range for each continuous hyperparameter.
@@ -1954,7 +1887,6 @@ extension ForecastService {
     }
 
     public struct PredictorExecution: AWSDecodableShape {
-
         /// The ARN of the algorithm used to test the predictor.
         public let algorithmArn: String?
         /// An array of test windows used to evaluate the algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
@@ -1972,7 +1904,6 @@ extension ForecastService {
     }
 
     public struct PredictorExecutionDetails: AWSDecodableShape {
-
         /// An array of the backtests performed to evaluate the accuracy of the predictor against a particular algorithm. The NumberOfBacktestWindows from the object determines the number of windows in the array.
         public let predictorExecutions: [PredictorExecution]?
 
@@ -1986,7 +1917,6 @@ extension ForecastService {
     }
 
     public struct PredictorSummary: AWSDecodableShape {
-
         /// When the model training task was created.
         public let creationTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group that contains the data used to train the predictor.
@@ -1999,7 +1929,7 @@ extension ForecastService {
         public let predictorArn: String?
         /// The name of the predictor.
         public let predictorName: String?
-        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast. 
+        /// The status of the predictor. States include:    ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED     UPDATE_PENDING, UPDATE_IN_PROGRESS, UPDATE_FAILED     The Status of the predictor must be ACTIVE before you can use the predictor to create a forecast.
         public let status: String?
 
         public init(creationTime: Date? = nil, datasetGroupArn: String? = nil, lastModificationTime: Date? = nil, message: String? = nil, predictorArn: String? = nil, predictorName: String? = nil, status: String? = nil) {
@@ -2024,7 +1954,6 @@ extension ForecastService {
     }
 
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of an AWS Key Management Service (KMS) key.
         public let kMSKeyArn: String?
         /// The path to an Amazon Simple Storage Service (Amazon S3) bucket or file(s) in an Amazon S3 bucket.
@@ -2054,7 +1983,6 @@ extension ForecastService {
     }
 
     public struct Schema: AWSEncodableShape & AWSDecodableShape {
-
         /// An array of attributes specifying the name and type of each field in a dataset.
         public let attributes: [SchemaAttribute]?
 
@@ -2076,7 +2004,6 @@ extension ForecastService {
     }
 
     public struct SchemaAttribute: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the dataset field.
         public let attributeName: String?
         /// The data type of the field.
@@ -2100,7 +2027,6 @@ extension ForecastService {
     }
 
     public struct Statistics: AWSDecodableShape {
-
         /// For a numeric field, the average value in the field.
         public let avg: Double?
         /// The number of values in the field.
@@ -2142,10 +2068,9 @@ extension ForecastService {
     }
 
     public struct SupplementaryFeature: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the feature. This must be "holiday".
         public let name: String
-        /// One of the following 2 letter country codes:   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BE" - BELGIUM   "BR" - BRAZIL   "CA" - CANADA   "CN" - CHINA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "HU" - HUNGARY   "IE" - IRELAND   "IN" - INDIA   "IT" - ITALY   "JP" - JAPAN   "KR" - KOREA   "LU" - LUXEMBOURG   "MX" - MEXICO   "NL" - NETHERLANDS   "NO" - NORWAY   "PL" - POLAND   "PT" - PORTUGAL   "RU" - RUSSIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "US" - UNITED STATES   "UK" - UNITED KINGDOM  
+        /// One of the following 2 letter country codes:   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BE" - BELGIUM   "BR" - BRAZIL   "CA" - CANADA   "CN" - CHINA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "HU" - HUNGARY   "IE" - IRELAND   "IN" - INDIA   "IT" - ITALY   "JP" - JAPAN   "KR" - KOREA   "LU" - LUXEMBOURG   "MX" - MEXICO   "NL" - NETHERLANDS   "NO" - NORWAY   "PL" - POLAND   "PT" - PORTUGAL   "RU" - RUSSIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "US" - UNITED STATES   "UK" - UNITED KINGDOM
         public let value: String
 
         public init(name: String, value: String) {
@@ -2168,7 +2093,6 @@ extension ForecastService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String
         /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
@@ -2195,10 +2119,9 @@ extension ForecastService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
         public let resourceArn: String
-        /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.  
+        /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -2223,18 +2146,13 @@ extension ForecastService {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct TestWindowSummary: AWSDecodableShape {
-
         /// If the test failed, the reason why it failed.
         public let message: String?
-        /// The status of the test. Possible status values are:    ACTIVE     CREATE_IN_PROGRESS     CREATE_FAILED   
+        /// The status of the test. Possible status values are:    ACTIVE     CREATE_IN_PROGRESS     CREATE_FAILED
         public let status: String?
         /// The time at which the test ended.
         public let testWindowEnd: Date?
@@ -2257,7 +2175,6 @@ extension ForecastService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast exports.
         public let resourceArn: String
         /// The keys of the tags to be removed.
@@ -2287,15 +2204,10 @@ extension ForecastService {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDatasetGroupRequest: AWSEncodableShape {
-
         /// An array of the Amazon Resource Names (ARNs) of the datasets to add to the dataset group.
         public let datasetArns: [String]
         /// The ARN of the dataset group.
@@ -2322,15 +2234,10 @@ extension ForecastService {
     }
 
     public struct UpdateDatasetGroupResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct WeightedQuantileLoss: AWSDecodableShape {
-
         /// The difference between the predicted value and the actual value over the quantile, weighted (normalized) by dividing by the sum over all quantiles.
         public let lossValue: Double?
         /// The quantile. Quantiles divide a probability distribution into regions of equal probability. For example, if the distribution was divided into 5 regions of equal probability, the quantiles would be 0.2, 0.4, 0.6, and 0.8.
@@ -2348,8 +2255,7 @@ extension ForecastService {
     }
 
     public struct WindowSummary: AWSDecodableShape {
-
-        /// The type of evaluation.    SUMMARY - The average metrics across all windows.    COMPUTED - The metrics for the specified window.  
+        /// The type of evaluation.    SUMMARY - The average metrics across all windows.    COMPUTED - The metrics for the specified window.
         public let evaluationType: EvaluationType?
         /// The number of data points within the window.
         public let itemCount: Int?

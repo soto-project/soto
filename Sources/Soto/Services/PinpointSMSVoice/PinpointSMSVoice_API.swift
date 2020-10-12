@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS PinpointSMSVoice service.
+ Client object for interacting with AWS PinpointSMSVoice service.
 
-Pinpoint SMS and Voice Messaging public facing APIs
-*/
+ Pinpoint SMS and Voice Messaging public facing APIs
+ */
 public struct PinpointSMSVoice: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct PinpointSMSVoice: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Create a new configuration set. After you create the configuration set, you can add one or more event destinations to it.

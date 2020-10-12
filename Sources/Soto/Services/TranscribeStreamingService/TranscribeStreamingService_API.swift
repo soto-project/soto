@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS TranscribeStreamingService service.
+ Client object for interacting with AWS TranscribeStreamingService service.
 
-Operations and objects for transcribing streaming speech to text.
-*/
+ Operations and objects for transcribing streaming speech to text.
+ */
 public struct TranscribeStreamingService: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct TranscribeStreamingService: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 }
 

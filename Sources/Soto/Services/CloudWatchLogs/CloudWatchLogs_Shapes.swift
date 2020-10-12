@@ -54,7 +54,6 @@ extension CloudWatchLogs {
     // MARK: Shapes
 
     public struct AssociateKmsKeyRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. This must be a symmetric CMK. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS) and Using Symmetric and Asymmetric Keys.
         public let kmsKeyId: String
         /// The name of the log group.
@@ -73,13 +72,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "kmsKeyId"
-            case logGroupName = "logGroupName"
+            case kmsKeyId
+            case logGroupName
         }
     }
 
     public struct CancelExportTaskRequest: AWSEncodableShape {
-
         /// The ID of the export task.
         public let taskId: String
 
@@ -93,12 +91,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
+            case taskId
         }
     }
 
     public struct CreateExportTaskRequest: AWSEncodableShape {
-
         /// The name of S3 bucket for the exported log data. The bucket must be in the same AWS region.
         public let destination: String
         /// The prefix used as the start of the key for every object exported. If you don't specify a value, the default is exportedlogs.
@@ -140,18 +137,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case destinationPrefix = "destinationPrefix"
-            case from = "from"
-            case logGroupName = "logGroupName"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-            case taskName = "taskName"
-            case to = "to"
+            case destination
+            case destinationPrefix
+            case from
+            case logGroupName
+            case logStreamNamePrefix
+            case taskName
+            case to
         }
     }
 
     public struct CreateExportTaskResponse: AWSDecodableShape {
-
         /// The ID of the export task.
         public let taskId: String?
 
@@ -160,12 +156,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case taskId = "taskId"
+            case taskId
         }
     }
 
     public struct CreateLogGroupRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the CMK to use when encrypting log data. For more information, see Amazon Resource Names - AWS Key Management Service (AWS KMS).
         public let kmsKeyId: String?
         /// The name of the log group.
@@ -194,14 +189,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyId = "kmsKeyId"
-            case logGroupName = "logGroupName"
-            case tags = "tags"
+            case kmsKeyId
+            case logGroupName
+            case tags
         }
     }
 
     public struct CreateLogStreamRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
         /// The name of the log stream.
@@ -222,13 +216,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case logStreamName = "logStreamName"
+            case logGroupName
+            case logStreamName
         }
     }
 
     public struct DeleteDestinationRequest: AWSEncodableShape {
-
         /// The name of the destination.
         public let destinationName: String
 
@@ -243,12 +236,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName = "destinationName"
+            case destinationName
         }
     }
 
     public struct DeleteLogGroupRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
 
@@ -263,12 +255,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
+            case logGroupName
         }
     }
 
     public struct DeleteLogStreamRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
         /// The name of the log stream.
@@ -289,13 +280,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case logStreamName = "logStreamName"
+            case logGroupName
+            case logStreamName
         }
     }
 
     public struct DeleteMetricFilterRequest: AWSEncodableShape {
-
         /// The name of the metric filter.
         public let filterName: String
         /// The name of the log group.
@@ -316,13 +306,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
-            case logGroupName = "logGroupName"
+            case filterName
+            case logGroupName
         }
     }
 
     public struct DeleteQueryDefinitionRequest: AWSEncodableShape {
-
         /// The ID of the query definition that you want to delete. You can use DescribeQueryDefinitions to retrieve the IDs of your saved query definitions.
         public let queryDefinitionId: String
 
@@ -336,12 +325,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryDefinitionId = "queryDefinitionId"
+            case queryDefinitionId
         }
     }
 
     public struct DeleteQueryDefinitionResponse: AWSDecodableShape {
-
         /// A value of TRUE indicates that the operation succeeded. FALSE indicates that the operation failed.
         public let success: Bool?
 
@@ -350,12 +338,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case success = "success"
+            case success
         }
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-
         /// The name of the policy to be revoked. This parameter is required.
         public let policyName: String?
 
@@ -364,12 +351,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyName = "policyName"
+            case policyName
         }
     }
 
     public struct DeleteRetentionPolicyRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
 
@@ -384,12 +370,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
+            case logGroupName
         }
     }
 
     public struct DeleteSubscriptionFilterRequest: AWSEncodableShape {
-
         /// The name of the subscription filter.
         public let filterName: String
         /// The name of the log group.
@@ -410,13 +395,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
-            case logGroupName = "logGroupName"
+            case filterName
+            case logGroupName
         }
     }
 
     public struct DescribeDestinationsRequest: AWSEncodableShape {
-
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let destinationNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -441,13 +425,12 @@ extension CloudWatchLogs {
 
         private enum CodingKeys: String, CodingKey {
             case destinationNamePrefix = "DestinationNamePrefix"
-            case limit = "limit"
-            case nextToken = "nextToken"
+            case limit
+            case nextToken
         }
     }
 
     public struct DescribeDestinationsResponse: AWSDecodableShape {
-
         /// The destinations.
         public let destinations: [Destination]?
         public let nextToken: String?
@@ -458,13 +441,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinations = "destinations"
-            case nextToken = "nextToken"
+            case destinations
+            case nextToken
         }
     }
 
     public struct DescribeExportTasksRequest: AWSEncodableShape {
-
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -490,15 +472,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
-            case statusCode = "statusCode"
-            case taskId = "taskId"
+            case limit
+            case nextToken
+            case statusCode
+            case taskId
         }
     }
 
     public struct DescribeExportTasksResponse: AWSDecodableShape {
-
         /// The export tasks.
         public let exportTasks: [ExportTask]?
         public let nextToken: String?
@@ -509,13 +490,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportTasks = "exportTasks"
-            case nextToken = "nextToken"
+            case exportTasks
+            case nextToken
         }
     }
 
     public struct DescribeLogGroupsRequest: AWSEncodableShape {
-
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
         public let limit: Int?
         /// The prefix to match.
@@ -539,14 +519,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case logGroupNamePrefix = "logGroupNamePrefix"
-            case nextToken = "nextToken"
+            case limit
+            case logGroupNamePrefix
+            case nextToken
         }
     }
 
     public struct DescribeLogGroupsResponse: AWSDecodableShape {
-
         /// The log groups. If the retentionInDays value if not included for a log group, then that log group is set to have its events never expire.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
@@ -557,13 +536,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroups = "logGroups"
-            case nextToken = "nextToken"
+            case logGroups
+            case nextToken
         }
     }
 
     public struct DescribeLogStreamsRequest: AWSEncodableShape {
-
         /// If the value is true, results are returned in descending order. If the value is to false, results are returned in ascending order. The default value is false.
         public let descending: Bool?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -599,17 +577,16 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descending = "descending"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-            case nextToken = "nextToken"
-            case orderBy = "orderBy"
+            case descending
+            case limit
+            case logGroupName
+            case logStreamNamePrefix
+            case nextToken
+            case orderBy
         }
     }
 
     public struct DescribeLogStreamsResponse: AWSDecodableShape {
-
         /// The log streams.
         public let logStreams: [LogStream]?
         public let nextToken: String?
@@ -620,13 +597,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreams = "logStreams"
-            case nextToken = "nextToken"
+            case logStreams
+            case nextToken
         }
     }
 
     public struct DescribeMetricFiltersRequest: AWSEncodableShape {
-
         /// The prefix to match. CloudWatch Logs uses the value you set here only if you also include the logGroupName parameter in your request.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -666,17 +642,16 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNamePrefix = "filterNamePrefix"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case metricName = "metricName"
-            case metricNamespace = "metricNamespace"
-            case nextToken = "nextToken"
+            case filterNamePrefix
+            case limit
+            case logGroupName
+            case metricName
+            case metricNamespace
+            case nextToken
         }
     }
 
     public struct DescribeMetricFiltersResponse: AWSDecodableShape {
-
         /// The metric filters.
         public let metricFilters: [MetricFilter]?
         public let nextToken: String?
@@ -687,13 +662,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricFilters = "metricFilters"
-            case nextToken = "nextToken"
+            case metricFilters
+            case nextToken
         }
     }
 
     public struct DescribeQueriesRequest: AWSEncodableShape {
-
         /// Limits the returned queries to only those for the specified log group.
         public let logGroupName: String?
         /// Limits the number of returned queries to the specified number.
@@ -719,15 +693,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
+            case logGroupName
+            case maxResults
+            case nextToken
+            case status
         }
     }
 
     public struct DescribeQueriesResponse: AWSDecodableShape {
-
         public let nextToken: String?
         /// The list of queries that match the request.
         public let queries: [QueryInfo]?
@@ -738,13 +711,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case queries = "queries"
+            case nextToken
+            case queries
         }
     }
 
     public struct DescribeQueryDefinitionsRequest: AWSEncodableShape {
-
         /// Limits the number of returned query definitions to the specified number.
         public let maxResults: Int?
         public let nextToken: String?
@@ -767,14 +739,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case queryDefinitionNamePrefix = "queryDefinitionNamePrefix"
+            case maxResults
+            case nextToken
+            case queryDefinitionNamePrefix
         }
     }
 
     public struct DescribeQueryDefinitionsResponse: AWSDecodableShape {
-
         public let nextToken: String?
         /// The list of query definitions that match your request.
         public let queryDefinitions: [QueryDefinition]?
@@ -785,13 +756,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case queryDefinitions = "queryDefinitions"
+            case nextToken
+            case queryDefinitions
         }
     }
 
     public struct DescribeResourcePoliciesRequest: AWSEncodableShape {
-
         /// The maximum number of resource policies to be displayed with one call of this API.
         public let limit: Int?
         public let nextToken: String?
@@ -808,13 +778,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case limit = "limit"
-            case nextToken = "nextToken"
+            case limit
+            case nextToken
         }
     }
 
     public struct DescribeResourcePoliciesResponse: AWSDecodableShape {
-
         public let nextToken: String?
         /// The resource policies that exist in this account.
         public let resourcePolicies: [ResourcePolicy]?
@@ -825,13 +794,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resourcePolicies = "resourcePolicies"
+            case nextToken
+            case resourcePolicies
         }
     }
 
     public struct DescribeSubscriptionFiltersRequest: AWSEncodableShape {
-
         /// The prefix to match. If you don't specify a value, no prefix filter is applied.
         public let filterNamePrefix: String?
         /// The maximum number of items returned. If you don't specify a value, the default is up to 50 items.
@@ -861,15 +829,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterNamePrefix = "filterNamePrefix"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case nextToken = "nextToken"
+            case filterNamePrefix
+            case limit
+            case logGroupName
+            case nextToken
         }
     }
 
     public struct DescribeSubscriptionFiltersResponse: AWSDecodableShape {
-
         public let nextToken: String?
         /// The subscription filters.
         public let subscriptionFilters: [SubscriptionFilter]?
@@ -880,13 +847,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case subscriptionFilters = "subscriptionFilters"
+            case nextToken
+            case subscriptionFilters
         }
     }
 
     public struct Destination: AWSDecodableShape {
-
         /// An IAM policy document that governs which AWS accounts can create subscription filters against this destination.
         public let accessPolicy: String?
         /// The ARN of this destination.
@@ -910,17 +876,16 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicy = "accessPolicy"
-            case arn = "arn"
-            case creationTime = "creationTime"
-            case destinationName = "destinationName"
-            case roleArn = "roleArn"
-            case targetArn = "targetArn"
+            case accessPolicy
+            case arn
+            case creationTime
+            case destinationName
+            case roleArn
+            case targetArn
         }
     }
 
     public struct DisassociateKmsKeyRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
 
@@ -935,12 +900,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
+            case logGroupName
         }
     }
 
     public struct ExportTask: AWSDecodableShape {
-
         /// The name of the S3 bucket to which the log data was exported.
         public let destination: String?
         /// The prefix that was used as the start of Amazon S3 key for every object exported.
@@ -973,20 +937,19 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case destinationPrefix = "destinationPrefix"
-            case executionInfo = "executionInfo"
-            case from = "from"
-            case logGroupName = "logGroupName"
-            case status = "status"
-            case taskId = "taskId"
-            case taskName = "taskName"
-            case to = "to"
+            case destination
+            case destinationPrefix
+            case executionInfo
+            case from
+            case logGroupName
+            case status
+            case taskId
+            case taskName
+            case to
         }
     }
 
     public struct ExportTaskExecutionInfo: AWSDecodableShape {
-
         /// The completion time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let completionTime: Int64?
         /// The creation time of the export task, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -998,13 +961,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case completionTime = "completionTime"
-            case creationTime = "creationTime"
+            case completionTime
+            case creationTime
         }
     }
 
     public struct ExportTaskStatus: AWSDecodableShape {
-
         /// The status code of the export task.
         public let code: ExportTaskStatusCode?
         /// The status message related to the status code.
@@ -1016,13 +978,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code = "code"
-            case message = "message"
+            case code
+            case message
         }
     }
 
     public struct FilterLogEventsRequest: AWSEncodableShape {
-
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not returned.
         public let endTime: Int64?
         /// The filter pattern to use. For more information, see Filter and Pattern Syntax. If not provided, all the events are matched.
@@ -1075,19 +1036,18 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case filterPattern = "filterPattern"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case logStreamNamePrefix = "logStreamNamePrefix"
-            case logStreamNames = "logStreamNames"
-            case nextToken = "nextToken"
-            case startTime = "startTime"
+            case endTime
+            case filterPattern
+            case limit
+            case logGroupName
+            case logStreamNamePrefix
+            case logStreamNames
+            case nextToken
+            case startTime
         }
     }
 
     public struct FilterLogEventsResponse: AWSDecodableShape {
-
         /// The matched events.
         public let events: [FilteredLogEvent]?
         /// The token to use when requesting the next set of items. The token expires after 24 hours.
@@ -1102,14 +1062,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events = "events"
-            case nextToken = "nextToken"
-            case searchedLogStreams = "searchedLogStreams"
+            case events
+            case nextToken
+            case searchedLogStreams
         }
     }
 
     public struct FilteredLogEvent: AWSDecodableShape {
-
         /// The ID of the event.
         public let eventId: String?
         /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -1130,16 +1089,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventId = "eventId"
-            case ingestionTime = "ingestionTime"
-            case logStreamName = "logStreamName"
-            case message = "message"
-            case timestamp = "timestamp"
+            case eventId
+            case ingestionTime
+            case logStreamName
+            case message
+            case timestamp
         }
     }
 
     public struct GetLogEventsRequest: AWSEncodableShape {
-
         /// The end of the time range, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp equal to or later than this time are not included.
         public let endTime: Int64?
         /// The maximum number of log events returned. If you don't specify a value, the maximum is as many log events as can fit in a response size of 1 MB, up to 10,000 log events.
@@ -1180,18 +1138,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case logStreamName = "logStreamName"
-            case nextToken = "nextToken"
-            case startFromHead = "startFromHead"
-            case startTime = "startTime"
+            case endTime
+            case limit
+            case logGroupName
+            case logStreamName
+            case nextToken
+            case startFromHead
+            case startTime
         }
     }
 
     public struct GetLogEventsResponse: AWSDecodableShape {
-
         /// The events.
         public let events: [OutputLogEvent]?
         /// The token for the next set of items in the backward direction. The token expires after 24 hours. This token is never null. If you have reached the end of the stream, it returns the same token you passed in.
@@ -1206,14 +1163,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events = "events"
-            case nextBackwardToken = "nextBackwardToken"
-            case nextForwardToken = "nextForwardToken"
+            case events
+            case nextBackwardToken
+            case nextForwardToken
         }
     }
 
     public struct GetLogGroupFieldsRequest: AWSEncodableShape {
-
         /// The name of the log group to search.
         public let logGroupName: String
         /// The time to set as the center of the query. If you specify time, the 8 minutes before and 8 minutes after this time are searched. If you omit time, the past 15 minutes are queried. The time value is specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
@@ -1232,13 +1188,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case time = "time"
+            case logGroupName
+            case time
         }
     }
 
     public struct GetLogGroupFieldsResponse: AWSDecodableShape {
-
         /// The array of fields found in the query. Each object in the array contains the name of the field, along with the percentage of time it appeared in the log events that were queried.
         public let logGroupFields: [LogGroupField]?
 
@@ -1247,12 +1202,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupFields = "logGroupFields"
+            case logGroupFields
         }
     }
 
     public struct GetLogRecordRequest: AWSEncodableShape {
-
         /// The pointer corresponding to the log event record you want to retrieve. You get this from the response of a GetQueryResults operation. In that response, the value of the @ptr field for a log event is the value to use as logRecordPointer to retrieve that complete log event record.
         public let logRecordPointer: String
 
@@ -1261,12 +1215,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logRecordPointer = "logRecordPointer"
+            case logRecordPointer
         }
     }
 
     public struct GetLogRecordResponse: AWSDecodableShape {
-
         /// The requested log event, as a JSON string.
         public let logRecord: [String: String]?
 
@@ -1275,12 +1228,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logRecord = "logRecord"
+            case logRecord
         }
     }
 
     public struct GetQueryResultsRequest: AWSEncodableShape {
-
         /// The ID number of the query.
         public let queryId: String
 
@@ -1294,12 +1246,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId = "queryId"
+            case queryId
         }
     }
 
     public struct GetQueryResultsResponse: AWSDecodableShape {
-
         /// The log events that matched the query criteria during the most recent time it ran. The results value is an array of arrays. Each log event is one object in the top-level array. Each of these log event objects is an array of field/value pairs.
         public let results: [[ResultField]]?
         /// Includes the number of log events scanned by the query, the number of log events that matched the query criteria, and the total number of bytes in the log events that were scanned. These values reflect the full raw results of the query.
@@ -1314,14 +1265,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case results = "results"
-            case statistics = "statistics"
-            case status = "status"
+            case results
+            case statistics
+            case status
         }
     }
 
     public struct InputLogEvent: AWSEncodableShape {
-
         /// The raw event message.
         public let message: String
         /// The time the event occurred, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -1338,13 +1288,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message = "message"
-            case timestamp = "timestamp"
+            case message
+            case timestamp
         }
     }
 
     public struct ListTagsLogGroupRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
 
@@ -1359,12 +1308,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
+            case logGroupName
         }
     }
 
     public struct ListTagsLogGroupResponse: AWSDecodableShape {
-
         /// The tags for the log group.
         public let tags: [String: String]?
 
@@ -1373,12 +1321,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct LogGroup: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the log group.
         public let arn: String?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -1404,18 +1351,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case creationTime = "creationTime"
-            case kmsKeyId = "kmsKeyId"
-            case logGroupName = "logGroupName"
-            case metricFilterCount = "metricFilterCount"
-            case retentionInDays = "retentionInDays"
-            case storedBytes = "storedBytes"
+            case arn
+            case creationTime
+            case kmsKeyId
+            case logGroupName
+            case metricFilterCount
+            case retentionInDays
+            case storedBytes
         }
     }
 
     public struct LogGroupField: AWSDecodableShape {
-
         /// The name of a log field.
         public let name: String?
         /// The percentage of log events queried that contained the field.
@@ -1427,13 +1373,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case percent = "percent"
+            case name
+            case percent
         }
     }
 
     public struct LogStream: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the log stream.
         public let arn: String?
         /// The creation time of the stream, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
@@ -1460,18 +1405,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case creationTime = "creationTime"
-            case firstEventTimestamp = "firstEventTimestamp"
-            case lastEventTimestamp = "lastEventTimestamp"
-            case lastIngestionTime = "lastIngestionTime"
-            case logStreamName = "logStreamName"
-            case uploadSequenceToken = "uploadSequenceToken"
+            case arn
+            case creationTime
+            case firstEventTimestamp
+            case lastEventTimestamp
+            case lastIngestionTime
+            case logStreamName
+            case uploadSequenceToken
         }
     }
 
     public struct MetricFilter: AWSDecodableShape {
-
         /// The creation time of the metric filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// The name of the metric filter.
@@ -1491,16 +1435,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case logGroupName = "logGroupName"
-            case metricTransformations = "metricTransformations"
+            case creationTime
+            case filterName
+            case filterPattern
+            case logGroupName
+            case metricTransformations
         }
     }
 
     public struct MetricFilterMatchRecord: AWSDecodableShape {
-
         /// The raw event data.
         public let eventMessage: String?
         /// The event number.
@@ -1515,14 +1458,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventMessage = "eventMessage"
-            case eventNumber = "eventNumber"
-            case extractedValues = "extractedValues"
+            case eventMessage
+            case eventNumber
+            case extractedValues
         }
     }
 
     public struct MetricTransformation: AWSEncodableShape & AWSDecodableShape {
-
         /// (Optional) The value to emit when a filter pattern does not match a log event. This value can be null.
         public let defaultValue: Double?
         /// The name of the CloudWatch metric.
@@ -1548,15 +1490,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue = "defaultValue"
-            case metricName = "metricName"
-            case metricNamespace = "metricNamespace"
-            case metricValue = "metricValue"
+            case defaultValue
+            case metricName
+            case metricNamespace
+            case metricValue
         }
     }
 
     public struct OutputLogEvent: AWSDecodableShape {
-
         /// The time the event was ingested, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let ingestionTime: Int64?
         /// The data contained in the log event.
@@ -1571,14 +1512,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ingestionTime = "ingestionTime"
-            case message = "message"
-            case timestamp = "timestamp"
+            case ingestionTime
+            case message
+            case timestamp
         }
     }
 
     public struct PutDestinationPolicyRequest: AWSEncodableShape {
-
         /// An IAM policy document that authorizes cross-account users to deliver their log events to the associated destination. This can be up to 5120 bytes.
         public let accessPolicy: String
         /// A name for an existing destination.
@@ -1597,13 +1537,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicy = "accessPolicy"
-            case destinationName = "destinationName"
+            case accessPolicy
+            case destinationName
         }
     }
 
     public struct PutDestinationRequest: AWSEncodableShape {
-
         /// A name for the destination.
         public let destinationName: String
         /// The ARN of an IAM role that grants CloudWatch Logs permissions to call the Amazon Kinesis PutRecord operation on the destination stream.
@@ -1626,14 +1565,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationName = "destinationName"
-            case roleArn = "roleArn"
-            case targetArn = "targetArn"
+            case destinationName
+            case roleArn
+            case targetArn
         }
     }
 
     public struct PutDestinationResponse: AWSDecodableShape {
-
         /// The destination.
         public let destination: Destination?
 
@@ -1642,12 +1580,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
+            case destination
         }
     }
 
     public struct PutLogEventsRequest: AWSEncodableShape {
-
         /// The log events.
         public let logEvents: [InputLogEvent]
         /// The name of the log group.
@@ -1680,15 +1617,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logEvents = "logEvents"
-            case logGroupName = "logGroupName"
-            case logStreamName = "logStreamName"
-            case sequenceToken = "sequenceToken"
+            case logEvents
+            case logGroupName
+            case logStreamName
+            case sequenceToken
         }
     }
 
     public struct PutLogEventsResponse: AWSDecodableShape {
-
         /// The next sequence token.
         public let nextSequenceToken: String?
         /// The rejected events.
@@ -1700,13 +1636,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextSequenceToken = "nextSequenceToken"
-            case rejectedLogEventsInfo = "rejectedLogEventsInfo"
+            case nextSequenceToken
+            case rejectedLogEventsInfo
         }
     }
 
     public struct PutMetricFilterRequest: AWSEncodableShape {
-
         /// A name for the metric filter.
         public let filterName: String
         /// A filter pattern for extracting metric data out of ingested log events.
@@ -1740,15 +1675,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case logGroupName = "logGroupName"
-            case metricTransformations = "metricTransformations"
+            case filterName
+            case filterPattern
+            case logGroupName
+            case metricTransformations
         }
     }
 
     public struct PutQueryDefinitionRequest: AWSEncodableShape {
-
         /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
         public let logGroupNames: [String]?
         /// A name for the query definition. If you are saving a lot of query definitions, we recommend that you name them so that you can easily find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of DescribeQueryDefinitions.
@@ -1781,15 +1715,14 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupNames = "logGroupNames"
-            case name = "name"
-            case queryDefinitionId = "queryDefinitionId"
-            case queryString = "queryString"
+            case logGroupNames
+            case name
+            case queryDefinitionId
+            case queryString
         }
     }
 
     public struct PutQueryDefinitionResponse: AWSDecodableShape {
-
         /// The ID of the query definition.
         public let queryDefinitionId: String?
 
@@ -1798,13 +1731,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryDefinitionId = "queryDefinitionId"
+            case queryDefinitionId
         }
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-
-        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }  
+        /// Details of the new policy, including the identity of the principal that is enabled to put logs to this account. This is formatted as a JSON string. This parameter is required. The following example creates a resource policy enabling the Route 53 service to put DNS query logs in to the specified log group. Replace "logArn" with the ARN of your CloudWatch Logs resource, such as a log group or log stream.  { "Version": "2012-10-17", "Statement": [ { "Sid": "Route53LogsToCloudWatchLogs", "Effect": "Allow", "Principal": { "Service": [ "route53.amazonaws.com" ] }, "Action":"logs:PutLogEvents", "Resource": "logArn" } ] }
         public let policyDocument: String?
         /// Name of the new policy. This parameter is required.
         public let policyName: String?
@@ -1820,13 +1752,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyDocument = "policyDocument"
-            case policyName = "policyName"
+            case policyDocument
+            case policyName
         }
     }
 
     public struct PutResourcePolicyResponse: AWSDecodableShape {
-
         /// The new policy.
         public let resourcePolicy: ResourcePolicy?
 
@@ -1835,12 +1766,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourcePolicy = "resourcePolicy"
+            case resourcePolicy
         }
     }
 
     public struct PutRetentionPolicyRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
         public let retentionInDays: Int
@@ -1857,16 +1787,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case retentionInDays = "retentionInDays"
+            case logGroupName
+            case retentionInDays
         }
     }
 
     public struct PutSubscriptionFilterRequest: AWSEncodableShape {
-
-        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.  
+        /// The ARN of the destination to deliver matching log events to. Currently, the supported destinations are:   An Amazon Kinesis stream belonging to the same account as the subscription filter, for same-account delivery.   A logical destination (specified using an ARN) belonging to a different account, for cross-account delivery.   An Amazon Kinesis Firehose delivery stream belonging to the same account as the subscription filter, for same-account delivery.   An AWS Lambda function belonging to the same account as the subscription filter, for same-account delivery.
         public let destinationArn: String
-        /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream. 
+        /// The method used to distribute log data to the destination. By default, log data is grouped by log stream, but the grouping can be set to random for a more even distribution. This property is only applicable when the destination is an Amazon Kinesis stream.
         public let distribution: Distribution?
         /// A name for the subscription filter. If you are updating an existing filter, you must specify the correct name in filterName. Otherwise, the call fails because you cannot associate a second filter with a log group. To find the name of the filter currently associated with a log group, use DescribeSubscriptionFilters.
         public let filterName: String
@@ -1900,17 +1829,16 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationArn = "destinationArn"
-            case distribution = "distribution"
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case logGroupName = "logGroupName"
-            case roleArn = "roleArn"
+            case destinationArn
+            case distribution
+            case filterName
+            case filterPattern
+            case logGroupName
+            case roleArn
         }
     }
 
     public struct QueryDefinition: AWSDecodableShape {
-
         /// The date that the query definition was most recently modified.
         public let lastModified: Int64?
         /// If this query definition contains a list of log groups that it is limited to, that list appears here.
@@ -1931,16 +1859,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastModified = "lastModified"
-            case logGroupNames = "logGroupNames"
-            case name = "name"
-            case queryDefinitionId = "queryDefinitionId"
-            case queryString = "queryString"
+            case lastModified
+            case logGroupNames
+            case name
+            case queryDefinitionId
+            case queryString
         }
     }
 
     public struct QueryInfo: AWSDecodableShape {
-
         /// The date and time that this query was created.
         public let createTime: Int64?
         /// The name of the log group scanned by this query.
@@ -1961,16 +1888,15 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createTime = "createTime"
-            case logGroupName = "logGroupName"
-            case queryId = "queryId"
-            case queryString = "queryString"
-            case status = "status"
+            case createTime
+            case logGroupName
+            case queryId
+            case queryString
+            case status
         }
     }
 
     public struct QueryStatistics: AWSDecodableShape {
-
         /// The total number of bytes in the log events scanned during the query.
         public let bytesScanned: Double?
         /// The number of log events that matched the query string.
@@ -1985,14 +1911,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bytesScanned = "bytesScanned"
-            case recordsMatched = "recordsMatched"
-            case recordsScanned = "recordsScanned"
+            case bytesScanned
+            case recordsMatched
+            case recordsScanned
         }
     }
 
     public struct RejectedLogEventsInfo: AWSDecodableShape {
-
         /// The expired log events.
         public let expiredLogEventEndIndex: Int?
         /// The log events that are too new.
@@ -2007,14 +1932,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expiredLogEventEndIndex = "expiredLogEventEndIndex"
-            case tooNewLogEventStartIndex = "tooNewLogEventStartIndex"
-            case tooOldLogEventEndIndex = "tooOldLogEventEndIndex"
+            case expiredLogEventEndIndex
+            case tooNewLogEventStartIndex
+            case tooOldLogEventEndIndex
         }
     }
 
     public struct ResourcePolicy: AWSDecodableShape {
-
         /// Timestamp showing when this policy was last updated, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let lastUpdatedTime: Int64?
         /// The details of the policy.
@@ -2029,14 +1953,13 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lastUpdatedTime = "lastUpdatedTime"
-            case policyDocument = "policyDocument"
-            case policyName = "policyName"
+            case lastUpdatedTime
+            case policyDocument
+            case policyName
         }
     }
 
     public struct ResultField: AWSDecodableShape {
-
         /// The log event field.
         public let field: String?
         /// The value of this field.
@@ -2048,13 +1971,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case field = "field"
-            case value = "value"
+            case field
+            case value
         }
     }
 
     public struct SearchedLogStream: AWSDecodableShape {
-
         /// The name of the log stream.
         public let logStreamName: String?
         /// Indicates whether all the events in this log stream were searched.
@@ -2066,13 +1988,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logStreamName = "logStreamName"
-            case searchedCompletely = "searchedCompletely"
+            case logStreamName
+            case searchedCompletely
         }
     }
 
     public struct StartQueryRequest: AWSEncodableShape {
-
         /// The end of the time range to query. The range is inclusive, so the specified end time is included in the query. Specified as epoch time, the number of seconds since January 1, 1970, 00:00:00 UTC.
         public let endTime: Int64
         /// The maximum number of log events to return in the query. If the query string uses the fields command, only the specified fields and their values are returned. The default is 1000.
@@ -2113,18 +2034,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime = "endTime"
-            case limit = "limit"
-            case logGroupName = "logGroupName"
-            case logGroupNames = "logGroupNames"
-            case queryString = "queryString"
-            case startTime = "startTime"
+            case endTime
+            case limit
+            case logGroupName
+            case logGroupNames
+            case queryString
+            case startTime
         }
     }
 
     public struct StartQueryResponse: AWSDecodableShape {
-
-        /// The unique ID of the query. 
+        /// The unique ID of the query.
         public let queryId: String?
 
         public init(queryId: String? = nil) {
@@ -2132,12 +2052,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId = "queryId"
+            case queryId
         }
     }
 
     public struct StopQueryRequest: AWSEncodableShape {
-
         /// The ID number of the query to stop. To find this ID number, use DescribeQueries.
         public let queryId: String
 
@@ -2151,12 +2070,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queryId = "queryId"
+            case queryId
         }
     }
 
     public struct StopQueryResponse: AWSDecodableShape {
-
         /// This is true if the query was stopped by the StopQuery operation.
         public let success: Bool?
 
@@ -2165,12 +2083,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case success = "success"
+            case success
         }
     }
 
     public struct SubscriptionFilter: AWSDecodableShape {
-
         /// The creation time of the subscription filter, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public let creationTime: Int64?
         /// The Amazon Resource Name (ARN) of the destination.
@@ -2194,18 +2111,17 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case destinationArn = "destinationArn"
-            case distribution = "distribution"
-            case filterName = "filterName"
-            case filterPattern = "filterPattern"
-            case logGroupName = "logGroupName"
-            case roleArn = "roleArn"
+            case creationTime
+            case destinationArn
+            case distribution
+            case filterName
+            case filterPattern
+            case logGroupName
+            case roleArn
         }
     }
 
     public struct TagLogGroupRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
         /// The key-value pairs to use for the tags.
@@ -2230,13 +2146,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case tags = "tags"
+            case logGroupName
+            case tags
         }
     }
 
     public struct TestMetricFilterRequest: AWSEncodableShape {
-
         public let filterPattern: String
         /// The log event messages to test.
         public let logEventMessages: [String]
@@ -2257,13 +2172,12 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterPattern = "filterPattern"
-            case logEventMessages = "logEventMessages"
+            case filterPattern
+            case logEventMessages
         }
     }
 
     public struct TestMetricFilterResponse: AWSDecodableShape {
-
         /// The matched events.
         public let matches: [MetricFilterMatchRecord]?
 
@@ -2272,12 +2186,11 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case matches = "matches"
+            case matches
         }
     }
 
     public struct UntagLogGroupRequest: AWSEncodableShape {
-
         /// The name of the log group.
         public let logGroupName: String
         /// The tag keys. The corresponding tags are removed from the log group.
@@ -2301,8 +2214,8 @@ extension CloudWatchLogs {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case logGroupName = "logGroupName"
-            case tags = "tags"
+            case logGroupName
+            case tags
         }
     }
 }

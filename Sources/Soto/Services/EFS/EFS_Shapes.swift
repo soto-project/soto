@@ -21,11 +21,11 @@ extension EFS {
     // MARK: Enums
 
     public enum LifeCycleState: String, CustomStringConvertible, Codable {
-        case creating = "creating"
-        case available = "available"
-        case updating = "updating"
-        case deleting = "deleting"
-        case deleted = "deleted"
+        case creating
+        case available
+        case updating
+        case deleting
+        case deleted
         public var description: String { return self.rawValue }
     }
 
@@ -44,8 +44,8 @@ extension EFS {
     }
 
     public enum ThroughputMode: String, CustomStringConvertible, Codable {
-        case bursting = "bursting"
-        case provisioned = "provisioned"
+        case bursting
+        case provisioned
         public var description: String { return self.rawValue }
     }
 
@@ -61,7 +61,6 @@ extension EFS {
     // MARK: Shapes
 
     public struct AccessPointDescription: AWSDecodableShape {
-
         /// The unique Amazon Resource Name (ARN) associated with the access point.
         public let accessPointArn: String?
         /// The ID of the access point, assigned by Amazon EFS.
@@ -111,8 +110,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
-
-        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.      ENABLING - EFS is turning on automatic backups for the file system.      DISABLED - automatic back ups are turned off for the file system.      DISABLED - EFS is turning off automatic backups for the file system.   
+        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.      ENABLING - EFS is turning on automatic backups for the file system.      DISABLED - automatic back ups are turned off for the file system.      DISABLED - EFS is turning off automatic backups for the file system.
         public let status: Status
 
         public init(status: Status) {
@@ -125,7 +123,6 @@ extension EFS {
     }
 
     public struct BackupPolicyDescription: AWSDecodableShape {
-
         /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off..
         public let backupPolicy: BackupPolicy?
 
@@ -139,7 +136,6 @@ extension EFS {
     }
 
     public struct CreateAccessPointRequest: AWSEncodableShape {
-
         /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
         public let clientToken: String
         /// The ID of the EFS file system that the access point provides access to.
@@ -181,20 +177,19 @@ extension EFS {
     }
 
     public struct CreateFileSystemRequest: AWSEncodableShape {
-
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
-        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system. 
+        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing AWS Key Management Service (AWS KMS) customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
         public let encrypted: Bool?
-        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a nondefault CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS file systems. 
+        /// The ID of the AWS KMS CMK to be used to protect the encrypted file system. This parameter is only required if you want to use a nondefault CMK. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric CMKs. You cannot use asymmetric CMKs with EFS file systems.
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.
         public let performanceMode: PerformanceMode?
-        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. You can get this limit increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        /// The throughput, measured in MiB/s, that you want to provision for a file system that you're creating. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The upper limit for throughput is 1024 MiB/s. You can get this limit increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
         /// A value that specifies to create one or more tags associated with the file system. Each tag is a user-defined key-value pair. Name your file system on creation by including a "Key":"Name","Value":"{value}" key-value pair.
         public let tags: [Tag]?
-        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide. 
+        /// The throughput mode for the file system to be created. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. For more, see Specifying Throughput with Provisioned Mode in the Amazon EFS User Guide.
         public let throughputMode: ThroughputMode?
 
         public init(creationToken: String = CreateFileSystemRequest.idempotencyToken(), encrypted: Bool? = nil, kmsKeyId: String? = nil, performanceMode: PerformanceMode? = nil, provisionedThroughputInMibps: Double? = nil, tags: [Tag]? = nil, throughputMode: ThroughputMode? = nil) {
@@ -231,7 +226,6 @@ extension EFS {
     }
 
     public struct CreateMountTargetRequest: AWSEncodableShape {
-
         /// The ID of the file system for which to create the mount target.
         public let fileSystemId: String
         /// Valid IPv4 address within the address range of the specified subnet.
@@ -280,7 +274,7 @@ extension EFS {
 
         /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
         public let fileSystemId: String
-        /// An array of Tag objects to add. Each Tag object is a key-value pair. 
+        /// An array of Tag objects to add. Each Tag object is a key-value pair.
         public let tags: [Tag]
 
         public init(fileSystemId: String, tags: [Tag]) {
@@ -302,7 +296,6 @@ extension EFS {
     }
 
     public struct CreationInfo: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies the POSIX group ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
         public let ownerGid: Int64
         /// Specifies the POSIX user ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
@@ -317,9 +310,9 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4294967295)
+            try self.validate(self.ownerGid, name: "ownerGid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerGid, name: "ownerGid", parent: name, min: 0)
-            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4294967295)
+            try self.validate(self.ownerUid, name: "ownerUid", parent: name, max: 4_294_967_295)
             try self.validate(self.ownerUid, name: "ownerUid", parent: name, min: 0)
             try self.validate(self.permissions, name: "permissions", parent: name, pattern: "^[0-7]{3,4}$")
         }
@@ -441,9 +434,9 @@ extension EFS {
 
     public struct DescribeAccessPointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -451,7 +444,7 @@ extension EFS {
         public let accessPointId: String?
         /// (Optional) If you provide a FileSystemId, EFS returns all access points for that file system; mutually exclusive with AccessPointId.
         public let fileSystemId: String?
-        /// (Optional) When retrieving all access points for a file system, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response. The default value is 100. 
+        /// (Optional) When retrieving all access points for a file system, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response. The default value is 100.
         public let maxResults: Int?
         ///  NextToken is present if the response is paginated. You can use NextMarker in the subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
@@ -473,7 +466,6 @@ extension EFS {
     }
 
     public struct DescribeAccessPointsResponse: AWSDecodableShape {
-
         /// An array of access point descriptions.
         public let accessPoints: [AccessPointDescription]?
         /// Present if there are more access points than returned in the response. You can use the NextMarker in the subsequent request to fetch the additional descriptions.
@@ -532,9 +524,9 @@ extension EFS {
 
     public struct DescribeFileSystemsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")), 
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "creationToken", location: .querystring(locationName: "CreationToken")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -542,9 +534,9 @@ extension EFS {
         public let creationToken: String?
         /// (Optional) ID of the file system whose description you want to retrieve (String).
         public let fileSystemId: String?
-        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off. 
+        /// (Optional) Opaque pagination token returned from a previous DescribeFileSystems operation (String). If present, specifies to continue the list from where the returning call had left off.
         public let marker: String?
-        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This number is automatically set to 100. The response is paginated at 100 per page if you have more than 100 file systems. 
+        /// (Optional) Specifies the maximum number of file systems to return in the response (integer). This number is automatically set to 100. The response is paginated at 100 per page if you have more than 100 file systems.
         public let maxItems: Int?
 
         public init(creationToken: String? = nil, fileSystemId: String? = nil, marker: String? = nil, maxItems: Int? = nil) {
@@ -570,7 +562,6 @@ extension EFS {
     }
 
     public struct DescribeFileSystemsResponse: AWSDecodableShape {
-
         /// An array of file system descriptions.
         public let fileSystems: [FileSystemDescription]?
         /// Present if provided by caller in the request (String).
@@ -633,7 +624,6 @@ extension EFS {
     }
 
     public struct DescribeMountTargetSecurityGroupsResponse: AWSDecodableShape {
-
         /// An array of security groups.
         public let securityGroups: [String]
 
@@ -648,10 +638,10 @@ extension EFS {
 
     public struct DescribeMountTargetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")), 
-            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")), 
+            AWSMemberEncoding(label: "accessPointId", location: .querystring(locationName: "AccessPointId")),
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring(locationName: "FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems")),
             AWSMemberEncoding(label: "mountTargetId", location: .querystring(locationName: "MountTargetId"))
         ]
 
@@ -690,7 +680,6 @@ extension EFS {
     }
 
     public struct DescribeMountTargetsResponse: AWSDecodableShape {
-
         /// If the request included the Marker, the response returns that value in this field.
         public let marker: String?
         /// Returns the file system's mount targets as an array of MountTargetDescription objects.
@@ -713,8 +702,8 @@ extension EFS {
 
     public struct DescribeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")), 
+            AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
             AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
         ]
 
@@ -744,12 +733,11 @@ extension EFS {
     }
 
     public struct DescribeTagsResponse: AWSDecodableShape {
-
         /// If the request included a Marker, the response returns that value in this field.
         public let marker: String?
         /// If a value is present, there are more tags to return. In a subsequent request, you can provide the value of NextMarker as the value of the Marker parameter in your next request to retrieve the next set of tags.
         public let nextMarker: String?
-        /// Returns tags associated with the file system as an array of Tag objects. 
+        /// Returns tags associated with the file system as an array of Tag objects.
         public let tags: [Tag]
 
         public init(marker: String? = nil, nextMarker: String? = nil, tags: [Tag]) {
@@ -766,14 +754,13 @@ extension EFS {
     }
 
     public struct FileSystemDescription: AWSDecodableShape {
-
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z).
         public let creationTime: Date
         /// The opaque string specified in the request.
         public let creationToken: String
         /// A Boolean value that, if true, indicates that the file system is encrypted.
         public let encrypted: Bool?
-        /// The Amazon Resource Name (ARN) for the EFS file system, in the format arn:aws:elasticfilesystem:region:account-id:file-system/file-system-id . Example with sample data: arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567 
+        /// The Amazon Resource Name (ARN) for the EFS file system, in the format arn:aws:elasticfilesystem:region:account-id:file-system/file-system-id . Example with sample data: arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567
         public let fileSystemArn: String?
         /// The ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
@@ -781,7 +768,7 @@ extension EFS {
         public let kmsKeyId: String?
         /// The lifecycle phase of the file system.
         public let lifeCycleState: LifeCycleState
-        /// You can add tags to a file system, including a Name tag. For more information, see CreateFileSystem. If the file system has a Name tag, Amazon EFS returns the value in this field. 
+        /// You can add tags to a file system, including a Name tag. For more information, see CreateFileSystem. If the file system has a Name tag, Amazon EFS returns the value in this field.
         public let name: String?
         /// The current number of mount targets that the file system has. For more information, see CreateMountTarget.
         public let numberOfMountTargets: Int
@@ -789,13 +776,13 @@ extension EFS {
         public let ownerId: String
         /// The performance mode of the file system.
         public let performanceMode: PerformanceMode
-        /// The throughput, measured in MiB/s, that you want to provision for a file system. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide. 
+        /// The throughput, measured in MiB/s, that you want to provision for a file system. Valid values are 1-1024. Required if ThroughputMode is set to provisioned. The limit on throughput is 1024 MiB/s. You can get these limits increased by contacting AWS Support. For more information, see Amazon EFS Limits That You Can Increase in the Amazon EFS User Guide.
         public let provisionedThroughputInMibps: Double?
-        /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time. 
+        /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The Timestamp value is the integer number of seconds since 1970-01-01T00:00:00Z. The SizeInBytes value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, SizeInBytes represents actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not the exact size that the file system was at any point in time.
         public let sizeInBytes: FileSystemSize
         /// The tags associated with the file system, presented as an array of Tag objects.
         public let tags: [Tag]
-        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change. 
+        /// The throughput mode for a file system. There are two throughput modes to choose from for your file system: bursting and provisioned. If you set ThroughputMode to provisioned, you must also set a value for ProvisionedThroughPutInMibps. You can decrease your file system's throughput in Provisioned Throughput mode or change between the throughput modes as long as it’s been more than 24 hours since the last decrease or throughput mode change.
         public let throughputMode: ThroughputMode?
 
         public init(creationTime: Date, creationToken: String, encrypted: Bool? = nil, fileSystemArn: String? = nil, fileSystemId: String, kmsKeyId: String? = nil, lifeCycleState: LifeCycleState, name: String? = nil, numberOfMountTargets: Int, ownerId: String, performanceMode: PerformanceMode, provisionedThroughputInMibps: Double? = nil, sizeInBytes: FileSystemSize, tags: [Tag], throughputMode: ThroughputMode? = nil) {
@@ -836,7 +823,6 @@ extension EFS {
     }
 
     public struct FileSystemPolicyDescription: AWSDecodableShape {
-
         /// Specifies the EFS file system to which the FileSystemPolicy applies.
         public let fileSystemId: String?
         /// The JSON formatted FileSystemPolicy for the EFS file system.
@@ -854,7 +840,6 @@ extension EFS {
     }
 
     public struct FileSystemSize: AWSDecodableShape {
-
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public let timestamp: Date?
         /// The latest known metered size (in bytes) of data stored in the file system.
@@ -880,7 +865,6 @@ extension EFS {
     }
 
     public struct LifecycleConfigurationDescription: AWSDecodableShape {
-
         /// An array of lifecycle management policies. Currently, EFS supports a maximum of one policy per file system.
         public let lifecyclePolicies: [LifecyclePolicy]?
 
@@ -894,7 +878,6 @@ extension EFS {
     }
 
     public struct LifecyclePolicy: AWSEncodableShape & AWSDecodableShape {
-
         ///  A value that describes the period of time that a file is not accessed, after which it transitions to the IA storage class. Metadata operations such as listing the contents of a directory don't count as file access events.
         public let transitionToIA: TransitionToIARules?
 
@@ -909,8 +892,8 @@ extension EFS {
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -935,7 +918,6 @@ extension EFS {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         ///  NextToken is present if the response payload is paginated. You can use NextToken in a subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
         /// An array of the tags for the specified EFS resource.
@@ -985,7 +967,6 @@ extension EFS {
     }
 
     public struct MountTargetDescription: AWSDecodableShape {
-
         /// The unique and consistent identifier of the Availability Zone (AZ) that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every AWS account.
         public let availabilityZoneId: String?
         /// The name of the Availability Zone (AZ) that the mount target resides in. AZs are independently mapped to names for each AWS account. For example, the Availability Zone us-east-1a for your AWS account might not be the same location as us-east-1a for another AWS account.
@@ -1035,7 +1016,6 @@ extension EFS {
     }
 
     public struct PosixUser: AWSEncodableShape & AWSDecodableShape {
-
         /// The POSIX group ID used for all file system operations using this access point.
         public let gid: Int64
         /// Secondary POSIX group IDs used for all file system operations using this access point.
@@ -1050,15 +1030,15 @@ extension EFS {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.gid, name: "gid", parent: name, max: 4294967295)
+            try self.validate(self.gid, name: "gid", parent: name, max: 4_294_967_295)
             try self.validate(self.gid, name: "gid", parent: name, min: 0)
             try self.secondaryGids?.forEach {
-                try validate($0, name: "secondaryGids[]", parent: name, max: 4294967295)
+                try validate($0, name: "secondaryGids[]", parent: name, max: 4_294_967_295)
                 try validate($0, name: "secondaryGids[]", parent: name, min: 0)
             }
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, max: 16)
             try self.validate(self.secondaryGids, name: "secondaryGids", parent: name, min: 0)
-            try self.validate(self.uid, name: "uid", parent: name, max: 4294967295)
+            try self.validate(self.uid, name: "uid", parent: name, max: 4_294_967_295)
             try self.validate(self.uid, name: "uid", parent: name, min: 0)
         }
 
@@ -1099,11 +1079,11 @@ extension EFS {
             AWSMemberEncoding(label: "fileSystemId", location: .uri(locationName: "FileSystemId"))
         ]
 
-        /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False. 
+        /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system. The default value is False.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
         public let fileSystemId: String
-        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies. 
+        /// The FileSystemPolicy that you're creating. Accepts a JSON formatted policy definition. To find out more about the elements that make up a file system policy, see EFS Resource-based Policies.
         public let policy: String
 
         public init(bypassPolicyLockoutSafetyCheck: Bool? = nil, fileSystemId: String, policy: String) {
@@ -1149,8 +1129,7 @@ extension EFS {
     }
 
     public struct RootDirectory: AWSEncodableShape & AWSDecodableShape {
-
-        /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail. 
+        /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory &gt; Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties.   If you do not provide CreationInfo and the specified RootDirectory &gt; Path does not exist, attempts to mount the file system using the access point will fail.
         public let creationInfo: CreationInfo?
         /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
         public let path: String?
@@ -1173,7 +1152,6 @@ extension EFS {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// The tag key (String). The key can't start with aws:.
         public let key: String
         /// The value of the tag key.
@@ -1203,7 +1181,7 @@ extension EFS {
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
-        /// The ID specifying the EFS resource that you want to create a tag for. 
+        /// The ID specifying the EFS resource that you want to create a tag for.
         public let resourceId: String
         public let tags: [Tag]
 
@@ -1225,7 +1203,7 @@ extension EFS {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1259,7 +1237,7 @@ extension EFS {
 
         /// The ID of the file system that you want to update.
         public let fileSystemId: String
-        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. Valid values are 1-1024. Required if ThroughputMode is changed to provisioned on update. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request. 
+        /// (Optional) The amount of throughput, in MiB/s, that you want to provision for your file system. Valid values are 1-1024. Required if ThroughputMode is changed to provisioned on update. If you're not updating the amount of provisioned throughput for your file system, you don't need to provide this value in your request.
         public let provisionedThroughputInMibps: Double?
         /// (Optional) The throughput mode that you want your file system to use. If you're not updating your throughput mode, you don't need to provide this value in your request. If you are changing the ThroughputMode to provisioned, you must also set a value for ProvisionedThroughputInMibps.
         public let throughputMode: ThroughputMode?

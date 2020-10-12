@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS MediaLive service.
+ Client object for interacting with AWS MediaLive service.
 
-API for AWS Elemental MediaLive
-*/
+ API for AWS Elemental MediaLive
+ */
 public struct MediaLive: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct MediaLive: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Starts delete of resources.
@@ -316,7 +315,7 @@ public struct MediaLive: AWSService {
     // MARK: Streaming API Calls
 
     ///  Get the latest thumbnail data for the input device.
-    public func describeInputDeviceThumbnailStreaming(_ input: DescribeInputDeviceThumbnailRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
+    public func describeInputDeviceThumbnailStreaming(_ input: DescribeInputDeviceThumbnailRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<DescribeInputDeviceThumbnailResponse> {
         return self.client.execute(operation: "DescribeInputDeviceThumbnail", path: "/prod/inputDevices/{inputDeviceId}/thumbnailData", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }

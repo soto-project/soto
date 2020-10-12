@@ -46,6 +46,7 @@ extension DataSync {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension DataSync {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -117,7 +119,7 @@ extension DataSync {
         )
     }
 
-    ///  Returns all the tags associated with a specified resource. 
+    ///  Returns all the tags associated with a specified resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -144,6 +146,7 @@ extension DataSync {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension DataSync {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -242,6 +246,7 @@ extension DataSync {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

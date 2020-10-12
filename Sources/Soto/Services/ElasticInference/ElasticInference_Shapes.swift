@@ -21,7 +21,7 @@ extension ElasticInference {
     // MARK: Enums
 
     public enum LocationType: String, CustomStringConvertible, Codable {
-        case region = "region"
+        case region
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
         public var description: String { return self.rawValue }
@@ -30,12 +30,11 @@ extension ElasticInference {
     // MARK: Shapes
 
     public struct AcceleratorType: AWSDecodableShape {
-
-        ///  The name of the Elastic Inference Accelerator type. 
+        ///  The name of the Elastic Inference Accelerator type.
         public let acceleratorTypeName: String?
-        ///  The memory information of the Elastic Inference Accelerator type. 
+        ///  The memory information of the Elastic Inference Accelerator type.
         public let memoryInfo: MemoryInfo?
-        ///  The throughput information of the Elastic Inference Accelerator type. 
+        ///  The throughput information of the Elastic Inference Accelerator type.
         public let throughputInfo: [KeyValuePair]?
 
         public init(acceleratorTypeName: String? = nil, memoryInfo: MemoryInfo? = nil, throughputInfo: [KeyValuePair]? = nil) {
@@ -45,19 +44,18 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypeName = "acceleratorTypeName"
-            case memoryInfo = "memoryInfo"
-            case throughputInfo = "throughputInfo"
+            case acceleratorTypeName
+            case memoryInfo
+            case throughputInfo
         }
     }
 
     public struct AcceleratorTypeOffering: AWSDecodableShape {
-
-        ///  The name of the Elastic Inference Accelerator type. 
+        ///  The name of the Elastic Inference Accelerator type.
         public let acceleratorType: String?
-        ///  The location for the offering. It will return either the region, availability zone or availability zone id for the offering depending on the locationType value. 
+        ///  The location for the offering. It will return either the region, availability zone or availability zone id for the offering depending on the locationType value.
         public let location: String?
-        ///  The location type for the offering. It can assume the following values: region: defines that the offering is at the regional level. availability-zone: defines that the offering is at the availability zone level. availability-zone-id: defines that the offering is at the availability zone level, defined by the availability zone id. 
+        ///  The location type for the offering. It can assume the following values: region: defines that the offering is at the regional level. availability-zone: defines that the offering is at the availability zone level. availability-zone-id: defines that the offering is at the availability zone level, defined by the availability zone id.
         public let locationType: LocationType?
 
         public init(acceleratorType: String? = nil, location: String? = nil, locationType: LocationType? = nil) {
@@ -67,17 +65,16 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorType = "acceleratorType"
-            case location = "location"
-            case locationType = "locationType"
+            case acceleratorType
+            case location
+            case locationType
         }
     }
 
     public struct DescribeAcceleratorOfferingsRequest: AWSEncodableShape {
-
-        ///  The list of accelerator types to describe. 
+        ///  The list of accelerator types to describe.
         public let acceleratorTypes: [String]?
-        ///  The location type that you want to describe accelerator type offerings for. It can assume the following values: region: will return the accelerator type offering at the regional level. availability-zone: will return the accelerator type offering at the availability zone level. availability-zone-id: will return the accelerator type offering at the availability zone level returning the availability zone id. 
+        ///  The location type that you want to describe accelerator type offerings for. It can assume the following values: region: will return the accelerator type offering at the regional level. availability-zone: will return the accelerator type offering at the availability zone level. availability-zone-id: will return the accelerator type offering at the availability zone level returning the availability zone id.
         public let locationType: LocationType
 
         public init(acceleratorTypes: [String]? = nil, locationType: LocationType) {
@@ -96,14 +93,13 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypes = "acceleratorTypes"
-            case locationType = "locationType"
+            case acceleratorTypes
+            case locationType
         }
     }
 
     public struct DescribeAcceleratorOfferingsResponse: AWSDecodableShape {
-
-        ///  The list of accelerator type offerings for a specific location. 
+        ///  The list of accelerator type offerings for a specific location.
         public let acceleratorTypeOfferings: [AcceleratorTypeOffering]?
 
         public init(acceleratorTypeOfferings: [AcceleratorTypeOffering]? = nil) {
@@ -111,21 +107,16 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypeOfferings = "acceleratorTypeOfferings"
+            case acceleratorTypeOfferings
         }
     }
 
     public struct DescribeAcceleratorTypesRequest: AWSEncodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeAcceleratorTypesResponse: AWSDecodableShape {
-
-        ///  The available accelerator types. 
+        ///  The available accelerator types.
         public let acceleratorTypes: [AcceleratorType]?
 
         public init(acceleratorTypes: [AcceleratorType]? = nil) {
@@ -133,19 +124,18 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorTypes = "acceleratorTypes"
+            case acceleratorTypes
         }
     }
 
     public struct DescribeAcceleratorsRequest: AWSEncodableShape {
-
-        ///  The IDs of the accelerators to describe. 
+        ///  The IDs of the accelerators to describe.
         public let acceleratorIds: [String]?
-        ///  One or more filters. Filter names and values are case-sensitive. Valid filter names are: accelerator-types: can provide a list of accelerator type names to filter for. instance-id: can provide a list of EC2 instance ids to filter for. 
+        ///  One or more filters. Filter names and values are case-sensitive. Valid filter names are: accelerator-types: can provide a list of accelerator type names to filter for. instance-id: can provide a list of EC2 instance ids to filter for.
         public let filters: [Filter]?
-        ///  The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI. 
+        ///  The total number of items to return in the command's output. If the total number of items available is more than the value specified, a NextToken is provided in the command's output. To resume pagination, provide the NextToken value in the starting-token argument of a subsequent command. Do not use the NextToken response element directly outside of the AWS CLI.
         public let maxResults: Int?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(acceleratorIds: [String]? = nil, filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -176,18 +166,17 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorIds = "acceleratorIds"
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case acceleratorIds
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct DescribeAcceleratorsResponse: AWSDecodableShape {
-
-        ///  The details of the Elastic Inference Accelerators. 
+        ///  The details of the Elastic Inference Accelerators.
         public let acceleratorSet: [ElasticInferenceAccelerator]?
-        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response. 
+        ///  A token to specify where to start paginating. This is the NextToken from a previously truncated response.
         public let nextToken: String?
 
         public init(acceleratorSet: [ElasticInferenceAccelerator]? = nil, nextToken: String? = nil) {
@@ -196,22 +185,21 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorSet = "acceleratorSet"
-            case nextToken = "nextToken"
+            case acceleratorSet
+            case nextToken
         }
     }
 
     public struct ElasticInferenceAccelerator: AWSDecodableShape {
-
-        ///  The health of the Elastic Inference Accelerator. 
+        ///  The health of the Elastic Inference Accelerator.
         public let acceleratorHealth: ElasticInferenceAcceleratorHealth?
-        ///  The ID of the Elastic Inference Accelerator. 
+        ///  The ID of the Elastic Inference Accelerator.
         public let acceleratorId: String?
-        ///  The type of the Elastic Inference Accelerator. 
+        ///  The type of the Elastic Inference Accelerator.
         public let acceleratorType: String?
-        ///  The ARN of the resource that the Elastic Inference Accelerator is attached to. 
+        ///  The ARN of the resource that the Elastic Inference Accelerator is attached to.
         public let attachedResource: String?
-        ///  The availability zone where the Elastic Inference Accelerator is present. 
+        ///  The availability zone where the Elastic Inference Accelerator is present.
         public let availabilityZone: String?
 
         public init(acceleratorHealth: ElasticInferenceAcceleratorHealth? = nil, acceleratorId: String? = nil, acceleratorType: String? = nil, attachedResource: String? = nil, availabilityZone: String? = nil) {
@@ -223,17 +211,16 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case acceleratorHealth = "acceleratorHealth"
-            case acceleratorId = "acceleratorId"
-            case acceleratorType = "acceleratorType"
-            case attachedResource = "attachedResource"
-            case availabilityZone = "availabilityZone"
+            case acceleratorHealth
+            case acceleratorId
+            case acceleratorType
+            case attachedResource
+            case availabilityZone
         }
     }
 
     public struct ElasticInferenceAcceleratorHealth: AWSDecodableShape {
-
-        ///  The health status of the Elastic Inference Accelerator. 
+        ///  The health status of the Elastic Inference Accelerator.
         public let status: String?
 
         public init(status: String? = nil) {
@@ -241,15 +228,14 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status = "status"
+            case status
         }
     }
 
     public struct Filter: AWSEncodableShape {
-
-        ///  The filter name for the Elastic Inference Accelerator list. It can assume the following values: accelerator-type: the type of Elastic Inference Accelerator to filter for. instance-id: an EC2 instance id to filter for. 
+        ///  The filter name for the Elastic Inference Accelerator list. It can assume the following values: accelerator-type: the type of Elastic Inference Accelerator to filter for. instance-id: an EC2 instance id to filter for.
         public let name: String?
-        ///  The values for the filter of the Elastic Inference Accelerator list. 
+        ///  The values for the filter of the Elastic Inference Accelerator list.
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -262,7 +248,7 @@ extension ElasticInference {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
             try self.values?.forEach {
-                try validate($0, name: "values[]", parent: name, max: 500000)
+                try validate($0, name: "values[]", parent: name, max: 500_000)
                 try validate($0, name: "values[]", parent: name, pattern: "^.*$")
             }
             try self.validate(self.values, name: "values", parent: name, max: 100)
@@ -270,16 +256,15 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case values = "values"
+            case name
+            case values
         }
     }
 
     public struct KeyValuePair: AWSDecodableShape {
-
-        ///  The throughput value of the Elastic Inference Accelerator type. It can assume the following values: TFLOPS16bit: the throughput expressed in 16bit TeraFLOPS. TFLOPS32bit: the throughput expressed in 32bit TeraFLOPS. 
+        ///  The throughput value of the Elastic Inference Accelerator type. It can assume the following values: TFLOPS16bit: the throughput expressed in 16bit TeraFLOPS. TFLOPS32bit: the throughput expressed in 32bit TeraFLOPS.
         public let key: String?
-        ///  The throughput value of the Elastic Inference Accelerator type. 
+        ///  The throughput value of the Elastic Inference Accelerator type.
         public let value: Int?
 
         public init(key: String? = nil, value: Int? = nil) {
@@ -288,8 +273,8 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
+            case key
+            case value
         }
     }
 
@@ -298,7 +283,7 @@ extension ElasticInference {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        ///  The ARN of the Elastic Inference Accelerator to list the tags for. 
+        ///  The ARN of the Elastic Inference Accelerator to list the tags for.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -315,8 +300,7 @@ extension ElasticInference {
     }
 
     public struct ListTagsForResourceResult: AWSDecodableShape {
-
-        ///  The tags of the Elastic Inference Accelerator. 
+        ///  The tags of the Elastic Inference Accelerator.
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -324,13 +308,12 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct MemoryInfo: AWSDecodableShape {
-
-        ///  The size in mebibytes of the Elastic Inference Accelerator type. 
+        ///  The size in mebibytes of the Elastic Inference Accelerator type.
         public let sizeInMiB: Int?
 
         public init(sizeInMiB: Int? = nil) {
@@ -338,7 +321,7 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sizeInMiB = "sizeInMiB"
+            case sizeInMiB
         }
     }
 
@@ -347,9 +330,9 @@ extension ElasticInference {
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
         ]
 
-        ///  The ARN of the Elastic Inference Accelerator to tag. 
+        ///  The ARN of the Elastic Inference Accelerator to tag.
         public let resourceArn: String
-        ///  The tags to add to the Elastic Inference Accelerator. 
+        ///  The tags to add to the Elastic Inference Accelerator.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -370,27 +353,23 @@ extension ElasticInference {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct TagResourceResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
-        ///  The ARN of the Elastic Inference Accelerator to untag. 
+        ///  The ARN of the Elastic Inference Accelerator to untag.
         public let resourceArn: String
-        ///  The list of tags to remove from the Elastic Inference Accelerator. 
+        ///  The list of tags to remove from the Elastic Inference Accelerator.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -415,10 +394,6 @@ extension ElasticInference {
     }
 
     public struct UntagResourceResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 }

@@ -21,61 +21,61 @@ extension DirectConnect {
     // MARK: Enums
 
     public enum AddressFamily: String, CustomStringConvertible, Codable {
-        case ipv4 = "ipv4"
-        case ipv6 = "ipv6"
+        case ipv4
+        case ipv6
         public var description: String { return self.rawValue }
     }
 
     public enum BGPPeerState: String, CustomStringConvertible, Codable {
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
+        case verifying
+        case pending
+        case available
+        case deleting
+        case deleted
         public var description: String { return self.rawValue }
     }
 
     public enum BGPStatus: String, CustomStringConvertible, Codable {
-        case up = "up"
-        case down = "down"
-        case unknown = "unknown"
+        case up
+        case down
+        case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case ordering = "ordering"
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        case unknown = "unknown"
+        case ordering
+        case requested
+        case pending
+        case available
+        case down
+        case deleting
+        case deleted
+        case rejected
+        case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case accepted = "accepted"
-        case deleted = "deleted"
+        case requested
+        case accepted
+        case deleted
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating = "associating"
-        case associated = "associated"
-        case disassociating = "disassociating"
-        case disassociated = "disassociated"
-        case updating = "updating"
+        case associating
+        case associated
+        case disassociating
+        case disassociated
+        case updating
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching = "attaching"
-        case attached = "attached"
-        case detaching = "detaching"
-        case detached = "detached"
+        case attaching
+        case attached
+        case detaching
+        case detached
         public var description: String { return self.rawValue }
     }
 
@@ -86,10 +86,10 @@ extension DirectConnect {
     }
 
     public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
-        case pending = "pending"
-        case available = "available"
-        case deleting = "deleting"
-        case deleted = "deleted"
+        case pending
+        case available
+        case deleting
+        case deleted
         public var description: String { return self.rawValue }
     }
 
@@ -100,31 +100,31 @@ extension DirectConnect {
     }
 
     public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
-        case unknown = "unknown"
-        case yes = "yes"
-        case no = "no"
+        case unknown
+        case yes
+        case no
         public var description: String { return self.rawValue }
     }
 
     public enum InterconnectState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case unknown = "unknown"
+        case requested
+        case pending
+        case available
+        case down
+        case deleting
+        case deleted
+        case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum LagState: String, CustomStringConvertible, Codable {
-        case requested = "requested"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case unknown = "unknown"
+        case requested
+        case pending
+        case available
+        case down
+        case deleting
+        case deleted
+        case unknown
         public var description: String { return self.rawValue }
     }
 
@@ -134,22 +134,21 @@ extension DirectConnect {
     }
 
     public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
-        case confirming = "confirming"
-        case verifying = "verifying"
-        case pending = "pending"
-        case available = "available"
-        case down = "down"
-        case deleting = "deleting"
-        case deleted = "deleted"
-        case rejected = "rejected"
-        case unknown = "unknown"
+        case confirming
+        case verifying
+        case pending
+        case available
+        case down
+        case deleting
+        case deleted
+        case rejected
+        case unknown
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AcceptDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
-
         /// The ID of the AWS account that owns the virtual private gateway or transit gateway.
         public let associatedGatewayOwnerAccount: String
         /// The ID of the Direct Connect gateway.
@@ -167,15 +166,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayOwnerAccount = "associatedGatewayOwnerAccount"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case overrideAllowedPrefixesToDirectConnectGateway = "overrideAllowedPrefixesToDirectConnectGateway"
-            case proposalId = "proposalId"
+            case associatedGatewayOwnerAccount
+            case directConnectGatewayId
+            case overrideAllowedPrefixesToDirectConnectGateway
+            case proposalId
         }
     }
 
     public struct AcceptDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
-
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -183,12 +181,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+            case directConnectGatewayAssociation
         }
     }
 
     public struct AllocateConnectionOnInterconnectRequest: AWSEncodableShape {
-
         /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The name of the provisioned connection.
@@ -209,17 +206,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth = "bandwidth"
-            case connectionName = "connectionName"
-            case interconnectId = "interconnectId"
-            case ownerAccount = "ownerAccount"
-            case vlan = "vlan"
+            case bandwidth
+            case connectionName
+            case interconnectId
+            case ownerAccount
+            case vlan
         }
     }
 
     public struct AllocateHostedConnectionRequest: AWSEncodableShape {
-
-        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection. 
+        /// The bandwidth of the connection. The possible values are 50Mbps, 100Mbps, 200Mbps, 300Mbps, 400Mbps, 500Mbps, 1Gbps, 2Gbps, 5Gbps, and 10Gbps. Note that only those AWS Direct Connect Partners who have met specific requirements are allowed to create a 1Gbps, 2Gbps, 5Gbps or 10Gbps hosted connection.
         public let bandwidth: String
         /// The ID of the interconnect or LAG.
         public let connectionId: String
@@ -249,17 +245,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth = "bandwidth"
-            case connectionId = "connectionId"
-            case connectionName = "connectionName"
-            case ownerAccount = "ownerAccount"
-            case tags = "tags"
-            case vlan = "vlan"
+            case bandwidth
+            case connectionId
+            case connectionName
+            case ownerAccount
+            case tags
+            case vlan
         }
     }
 
     public struct AllocatePrivateVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection on which the private virtual interface is provisioned.
         public let connectionId: String
         /// Information about the private virtual interface.
@@ -278,14 +273,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newPrivateVirtualInterfaceAllocation = "newPrivateVirtualInterfaceAllocation"
-            case ownerAccount = "ownerAccount"
+            case connectionId
+            case newPrivateVirtualInterfaceAllocation
+            case ownerAccount
         }
     }
 
     public struct AllocatePublicVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection on which the public virtual interface is provisioned.
         public let connectionId: String
         /// Information about the public virtual interface.
@@ -304,14 +298,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newPublicVirtualInterfaceAllocation = "newPublicVirtualInterfaceAllocation"
-            case ownerAccount = "ownerAccount"
+            case connectionId
+            case newPublicVirtualInterfaceAllocation
+            case ownerAccount
         }
     }
 
     public struct AllocateTransitVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection on which the transit virtual interface is provisioned.
         public let connectionId: String
         /// Information about the transit virtual interface.
@@ -330,14 +323,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newTransitVirtualInterfaceAllocation = "newTransitVirtualInterfaceAllocation"
-            case ownerAccount = "ownerAccount"
+            case connectionId
+            case newTransitVirtualInterfaceAllocation
+            case ownerAccount
         }
     }
 
     public struct AllocateTransitVirtualInterfaceResult: AWSDecodableShape {
-
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -345,12 +337,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
+            case virtualInterface
         }
     }
 
     public struct AssociateConnectionWithLagRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// The ID of the LAG with which to associate the connection.
@@ -362,13 +353,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case lagId = "lagId"
+            case connectionId
+            case lagId
         }
     }
 
     public struct AssociateHostedConnectionRequest: AWSEncodableShape {
-
         /// The ID of the hosted connection.
         public let connectionId: String
         /// The ID of the interconnect or the LAG.
@@ -380,13 +370,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case parentConnectionId = "parentConnectionId"
+            case connectionId
+            case parentConnectionId
         }
     }
 
     public struct AssociateVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the LAG or connection.
         public let connectionId: String
         /// The ID of the virtual interface.
@@ -398,13 +387,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case connectionId
+            case virtualInterfaceId
         }
     }
 
     public struct AssociatedGateway: AWSDecodableShape {
-
         /// The ID of the associated gateway.
         public let id: String?
         /// The ID of the AWS account that owns the associated virtual private gateway or transit gateway.
@@ -422,15 +410,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case ownerAccount = "ownerAccount"
-            case region = "region"
-            case `type` = "type"
+            case id
+            case ownerAccount
+            case region
+            case `type`
         }
     }
 
     public struct BGPPeer: AWSDecodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -443,9 +430,9 @@ extension DirectConnect {
         public let awsDeviceV2: String?
         /// The ID of the BGP peer.
         public let bgpPeerId: String?
-        /// The state of the BGP peer. The following are the possible values:    verifying: The BGP peering addresses or ASN require validation before the BGP peer can be created. This state applies only to public virtual interfaces.    pending: The BGP peer is created, and remains in this state until it is ready to be established.    available: The BGP peer is ready to be established.    deleting: The BGP peer is being deleted.    deleted: The BGP peer is deleted and cannot be established.  
+        /// The state of the BGP peer. The following are the possible values:    verifying: The BGP peering addresses or ASN require validation before the BGP peer can be created. This state applies only to public virtual interfaces.    pending: The BGP peer is created, and remains in this state until it is ready to be established.    available: The BGP peer is ready to be established.    deleting: The BGP peer is being deleted.    deleted: The BGP peer is deleted and cannot be established.
         public let bgpPeerState: BGPPeerState?
-        /// The status of the BGP peer. The following are the possible values:    up: The BGP peer is established. This state does not indicate the state of the routing function. Ensure that you are receiving routes over the BGP session.    down: The BGP peer is down.    unknown: The BGP peer status is not available.  
+        /// The status of the BGP peer. The following are the possible values:    up: The BGP peer is established. This state does not indicate the state of the routing function. Ensure that you are receiving routes over the BGP session.    down: The BGP peer is down.    unknown: The BGP peer status is not available.
         public let bgpStatus: BGPStatus?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
@@ -463,20 +450,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case awsDeviceV2 = "awsDeviceV2"
-            case bgpPeerId = "bgpPeerId"
-            case bgpPeerState = "bgpPeerState"
-            case bgpStatus = "bgpStatus"
-            case customerAddress = "customerAddress"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case awsDeviceV2
+            case bgpPeerId
+            case bgpPeerState
+            case bgpStatus
+            case customerAddress
         }
     }
 
     public struct ConfirmConnectionRequest: AWSEncodableShape {
-
         /// The ID of the hosted connection.
         public let connectionId: String
 
@@ -485,13 +471,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
+            case connectionId
         }
     }
 
     public struct ConfirmConnectionResponse: AWSDecodableShape {
-
-        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.
         public let connectionState: ConnectionState?
 
         public init(connectionState: ConnectionState? = nil) {
@@ -499,12 +484,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionState = "connectionState"
+            case connectionState
         }
     }
 
     public struct ConfirmPrivateVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The ID of the virtual private gateway.
@@ -519,15 +503,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case directConnectGatewayId
+            case virtualGatewayId
+            case virtualInterfaceId
         }
     }
 
     public struct ConfirmPrivateVirtualInterfaceResponse: AWSDecodableShape {
-
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -535,12 +518,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
+            case virtualInterfaceState
         }
     }
 
     public struct ConfirmPublicVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
 
@@ -549,13 +531,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceId
         }
     }
 
     public struct ConfirmPublicVirtualInterfaceResponse: AWSDecodableShape {
-
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -563,12 +544,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
+            case virtualInterfaceState
         }
     }
 
     public struct ConfirmTransitVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
         /// The ID of the virtual interface.
@@ -580,14 +560,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case directConnectGatewayId
+            case virtualInterfaceId
         }
     }
 
     public struct ConfirmTransitVirtualInterfaceResponse: AWSDecodableShape {
-
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -595,12 +574,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
+            case virtualInterfaceState
         }
     }
 
     public struct Connection: AWSDecodableShape {
-
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
@@ -611,7 +589,7 @@ extension DirectConnect {
         public let connectionId: String?
         /// The name of the connection.
         public let connectionName: String?
-        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.  
+        /// The state of the connection. The following are the possible values:    ordering: The initial state of a hosted connection provisioned on an interconnect. The connection stays in the ordering state until the owner of the hosted connection confirms or declines the connection order.    requested: The initial state of a standard connection. The connection stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The connection has been approved and is being initialized.    available: The network link is up and the connection is ready for use.    down: The network link is down.    deleting: The connection is being deleted.    deleted: The connection has been deleted.    rejected: A hosted connection in the ordering state enters the rejected state if it is deleted by the customer.    unknown: The state of the connection is not available.
         public let connectionState: ConnectionState?
         /// Indicates whether the connection supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
@@ -657,28 +635,27 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsDevice = "awsDevice"
-            case awsDeviceV2 = "awsDeviceV2"
-            case bandwidth = "bandwidth"
-            case connectionId = "connectionId"
-            case connectionName = "connectionName"
-            case connectionState = "connectionState"
-            case hasLogicalRedundancy = "hasLogicalRedundancy"
-            case jumboFrameCapable = "jumboFrameCapable"
-            case lagId = "lagId"
-            case loaIssueTime = "loaIssueTime"
-            case location = "location"
-            case ownerAccount = "ownerAccount"
-            case partnerName = "partnerName"
-            case providerName = "providerName"
-            case region = "region"
-            case tags = "tags"
-            case vlan = "vlan"
+            case awsDevice
+            case awsDeviceV2
+            case bandwidth
+            case connectionId
+            case connectionName
+            case connectionState
+            case hasLogicalRedundancy
+            case jumboFrameCapable
+            case lagId
+            case loaIssueTime
+            case location
+            case ownerAccount
+            case partnerName
+            case providerName
+            case region
+            case tags
+            case vlan
         }
     }
 
     public struct Connections: AWSDecodableShape {
-
         /// The connections.
         public let connections: [Connection]?
 
@@ -687,12 +664,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connections = "connections"
+            case connections
         }
     }
 
     public struct CreateBGPPeerRequest: AWSEncodableShape {
-
         /// Information about the BGP peer.
         public let newBGPPeer: NewBGPPeer?
         /// The ID of the virtual interface.
@@ -704,13 +680,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case newBGPPeer = "newBGPPeer"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case newBGPPeer
+            case virtualInterfaceId
         }
     }
 
     public struct CreateBGPPeerResponse: AWSDecodableShape {
-
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
 
@@ -719,12 +694,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
+            case virtualInterface
         }
     }
 
     public struct CreateConnectionRequest: AWSEncodableShape {
-
         /// The bandwidth of the connection.
         public let bandwidth: String
         /// The name of the connection.
@@ -755,17 +729,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth = "bandwidth"
-            case connectionName = "connectionName"
-            case lagId = "lagId"
-            case location = "location"
-            case providerName = "providerName"
-            case tags = "tags"
+            case bandwidth
+            case connectionName
+            case lagId
+            case location
+            case providerName
+            case tags
         }
     }
 
     public struct CreateDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
-
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
@@ -786,16 +759,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
-            case gatewayId = "gatewayId"
-            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
+            case addAllowedPrefixesToDirectConnectGateway
+            case directConnectGatewayId
+            case directConnectGatewayOwnerAccount
+            case gatewayId
+            case removeAllowedPrefixesToDirectConnectGateway
         }
     }
 
     public struct CreateDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
-
         /// Information about the Direct Connect gateway proposal.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
 
@@ -804,12 +776,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
+            case directConnectGatewayAssociationProposal
         }
     }
 
     public struct CreateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
-
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway This parameter is required when you create an association to a transit gateway. For information about how to set the prefixes, see Allowed Prefixes in the AWS Direct Connect User Guide.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway.
@@ -827,15 +798,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case gatewayId = "gatewayId"
-            case virtualGatewayId = "virtualGatewayId"
+            case addAllowedPrefixesToDirectConnectGateway
+            case directConnectGatewayId
+            case gatewayId
+            case virtualGatewayId
         }
     }
 
     public struct CreateDirectConnectGatewayAssociationResult: AWSDecodableShape {
-
         /// The association to be created.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -844,12 +814,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+            case directConnectGatewayAssociation
         }
     }
 
     public struct CreateDirectConnectGatewayRequest: AWSEncodableShape {
-
         /// The autonomous system number (ASN) for Border Gateway Protocol (BGP) to be configured on the Amazon side of the connection. The ASN must be in the private range of 64,512 to 65,534 or 4,200,000,000 to 4,294,967,294. The default is 64512.
         public let amazonSideAsn: Int64?
         /// The name of the Direct Connect gateway.
@@ -861,13 +830,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amazonSideAsn = "amazonSideAsn"
-            case directConnectGatewayName = "directConnectGatewayName"
+            case amazonSideAsn
+            case directConnectGatewayName
         }
     }
 
     public struct CreateDirectConnectGatewayResult: AWSDecodableShape {
-
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
 
@@ -876,12 +844,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway = "directConnectGateway"
+            case directConnectGateway
         }
     }
 
     public struct CreateInterconnectRequest: AWSEncodableShape {
-
         /// The port bandwidth, in Gbps. The possible values are 1 and 10.
         public let bandwidth: String
         /// The name of the interconnect.
@@ -912,22 +879,21 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bandwidth = "bandwidth"
-            case interconnectName = "interconnectName"
-            case lagId = "lagId"
-            case location = "location"
-            case providerName = "providerName"
-            case tags = "tags"
+            case bandwidth
+            case interconnectName
+            case lagId
+            case location
+            case providerName
+            case tags
         }
     }
 
     public struct CreateLagRequest: AWSEncodableShape {
-
         /// The tags to associate with the automtically created LAGs.
         public let childConnectionTags: [Tag]?
         /// The ID of an existing dedicated connection to migrate to the LAG.
         public let connectionId: String?
-        /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps and 10Gbps. 
+        /// The bandwidth of the individual physical dedicated connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
         public let connectionsBandwidth: String
         /// The name of the LAG.
         public let lagName: String
@@ -963,19 +929,18 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childConnectionTags = "childConnectionTags"
-            case connectionId = "connectionId"
-            case connectionsBandwidth = "connectionsBandwidth"
-            case lagName = "lagName"
-            case location = "location"
-            case numberOfConnections = "numberOfConnections"
-            case providerName = "providerName"
-            case tags = "tags"
+            case childConnectionTags
+            case connectionId
+            case connectionsBandwidth
+            case lagName
+            case location
+            case numberOfConnections
+            case providerName
+            case tags
         }
     }
 
     public struct CreatePrivateVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the private virtual interface.
@@ -991,13 +956,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newPrivateVirtualInterface = "newPrivateVirtualInterface"
+            case connectionId
+            case newPrivateVirtualInterface
         }
     }
 
     public struct CreatePublicVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the public virtual interface.
@@ -1013,13 +977,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newPublicVirtualInterface = "newPublicVirtualInterface"
+            case connectionId
+            case newPublicVirtualInterface
         }
     }
 
     public struct CreateTransitVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// Information about the transit virtual interface.
@@ -1035,13 +998,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case newTransitVirtualInterface = "newTransitVirtualInterface"
+            case connectionId
+            case newTransitVirtualInterface
         }
     }
 
     public struct CreateTransitVirtualInterfaceResult: AWSDecodableShape {
-
         public let virtualInterface: VirtualInterface?
 
         public init(virtualInterface: VirtualInterface? = nil) {
@@ -1049,12 +1011,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
+            case virtualInterface
         }
     }
 
     public struct DeleteBGPPeerRequest: AWSEncodableShape {
-
         /// The autonomous system (AS) number for Border Gateway Protocol (BGP) configuration.
         public let asn: Int?
         /// The ID of the BGP peer.
@@ -1072,15 +1033,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asn = "asn"
-            case bgpPeerId = "bgpPeerId"
-            case customerAddress = "customerAddress"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case asn
+            case bgpPeerId
+            case customerAddress
+            case virtualInterfaceId
         }
     }
 
     public struct DeleteBGPPeerResponse: AWSDecodableShape {
-
         /// The virtual interface.
         public let virtualInterface: VirtualInterface?
 
@@ -1089,12 +1049,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterface = "virtualInterface"
+            case virtualInterface
         }
     }
 
     public struct DeleteConnectionRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
 
@@ -1103,12 +1062,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
+            case connectionId
         }
     }
 
     public struct DeleteDirectConnectGatewayAssociationProposalRequest: AWSEncodableShape {
-
         /// The ID of the proposal.
         public let proposalId: String
 
@@ -1117,12 +1075,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case proposalId = "proposalId"
+            case proposalId
         }
     }
 
     public struct DeleteDirectConnectGatewayAssociationProposalResult: AWSDecodableShape {
-
         /// The ID of the associated gateway.
         public let directConnectGatewayAssociationProposal: DirectConnectGatewayAssociationProposal?
 
@@ -1131,12 +1088,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposal = "directConnectGatewayAssociationProposal"
+            case directConnectGatewayAssociationProposal
         }
     }
 
     public struct DeleteDirectConnectGatewayAssociationRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway association.
         public let associationId: String?
         /// The ID of the Direct Connect gateway.
@@ -1151,14 +1107,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associationId = "associationId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case virtualGatewayId = "virtualGatewayId"
+            case associationId
+            case directConnectGatewayId
+            case virtualGatewayId
         }
     }
 
     public struct DeleteDirectConnectGatewayAssociationResult: AWSDecodableShape {
-
         /// Information about the deleted association.
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
@@ -1167,12 +1122,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+            case directConnectGatewayAssociation
         }
     }
 
     public struct DeleteDirectConnectGatewayRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String
 
@@ -1181,12 +1135,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
+            case directConnectGatewayId
         }
     }
 
     public struct DeleteDirectConnectGatewayResult: AWSDecodableShape {
-
         /// The Direct Connect gateway.
         public let directConnectGateway: DirectConnectGateway?
 
@@ -1195,12 +1148,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateway = "directConnectGateway"
+            case directConnectGateway
         }
     }
 
     public struct DeleteInterconnectRequest: AWSEncodableShape {
-
         /// The ID of the interconnect.
         public let interconnectId: String
 
@@ -1209,13 +1161,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
+            case interconnectId
         }
     }
 
     public struct DeleteInterconnectResponse: AWSDecodableShape {
-
-        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.
         public let interconnectState: InterconnectState?
 
         public init(interconnectState: InterconnectState? = nil) {
@@ -1223,12 +1174,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectState = "interconnectState"
+            case interconnectState
         }
     }
 
     public struct DeleteLagRequest: AWSEncodableShape {
-
         /// The ID of the LAG.
         public let lagId: String
 
@@ -1237,12 +1187,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
+            case lagId
         }
     }
 
     public struct DeleteVirtualInterfaceRequest: AWSEncodableShape {
-
         /// The ID of the virtual interface.
         public let virtualInterfaceId: String
 
@@ -1251,13 +1200,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceId
         }
     }
 
     public struct DeleteVirtualInterfaceResponse: AWSDecodableShape {
-
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
 
         public init(virtualInterfaceState: VirtualInterfaceState? = nil) {
@@ -1265,12 +1213,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceState = "virtualInterfaceState"
+            case virtualInterfaceState
         }
     }
 
     public struct DescribeConnectionLoaRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1285,14 +1232,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case loaContentType = "loaContentType"
-            case providerName = "providerName"
+            case connectionId
+            case loaContentType
+            case providerName
         }
     }
 
     public struct DescribeConnectionLoaResponse: AWSDecodableShape {
-
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
 
@@ -1301,12 +1247,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loa = "loa"
+            case loa
         }
     }
 
     public struct DescribeConnectionsOnInterconnectRequest: AWSEncodableShape {
-
         /// The ID of the interconnect.
         public let interconnectId: String
 
@@ -1315,12 +1260,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
+            case interconnectId
         }
     }
 
     public struct DescribeConnectionsRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String?
 
@@ -1329,12 +1273,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
+            case connectionId
         }
     }
 
     public struct DescribeDirectConnectGatewayAssociationProposalsRequest: AWSEncodableShape {
-
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
         /// The ID of the Direct Connect gateway.
@@ -1355,16 +1298,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayId = "associatedGatewayId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case proposalId = "proposalId"
+            case associatedGatewayId
+            case directConnectGatewayId
+            case maxResults
+            case nextToken
+            case proposalId
         }
     }
 
     public struct DescribeDirectConnectGatewayAssociationProposalsResult: AWSDecodableShape {
-
         /// Describes the Direct Connect gateway association proposals.
         public let directConnectGatewayAssociationProposals: [DirectConnectGatewayAssociationProposal]?
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -1376,13 +1318,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociationProposals = "directConnectGatewayAssociationProposals"
-            case nextToken = "nextToken"
+            case directConnectGatewayAssociationProposals
+            case nextToken
         }
     }
 
     public struct DescribeDirectConnectGatewayAssociationsRequest: AWSEncodableShape {
-
         /// The ID of the associated gateway.
         public let associatedGatewayId: String?
         /// The ID of the Direct Connect gateway association.
@@ -1406,17 +1347,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGatewayId = "associatedGatewayId"
-            case associationId = "associationId"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case virtualGatewayId = "virtualGatewayId"
+            case associatedGatewayId
+            case associationId
+            case directConnectGatewayId
+            case maxResults
+            case nextToken
+            case virtualGatewayId
         }
     }
 
     public struct DescribeDirectConnectGatewayAssociationsResult: AWSDecodableShape {
-
         /// Information about the associations.
         public let directConnectGatewayAssociations: [DirectConnectGatewayAssociation]?
         /// The token to retrieve the next page.
@@ -1428,13 +1368,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociations = "directConnectGatewayAssociations"
-            case nextToken = "nextToken"
+            case directConnectGatewayAssociations
+            case nextToken
         }
     }
 
     public struct DescribeDirectConnectGatewayAttachmentsRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -1452,15 +1391,14 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case directConnectGatewayId
+            case maxResults
+            case nextToken
+            case virtualInterfaceId
         }
     }
 
     public struct DescribeDirectConnectGatewayAttachmentsResult: AWSDecodableShape {
-
         /// The attachments.
         public let directConnectGatewayAttachments: [DirectConnectGatewayAttachment]?
         /// The token to retrieve the next page.
@@ -1472,13 +1410,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAttachments = "directConnectGatewayAttachments"
-            case nextToken = "nextToken"
+            case directConnectGatewayAttachments
+            case nextToken
         }
     }
 
     public struct DescribeDirectConnectGatewaysRequest: AWSEncodableShape {
-
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -1493,14 +1430,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayId = "directConnectGatewayId"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case directConnectGatewayId
+            case maxResults
+            case nextToken
         }
     }
 
     public struct DescribeDirectConnectGatewaysResult: AWSDecodableShape {
-
         /// The Direct Connect gateways.
         public let directConnectGateways: [DirectConnectGateway]?
         /// The token to retrieve the next page.
@@ -1512,13 +1448,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGateways = "directConnectGateways"
-            case nextToken = "nextToken"
+            case directConnectGateways
+            case nextToken
         }
     }
 
     public struct DescribeHostedConnectionsRequest: AWSEncodableShape {
-
         /// The ID of the interconnect or LAG.
         public let connectionId: String
 
@@ -1527,12 +1462,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
+            case connectionId
         }
     }
 
     public struct DescribeInterconnectLoaRequest: AWSEncodableShape {
-
         /// The ID of the interconnect.
         public let interconnectId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1547,14 +1481,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
-            case loaContentType = "loaContentType"
-            case providerName = "providerName"
+            case interconnectId
+            case loaContentType
+            case providerName
         }
     }
 
     public struct DescribeInterconnectLoaResponse: AWSDecodableShape {
-
         /// The Letter of Authorization - Connecting Facility Assignment (LOA-CFA).
         public let loa: Loa?
 
@@ -1563,12 +1496,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loa = "loa"
+            case loa
         }
     }
 
     public struct DescribeInterconnectsRequest: AWSEncodableShape {
-
         /// The ID of the interconnect.
         public let interconnectId: String?
 
@@ -1577,12 +1509,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnectId = "interconnectId"
+            case interconnectId
         }
     }
 
     public struct DescribeLagsRequest: AWSEncodableShape {
-
         /// The ID of the LAG.
         public let lagId: String?
 
@@ -1591,12 +1522,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
+            case lagId
         }
     }
 
     public struct DescribeLoaRequest: AWSEncodableShape {
-
         /// The ID of a connection, LAG, or interconnect.
         public let connectionId: String
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -1611,14 +1541,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case loaContentType = "loaContentType"
-            case providerName = "providerName"
+            case connectionId
+            case loaContentType
+            case providerName
         }
     }
 
     public struct DescribeTagsRequest: AWSEncodableShape {
-
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]
 
@@ -1627,12 +1556,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArns = "resourceArns"
+            case resourceArns
         }
     }
 
     public struct DescribeTagsResponse: AWSDecodableShape {
-
         /// Information about the tags.
         public let resourceTags: [ResourceTag]?
 
@@ -1641,12 +1569,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceTags = "resourceTags"
+            case resourceTags
         }
     }
 
     public struct DescribeVirtualInterfacesRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String?
         /// The ID of the virtual interface.
@@ -1658,20 +1585,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case connectionId
+            case virtualInterfaceId
         }
     }
 
     public struct DirectConnectGateway: AWSDecodableShape {
-
         /// The autonomous system number (ASN) for the Amazon side of the connection.
         public let amazonSideAsn: Int64?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
         /// The name of the Direct Connect gateway.
         public let directConnectGatewayName: String?
-        /// The state of the Direct Connect gateway. The following are the possible values:    pending: The initial state after calling CreateDirectConnectGateway.    available: The Direct Connect gateway is ready for use.    deleting: The initial state after calling DeleteDirectConnectGateway.    deleted: The Direct Connect gateway is deleted and cannot pass traffic.  
+        /// The state of the Direct Connect gateway. The following are the possible values:    pending: The initial state after calling CreateDirectConnectGateway.    available: The Direct Connect gateway is ready for use.    deleting: The initial state after calling DeleteDirectConnectGateway.    deleted: The Direct Connect gateway is deleted and cannot pass traffic.
         public let directConnectGatewayState: DirectConnectGatewayState?
         /// The ID of the AWS account that owns the Direct Connect gateway.
         public let ownerAccount: String?
@@ -1688,24 +1614,23 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case amazonSideAsn = "amazonSideAsn"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case directConnectGatewayName = "directConnectGatewayName"
-            case directConnectGatewayState = "directConnectGatewayState"
-            case ownerAccount = "ownerAccount"
-            case stateChangeError = "stateChangeError"
+            case amazonSideAsn
+            case directConnectGatewayId
+            case directConnectGatewayName
+            case directConnectGatewayState
+            case ownerAccount
+            case stateChangeError
         }
     }
 
     public struct DirectConnectGatewayAssociation: AWSDecodableShape {
-
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let allowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway association.
         public let associationId: String?
-        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway or transit gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.  
+        /// The state of the association. The following are the possible values:    associating: The initial state after calling CreateDirectConnectGatewayAssociation.    associated: The Direct Connect gateway and virtual private gateway or transit gateway are successfully associated and ready to pass traffic.    disassociating: The initial state after calling DeleteDirectConnectGatewayAssociation.    disassociated: The virtual private gateway or transit gateway is disassociated from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual private gateway or transit gateway is stopped.
         public let associationState: DirectConnectGatewayAssociationState?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
@@ -1734,21 +1659,20 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowedPrefixesToDirectConnectGateway = "allowedPrefixesToDirectConnectGateway"
-            case associatedGateway = "associatedGateway"
-            case associationId = "associationId"
-            case associationState = "associationState"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
-            case stateChangeError = "stateChangeError"
-            case virtualGatewayId = "virtualGatewayId"
-            case virtualGatewayOwnerAccount = "virtualGatewayOwnerAccount"
-            case virtualGatewayRegion = "virtualGatewayRegion"
+            case allowedPrefixesToDirectConnectGateway
+            case associatedGateway
+            case associationId
+            case associationState
+            case directConnectGatewayId
+            case directConnectGatewayOwnerAccount
+            case stateChangeError
+            case virtualGatewayId
+            case virtualGatewayOwnerAccount
+            case virtualGatewayRegion
         }
     }
 
     public struct DirectConnectGatewayAssociationProposal: AWSDecodableShape {
-
         /// Information about the associated gateway.
         public let associatedGateway: AssociatedGateway?
         /// The ID of the Direct Connect gateway.
@@ -1759,7 +1683,7 @@ extension DirectConnect {
         public let existingAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the association proposal.
         public let proposalId: String?
-        /// The state of the proposal. The following are possible values:    accepted: The proposal has been accepted. The Direct Connect gateway association is available to use in this state.    deleted: The proposal has been deleted by the owner that made the proposal. The Direct Connect gateway association cannot be used in this state.    requested: The proposal has been requested. The Direct Connect gateway association cannot be used in this state.  
+        /// The state of the proposal. The following are possible values:    accepted: The proposal has been accepted. The Direct Connect gateway association is available to use in this state.    deleted: The proposal has been deleted by the owner that made the proposal. The Direct Connect gateway association cannot be used in this state.    requested: The proposal has been requested. The Direct Connect gateway association cannot be used in this state.
         public let proposalState: DirectConnectGatewayAssociationProposalState?
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let requestedAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
@@ -1775,19 +1699,18 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case associatedGateway = "associatedGateway"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case directConnectGatewayOwnerAccount = "directConnectGatewayOwnerAccount"
-            case existingAllowedPrefixesToDirectConnectGateway = "existingAllowedPrefixesToDirectConnectGateway"
-            case proposalId = "proposalId"
-            case proposalState = "proposalState"
-            case requestedAllowedPrefixesToDirectConnectGateway = "requestedAllowedPrefixesToDirectConnectGateway"
+            case associatedGateway
+            case directConnectGatewayId
+            case directConnectGatewayOwnerAccount
+            case existingAllowedPrefixesToDirectConnectGateway
+            case proposalId
+            case proposalState
+            case requestedAllowedPrefixesToDirectConnectGateway
         }
     }
 
     public struct DirectConnectGatewayAttachment: AWSDecodableShape {
-
-        /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.  
+        /// The state of the attachment. The following are the possible values:    attaching: The initial state after a virtual interface is created using the Direct Connect gateway.    attached: The Direct Connect gateway and virtual interface are attached and ready to pass traffic.    detaching: The initial state after calling DeleteVirtualInterface.    detached: The virtual interface is detached from the Direct Connect gateway. Traffic flow between the Direct Connect gateway and virtual interface is stopped.
         public let attachmentState: DirectConnectGatewayAttachmentState?
         /// The type of attachment.
         public let attachmentType: DirectConnectGatewayAttachmentType?
@@ -1813,18 +1736,17 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attachmentState = "attachmentState"
-            case attachmentType = "attachmentType"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case stateChangeError = "stateChangeError"
-            case virtualInterfaceId = "virtualInterfaceId"
-            case virtualInterfaceOwnerAccount = "virtualInterfaceOwnerAccount"
-            case virtualInterfaceRegion = "virtualInterfaceRegion"
+            case attachmentState
+            case attachmentType
+            case directConnectGatewayId
+            case stateChangeError
+            case virtualInterfaceId
+            case virtualInterfaceOwnerAccount
+            case virtualInterfaceRegion
         }
     }
 
     public struct DisassociateConnectionFromLagRequest: AWSEncodableShape {
-
         /// The ID of the connection.
         public let connectionId: String
         /// The ID of the LAG.
@@ -1836,13 +1758,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionId = "connectionId"
-            case lagId = "lagId"
+            case connectionId
+            case lagId
         }
     }
 
     public struct Interconnect: AWSDecodableShape {
-
         /// The Direct Connect endpoint on which the physical connection terminates.
         public let awsDevice: String?
         /// The Direct Connect endpoint on which the physical connection terminates.
@@ -1855,7 +1776,7 @@ extension DirectConnect {
         public let interconnectId: String?
         /// The name of the interconnect.
         public let interconnectName: String?
-        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.  
+        /// The state of the interconnect. The following are the possible values:    requested: The initial state of an interconnect. The interconnect stays in the requested state until the Letter of Authorization (LOA) is sent to the customer.    pending: The interconnect is approved, and is being initialized.    available: The network link is up, and the interconnect is ready for use.    down: The network link is down.    deleting: The interconnect is being deleted.    deleted: The interconnect is deleted.    unknown: The state of the interconnect is not available.
         public let interconnectState: InterconnectState?
         /// Indicates whether jumbo frames (9001 MTU) are supported.
         public let jumboFrameCapable: Bool?
@@ -1890,25 +1811,24 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsDevice = "awsDevice"
-            case awsDeviceV2 = "awsDeviceV2"
-            case bandwidth = "bandwidth"
-            case hasLogicalRedundancy = "hasLogicalRedundancy"
-            case interconnectId = "interconnectId"
-            case interconnectName = "interconnectName"
-            case interconnectState = "interconnectState"
-            case jumboFrameCapable = "jumboFrameCapable"
-            case lagId = "lagId"
-            case loaIssueTime = "loaIssueTime"
-            case location = "location"
-            case providerName = "providerName"
-            case region = "region"
-            case tags = "tags"
+            case awsDevice
+            case awsDeviceV2
+            case bandwidth
+            case hasLogicalRedundancy
+            case interconnectId
+            case interconnectName
+            case interconnectState
+            case jumboFrameCapable
+            case lagId
+            case loaIssueTime
+            case location
+            case providerName
+            case region
+            case tags
         }
     }
 
     public struct Interconnects: AWSDecodableShape {
-
         /// The interconnects.
         public let interconnects: [Interconnect]?
 
@@ -1917,12 +1837,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interconnects = "interconnects"
+            case interconnects
         }
     }
 
     public struct Lag: AWSDecodableShape {
-
         /// Indicates whether the LAG can host other connections.
         public let allowsHostedConnections: Bool?
         /// The AWS Direct Connect endpoint that hosts the LAG.
@@ -1931,7 +1850,7 @@ extension DirectConnect {
         public let awsDeviceV2: String?
         /// The connections bundled by the LAG.
         public let connections: [Connection]?
-        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps. 
+        /// The individual bandwidth of the physical connections bundled by the LAG. The possible values are 1Gbps and 10Gbps.
         public let connectionsBandwidth: String?
         /// Indicates whether the LAG supports a secondary BGP peer in the same address family (IPv4/IPv6).
         public let hasLogicalRedundancy: HasLogicalRedundancy?
@@ -1941,7 +1860,7 @@ extension DirectConnect {
         public let lagId: String?
         /// The name of the LAG.
         public let lagName: String?
-        /// The state of the LAG. The following are the possible values:    requested: The initial state of a LAG. The LAG stays in the requested state until the Letter of Authorization (LOA) is available.    pending: The LAG has been approved and is being initialized.    available: The network link is established and the LAG is ready for use.    down: The network link is down.    deleting: The LAG is being deleted.    deleted: The LAG is deleted.    unknown: The state of the LAG is not available.  
+        /// The state of the LAG. The following are the possible values:    requested: The initial state of a LAG. The LAG stays in the requested state until the Letter of Authorization (LOA) is available.    pending: The LAG has been approved and is being initialized.    available: The network link is established and the LAG is ready for use.    down: The network link is down.    deleting: The LAG is being deleted.    deleted: The LAG is deleted.    unknown: The state of the LAG is not available.
         public let lagState: LagState?
         /// The location of the LAG.
         public let location: String?
@@ -1979,28 +1898,27 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowsHostedConnections = "allowsHostedConnections"
-            case awsDevice = "awsDevice"
-            case awsDeviceV2 = "awsDeviceV2"
-            case connections = "connections"
-            case connectionsBandwidth = "connectionsBandwidth"
-            case hasLogicalRedundancy = "hasLogicalRedundancy"
-            case jumboFrameCapable = "jumboFrameCapable"
-            case lagId = "lagId"
-            case lagName = "lagName"
-            case lagState = "lagState"
-            case location = "location"
-            case minimumLinks = "minimumLinks"
-            case numberOfConnections = "numberOfConnections"
-            case ownerAccount = "ownerAccount"
-            case providerName = "providerName"
-            case region = "region"
-            case tags = "tags"
+            case allowsHostedConnections
+            case awsDevice
+            case awsDeviceV2
+            case connections
+            case connectionsBandwidth
+            case hasLogicalRedundancy
+            case jumboFrameCapable
+            case lagId
+            case lagName
+            case lagState
+            case location
+            case minimumLinks
+            case numberOfConnections
+            case ownerAccount
+            case providerName
+            case region
+            case tags
         }
     }
 
     public struct Lags: AWSDecodableShape {
-
         /// The LAGs.
         public let lags: [Lag]?
 
@@ -2009,12 +1927,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lags = "lags"
+            case lags
         }
     }
 
     public struct ListVirtualInterfaceTestHistoryRequest: AWSEncodableShape {
-
         /// The BGP peers that were placed in the DOWN state during the virtual interface failover test.
         public let bgpPeers: [String]?
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value. If MaxResults is given a value larger than 100, only 100 results are returned.
@@ -2038,17 +1955,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers = "bgpPeers"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case status = "status"
-            case testId = "testId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case bgpPeers
+            case maxResults
+            case nextToken
+            case status
+            case testId
+            case virtualInterfaceId
         }
     }
 
     public struct ListVirtualInterfaceTestHistoryResponse: AWSDecodableShape {
-
         /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
         /// The ID of the tested virtual interface.
@@ -2060,13 +1976,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case virtualInterfaceTestHistory = "virtualInterfaceTestHistory"
+            case nextToken
+            case virtualInterfaceTestHistory
         }
     }
 
     public struct Loa: AWSDecodableShape {
-
         /// The binary contents of the LOA-CFA document.
         public let loaContent: Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
@@ -2078,13 +1993,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loaContent = "loaContent"
-            case loaContentType = "loaContentType"
+            case loaContent
+            case loaContentType
         }
     }
 
     public struct Location: AWSDecodableShape {
-
         /// The available port speeds for the location.
         public let availablePortSpeeds: [String]?
         /// The name of the service provider for the location.
@@ -2105,16 +2019,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availablePortSpeeds = "availablePortSpeeds"
-            case availableProviders = "availableProviders"
-            case locationCode = "locationCode"
-            case locationName = "locationName"
-            case region = "region"
+            case availablePortSpeeds
+            case availableProviders
+            case locationCode
+            case locationName
+            case region
         }
     }
 
     public struct Locations: AWSDecodableShape {
-
         /// The locations.
         public let locations: [Location]?
 
@@ -2123,12 +2036,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locations = "locations"
+            case locations
         }
     }
 
     public struct NewBGPPeer: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2149,16 +2061,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
         }
     }
 
     public struct NewPrivateVirtualInterface: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2204,22 +2115,21 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case mtu = "mtu"
-            case tags = "tags"
-            case virtualGatewayId = "virtualGatewayId"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case directConnectGatewayId
+            case mtu
+            case tags
+            case virtualGatewayId
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct NewPrivateVirtualInterfaceAllocation: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2259,20 +2169,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case mtu = "mtu"
-            case tags = "tags"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case mtu
+            case tags
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct NewPublicVirtualInterface: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2312,20 +2221,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case routeFilterPrefixes = "routeFilterPrefixes"
-            case tags = "tags"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case routeFilterPrefixes
+            case tags
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct NewPublicVirtualInterfaceAllocation: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2365,20 +2273,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case routeFilterPrefixes = "routeFilterPrefixes"
-            case tags = "tags"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case routeFilterPrefixes
+            case tags
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct NewTransitVirtualInterface: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2421,21 +2328,20 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case mtu = "mtu"
-            case tags = "tags"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case directConnectGatewayId
+            case mtu
+            case tags
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct NewTransitVirtualInterfaceAllocation: AWSEncodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2446,7 +2352,7 @@ extension DirectConnect {
         public let authKey: String?
         /// The IP address assigned to the customer interface.
         public let customerAddress: String?
-        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500. 
+        /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
         /// The tags associated with the transitive virtual interface.
         public let tags: [Tag]?
@@ -2475,20 +2381,19 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case asn = "asn"
-            case authKey = "authKey"
-            case customerAddress = "customerAddress"
-            case mtu = "mtu"
-            case tags = "tags"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case asn
+            case authKey
+            case customerAddress
+            case mtu
+            case tags
+            case virtualInterfaceName
+            case vlan
         }
     }
 
     public struct ResourceTag: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// The tags.
@@ -2500,13 +2405,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tags = "tags"
+            case resourceArn
+            case tags
         }
     }
 
     public struct RouteFilterPrefix: AWSEncodableShape & AWSDecodableShape {
-
         /// The CIDR block for the advertised route. Separate multiple routes using commas. An IPv6 CIDR must use /64 or shorter.
         public let cidr: String?
 
@@ -2515,12 +2419,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidr = "cidr"
+            case cidr
         }
     }
 
     public struct StartBgpFailoverTestRequest: AWSEncodableShape {
-
         /// The BGP peers to place in the DOWN state.
         public let bgpPeers: [String]?
         /// The time in minutes that the virtual interface failover test will last. Maximum value: 180 minutes (3 hours). Default: 180 minutes (3 hours).
@@ -2535,14 +2438,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers = "bgpPeers"
-            case testDurationInMinutes = "testDurationInMinutes"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case bgpPeers
+            case testDurationInMinutes
+            case virtualInterfaceId
         }
     }
 
     public struct StartBgpFailoverTestResponse: AWSDecodableShape {
-
         /// Information about the virtual interface failover test.
         public let virtualInterfaceTest: VirtualInterfaceTestHistory?
 
@@ -2551,12 +2453,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceTest = "virtualInterfaceTest"
+            case virtualInterfaceTest
         }
     }
 
     public struct StopBgpFailoverTestRequest: AWSEncodableShape {
-
         /// The ID of the virtual interface you no longer want to test.
         public let virtualInterfaceId: String
 
@@ -2565,12 +2466,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceId = "virtualInterfaceId"
+            case virtualInterfaceId
         }
     }
 
     public struct StopBgpFailoverTestResponse: AWSDecodableShape {
-
         /// Information about the virtual interface failover test.
         public let virtualInterfaceTest: VirtualInterfaceTestHistory?
 
@@ -2579,12 +2479,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaceTest = "virtualInterfaceTest"
+            case virtualInterfaceTest
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// The key.
         public let key: String
         /// The value.
@@ -2605,13 +2504,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key = "key"
-            case value = "value"
+            case key
+            case value
         }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tags to add.
@@ -2630,21 +2528,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tags = "tags"
+            case resourceArn
+            case tags
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String
         /// The tag keys of the tags to remove.
@@ -2664,21 +2557,16 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn = "resourceArn"
-            case tagKeys = "tagKeys"
+            case resourceArn
+            case tagKeys
         }
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDirectConnectGatewayAssociationRequest: AWSEncodableShape {
-
         /// The Amazon VPC prefixes to advertise to the Direct Connect gateway.
         public let addAllowedPrefixesToDirectConnectGateway: [RouteFilterPrefix]?
         /// The ID of the Direct Connect gateway association.
@@ -2693,14 +2581,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addAllowedPrefixesToDirectConnectGateway = "addAllowedPrefixesToDirectConnectGateway"
-            case associationId = "associationId"
-            case removeAllowedPrefixesToDirectConnectGateway = "removeAllowedPrefixesToDirectConnectGateway"
+            case addAllowedPrefixesToDirectConnectGateway
+            case associationId
+            case removeAllowedPrefixesToDirectConnectGateway
         }
     }
 
     public struct UpdateDirectConnectGatewayAssociationResult: AWSDecodableShape {
-
         public let directConnectGatewayAssociation: DirectConnectGatewayAssociation?
 
         public init(directConnectGatewayAssociation: DirectConnectGatewayAssociation? = nil) {
@@ -2708,12 +2595,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case directConnectGatewayAssociation = "directConnectGatewayAssociation"
+            case directConnectGatewayAssociation
         }
     }
 
     public struct UpdateLagRequest: AWSEncodableShape {
-
         /// The ID of the LAG.
         public let lagId: String
         /// The name of the LAG.
@@ -2728,14 +2614,13 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lagId = "lagId"
-            case lagName = "lagName"
-            case minimumLinks = "minimumLinks"
+            case lagId
+            case lagName
+            case minimumLinks
         }
     }
 
     public struct UpdateVirtualInterfaceAttributesRequest: AWSEncodableShape {
-
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
         /// The ID of the virtual private interface.
@@ -2747,16 +2632,15 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mtu = "mtu"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case mtu
+            case virtualInterfaceId
         }
     }
 
     public struct VirtualGateway: AWSDecodableShape {
-
         /// The ID of the virtual private gateway.
         public let virtualGatewayId: String?
-        /// The state of the virtual private gateway. The following are the possible values:    pending: Initial state after creating the virtual private gateway.    available: Ready for use by a private virtual interface.    deleting: Initial state after deleting the virtual private gateway.    deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.  
+        /// The state of the virtual private gateway. The following are the possible values:    pending: Initial state after creating the virtual private gateway.    available: Ready for use by a private virtual interface.    deleting: Initial state after deleting the virtual private gateway.    deleted: The virtual private gateway is deleted. The private virtual interface is unable to send traffic over this gateway.
         public let virtualGatewayState: String?
 
         public init(virtualGatewayId: String? = nil, virtualGatewayState: String? = nil) {
@@ -2765,13 +2649,12 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGatewayId = "virtualGatewayId"
-            case virtualGatewayState = "virtualGatewayState"
+            case virtualGatewayId
+            case virtualGatewayState
         }
     }
 
     public struct VirtualGateways: AWSDecodableShape {
-
         /// The virtual private gateways.
         public let virtualGateways: [VirtualGateway]?
 
@@ -2780,12 +2663,11 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualGateways = "virtualGateways"
+            case virtualGateways
         }
     }
 
     public struct VirtualInterface: AWSDecodableShape {
-
         /// The address family for the BGP peer.
         public let addressFamily: AddressFamily?
         /// The IP address assigned to the Amazon interface.
@@ -2828,7 +2710,7 @@ extension DirectConnect {
         public let virtualInterfaceId: String?
         /// The name of the virtual interface assigned by the customer network. The name has a maximum of 100 characters. The following are valid characters: a-z, 0-9 and a hyphen (-).
         public let virtualInterfaceName: String?
-        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.  
+        /// The state of the virtual interface. The following are the possible values:    confirming: The creation of the virtual interface is pending confirmation from the virtual interface owner. If the owner of the virtual interface is different from the owner of the connection on which it is provisioned, then the virtual interface will remain in this state until it is confirmed by the virtual interface owner.    verifying: This state only applies to public virtual interfaces. Each public virtual interface needs validation before the virtual interface can be created.    pending: A virtual interface is in this state from the time that it is created until the virtual interface is ready to forward traffic.    available: A virtual interface that is able to forward traffic.    down: A virtual interface that is BGP down.    deleting: A virtual interface is in this state immediately after calling DeleteVirtualInterface until it can no longer forward traffic.    deleted: A virtual interface that cannot forward traffic.    rejected: The virtual interface owner has declined creation of the virtual interface. If a virtual interface in the Confirming state is deleted by the virtual interface owner, the virtual interface enters the Rejected state.    unknown: The state of the virtual interface is not available.
         public let virtualInterfaceState: VirtualInterfaceState?
         /// The type of virtual interface. The possible values are private and public.
         public let virtualInterfaceType: String?
@@ -2863,35 +2745,34 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case addressFamily = "addressFamily"
-            case amazonAddress = "amazonAddress"
-            case amazonSideAsn = "amazonSideAsn"
-            case asn = "asn"
-            case authKey = "authKey"
-            case awsDeviceV2 = "awsDeviceV2"
-            case bgpPeers = "bgpPeers"
-            case connectionId = "connectionId"
-            case customerAddress = "customerAddress"
-            case customerRouterConfig = "customerRouterConfig"
-            case directConnectGatewayId = "directConnectGatewayId"
-            case jumboFrameCapable = "jumboFrameCapable"
-            case location = "location"
-            case mtu = "mtu"
-            case ownerAccount = "ownerAccount"
-            case region = "region"
-            case routeFilterPrefixes = "routeFilterPrefixes"
-            case tags = "tags"
-            case virtualGatewayId = "virtualGatewayId"
-            case virtualInterfaceId = "virtualInterfaceId"
-            case virtualInterfaceName = "virtualInterfaceName"
-            case virtualInterfaceState = "virtualInterfaceState"
-            case virtualInterfaceType = "virtualInterfaceType"
-            case vlan = "vlan"
+            case addressFamily
+            case amazonAddress
+            case amazonSideAsn
+            case asn
+            case authKey
+            case awsDeviceV2
+            case bgpPeers
+            case connectionId
+            case customerAddress
+            case customerRouterConfig
+            case directConnectGatewayId
+            case jumboFrameCapable
+            case location
+            case mtu
+            case ownerAccount
+            case region
+            case routeFilterPrefixes
+            case tags
+            case virtualGatewayId
+            case virtualInterfaceId
+            case virtualInterfaceName
+            case virtualInterfaceState
+            case virtualInterfaceType
+            case vlan
         }
     }
 
     public struct VirtualInterfaceTestHistory: AWSDecodableShape {
-
         /// The BGP peers that were put in the DOWN state as part of the virtual interface failover test.
         public let bgpPeers: [String]?
         /// The time that the virtual interface moves out of the DOWN state.
@@ -2921,19 +2802,18 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bgpPeers = "bgpPeers"
-            case endTime = "endTime"
-            case ownerAccount = "ownerAccount"
-            case startTime = "startTime"
-            case status = "status"
-            case testDurationInMinutes = "testDurationInMinutes"
-            case testId = "testId"
-            case virtualInterfaceId = "virtualInterfaceId"
+            case bgpPeers
+            case endTime
+            case ownerAccount
+            case startTime
+            case status
+            case testDurationInMinutes
+            case testId
+            case virtualInterfaceId
         }
     }
 
     public struct VirtualInterfaces: AWSDecodableShape {
-
         /// The virtual interfaces
         public let virtualInterfaces: [VirtualInterface]?
 
@@ -2942,7 +2822,7 @@ extension DirectConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case virtualInterfaces = "virtualInterfaces"
+            case virtualInterfaces
         }
     }
 }

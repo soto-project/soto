@@ -46,6 +46,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -68,7 +69,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of details about test cases for a report. 
+    ///   Returns a list of details about test cases for a report.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -95,6 +96,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -242,6 +246,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -291,6 +296,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -340,6 +346,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -362,7 +369,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list ARNs for the report groups in the current AWS account. 
+    ///   Gets a list ARNs for the report groups in the current AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -389,6 +396,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -411,7 +419,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of ARNs for the reports in the current AWS account. 
+    ///   Returns a list of ARNs for the reports in the current AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -438,6 +446,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -460,7 +469,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Returns a list of ARNs for the reports that belong to a ReportGroup. 
+    ///   Returns a list of ARNs for the reports that belong to a ReportGroup.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -487,6 +496,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -509,7 +519,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list of projects that are shared with other AWS accounts or users. 
+    ///   Gets a list of projects that are shared with other AWS accounts or users.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -536,6 +546,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -558,7 +569,7 @@ extension CodeBuild {
         )
     }
 
-    ///   Gets a list of report groups that are shared with other AWS accounts or users. 
+    ///   Gets a list of report groups that are shared with other AWS accounts or users.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -585,6 +596,7 @@ extension CodeBuild {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

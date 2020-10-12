@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS DLM service.
+ Client object for interacting with AWS DLM service.
 
-Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your AWS resources. You create lifecycle policies, which are used to automate operations on the specified resources. Amazon DLM supports Amazon EBS volumes and snapshots. For information about using Amazon DLM with Amazon EBS, see Automating the Amazon EBS Snapshot Lifecycle in the Amazon EC2 User Guide.
-*/
+ Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your AWS resources. You create lifecycle policies, which are used to automate operations on the specified resources. Amazon DLM supports Amazon EBS volumes and snapshots. For information about using Amazon DLM with Amazon EBS, see Automating the Amazon EBS Snapshot Lifecycle in the Amazon EC2 User Guide.
+ */
 public struct DLM: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct DLM: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Creates a policy to manage the lifecycle of the specified AWS resources. You can create up to 100 lifecycle policies.

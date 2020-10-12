@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension RoboMaker {
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -68,7 +69,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -95,6 +96,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -215,7 +219,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
+    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -242,6 +246,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -264,7 +269,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
+    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -291,6 +296,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -313,7 +319,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
+    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -340,6 +346,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -389,6 +396,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -438,6 +446,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -487,6 +496,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -536,6 +546,7 @@ extension RoboMaker {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

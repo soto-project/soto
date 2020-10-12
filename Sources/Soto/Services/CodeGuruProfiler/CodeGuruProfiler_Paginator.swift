@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension CodeGuruProfiler {
-    ///   Returns a list of  FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account. 
+    ///   Returns a list of  FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension CodeGuruProfiler {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension CodeGuruProfiler {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension CodeGuruProfiler {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -166,7 +169,7 @@ extension CodeGuruProfiler {
         )
     }
 
-    ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects. 
+    ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -193,6 +196,7 @@ extension CodeGuruProfiler {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

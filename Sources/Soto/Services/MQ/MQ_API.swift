@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS MQ service.
+ Client object for interacting with AWS MQ service.
 
-Amazon MQ is a managed message broker service for Apache ActiveMQ that makes it easy to set up and operate message brokers in the cloud. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
-*/
+ Amazon MQ is a managed message broker service for Apache ActiveMQ that makes it easy to set up and operate message brokers in the cloud. A message broker allows software applications and components to communicate using various programming languages, operating systems, and formal messaging protocols.
+ */
 public struct MQ: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct MQ: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Creates a broker. Note: This API is asynchronous.

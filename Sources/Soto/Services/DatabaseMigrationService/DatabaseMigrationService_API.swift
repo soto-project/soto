@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS DatabaseMigrationService service.
+ Client object for interacting with AWS DatabaseMigrationService service.
 
-AWS Database Migration Service AWS Database Migration Service (AWS DMS) can migrate your data to and from the most widely used commercial and open-source databases such as Oracle, PostgreSQL, Microsoft SQL Server, Amazon Redshift, MariaDB, Amazon Aurora, MySQL, and SAP Adaptive Server Enterprise (ASE). The service supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to MySQL or SQL Server to PostgreSQL. For more information about AWS DMS, see What Is AWS Database Migration Service? in the AWS Database Migration User Guide. 
-*/
+ AWS Database Migration Service AWS Database Migration Service (AWS DMS) can migrate your data to and from the most widely used commercial and open-source databases such as Oracle, PostgreSQL, Microsoft SQL Server, Amazon Redshift, MariaDB, Amazon Aurora, MySQL, and SAP Adaptive Server Enterprise (ASE). The service supports homogeneous migrations such as Oracle to Oracle, as well as heterogeneous migrations between different database platforms, such as Oracle to MySQL or SQL Server to PostgreSQL. For more information about AWS DMS, see What Is AWS Database Migration Service? in the AWS Database Migration User Guide.
+ */
 public struct DatabaseMigrationService: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct DatabaseMigrationService: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Adds metadata tags to an AWS DMS resource, including replication instance, endpoint, security group, and migration task. These tags can also be used with cost allocation reporting to track cost associated with DMS resources, or used in a Condition statement in an IAM policy for DMS. For more information, see  Tag  data type description.
@@ -84,7 +83,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "CreateEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Creates an AWS DMS event notification subscription.  You can specify the type of source (SourceType) you want to be notified of, provide a list of AWS DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your AWS DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all AWS DMS sources belonging to your customer account. For more information about AWS DMS events, see Working with Events and Notifications in the AWS Database Migration Service User Guide. 
+    ///   Creates an AWS DMS event notification subscription.  You can specify the type of source (SourceType) you want to be notified of, provide a list of AWS DMS source IDs (SourceIds) that triggers the events, and provide a list of event categories (EventCategories) for events you want to be notified of. If you specify both the SourceType and SourceIds, such as SourceType = replication-instance and SourceIdentifier = my-replinstance, you will be notified of all the replication instance events for the specified source. If you specify a SourceType but don't specify a SourceIdentifier, you receive notice of the events for that source type for all your AWS DMS sources. If you don't specify either SourceType nor SourceIdentifier, you will be notified of events generated from all AWS DMS sources belonging to your customer account. For more information about AWS DMS events, see Working with Events and Notifications in the AWS Database Migration Service User Guide.
     public func createEventSubscription(_ input: CreateEventSubscriptionMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateEventSubscriptionResponse> {
         return self.client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -104,7 +103,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "CreateReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified certificate. 
+    ///  Deletes the specified certificate.
     public func deleteCertificate(_ input: DeleteCertificateMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteCertificateResponse> {
         return self.client.execute(operation: "DeleteCertificate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -114,17 +113,17 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DeleteConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.  
+    ///  Deletes the specified endpoint.  All tasks associated with the endpoint must be deleted before you can delete the endpoint.
     public func deleteEndpoint(_ input: DeleteEndpointMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteEndpointResponse> {
         return self.client.execute(operation: "DeleteEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Deletes an AWS DMS event subscription. 
+    ///   Deletes an AWS DMS event subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteEventSubscriptionResponse> {
         return self.client.execute(operation: "DeleteEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.  
+    ///  Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.
     public func deleteReplicationInstance(_ input: DeleteReplicationInstanceMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteReplicationInstanceResponse> {
         return self.client.execute(operation: "DeleteReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -174,7 +173,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the AWS Database Migration Service User Guide. 
+    ///  Lists categories for all event source types, or, if specified, for a specified source type. You can see a list of the event categories and source types in Working with Events and Notifications in the AWS Database Migration Service User Guide.
     public func describeEventCategories(_ input: DescribeEventCategoriesMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventCategoriesResponse> {
         return self.client.execute(operation: "DescribeEventCategories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -184,7 +183,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeEventSubscriptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see Working with Events and Notifications in the AWS Database Migration User Guide. 
+    ///   Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on AWS DMS events, see Working with Events and Notifications in the AWS Database Migration User Guide.
     public func describeEvents(_ input: DescribeEventsMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEventsResponse> {
         return self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -224,7 +223,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeReplicationTaskAssessmentResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.  
+    ///  Returns a paginated list of premigration assessment runs based on filter settings. These filter settings can specify a combination of premigration assessment runs, migration tasks, replication instances, and assessment run status values.  This operation doesn't return information about individual assessments. For this information, see the DescribeReplicationTaskIndividualAssessments operation.
     public func describeReplicationTaskAssessmentRuns(_ input: DescribeReplicationTaskAssessmentRunsMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeReplicationTaskAssessmentRunsResponse> {
         return self.client.execute(operation: "DescribeReplicationTaskAssessmentRuns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -239,7 +238,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeReplicationTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns information about the schema for the specified endpoint. 
+    ///  Returns information about the schema for the specified endpoint.
     public func describeSchemas(_ input: DescribeSchemasMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSchemasResponse> {
         return self.client.execute(operation: "DescribeSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -264,12 +263,12 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "ModifyEndpoint", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Modifies an existing AWS DMS event notification subscription. 
+    ///  Modifies an existing AWS DMS event notification subscription.
     public func modifyEventSubscription(_ input: ModifyEventSubscriptionMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyEventSubscriptionResponse> {
         return self.client.execute(operation: "ModifyEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window. 
+    ///  Modifies the replication instance to apply new settings. You can change one or more parameters by specifying these parameters and the new values in the request. Some settings are applied during the maintenance window.
     public func modifyReplicationInstance(_ input: ModifyReplicationInstanceMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyReplicationInstanceResponse> {
         return self.client.execute(operation: "ModifyReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -294,7 +293,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "RefreshSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Reloads the target database table with the source data. 
+    ///  Reloads the target database table with the source data.
     public func reloadTables(_ input: ReloadTablesMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ReloadTablesResponse> {
         return self.client.execute(operation: "ReloadTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -304,12 +303,12 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts the replication task. For more information about AWS DMS tasks, see Working with Migration Tasks  in the AWS Database Migration Service User Guide. 
+    ///  Starts the replication task. For more information about AWS DMS tasks, see Working with Migration Tasks  in the AWS Database Migration Service User Guide.
     public func startReplicationTask(_ input: StartReplicationTaskMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartReplicationTaskResponse> {
         return self.client.execute(operation: "StartReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Starts the replication task assessment for unsupported data types in the source database. 
+    ///   Starts the replication task assessment for unsupported data types in the source database.
     public func startReplicationTaskAssessment(_ input: StartReplicationTaskAssessmentMessage, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartReplicationTaskAssessmentResponse> {
         return self.client.execute(operation: "StartReplicationTaskAssessment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

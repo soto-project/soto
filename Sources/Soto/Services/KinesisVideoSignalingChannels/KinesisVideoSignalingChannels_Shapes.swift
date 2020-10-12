@@ -28,8 +28,7 @@ extension KinesisVideoSignalingChannels {
     // MARK: Shapes
 
     public struct GetIceServerConfigRequest: AWSEncodableShape {
-
-        /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers. 
+        /// The ARN of the signaling channel to be used for the peer-to-peer connection between configured peers.
         public let channelARN: String
         /// Unique identifier for the viewer. Must be unique within the signaling channel.
         public let clientId: String?
@@ -66,7 +65,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct GetIceServerConfigResponse: AWSDecodableShape {
-
         /// The list of ICE server information objects.
         public let iceServerList: [IceServer]?
 
@@ -80,7 +78,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct IceServer: AWSDecodableShape {
-
         /// A password to login to the ICE server.
         public let password: String?
         /// The period of time, in seconds, during which the username and password are valid.
@@ -106,7 +103,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct SendAlexaOfferToMasterRequest: AWSEncodableShape {
-
         /// The ARN of the signaling channel by which Alexa and the master peer communicate.
         public let channelARN: String
         /// The base64-encoded SDP offer content.
@@ -140,7 +136,6 @@ extension KinesisVideoSignalingChannels {
     }
 
     public struct SendAlexaOfferToMasterResponse: AWSDecodableShape {
-
         /// The base64-encoded SDP answer content.
         public let answer: String?
 

@@ -52,7 +52,6 @@ extension CloudHSM {
     // MARK: Shapes
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource to tag.
         public let resourceArn: String
         /// One or more tags.
@@ -77,7 +76,6 @@ extension CloudHSM {
     }
 
     public struct AddTagsToResourceResponse: AWSDecodableShape {
-
         /// The status of the operation.
         public let status: String
 
@@ -91,7 +89,6 @@ extension CloudHSM {
     }
 
     public struct CreateHapgRequest: AWSEncodableShape {
-
         /// The label of the new high-availability partition group.
         public let label: String
 
@@ -109,7 +106,6 @@ extension CloudHSM {
     }
 
     public struct CreateHapgResponse: AWSDecodableShape {
-
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
 
@@ -123,7 +119,6 @@ extension CloudHSM {
     }
 
     public struct CreateHsmRequest: AWSEncodableShape {
-
         /// A user-defined token to ensure idempotence. Subsequent calls to this operation with the same token will be ignored.
         public let clientToken: String?
         /// The IP address to assign to the HSM's ENI. If an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the subnet.
@@ -174,7 +169,6 @@ extension CloudHSM {
     }
 
     public struct CreateHsmResponse: AWSDecodableShape {
-
         /// The ARN of the HSM.
         public let hsmArn: String?
 
@@ -188,7 +182,6 @@ extension CloudHSM {
     }
 
     public struct CreateLunaClientRequest: AWSEncodableShape {
-
         /// The contents of a Base64-Encoded X.509 v3 certificate to be installed on the HSMs used by this client.
         public let certificate: String
         /// The label for the client.
@@ -213,7 +206,6 @@ extension CloudHSM {
     }
 
     public struct CreateLunaClientResponse: AWSDecodableShape {
-
         /// The ARN of the client.
         public let clientArn: String?
 
@@ -227,7 +219,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHapgRequest: AWSEncodableShape {
-
         /// The ARN of the high-availability partition group to delete.
         public let hapgArn: String
 
@@ -245,7 +236,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHapgResponse: AWSDecodableShape {
-
         /// The status of the action.
         public let status: String
 
@@ -259,7 +249,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHsmRequest: AWSEncodableShape {
-
         /// The ARN of the HSM to delete.
         public let hsmArn: String
 
@@ -277,7 +266,6 @@ extension CloudHSM {
     }
 
     public struct DeleteHsmResponse: AWSDecodableShape {
-
         /// The status of the operation.
         public let status: String
 
@@ -291,7 +279,6 @@ extension CloudHSM {
     }
 
     public struct DeleteLunaClientRequest: AWSEncodableShape {
-
         /// The ARN of the client to delete.
         public let clientArn: String
 
@@ -309,7 +296,6 @@ extension CloudHSM {
     }
 
     public struct DeleteLunaClientResponse: AWSDecodableShape {
-
         /// The status of the action.
         public let status: String
 
@@ -323,7 +309,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHapgRequest: AWSEncodableShape {
-
         /// The ARN of the high-availability partition group to describe.
         public let hapgArn: String
 
@@ -341,7 +326,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHapgResponse: AWSDecodableShape {
-
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
         /// The serial number of the high-availability partition group.
@@ -384,7 +368,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHsmRequest: AWSEncodableShape {
-
         /// The ARN of the HSM. Either the HsmArn or the SerialNumber parameter must be specified.
         public let hsmArn: String?
         /// The serial number of the HSM. Either the HsmArn or the HsmSerialNumber parameter must be specified.
@@ -407,7 +390,6 @@ extension CloudHSM {
     }
 
     public struct DescribeHsmResponse: AWSDecodableShape {
-
         /// The Availability Zone that the HSM is in.
         public let availabilityZone: String?
         /// The identifier of the elastic network interface (ENI) attached to the HSM.
@@ -500,7 +482,6 @@ extension CloudHSM {
     }
 
     public struct DescribeLunaClientRequest: AWSEncodableShape {
-
         /// The certificate fingerprint.
         public let certificateFingerprint: String?
         /// The ARN of the client.
@@ -523,7 +504,6 @@ extension CloudHSM {
     }
 
     public struct DescribeLunaClientResponse: AWSDecodableShape {
-
         /// The certificate installed on the HSMs used by this client.
         public let certificate: String?
         /// The certificate fingerprint.
@@ -553,7 +533,6 @@ extension CloudHSM {
     }
 
     public struct GetConfigRequest: AWSEncodableShape {
-
         /// The ARN of the client.
         public let clientArn: String
         /// The client version.
@@ -582,7 +561,6 @@ extension CloudHSM {
     }
 
     public struct GetConfigResponse: AWSDecodableShape {
-
         /// The certificate file containing the server.pem files of the HSMs.
         public let configCred: String?
         /// The chrystoki.conf configuration file.
@@ -604,15 +582,10 @@ extension CloudHSM {
     }
 
     public struct ListAvailableZonesRequest: AWSEncodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct ListAvailableZonesResponse: AWSDecodableShape {
-
         /// The list of Availability Zones that have available AWS CloudHSM capacity.
         public let aZList: [String]?
 
@@ -626,7 +599,6 @@ extension CloudHSM {
     }
 
     public struct ListHapgsRequest: AWSEncodableShape {
-
         /// The NextToken value from a previous call to ListHapgs. Pass null if this is the first call.
         public let nextToken: String?
 
@@ -644,7 +616,6 @@ extension CloudHSM {
     }
 
     public struct ListHapgsResponse: AWSDecodableShape {
-
         /// The list of high-availability partition groups.
         public let hapgList: [String]
         /// If not null, more results are available. Pass this value to ListHapgs to retrieve the next set of items.
@@ -662,7 +633,6 @@ extension CloudHSM {
     }
 
     public struct ListHsmsRequest: AWSEncodableShape {
-
         /// The NextToken value from a previous call to ListHsms. Pass null if this is the first call.
         public let nextToken: String?
 
@@ -680,7 +650,6 @@ extension CloudHSM {
     }
 
     public struct ListHsmsResponse: AWSDecodableShape {
-
         /// The list of ARNs that identify the HSMs.
         public let hsmList: [String]?
         /// If not null, more results are available. Pass this value to ListHsms to retrieve the next set of items.
@@ -698,7 +667,6 @@ extension CloudHSM {
     }
 
     public struct ListLunaClientsRequest: AWSEncodableShape {
-
         /// The NextToken value from a previous call to ListLunaClients. Pass null if this is the first call.
         public let nextToken: String?
 
@@ -716,7 +684,6 @@ extension CloudHSM {
     }
 
     public struct ListLunaClientsResponse: AWSDecodableShape {
-
         /// The list of clients.
         public let clientList: [String]
         /// If not null, more results are available. Pass this to ListLunaClients to retrieve the next set of items.
@@ -734,7 +701,6 @@ extension CloudHSM {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
 
@@ -752,7 +718,6 @@ extension CloudHSM {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// One or more tags.
         public let tagList: [Tag]
 
@@ -766,7 +731,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHapgRequest: AWSEncodableShape {
-
         /// The ARN of the high-availability partition group to modify.
         public let hapgArn: String
         /// The new label for the high-availability partition group.
@@ -796,7 +760,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHapgResponse: AWSDecodableShape {
-
         /// The ARN of the high-availability partition group.
         public let hapgArn: String?
 
@@ -810,7 +773,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHsmRequest: AWSEncodableShape {
-
         /// The new IP address for the elastic network interface (ENI) attached to the HSM. If the HSM is moved to a different subnet, and an IP address is not specified, an IP address will be randomly chosen from the CIDR range of the new subnet.
         public let eniIp: String?
         /// The new external ID.
@@ -853,7 +815,6 @@ extension CloudHSM {
     }
 
     public struct ModifyHsmResponse: AWSDecodableShape {
-
         /// The ARN of the HSM.
         public let hsmArn: String?
 
@@ -867,7 +828,6 @@ extension CloudHSM {
     }
 
     public struct ModifyLunaClientRequest: AWSEncodableShape {
-
         /// The new certificate for the client.
         public let certificate: String
         /// The ARN of the client.
@@ -892,7 +852,6 @@ extension CloudHSM {
     }
 
     public struct ModifyLunaClientResponse: AWSDecodableShape {
-
         /// The ARN of the client.
         public let clientArn: String?
 
@@ -906,7 +865,6 @@ extension CloudHSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the AWS CloudHSM resource.
         public let resourceArn: String
         /// The tag key or keys to remove. Specify only the tag key to remove (not the value). To overwrite the value for an existing tag, use AddTagsToResource.
@@ -932,7 +890,6 @@ extension CloudHSM {
     }
 
     public struct RemoveTagsFromResourceResponse: AWSDecodableShape {
-
         /// The status of the operation.
         public let status: String
 
@@ -946,7 +903,6 @@ extension CloudHSM {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// The key of the tag.
         public let key: String
         /// The value of the tag.

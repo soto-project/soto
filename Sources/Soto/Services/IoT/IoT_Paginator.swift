@@ -46,6 +46,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -95,6 +96,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -144,6 +146,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -193,6 +196,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -242,6 +246,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -264,7 +269,7 @@ extension IoT {
         )
     }
 
-    ///   Lists your Device Defender audit listings. 
+    ///   Lists your Device Defender audit listings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -291,6 +296,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -340,6 +346,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -389,6 +396,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -438,6 +446,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -487,6 +496,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -536,6 +546,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -585,6 +596,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -634,6 +646,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -656,7 +669,7 @@ extension IoT {
         )
     }
 
-    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -683,6 +696,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -732,6 +746,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -781,6 +796,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -830,6 +846,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -879,6 +896,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -928,6 +946,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -977,6 +996,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1026,6 +1046,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1075,6 +1096,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1108,7 +1130,7 @@ extension IoT {
     ///   - logger: Logger used flot logging
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message:"ListPolicyPrincipals is deprecated.")
+    @available(*, deprecated, message: "ListPolicyPrincipals is deprecated.")
     public func listPolicyPrincipalsPaginator<Result>(
         _ input: ListPolicyPrincipalsRequest,
         _ initialValue: Result,
@@ -1125,6 +1147,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1132,7 +1155,7 @@ extension IoT {
     ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    @available(*, deprecated, message:"ListPolicyPrincipals is deprecated.")
+    @available(*, deprecated, message: "ListPolicyPrincipals is deprecated.")
     public func listPolicyPrincipalsPaginator(
         _ input: ListPolicyPrincipalsRequest,
         on eventLoop: EventLoop? = nil,
@@ -1159,7 +1182,7 @@ extension IoT {
     ///   - logger: Logger used flot logging
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
-    @available(*, deprecated, message:"ListPrincipalPolicies is deprecated.")
+    @available(*, deprecated, message: "ListPrincipalPolicies is deprecated.")
     public func listPrincipalPoliciesPaginator<Result>(
         _ input: ListPrincipalPoliciesRequest,
         _ initialValue: Result,
@@ -1176,6 +1199,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1183,7 +1207,7 @@ extension IoT {
     ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    @available(*, deprecated, message:"ListPrincipalPolicies is deprecated.")
+    @available(*, deprecated, message: "ListPrincipalPolicies is deprecated.")
     public func listPrincipalPoliciesPaginator(
         _ input: ListPrincipalPoliciesRequest,
         on eventLoop: EventLoop? = nil,
@@ -1199,7 +1223,7 @@ extension IoT {
         )
     }
 
-    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
+    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -1226,6 +1250,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1275,6 +1300,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1324,6 +1350,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1373,6 +1400,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1422,6 +1450,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1471,6 +1500,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1520,6 +1550,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1569,6 +1600,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1618,6 +1650,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1667,6 +1700,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1716,6 +1750,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1765,6 +1800,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1814,6 +1850,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1863,6 +1900,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1912,6 +1950,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1961,6 +2000,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -1983,7 +2023,7 @@ extension IoT {
         )
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned. 
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -2010,6 +2050,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2059,6 +2100,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2108,6 +2150,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2157,6 +2200,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2206,6 +2250,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2255,6 +2300,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -2304,6 +2350,7 @@ extension IoT {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

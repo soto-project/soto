@@ -85,7 +85,6 @@ extension Snowball {
     // MARK: Shapes
 
     public struct Address: AWSEncodableShape & AWSDecodableShape {
-
         /// The unique ID for an address.
         public let addressId: String?
         /// The city in an address that a Snowball is to be delivered to.
@@ -169,7 +168,6 @@ extension Snowball {
     }
 
     public struct CancelClusterRequest: AWSEncodableShape {
-
         /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
 
@@ -189,15 +187,10 @@ extension Snowball {
     }
 
     public struct CancelClusterResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CancelJobRequest: AWSEncodableShape {
-
         /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
@@ -217,15 +210,10 @@ extension Snowball {
     }
 
     public struct CancelJobResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct ClusterListEntry: AWSDecodableShape {
-
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String?
         /// The current state of this cluster. For information about the state of a specific node, see JobListEntry$JobState.
@@ -251,7 +239,6 @@ extension Snowball {
     }
 
     public struct ClusterMetadata: AWSDecodableShape {
-
         /// The automatically generated ID for a specific address.
         public let addressId: String?
         /// The automatically generated ID for a cluster.
@@ -274,9 +261,9 @@ extension Snowball {
         public let resources: JobResource?
         /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String?
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
-        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type. 
+        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type.
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
@@ -317,7 +304,6 @@ extension Snowball {
     }
 
     public struct CompatibleImage: AWSDecodableShape {
-
         /// The unique identifier for an individual Snowball Edge AMI.
         public let amiId: String?
         /// The optional name of a compatible image.
@@ -335,7 +321,6 @@ extension Snowball {
     }
 
     public struct CreateAddressRequest: AWSEncodableShape {
-
         /// The address that you want the Snowball shipped to.
         public let address: Address
 
@@ -353,7 +338,6 @@ extension Snowball {
     }
 
     public struct CreateAddressResult: AWSDecodableShape {
-
         /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snowball for that job shipped to.
         public let addressId: String?
 
@@ -367,7 +351,6 @@ extension Snowball {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
-
         /// The ID for the address that you want the cluster shipped to.
         public let addressId: String
         /// An optional description of this specific cluster, for example Environmental Data Cluster-01.
@@ -376,17 +359,17 @@ extension Snowball {
         public let forwardingAddressId: String?
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
         public let jobType: JobType
-        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS). 
+        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS).
         public let kmsKeyARN: String?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
-        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language. 
+        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language.
         public let resources: JobResource
         /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
         public let roleARN: String
-        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowball Edges shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowball Edges are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption
-        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type. 
+        /// The type of AWS Snowball device to use for this cluster.   For cluster jobs, AWS Snowball currently supports only the EDGE device type.
         public let snowballType: SnowballType?
         /// The tax documents required in your AWS Region.
         public let taxDocuments: TaxDocuments?
@@ -438,7 +421,6 @@ extension Snowball {
     }
 
     public struct CreateClusterResult: AWSDecodableShape {
-
         /// The automatically generated ID for a cluster.
         public let clusterId: String?
 
@@ -452,7 +434,6 @@ extension Snowball {
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
-
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
         /// The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
@@ -463,7 +444,7 @@ extension Snowball {
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most regions.
         public let forwardingAddressId: String?
-        /// Defines the type of job that you're creating. 
+        /// Defines the type of job that you're creating.
         public let jobType: JobType?
         /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
         public let kmsKeyARN: String?
@@ -473,7 +454,7 @@ extension Snowball {
         public let resources: JobResource?
         /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
         public let roleARN: String?
-        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snowball, rather it represents how quickly the Snowball moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snowball you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity.
         public let snowballCapacityPreference: SnowballCapacity?
@@ -538,7 +519,6 @@ extension Snowball {
     }
 
     public struct CreateJobResult: AWSDecodableShape {
-
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String?
 
@@ -552,7 +532,6 @@ extension Snowball {
     }
 
     public struct DataTransfer: AWSDecodableShape {
-
         /// The number of bytes transferred between a Snowball and Amazon S3.
         public let bytesTransferred: Int64?
         /// The number of objects transferred between a Snowball and Amazon S3.
@@ -578,7 +557,6 @@ extension Snowball {
     }
 
     public struct DescribeAddressRequest: AWSEncodableShape {
-
         /// The automatically generated ID for a specific address.
         public let addressId: String
 
@@ -598,7 +576,6 @@ extension Snowball {
     }
 
     public struct DescribeAddressResult: AWSDecodableShape {
-
         /// The address that you want the Snowball or Snowballs associated with a specific job to be shipped to.
         public let address: Address?
 
@@ -612,7 +589,6 @@ extension Snowball {
     }
 
     public struct DescribeAddressesRequest: AWSEncodableShape {
-
         /// The number of ADDRESS objects to return.
         public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
@@ -636,7 +612,6 @@ extension Snowball {
     }
 
     public struct DescribeAddressesResult: AWSDecodableShape {
-
         /// The Snowball shipping addresses that were created for this account.
         public let addresses: [Address]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
@@ -654,7 +629,6 @@ extension Snowball {
     }
 
     public struct DescribeClusterRequest: AWSEncodableShape {
-
         /// The automatically generated ID for a cluster.
         public let clusterId: String
 
@@ -674,7 +648,6 @@ extension Snowball {
     }
 
     public struct DescribeClusterResult: AWSDecodableShape {
-
         /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
         public let clusterMetadata: ClusterMetadata?
 
@@ -688,7 +661,6 @@ extension Snowball {
     }
 
     public struct DescribeJobRequest: AWSEncodableShape {
-
         /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
@@ -708,7 +680,6 @@ extension Snowball {
     }
 
     public struct DescribeJobResult: AWSDecodableShape {
-
         /// Information about a specific job, including shipping information, job status, and other important metadata.
         public let jobMetadata: JobMetadata?
         /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
@@ -726,7 +697,6 @@ extension Snowball {
     }
 
     public struct DeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Returns information about the device configuration for an AWS Snowcone job.
         public let snowconeDeviceConfiguration: SnowconeDeviceConfiguration?
 
@@ -740,7 +710,6 @@ extension Snowball {
     }
 
     public struct Ec2AmiResource: AWSEncodableShape & AWSDecodableShape {
-
         /// The ID of the AMI in Amazon EC2.
         public let amiId: String
         /// The ID of the AMI on the Snowball Edge device.
@@ -765,7 +734,6 @@ extension Snowball {
     }
 
     public struct EventTriggerDefinition: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
 
@@ -783,7 +751,6 @@ extension Snowball {
     }
 
     public struct GetJobManifestRequest: AWSEncodableShape {
-
         /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
@@ -803,7 +770,6 @@ extension Snowball {
     }
 
     public struct GetJobManifestResult: AWSDecodableShape {
-
         /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
         public let manifestURI: String?
 
@@ -817,7 +783,6 @@ extension Snowball {
     }
 
     public struct GetJobUnlockCodeRequest: AWSEncodableShape {
-
         /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
@@ -837,7 +802,6 @@ extension Snowball {
     }
 
     public struct GetJobUnlockCodeResult: AWSDecodableShape {
-
         /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 90 days after the job has been created.
         public let unlockCode: String?
 
@@ -851,15 +815,10 @@ extension Snowball {
     }
 
     public struct GetSnowballUsageRequest: AWSEncodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct GetSnowballUsageResult: AWSDecodableShape {
-
         /// The service limit for number of Snowballs this account can have at once. The default service limit is 1 (one).
         public let snowballLimit: Int?
         /// The number of Snowballs that this account is currently using.
@@ -877,7 +836,6 @@ extension Snowball {
     }
 
     public struct GetSoftwareUpdatesRequest: AWSEncodableShape {
-
         /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
 
@@ -897,7 +855,6 @@ extension Snowball {
     }
 
     public struct GetSoftwareUpdatesResult: AWSDecodableShape {
-
         /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
         public let updatesURI: String?
 
@@ -911,7 +868,6 @@ extension Snowball {
     }
 
     public struct INDTaxDocuments: AWSEncodableShape & AWSDecodableShape {
-
         /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
         public let gstin: String?
 
@@ -929,7 +885,6 @@ extension Snowball {
     }
 
     public struct JobListEntry: AWSDecodableShape {
-
         /// The creation date for this job.
         public let creationDate: Date?
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
@@ -967,7 +922,6 @@ extension Snowball {
     }
 
     public struct JobLogs: AWSDecodableShape {
-
         /// A link to an Amazon S3 presigned URL where the job completion report is located.
         public let jobCompletionReportURI: String?
         /// A link to an Amazon S3 presigned URL where the job failure log is located.
@@ -989,7 +943,6 @@ extension Snowball {
     }
 
     public struct JobMetadata: AWSDecodableShape {
-
         /// The ID for the address that you want the Snowball shipped to.
         public let addressId: String?
         /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -1074,7 +1027,6 @@ extension Snowball {
     }
 
     public struct JobResource: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Machine Images (AMIs) associated with this job.
         public let ec2AmiResources: [Ec2AmiResource]?
         /// The Python-language Lambda functions for this job.
@@ -1108,7 +1060,6 @@ extension Snowball {
     }
 
     public struct KeyRange: AWSEncodableShape & AWSDecodableShape {
-
         /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public let beginMarker: String?
         /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
@@ -1131,7 +1082,6 @@ extension Snowball {
     }
 
     public struct LambdaResource: AWSEncodableShape & AWSDecodableShape {
-
         /// The array of ARNs for S3Resource objects to trigger the LambdaResource objects associated with this job.
         public let eventTriggers: [EventTriggerDefinition]?
         /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
@@ -1156,7 +1106,6 @@ extension Snowball {
     }
 
     public struct ListClusterJobsRequest: AWSEncodableShape {
-
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public let clusterId: String
         /// The number of JobListEntry objects to return.
@@ -1187,8 +1136,7 @@ extension Snowball {
     }
 
     public struct ListClusterJobsResult: AWSDecodableShape {
-
-        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
+        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs.
         public let jobListEntries: [JobListEntry]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
         public let nextToken: String?
@@ -1205,7 +1153,6 @@ extension Snowball {
     }
 
     public struct ListClustersRequest: AWSEncodableShape {
-
         /// The number of ClusterListEntry objects to return.
         public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -1229,7 +1176,6 @@ extension Snowball {
     }
 
     public struct ListClustersResult: AWSDecodableShape {
-
         /// Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
         public let clusterListEntries: [ClusterListEntry]?
         /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ClusterListEntry call, your list of returned clusters will start from this point in the array.
@@ -1247,7 +1193,6 @@ extension Snowball {
     }
 
     public struct ListCompatibleImagesRequest: AWSEncodableShape {
-
         /// The maximum number of results for the list of compatible images. Currently, a Snowball Edge device can store 10 AMIs.
         public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
@@ -1271,7 +1216,6 @@ extension Snowball {
     }
 
     public struct ListCompatibleImagesResult: AWSDecodableShape {
-
         /// A JSON-formatted object that describes a compatible AMI, including the ID and name for a Snowball Edge AMI.
         public let compatibleImages: [CompatibleImage]?
         /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
@@ -1289,7 +1233,6 @@ extension Snowball {
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
-
         /// The number of JobListEntry objects to return.
         public let maxResults: Int?
         /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -1313,8 +1256,7 @@ extension Snowball {
     }
 
     public struct ListJobsResult: AWSDecodableShape {
-
-        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs. 
+        /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs.
         public let jobListEntries: [JobListEntry]?
         /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
         public let nextToken: String?
@@ -1331,7 +1273,6 @@ extension Snowball {
     }
 
     public struct Notification: AWSEncodableShape & AWSDecodableShape {
-
         /// The list of job states that will trigger a notification for this job.
         public let jobStatesToNotify: [JobState]?
         /// Any change in job state will trigger a notification for this job.
@@ -1358,7 +1299,6 @@ extension Snowball {
     }
 
     public struct S3Resource: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
         public let bucketArn: String?
         /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
@@ -1381,7 +1321,6 @@ extension Snowball {
     }
 
     public struct Shipment: AWSDecodableShape {
-
         /// Status information for a shipment.
         public let status: String?
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snowball as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
@@ -1399,12 +1338,11 @@ extension Snowball {
     }
 
     public struct ShippingDetails: AWSDecodableShape {
-
         /// The Status and TrackingNumber values for a Snowball being returned to AWS for a particular job.
         public let inboundShipment: Shipment?
         /// The Status and TrackingNumber values for a Snowball being delivered to the address that you specified for a particular job.
         public let outboundShipment: Shipment?
-        /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snowball from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.  
+        /// The shipping speed for a particular job. This speed doesn't dictate how soon you'll get the Snowball from the job's creation date. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snowballs shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snowballs are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
 
         public init(inboundShipment: Shipment? = nil, outboundShipment: Shipment? = nil, shippingOption: ShippingOption? = nil) {
@@ -1421,7 +1359,6 @@ extension Snowball {
     }
 
     public struct SnowconeDeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Configures the wireless connection for the AWS Snowcone device.
         public let wirelessConnection: WirelessConnection?
 
@@ -1435,7 +1372,6 @@ extension Snowball {
     }
 
     public struct TaxDocuments: AWSEncodableShape & AWSDecodableShape {
-
         public let ind: INDTaxDocuments?
 
         public init(ind: INDTaxDocuments? = nil) {
@@ -1452,7 +1388,6 @@ extension Snowball {
     }
 
     public struct UpdateClusterRequest: AWSEncodableShape {
-
         /// The ID of the updated Address object.
         public let addressId: String?
         /// The cluster ID of the cluster that you want to update, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -1511,15 +1446,10 @@ extension Snowball {
     }
 
     public struct UpdateClusterResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateJobRequest: AWSEncodableShape {
-
         /// The ID of the updated Address object.
         public let addressId: String?
         /// The updated description of this job's JobMetadata object.
@@ -1530,7 +1460,7 @@ extension Snowball {
         public let jobId: String
         /// The new or updated Notification object.
         public let notification: Notification?
-        /// The updated JobResource object, or the updated JobResource object. 
+        /// The updated JobResource object, or the updated JobResource object.
         public let resources: JobResource?
         /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API action.
         public let roleARN: String?
@@ -1582,15 +1512,10 @@ extension Snowball {
     }
 
     public struct UpdateJobResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct WirelessConnection: AWSEncodableShape & AWSDecodableShape {
-
         /// Enables the Wi-Fi adapter on an AWS Snowcone device.
         public let isWifiEnabled: Bool?
 

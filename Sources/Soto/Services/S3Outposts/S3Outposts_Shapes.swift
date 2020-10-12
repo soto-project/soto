@@ -29,8 +29,7 @@ extension S3Outposts {
     // MARK: Shapes
 
     public struct CreateEndpointRequest: AWSEncodableShape {
-
-        /// The ID of the AWS Outpost. 
+        /// The ID of the AWS Outpost.
         public let outpostId: String
         /// The ID of the security group to use with the endpoint.
         public let securityGroupId: String
@@ -63,7 +62,6 @@ extension S3Outposts {
     }
 
     public struct CreateEndpointResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
 
@@ -78,13 +76,13 @@ extension S3Outposts {
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "endpointId", location: .querystring(locationName: "endpointId")), 
+            AWSMemberEncoding(label: "endpointId", location: .querystring(locationName: "endpointId")),
             AWSMemberEncoding(label: "outpostId", location: .querystring(locationName: "outpostId"))
         ]
 
         /// The ID of the end point.
         public let endpointId: String
-        /// The ID of the AWS Outpost. 
+        /// The ID of the AWS Outpost.
         public let outpostId: String
 
         public init(endpointId: String, outpostId: String) {
@@ -105,7 +103,6 @@ extension S3Outposts {
     }
 
     public struct Endpoint: AWSDecodableShape {
-
         /// The VPC CIDR committed by this endpoint.
         public let cidrBlock: String?
         /// The time the endpoint was created.
@@ -140,7 +137,7 @@ extension S3Outposts {
 
     public struct ListEndpointsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -166,7 +163,6 @@ extension S3Outposts {
     }
 
     public struct ListEndpointsResult: AWSDecodableShape {
-
         /// Returns an array of endpoints associated with AWS Outpost.
         public let endpoints: [Endpoint]?
         /// The next endpoint returned in the list.
@@ -184,7 +180,6 @@ extension S3Outposts {
     }
 
     public struct NetworkInterface: AWSDecodableShape {
-
         /// The ID for the network interface.
         public let networkInterfaceId: String?
 

@@ -61,11 +61,7 @@ extension MediaStoreData {
     }
 
     public struct DeleteObjectResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeObjectRequest: AWSEncodableShape {
@@ -91,10 +87,10 @@ extension MediaStoreData {
 
     public struct DescribeObjectResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
             AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified"))
         ]
 
@@ -128,11 +124,11 @@ extension MediaStoreData {
 
     public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")),
             AWSMemberEncoding(label: "range", location: .header(locationName: "Range"))
         ]
 
-        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
+        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension.
         public let path: String
         /// The range bytes of an object to retrieve. For more information about the Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35. AWS Elemental MediaStore ignores this header for partially uploaded objects that have streaming upload availability.
         public let range: String?
@@ -157,17 +153,17 @@ extension MediaStoreData {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
-            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
-            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
+            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")),
             AWSMemberEncoding(label: "statusCode", location: .statusCode)
         ]
 
-        /// The bytes of the object. 
+        /// The bytes of the object.
         public let body: AWSPayload?
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP spec at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
@@ -208,7 +204,6 @@ extension MediaStoreData {
     }
 
     public struct Item: AWSDecodableShape {
-
         /// The length of the item in bytes.
         public let contentLength: Int64?
         /// The content type of the item.
@@ -243,8 +238,8 @@ extension MediaStoreData {
 
     public struct ListItemsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
             AWSMemberEncoding(label: "path", location: .querystring(locationName: "Path"))
         ]
 
@@ -273,7 +268,6 @@ extension MediaStoreData {
     }
 
     public struct ListItemsResponse: AWSDecodableShape {
-
         /// The metadata entries for the folders and objects at the requested path.
         public let items: [Item]?
         /// The token that can be used in a request to view the next set of results. For example, you submit a ListItems request that matches 2,000 items with MaxResults set at 500. The service returns the first batch of results (up to 500) and a NextToken value that can be used to fetch the next batch of results.
@@ -295,21 +289,21 @@ extension MediaStoreData {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
-            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")), 
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
+            AWSMemberEncoding(label: "path", location: .uri(locationName: "Path")),
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
             AWSMemberEncoding(label: "uploadAvailability", location: .header(locationName: "x-amz-upload-availability"))
         ]
 
-        /// The bytes to be stored. 
+        /// The bytes to be stored.
         public let body: AWSPayload
         /// An optional CacheControl header that allows the caller to control the object's cache behavior. Headers can be passed in as specified in the HTTP at https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9. Headers with a custom user-defined value are also accepted.
         public let cacheControl: String?
         /// The content type of the object.
         public let contentType: String?
-        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension. 
+        /// The path (including the file name) where the object is stored in the container. Format: &lt;folder name&gt;/&lt;folder name&gt;/&lt;file name&gt; For example, to upload the file mlaw.avi to the folder path premium\canada in the container movies, enter the path premium/canada/mlaw.avi. Do not include the container name in this path. If the path includes any folders that don't exist yet, the service creates them. For example, suppose you have an existing premium/usa subfolder. If you specify premium/canada, the service creates a canada subfolder in the premium folder. You then have two subfolders, usa and canada, in the premium folder.  There is no correlation between the path to the source and the path (folders) in the container in AWS Elemental MediaStore. For more information about folders and how they exist in a container, see the AWS Elemental MediaStore User Guide. The file name is the name that is assigned to the file that you upload. The file can have the same name inside and outside of AWS Elemental MediaStore, or it can have the same name. The file name can include or omit an extension.
         public let path: String
         /// Indicates the storage class of a Put request. Defaults to high-performance temporal storage class, and objects are persisted into durable storage shortly after being received.
         public let storageClass: StorageClass?
@@ -336,7 +330,6 @@ extension MediaStoreData {
     }
 
     public struct PutObjectResponse: AWSDecodableShape {
-
         /// The SHA256 digest of the object that is persisted.
         public let contentSHA256: String?
         /// Unique identifier of the object in the container.

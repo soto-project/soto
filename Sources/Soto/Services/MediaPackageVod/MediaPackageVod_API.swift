@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS MediaPackageVod service.
+ Client object for interacting with AWS MediaPackageVod service.
 
-AWS Elemental MediaPackage VOD
-*/
+ AWS Elemental MediaPackage VOD
+ */
 public struct MediaPackageVod: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct MediaPackageVod: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Creates a new MediaPackage VOD Asset resource.

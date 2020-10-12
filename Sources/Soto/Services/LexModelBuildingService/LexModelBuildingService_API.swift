@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS LexModelBuildingService service.
+ Client object for interacting with AWS LexModelBuildingService service.
 
-Amazon Lex Build-Time Actions  Amazon Lex is an AWS service for building conversational voice and text interfaces. Use these actions to create, update, and delete conversational bots for new and existing client applications. 
-*/
+ Amazon Lex Build-Time Actions  Amazon Lex is an AWS service for building conversational voice and text interfaces. Use these actions to create, update, and delete conversational bots for new and existing client applications.
+ */
 public struct LexModelBuildingService: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,15 +60,15 @@ public struct LexModelBuildingService: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
-    ///  Creates a new version of the bot based on the $LATEST version. If the $LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version.  You can update only the $LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation.   When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.   This operation requires permission for the lex:CreateBotVersion action. 
+    ///  Creates a new version of the bot based on the $LATEST version. If the $LATEST version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version. It returns the last created version.  You can update only the $LATEST version of the bot. You can't update the numbered versions that you create with the CreateBotVersion operation.   When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.   This operation requires permission for the lex:CreateBotVersion action.
     public func createBotVersion(_ input: CreateBotVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBotVersionResponse> {
         return self.client.execute(operation: "CreateBotVersion", path: "/bots/{name}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action. 
+    ///  Creates a new version of an intent based on the $LATEST version of the intent. If the $LATEST version of this intent hasn't changed since you last updated it, Amazon Lex doesn't create a new version. It returns the last version you created.  You can update only the $LATEST version of the intent. You can't update the numbered versions that you create with the CreateIntentVersion operation.   When you create a version of an intent, Amazon Lex sets the version to 1. Subsequent versions increment by 1. For more information, see versioning-intro.  This operation requires permissions to perform the lex:CreateIntentVersion action.
     public func createIntentVersion(_ input: CreateIntentVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateIntentVersionResponse> {
         return self.client.execute(operation: "CreateIntentVersion", path: "/intents/{name}/versions", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -99,7 +98,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "DeleteBotVersion", path: "/bots/{name}/versions/{version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action. 
+    ///  Deletes all versions of the intent, including the $LATEST version. To delete a specific version of the intent, use the DeleteIntentVersion operation.  You can delete a version of an intent only if it is not referenced. To delete an intent that is referred to in one or more bots (see how-it-works), you must remove those references first.    If you get the ResourceInUseException exception, it provides an example reference that shows where the intent is referenced. To remove the reference to the intent, either update the bot or delete it. If you get the same exception when you attempt to delete the intent again, repeat until the intent has no references and the call to DeleteIntent is successful.    This operation requires permission for the lex:DeleteIntent action.
     @discardableResult public func deleteIntent(_ input: DeleteIntentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteIntent", path: "/intents/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -124,7 +123,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "DeleteUtterances", path: "/bots/{botName}/utterances/{userId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.   This operation requires permissions for the lex:GetBot action. 
+    ///  Returns metadata information for a specific bot. You must provide the bot name and the bot version or alias.   This operation requires permissions for the lex:GetBot action.
     public func getBot(_ input: GetBotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBotResponse> {
         return self.client.execute(operation: "GetBot", path: "/bots/{name}/versions/{versionoralias}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -174,7 +173,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetBuiltinSlotTypes", path: "/builtins/slottypes/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Exports the contents of a Amazon Lex resource in a specified format. 
+    ///  Exports the contents of a Amazon Lex resource in a specified format.
     public func getExport(_ input: GetExportRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetExportResponse> {
         return self.client.execute(operation: "GetExport", path: "/exports/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -184,7 +183,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetImport", path: "/imports/{importId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Returns information about an intent. In addition to the intent name, you must specify the intent version.   This operation requires permissions to perform the lex:GetIntent action. 
+    ///   Returns information about an intent. In addition to the intent name, you must specify the intent version.   This operation requires permissions to perform the lex:GetIntent action.
     public func getIntent(_ input: GetIntentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetIntentResponse> {
         return self.client.execute(operation: "GetIntent", path: "/intents/{name}/versions/{version}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -194,7 +193,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetIntentVersions", path: "/intents/{name}/versions/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns intent information as follows:    If you specify the nameContains field, returns the $LATEST version of all intents that contain the specified string.    If you don't specify the nameContains field, returns information about the $LATEST version of all intents.     The operation requires permission for the lex:GetIntents action. 
+    ///  Returns intent information as follows:    If you specify the nameContains field, returns the $LATEST version of all intents that contain the specified string.    If you don't specify the nameContains field, returns information about the $LATEST version of all intents.     The operation requires permission for the lex:GetIntents action.
     public func getIntents(_ input: GetIntentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetIntentsResponse> {
         return self.client.execute(operation: "GetIntents", path: "/intents/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -209,7 +208,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "GetSlotTypeVersions", path: "/slottypes/{name}/versions/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns slot type information as follows:    If you specify the nameContains field, returns the $LATEST version of all slot types that contain the specified string.    If you don't specify the nameContains field, returns information about the $LATEST version of all slot types.     The operation requires permission for the lex:GetSlotTypes action. 
+    ///  Returns slot type information as follows:    If you specify the nameContains field, returns the $LATEST version of all slot types that contain the specified string.    If you don't specify the nameContains field, returns information about the $LATEST version of all slot types.     The operation requires permission for the lex:GetSlotTypes action.
     public func getSlotTypes(_ input: GetSlotTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetSlotTypesResponse> {
         return self.client.execute(operation: "GetSlotTypes", path: "/slottypes/", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -229,7 +228,7 @@ public struct LexModelBuildingService: AWSService {
         return self.client.execute(operation: "PutBot", path: "/bots/{name}/versions/$LATEST", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates an alias for the specified version of the bot or replaces an alias for the specified bot. To change the version of the bot that the alias points to, replace the alias. For more information about aliases, see versioning-aliases. This operation requires permissions for the lex:PutBotAlias action. 
+    ///  Creates an alias for the specified version of the bot or replaces an alias for the specified bot. To change the version of the bot that the alias points to, replace the alias. For more information about aliases, see versioning-aliases. This operation requires permissions for the lex:PutBotAlias action.
     public func putBotAlias(_ input: PutBotAliasRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutBotAliasResponse> {
         return self.client.execute(operation: "PutBotAlias", path: "/bots/{botName}/aliases/{name}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

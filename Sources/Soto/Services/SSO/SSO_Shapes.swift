@@ -23,7 +23,6 @@ extension SSO {
     // MARK: Shapes
 
     public struct AccountInfo: AWSDecodableShape {
-
         /// The identifier of the AWS account that is assigned to the user.
         public let accountId: String?
         /// The display name of the AWS account that is assigned to the user.
@@ -38,16 +37,16 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case accountName = "accountName"
-            case emailAddress = "emailAddress"
+            case accountId
+            case accountName
+            case emailAddress
         }
     }
 
     public struct GetRoleCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")),
             AWSMemberEncoding(label: "roleName", location: .querystring(locationName: "role_name"))
         ]
 
@@ -68,7 +67,6 @@ extension SSO {
     }
 
     public struct GetRoleCredentialsResponse: AWSDecodableShape {
-
         /// The credentials for the role that is assigned to the user.
         public let roleCredentials: RoleCredentials?
 
@@ -77,15 +75,15 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleCredentials = "roleCredentials"
+            case roleCredentials
         }
     }
 
     public struct ListAccountRolesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "account_id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -114,7 +112,6 @@ extension SSO {
     }
 
     public struct ListAccountRolesResponse: AWSDecodableShape {
-
         /// The page token client that is used to retrieve the list of accounts.
         public let nextToken: String?
         /// A paginated response with the list of roles and the next token if more results are available.
@@ -126,15 +123,15 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case roleList = "roleList"
+            case nextToken
+            case roleList
         }
     }
 
     public struct ListAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")), 
+            AWSMemberEncoding(label: "accessToken", location: .header(locationName: "x-amz-sso_bearer_token")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max_result")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next_token"))
         ]
 
@@ -160,7 +157,6 @@ extension SSO {
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
-
         /// A paginated response with the list of account information and the next token if more results are available.
         public let accountList: [AccountInfo]?
         /// The page token client that is used to retrieve the list of accounts.
@@ -172,8 +168,8 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountList = "accountList"
-            case nextToken = "nextToken"
+            case accountList
+            case nextToken
         }
     }
 
@@ -193,7 +189,6 @@ extension SSO {
     }
 
     public struct RoleCredentials: AWSDecodableShape {
-
         /// The identifier used for the temporary security credentials. For more information, see Using Temporary Security Credentials to Request Access to AWS Resources in the AWS IAM User Guide.
         public let accessKeyId: String?
         /// The date on which temporary security credentials expire.
@@ -211,15 +206,14 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessKeyId = "accessKeyId"
-            case expiration = "expiration"
-            case secretAccessKey = "secretAccessKey"
-            case sessionToken = "sessionToken"
+            case accessKeyId
+            case expiration
+            case secretAccessKey
+            case sessionToken
         }
     }
 
     public struct RoleInfo: AWSDecodableShape {
-
         /// The identifier of the AWS account assigned to the user.
         public let accountId: String?
         /// The friendly name of the role that is assigned to the user.
@@ -231,8 +225,8 @@ extension SSO {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId = "accountId"
-            case roleName = "roleName"
+            case accountId
+            case roleName
         }
     }
 }

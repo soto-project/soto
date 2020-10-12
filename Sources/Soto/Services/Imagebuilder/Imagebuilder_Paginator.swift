@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Imagebuilder {
-    ///   Returns the list of component build versions for the specified semantic version. 
+    ///   Returns the list of component build versions for the specified semantic version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -68,7 +69,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns the list of component build versions for the specified semantic version. 
+    ///  Returns the list of component build versions for the specified semantic version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -95,6 +96,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -117,7 +119,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of distribution configurations. 
+    ///   Returns a list of distribution configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -144,6 +146,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -166,7 +169,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image build versions. 
+    ///   Returns a list of image build versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -193,6 +196,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -215,7 +219,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of images created by the specified pipeline. 
+    ///   Returns a list of images created by the specified pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -242,6 +246,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -264,7 +269,7 @@ extension Imagebuilder {
         )
     }
 
-    ///  Returns a list of image pipelines. 
+    ///  Returns a list of image pipelines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -291,6 +296,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -313,7 +319,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of image recipes. 
+    ///   Returns a list of image recipes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -340,6 +346,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -362,7 +369,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns the list of images that you have access to. 
+    ///   Returns the list of images that you have access to.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -389,6 +396,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:
@@ -411,7 +419,7 @@ extension Imagebuilder {
         )
     }
 
-    ///   Returns a list of infrastructure configurations. 
+    ///   Returns a list of infrastructure configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -438,6 +446,7 @@ extension Imagebuilder {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

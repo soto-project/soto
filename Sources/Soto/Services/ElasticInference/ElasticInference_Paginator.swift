@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension ElasticInference {
-    ///   Describes information over a provided set of accelerators belonging to an account. 
+    ///   Describes information over a provided set of accelerators belonging to an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     ///
@@ -46,6 +46,7 @@ extension ElasticInference {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

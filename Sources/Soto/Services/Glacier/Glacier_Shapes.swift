@@ -28,7 +28,7 @@ extension Glacier {
     }
 
     public enum CannedACL: String, CustomStringConvertible, Codable {
-        case `private` = "private"
+        case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         case awsExecRead = "aws-exec-read"
@@ -96,8 +96,8 @@ extension Glacier {
 
     public struct AbortMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -119,7 +119,7 @@ extension Glacier {
 
     public struct AbortVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -138,7 +138,7 @@ extension Glacier {
 
     public struct AddTagsToVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -162,8 +162,8 @@ extension Glacier {
 
     public struct ArchiveCreationOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "archiveId", location: .header(locationName: "x-amz-archive-id")), 
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
+            AWSMemberEncoding(label: "archiveId", location: .header(locationName: "x-amz-archive-id")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
@@ -188,7 +188,6 @@ extension Glacier {
     }
 
     public struct CSVInput: AWSEncodableShape & AWSDecodableShape {
-
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row.
         public let comments: String?
         /// A value used to separate individual fields from each other within a record.
@@ -222,7 +221,6 @@ extension Glacier {
     }
 
     public struct CSVOutput: AWSEncodableShape & AWSDecodableShape {
-
         /// A value used to separate individual fields from each other within a record.
         public let fieldDelimiter: String?
         /// A value used as an escape character where the field delimiter is part of the value.
@@ -253,10 +251,10 @@ extension Glacier {
 
     public struct CompleteMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "archiveSize", location: .header(locationName: "x-amz-archive-size")), 
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "archiveSize", location: .header(locationName: "x-amz-archive-size")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -284,8 +282,8 @@ extension Glacier {
 
     public struct CompleteVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "lockId", location: .uri(locationName: "lockId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "lockId", location: .uri(locationName: "lockId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -307,7 +305,7 @@ extension Glacier {
 
     public struct CreateVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -342,7 +340,6 @@ extension Glacier {
     }
 
     public struct DataRetrievalPolicy: AWSEncodableShape & AWSDecodableShape {
-
         /// The policy rule. Although this is a list type, currently there must be only one rule, which contains a Strategy field and optionally a BytesPerHour field.
         public let rules: [DataRetrievalRule]?
 
@@ -356,7 +353,6 @@ extension Glacier {
     }
 
     public struct DataRetrievalRule: AWSEncodableShape & AWSDecodableShape {
-
         /// The maximum number of bytes that can be retrieved in an hour. This field is required only if the value of the Strategy field is BytesPerHour. Your PUT operation will be rejected if the Strategy field is not set to BytesPerHour and you set this field.
         public let bytesPerHour: Int64?
         /// The type of data retrieval policy to set. Valid values: BytesPerHour|FreeTier|None
@@ -375,8 +371,8 @@ extension Glacier {
 
     public struct DeleteArchiveInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "archiveId", location: .uri(locationName: "archiveId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "archiveId", location: .uri(locationName: "archiveId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -398,11 +394,11 @@ extension Glacier {
 
     public struct DeleteVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
         public let vaultName: String
@@ -417,7 +413,7 @@ extension Glacier {
 
     public struct DeleteVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -436,11 +432,11 @@ extension Glacier {
 
     public struct DeleteVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
         public let vaultName: String
@@ -455,12 +451,12 @@ extension Glacier {
 
     public struct DescribeJobInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The ID of the job to describe.
         public let jobId: String
@@ -478,11 +474,11 @@ extension Glacier {
 
     public struct DescribeVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The name of the vault.
         public let vaultName: String
@@ -496,7 +492,6 @@ extension Glacier {
     }
 
     public struct DescribeVaultOutput: AWSDecodableShape {
-
         /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
         public let creationDate: String?
         /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
@@ -530,12 +525,11 @@ extension Glacier {
     }
 
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
-
         /// The server-side encryption algorithm used when storing job results in Amazon S3, for example AES256 or aws:kms.
         public let encryptionType: EncryptionType?
         /// Optional. If the encryption type is aws:kms, you can use this value to specify the encryption context for the job results.
         public let kMSContext: String?
-        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4. 
+        /// The AWS KMS key ID to use for object encryption. All GET and PUT requests for an object protected by AWS KMS fail if not made by using Secure Sockets Layer (SSL) or Signature Version 4.
         public let kMSKeyId: String?
 
         public init(encryptionType: EncryptionType? = nil, kMSContext: String? = nil, kMSKeyId: String? = nil) {
@@ -556,7 +550,7 @@ extension Glacier {
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
 
-        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID. This value must match the AWS account ID associated with the credentials used to sign the request. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon Glacier uses the AWS account ID associated with the credentials used to sign the request. If you specify your account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
 
         public init(accountId: String) {
@@ -567,7 +561,6 @@ extension Glacier {
     }
 
     public struct GetDataRetrievalPolicyOutput: AWSDecodableShape {
-
         /// Contains the returned data retrieval policy in JSON format.
         public let policy: DataRetrievalPolicy?
 
@@ -582,9 +575,9 @@ extension Glacier {
 
     public struct GetJobOutputInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")), 
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "jobId", location: .uri(locationName: "jobId")),
+            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -592,7 +585,7 @@ extension Glacier {
         public let accountId: String
         /// The job ID whose data is downloaded.
         public let jobId: String
-        /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.   
+        /// The range of bytes to retrieve from the output. For example, if you want to download the first 1,048,576 bytes, specify the range as bytes=0-1048575. By default, this operation downloads the entire output. If the job output is large, then you can use a range to retrieve a portion of the output. This allows you to download the entire output in smaller chunks of bytes. For example, suppose you have 1 GB of job output you want to download and you decide to download 128 MB chunks of data at a time, which is a total of eight Get Job Output requests. You use the following process to download the job output:   Download a 128 MB chunk of output by specifying the appropriate byte range. Verify that all 128 MB of data was received.   Along with the data, the response includes a SHA256 tree hash of the payload. You compute the checksum of the payload on the client and compare it with the checksum you received in the response to ensure you received all the expected data.   Repeat steps 1 and 2 for all the eight 128 MB chunks of output data, each time specifying the appropriate byte range.   After downloading all the parts of the job output, you have a list of eight checksum values. Compute the tree hash of these values to find the checksum of the entire output. Using the DescribeJob API, obtain job information of the job that provided you the output. The response includes the checksum of the entire archive stored in Amazon S3 Glacier. You compare this value with the checksum you computed to ensure you have downloaded the entire archive content with no errors.
         public let range: String?
         /// The name of the vault.
         public let vaultName: String
@@ -612,21 +605,21 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "Accept-Ranges")), 
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
-            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "Accept-Ranges")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// Indicates the range units accepted. For more information, see RFC2616. 
+        /// Indicates the range units accepted. For more information, see RFC2616.
         public let acceptRanges: String?
         /// The description of an archive.
         public let archiveDescription: String?
         /// The job data, either archive data or inventory data.
         public let body: AWSPayload?
-        /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.  
+        /// The checksum of the data in the response. This header is returned only when retrieving the output for an archive retrieval job. Furthermore, this header appears only under the following conditions:   You get the entire range of the archive.   You request a range to return of the archive that starts and ends on a multiple of 1 MB. For example, if you have an 3.1 MB archive and you specify a range to return that starts at 1 MB and ends at 2 MB, then the x-amz-sha256-tree-hash is returned as a response header.   You request a range of the archive to return that starts on a multiple of 1 MB and goes to the end of the archive. For example, if you have a 3.1 MB archive and you specify a range that starts at 2 MB and ends at 3.1 MB (the end of the archive), then the x-amz-sha256-tree-hash is returned as a response header.
         public let checksum: String?
         /// The range of bytes returned by Amazon S3 Glacier. If only partial output is downloaded, the response provides the range of bytes Amazon S3 Glacier returned. For example, bytes 0-1048575/8388608 returns the first 1 MB from 8 MB.
         public let contentRange: String?
@@ -648,17 +641,17 @@ extension Glacier {
         private enum CodingKeys: String, CodingKey {
             case acceptRanges = "Accept-Ranges"
             case archiveDescription = "x-amz-archive-description"
-            case body = "body"
+            case body
             case checksum = "x-amz-sha256-tree-hash"
             case contentRange = "Content-Range"
             case contentType = "Content-Type"
-            case status = "status"
+            case status
         }
     }
 
     public struct GetVaultAccessPolicyInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -687,13 +680,13 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
+            case policy
         }
     }
 
     public struct GetVaultLockInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -711,7 +704,6 @@ extension Glacier {
     }
 
     public struct GetVaultLockOutput: AWSDecodableShape {
-
         /// The UTC date and time at which the vault lock was put into the InProgress state.
         public let creationDate: String?
         /// The UTC date and time at which the lock ID expires. This value can be null if the vault lock is in a Locked state.
@@ -738,7 +730,7 @@ extension Glacier {
 
     public struct GetVaultNotificationsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -767,13 +759,12 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
+            case vaultNotificationConfig
         }
     }
 
     public struct GlacierJobDescription: AWSDecodableShape {
-
-        /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select. 
+        /// The job type. This value is either ArchiveRetrieval, InventoryRetrieval, or Select.
         public let action: ActionCode?
         /// The archive ID requested for a select job or archive retrieval. Otherwise, this field is null.
         public let archiveId: String?
@@ -799,11 +790,11 @@ extension Glacier {
         public let jobOutputPath: String?
         /// Contains the location where the data from the select job is stored.
         public let outputLocation: OutputLocation?
-        /// The retrieved byte range for archive retrieval jobs in the form StartByteValue-EndByteValue. If no range was specified in the archive retrieval, then the whole archive is retrieved. In this case, StartByteValue equals 0 and EndByteValue equals the size of the archive minus 1. For inventory retrieval or select jobs, this field is null. 
+        /// The retrieved byte range for archive retrieval jobs in the form StartByteValue-EndByteValue. If no range was specified in the archive retrieval, then the whole archive is retrieved. In this case, StartByteValue equals 0 and EndByteValue equals the size of the archive minus 1. For inventory retrieval or select jobs, this field is null.
         public let retrievalByteRange: String?
         /// Contains the parameters used for a select.
         public let selectParameters: SelectParameters?
-        /// For an archive retrieval job, this value is the checksum of the archive. Otherwise, this value is null. The SHA256 tree hash value for the requested range of an archive. If the InitiateJob request for an archive specified a tree-hash aligned range, then this field returns a value. If the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null for the following:   Archive retrieval jobs that specify a range that is not tree-hash aligned     Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress      Inventory jobs   Select jobs  
+        /// For an archive retrieval job, this value is the checksum of the archive. Otherwise, this value is null. The SHA256 tree hash value for the requested range of an archive. If the InitiateJob request for an archive specified a tree-hash aligned range, then this field returns a value. If the whole archive is retrieved, this value is the same as the ArchiveSHA256TreeHash value. This field is null for the following:   Archive retrieval jobs that specify a range that is not tree-hash aligned     Archival jobs that specify a range that is equal to the whole archive, when the job status is InProgress      Inventory jobs   Select jobs
         public let sHA256TreeHash: String?
         /// An Amazon SNS topic that receives notification.
         public let sNSTopic: String?
@@ -866,10 +857,9 @@ extension Glacier {
     }
 
     public struct Grant: AWSEncodableShape & AWSDecodableShape {
-
         /// The grantee.
         public let grantee: Grantee?
-        /// Specifies the permission given to the grantee. 
+        /// Specifies the permission given to the grantee.
         public let permission: Permission?
 
         public init(grantee: Grantee? = nil, permission: Permission? = nil) {
@@ -884,7 +874,6 @@ extension Glacier {
     }
 
     public struct Grantee: AWSEncodableShape & AWSDecodableShape {
-
         /// Screen name of the grantee.
         public let displayName: String?
         /// Email address of the grantee.
@@ -917,7 +906,7 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "jobParameters"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -935,14 +924,14 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobParameters = "jobParameters"
+            case jobParameters
         }
     }
 
     public struct InitiateJobOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "jobId", location: .header(locationName: "x-amz-job-id")), 
-            AWSMemberEncoding(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path")), 
+            AWSMemberEncoding(label: "jobId", location: .header(locationName: "x-amz-job-id")),
+            AWSMemberEncoding(label: "jobOutputPath", location: .header(locationName: "x-amz-job-output-path")),
             AWSMemberEncoding(label: "location", location: .header(locationName: "Location"))
         ]
 
@@ -968,13 +957,13 @@ extension Glacier {
 
     public struct InitiateMultipartUploadInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
-            AWSMemberEncoding(label: "partSize", location: .header(locationName: "x-amz-part-size")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
+            AWSMemberEncoding(label: "partSize", location: .header(locationName: "x-amz-part-size")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The archive description that you are uploading in parts. The part size must be a megabyte (1024 KB) multiplied by a power of 2, for example 1048576 (1 MB), 2097152 (2 MB), 4194304 (4 MB), 8388608 (8 MB), and so on. The minimum allowable part size is 1 MB, and the maximum is 4 GB (4096 MB).
         public let archiveDescription: String?
@@ -995,7 +984,7 @@ extension Glacier {
 
     public struct InitiateMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")), 
+            AWSMemberEncoding(label: "location", location: .header(locationName: "Location")),
             AWSMemberEncoding(label: "uploadId", location: .header(locationName: "x-amz-multipart-upload-id"))
         ]
 
@@ -1019,7 +1008,7 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -1037,7 +1026,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
+            case policy
         }
     }
 
@@ -1059,7 +1048,6 @@ extension Glacier {
     }
 
     public struct InputSerialization: AWSEncodableShape & AWSDecodableShape {
-
         /// Describes the serialization of a CSV-encoded object.
         public let csv: CSVInput?
 
@@ -1068,17 +1056,16 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv = "csv"
+            case csv
         }
     }
 
     public struct InventoryRetrievalJobDescription: AWSDecodableShape {
-
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
         /// The output format for the vault inventory list, which is set by the InitiateJob request when initiating a job to retrieve a vault inventory. Valid values are CSV and JSON.
         public let format: String?
-        /// The maximum number of inventory items returned per vault inventory retrieval request. This limit is set when initiating the job with the a InitiateJob request. 
+        /// The maximum number of inventory items returned per vault inventory retrieval request. This limit is set when initiating the job with the a InitiateJob request.
         public let limit: String?
         /// An opaque string that represents where to continue pagination of the vault inventory retrieval results. You use the marker in a new InitiateJob request to obtain additional inventory items. If there are no more inventory items, this value is null. For more information, see  Range Inventory Retrieval.
         public let marker: String?
@@ -1103,7 +1090,6 @@ extension Glacier {
     }
 
     public struct InventoryRetrievalJobInput: AWSEncodableShape {
-
         /// The end of the date range in UTC for vault inventory retrieval that includes archives created before this date. This value should be a string in the ISO 8601 date format, for example 2013-03-20T17:03:43Z.
         public let endDate: String?
         /// Specifies the maximum number of inventory items returned per vault inventory retrieval request. Valid values are greater than or equal to 1.
@@ -1129,8 +1115,7 @@ extension Glacier {
     }
 
     public struct JobParameters: AWSEncodableShape {
-
-        /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode&gt;. An error occurs if you specify this request parameter for an inventory retrieval job request. 
+        /// The ID of the archive that you want to retrieve. This field is required only if Type is set to select or archive-retrievalcode&gt;. An error occurs if you specify this request parameter for an inventory retrieval job request.
         public let archiveId: String?
         /// The optional description for the job. The description must be less than or equal to 1,024 bytes. The allowable characters are 7-bit ASCII without control codes-specifically, ASCII values 32-126 decimal or 0x20-0x7E hexadecimal.
         public let description: String?
@@ -1180,15 +1165,15 @@ extension Glacier {
 
     public struct ListJobsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "completed", location: .querystring(locationName: "completed")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "statuscode", location: .querystring(locationName: "statuscode")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "completed", location: .querystring(locationName: "completed")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "statuscode", location: .querystring(locationName: "statuscode")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The state of the jobs to return. You can specify true or false.
         public let completed: String?
@@ -1214,10 +1199,9 @@ extension Glacier {
     }
 
     public struct ListJobsOutput: AWSDecodableShape {
-
         /// A list of job objects. Each job object contains metadata describing the job.
         public let jobList: [GlacierJobDescription]?
-        ///  An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request. 
+        ///  An opaque string used for pagination that specifies the job at which the listing of jobs should begin. You get the marker value from a previous List Jobs response. You only need to include the marker if you are continuing the pagination of the results started in a previous List Jobs request.
         public let marker: String?
 
         public init(jobList: [GlacierJobDescription]? = nil, marker: String? = nil) {
@@ -1233,13 +1217,13 @@ extension Glacier {
 
     public struct ListMultipartUploadsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// Specifies the maximum number of uploads returned in the response body. If this value is not specified, the List Uploads operation returns up to 50 uploads.
         public let limit: String?
@@ -1259,7 +1243,6 @@ extension Glacier {
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
-
         /// An opaque string that represents where to continue pagination of the results. You use the marker in a new List Multipart Uploads request to obtain more uploads in the list. If there are no more uploads, this value is null.
         public let marker: String?
         /// A list of in-progress multipart uploads.
@@ -1278,14 +1261,14 @@ extension Glacier {
 
     public struct ListPartsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The maximum number of parts to be returned. The default limit is 50. The number of parts returned might be fewer than the specified limit, but the number of returned parts never exceeds the limit.
         public let limit: String?
@@ -1308,7 +1291,6 @@ extension Glacier {
     }
 
     public struct ListPartsOutput: AWSDecodableShape {
-
         /// The description of the archive that was specified in the Initiate Multipart Upload request.
         public let archiveDescription: String?
         /// The UTC time at which the multipart upload was initiated.
@@ -1350,7 +1332,7 @@ extension Glacier {
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
 
-        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
         public let accountId: String
 
         public init(accountId: String) {
@@ -1361,7 +1343,6 @@ extension Glacier {
     }
 
     public struct ListProvisionedCapacityOutput: AWSDecodableShape {
-
         /// The response body contains the following JSON fields.
         public let provisionedCapacityList: [ProvisionedCapacityDescription]?
 
@@ -1376,7 +1357,7 @@ extension Glacier {
 
     public struct ListTagsForVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -1394,7 +1375,6 @@ extension Glacier {
     }
 
     public struct ListTagsForVaultOutput: AWSDecodableShape {
-
         /// The tags attached to the vault. Each tag is composed of a key and a value.
         public let tags: [String: String]?
 
@@ -1409,8 +1389,8 @@ extension Glacier {
 
     public struct ListVaultsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
@@ -1431,7 +1411,6 @@ extension Glacier {
     }
 
     public struct ListVaultsOutput: AWSDecodableShape {
-
         /// The vault ARN at which to continue pagination of the results. You use the marker in another List Vaults request to obtain more vaults in the list.
         public let marker: String?
         /// List of vaults.
@@ -1449,7 +1428,6 @@ extension Glacier {
     }
 
     public struct OutputLocation: AWSEncodableShape & AWSDecodableShape {
-
         /// Describes an S3 location that will receive the results of the job request.
         public let s3: S3Location?
 
@@ -1463,7 +1441,6 @@ extension Glacier {
     }
 
     public struct OutputSerialization: AWSEncodableShape & AWSDecodableShape {
-
         /// Describes the serialization of CSV-encoded query results.
         public let csv: CSVOutput?
 
@@ -1472,12 +1449,11 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case csv = "csv"
+            case csv
         }
     }
 
     public struct PartListElement: AWSDecodableShape {
-
         /// The byte range of a part, inclusive of the upper value of the range.
         public let rangeInBytes: String?
         /// The SHA256 tree hash value that Amazon S3 Glacier calculated for the part. This field is never null.
@@ -1495,7 +1471,6 @@ extension Glacier {
     }
 
     public struct ProvisionedCapacityDescription: AWSDecodableShape {
-
         /// The ID that identifies the provisioned capacity unit.
         public let capacityId: String?
         /// The date that the provisioned capacity unit expires, in Universal Coordinated Time (UTC).
@@ -1521,7 +1496,7 @@ extension Glacier {
             AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId"))
         ]
 
-        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID. 
+        /// The AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, don't include any hyphens ('-') in the ID.
         public let accountId: String
 
         public init(accountId: String) {
@@ -1550,7 +1525,7 @@ extension Glacier {
 
     public struct RemoveTagsFromVaultInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -1573,7 +1548,6 @@ extension Glacier {
     }
 
     public struct S3Location: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of grants that control access to the staged results.
         public let accessControlList: [Grant]?
         /// The name of the Amazon S3 bucket where the job results are stored.
@@ -1615,7 +1589,6 @@ extension Glacier {
     }
 
     public struct SelectParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The expression that is used to select the object.
         public let expression: String?
         /// The type of the provided expression, for example SQL.
@@ -1664,7 +1637,7 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -1682,7 +1655,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy = "policy"
+            case policy
         }
     }
 
@@ -1690,7 +1663,7 @@ extension Glacier {
         /// The key for the payload
         public static let _payloadPath: String = "vaultNotificationConfig"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
@@ -1708,7 +1681,7 @@ extension Glacier {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vaultNotificationConfig = "vaultNotificationConfig"
+            case vaultNotificationConfig
         }
     }
 
@@ -1717,13 +1690,13 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")), 
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "archiveDescription", location: .header(locationName: "x-amz-archive-description")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The optional description of the archive you are uploading.
         public let archiveDescription: String?
@@ -1746,7 +1719,6 @@ extension Glacier {
     }
 
     public struct UploadListElement: AWSDecodableShape {
-
         /// The description of the archive that was specified in the Initiate Multipart Upload request.
         public let archiveDescription: String?
         /// The UTC time at which the multipart upload was initiated.
@@ -1780,14 +1752,14 @@ extension Glacier {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")), 
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Content-Range")), 
-            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")), 
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-sha256-tree-hash")),
+            AWSMemberEncoding(label: "range", location: .header(locationName: "Content-Range")),
+            AWSMemberEncoding(label: "uploadId", location: .uri(locationName: "uploadId")),
             AWSMemberEncoding(label: "vaultName", location: .uri(locationName: "vaultName"))
         ]
 
-        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID. 
+        /// The AccountId value is the AWS account ID of the account that owns the vault. You can either specify an AWS account ID or optionally a single '-' (hyphen), in which case Amazon S3 Glacier uses the AWS account ID associated with the credentials used to sign the request. If you use an account ID, do not include any hyphens ('-') in the ID.
         public let accountId: String
         /// The data to upload.
         public let body: AWSPayload?
@@ -1830,7 +1802,6 @@ extension Glacier {
     }
 
     public struct VaultAccessPolicy: AWSEncodableShape & AWSDecodableShape {
-
         /// The vault access policy.
         public let policy: String?
 
@@ -1844,7 +1815,6 @@ extension Glacier {
     }
 
     public struct VaultLockPolicy: AWSEncodableShape {
-
         /// The vault lock policy.
         public let policy: String?
 
@@ -1858,7 +1828,6 @@ extension Glacier {
     }
 
     public struct VaultNotificationConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// A list of one or more events for which Amazon S3 Glacier will send a notification to the specified Amazon SNS topic.
         public let events: [String]?
         /// The Amazon Simple Notification Service (Amazon SNS) topic Amazon Resource Name (ARN).

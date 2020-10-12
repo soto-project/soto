@@ -23,7 +23,6 @@ extension CodeStar {
     // MARK: Shapes
 
     public struct AssociateTeamMemberRequest: AWSEncodableShape {
-
         /// A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
         public let clientRequestToken: String?
         /// The ID of the project to which you will add the IAM user.
@@ -57,16 +56,15 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "clientRequestToken"
-            case projectId = "projectId"
-            case projectRole = "projectRole"
-            case remoteAccessAllowed = "remoteAccessAllowed"
-            case userArn = "userArn"
+            case clientRequestToken
+            case projectId
+            case projectRole
+            case remoteAccessAllowed
+            case userArn
         }
     }
 
     public struct AssociateTeamMemberResult: AWSDecodableShape {
-
         /// The user- or system-generated token from the initial request that can be used to repeat the request.
         public let clientRequestToken: String?
 
@@ -75,12 +73,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "clientRequestToken"
+            case clientRequestToken
         }
     }
 
     public struct Code: AWSEncodableShape {
-
         /// The repository to be created in AWS CodeStar. Valid values are AWS CodeCommit or GitHub. After AWS CodeStar provisions the new repository, the source code files provided with the project request are placed in the repository.
         public let destination: CodeDestination
         /// The location where the source code files provided with the project request are stored. AWS CodeStar retrieves the files during project creation.
@@ -97,13 +94,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination = "destination"
-            case source = "source"
+            case destination
+            case source
         }
     }
 
     public struct CodeCommitCodeDestination: AWSEncodableShape {
-
         /// The name of the AWS CodeCommit repository to be created in AWS CodeStar.
         public let name: String
 
@@ -118,12 +114,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
+            case name
         }
     }
 
     public struct CodeDestination: AWSEncodableShape {
-
         /// Information about the AWS CodeCommit repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
         public let codeCommit: CodeCommitCodeDestination?
         /// Information about the GitHub repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
@@ -140,14 +135,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codeCommit = "codeCommit"
-            case gitHub = "gitHub"
+            case codeCommit
+            case gitHub
         }
     }
 
     public struct CodeSource: AWSEncodableShape {
-
-        /// Information about the Amazon S3 location where the source code files provided with the project request are stored. 
+        /// Information about the Amazon S3 location where the source code files provided with the project request are stored.
         public let s3: S3Location
 
         public init(s3: S3Location) {
@@ -159,12 +153,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
+            case s3
         }
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-
         /// A user- or system-generated token that identifies the entity that requested project creation. This token can be used to repeat the request.
         public let clientRequestToken: String?
         /// The description of the project, if any.
@@ -216,18 +209,17 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "clientRequestToken"
-            case description = "description"
-            case id = "id"
-            case name = "name"
-            case sourceCode = "sourceCode"
-            case tags = "tags"
-            case toolchain = "toolchain"
+            case clientRequestToken
+            case description
+            case id
+            case name
+            case sourceCode
+            case tags
+            case toolchain
         }
     }
 
     public struct CreateProjectResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the created project.
         public let arn: String
         /// A user- or system-generated token that identifies the entity that requested project creation.
@@ -245,16 +237,15 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case clientRequestToken = "clientRequestToken"
-            case id = "id"
-            case projectTemplateId = "projectTemplateId"
+            case arn
+            case clientRequestToken
+            case id
+            case projectTemplateId
         }
     }
 
     public struct CreateUserProfileRequest: AWSEncodableShape {
-
-        /// The name that will be displayed as the friendly name for the user in AWS CodeStar. 
+        /// The name that will be displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String
         /// The email address that will be displayed as part of the user's profile in AWS CodeStar.
         public let emailAddress: String
@@ -285,15 +276,14 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case displayName
+            case emailAddress
+            case sshPublicKey
+            case userArn
         }
     }
 
     public struct CreateUserProfileResult: AWSDecodableShape {
-
         /// The date the user profile was created, in timestamp format.
         public let createdTimestamp: Date?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
@@ -317,18 +307,17 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp = "createdTimestamp"
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case createdTimestamp
+            case displayName
+            case emailAddress
+            case lastModifiedTimestamp
+            case sshPublicKey
+            case userArn
         }
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-
-        /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request. 
+        /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request.
         public let clientRequestToken: String?
         /// Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
         public let deleteStack: Bool?
@@ -351,14 +340,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken = "clientRequestToken"
-            case deleteStack = "deleteStack"
-            case id = "id"
+            case clientRequestToken
+            case deleteStack
+            case id
         }
     }
 
     public struct DeleteProjectResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the deleted project.
         public let projectArn: String?
         /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
@@ -370,13 +358,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn = "projectArn"
-            case stackId = "stackId"
+            case projectArn
+            case stackId
         }
     }
 
     public struct DeleteUserProfileRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
         public let userArn: String
 
@@ -391,12 +378,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
+            case userArn
         }
     }
 
     public struct DeleteUserProfileResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
         public let userArn: String
 
@@ -405,12 +391,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
+            case userArn
         }
     }
 
     public struct DescribeProjectRequest: AWSEncodableShape {
-
         /// The ID of the project.
         public let id: String
 
@@ -425,15 +410,14 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
+            case id
         }
     }
 
     public struct DescribeProjectResult: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the project.
         public let arn: String?
-        /// A user- or system-generated token that identifies the entity that requested project creation. 
+        /// A user- or system-generated token that identifies the entity that requested project creation.
         public let clientRequestToken: String?
         /// The date and time the project was created, in timestamp format.
         public let createdTimeStamp: Date?
@@ -463,20 +447,19 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case clientRequestToken = "clientRequestToken"
-            case createdTimeStamp = "createdTimeStamp"
-            case description = "description"
-            case id = "id"
-            case name = "name"
-            case projectTemplateId = "projectTemplateId"
-            case stackId = "stackId"
-            case status = "status"
+            case arn
+            case clientRequestToken
+            case createdTimeStamp
+            case description
+            case id
+            case name
+            case projectTemplateId
+            case stackId
+            case status
         }
     }
 
     public struct DescribeUserProfileRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the user.
         public let userArn: String
 
@@ -491,12 +474,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case userArn = "userArn"
+            case userArn
         }
     }
 
     public struct DescribeUserProfileResult: AWSDecodableShape {
-
         /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
         public let createdTimestamp: Date
         /// The display name shown for the user in AWS CodeStar projects. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
@@ -520,17 +502,16 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp = "createdTimestamp"
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case createdTimestamp
+            case displayName
+            case emailAddress
+            case lastModifiedTimestamp
+            case sshPublicKey
+            case userArn
         }
     }
 
     public struct DisassociateTeamMemberRequest: AWSEncodableShape {
-
         /// The ID of the AWS CodeStar project from which you want to remove a team member.
         public let projectId: String
         /// The Amazon Resource Name (ARN) of the IAM user or group whom you want to remove from the project.
@@ -551,21 +532,16 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case userArn = "userArn"
+            case projectId
+            case userArn
         }
     }
 
     public struct DisassociateTeamMemberResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct GitHubCodeDestination: AWSEncodableShape {
-
         /// Description for the GitHub repository to be created in AWS CodeStar. This description displays in GitHub after the repository is created.
         public let description: String?
         /// Whether to enable issues for the GitHub repository.
@@ -606,18 +582,17 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case issuesEnabled = "issuesEnabled"
-            case name = "name"
-            case owner = "owner"
-            case privateRepository = "privateRepository"
-            case token = "token"
-            case `type` = "type"
+            case description
+            case issuesEnabled
+            case name
+            case owner
+            case privateRepository
+            case token
+            case `type`
         }
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
-
         /// The maximum amount of data that can be contained in a single set of results.
         public let maxResults: Int?
         /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
@@ -637,13 +612,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListProjectsResult: AWSDecodableShape {
-
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
         /// A list of projects.
@@ -655,13 +629,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case projects = "projects"
+            case nextToken
+            case projects
         }
     }
 
     public struct ListResourcesRequest: AWSEncodableShape {
-
         /// The maximum amount of data that can be contained in a single set of results.
         public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -687,17 +660,16 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case projectId = "projectId"
+            case maxResults
+            case nextToken
+            case projectId
         }
     }
 
     public struct ListResourcesResult: AWSDecodableShape {
-
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
-        /// An array of resources associated with the project. 
+        /// An array of resources associated with the project.
         public let resources: [Resource]?
 
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
@@ -706,13 +678,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case resources = "resources"
+            case nextToken
+            case resources
         }
     }
 
     public struct ListTagsForProjectRequest: AWSEncodableShape {
-
         /// The ID of the project to get tags for.
         public let id: String
         /// Reserved for future use.
@@ -738,14 +709,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case id
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListTagsForProjectResult: AWSDecodableShape {
-
         /// Reserved for future use.
         public let nextToken: String?
         /// The tags for the project.
@@ -757,13 +727,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case tags = "tags"
+            case nextToken
+            case tags
         }
     }
 
     public struct ListTeamMembersRequest: AWSEncodableShape {
-
         /// The maximum number of team members you want returned in a response.
         public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -789,14 +758,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
-            case projectId = "projectId"
+            case maxResults
+            case nextToken
+            case projectId
         }
     }
 
     public struct ListTeamMembersResult: AWSDecodableShape {
-
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
         /// A list of team member objects for the project.
@@ -808,13 +776,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case teamMembers = "teamMembers"
+            case nextToken
+            case teamMembers
         }
     }
 
     public struct ListUserProfilesRequest: AWSEncodableShape {
-
         /// The maximum number of results to return in a response.
         public let maxResults: Int?
         /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -834,13 +801,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case maxResults
+            case nextToken
         }
     }
 
     public struct ListUserProfilesResult: AWSDecodableShape {
-
         /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
         public let nextToken: String?
         /// All the user profiles configured in AWS CodeStar for an AWS account.
@@ -852,13 +818,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case userProfiles = "userProfiles"
+            case nextToken
+            case userProfiles
         }
     }
 
     public struct ProjectStatus: AWSDecodableShape {
-
         /// In the case of a project creation or deletion failure, a reason for the failure.
         public let reason: String?
         /// The phase of completion for a project creation or deletion.
@@ -870,13 +835,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reason = "reason"
-            case state = "state"
+            case reason
+            case state
         }
     }
 
     public struct ProjectSummary: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the project.
         public let projectArn: String?
         /// The ID of the project.
@@ -888,13 +852,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn = "projectArn"
-            case projectId = "projectId"
+            case projectArn
+            case projectId
         }
     }
 
     public struct Resource: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the resource.
         public let id: String
 
@@ -903,12 +866,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
+            case id
         }
     }
 
     public struct S3Location: AWSEncodableShape {
-
         /// The Amazon S3 object key where the source code files provided with the project request are stored.
         public let bucketKey: String?
         /// The Amazon S3 bucket name where the source code files provided with the project request are stored.
@@ -925,13 +887,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucketKey = "bucketKey"
-            case bucketName = "bucketName"
+            case bucketKey
+            case bucketName
         }
     }
 
     public struct TagProjectRequest: AWSEncodableShape {
-
         /// The ID of the project you want to add a tag to.
         public let id: String
         /// The tags you want to add to the project.
@@ -956,13 +917,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case tags = "tags"
+            case id
+            case tags
         }
     }
 
     public struct TagProjectResult: AWSDecodableShape {
-
         /// The tags for the project.
         public let tags: [String: String]?
 
@@ -971,13 +931,12 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct TeamMember: AWSDecodableShape {
-
-        /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide. 
+        /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
         public let projectRole: String
         /// Whether the user is allowed to remotely access project resources using an SSH public/private key pair.
         public let remoteAccessAllowed: Bool?
@@ -991,14 +950,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectRole = "projectRole"
-            case remoteAccessAllowed = "remoteAccessAllowed"
-            case userArn = "userArn"
+            case projectRole
+            case remoteAccessAllowed
+            case userArn
         }
     }
 
     public struct Toolchain: AWSEncodableShape {
-
         /// The service role ARN for AWS CodeStar to use for the toolchain template during stack provisioning.
         public let roleArn: String?
         /// The Amazon S3 location where the toolchain template file provided with the project request is stored. AWS CodeStar retrieves the file during project creation.
@@ -1027,14 +985,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case roleArn = "roleArn"
-            case source = "source"
-            case stackParameters = "stackParameters"
+            case roleArn
+            case source
+            case stackParameters
         }
     }
 
     public struct ToolchainSource: AWSEncodableShape {
-
         /// The Amazon S3 bucket where the toolchain template file provided with the project request is stored.
         public let s3: S3Location
 
@@ -1047,12 +1004,11 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3 = "s3"
+            case s3
         }
     }
 
     public struct UntagProjectRequest: AWSEncodableShape {
-
         /// The ID of the project to remove tags from.
         public let id: String
         /// The tags to remove from the project.
@@ -1075,21 +1031,16 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id = "id"
-            case tags = "tags"
+            case id
+            case tags
         }
     }
 
     public struct UntagProjectResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateProjectRequest: AWSEncodableShape {
-
         /// The description of the project, if any.
         public let description: String?
         /// The ID of the project you want to update.
@@ -1115,22 +1066,17 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description = "description"
-            case id = "id"
-            case name = "name"
+            case description
+            case id
+            case name
         }
     }
 
     public struct UpdateProjectResult: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateTeamMemberRequest: AWSEncodableShape {
-
         /// The ID of the project.
         public let projectId: String
         /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see Working with Teams in the AWS CodeStar User Guide.
@@ -1158,15 +1104,14 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectId = "projectId"
-            case projectRole = "projectRole"
-            case remoteAccessAllowed = "remoteAccessAllowed"
-            case userArn = "userArn"
+            case projectId
+            case projectRole
+            case remoteAccessAllowed
+            case userArn
         }
     }
 
     public struct UpdateTeamMemberResult: AWSDecodableShape {
-
         /// The project role granted to the user.
         public let projectRole: String?
         /// Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile.
@@ -1181,14 +1126,13 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectRole = "projectRole"
-            case remoteAccessAllowed = "remoteAccessAllowed"
-            case userArn = "userArn"
+            case projectRole
+            case remoteAccessAllowed
+            case userArn
         }
     }
 
     public struct UpdateUserProfileRequest: AWSEncodableShape {
-
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
         public let displayName: String?
         /// The email address that is displayed as part of the user's profile in AWS CodeStar.
@@ -1220,15 +1164,14 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case displayName
+            case emailAddress
+            case sshPublicKey
+            case userArn
         }
     }
 
     public struct UpdateUserProfileResult: AWSDecodableShape {
-
         /// The date the user profile was created, in timestamp format.
         public let createdTimestamp: Date?
         /// The name that is displayed as the friendly name for the user in AWS CodeStar.
@@ -1252,17 +1195,16 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdTimestamp = "createdTimestamp"
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case lastModifiedTimestamp = "lastModifiedTimestamp"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case createdTimestamp
+            case displayName
+            case emailAddress
+            case lastModifiedTimestamp
+            case sshPublicKey
+            case userArn
         }
     }
 
     public struct UserProfileSummary: AWSDecodableShape {
-
         /// The display name of a user in AWS CodeStar. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
         public let displayName: String?
         /// The email address associated with the user.
@@ -1280,10 +1222,10 @@ extension CodeStar {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName = "displayName"
-            case emailAddress = "emailAddress"
-            case sshPublicKey = "sshPublicKey"
-            case userArn = "userArn"
+            case displayName
+            case emailAddress
+            case sshPublicKey
+            case userArn
         }
     }
 }

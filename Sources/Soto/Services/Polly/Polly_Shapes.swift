@@ -21,8 +21,8 @@ extension Polly {
     // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable {
-        case standard = "standard"
-        case neural = "neural"
+        case standard
+        case neural
         public var description: String { return self.rawValue }
     }
 
@@ -33,7 +33,7 @@ extension Polly {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case arb = "arb"
+        case arb
         case cmnCn = "cmn-CN"
         case cyGb = "cy-GB"
         case daDk = "da-DK"
@@ -66,32 +66,32 @@ extension Polly {
     }
 
     public enum OutputFormat: String, CustomStringConvertible, Codable {
-        case json = "json"
-        case mp3 = "mp3"
+        case json
+        case mp3
         case oggVorbis = "ogg_vorbis"
-        case pcm = "pcm"
+        case pcm
         public var description: String { return self.rawValue }
     }
 
     public enum SpeechMarkType: String, CustomStringConvertible, Codable {
-        case sentence = "sentence"
-        case ssml = "ssml"
-        case viseme = "viseme"
-        case word = "word"
+        case sentence
+        case ssml
+        case viseme
+        case word
         public var description: String { return self.rawValue }
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "scheduled"
+        case scheduled
         case inprogress = "inProgress"
-        case completed = "completed"
-        case failed = "failed"
+        case completed
+        case failed
         public var description: String { return self.rawValue }
     }
 
     public enum TextType: String, CustomStringConvertible, Codable {
-        case ssml = "ssml"
-        case text = "text"
+        case ssml
+        case text
         public var description: String { return self.rawValue }
     }
 
@@ -182,26 +182,22 @@ extension Polly {
     }
 
     public struct DeleteLexiconOutput: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeVoicesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")), 
-            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")), 
-            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")), 
+            AWSMemberEncoding(label: "engine", location: .querystring(locationName: "Engine")),
+            AWSMemberEncoding(label: "includeAdditionalLanguageCodes", location: .querystring(locationName: "IncludeAdditionalLanguageCodes")),
+            AWSMemberEncoding(label: "languageCode", location: .querystring(locationName: "LanguageCode")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
-        /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis. 
+        /// Specifies the engine (standard or neural) used by Amazon Polly when processing input text for speech synthesis.
         public let engine: Engine?
         /// Boolean value indicating whether to return any bilingual voices that use the specified language as an additional language. For instance, if you request all languages that use US English (es-US), and there is an Italian voice that speaks both Italian (it-IT) and US English, that voice will be included if you specify yes but not if you specify no.
         public let includeAdditionalLanguageCodes: Bool?
-        ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned. 
+        ///  The language identification tag (ISO 639 code for the language name-ISO 3166 country code) for filtering the list of voices returned. If you don't specify this optional parameter, all available voices are returned.
         public let languageCode: LanguageCode?
         /// An opaque pagination token returned from the previous DescribeVoices operation. If present, this indicates where to continue the listing.
         public let nextToken: String?
@@ -222,7 +218,6 @@ extension Polly {
     }
 
     public struct DescribeVoicesOutput: AWSDecodableShape {
-
         /// The pagination token to use in the next request to continue the listing of voices. NextToken is returned only if the response is truncated.
         public let nextToken: String?
         /// A list of voices with their properties.
@@ -259,8 +254,7 @@ extension Polly {
     }
 
     public struct GetLexiconOutput: AWSDecodableShape {
-
-        /// Lexicon object that provides name and the string content of the lexicon. 
+        /// Lexicon object that provides name and the string content of the lexicon.
         public let lexicon: Lexicon?
         /// Metadata of the lexicon, including phonetic alphabetic used, language code, lexicon ARN, number of lexemes defined in the lexicon, and size of lexicon in bytes.
         public let lexiconAttributes: LexiconAttributes?
@@ -296,7 +290,6 @@ extension Polly {
     }
 
     public struct GetSpeechSynthesisTaskOutput: AWSDecodableShape {
-
         /// SynthesisTask object that provides information from the requested task, including output format, creation time, task status, and so on.
         public let synthesisTask: SynthesisTask?
 
@@ -310,7 +303,6 @@ extension Polly {
     }
 
     public struct Lexicon: AWSDecodableShape {
-
         /// Lexicon content in string format. The content of a lexicon must be in PLS format.
         public let content: String?
         /// Name of the lexicon.
@@ -328,7 +320,6 @@ extension Polly {
     }
 
     public struct LexiconAttributes: AWSDecodableShape {
-
         /// Phonetic alphabet used in the lexicon. Valid values are ipa and x-sampa.
         public let alphabet: String?
         /// Language code that the lexicon applies to. A lexicon with a language code such as "en" would be applied to all English languages (en-GB, en-US, en-AUS, en-WLS, and so on.
@@ -362,7 +353,6 @@ extension Polly {
     }
 
     public struct LexiconDescription: AWSDecodableShape {
-
         /// Provides lexicon metadata.
         public let attributes: LexiconAttributes?
         /// Name of the lexicon.
@@ -400,7 +390,6 @@ extension Polly {
     }
 
     public struct ListLexiconsOutput: AWSDecodableShape {
-
         /// A list of lexicon names and attributes.
         public let lexicons: [LexiconDescription]?
         /// The pagination token to use in the next request to continue the listing of lexicons. NextToken is returned only if the response is truncated.
@@ -419,14 +408,14 @@ extension Polly {
 
     public struct ListSpeechSynthesisTasksInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "Status"))
         ]
 
         /// Maximum number of speech synthesis tasks returned in a List operation.
         public let maxResults: Int?
-        /// The pagination token to use in the next request to continue the listing of speech synthesis tasks. 
+        /// The pagination token to use in the next request to continue the listing of speech synthesis tasks.
         public let nextToken: String?
         /// Status of the speech synthesis tasks returned in a List operation
         public let status: TaskStatus?
@@ -448,7 +437,6 @@ extension Polly {
     }
 
     public struct ListSpeechSynthesisTasksOutput: AWSDecodableShape {
-
         /// An opaque pagination token returned from the previous List operation in this request. If present, this indicates where to continue the listing.
         public let nextToken: String?
         /// List of SynthesisTask objects that provides information from the specified task in the list request, including output format, creation time, task status, and so on.
@@ -472,7 +460,7 @@ extension Polly {
 
         /// Content of the PLS lexicon as string data.
         public let content: String
-        /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long. 
+        /// Name of the lexicon. The name must follow the regular express format [0-9A-Za-z]{1,20}. That is, the name is a case-sensitive alphanumeric string up to 20 characters long.
         public let name: String
 
         public init(content: String, name: String) {
@@ -490,38 +478,33 @@ extension Polly {
     }
 
     public struct PutLexiconOutput: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StartSpeechSynthesisTaskInput: AWSEncodableShape {
-
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for the Speech Synthesis request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
-        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. 
+        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
         public let lexiconNames: [String]?
-        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
         public let outputFormat: OutputFormat
         /// Amazon S3 bucket name to which the output file will be saved.
         public let outputS3BucketName: String
         /// The Amazon S3 key prefix for the output speech file.
         public let outputS3KeyPrefix: String?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". 
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
-        /// The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
+        /// The input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.
         public let text: String
-        /// Specifies whether the input text is plain text or SSML. The default value is plain text. 
+        /// Specifies whether the input text is plain text or SSML. The default value is plain text.
         public let textType: TextType?
-        /// Voice ID to use for the synthesis. 
+        /// Voice ID to use for the synthesis.
         public let voiceId: VoiceId
 
         public init(engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, outputS3BucketName: String, outputS3KeyPrefix: String? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType? = nil, voiceId: VoiceId) {
@@ -567,7 +550,6 @@ extension Polly {
     }
 
     public struct StartSpeechSynthesisTaskOutput: AWSDecodableShape {
-
         /// SynthesisTask object that provides information and attributes about a newly submitted speech synthesis task.
         public let synthesisTask: SynthesisTask?
 
@@ -581,22 +563,21 @@ extension Polly {
     }
 
     public struct SynthesisTask: AWSDecodableShape {
-
         /// Timestamp for the time the synthesis task was started.
         public let creationTime: Date?
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for a synthesis task. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
-        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. 
+        /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice.
         public let lexiconNames: [String]?
-        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json. 
+        /// The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.
         public let outputFormat: OutputFormat?
         /// Pathway for the output speech file.
         public let outputUri: String?
         /// Number of billable characters synthesized.
         public let requestCharacters: Int?
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". 
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// ARN for the SNS topic optionally used for providing status notification for a speech synthesis task.
         public let snsTopicArn: String?
@@ -608,9 +589,9 @@ extension Polly {
         public let taskStatus: TaskStatus?
         /// Reason for the current status of a specific speech synthesis task, including errors if the task has failed.
         public let taskStatusReason: String?
-        /// Specifies whether the input text is plain text or SSML. The default value is plain text. 
+        /// Specifies whether the input text is plain text or SSML. The default value is plain text.
         public let textType: TextType?
-        /// Voice ID to use for the synthesis. 
+        /// Voice ID to use for the synthesis.
         public let voiceId: VoiceId?
 
         public init(creationTime: Date? = nil, engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat? = nil, outputUri: String? = nil, requestCharacters: Int? = nil, sampleRate: String? = nil, snsTopicArn: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, taskId: String? = nil, taskStatus: TaskStatus? = nil, taskStatusReason: String? = nil, textType: TextType? = nil, voiceId: VoiceId? = nil) {
@@ -651,24 +632,23 @@ extension Polly {
     }
 
     public struct SynthesizeSpeechInput: AWSEncodableShape {
-
         /// Specifies the engine (standard or neural) for Amazon Polly to use when processing input text for speech synthesis. Using a voice that is not supported for the engine selected will result in an error.
         public let engine: Engine?
         /// Optional language code for the Synthesize Speech request. This is only necessary if using a bilingual voice, such as Aditi, which can be used for either Indian English (en-IN) or Hindi (hi-IN).  If a bilingual voice is used and no language code is specified, Amazon Polly will use the default language of the bilingual voice. The default language for any voice is the one returned by the DescribeVoices operation for the LanguageCode parameter. For example, if no language code is specified, Aditi will use Indian English rather than Hindi.
         public let languageCode: LanguageCode?
         /// List of one or more pronunciation lexicon names you want the service to apply during synthesis. Lexicons are applied only if the language of the lexicon is the same as the language of the voice. For information about storing lexicons, see PutLexicon.
         public let lexiconNames: [String]?
-        ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format. 
+        ///  The format in which the returned output will be encoded. For audio stream, this will be mp3, ogg_vorbis, or pcm. For speech marks, this will be json.  When pcm is used, the content returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.
         public let outputFormat: OutputFormat
-        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000". 
+        /// The audio frequency specified in Hz. The valid values for mp3 and ogg_vorbis are "8000", "16000", "22050", and "24000". The default value for standard voices is "22050". The default value for neural voices is "24000". Valid values for pcm are "8000" and "16000" The default value is "16000".
         public let sampleRate: String?
         /// The type of speech marks returned for the input text.
         public let speechMarkTypes: [SpeechMarkType]?
-        ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text. 
+        ///  Input text to synthesize. If you specify ssml as the TextType, follow the SSML format for the input text.
         public let text: String
         ///  Specifies whether the input text is plain text or SSML. The default value is plain text. For more information, see Using SSML.
         public let textType: TextType?
-        ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation. 
+        ///  Voice ID to use for the synthesis. You can get a list of available voice IDs by calling the DescribeVoices operation.
         public let voiceId: VoiceId
 
         public init(engine: Engine? = nil, languageCode: LanguageCode? = nil, lexiconNames: [String]? = nil, outputFormat: OutputFormat, sampleRate: String? = nil, speechMarkTypes: [SpeechMarkType]? = nil, text: String, textType: TextType? = nil, voiceId: VoiceId) {
@@ -709,14 +689,14 @@ extension Polly {
         public static let _payloadPath: String = "audioStream"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")), 
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "requestCharacters", location: .header(locationName: "x-amzn-RequestCharacters"))
         ]
 
-        ///  Stream containing the synthesized speech. 
+        ///  Stream containing the synthesized speech.
         public let audioStream: AWSPayload?
-        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.    
+        ///  Specifies the type audio stream. This should reflect the OutputFormat parameter in your request.     If you request mp3 as the OutputFormat, the ContentType returned is audio/mpeg.     If you request ogg_vorbis as the OutputFormat, the ContentType returned is audio/ogg.     If you request pcm as the OutputFormat, the ContentType returned is audio/pcm in a signed 16-bit, 1 channel (mono), little-endian format.    If you request json as the OutputFormat, the ContentType returned is audio/json.
         public let contentType: String?
         /// Number of characters synthesized.
         public let requestCharacters: Int?
@@ -735,7 +715,6 @@ extension Polly {
     }
 
     public struct Voice: AWSDecodableShape {
-
         /// Additional codes for languages available for the specified voice in addition to its default language.  For example, the default language for Aditi is Indian English (en-IN) because it was first used for that language. Since Aditi is bilingual and fluent in both Indian English and Hindi, this parameter would show the code hi-IN.
         public let additionalLanguageCodes: [LanguageCode]?
         /// Gender of the voice.

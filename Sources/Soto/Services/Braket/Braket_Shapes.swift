@@ -84,12 +84,11 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken = "clientToken"
+            case clientToken
         }
     }
 
     public struct CancelQuantumTaskResponse: AWSDecodableShape {
-
         /// The status of the cancellation request.
         public let cancellationStatus: CancellationStatus
         /// The ARN of the task.
@@ -101,13 +100,12 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cancellationStatus = "cancellationStatus"
-            case quantumTaskArn = "quantumTaskArn"
+            case cancellationStatus
+            case quantumTaskArn
         }
     }
 
     public struct CreateQuantumTaskRequest: AWSEncodableShape {
-
         /// The action associated with the task.
         public let action: String
         /// The client token associated with the request.
@@ -148,18 +146,17 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action = "action"
-            case clientToken = "clientToken"
-            case deviceArn = "deviceArn"
-            case deviceParameters = "deviceParameters"
-            case outputS3Bucket = "outputS3Bucket"
-            case outputS3KeyPrefix = "outputS3KeyPrefix"
-            case shots = "shots"
+            case action
+            case clientToken
+            case deviceArn
+            case deviceParameters
+            case outputS3Bucket
+            case outputS3KeyPrefix
+            case shots
         }
     }
 
     public struct CreateQuantumTaskResponse: AWSDecodableShape {
-
         /// The ARN of the task created by the request.
         public let quantumTaskArn: String
 
@@ -168,12 +165,11 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quantumTaskArn = "quantumTaskArn"
+            case quantumTaskArn
         }
     }
 
     public struct DeviceSummary: AWSDecodableShape {
-
         /// The ARN of the device.
         public let deviceArn: String
         /// The name of the device.
@@ -194,11 +190,11 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceArn = "deviceArn"
-            case deviceName = "deviceName"
-            case deviceStatus = "deviceStatus"
-            case deviceType = "deviceType"
-            case providerName = "providerName"
+            case deviceArn
+            case deviceName
+            case deviceStatus
+            case deviceType
+            case providerName
         }
     }
 
@@ -223,7 +219,6 @@ extension Braket {
     }
 
     public struct GetDeviceResponse: AWSDecodableShape {
-
         /// The ARN of the device.
         public let deviceArn: String
         /// Details about the capabilities of the device.
@@ -247,12 +242,12 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceArn = "deviceArn"
-            case deviceCapabilities = "deviceCapabilities"
-            case deviceName = "deviceName"
-            case deviceStatus = "deviceStatus"
-            case deviceType = "deviceType"
-            case providerName = "providerName"
+            case deviceArn
+            case deviceCapabilities
+            case deviceName
+            case deviceStatus
+            case deviceType
+            case providerName
         }
     }
 
@@ -277,7 +272,6 @@ extension Braket {
     }
 
     public struct GetQuantumTaskResponse: AWSDecodableShape {
-
         /// The time at which the task was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -315,21 +309,20 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case deviceArn = "deviceArn"
-            case deviceParameters = "deviceParameters"
-            case endedAt = "endedAt"
-            case failureReason = "failureReason"
-            case outputS3Bucket = "outputS3Bucket"
-            case outputS3Directory = "outputS3Directory"
-            case quantumTaskArn = "quantumTaskArn"
-            case shots = "shots"
-            case status = "status"
+            case createdAt
+            case deviceArn
+            case deviceParameters
+            case endedAt
+            case failureReason
+            case outputS3Bucket
+            case outputS3Directory
+            case quantumTaskArn
+            case shots
+            case status
         }
     }
 
     public struct QuantumTaskSummary: AWSDecodableShape {
-
         /// The time at which the task was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -361,19 +354,18 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt = "createdAt"
-            case deviceArn = "deviceArn"
-            case endedAt = "endedAt"
-            case outputS3Bucket = "outputS3Bucket"
-            case outputS3Directory = "outputS3Directory"
-            case quantumTaskArn = "quantumTaskArn"
-            case shots = "shots"
-            case status = "status"
+            case createdAt
+            case deviceArn
+            case endedAt
+            case outputS3Bucket
+            case outputS3Directory
+            case quantumTaskArn
+            case shots
+            case status
         }
     }
 
     public struct SearchDevicesFilter: AWSEncodableShape {
-
         /// The name to use to filter results.
         public let name: String
         /// The values to use to filter results.
@@ -396,13 +388,12 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case values = "values"
+            case name
+            case values
         }
     }
 
     public struct SearchDevicesRequest: AWSEncodableShape {
-
         /// The filter values to use to search for a device.
         public let filters: [SearchDevicesFilter]
         /// The maximum number of results to return in the response.
@@ -427,14 +418,13 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct SearchDevicesResponse: AWSDecodableShape {
-
         /// An array of DeviceSummary objects for devices that match the specified filter values.
         public let devices: [DeviceSummary]
         /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
@@ -446,13 +436,12 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices = "devices"
-            case nextToken = "nextToken"
+            case devices
+            case nextToken
         }
     }
 
     public struct SearchQuantumTasksFilter: AWSEncodableShape {
-
         /// The name of the device used for the task.
         public let name: String
         /// An operator to use in the filter.
@@ -478,14 +467,13 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case `operator` = "operator"
-            case values = "values"
+            case name
+            case `operator`
+            case values
         }
     }
 
     public struct SearchQuantumTasksRequest: AWSEncodableShape {
-
         /// Array of SearchQuantumTasksFilter objects.
         public let filters: [SearchQuantumTasksFilter]
         /// Maximum number of results to return in the response.
@@ -510,14 +498,13 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters = "filters"
-            case maxResults = "maxResults"
-            case nextToken = "nextToken"
+            case filters
+            case maxResults
+            case nextToken
         }
     }
 
     public struct SearchQuantumTasksResponse: AWSDecodableShape {
-
         /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
         public let nextToken: String?
         /// An array of QuantumTaskSummary objects for tasks that match the specified filters.
@@ -529,8 +516,8 @@ extension Braket {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case quantumTasks = "quantumTasks"
+            case nextToken
+            case quantumTasks
         }
     }
 }

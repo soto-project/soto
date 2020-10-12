@@ -34,7 +34,6 @@ extension PinpointSMSVoice {
     // MARK: Shapes
 
     public struct CallInstructionsMessageType: AWSEncodableShape {
-
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let text: String?
 
@@ -48,7 +47,6 @@ extension PinpointSMSVoice {
     }
 
     public struct CloudWatchLogsDestination: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
         public let iamRoleArn: String?
         /// The name of the Amazon CloudWatch Log Group that you want to record events in.
@@ -88,15 +86,10 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateConfigurationSetRequest: AWSEncodableShape {
-
         /// The name that you want to give the configuration set.
         public let configurationSetName: String?
 
@@ -110,16 +103,12 @@ extension PinpointSMSVoice {
     }
 
     public struct CreateConfigurationSetResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
@@ -135,11 +124,7 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetEventDestinationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteConfigurationSetRequest: AWSEncodableShape {
@@ -157,15 +142,10 @@ extension PinpointSMSVoice {
     }
 
     public struct DeleteConfigurationSetResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct EventDestination: AWSDecodableShape {
-
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
         public let enabled: Bool?
@@ -195,7 +175,6 @@ extension PinpointSMSVoice {
     }
 
     public struct EventDestinationDefinition: AWSEncodableShape {
-
         public let cloudWatchLogsDestination: CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
         public let enabled: Bool?
@@ -235,7 +214,6 @@ extension PinpointSMSVoice {
     }
 
     public struct GetConfigurationSetEventDestinationsResponse: AWSDecodableShape {
-
         public let eventDestinations: [EventDestination]?
 
         public init(eventDestinations: [EventDestination]? = nil) {
@@ -248,7 +226,6 @@ extension PinpointSMSVoice {
     }
 
     public struct KinesisFirehoseDestination: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
         public let deliveryStreamArn: String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose destination that you want to use in the event destination.
@@ -267,7 +244,7 @@ extension PinpointSMSVoice {
 
     public struct ListConfigurationSetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
             AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "PageSize"))
         ]
 
@@ -283,7 +260,6 @@ extension PinpointSMSVoice {
     }
 
     public struct ListConfigurationSetsResponse: AWSDecodableShape {
-
         /// An object that contains a list of configuration sets for your account in the current region.
         public let configurationSets: [String]?
         /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -301,7 +277,6 @@ extension PinpointSMSVoice {
     }
 
     public struct PlainTextMessageType: AWSEncodableShape {
-
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
         /// The plain (not SSML-formatted) text to deliver to the recipient.
@@ -323,7 +298,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SSMLMessageType: AWSEncodableShape {
-
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public let languageCode: String?
         /// The SSML-formatted text to deliver to the recipient.
@@ -345,7 +319,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SendVoiceMessageRequest: AWSEncodableShape {
-
         /// The phone number that appears on recipients' devices when they receive the message.
         public let callerId: String?
         /// The name of the configuration set that you want to use to send the message.
@@ -374,7 +347,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SendVoiceMessageResponse: AWSDecodableShape {
-
         /// A unique identifier for the voice message.
         public let messageId: String?
 
@@ -388,7 +360,6 @@ extension PinpointSMSVoice {
     }
 
     public struct SnsDestination: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public let topicArn: String?
 
@@ -403,7 +374,7 @@ extension PinpointSMSVoice {
 
     public struct UpdateConfigurationSetEventDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")), 
+            AWSMemberEncoding(label: "configurationSetName", location: .uri(locationName: "ConfigurationSetName")),
             AWSMemberEncoding(label: "eventDestinationName", location: .uri(locationName: "EventDestinationName"))
         ]
 
@@ -423,15 +394,10 @@ extension PinpointSMSVoice {
     }
 
     public struct UpdateConfigurationSetEventDestinationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct VoiceMessageContent: AWSEncodableShape {
-
         public let callInstructionsMessage: CallInstructionsMessageType?
         public let plainTextMessage: PlainTextMessageType?
         public let sSMLMessage: SSMLMessageType?

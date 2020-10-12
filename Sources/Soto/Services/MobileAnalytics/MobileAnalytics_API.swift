@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS MobileAnalytics service.
+ Client object for interacting with AWS MobileAnalytics service.
 
-Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.
-*/
+ Amazon Mobile Analytics is a service for collecting, visualizing, and understanding app usage data at scale.
+ */
 public struct MobileAnalytics: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct MobileAnalytics: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.

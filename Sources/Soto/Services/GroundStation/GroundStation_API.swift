@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS GroundStation service.
+ Client object for interacting with AWS GroundStation service.
 
-Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
-*/
+ Welcome to the AWS Ground Station API Reference. AWS Ground Station is a fully managed service that enables you to control satellite communications, downlink and process satellite data, and scale your satellite operations efficiently and cost-effectively without having to build or manage your own ground station infrastructure.
+ */
 public struct GroundStation: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct GroundStation: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Cancels a contact with a specified contact ID.
@@ -133,7 +132,7 @@ public struct GroundStation: AWSService {
         return self.client.execute(operation: "ListConfigs", path: "/config", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn. 
+    ///  Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
     public func listContacts(_ input: ListContactsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListContactsResponse> {
         return self.client.execute(operation: "ListContacts", path: "/contacts", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -143,7 +142,7 @@ public struct GroundStation: AWSService {
         return self.client.execute(operation: "ListDataflowEndpointGroups", path: "/dataflowEndpointGroup", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of ground stations. 
+    ///  Returns a list of ground stations.
     public func listGroundStations(_ input: ListGroundStationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListGroundStationsResponse> {
         return self.client.execute(operation: "ListGroundStations", path: "/groundstation", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

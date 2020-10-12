@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS ElasticInference service.
+ Client object for interacting with AWS ElasticInference service.
 
- Elastic Inference public APIs. 
-*/
+  Elastic Inference public APIs.
+ */
 public struct ElasticInference: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -62,35 +61,35 @@ public struct ElasticInference: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
-    ///   Describes the locations in which a given accelerator type or set of types is present in a given region. 
+    ///   Describes the locations in which a given accelerator type or set of types is present in a given region.
     public func describeAcceleratorOfferings(_ input: DescribeAcceleratorOfferingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorOfferingsResponse> {
         return self.client.execute(operation: "DescribeAcceleratorOfferings", path: "/describe-accelerator-offerings", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput. 
+    ///   Describes the accelerator types available in a given region, as well as their characteristics, such as memory and throughput.
     public func describeAcceleratorTypes(_ input: DescribeAcceleratorTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorTypesResponse> {
         return self.client.execute(operation: "DescribeAcceleratorTypes", path: "/describe-accelerator-types", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Describes information over a provided set of accelerators belonging to an account. 
+    ///   Describes information over a provided set of accelerators belonging to an account.
     public func describeAccelerators(_ input: DescribeAcceleratorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAcceleratorsResponse> {
         return self.client.execute(operation: "DescribeAccelerators", path: "/describe-accelerators", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Returns all tags of an Elastic Inference Accelerator. 
+    ///   Returns all tags of an Elastic Inference Accelerator.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResult> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Adds the specified tags to an Elastic Inference Accelerator. 
+    ///   Adds the specified tags to an Elastic Inference Accelerator.
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResult> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Removes the specified tags from an Elastic Inference Accelerator. 
+    ///   Removes the specified tags from an Elastic Inference Accelerator.
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResult> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

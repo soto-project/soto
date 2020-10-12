@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS CloudDirectory service.
+ Client object for interacting with AWS CloudDirectory service.
 
-Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about Cloud Directory features, see AWS Directory Service and the Amazon Cloud Directory Developer Guide.
-*/
+ Amazon Cloud Directory Amazon Cloud Directory is a component of the AWS Directory Service that simplifies the development and management of cloud-scale web, mobile, and IoT applications. This guide describes the Cloud Directory operations that you can call programmatically and includes detailed information on data types and errors. For information about Cloud Directory features, see AWS Directory Service and the Amazon Cloud Directory Developer Guide.
+ */
 public struct CloudDirectory: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct CloudDirectory: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Adds a new Facet to an object. An object can have more than one facet applied on it.
@@ -73,7 +72,7 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "ApplySchema", path: "/amazonclouddirectory/2017-01-11/schema/apply", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Attaches an existing object to another object. An object can be accessed in two ways:   Using the path   Using ObjectIdentifier   
+    ///  Attaches an existing object to another object. An object can be accessed in two ways:   Using the path   Using ObjectIdentifier
     public func attachObject(_ input: AttachObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AttachObjectResponse> {
         return self.client.execute(operation: "AttachObject", path: "/amazonclouddirectory/2017-01-11/object/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -93,7 +92,7 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "AttachTypedLink", path: "/amazonclouddirectory/2017-01-11/typedlink/attach", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Performs all the read operations in a batch. 
+    ///  Performs all the read operations in a batch.
     public func batchRead(_ input: BatchReadRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchReadResponse> {
         return self.client.execute(operation: "BatchRead", path: "/amazonclouddirectory/2017-01-11/batchread", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -118,12 +117,12 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "CreateIndex", path: "/amazonclouddirectory/2017-01-11/index", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates an object in a Directory. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet. 
+    ///  Creates an object in a Directory. Additionally attaches the object to a parent, if a parent reference and LinkName is specified. An object is simply a collection of Facet attributes. You can also use this API call to create a policy object, if the facet from which you create the object is a policy facet.
     public func createObject(_ input: CreateObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateObjectResponse> {
         return self.client.execute(operation: "CreateObject", path: "/amazonclouddirectory/2017-01-11/object", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a new schema in a development state. A schema can exist in three phases:    Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.    Published: Published schemas are immutable and have a version associated with them.    Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.   
+    ///  Creates a new schema in a development state. A schema can exist in three phases:    Development: This is a mutable phase of the schema. All new schemas are in the development phase. Once the schema is finalized, it can be published.    Published: Published schemas are immutable and have a version associated with them.    Applied: Applied schemas are mutable in a way that allows you to add new schema facets. You can also add new, nonrequired attributes to existing schema facets. You can apply only published schemas to directories.
     public func createSchema(_ input: CreateSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSchemaResponse> {
         return self.client.execute(operation: "CreateSchema", path: "/amazonclouddirectory/2017-01-11/schema/create", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -148,7 +147,7 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "DeleteObject", path: "/amazonclouddirectory/2017-01-11/object/delete", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a given schema. Schemas in a development and published state can only be deleted. 
+    ///  Deletes a given schema. Schemas in a development and published state can only be deleted.
     public func deleteSchema(_ input: DeleteSchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteSchemaResponse> {
         return self.client.execute(operation: "DeleteSchema", path: "/amazonclouddirectory/2017-01-11/schema", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -273,7 +272,7 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "ListManagedSchemaArns", path: "/amazonclouddirectory/2017-01-11/schema/managed", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists all attributes that are associated with an object. 
+    ///  Lists all attributes that are associated with an object.
     public func listObjectAttributes(_ input: ListObjectAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListObjectAttributesResponse> {
         return self.client.execute(operation: "ListObjectAttributes", path: "/amazonclouddirectory/2017-01-11/object/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -358,7 +357,7 @@ public struct CloudDirectory: AWSService {
         return self.client.execute(operation: "UntagResource", path: "/amazonclouddirectory/2017-01-11/tags/remove", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.  
+    ///  Does the following:   Adds new Attributes, Rules, or ObjectTypes.   Updates existing Attributes, Rules, or ObjectTypes.   Deletes existing Attributes, Rules, or ObjectTypes.
     public func updateFacet(_ input: UpdateFacetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateFacetResponse> {
         return self.client.execute(operation: "UpdateFacet", path: "/amazonclouddirectory/2017-01-11/facet", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

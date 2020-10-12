@@ -17,11 +17,10 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS IdentityStore service.
+ Client object for interacting with AWS IdentityStore service.
 
-*/
+ */
 public struct IdentityStore: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +59,7 @@ public struct IdentityStore: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Retrieves the group metadata and attributes from GroupId in an identity store.

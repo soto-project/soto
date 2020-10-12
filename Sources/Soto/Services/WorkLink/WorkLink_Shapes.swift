@@ -61,7 +61,6 @@ extension WorkLink {
     // MARK: Shapes
 
     public struct AssociateDomainRequest: AWSEncodableShape {
-
         /// The ARN of an issued ACM certificate that is valid for the domain being associated.
         public let acmCertificateArn: String
         /// The name to display.
@@ -97,15 +96,10 @@ extension WorkLink {
     }
 
     public struct AssociateDomainResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct AssociateWebsiteAuthorizationProviderRequest: AWSEncodableShape {
-
         /// The authorization provider type.
         public let authorizationProviderType: AuthorizationProviderType
         /// The domain name of the authorization provider. This applies only to SAML-based authorization providers.
@@ -135,7 +129,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteAuthorizationProviderResponse: AWSDecodableShape {
-
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
 
@@ -149,7 +142,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteCertificateAuthorityRequest: AWSEncodableShape {
-
         /// The root certificate of the CA.
         public let certificate: String
         /// The certificate name to display.
@@ -180,7 +172,6 @@ extension WorkLink {
     }
 
     public struct AssociateWebsiteCertificateAuthorityResponse: AWSDecodableShape {
-
         /// A unique identifier for the CA.
         public let websiteCaId: String?
 
@@ -194,7 +185,6 @@ extension WorkLink {
     }
 
     public struct CreateFleetRequest: AWSEncodableShape {
-
         /// The fleet name to display.
         public let displayName: String?
         /// A unique name for the fleet.
@@ -233,7 +223,6 @@ extension WorkLink {
     }
 
     public struct CreateFleetResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String?
 
@@ -247,7 +236,6 @@ extension WorkLink {
     }
 
     public struct DeleteFleetRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
 
@@ -266,15 +254,10 @@ extension WorkLink {
     }
 
     public struct DeleteFleetResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeAuditStreamConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
 
@@ -293,7 +276,6 @@ extension WorkLink {
     }
 
     public struct DescribeAuditStreamConfigurationResponse: AWSDecodableShape {
-
         /// The ARN of the Amazon Kinesis data stream that will receive the audit events.
         public let auditStreamArn: String?
 
@@ -307,7 +289,6 @@ extension WorkLink {
     }
 
     public struct DescribeCompanyNetworkConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
 
@@ -326,7 +307,6 @@ extension WorkLink {
     }
 
     public struct DescribeCompanyNetworkConfigurationResponse: AWSDecodableShape {
-
         /// The security groups associated with access to the provided subnets.
         public let securityGroupIds: [String]?
         /// The subnets used for X-ENI connections from Amazon WorkLink rendering containers.
@@ -348,7 +328,6 @@ extension WorkLink {
     }
 
     public struct DescribeDevicePolicyConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
 
@@ -367,7 +346,6 @@ extension WorkLink {
     }
 
     public struct DescribeDevicePolicyConfigurationResponse: AWSDecodableShape {
-
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
 
@@ -381,7 +359,6 @@ extension WorkLink {
     }
 
     public struct DescribeDeviceRequest: AWSEncodableShape {
-
         /// A unique identifier for a registered user's device.
         public let deviceId: String
         /// The ARN of the fleet.
@@ -406,7 +383,6 @@ extension WorkLink {
     }
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
-
         /// The date that the device first signed in to Amazon WorkLink.
         public let firstAccessedTime: Date?
         /// The date that the device last accessed Amazon WorkLink.
@@ -452,7 +428,6 @@ extension WorkLink {
     }
 
     public struct DescribeDomainRequest: AWSEncodableShape {
-
         /// The name of the domain.
         public let domainName: String
         /// The ARN of the fleet.
@@ -478,7 +453,6 @@ extension WorkLink {
     }
 
     public struct DescribeDomainResponse: AWSDecodableShape {
-
         /// The ARN of an issued ACM certificate that is valid for the domain being associated.
         public let acmCertificateArn: String?
         /// The time that the domain was added.
@@ -508,7 +482,6 @@ extension WorkLink {
     }
 
     public struct DescribeFleetMetadataRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleetArn: String
 
@@ -527,7 +500,6 @@ extension WorkLink {
     }
 
     public struct DescribeFleetMetadataResponse: AWSDecodableShape {
-
         /// The identifier used by users to sign in to the Amazon WorkLink app.
         public let companyCode: String?
         /// The time that the fleet was created.
@@ -569,7 +541,6 @@ extension WorkLink {
     }
 
     public struct DescribeIdentityProviderConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
 
@@ -588,7 +559,6 @@ extension WorkLink {
     }
 
     public struct DescribeIdentityProviderConfigurationResponse: AWSDecodableShape {
-
         /// The SAML metadata document provided by the user’s identity provider.
         public let identityProviderSamlMetadata: String?
         /// The type of identity provider.
@@ -610,7 +580,6 @@ extension WorkLink {
     }
 
     public struct DescribeWebsiteCertificateAuthorityRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// A unique identifier for the certificate authority.
@@ -635,7 +604,6 @@ extension WorkLink {
     }
 
     public struct DescribeWebsiteCertificateAuthorityResponse: AWSDecodableShape {
-
         /// The root certificate of the certificate authority.
         public let certificate: String?
         /// The time that the certificate authority was added.
@@ -657,7 +625,6 @@ extension WorkLink {
     }
 
     public struct DeviceSummary: AWSDecodableShape {
-
         /// The ID of the device.
         public let deviceId: String?
         /// The status of the device.
@@ -675,7 +642,6 @@ extension WorkLink {
     }
 
     public struct DisassociateDomainRequest: AWSEncodableShape {
-
         /// The name of the domain.
         public let domainName: String
         /// The ARN of the fleet.
@@ -701,15 +667,10 @@ extension WorkLink {
     }
 
     public struct DisassociateDomainResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DisassociateWebsiteAuthorizationProviderRequest: AWSEncodableShape {
-
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String
         /// The ARN of the fleet.
@@ -734,15 +695,10 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteAuthorizationProviderResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DisassociateWebsiteCertificateAuthorityRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// A unique identifier for the CA.
@@ -767,15 +723,10 @@ extension WorkLink {
     }
 
     public struct DisassociateWebsiteCertificateAuthorityResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DomainSummary: AWSDecodableShape {
-
         /// The time that the domain was created.
         public let createdTime: Date
         /// The name to display.
@@ -801,7 +752,6 @@ extension WorkLink {
     }
 
     public struct FleetSummary: AWSDecodableShape {
-
         /// The identifier used by users to sign into the Amazon WorkLink app.
         public let companyCode: String?
         /// The time when the fleet was created.
@@ -843,7 +793,6 @@ extension WorkLink {
     }
 
     public struct ListDevicesRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
@@ -874,7 +823,6 @@ extension WorkLink {
     }
 
     public struct ListDevicesResponse: AWSDecodableShape {
-
         /// Information about the devices.
         public let devices: [DeviceSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -892,7 +840,6 @@ extension WorkLink {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
@@ -923,7 +870,6 @@ extension WorkLink {
     }
 
     public struct ListDomainsResponse: AWSDecodableShape {
-
         /// Information about the domains.
         public let domains: [DomainSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -941,7 +887,6 @@ extension WorkLink {
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
-
         /// The maximum number of results to be included in the next page.
         public let maxResults: Int?
         /// The pagination token used to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -966,7 +911,6 @@ extension WorkLink {
     }
 
     public struct ListFleetsResponse: AWSDecodableShape {
-
         /// The summary list of the fleets.
         public let fleetSummaryList: [FleetSummary]?
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -1004,7 +948,6 @@ extension WorkLink {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// The tags attached to the resource. A tag is a key-value pair.
         public let tags: [String: String]?
 
@@ -1018,7 +961,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteAuthorizationProvidersRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
@@ -1049,7 +991,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteAuthorizationProvidersResponse: AWSDecodableShape {
-
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The website authorization providers.
@@ -1067,7 +1008,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteCertificateAuthoritiesRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The maximum number of results to be included in the next page.
@@ -1098,7 +1038,6 @@ extension WorkLink {
     }
 
     public struct ListWebsiteCertificateAuthoritiesResponse: AWSDecodableShape {
-
         /// The pagination token used to retrieve the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// Information about the certificates.
@@ -1116,7 +1055,6 @@ extension WorkLink {
     }
 
     public struct RestoreDomainAccessRequest: AWSEncodableShape {
-
         /// The name of the domain.
         public let domainName: String
         /// The ARN of the fleet.
@@ -1142,15 +1080,10 @@ extension WorkLink {
     }
 
     public struct RestoreDomainAccessResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct RevokeDomainAccessRequest: AWSEncodableShape {
-
         /// The name of the domain.
         public let domainName: String
         /// The ARN of the fleet.
@@ -1176,15 +1109,10 @@ extension WorkLink {
     }
 
     public struct RevokeDomainAccessResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct SignOutUserRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The name of the user.
@@ -1209,11 +1137,7 @@ extension WorkLink {
     }
 
     public struct SignOutUserResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -1248,16 +1172,12 @@ extension WorkLink {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1287,15 +1207,10 @@ extension WorkLink {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateAuditStreamConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the Amazon Kinesis data stream that receives the audit events.
         public let auditStreamArn: String?
         /// The ARN of the fleet.
@@ -1319,15 +1234,10 @@ extension WorkLink {
     }
 
     public struct UpdateAuditStreamConfigurationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateCompanyNetworkConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The security groups associated with access to the provided subnets.
@@ -1366,15 +1276,10 @@ extension WorkLink {
     }
 
     public struct UpdateCompanyNetworkConfigurationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDevicePolicyConfigurationRequest: AWSEncodableShape {
-
         /// The certificate chain, including intermediate certificates and the root certificate authority certificate used to issue device certificates.
         public let deviceCaCertificate: String?
         /// The ARN of the fleet.
@@ -1400,15 +1305,10 @@ extension WorkLink {
     }
 
     public struct UpdateDevicePolicyConfigurationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateDomainMetadataRequest: AWSEncodableShape {
-
         /// The name to display.
         public let displayName: String?
         /// The name of the domain.
@@ -1439,15 +1339,10 @@ extension WorkLink {
     }
 
     public struct UpdateDomainMetadataResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateFleetMetadataRequest: AWSEncodableShape {
-
         /// The fleet name to display. The existing DisplayName is unset if null is passed.
         public let displayName: String?
         /// The ARN of the fleet.
@@ -1475,15 +1370,10 @@ extension WorkLink {
     }
 
     public struct UpdateFleetMetadataResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateIdentityProviderConfigurationRequest: AWSEncodableShape {
-
         /// The ARN of the fleet.
         public let fleetArn: String
         /// The SAML metadata document provided by the customer’s identity provider. The existing IdentityProviderSamlMetadata is unset if null is passed.
@@ -1500,7 +1390,7 @@ extension WorkLink {
         public func validate(name: String) throws {
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
-            try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, max: 204800)
+            try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, max: 204_800)
             try self.validate(self.identityProviderSamlMetadata, name: "identityProviderSamlMetadata", parent: name, min: 1)
         }
 
@@ -1512,15 +1402,10 @@ extension WorkLink {
     }
 
     public struct UpdateIdentityProviderConfigurationResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct WebsiteAuthorizationProviderSummary: AWSDecodableShape {
-
         /// A unique identifier for the authorization provider.
         public let authorizationProviderId: String?
         /// The authorization provider type.
@@ -1546,7 +1431,6 @@ extension WorkLink {
     }
 
     public struct WebsiteCaSummary: AWSDecodableShape {
-
         /// The time when the CA was added.
         public let createdTime: Date?
         /// The name to display.

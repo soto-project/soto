@@ -21,21 +21,21 @@ extension RDS {
     // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
-        case sync = "sync"
-        case async = "async"
+        case sync
+        case async
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStreamStatus: String, CustomStringConvertible, Codable {
-        case stopped = "stopped"
-        case starting = "starting"
-        case started = "started"
-        case stopping = "stopping"
+        case stopped
+        case starting
+        case started
+        case stopping
         public var description: String { return self.rawValue }
     }
 
     public enum ApplyMethod: String, CustomStringConvertible, Codable {
-        case immediate = "immediate"
+        case immediate
         case pendingReboot = "pending-reboot"
         public var description: String { return self.rawValue }
     }
@@ -46,15 +46,15 @@ extension RDS {
     }
 
     public enum DBProxyStatus: String, CustomStringConvertible, Codable {
-        case available = "available"
-        case modifying = "modifying"
+        case available
+        case modifying
         case incompatibleNetwork = "incompatible-network"
         case insufficientResourceLimits = "insufficient-resource-limits"
-        case creating = "creating"
-        case deleting = "deleting"
-        case suspended = "suspended"
-        case suspending = "suspending"
-        case reactivating = "reactivating"
+        case creating
+        case deleting
+        case suspended
+        case suspending
+        case reactivating
         public var description: String { return self.rawValue }
     }
 
@@ -72,7 +72,7 @@ extension RDS {
 
     public enum ReplicaMode: String, CustomStringConvertible, Codable {
         case openReadOnly = "open-read-only"
-        case mounted = "mounted"
+        case mounted
         public var description: String { return self.rawValue }
     }
 
@@ -109,18 +109,18 @@ extension RDS {
     }
 
     public enum WriteForwardingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "enabled"
-        case disabled = "disabled"
-        case enabling = "enabling"
-        case disabling = "disabling"
-        case unknown = "unknown"
+        case enabled
+        case disabled
+        case enabling
+        case disabling
+        case unknown
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AccountAttributesMessage: AWSDecodableShape {
-        public struct _AccountQuotasEncoding: ArrayCoderProperties { static public let member = "AccountQuota" }
+        public struct _AccountQuotasEncoding: ArrayCoderProperties { public static let member = "AccountQuota" }
 
         /// A list of AccountQuota objects. Within this list, each quota has a name, a count of usage toward the quota maximum, and a maximum value for the quota.
         @OptionalCustomCoding<ArrayCoder<_AccountQuotasEncoding, AccountQuota>>
@@ -136,7 +136,6 @@ extension RDS {
     }
 
     public struct AccountQuota: AWSDecodableShape {
-
         /// The name of the Amazon RDS quota for this AWS account.
         public let accountQuotaName: String?
         /// The maximum allowed value for the quota.
@@ -158,7 +157,6 @@ extension RDS {
     }
 
     public struct AddRoleToDBClusterMessage: AWSEncodableShape {
-
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
@@ -180,12 +178,11 @@ extension RDS {
     }
 
     public struct AddRoleToDBInstanceMessage: AWSEncodableShape {
-
         /// The name of the DB instance to associate the IAM role with.
         public let dBInstanceIdentifier: String
-        /// The name of the feature for the DB instance that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion. 
+        /// The name of the feature for the DB instance that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String
-        /// The Amazon Resource Name (ARN) of the IAM role to associate with the DB instance, for example arn:aws:iam::123456789012:role/AccessRole. 
+        /// The Amazon Resource Name (ARN) of the IAM role to associate with the DB instance, for example arn:aws:iam::123456789012:role/AccessRole.
         public let roleArn: String
 
         public init(dBInstanceIdentifier: String, featureName: String, roleArn: String) {
@@ -202,8 +199,7 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionMessage: AWSEncodableShape {
-
-        /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.  
+        /// The identifier of the event source to be added. Constraints:   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to add a source identifier to.
         public let subscriptionName: String
@@ -220,7 +216,6 @@ extension RDS {
     }
 
     public struct AddSourceIdentifierToSubscriptionResult: AWSDecodableShape {
-
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -233,7 +228,7 @@ extension RDS {
     }
 
     public struct AddTagsToResourceMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The Amazon RDS resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
         public let resourceName: String
@@ -253,10 +248,9 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionMessage: AWSEncodableShape {
-
-        /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation 
+        /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade, hardware-maintenance, ca-certificate-rotation
         public let applyAction: String
-        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.  
+        /// A value that specifies the type of opt-in request, or undoes an opt-in request. An opt-in request of type immediate can't be undone. Valid values:    immediate - Apply the maintenance action immediately.    next-maintenance - Apply the maintenance action during the next maintenance window for the resource.    undo-opt-in - Cancel any existing next-maintenance opt-in requests.
         public let optInType: String
         /// The RDS Amazon Resource Name (ARN) of the resource that the pending maintenance action applies to. For information about creating an ARN, see  Constructing an RDS Amazon Resource Name (ARN).
         public let resourceIdentifier: String
@@ -275,7 +269,6 @@ extension RDS {
     }
 
     public struct ApplyPendingMaintenanceActionResult: AWSDecodableShape {
-
         public let resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions?
 
         public init(resourcePendingMaintenanceActions: ResourcePendingMaintenanceActions? = nil) {
@@ -288,16 +281,15 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressMessage: AWSEncodableShape {
-
         /// The IP range to authorize.
         public let cidrip: String?
         /// The name of the DB security group to add authorization to.
         public let dBSecurityGroupName: String
-        ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  Id of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupId: String?
-        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  Name of the EC2 security group to authorize. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupName: String?
-        ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupOwnerId: String?
 
         public init(cidrip: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
@@ -318,7 +310,6 @@ extension RDS {
     }
 
     public struct AuthorizeDBSecurityGroupIngressResult: AWSDecodableShape {
-
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -331,7 +322,6 @@ extension RDS {
     }
 
     public struct AvailabilityZone: AWSDecodableShape {
-
         /// The name of the Availability Zone.
         public let name: String?
 
@@ -345,7 +335,6 @@ extension RDS {
     }
 
     public struct AvailableProcessorFeature: AWSDecodableShape {
-
         /// The allowed values for the processor feature of the DB instance class.
         public let allowedValues: String?
         /// The default value for the processor feature of the DB instance class.
@@ -367,10 +356,9 @@ extension RDS {
     }
 
     public struct BacktrackDBClusterMessage: AWSEncodableShape {
-
-        /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page.   If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster.  Constraints:   Must contain a valid ISO 8601 timestamp.   Can't contain a timestamp set in the future.   Example: 2017-07-08T18:00Z 
+        /// The timestamp of the time to backtrack the DB cluster to, specified in ISO 8601 format. For more information about ISO 8601, see the ISO8601 Wikipedia page.   If the specified time isn't a consistent time for the DB cluster, Aurora automatically chooses the nearest possible consistent time for the DB cluster.  Constraints:   Must contain a valid ISO 8601 timestamp.   Can't contain a timestamp set in the future.   Example: 2017-07-08T18:00Z
         public let backtrackTo: Date
-        /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The DB cluster identifier of the DB cluster to be backtracked. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dBClusterIdentifier: String
         /// A value that indicates whether to force the DB cluster to backtrack when binary logging is enabled. Otherwise, an error occurs when binary logging is enabled.
         public let force: Bool?
@@ -393,7 +381,6 @@ extension RDS {
     }
 
     public struct CancelExportTaskMessage: AWSEncodableShape {
-
         /// The identifier of the snapshot export task to cancel.
         public let exportTaskIdentifier: String
 
@@ -407,7 +394,6 @@ extension RDS {
     }
 
     public struct Certificate: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
         /// The unique key that identifies a certificate.
@@ -449,12 +435,12 @@ extension RDS {
     }
 
     public struct CertificateMessage: AWSDecodableShape {
-        public struct _CertificatesEncoding: ArrayCoderProperties { static public let member = "Certificate" }
+        public struct _CertificatesEncoding: ArrayCoderProperties { public static let member = "Certificate" }
 
         /// The list of Certificate objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_CertificatesEncoding, Certificate>>
         public var certificates: [Certificate]?
-        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
         public init(certificates: [Certificate]? = nil, marker: String? = nil) {
@@ -469,7 +455,6 @@ extension RDS {
     }
 
     public struct CharacterSet: AWSDecodableShape {
-
         /// The description of the character set.
         public let characterSetDescription: String?
         /// The name of the character set.
@@ -487,7 +472,6 @@ extension RDS {
     }
 
     public struct CloudwatchLogsExportConfiguration: AWSEncodableShape {
-
         /// The list of log types to disable.
         @OptionalCustomCoding<StandardArrayCoder>
         public var disableLogTypes: [String]?
@@ -507,14 +491,13 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfiguration: AWSEncodableShape {
-
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions. Default: 120 Constraints: between 1 and 3600, or 0 representing unlimited
         public let connectionBorrowTimeout: Int?
         ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.  Default: no initialization query
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. Default: 100 Constraints: between 1 and 100
         public let maxConnectionsPercent: Int?
-        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.  Default: 50 Constraints: between 0 and MaxConnectionsPercent 
+        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.  Default: 50 Constraints: between 0 and MaxConnectionsPercent
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Default: no session pinning filters
         @OptionalCustomCoding<StandardArrayCoder>
@@ -538,14 +521,13 @@ extension RDS {
     }
 
     public struct ConnectionPoolConfigurationInfo: AWSDecodableShape {
-
         /// The number of seconds for a proxy to wait for a connection to become available in the connection pool. Only applies when the proxy has opened its maximum number of connections and all connections are busy with client sessions.
         public let connectionBorrowTimeout: Int?
-        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2. 
+        ///  One or more SQL statements for the proxy to run when opening each new database connection. Typically used with SET statements to make sure that each connection has identical settings such as time zone and character set. This setting is empty by default. For multiple statements, use semicolons as the separator. You can also include multiple variables in a single SET statement, such as SET x=1, y=2.
         public let initQuery: String?
         /// The maximum size of the connection pool for each target in a target group. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public let maxConnectionsPercent: Int?
-        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group. 
+        ///  Controls how actively the proxy closes idle database connections in the connection pool. A high value enables the proxy to leave a high percentage of idle connections open. A low value causes the proxy to close idle client connections and return the underlying database connections to the connection pool. For Aurora MySQL, it is expressed as a percentage of the max_connections setting for the RDS DB instance or Aurora DB cluster used by the target group.
         public let maxIdleConnectionsPercent: Int?
         /// Each item in the list represents a class of SQL operations that normally cause all later statements in a session using a proxy to be pinned to the same underlying database connection. Including an item in the list exempts that class of SQL operations from the pinning behavior. Currently, the only allowed value is EXCLUDE_VARIABLE_SETS.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -569,15 +551,15 @@ extension RDS {
     }
 
     public struct CopyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.  
+        /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon Aurora User Guide.  Constraints:   Must specify a valid DB cluster parameter group.   If the source DB cluster parameter group is in the same AWS Region as the copy, specify a valid DB parameter group identifier, for example my-db-cluster-param-group, or a valid ARN.   If the source DB parameter group is in a different AWS Region than the copy, specify a valid DB cluster parameter group ARN, for example arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1.
         public let sourceDBClusterParameterGroupIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A description for the copied DB cluster parameter group.
         public let targetDBClusterParameterGroupDescription: String
-        /// The identifier for the copied DB cluster parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1 
+        /// The identifier for the copied DB cluster parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster-param-group1
         public let targetDBClusterParameterGroupIdentifier: String
 
         public init(sourceDBClusterParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBClusterParameterGroupDescription: String, targetDBClusterParameterGroupIdentifier: String) {
@@ -596,7 +578,6 @@ extension RDS {
     }
 
     public struct CopyDBClusterParameterGroupResult: AWSDecodableShape {
-
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -609,19 +590,19 @@ extension RDS {
     }
 
     public struct CopyDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A value that indicates whether to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot. By default, tags are not copied.
         public let copyTags: Bool?
         /// The AWS KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB cluster snapshot from your AWS account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot.  If you copy an encrypted DB cluster snapshot that is shared from another AWS account, then you must specify a value for KmsKeyId.  To copy an encrypted DB cluster snapshot to another AWS Region, you must set KmsKeyId to the KMS key ID you want to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. If you copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
         public let kmsKeyId: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region. 
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBClusterSnapshot API action in the AWS Region that contains the source DB cluster snapshot to copy. The PreSignedUrl parameter must be used when copying an encrypted DB cluster snapshot from another AWS Region. Don't specify PreSignedUrl when you are copying an encrypted DB cluster snapshot in the same AWS Region. The pre-signed URL must be a valid request for the CopyDBClusterSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB cluster snapshot to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster snapshot in the destination AWS Region. This is the same identifier for both the CopyDBClusterSnapshot action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that the DB cluster snapshot is to be created in.    SourceDBClusterSnapshotIdentifier - The DB cluster snapshot identifier for the encrypted DB cluster snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster snapshot from the us-west-2 AWS Region, then your SourceDBClusterSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:cluster-snapshot:aurora-cluster1-snapshot-20161115.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
-        /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across AWS Regions in the Amazon Aurora User Guide.    Example: my-cluster-snapshot1 
+        /// The identifier of the DB cluster snapshot to copy. This parameter isn't case-sensitive. You can't copy an encrypted, shared DB cluster snapshot from one AWS Region to another. Constraints:   Must specify a valid system snapshot in the "available" state.   If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier.   If the source snapshot is in a different AWS Region than the copy, specify a valid DB cluster snapshot ARN. For more information, go to  Copying Snapshots Across AWS Regions in the Amazon Aurora User Guide.    Example: my-cluster-snapshot1
         public let sourceDBClusterSnapshotIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2 
+        /// The identifier of the new DB cluster snapshot to create from the source DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster-snapshot2
         public let targetDBClusterSnapshotIdentifier: String
 
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, preSignedUrl: String? = nil, sourceDBClusterSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBClusterSnapshotIdentifier: String) {
@@ -644,7 +625,6 @@ extension RDS {
     }
 
     public struct CopyDBClusterSnapshotResult: AWSDecodableShape {
-
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -657,15 +637,15 @@ extension RDS {
     }
 
     public struct CopyDBParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.  
+        ///  The identifier or ARN for the source DB parameter group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid DB parameter group.   Must specify a valid DB parameter group identifier, for example my-db-param-group, or a valid ARN.
         public let sourceDBParameterGroupIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A description for the copied DB parameter group.
         public let targetDBParameterGroupDescription: String
-        /// The identifier for the copied DB parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group 
+        /// The identifier for the copied DB parameter group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-parameter-group
         public let targetDBParameterGroupIdentifier: String
 
         public init(sourceDBParameterGroupIdentifier: String, tags: [Tag]? = nil, targetDBParameterGroupDescription: String, targetDBParameterGroupIdentifier: String) {
@@ -684,7 +664,6 @@ extension RDS {
     }
 
     public struct CopyDBParameterGroupResult: AWSDecodableShape {
-
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -697,21 +676,21 @@ extension RDS {
     }
 
     public struct CopyDBSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// A value that indicates whether to copy all tags from the source DB snapshot to the target DB snapshot. By default, tags are not copied.
         public let copyTags: Bool?
-        /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new KMS encryption key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. 
+        /// The AWS KMS key ID for an encrypted DB snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.  If you copy an encrypted DB snapshot from your AWS account, you can specify a value for this parameter to encrypt the copy with a new KMS encryption key. If you don't specify a value for this parameter, then the copy of the DB snapshot is encrypted with the same KMS key as the source DB snapshot.  If you copy an encrypted DB snapshot that is shared from another AWS account, then you must specify a value for this parameter.  If you specify this parameter when you copy an unencrypted snapshot, the copy is encrypted.  If you copy an encrypted snapshot to a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region.
         public let kmsKeyId: String?
-        /// The name of an option group to associate with the copy of the snapshot. Specify this option if you are copying a snapshot from one AWS Region to another, and your DB instance uses a nondefault option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across AWS Regions. For more information, see Option Group Considerations in the Amazon RDS User Guide. 
+        /// The name of an option group to associate with the copy of the snapshot. Specify this option if you are copying a snapshot from one AWS Region to another, and your DB instance uses a nondefault option group. If your source DB instance uses Transparent Data Encryption for Oracle or Microsoft SQL Server, you must specify this option when copying across AWS Regions. For more information, see Option Group Considerations in the Amazon RDS User Guide.
         public let optionGroupName: String?
-        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS Region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are copying an encrypted DB snapshot in the same AWS Region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot is copied to. This AWS Region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 AWS Region to the us-east-1 AWS Region, then you call the CopyDBSnapshot action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination AWS Region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB snapshot from the us-west-2 AWS Region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region. 
+        /// The URL that contains a Signature Version 4 signed request for the CopyDBSnapshot API action in the source AWS Region that contains the source DB snapshot to copy.  You must specify this parameter when you copy an encrypted DB snapshot from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are copying an encrypted DB snapshot in the same AWS Region. The presigned URL must be a valid request for the CopyDBSnapshot API action that can be executed in the source AWS Region that contains the encrypted DB snapshot to be copied. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted DB snapshot is copied to. This AWS Region is the same one where the CopyDBSnapshot action is called that contains this presigned URL.  For example, if you copy an encrypted DB snapshot from the us-west-2 AWS Region to the us-east-1 AWS Region, then you call the CopyDBSnapshot action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CopyDBSnapshot action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB snapshot in the destination AWS Region. This is the same identifier for both the CopyDBSnapshot action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBSnapshotIdentifier - The DB snapshot identifier for the encrypted snapshot to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB snapshot from the us-west-2 AWS Region, then your SourceDBSnapshotIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
-        /// The identifier for the source DB snapshot. If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805.  If the source snapshot is in a different AWS Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter must be in the ARN format for the source AWS Region, and must match the SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805 
+        /// The identifier for the source DB snapshot. If the source snapshot is in the same AWS Region as the copy, specify a valid DB snapshot identifier. For example, you might specify rds:mysql-instance1-snapshot-20130805.  If the source snapshot is in a different AWS Region than the copy, specify a valid DB snapshot ARN. For example, you might specify arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805.  If you are copying from a shared manual DB snapshot, this parameter must be the Amazon Resource Name (ARN) of the shared DB snapshot.  If you are copying an encrypted snapshot this parameter must be in the ARN format for the source AWS Region, and must match the SourceDBSnapshotIdentifier in the PreSignedUrl parameter.  Constraints:   Must specify a valid system snapshot in the "available" state.   Example: rds:mydb-2012-04-02-00-01  Example: arn:aws:rds:us-west-2:123456789012:snapshot:mysql-instance1-snapshot-20130805
         public let sourceDBSnapshotIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The identifier for the copy of the snapshot.  Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot 
+        /// The identifier for the copy of the snapshot.  Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-db-snapshot
         public let targetDBSnapshotIdentifier: String
 
         public init(copyTags: Bool? = nil, kmsKeyId: String? = nil, optionGroupName: String? = nil, preSignedUrl: String? = nil, sourceDBSnapshotIdentifier: String, tags: [Tag]? = nil, targetDBSnapshotIdentifier: String) {
@@ -736,7 +715,6 @@ extension RDS {
     }
 
     public struct CopyDBSnapshotResult: AWSDecodableShape {
-
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -749,15 +727,15 @@ extension RDS {
     }
 
     public struct CopyOptionGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
+        /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.
         public let sourceOptionGroupIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The description for the copied option group.
         public let targetOptionGroupDescription: String
-        /// The identifier for the copied option group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-option-group 
+        /// The identifier for the copied option group. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-option-group
         public let targetOptionGroupIdentifier: String
 
         public init(sourceOptionGroupIdentifier: String, tags: [Tag]? = nil, targetOptionGroupDescription: String, targetOptionGroupIdentifier: String) {
@@ -776,7 +754,6 @@ extension RDS {
     }
 
     public struct CopyOptionGroupResult: AWSDecodableShape {
-
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -789,7 +766,6 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneMessage: AWSEncodableShape {
-
         /// The name of the custom Availability Zone (AZ).
         public let customAvailabilityZoneName: String
         /// The ID of an existing virtual private network (VPN) between the Amazon RDS website and the VMware vSphere cluster.
@@ -815,7 +791,6 @@ extension RDS {
     }
 
     public struct CreateCustomAvailabilityZoneResult: AWSDecodableShape {
-
         public let customAvailabilityZone: CustomAvailabilityZone?
 
         public init(customAvailabilityZone: CustomAvailabilityZone? = nil) {
@@ -828,7 +803,7 @@ extension RDS {
     }
 
     public struct CreateDBClusterEndpointMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
@@ -866,16 +841,16 @@ extension RDS {
     }
 
     public struct CreateDBClusterMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide. 
+        /// A list of Availability Zones (AZs) where instances in the DB cluster can be created. For information on AWS Regions and Availability Zones, see Choosing the Regions and Availability Zones in the Amazon Aurora User Guide.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
-        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.   Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.   Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
-        /// The number of days for which automated backups are retained. Default: 1 Constraints:   Must be a value from 1 to 35  
+        /// The number of days for which automated backups are retained. Default: 1 Constraints:   Must be a value from 1 to 35
         public let backupRetentionPeriod: Int?
         /// A value that indicates that the DB cluster should be associated with the specified CharacterSet.
         public let characterSetName: String?
@@ -883,50 +858,50 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The name for your database of up to 64 alphanumeric characters. If you do not provide a name, Amazon RDS doesn't create a database in the DB cluster you are creating.
         public let databaseName: String?
-        /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The DB cluster identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dBClusterIdentifier: String
-        ///  The name of the DB cluster parameter group to associate with this DB cluster. If you do not specify a value, then the default DB cluster parameter group for the specified DB engine and version is used.  Constraints:   If supplied, must match the name of an existing DB cluster parameter group.  
+        ///  The name of the DB cluster parameter group to associate with this DB cluster. If you do not specify a value, then the default DB cluster parameter group for the specified DB engine and version is used.  Constraints:   If supplied, must match the name of an existing DB cluster parameter group.
         public let dBClusterParameterGroupName: String?
-        /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        /// A DB subnet group to associate with this DB cluster. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String?
         /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// The Active Directory directory ID to create the DB cluster in.  For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide. 
+        /// The Active Directory directory ID to create the DB cluster in.  For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.  Aurora MySQL  Possible values are audit, error, general, and slowquery.   Aurora PostgreSQL  Possible values are postgresql and upgrade. 
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.  Aurora MySQL  Possible values are audit, error, general, and slowquery.   Aurora PostgreSQL  Possible values are postgresql and upgrade.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable write operations to be forwarded from this cluster to the primary cluster in an Aurora global database. The resulting changes are replicated back to this cluster. This parameter only applies to DB clusters that are secondary clusters in an Aurora global database. By default, Aurora disallows write operations for secondary clusters.
         public let enableGlobalWriteForwarding: Bool?
         /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
         public let enableHttpEndpoint: Bool?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql 
+        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.   Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query      Requirements for Aurora Global Databases      Limitations of Multi-Master Clusters   
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.   Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query      Requirements for Aurora Global Databases      Limitations of Multi-Master Clusters
         public let engineMode: String?
-        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
+        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7
         public let engineVersion: String?
-        ///  The global cluster ID of an Aurora cluster that becomes the primary cluster in the new global database cluster. 
+        ///  The global cluster ID of an Aurora cluster that becomes the primary cluster in the new global database cluster.
         public let globalClusterIdentifier: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key isn't specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon RDS will use the encryption key used to encrypt the source. Otherwise, Amazon RDS will use your default encryption key.    If the StorageEncrypted parameter is enabled and ReplicationSourceIdentifier isn't specified, then Amazon RDS will use your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a read replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the read replica in that AWS Region.
         public let kmsKeyId: String?
-        /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.  
+        /// The name of the master user for the DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
         /// A value that indicates that the DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
-        /// The port number on which the instances in the DB cluster accept connections.  Default: 3306 if engine is set as aurora or 5432 if set to aurora-postgresql. 
+        /// The port number on which the instances in the DB cluster accept connections.  Default: 3306 if engine is set as aurora or 5432 if set to aurora-postgresql.
         public let port: Int?
-        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
-        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source AWS Region where the DB cluster is replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source AWS Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination AWS Region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster from the us-west-2 AWS Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region. 
+        /// A URL that contains a Signature Version 4 signed request for the CreateDBCluster action to be called in the source AWS Region where the DB cluster is replicated from. You only need to specify PreSignedUrl when you are performing cross-region replication from an encrypted DB cluster. The pre-signed URL must be a valid request for the CreateDBCluster API action that can be executed in the source AWS Region that contains the encrypted DB cluster to be copied. The pre-signed URL request must contain the following parameter values:    KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the copy of the DB cluster in the destination AWS Region. This should refer to the same KMS key for both the CreateDBCluster action that is called in the destination AWS Region, and the action contained in the pre-signed URL.    DestinationRegion - The name of the AWS Region that Aurora read replica will be created in.    ReplicationSourceIdentifier - The DB cluster identifier for the encrypted DB cluster to be copied. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are copying an encrypted DB cluster from the us-west-2 AWS Region, then your ReplicationSourceIdentifier would look like Example: arn:aws:rds:us-west-2:123456789012:cluster:aurora-cluster1.   To learn how to generate a Signature Version 4 signed request, see  Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and  Signature Version 4 Signing Process.  If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a pre-signed URL that is a valid request for the operation that can be executed in the source AWS Region.
         public let preSignedUrl: String?
         /// The Amazon Resource Name (ARN) of the source DB instance or DB cluster if this DB cluster is created as a read replica.
         public let replicationSourceIdentifier: String?
@@ -1015,11 +990,11 @@ extension RDS {
     }
 
     public struct CreateDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DB cluster parameter group.    This value is stored as a lowercase string. 
+        /// The name of the DB cluster parameter group. Constraints:   Must match the name of an existing DB cluster parameter group.    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String
-        /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.  Aurora MySQL  Example: aurora5.6, aurora-mysql5.7   Aurora PostgreSQL  Example: aurora-postgresql9.6 
+        /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family.  Aurora MySQL  Example: aurora5.6, aurora-mysql5.7   Aurora PostgreSQL  Example: aurora-postgresql9.6
         public let dBParameterGroupFamily: String
         /// The description for the DB cluster parameter group.
         public let description: String
@@ -1043,7 +1018,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterParameterGroupResult: AWSDecodableShape {
-
         public let dBClusterParameterGroup: DBClusterParameterGroup?
 
         public init(dBClusterParameterGroup: DBClusterParameterGroup? = nil) {
@@ -1056,7 +1030,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -1069,11 +1042,11 @@ extension RDS {
     }
 
     public struct CreateDBClusterSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1 
+        /// The identifier of the DB cluster to create a snapshot for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.   Example: my-cluster1
         public let dBClusterIdentifier: String
-        /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1 
+        /// The identifier of the DB cluster snapshot. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1-snapshot1
         public let dBClusterSnapshotIdentifier: String
         /// The tags to be assigned to the DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1093,7 +1066,6 @@ extension RDS {
     }
 
     public struct CreateDBClusterSnapshotResult: AWSDecodableShape {
-
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -1106,18 +1078,18 @@ extension RDS {
     }
 
     public struct CreateDBInstanceMessage: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.    
+        /// The amount of storage (in gibibytes) to allocate for the DB instance. Type: Integer  Amazon Aurora  Not applicable. Aurora cluster volumes automatically grow as the amount of data in your database increases, though you are only charged for the space that you use in an Aurora cluster volume.  MySQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    MariaDB  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    PostgreSQL  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 5 to 3072.    Oracle  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2): Must be an integer from 20 to 65536.   Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.   Magnetic storage (standard): Must be an integer from 10 to 3072.    SQL Server  Constraints to the amount of storage for each storage type are the following:    General Purpose (SSD) storage (gp2):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 20 to 16384.     Provisioned IOPS storage (io1):   Enterprise and Standard editions: Must be an integer from 200 to 16384.   Web and Express editions: Must be an integer from 100 to 16384.     Magnetic storage (standard):   Enterprise and Standard editions: Must be an integer from 200 to 1024.   Web and Express editions: Must be an integer from 20 to 1024.
         public let allocatedStorage: Int?
         /// A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are applied automatically.
         public let autoMinorVersionUpgrade: Bool?
-        ///  The Availability Zone (AZ) where the database will be created. For information on AWS Regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same AWS Region as the current endpoint.   If you're creating a DB instance in an RDS on VMware environment, specify the identifier of the custom Availability Zone to create the DB instance in. For more information about RDS on VMware, see the  RDS on VMware User Guide.   
+        ///  The Availability Zone (AZ) where the database will be created. For information on AWS Regions and Availability Zones, see Regions and Availability Zones.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d   Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same AWS Region as the current endpoint.   If you're creating a DB instance in an RDS on VMware environment, specify the identifier of the custom Availability Zone to create the DB instance in. For more information about RDS on VMware, see the  RDS on VMware User Guide.
         public let availabilityZone: String?
-        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. Default: 1 Constraints:   Must be a value from 0 to 35   Can't be set to 0 if the DB instance is a source to read replicas  
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. Default: 1 Constraints:   Must be a value from 0 to 35   Can't be set to 0 if the DB instance is a source to read replicas
         public let backupRetentionPeriod: Int?
         /// For supported engines, indicates that the DB instance should be associated with the specified CharacterSet.  Amazon Aurora  Not applicable. The character set is managed by the DB cluster. For more information, see CreateDBCluster.
         public let characterSetName: String?
@@ -1125,49 +1097,49 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The identifier of the DB cluster that the instance will belong to.
         public let dBClusterIdentifier: String?
-        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide. 
+        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.
         public let dBInstanceClass: String
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let dBInstanceIdentifier: String
-        /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine  
+        /// The meaning of this parameter differs according to the database engine you use.  MySQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    MariaDB  The name of the database to create when the DB instance is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    PostgreSQL  The name of the database to create when the DB instance is created. If this parameter isn't specified, the default "postgres" database is created in the DB instance. Constraints:   Must contain 1 to 63 letters, numbers, or underscores.   Must begin with a letter. Subsequent characters can be letters, underscores, or digits (0-9).   Can't be a word reserved by the specified database engine    Oracle  The Oracle System ID (SID) of the created DB instance. If you specify null, the default value ORCL is used. You can't specify the string NULL, or any other reserved word, for DBName.  Default: ORCL  Constraints:   Can't be longer than 8 characters    SQL Server  Not applicable. Must be null.  Amazon Aurora  The name of the database to create when the primary instance of the DB cluster is created. If this parameter isn't specified, no database is created in the DB instance. Constraints:   Must contain 1 to 64 letters or numbers.   Can't be a word reserved by the specified database engine
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value, then the default DB parameter group for the specified DB engine and version is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value, then the default DB parameter group for the specified DB engine and version is used. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let dBParameterGroupName: String?
         /// A list of DB security groups to associate with this DB instance. Default: The default DB security group for the database engine.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
         public var dBSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance. If there is no DB subnet group, then it is a non-VPC DB instance.
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.   Amazon Aurora  Not applicable. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.   Amazon Aurora  Not applicable. You can enable or disable deletion protection for the DB cluster. For more information, see CreateDBCluster. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster.
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.  MariaDB  Possible values are audit, error, general, and slowquery.   Microsoft SQL Server  Possible values are agent and error.   MySQL  Possible values are audit, error, general, and slowquery.   Oracle  Possible values are alert, audit, listener, and trace.   PostgreSQL  Possible values are postgresql and upgrade. 
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.  MariaDB  Possible values are audit, error, general, and slowquery.   Microsoft SQL Server  Possible values are agent and error.   MySQL  Possible values are audit, error, general, and slowquery.   Oracle  Possible values are alert, audit, listener, and trace.   PostgreSQL  Possible values are postgresql and upgrade.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   For MySQL 8.0, minor version 8.0.16 or higher    PostgreSQL    For PostgreSQL 9.5, minor version 9.5.15 or higher   For PostgreSQL 9.6, minor version 9.6.11 or higher   PostgreSQL 10.6, 10.7, and 10.9   For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   For MySQL 8.0, minor version 8.0.16 or higher    PostgreSQL    For PostgreSQL 9.5, minor version 9.5.15 or higher   For PostgreSQL 9.6, minor version 9.6.11 or higher   PostgreSQL 10.6, 10.7, and 10.9   For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
+        /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide.
         public let enablePerformanceInsights: Bool?
-        /// The name of the database engine to be used for this instance.  Not every database engine is available for every AWS Region.  Valid Values:     aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        /// The name of the database engine to be used for this instance.  Not every database engine is available for every AWS Region.  Valid Values:     aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String
-        /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide. 
+        /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide.
         public let engineVersion: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance.
         public let iops: Int?
         /// The AWS KMS key identifier for an encrypted DB instance. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  Amazon Aurora  Not applicable. The KMS key identifier is managed by the DB cluster. For more information, see CreateDBCluster. If StorageEncrypted is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license 
+        /// License model information for this DB instance.  Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
-        /// The name for the master user.  Amazon Aurora  Not applicable. The name for the master user is managed by the DB cluster.   MariaDB  Constraints:   Required for MariaDB.   Must be 1 to 16 letters or numbers.   Can't be a reserved word for the chosen database engine.    Microsoft SQL Server  Constraints:   Required for SQL Server.   Must be 1 to 128 letters or numbers.   The first character must be a letter.   Can't be a reserved word for the chosen database engine.    MySQL  Constraints:   Required for MySQL.   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    Oracle  Constraints:   Required for Oracle.   Must be 1 to 30 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Required for PostgreSQL.   Must be 1 to 63 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.  
+        /// The name for the master user.  Amazon Aurora  Not applicable. The name for the master user is managed by the DB cluster.   MariaDB  Constraints:   Required for MariaDB.   Must be 1 to 16 letters or numbers.   Can't be a reserved word for the chosen database engine.    Microsoft SQL Server  Constraints:   Required for SQL Server.   Must be 1 to 128 letters or numbers.   The first character must be a letter.   Can't be a reserved word for the chosen database engine.    MySQL  Constraints:   Required for MySQL.   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    Oracle  Constraints:   Required for Oracle.   Must be 1 to 30 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.    PostgreSQL  Constraints:   Required for PostgreSQL.   Must be 1 to 63 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster.  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.
         public let masterUserPassword: String?
         /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
         public let maxAllocatedStorage: Int?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
         public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
@@ -1179,11 +1151,11 @@ extension RDS {
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
-        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years). 
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
         /// The port number on which the database accepts connections.  MySQL   Default: 3306   Valid values: 1150-65535  Type: Integer  MariaDB   Default: 3306   Valid values: 1150-65535  Type: Integer  PostgreSQL   Default: 5432   Valid values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid values: 1150-65535   SQL Server   Default: 1433   Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.  Amazon Aurora   Default: 3306   Valid values: 1150-65535  Type: Integer
         public let port: Int?
-        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see The Backup Window in the Amazon RDS User Guide.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Instance Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. For more information, see The Backup Window in the Amazon RDS User Guide.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Instance Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
         /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window.   Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -1192,11 +1164,11 @@ extension RDS {
         public var processorFeatures: [ProcessorFeature]?
         /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide.  Default: 1 Valid Values: 0 - 15
         public let promotionTier: Int?
-        /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target region doesn’t have an Internet gateway attached to it, the DB instance is private.   If the default VPC in the target region has an Internet gateway attached to it, the DB instance is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an Internet gateway attached to it, the DB instance is private.   If the subnets are part of a VPC that has an Internet gateway attached to it, the DB instance is public.  
+        /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:   If the default VPC in the target region doesn’t have an Internet gateway attached to it, the DB instance is private.   If the default VPC in the target region has an Internet gateway attached to it, the DB instance is public.   If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:   If the subnets are part of a VPC that doesn’t have an Internet gateway attached to it, the DB instance is private.   If the subnets are part of a VPC that has an Internet gateway attached to it, the DB instance is public.
         public let publiclyAccessible: Bool?
         /// A value that indicates whether the DB instance is encrypted. By default, it isn't encrypted.  Amazon Aurora  Not applicable. The encryption for DB instances is managed by the DB cluster.
         public let storageEncrypted: Bool?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
         public let storageType: String?
         /// Tags to assign to the DB instance.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1205,7 +1177,7 @@ extension RDS {
         public let tdeCredentialArn: String?
         /// The password for the given ARN from the key store in order to access the device.
         public let tdeCredentialPassword: String?
-        /// The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server. 
+        /// The time zone of the DB instance. The time zone parameter is currently supported only by Microsoft SQL Server.
         public let timezone: String?
         /// A list of Amazon EC2 VPC security groups to associate with this DB instance.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
@@ -1313,13 +1285,13 @@ extension RDS {
     }
 
     public struct CreateDBInstanceReadReplicaMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor engine upgrades are applied automatically to the read replica during the maintenance window. Default: Inherits from the source DB instance
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d 
+        /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.  Example: us-east-1d
         public let availabilityZone: String?
         /// A value that indicates whether to copy all tags from the read replica to snapshots of the read replica. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
@@ -1327,11 +1299,11 @@ extension RDS {
         public let dBInstanceClass: String?
         /// The DB instance identifier of the read replica. This identifier is the unique key that identifies a DB instance. This parameter is stored as a lowercase string.
         public let dBInstanceIdentifier: String
-        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of source DB instance for a same region read replica, or the default DBParameterGroup for the specified DB engine for a cross region read replica.  Currently, specifying a parameter group for this operation is only supported for Oracle DB instances.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then Amazon RDS uses the DBParameterGroup of source DB instance for a same region read replica, or the default DBParameterGroup for the specified DB engine for a cross region read replica.  Currently, specifying a parameter group for this operation is only supported for Oracle DB instances.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let dBParameterGroupName: String?
-        /// Specifies a DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance isn't created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another AWS Region.   If supplied, must match the name of an existing DBSubnetGroup.   The specified DB subnet group must be in the same AWS Region in which the operation is running.   All read replicas in one AWS Region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these read replicas are created in the same VPC.   Not specify a DB subnet group. All these read replicas are created outside of any VPC.     Example: mySubnetgroup 
+        /// Specifies a DB subnet group for the DB instance. The new DB instance is created in the VPC associated with the DB subnet group. If no DB subnet group is specified, then the new DB instance isn't created in a VPC. Constraints:   Can only be specified if the source DB instance identifier specifies a DB instance in another AWS Region.   If supplied, must match the name of an existing DBSubnetGroup.   The specified DB subnet group must be in the same AWS Region in which the operation is running.   All read replicas in one AWS Region that are created from the same source DB instance must either:&gt;   Specify DB subnet groups from the same VPC. All these read replicas are created in the same VPC.   Not specify a DB subnet group. All these read replicas are created outside of any VPC.     Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to create the DB instance in. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
@@ -1340,29 +1312,29 @@ extension RDS {
         /// The list of logs that the new DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// A value that indicates whether to enable Performance Insights for the read replica.  For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable Performance Insights for the read replica.  For more information, see Using Amazon Performance Insights in the Amazon RDS User Guide.
         public let enablePerformanceInsights: Bool?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance.
         public let iops: Int?
         /// The AWS KMS key ID for an encrypted read replica. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you create an encrypted read replica in the same AWS Region as the source DB instance, then you do not have to specify a value for this parameter. The read replica is encrypted with the same KMS key as the source DB instance. If you create an encrypted read replica in a different AWS Region, then you must specify a KMS key for the destination AWS Region. KMS encryption keys are specific to the AWS Region that they are created in, and you can't use encryption keys from one AWS Region in another AWS Region. You can't create an encrypted read replica from an unencrypted DB instance.
         public let kmsKeyId: String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the read replica. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the read replica. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
         public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide. If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
-        /// A value that indicates whether the read replica is in a Multi-AZ deployment.  You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source database is a Multi-AZ DB instance. 
+        /// A value that indicates whether the read replica is in a Multi-AZ deployment.  You can create a read replica as a Multi-AZ DB instance. RDS creates a standby of your replica in another Availability Zone for failover support for the replica. Creating your read replica as a Multi-AZ DB instance is independent of whether the source database is a Multi-AZ DB instance.
         public let multiAZ: Bool?
-        /// The option group the DB instance is associated with. If omitted, the option group associated with the source instance is used.  For SQL Server, you must use the option group associated with the source instance. 
+        /// The option group the DB instance is associated with. If omitted, the option group associated with the source instance is used.  For SQL Server, you must use the option group associated with the source instance.
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
-        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years). 
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
-        /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
+        /// The port number that the DB instance uses for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
         public let port: Int?
-        /// The URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API action in the source AWS Region that contains the source DB instance.  You must specify this parameter when you create an encrypted read replica from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same AWS Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source AWS Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted read replica is created in. This AWS Region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL. For example, if you create an encrypted DB instance in the us-west-1 AWS Region, from a source DB instance in the us-east-2 AWS Region, then you call the CreateDBInstanceReadReplica action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the read replica in the destination AWS Region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 AWS Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can be executed in the source AWS Region.  SourceRegion isn't supported for SQL Server, because SQL Server on Amazon RDS doesn't support cross-region read replicas. 
+        /// The URL that contains a Signature Version 4 signed request for the CreateDBInstanceReadReplica API action in the source AWS Region that contains the source DB instance.  You must specify this parameter when you create an encrypted read replica from another AWS Region by using the Amazon RDS API. Don't specify PreSignedUrl when you are creating an encrypted read replica in the same AWS Region. The presigned URL must be a valid request for the CreateDBInstanceReadReplica API action that can be executed in the source AWS Region that contains the encrypted source DB instance. The presigned URL request must contain the following parameter values:     DestinationRegion - The AWS Region that the encrypted read replica is created in. This AWS Region is the same one where the CreateDBInstanceReadReplica action is called that contains this presigned URL. For example, if you create an encrypted DB instance in the us-west-1 AWS Region, from a source DB instance in the us-east-2 AWS Region, then you call the CreateDBInstanceReadReplica action in the us-east-1 AWS Region and provide a presigned URL that contains a call to the CreateDBInstanceReadReplica action in the us-west-2 AWS Region. For this example, the DestinationRegion in the presigned URL must be set to the us-east-1 AWS Region.     KmsKeyId - The AWS KMS key identifier for the key to use to encrypt the read replica in the destination AWS Region. This is the same identifier for both the CreateDBInstanceReadReplica action that is called in the destination AWS Region, and the action contained in the presigned URL.     SourceDBInstanceIdentifier - The DB instance identifier for the encrypted DB instance to be replicated. This identifier must be in the Amazon Resource Name (ARN) format for the source AWS Region. For example, if you are creating an encrypted read replica from a DB instance in the us-west-2 AWS Region, then your SourceDBInstanceIdentifier looks like the following example: arn:aws:rds:us-west-2:123456789012:instance:mysql-instance1-20161115.    To learn how to generate a Signature Version 4 signed request, see Authenticating Requests: Using Query Parameters (AWS Signature Version 4) and Signature Version 4 Signing Process.   If you are using an AWS SDK tool or the AWS CLI, you can specify SourceRegion (or --source-region for the AWS CLI) instead of specifying PreSignedUrl manually. Specifying SourceRegion autogenerates a presigned URL that is a valid request for the operation that can be executed in the source AWS Region.  SourceRegion isn't supported for SQL Server, because SQL Server on Amazon RDS doesn't support cross-region read replicas.
         public let preSignedUrl: String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
@@ -1371,15 +1343,15 @@ extension RDS {
         public let publiclyAccessible: Bool?
         /// The open mode of the replica database: mounted or read-only.  This parameter is only supported for Oracle DB instances.  Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. You can create a combination of mounted and read-only DB replicas for the same primary DB instance. For more information, see Working with Oracle Read Replicas for Amazon RDS in the Amazon RDS User Guide.
         public let replicaMode: ReplicaMode?
-        /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to five read replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server DB instance.   Can specify a DB instance that is a MySQL read replica only if the source is running MySQL 5.6 or later.   For the limitations of Oracle read replicas, see Read Replica Limitations with Oracle in the Amazon RDS User Guide.   For the limitations of SQL Server read replicas, see Read Replica Limitations with Microsoft SQL Server in the Amazon RDS User Guide.   Can specify a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later (9.4.7 and higher for cross-region replication).   The specified DB instance must have automatic backups enabled, that is, its backup retention period must be greater than 0.   If the source DB instance is in the same AWS Region as the read replica, specify a valid DB instance identifier.   If the source DB instance is in a different AWS Region from the read replica, specify a valid DB instance ARN. For more information, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. This doesn't apply to SQL Server, which doesn't support cross-region replicas.  
+        /// The identifier of the DB instance that will act as the source for the read replica. Each DB instance can have up to five read replicas. Constraints:   Must be the identifier of an existing MySQL, MariaDB, Oracle, PostgreSQL, or SQL Server DB instance.   Can specify a DB instance that is a MySQL read replica only if the source is running MySQL 5.6 or later.   For the limitations of Oracle read replicas, see Read Replica Limitations with Oracle in the Amazon RDS User Guide.   For the limitations of SQL Server read replicas, see Read Replica Limitations with Microsoft SQL Server in the Amazon RDS User Guide.   Can specify a PostgreSQL DB instance only if the source is running PostgreSQL 9.3.5 or later (9.4.7 and higher for cross-region replication).   The specified DB instance must have automatic backups enabled, that is, its backup retention period must be greater than 0.   If the source DB instance is in the same AWS Region as the read replica, specify a valid DB instance identifier.   If the source DB instance is in a different AWS Region from the read replica, specify a valid DB instance ARN. For more information, see Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. This doesn't apply to SQL Server, which doesn't support cross-region replicas.
         public let sourceDBInstanceIdentifier: String
-        /// Specifies the storage type to be associated with the read replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2 
+        /// Specifies the storage type to be associated with the read replica.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
         public let storageType: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features.
         public let useDefaultProcessorFeatures: Bool?
-        ///  A list of EC2 VPC security groups to associate with the read replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
+        ///  A list of EC2 VPC security groups to associate with the read replica.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
@@ -1453,7 +1425,6 @@ extension RDS {
     }
 
     public struct CreateDBInstanceReadReplicaResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1466,7 +1437,6 @@ extension RDS {
     }
 
     public struct CreateDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -1479,11 +1449,11 @@ extension RDS {
     }
 
     public struct CreateDBParameterGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"   The output contains duplicates. 
+        /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family. To list all of the available parameter group families, use the following command:  aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily"   The output contains duplicates.
         public let dBParameterGroupFamily: String
-        /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
+        /// The name of the DB parameter group. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
         public let dBParameterGroupName: String
         /// The description for the DB parameter group.
         public let description: String
@@ -1507,7 +1477,6 @@ extension RDS {
     }
 
     public struct CreateDBParameterGroupResult: AWSDecodableShape {
-
         public let dBParameterGroup: DBParameterGroup?
 
         public init(dBParameterGroup: DBParameterGroup? = nil) {
@@ -1520,7 +1489,7 @@ extension RDS {
     }
 
     public struct CreateDBProxyRequest: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The authorization mechanism that the proxy uses.
         @CustomCoding<StandardArrayCoder>
@@ -1575,7 +1544,6 @@ extension RDS {
     }
 
     public struct CreateDBProxyResponse: AWSDecodableShape {
-
         /// The DBProxy structure corresponding to the new proxy.
         public let dBProxy: DBProxy?
 
@@ -1589,11 +1557,11 @@ extension RDS {
     }
 
     public struct CreateDBSecurityGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The description for the DB security group.
         public let dBSecurityGroupDescription: String
-        /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup 
+        /// The name for the DB security group. This value is stored as a lowercase string. Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"   Example: mysecuritygroup
         public let dBSecurityGroupName: String
         /// Tags to assign to the DB security group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1613,7 +1581,6 @@ extension RDS {
     }
 
     public struct CreateDBSecurityGroupResult: AWSDecodableShape {
-
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -1626,11 +1593,11 @@ extension RDS {
     }
 
     public struct CreateDBSnapshotMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The identifier of the DB instance that you want to create the snapshot of. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
-        /// The identifier for the DB snapshot. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        /// The identifier for the DB snapshot. Constraints:   Can't be null, empty, or blank   Must contain from 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
         public let dBSnapshotIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -1649,7 +1616,6 @@ extension RDS {
     }
 
     public struct CreateDBSnapshotResult: AWSDecodableShape {
-
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -1662,12 +1628,12 @@ extension RDS {
     }
 
     public struct CreateDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String
-        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup 
+        /// The name for the DB subnet group. This value is stored as a lowercase string. Constraints: Must contain no more than 255 letters, numbers, periods, underscores, spaces, or hyphens. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String
         /// The EC2 Subnet IDs for the DB subnet group.
         @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
@@ -1692,7 +1658,6 @@ extension RDS {
     }
 
     public struct CreateDBSubnetGroupResult: AWSDecodableShape {
-
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -1705,21 +1670,21 @@ extension RDS {
     }
 
     public struct CreateEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
-        public struct _SourceIdsEncoding: ArrayCoderProperties { static public let member = "SourceId" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _SourceIdsEncoding: ArrayCoderProperties { public static let member = "SourceId" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        ///  A value that indicates whether to activate the subscription. If the event notification subscription isn't activated, the subscription is created but not active. 
+        ///  A value that indicates whether to activate the subscription. If the event notification subscription isn't activated, the subscription is created but not active.
         public let enabled: Bool?
-        ///  A list of event categories for a particular source type (SourceType) that you want to subscribe to. You can see a list of the categories for a given source type in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation. 
+        ///  A list of event categories for a particular source type (SourceType) that you want to subscribe to. You can see a list of the categories for a given source type in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String
-        /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It can't end with a hyphen or contain two consecutive hyphens. Constraints:   If a SourceIds value is supplied, SourceType must also be provided.   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.  
+        /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It can't end with a hyphen or contain two consecutive hyphens. Constraints:   If a SourceIds value is supplied, SourceType must also be provided.   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.
         @OptionalCustomCoding<ArrayCoder<_SourceIdsEncoding, String>>
         public var sourceIds: [String]?
-        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you set this parameter to db-instance. If this value isn't specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
+        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you set this parameter to db-instance. If this value isn't specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot
         public let sourceType: String?
         /// The name of the subscription. Constraints: The name must be less than 255 characters.
         public let subscriptionName: String
@@ -1748,7 +1713,6 @@ extension RDS {
     }
 
     public struct CreateEventSubscriptionResult: AWSDecodableShape {
-
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -1761,10 +1725,9 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterMessage: AWSEncodableShape {
-
-        ///  The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating. 
+        ///  The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon Aurora will not create a database in the global database cluster you are creating.
         public let databaseName: String?
-        ///  The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled. 
+        ///  The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The name of the database engine to be used for this DB cluster.
         public let engine: String?
@@ -1772,9 +1735,9 @@ extension RDS {
         public let engineVersion: String?
         /// The cluster identifier of the new global database cluster.
         public let globalClusterIdentifier: String?
-        ///  The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional. 
+        ///  The Amazon Resource Name (ARN) to use as the primary cluster of the global database. This parameter is optional.
         public let sourceDBClusterIdentifier: String?
-        ///  The storage encryption setting for the new global database cluster. 
+        ///  The storage encryption setting for the new global database cluster.
         public let storageEncrypted: Bool?
 
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterIdentifier: String? = nil, sourceDBClusterIdentifier: String? = nil, storageEncrypted: Bool? = nil) {
@@ -1799,7 +1762,6 @@ extension RDS {
     }
 
     public struct CreateGlobalClusterResult: AWSDecodableShape {
-
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -1812,7 +1774,7 @@ extension RDS {
     }
 
     public struct CreateOptionGroupMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// Specifies the name of the engine that this option group should be associated with.
         public let engineName: String
@@ -1820,7 +1782,7 @@ extension RDS {
         public let majorEngineVersion: String
         /// The description of the option group.
         public let optionGroupDescription: String
-        /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup 
+        /// Specifies the name of the option group to be created. Constraints:   Must be 1 to 255 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: myoptiongroup
         public let optionGroupName: String
         /// Tags to assign to the option group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -1844,7 +1806,6 @@ extension RDS {
     }
 
     public struct CreateOptionGroupResult: AWSDecodableShape {
-
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -1857,7 +1818,6 @@ extension RDS {
     }
 
     public struct CustomAvailabilityZone: AWSDecodableShape {
-
         /// The identifier of the custom AZ. Amazon RDS generates a unique identifier when a custom AZ is created.
         public let customAvailabilityZoneId: String?
         /// The name of the custom AZ.
@@ -1883,7 +1843,7 @@ extension RDS {
     }
 
     public struct CustomAvailabilityZoneMessage: AWSDecodableShape {
-        public struct _CustomAvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "CustomAvailabilityZone" }
+        public struct _CustomAvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "CustomAvailabilityZone" }
 
         /// The list of CustomAvailabilityZone objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_CustomAvailabilityZonesEncoding, CustomAvailabilityZone>>
@@ -1903,19 +1863,19 @@ extension RDS {
     }
 
     public struct DBCluster: AWSDecodableShape {
-        public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBClusterRole" }
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _DBClusterMembersEncoding: ArrayCoderProperties { static public let member = "DBClusterMember" }
-        public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBClusterOptionGroup" }
-        public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
-        public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaIdentifier" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
+        public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBClusterRole" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _DBClusterMembersEncoding: ArrayCoderProperties { public static let member = "DBClusterMember" }
+        public struct _DBClusterOptionGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBClusterOptionGroup" }
+        public struct _DomainMembershipsEncoding: ArrayCoderProperties { public static let member = "DomainMembership" }
+        public struct _ReadReplicaIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaIdentifier" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
 
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let activityStreamKinesisStreamName: String?
         /// The AWS KMS key identifier used for encrypting messages in the database activity stream.
         public let activityStreamKmsKeyId: String?
-        /// The mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. 
+        /// The mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously.
         public let activityStreamMode: ActivityStreamMode?
         /// The status of the database activity stream.
         public let activityStreamStatus: ActivityStreamStatus?
@@ -1966,7 +1926,7 @@ extension RDS {
         public let dbClusterResourceId: String?
         /// Specifies information on the subnet group associated with the DB cluster, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: String?
-        /// Indicates if the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. 
+        /// Indicates if the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
         /// The Active Directory Domain membership records associated with the DB cluster.
         @OptionalCustomCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
@@ -1975,14 +1935,14 @@ extension RDS {
         public let earliestBacktrackTime: Date?
         /// The earliest time to which a database can be restored with point-in-time restore.
         public let earliestRestorableTime: Date?
-        /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon Aurora User Guide. 
+        /// A list of log types that this DB cluster is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
         /// The name of the database engine to be used for this DB cluster.
         public let engine: String?
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode. To check if a DB cluster is part of a global database, use DescribeGlobalClusters instead of checking the EngineMode return value from DescribeDBClusters.  
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode. To check if a DB cluster is part of a global database, use DescribeGlobalClusters instead of checking the EngineMode return value from DescribeDBClusters.
         public let engineMode: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
@@ -2008,7 +1968,7 @@ extension RDS {
         public let percentProgress: String?
         /// Specifies the port that the database engine is listening on.
         public let port: Int?
-        /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
+        /// Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
         public let preferredBackupWindow: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public let preferredMaintenanceWindow: String?
@@ -2144,7 +2104,6 @@ extension RDS {
     }
 
     public struct DBClusterBacktrack: AWSDecodableShape {
-
         /// The timestamp of the time from which the DB cluster was backtracked.
         public let backtrackedFrom: Date?
         /// Contains the backtrack identifier.
@@ -2155,7 +2114,7 @@ extension RDS {
         public let backtrackTo: Date?
         /// Contains a user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
         public let dBClusterIdentifier: String?
-        /// The status of the backtrack. This property returns one of the following values:    applying - The backtrack is currently being applied to or rolled back from the DB cluster.    completed - The backtrack has successfully been applied to or rolled back from the DB cluster.    failed - An error occurred while the backtrack was applied to or rolled back from the DB cluster.    pending - The backtrack is currently pending application to or rollback from the DB cluster.  
+        /// The status of the backtrack. This property returns one of the following values:    applying - The backtrack is currently being applied to or rolled back from the DB cluster.    completed - The backtrack has successfully been applied to or rolled back from the DB cluster.    failed - An error occurred while the backtrack was applied to or rolled back from the DB cluster.    pending - The backtrack is currently pending application to or rollback from the DB cluster.
         public let status: String?
 
         public init(backtrackedFrom: Date? = nil, backtrackIdentifier: String? = nil, backtrackRequestCreationTime: Date? = nil, backtrackTo: Date? = nil, dBClusterIdentifier: String? = nil, status: String? = nil) {
@@ -2178,7 +2137,7 @@ extension RDS {
     }
 
     public struct DBClusterBacktrackMessage: AWSDecodableShape {
-        public struct _DBClusterBacktracksEncoding: ArrayCoderProperties { static public let member = "DBClusterBacktrack" }
+        public struct _DBClusterBacktracksEncoding: ArrayCoderProperties { public static let member = "DBClusterBacktrack" }
 
         /// Contains a list of backtracks for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClusterBacktracksEncoding, DBClusterBacktrack>>
@@ -2198,10 +2157,9 @@ extension RDS {
     }
 
     public struct DBClusterCapacityInfo: AWSDecodableShape {
-
         /// The current capacity of the DB cluster.
         public let currentCapacity: Int?
-        /// A user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster. 
+        /// A user-supplied DB cluster identifier. This identifier is the unique key that identifies a DB cluster.
         public let dBClusterIdentifier: String?
         /// A value that specifies the capacity that the DB cluster scales to next.
         public let pendingCapacity: Int?
@@ -2228,7 +2186,6 @@ extension RDS {
     }
 
     public struct DBClusterEndpoint: AWSDecodableShape {
-
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public let customEndpointType: String?
         /// The Amazon Resource Name (ARN) for the endpoint.
@@ -2280,12 +2237,12 @@ extension RDS {
     }
 
     public struct DBClusterEndpointMessage: AWSDecodableShape {
-        public struct _DBClusterEndpointsEncoding: ArrayCoderProperties { static public let member = "DBClusterEndpointList" }
+        public struct _DBClusterEndpointsEncoding: ArrayCoderProperties { public static let member = "DBClusterEndpointList" }
 
         /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
         @OptionalCustomCoding<ArrayCoder<_DBClusterEndpointsEncoding, DBClusterEndpoint>>
         public var dBClusterEndpoints: [DBClusterEndpoint]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBClusterEndpoints: [DBClusterEndpoint]? = nil, marker: String? = nil) {
@@ -2300,14 +2257,13 @@ extension RDS {
     }
 
     public struct DBClusterMember: AWSDecodableShape {
-
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public let dBClusterParameterGroupStatus: String?
         /// Specifies the instance identifier for this member of the DB cluster.
         public let dBInstanceIdentifier: String?
         /// Value that is true if the cluster member is the primary instance for the DB cluster and false otherwise.
         public let isClusterWriter: Bool?
-        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. 
+        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide.
         public let promotionTier: Int?
 
         public init(dBClusterParameterGroupStatus: String? = nil, dBInstanceIdentifier: String? = nil, isClusterWriter: Bool? = nil, promotionTier: Int? = nil) {
@@ -2326,7 +2282,7 @@ extension RDS {
     }
 
     public struct DBClusterMessage: AWSDecodableShape {
-        public struct _DBClustersEncoding: ArrayCoderProperties { static public let member = "DBCluster" }
+        public struct _DBClustersEncoding: ArrayCoderProperties { public static let member = "DBCluster" }
 
         /// Contains a list of DB clusters for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClustersEncoding, DBCluster>>
@@ -2346,7 +2302,6 @@ extension RDS {
     }
 
     public struct DBClusterOptionGroupStatus: AWSDecodableShape {
-
         /// Specifies the name of the DB cluster option group.
         public let dBClusterOptionGroupName: String?
         /// Specifies the status of the DB cluster option group.
@@ -2364,7 +2319,6 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroup: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
         /// The name of the DB cluster parameter group.
@@ -2390,9 +2344,9 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupDetails: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
-        ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Provides a list of parameters for the DB cluster parameter group.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
@@ -2410,8 +2364,7 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupNameMessage: AWSDecodableShape {
-
-        /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string. 
+        /// The name of the DB cluster parameter group. Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens    This value is stored as a lowercase string.
         public let dBClusterParameterGroupName: String?
 
         public init(dBClusterParameterGroupName: String? = nil) {
@@ -2424,12 +2377,12 @@ extension RDS {
     }
 
     public struct DBClusterParameterGroupsMessage: AWSDecodableShape {
-        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBClusterParameterGroup" }
+        public struct _DBClusterParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBClusterParameterGroup" }
 
         /// A list of DB cluster parameter groups.
         @OptionalCustomCoding<ArrayCoder<_DBClusterParameterGroupsEncoding, DBClusterParameterGroup>>
         public var dBClusterParameterGroups: [DBClusterParameterGroup]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBClusterParameterGroups: [DBClusterParameterGroup]? = nil, marker: String? = nil) {
@@ -2444,12 +2397,11 @@ extension RDS {
     }
 
     public struct DBClusterRole: AWSDecodableShape {
-
-        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion. 
+        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
-        /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
+        /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.
         public let status: String?
 
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -2466,7 +2418,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshot: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -2558,7 +2510,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotAttribute: AWSDecodableShape {
-        public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBClusterSnapshotAttribute API action.
         public let attributeName: String?
@@ -2578,7 +2530,7 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotAttributesResult: AWSDecodableShape {
-        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshotAttribute" }
+        public struct _DBClusterSnapshotAttributesEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshotAttribute" }
 
         /// The list of attributes and values for the manual DB cluster snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotAttributesEncoding, DBClusterSnapshotAttribute>>
@@ -2598,12 +2550,12 @@ extension RDS {
     }
 
     public struct DBClusterSnapshotMessage: AWSDecodableShape {
-        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBClusterSnapshot" }
+        public struct _DBClusterSnapshotsEncoding: ArrayCoderProperties { public static let member = "DBClusterSnapshot" }
 
         /// Provides a list of DB cluster snapshots for the user.
         @OptionalCustomCoding<ArrayCoder<_DBClusterSnapshotsEncoding, DBClusterSnapshot>>
         public var dBClusterSnapshots: [DBClusterSnapshot]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBClusterSnapshots: [DBClusterSnapshot]? = nil, marker: String? = nil) {
@@ -2618,10 +2570,10 @@ extension RDS {
     }
 
     public struct DBEngineVersion: AWSDecodableShape {
-        public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
-        public struct _SupportedNcharCharacterSetsEncoding: ArrayCoderProperties { static public let member = "CharacterSet" }
-        public struct _SupportedTimezonesEncoding: ArrayCoderProperties { static public let member = "Timezone" }
-        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { static public let member = "UpgradeTarget" }
+        public struct _SupportedCharacterSetsEncoding: ArrayCoderProperties { public static let member = "CharacterSet" }
+        public struct _SupportedNcharCharacterSetsEncoding: ArrayCoderProperties { public static let member = "CharacterSet" }
+        public struct _SupportedTimezonesEncoding: ArrayCoderProperties { public static let member = "Timezone" }
+        public struct _ValidUpgradeTargetEncoding: ArrayCoderProperties { public static let member = "UpgradeTarget" }
 
         /// The description of the database engine.
         public let dBEngineDescription: String?
@@ -2629,7 +2581,7 @@ extension RDS {
         public let dBEngineVersionDescription: String?
         /// The name of the DB parameter group family for the database engine.
         public let dBParameterGroupFamily: String?
-        ///  The default character set for new instances of this engine version, if the CharacterSetName parameter of the CreateDBInstance API isn't specified. 
+        ///  The default character set for new instances of this engine version, if the CharacterSetName parameter of the CreateDBInstance API isn't specified.
         public let defaultCharacterSet: CharacterSet?
         /// The name of the database engine.
         public let engine: String?
@@ -2640,19 +2592,19 @@ extension RDS {
         public var exportableLogTypes: [String]?
         /// The status of the DB engine version, either available or deprecated.
         public let status: String?
-        /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation. 
+        /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation.
         @OptionalCustomCoding<ArrayCoder<_SupportedCharacterSetsEncoding, CharacterSet>>
         public var supportedCharacterSets: [CharacterSet]?
-        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.  
+        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.
         @OptionalCustomCoding<StandardArrayCoder>
         public var supportedEngineModes: [String]?
-        ///  A list of features supported by the DB engine. Supported feature names include the following.    s3Import  
+        ///  A list of features supported by the DB engine. Supported feature names include the following.    s3Import
         @OptionalCustomCoding<StandardArrayCoder>
         public var supportedFeatureNames: [String]?
-        /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation. 
+        /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation.
         @OptionalCustomCoding<ArrayCoder<_SupportedNcharCharacterSetsEncoding, CharacterSet>>
         public var supportedNcharCharacterSets: [CharacterSet]?
-        /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action. 
+        /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action.
         @OptionalCustomCoding<ArrayCoder<_SupportedTimezonesEncoding, Timezone>>
         public var supportedTimezones: [Timezone]?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
@@ -2711,12 +2663,12 @@ extension RDS {
     }
 
     public struct DBEngineVersionMessage: AWSDecodableShape {
-        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { static public let member = "DBEngineVersion" }
+        public struct _DBEngineVersionsEncoding: ArrayCoderProperties { public static let member = "DBEngineVersion" }
 
-        ///  A list of DBEngineVersion elements. 
+        ///  A list of DBEngineVersion elements.
         @OptionalCustomCoding<ArrayCoder<_DBEngineVersionsEncoding, DBEngineVersion>>
         public var dBEngineVersions: [DBEngineVersion]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBEngineVersions: [DBEngineVersion]? = nil, marker: String? = nil) {
@@ -2731,20 +2683,20 @@ extension RDS {
     }
 
     public struct DBInstance: AWSDecodableShape {
-        public struct _AssociatedRolesEncoding: ArrayCoderProperties { static public let member = "DBInstanceRole" }
-        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
-        public struct _DomainMembershipsEncoding: ArrayCoderProperties { static public let member = "DomainMembership" }
-        public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "OptionGroupMembership" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBClusterIdentifier" }
-        public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { static public let member = "ReadReplicaDBInstanceIdentifier" }
-        public struct _StatusInfosEncoding: ArrayCoderProperties { static public let member = "DBInstanceStatusInfo" }
-        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
+        public struct _AssociatedRolesEncoding: ArrayCoderProperties { public static let member = "DBInstanceRole" }
+        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBParameterGroup" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
+        public struct _DomainMembershipsEncoding: ArrayCoderProperties { public static let member = "DomainMembership" }
+        public struct _OptionGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "OptionGroupMembership" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _ReadReplicaDBClusterIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaDBClusterIdentifier" }
+        public struct _ReadReplicaDBInstanceIdentifiersEncoding: ArrayCoderProperties { public static let member = "ReadReplicaDBInstanceIdentifier" }
+        public struct _StatusInfosEncoding: ArrayCoderProperties { public static let member = "DBInstanceStatusInfo" }
+        public struct _VpcSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
 
         /// Specifies the allocated storage size specified in gibibytes.
         public let allocatedStorage: Int?
-        ///  The AWS Identity and Access Management (IAM) roles associated with the DB instance. 
+        ///  The AWS Identity and Access Management (IAM) roles associated with the DB instance.
         @OptionalCustomCoding<ArrayCoder<_AssociatedRolesEncoding, DBInstanceRole>>
         public var associatedRoles: [DBInstanceRole]?
         /// Indicates that minor version patches are applied automatically.
@@ -2769,7 +2721,7 @@ extension RDS {
         public let dBInstanceIdentifier: String?
         /// Specifies the port that the DB instance listens on. If the DB instance is part of a DB cluster, this can be a different port than the DB cluster port.
         public let dbInstancePort: Int?
-        /// Specifies the current state of this database. For information about DB instance statuses, see DB Instance Status in the Amazon RDS User Guide. 
+        /// Specifies the current state of this database. For information about DB instance statuses, see DB Instance Status in the Amazon RDS User Guide.
         public let dBInstanceStatus: String?
         /// The AWS Region-unique, immutable identifier for the DB instance. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB instance is accessed.
         public let dbiResourceId: String?
@@ -2778,17 +2730,17 @@ extension RDS {
         /// Provides the list of DB parameter groups applied to this DB instance.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroupStatus>>
         public var dBParameterGroups: [DBParameterGroupStatus]?
-        ///  A list of DB security group elements containing DBSecurityGroup.Name and DBSecurityGroup.Status subelements. 
+        ///  A list of DB security group elements containing DBSecurityGroup.Name and DBSecurityGroup.Status subelements.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroupMembership>>
         public var dBSecurityGroups: [DBSecurityGroupMembership]?
         /// Specifies information on the subnet group associated with the DB instance, including the name, description, and subnets in the subnet group.
         public let dBSubnetGroup: DBSubnetGroup?
-        /// Indicates if the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. For more information, see  Deleting a DB Instance. 
+        /// Indicates if the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// The Active Directory Domain membership records associated with the DB instance.
         @OptionalCustomCoding<ArrayCoder<_DomainMembershipsEncoding, DomainMembership>>
         public var domainMemberships: [DomainMembership]?
-        /// A list of log types that this DB instance is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon RDS User Guide. 
+        /// A list of log types that this DB instance is configured to export to CloudWatch Logs. Log types vary by DB engine. For information about the log types for each DB engine, see Amazon RDS Database Log Files in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
@@ -2799,13 +2751,13 @@ extension RDS {
         public let engineVersion: String?
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log stream that receives the Enhanced Monitoring metrics data for the DB instance.
         public let enhancedMonitoringResourceArn: String?
-        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher. To enable IAM database authentication for Aurora, see DBCluster Type.  
+        /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false. IAM database authentication can be enabled for the following database engines   For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   Aurora 5.6 or higher. To enable IAM database authentication for Aurora, see DBCluster Type.
         public let iAMDatabaseAuthenticationEnabled: Bool?
         /// Provides the date and time the DB instance was created.
         public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value.
         public let iops: Int?
-        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance. 
+        ///  If StorageEncrypted is true, the AWS KMS key identifier for the encrypted DB instance.
         public let kmsKeyId: String?
         /// Specifies the latest time to which a database can be restored with point-in-time restore.
         public let latestRestorableTime: Date?
@@ -2823,7 +2775,7 @@ extension RDS {
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
-        /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2. 
+        /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2.
         public let ncharCharacterSetName: String?
         /// Provides the list of option group memberships for this DB instance.
         @OptionalCustomCoding<ArrayCoder<_OptionGroupMembershipsEncoding, OptionGroupMembership>>
@@ -2834,20 +2786,20 @@ extension RDS {
         public let performanceInsightsEnabled: Bool?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
         public let performanceInsightsKMSKeyId: String?
-        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years). 
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
-        ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod. 
+        ///  Specifies the daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
         public let preferredBackupWindow: String?
         /// Specifies the weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC).
         public let preferredMaintenanceWindow: String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
-        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide. 
+        /// A value that specifies the order in which an Aurora Replica is promoted to the primary instance after a failure of the existing primary instance. For more information, see  Fault Tolerance for an Aurora DB Cluster in the Amazon Aurora User Guide.
         public let promotionTier: Int?
         /// Specifies the accessibility options for the DB instance. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// Contains one or more identifiers of Aurora DB clusters to which the RDS DB instance is replicated as a read replica. For example, when you create an Aurora read replica of an RDS MySQL DB instance, the Aurora MySQL DB cluster for the Aurora read replica is shown. This output does not contain information about cross region Aurora read replicas.  Currently, each RDS DB instance can have only one Aurora read replica. 
+        /// Contains one or more identifiers of Aurora DB clusters to which the RDS DB instance is replicated as a read replica. For example, when you create an Aurora read replica of an RDS MySQL DB instance, the Aurora MySQL DB cluster for the Aurora read replica is shown. This output does not contain information about cross region Aurora read replicas.  Currently, each RDS DB instance can have only one Aurora read replica.
         @OptionalCustomCoding<ArrayCoder<_ReadReplicaDBClusterIdentifiersEncoding, String>>
         public var readReplicaDBClusterIdentifiers: [String]?
         /// Contains one or more identifiers of the read replicas associated with this DB instance.
@@ -2855,7 +2807,7 @@ extension RDS {
         public var readReplicaDBInstanceIdentifiers: [String]?
         /// Contains the identifier of the source DB instance if this DB instance is a read replica.
         public let readReplicaSourceDBInstanceIdentifier: String?
-        /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see Working with Oracle Read Replicas for Amazon RDS in the Amazon RDS User Guide.  This attribute is only supported in RDS for Oracle. 
+        /// The open mode of an Oracle read replica. The default is open-read-only. For more information, see Working with Oracle Read Replicas for Amazon RDS in the Amazon RDS User Guide.  This attribute is only supported in RDS for Oracle.
         public let replicaMode: ReplicaMode?
         /// If present, specifies the name of the secondary Availability Zone for a DB instance with multi-AZ support.
         public let secondaryAvailabilityZone: String?
@@ -2868,7 +2820,7 @@ extension RDS {
         public let storageType: String?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public let tdeCredentialArn: String?
-        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
+        /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified.
         public let timezone: String?
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
@@ -3002,14 +2954,13 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackup: AWSDecodableShape {
-
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
         /// The Availability Zone that the automated backup was created in. For information on AWS Regions and Availability Zones, see Regions and Availability Zones.
         public let availabilityZone: String?
         /// The Amazon Resource Name (ARN) for the automated backup.
         public let dBInstanceArn: String?
-        /// The customer id of the instance that is/was associated with the automated backup. 
+        /// The customer id of the instance that is/was associated with the automated backup.
         public let dBInstanceIdentifier: String?
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
         public let dbiResourceId: String?
@@ -3021,11 +2972,11 @@ extension RDS {
         public let engineVersion: String?
         /// True if mapping of AWS Identity and Access Management (IAM) accounts to database accounts is enabled, and otherwise false.
         public let iAMDatabaseAuthenticationEnabled: Bool?
-        /// Provides the date and time that the DB instance was created. 
+        /// Provides the date and time that the DB instance was created.
         public let instanceCreateTime: Date?
-        /// The IOPS (I/O operations per second) value for the automated backup. 
+        /// The IOPS (I/O operations per second) value for the automated backup.
         public let iops: Int?
-        /// The AWS KMS key ID for an automated backup. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. 
+        /// The AWS KMS key ID for an automated backup. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key.
         public let kmsKeyId: String?
         /// License model information for the automated backup.
         public let licenseModel: String?
@@ -3033,13 +2984,13 @@ extension RDS {
         public let masterUsername: String?
         /// The option group the automated backup is associated with. If omitted, the default option group for the engine specified is used.
         public let optionGroupName: String?
-        /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535 
+        /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
         public let port: Int?
         /// The AWS Region associated with the automated backup.
         public let region: String?
         /// Earliest and latest time an instance can be restored to.
         public let restoreWindow: RestoreWindow?
-        /// Provides a list of status information for an automated backup:    active - automated backups for current instances    retained - automated backups for deleted instances    creating - automated backups that are waiting for the first automated snapshot to be available.  
+        /// Provides a list of status information for an automated backup:    active - automated backups for current instances    retained - automated backups for deleted instances    creating - automated backups that are waiting for the first automated snapshot to be available.
         public let status: String?
         /// Specifies the storage type associated with the automated backup.
         public let storageType: String?
@@ -3104,12 +3055,12 @@ extension RDS {
     }
 
     public struct DBInstanceAutomatedBackupMessage: AWSDecodableShape {
-        public struct _DBInstanceAutomatedBackupsEncoding: ArrayCoderProperties { static public let member = "DBInstanceAutomatedBackup" }
+        public struct _DBInstanceAutomatedBackupsEncoding: ArrayCoderProperties { public static let member = "DBInstanceAutomatedBackup" }
 
-        ///  A list of DBInstanceAutomatedBackup instances. 
+        ///  A list of DBInstanceAutomatedBackup instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstanceAutomatedBackupsEncoding, DBInstanceAutomatedBackup>>
         public var dBInstanceAutomatedBackups: [DBInstanceAutomatedBackup]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
         public init(dBInstanceAutomatedBackups: [DBInstanceAutomatedBackup]? = nil, marker: String? = nil) {
@@ -3124,12 +3075,12 @@ extension RDS {
     }
 
     public struct DBInstanceMessage: AWSDecodableShape {
-        public struct _DBInstancesEncoding: ArrayCoderProperties { static public let member = "DBInstance" }
+        public struct _DBInstancesEncoding: ArrayCoderProperties { public static let member = "DBInstance" }
 
-        ///  A list of DBInstance instances. 
+        ///  A list of DBInstance instances.
         @OptionalCustomCoding<ArrayCoder<_DBInstancesEncoding, DBInstance>>
         public var dBInstances: [DBInstance]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
         public init(dBInstances: [DBInstance]? = nil, marker: String? = nil) {
@@ -3144,12 +3095,11 @@ extension RDS {
     }
 
     public struct DBInstanceRole: AWSDecodableShape {
-
-        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion. 
+        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB instance.
         public let roleArn: String?
-        /// Describes the state of association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB instance.    INVALID - the IAM role ARN is associated with the DB instance, but the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.  
+        /// Describes the state of association between the IAM role and the DB instance. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB instance and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB instance.    INVALID - the IAM role ARN is associated with the DB instance, but the DB instance is unable to assume the IAM role in order to access other AWS services on your behalf.
         public let status: String?
 
         public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -3166,7 +3116,6 @@ extension RDS {
     }
 
     public struct DBInstanceStatusInfo: AWSDecodableShape {
-
         /// Details of the error if there is an error for the instance. If the instance isn't in an error state, this value is blank.
         public let message: String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -3192,7 +3141,6 @@ extension RDS {
     }
 
     public struct DBParameterGroup: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
         /// The name of the DB parameter group family that this DB parameter group is compatible with.
@@ -3218,11 +3166,11 @@ extension RDS {
     }
 
     public struct DBParameterGroupDetails: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
-        ///  A list of Parameter values. 
+        ///  A list of Parameter values.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
 
@@ -3238,7 +3186,6 @@ extension RDS {
     }
 
     public struct DBParameterGroupNameMessage: AWSDecodableShape {
-
         /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
 
@@ -3252,7 +3199,6 @@ extension RDS {
     }
 
     public struct DBParameterGroupStatus: AWSDecodableShape {
-
         /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
         /// The status of parameter updates.
@@ -3270,12 +3216,12 @@ extension RDS {
     }
 
     public struct DBParameterGroupsMessage: AWSDecodableShape {
-        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { static public let member = "DBParameterGroup" }
+        public struct _DBParameterGroupsEncoding: ArrayCoderProperties { public static let member = "DBParameterGroup" }
 
-        ///  A list of DBParameterGroup instances. 
+        ///  A list of DBParameterGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBParameterGroupsEncoding, DBParameterGroup>>
         public var dBParameterGroups: [DBParameterGroup]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBParameterGroups: [DBParameterGroup]? = nil, marker: String? = nil) {
@@ -3290,7 +3236,6 @@ extension RDS {
     }
 
     public struct DBProxy: AWSDecodableShape {
-
         /// One or more data structures specifying the authorization mechanism to connect to the associated RDS DB instance or Aurora DB cluster.
         @OptionalCustomCoding<StandardArrayCoder>
         public var auth: [UserAuthConfigInfo]?
@@ -3359,7 +3304,6 @@ extension RDS {
     }
 
     public struct DBProxyTarget: AWSDecodableShape {
-
         /// The writer endpoint for the RDS DB instance or Aurora DB cluster.
         public let endpoint: String?
         /// The port that the RDS Proxy uses to connect to the target RDS DB instance or Aurora DB cluster.
@@ -3397,7 +3341,6 @@ extension RDS {
     }
 
     public struct DBProxyTargetGroup: AWSDecodableShape {
-
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfigurationInfo?
         /// The date and time when the target group was first created.
@@ -3439,8 +3382,8 @@ extension RDS {
     }
 
     public struct DBSecurityGroup: AWSDecodableShape {
-        public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { static public let member = "EC2SecurityGroup" }
-        public struct _IPRangesEncoding: ArrayCoderProperties { static public let member = "IPRange" }
+        public struct _EC2SecurityGroupsEncoding: ArrayCoderProperties { public static let member = "EC2SecurityGroup" }
+        public struct _IPRangesEncoding: ArrayCoderProperties { public static let member = "IPRange" }
 
         /// The Amazon Resource Name (ARN) for the DB security group.
         public let dBSecurityGroupArn: String?
@@ -3448,10 +3391,10 @@ extension RDS {
         public let dBSecurityGroupDescription: String?
         /// Specifies the name of the DB security group.
         public let dBSecurityGroupName: String?
-        ///  Contains a list of EC2SecurityGroup elements. 
+        ///  Contains a list of EC2SecurityGroup elements.
         @OptionalCustomCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
         public var eC2SecurityGroups: [EC2SecurityGroup]?
-        ///  Contains a list of IPRange elements. 
+        ///  Contains a list of IPRange elements.
         @OptionalCustomCoding<ArrayCoder<_IPRangesEncoding, IPRange>>
         public var iPRanges: [IPRange]?
         /// Provides the AWS ID of the owner of a specific DB security group.
@@ -3481,7 +3424,6 @@ extension RDS {
     }
 
     public struct DBSecurityGroupMembership: AWSDecodableShape {
-
         /// The name of the DB security group.
         public let dBSecurityGroupName: String?
         /// The status of the DB security group.
@@ -3499,12 +3441,12 @@ extension RDS {
     }
 
     public struct DBSecurityGroupMessage: AWSDecodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
 
-        ///  A list of DBSecurityGroup instances. 
+        ///  A list of DBSecurityGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, DBSecurityGroup>>
         public var dBSecurityGroups: [DBSecurityGroup]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBSecurityGroups: [DBSecurityGroup]? = nil, marker: String? = nil) {
@@ -3519,7 +3461,7 @@ extension RDS {
     }
 
     public struct DBSnapshot: AWSDecodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
 
         /// Specifies the allocated storage size in gibibytes (GiB).
         public let allocatedStorage: Int?
@@ -3545,7 +3487,7 @@ extension RDS {
         public let instanceCreateTime: Date?
         /// Specifies the Provisioned IOPS (I/O operations per second) value of the DB instance at the time of the snapshot.
         public let iops: Int?
-        ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot. 
+        ///  If Encrypted is true, the AWS KMS key identifier for the encrypted DB snapshot.
         public let kmsKeyId: String?
         /// License model information for the restored DB instance.
         public let licenseModel: String?
@@ -3574,7 +3516,7 @@ extension RDS {
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
-        /// The time zone of the DB snapshot. In most cases, the Timezone element is empty. Timezone content appears only for snapshots taken from Microsoft SQL Server DB instances that were created with a time zone specified. 
+        /// The time zone of the DB snapshot. In most cases, the Timezone element is empty. Timezone content appears only for snapshots taken from Microsoft SQL Server DB instances that were created with a time zone specified.
         public let timezone: String?
         /// Provides the VPC ID associated with the DB snapshot.
         public let vpcId: String?
@@ -3643,7 +3585,7 @@ extension RDS {
     }
 
     public struct DBSnapshotAttribute: AWSDecodableShape {
-        public struct _AttributeValuesEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _AttributeValuesEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
         /// The name of the manual DB snapshot attribute. The attribute named restore refers to the list of AWS accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the ModifyDBSnapshotAttribute API action.
         public let attributeName: String?
@@ -3663,7 +3605,7 @@ extension RDS {
     }
 
     public struct DBSnapshotAttributesResult: AWSDecodableShape {
-        public struct _DBSnapshotAttributesEncoding: ArrayCoderProperties { static public let member = "DBSnapshotAttribute" }
+        public struct _DBSnapshotAttributesEncoding: ArrayCoderProperties { public static let member = "DBSnapshotAttribute" }
 
         /// The list of attributes and values for the manual DB snapshot.
         @OptionalCustomCoding<ArrayCoder<_DBSnapshotAttributesEncoding, DBSnapshotAttribute>>
@@ -3683,12 +3625,12 @@ extension RDS {
     }
 
     public struct DBSnapshotMessage: AWSDecodableShape {
-        public struct _DBSnapshotsEncoding: ArrayCoderProperties { static public let member = "DBSnapshot" }
+        public struct _DBSnapshotsEncoding: ArrayCoderProperties { public static let member = "DBSnapshot" }
 
-        ///  A list of DBSnapshot instances. 
+        ///  A list of DBSnapshot instances.
         @OptionalCustomCoding<ArrayCoder<_DBSnapshotsEncoding, DBSnapshot>>
         public var dBSnapshots: [DBSnapshot]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBSnapshots: [DBSnapshot]? = nil, marker: String? = nil) {
@@ -3703,7 +3645,7 @@ extension RDS {
     }
 
     public struct DBSubnetGroup: AWSDecodableShape {
-        public struct _SubnetsEncoding: ArrayCoderProperties { static public let member = "Subnet" }
+        public struct _SubnetsEncoding: ArrayCoderProperties { public static let member = "Subnet" }
 
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public let dBSubnetGroupArn: String?
@@ -3713,7 +3655,7 @@ extension RDS {
         public let dBSubnetGroupName: String?
         /// Provides the status of the DB subnet group.
         public let subnetGroupStatus: String?
-        ///  Contains a list of Subnet elements. 
+        ///  Contains a list of Subnet elements.
         @OptionalCustomCoding<ArrayCoder<_SubnetsEncoding, Subnet>>
         public var subnets: [Subnet]?
         /// Provides the VpcId of the DB subnet group.
@@ -3739,12 +3681,12 @@ extension RDS {
     }
 
     public struct DBSubnetGroupMessage: AWSDecodableShape {
-        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { static public let member = "DBSubnetGroup" }
+        public struct _DBSubnetGroupsEncoding: ArrayCoderProperties { public static let member = "DBSubnetGroup" }
 
-        ///  A list of DBSubnetGroup instances. 
+        ///  A list of DBSubnetGroup instances.
         @OptionalCustomCoding<ArrayCoder<_DBSubnetGroupsEncoding, DBSubnetGroup>>
         public var dBSubnetGroups: [DBSubnetGroup]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBSubnetGroups: [DBSubnetGroup]? = nil, marker: String? = nil) {
@@ -3759,7 +3701,6 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneMessage: AWSEncodableShape {
-
         /// The custom AZ identifier.
         public let customAvailabilityZoneId: String
 
@@ -3773,7 +3714,6 @@ extension RDS {
     }
 
     public struct DeleteCustomAvailabilityZoneResult: AWSDecodableShape {
-
         public let customAvailabilityZone: CustomAvailabilityZone?
 
         public init(customAvailabilityZone: CustomAvailabilityZone? = nil) {
@@ -3786,7 +3726,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterEndpointMessage: AWSEncodableShape {
-
         /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
 
@@ -3800,12 +3739,11 @@ extension RDS {
     }
 
     public struct DeleteDBClusterMessage: AWSEncodableShape {
-
-        /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.  
+        /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:   Must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String
-        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.    Specifying this parameter and also skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        ///  The DB cluster snapshot identifier of the new DB cluster snapshot created when SkipFinalSnapshot is disabled.    Specifying this parameter and also skipping the creation of a final DB cluster snapshot with the SkipFinalShapshot parameter results in an error.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let finalDBSnapshotIdentifier: String?
-        /// A value that indicates whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created. By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled. 
+        /// A value that indicates whether to skip the creation of a final DB cluster snapshot before the DB cluster is deleted. If skip is specified, no DB cluster snapshot is created. If skip isn't specified, a DB cluster snapshot is created before the DB cluster is deleted. By default, skip isn't specified, and the DB cluster snapshot is created. By default, this parameter is disabled.  You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is disabled.
         public let skipFinalSnapshot: Bool?
 
         public init(dBClusterIdentifier: String, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -3822,8 +3760,7 @@ extension RDS {
     }
 
     public struct DeleteDBClusterParameterGroupMessage: AWSEncodableShape {
-
-        /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Can't be associated with any DB clusters.  
+        /// The name of the DB cluster parameter group. Constraints:   Must be the name of an existing DB cluster parameter group.   You can't delete a default DB cluster parameter group.   Can't be associated with any DB clusters.
         public let dBClusterParameterGroupName: String
 
         public init(dBClusterParameterGroupName: String) {
@@ -3836,7 +3773,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -3849,7 +3785,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotMessage: AWSEncodableShape {
-
         /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
         public let dBClusterSnapshotIdentifier: String
 
@@ -3863,7 +3798,6 @@ extension RDS {
     }
 
     public struct DeleteDBClusterSnapshotResult: AWSDecodableShape {
-
         public let dBClusterSnapshot: DBClusterSnapshot?
 
         public init(dBClusterSnapshot: DBClusterSnapshot? = nil) {
@@ -3876,7 +3810,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupMessage: AWSEncodableShape {
-
         /// The identifier for the source DB instance, which can't be changed and which is unique to an AWS Region.
         public let dbiResourceId: String
 
@@ -3890,7 +3823,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceAutomatedBackupResult: AWSDecodableShape {
-
         public let dBInstanceAutomatedBackup: DBInstanceAutomatedBackup?
 
         public init(dBInstanceAutomatedBackup: DBInstanceAutomatedBackup? = nil) {
@@ -3903,14 +3835,13 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceMessage: AWSEncodableShape {
-
-        /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.  
+        /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:   Must match the name of an existing DB instance.
         public let dBInstanceIdentifier: String
         /// A value that indicates whether to remove automated backups immediately after the DB instance is deleted. This parameter isn't case-sensitive. The default is to remove automated backups immediately after the DB instance is deleted.
         public let deleteAutomatedBackups: Bool?
-        ///  The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled.   Specifying this parameter and also specifying to skip final DB snapshot creation in SkipFinalShapshot results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't be specified when deleting a read replica.  
+        ///  The DBSnapshotIdentifier of the new DBSnapshot created when the SkipFinalSnapshot parameter is disabled.   Specifying this parameter and also specifying to skip final DB snapshot creation in SkipFinalShapshot results in an error.  Constraints:   Must be 1 to 255 letters or numbers.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Can't be specified when deleting a read replica.
         public let finalDBSnapshotIdentifier: String?
-        /// A value that indicates whether to skip the creation of a final DB snapshot before the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip isn't specified, a DB snapshot is created before the DB instance is deleted. By default, skip isn't specified, and the DB snapshot is created. When a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when skip is specified. Specify skip when deleting a read replica.  The FinalDBSnapshotIdentifier parameter must be specified if skip isn't specified. 
+        /// A value that indicates whether to skip the creation of a final DB snapshot before the DB instance is deleted. If skip is specified, no DB snapshot is created. If skip isn't specified, a DB snapshot is created before the DB instance is deleted. By default, skip isn't specified, and the DB snapshot is created. When a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when skip is specified. Specify skip when deleting a read replica.  The FinalDBSnapshotIdentifier parameter must be specified if skip isn't specified.
         public let skipFinalSnapshot: Bool?
 
         public init(dBInstanceIdentifier: String, deleteAutomatedBackups: Bool? = nil, finalDBSnapshotIdentifier: String? = nil, skipFinalSnapshot: Bool? = nil) {
@@ -3929,7 +3860,6 @@ extension RDS {
     }
 
     public struct DeleteDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -3942,8 +3872,7 @@ extension RDS {
     }
 
     public struct DeleteDBParameterGroupMessage: AWSEncodableShape {
-
-        /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Can't be associated with any DB instances  
+        /// The name of the DB parameter group. Constraints:   Must be the name of an existing DB parameter group   You can't delete a default DB parameter group   Can't be associated with any DB instances
         public let dBParameterGroupName: String
 
         public init(dBParameterGroupName: String) {
@@ -3956,7 +3885,6 @@ extension RDS {
     }
 
     public struct DeleteDBProxyRequest: AWSEncodableShape {
-
         /// The name of the DB proxy to delete.
         public let dBProxyName: String
 
@@ -3970,7 +3898,6 @@ extension RDS {
     }
 
     public struct DeleteDBProxyResponse: AWSDecodableShape {
-
         /// The data structure representing the details of the DB proxy that you delete.
         public let dBProxy: DBProxy?
 
@@ -3984,8 +3911,7 @@ extension RDS {
     }
 
     public struct DeleteDBSecurityGroupMessage: AWSEncodableShape {
-
-        /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"  
+        /// The name of the DB security group to delete.  You can't delete the default DB security group.  Constraints:   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Must not be "Default"
         public let dBSecurityGroupName: String
 
         public init(dBSecurityGroupName: String) {
@@ -3998,7 +3924,6 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotMessage: AWSEncodableShape {
-
         /// The DB snapshot identifier. Constraints: Must be the name of an existing DB snapshot in the available state.
         public let dBSnapshotIdentifier: String
 
@@ -4012,7 +3937,6 @@ extension RDS {
     }
 
     public struct DeleteDBSnapshotResult: AWSDecodableShape {
-
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -4025,8 +3949,7 @@ extension RDS {
     }
 
     public struct DeleteDBSubnetGroupMessage: AWSEncodableShape {
-
-        /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        /// The name of the database subnet group to delete.  You can't delete the default subnet group.  Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String
 
         public init(dBSubnetGroupName: String) {
@@ -4039,7 +3962,6 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionMessage: AWSEncodableShape {
-
         /// The name of the RDS event notification subscription you want to delete.
         public let subscriptionName: String
 
@@ -4053,7 +3975,6 @@ extension RDS {
     }
 
     public struct DeleteEventSubscriptionResult: AWSDecodableShape {
-
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -4066,8 +3987,7 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterMessage: AWSEncodableShape {
-
-        ///  The cluster identifier of the global database cluster being deleted. 
+        ///  The cluster identifier of the global database cluster being deleted.
         public let globalClusterIdentifier: String
 
         public init(globalClusterIdentifier: String) {
@@ -4080,7 +4000,6 @@ extension RDS {
     }
 
     public struct DeleteGlobalClusterResult: AWSDecodableShape {
-
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -4093,7 +4012,6 @@ extension RDS {
     }
 
     public struct DeleteInstallationMediaMessage: AWSEncodableShape {
-
         /// The installation medium ID.
         public let installationMediaId: String
 
@@ -4107,8 +4025,7 @@ extension RDS {
     }
 
     public struct DeleteOptionGroupMessage: AWSEncodableShape {
-
-        /// The name of the option group to be deleted.  You can't delete default option groups. 
+        /// The name of the option group to be deleted.  You can't delete default option groups.
         public let optionGroupName: String
 
         public init(optionGroupName: String) {
@@ -4121,7 +4038,6 @@ extension RDS {
     }
 
     public struct DeregisterDBProxyTargetsRequest: AWSEncodableShape {
-
         /// One or more DB cluster identifiers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBClusterIdentifiers: [String]?
@@ -4149,30 +4065,22 @@ extension RDS {
     }
 
     public struct DeregisterDBProxyTargetsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeAccountAttributesMessage: AWSEncodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeCertificatesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.  
+        /// The user-supplied certificate identifier. If this parameter is specified, information for only the identified certificate is returned. This parameter isn't case-sensitive. Constraints:   Must match an existing CertificateIdentifier.
         public let certificateIdentifier: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeCertificates request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4193,7 +4101,7 @@ extension RDS {
     }
 
     public struct DescribeCustomAvailabilityZonesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The custom AZ identifier. If this parameter is specified, information from only the specific custom AZ is returned.
         public let customAvailabilityZoneId: String?
@@ -4221,16 +4129,16 @@ extension RDS {
     }
 
     public struct DescribeDBClusterBacktracksMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:   Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see A Universally Unique Identifier (UUID) URN Namespace.   Example: 123e4567-e89b-12d3-a456-426655440000 
+        /// If specified, this value is the backtrack identifier of the backtrack to be described. Constraints:   Must contain a valid universally unique identifier (UUID). For more information about UUIDs, see A Universally Unique Identifier (UUID) URN Namespace.   Example: 123e4567-e89b-12d3-a456-426655440000
         public let backtrackIdentifier: String?
-        /// The DB cluster identifier of the DB cluster to be described. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The DB cluster identifier of the DB cluster to be described. This parameter is stored as a lowercase string. Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dBClusterIdentifier: String
-        /// A filter that specifies one or more DB clusters to describe. Supported filters include the following:    db-cluster-backtrack-id - Accepts backtrack identifiers. The results list includes information about only the backtracks identified by these identifiers.    db-cluster-backtrack-status - Accepts any of the following backtrack status values:    applying     completed     failed     pending    The results list includes information about only the backtracks identified by these values.  
+        /// A filter that specifies one or more DB clusters to describe. Supported filters include the following:    db-cluster-backtrack-id - Accepts backtrack identifiers. The results list includes information about only the backtracks identified by these identifiers.    db-cluster-backtrack-status - Accepts any of the following backtrack status values:    applying     completed     failed     pending    The results list includes information about only the backtracks identified by these values.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterBacktracks request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterBacktracks request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4253,16 +4161,16 @@ extension RDS {
     }
 
     public struct DescribeDBClusterEndpointsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String?
         /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String?
-        /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying. 
+        /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4285,14 +4193,14 @@ extension RDS {
     }
 
     public struct DescribeDBClusterParameterGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of a specific DB cluster parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4313,18 +4221,18 @@ extension RDS {
     }
 
     public struct DescribeDBClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer. 
+        ///  A value that indicates to return only parameters for a specific source. Parameter sources can be engine, service, or customer.
         public let source: String?
 
         public init(dBClusterParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
@@ -4345,7 +4253,6 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesMessage: AWSEncodableShape {
-
         /// The identifier for the DB cluster snapshot to describe the attributes for.
         public let dBClusterSnapshotIdentifier: String
 
@@ -4359,7 +4266,6 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotAttributesResult: AWSDecodableShape {
-
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -4372,20 +4278,20 @@ extension RDS {
     }
 
     public struct DescribeDBClusterSnapshotsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.  
+        /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String?
-        /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
+        /// A specific DB cluster snapshot identifier to describe. This parameter can't be used in conjunction with the DBClusterIdentifier parameter. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBClusterSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
         public let dBClusterSnapshotIdentifier: String?
-        /// A filter that specifies one or more DB cluster snapshots to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs).    db-cluster-snapshot-id - Accepts DB cluster snapshot identifiers.    snapshot-type - Accepts types of DB cluster snapshots.    engine - Accepts names of database engines.  
+        /// A filter that specifies one or more DB cluster snapshots to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs).    db-cluster-snapshot-id - Accepts DB cluster snapshot identifiers.    snapshot-type - Accepts types of DB cluster snapshots.    engine - Accepts names of database engines.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account. By default, the public snapshots are not included. You can share a manual DB cluster snapshot as public by using the ModifyDBClusterSnapshotAttribute API action.
         public let includePublic: Bool?
         /// A value that indicates whether to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore. By default, these snapshots are not included. You can give an AWS account permission to restore a manual DB cluster snapshot from another AWS account by the ModifyDBClusterSnapshotAttribute API action.
         public let includeShared: Bool?
-        /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4416,16 +4322,16 @@ extension RDS {
     }
 
     public struct DescribeDBClustersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.  
+        /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match an existing DBClusterIdentifier.
         public let dBClusterIdentifier: String?
-        /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
+        /// A filter that specifies one or more DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// Optional Boolean parameter that specifies whether the output includes information about clusters shared from other AWS accounts.
         public let includeShared: Bool?
-        /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4448,26 +4354,26 @@ extension RDS {
     }
 
     public struct DescribeDBEngineVersionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.  
+        /// The name of a specific DB parameter group family to return details for. Constraints:   If supplied, must match an existing DBParameterGroupFamily.
         public let dBParameterGroupFamily: String?
         /// A value that indicates whether only the default version of the specified engine or engine and major version combination is returned.
         public let defaultOnly: Bool?
         /// The database engine to return.
         public let engine: String?
-        /// The database engine version to return. Example: 5.1.49 
+        /// The database engine version to return. Example: 5.1.49
         public let engineVersion: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// A value that indicates whether to include engine versions that aren't available in the list. The default is to list only available engine versions.
         public let includeAll: Bool?
-        /// A value that indicates whether to list the supported character sets for each engine version. If this parameter is enabled and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version. 
+        /// A value that indicates whether to list the supported character sets for each engine version. If this parameter is enabled and the requested engine supports the CharacterSetName parameter for CreateDBInstance, the response includes a list of supported character sets for each engine version.
         public let listSupportedCharacterSets: Bool?
-        /// A value that indicates whether to list the supported time zones for each engine version. If this parameter is enabled and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version. 
+        /// A value that indicates whether to list the supported time zones for each engine version. If this parameter is enabled and the requested engine supports the TimeZone parameter for CreateDBInstance, the response includes a list of supported time zones for each engine version.
         public let listSupportedTimezones: Bool?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4500,11 +4406,11 @@ extension RDS {
     }
 
     public struct DescribeDBInstanceAutomatedBackupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive. 
+        /// (Optional) The user-supplied instance identifier. If this parameter is specified, it must match the identifier of an existing DB instance. It returns information from the specific DB instance' automated backup. This parameter isn't case-sensitive.
         public let dBInstanceIdentifier: String?
-        /// The resource ID of the DB instance that is the source of the automated backup. This parameter isn't case-sensitive. 
+        /// The resource ID of the DB instance that is the source of the automated backup. This parameter isn't case-sensitive.
         public let dbiResourceId: String?
         /// A filter that specifies which resources to return based on status. Supported filters are the following:    status     active - automated backups for current instances    retained - automated backups for deleted instances    creating - automated backups that are waiting for the first automated snapshot to be available      db-instance-id - Accepts DB instance identifiers and Amazon Resource Names (ARNs) for DB instances. The results list includes only information about the DB instance automated backupss identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers and DB Amazon Resource Names (ARNs) for DB instances. The results list includes only information about the DB instance resources identified by these ARNs.   Returns all resources by default. The status for each resource is specified in the response.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -4532,14 +4438,14 @@ extension RDS {
     }
 
     public struct DescribeDBInstancesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.  
+        /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:   If supplied, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
-        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers. The results list will only include information about the DB instances identified by these DB instance resource identifiers.    domain - Accepts Active Directory directory IDs. The results list will only include information about the DB instances associated with these domains.    engine - Accepts engine names. The results list will only include information about the DB instances for these engines.  
+        /// A filter that specifies one or more DB instances to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB instances associated with the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs). The results list will only include information about the DB instances identified by these ARNs.    dbi-resource-id - Accepts DB instance resource identifiers. The results list will only include information about the DB instances identified by these DB instance resource identifiers.    domain - Accepts Active Directory directory IDs. The results list will only include information about the DB instances associated with these domains.    engine - Accepts engine names. The results list will only include information about the DB instances for these engines.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBInstances request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4560,7 +4466,6 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesDetails: AWSDecodableShape {
-
         /// A POSIX timestamp when the last log entry was written.
         public let lastWritten: Int64?
         /// The name of the log file for the specified DB instance.
@@ -4582,9 +4487,9 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         /// Filters the available log files for files written since the specified date, in POSIX timestamp format with milliseconds.
         public let fileLastWritten: Int64?
@@ -4622,7 +4527,7 @@ extension RDS {
     }
 
     public struct DescribeDBLogFilesResponse: AWSDecodableShape {
-        public struct _DescribeDBLogFilesEncoding: ArrayCoderProperties { static public let member = "DescribeDBLogFilesDetails" }
+        public struct _DescribeDBLogFilesEncoding: ArrayCoderProperties { public static let member = "DescribeDBLogFilesDetails" }
 
         /// The DB log files returned.
         @OptionalCustomCoding<ArrayCoder<_DescribeDBLogFilesEncoding, DescribeDBLogFilesDetails>>
@@ -4642,14 +4547,14 @@ extension RDS {
     }
 
     public struct DescribeDBParameterGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBParameterGroupName: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4670,18 +4575,18 @@ extension RDS {
     }
 
     public struct DescribeDBParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
+        /// The name of a specific DB parameter group to return details for. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default 
+        /// The parameter types to return. Default: All parameter types returned Valid Values: user | system | engine-default
         public let source: String?
 
         public init(dBParameterGroupName: String, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, source: String? = nil) {
@@ -4702,14 +4607,14 @@ extension RDS {
     }
 
     public struct DescribeDBProxiesRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB proxy.
         public let dBProxyName: String?
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4735,11 +4640,10 @@ extension RDS {
     }
 
     public struct DescribeDBProxiesResponse: AWSDecodableShape {
-
         /// A return value representing an arbitrary number of DBProxy data structures.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBProxies: [DBProxy]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(dBProxies: [DBProxy]? = nil, marker: String? = nil) {
@@ -4754,14 +4658,14 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetGroupsRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The identifier of the DBProxy associated with the target group.
         public let dBProxyName: String
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4791,8 +4695,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetGroupsResponse: AWSDecodableShape {
-
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTargetGroup objects, containing details of the corresponding target groups.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -4810,14 +4713,14 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetsRequest: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The identifier of the DBProxyTarget to describe.
         public let dBProxyName: String
         /// This parameter is not currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4847,8 +4750,7 @@ extension RDS {
     }
 
     public struct DescribeDBProxyTargetsResponse: AWSDecodableShape {
-
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// An arbitrary number of DBProxyTarget objects, containing details of the corresponding targets.
         @OptionalCustomCoding<StandardArrayCoder>
@@ -4866,14 +4768,14 @@ extension RDS {
     }
 
     public struct DescribeDBSecurityGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB security group to return details for.
         public let dBSecurityGroupName: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBSecurityGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4894,7 +4796,6 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesMessage: AWSEncodableShape {
-
         /// The identifier for the DB snapshot to describe the attributes for.
         public let dBSnapshotIdentifier: String
 
@@ -4908,7 +4809,6 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotAttributesResult: AWSDecodableShape {
-
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
@@ -4921,22 +4821,22 @@ extension RDS {
     }
 
     public struct DescribeDBSnapshotsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.  
+        /// The ID of the DB instance to retrieve the list of DB snapshots for. This parameter can't be used in conjunction with DBSnapshotIdentifier. This parameter isn't case-sensitive.  Constraints:   If supplied, must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String?
         /// A specific DB resource ID to describe.
         public let dbiResourceId: String?
-        ///  A specific DB snapshot identifier to describe. This parameter can't be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.  
+        ///  A specific DB snapshot identifier to describe. This parameter can't be used in conjunction with DBInstanceIdentifier. This value is stored as a lowercase string.  Constraints:   If supplied, must match the identifier of an existing DBSnapshot.   If this identifier is for an automated snapshot, the SnapshotType parameter must also be specified.
         public let dBSnapshotIdentifier: String?
-        /// A filter that specifies one or more DB snapshots to describe. Supported filters:    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs).    db-snapshot-id - Accepts DB snapshot identifiers.    dbi-resource-id - Accepts identifiers of source DB instances.    snapshot-type - Accepts types of DB snapshots.    engine - Accepts names of database engines.  
+        /// A filter that specifies one or more DB snapshots to describe. Supported filters:    db-instance-id - Accepts DB instance identifiers and DB instance Amazon Resource Names (ARNs).    db-snapshot-id - Accepts DB snapshot identifiers.    dbi-resource-id - Accepts identifiers of source DB instances.    snapshot-type - Accepts types of DB snapshots.    engine - Accepts names of database engines.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// A value that indicates whether to include manual DB cluster snapshots that are public and can be copied or restored by any AWS account. By default, the public snapshots are not included. You can share a manual DB snapshot as public by using the ModifyDBSnapshotAttribute API.
         public let includePublic: Bool?
         /// A value that indicates whether to include shared manual DB cluster snapshots from other AWS accounts that this AWS account has been given permission to copy or restore. By default, these snapshots are not included. You can give an AWS account permission to restore a manual DB snapshot from another AWS account by using the ModifyDBSnapshotAttribute API action.
         public let includeShared: Bool?
-        ///  An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4969,14 +4869,14 @@ extension RDS {
     }
 
     public struct DescribeDBSubnetGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB subnet group to return details for.
         public let dBSubnetGroupName: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeDBSubnetGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -4997,14 +4897,14 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultClusterParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB cluster parameter group family to return engine parameter information for.
         public let dBParameterGroupFamily: String
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeEngineDefaultClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5025,7 +4925,6 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultClusterParametersResult: AWSDecodableShape {
-
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -5038,14 +4937,14 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The name of the DB parameter group family.
         public let dBParameterGroupFamily: String
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeEngineDefaultParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5066,7 +4965,6 @@ extension RDS {
     }
 
     public struct DescribeEngineDefaultParametersResult: AWSDecodableShape {
-
         public let engineDefaults: EngineDefaults?
 
         public init(engineDefaults: EngineDefaults? = nil) {
@@ -5079,12 +4977,12 @@ extension RDS {
     }
 
     public struct DescribeEventCategoriesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The type of source that is generating the events. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
+        /// The type of source that is generating the events. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot
         public let sourceType: String?
 
         public init(filters: [Filter]? = nil, sourceType: String? = nil) {
@@ -5099,12 +4997,12 @@ extension RDS {
     }
 
     public struct DescribeEventSubscriptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5127,8 +5025,8 @@ extension RDS {
     }
 
     public struct DescribeEventsMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The number of minutes to retrieve events for. Default: 60
         public let duration: Int?
@@ -5140,11 +5038,11 @@ extension RDS {
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeEvents request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The identifier of the event source for which events are returned. If not specified, then all sources are included in the response. Constraints:   If SourceIdentifier is supplied, SourceType must also be provided.   If the source type is a DB instance, a DBInstanceIdentifier value must be supplied.   If the source type is a DB cluster, a DBClusterIdentifier value must be supplied.   If the source type is a DB parameter group, a DBParameterGroupName value must be supplied.   If the source type is a DB security group, a DBSecurityGroupName value must be supplied.   If the source type is a DB snapshot, a DBSnapshotIdentifier value must be supplied.   If the source type is a DB cluster snapshot, a DBClusterSnapshotIdentifier value must be supplied.   Can't end with a hyphen or contain two consecutive hyphens.
         public let sourceIdentifier: String?
         /// The event source to retrieve events for. If no value is specified, all events are returned.
         public let sourceType: SourceType?
@@ -5177,14 +5075,14 @@ extension RDS {
     }
 
     public struct DescribeExportTasksMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The identifier of the snapshot export task to be described.
         public let exportTaskIdentifier: String?
-        /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Filter names and values are case-sensitive. Supported filters include the following:     export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3    status - The status of the export task. Must be lowercase, for example, complete.  
+        /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Filter names and values are case-sensitive. Supported filters include the following:     export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3    status - The status of the export task. Must be lowercase, for example, complete.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribeExportTasks request. If you specify this parameter, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. 
+        ///  An optional pagination token provided by a previous DescribeExportTasks request. If you specify this parameter, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified value, a pagination token called a marker is included in the response. You can use the marker in a later DescribeExportTasks request to retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5214,14 +5112,14 @@ extension RDS {
     }
 
     public struct DescribeGlobalClustersMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// A filter that specifies one or more global DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.  
+        /// A filter that specifies one or more global DB clusters to describe. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include information about the DB clusters identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive.  Constraints:   If supplied, must match an existing DBClusterIdentifier.  
+        ///  The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive.  Constraints:   If supplied, must match an existing DBClusterIdentifier.
         public let globalClusterIdentifier: String?
-        ///  An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5242,9 +5140,9 @@ extension RDS {
     }
 
     public struct DescribeInstallationMediaMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// A filter that specifies one or more installation media to describe. Supported filters include the following:    custom-availability-zone-id - Accepts custom Availability Zone (AZ) identifiers. The results list includes information about only the custom AZs identified by these identifiers.    engine - Accepts database engines. The results list includes information about only the database engines identified by these identifiers. For more information about the valid engines for installation media, see ImportInstallationMedia.  
+        /// A filter that specifies one or more installation media to describe. Supported filters include the following:    custom-availability-zone-id - Accepts custom Availability Zone (AZ) identifiers. The results list includes information about only the custom AZs identified by these identifiers.    engine - Accepts database engines. The results list includes information about only the database engines identified by these identifiers. For more information about the valid engines for installation media, see ImportInstallationMedia.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The installation medium ID.
@@ -5270,7 +5168,7 @@ extension RDS {
     }
 
     public struct DescribeOptionGroupOptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// A required parameter. Options available for the given engine name are described.
         public let engineName: String
@@ -5302,7 +5200,7 @@ extension RDS {
     }
 
     public struct DescribeOptionGroupsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// Filters the list of option groups to only include groups associated with a specific database engine.
         public let engineName: String?
@@ -5311,7 +5209,7 @@ extension RDS {
         public var filters: [Filter]?
         /// Filters the list of option groups to only include groups associated with a specific database engine version. If specified, then EngineName must also be specified.
         public let majorEngineVersion: String?
-        ///  An optional pagination token provided by a previous DescribeOptionGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeOptionGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5338,7 +5236,7 @@ extension RDS {
     }
 
     public struct DescribeOrderableDBInstanceOptionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The Availability Zone group associated with a Local Zone. Specify this parameter to retrieve available offerings for the Local Zones in the group. Omit this parameter to show the available offerings in the specified AWS Region.
         public let availabilityZoneGroup: String?
@@ -5353,7 +5251,7 @@ extension RDS {
         public var filters: [Filter]?
         /// The license model filter value. Specify this parameter to show only the available offerings matching the specified license model.
         public let licenseModel: String?
-        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5386,12 +5284,12 @@ extension RDS {
     }
 
     public struct DescribePendingMaintenanceActionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
-        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.  
+        /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:    db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.    db-instance-id - Accepts DB instance identifiers and DB instance ARNs. The results list will only include pending maintenance actions for the DB instances identified by these ARNs.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
@@ -5414,24 +5312,24 @@ extension RDS {
     }
 
     public struct DescribeReservedDBInstancesMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The DB instance class filter value. Specify this parameter to show only those reservations matching the specified DB instances class.
         public let dBInstanceClass: String?
-        /// The duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
+        /// The duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000
         public let duration: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        /// The lease identifier filter value. Specify this parameter to show only the reservation that matches the specified lease ID.  AWS Support might request the lease ID for an issue related to a reserved DB instance. 
+        /// The lease identifier filter value. Specify this parameter to show only the reservation that matches the specified lease ID.  AWS Support might request the lease ID for an issue related to a reserved DB instance.
         public let leaseId: String?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A value that indicates whether to show only those reservations that support Multi-AZ.
         public let multiAZ: Bool?
-        /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
+        /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"
         public let offeringType: String?
         /// The product description filter value. Specify this parameter to show only those reservations matching the specified product description.
         public let productDescription: String?
@@ -5470,26 +5368,26 @@ extension RDS {
     }
 
     public struct DescribeReservedDBInstancesOfferingsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
         public let dBInstanceClass: String?
-        /// Duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000 
+        /// Duration filter value, specified in years or seconds. Specify this parameter to show only reservations for this duration. Valid Values: 1 | 3 | 31536000 | 94608000
         public let duration: String?
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         ///  The maximum number of records to include in the response. If more than the MaxRecords value is available, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
         /// A value that indicates whether to show only those reservations that support Multi-AZ.
         public let multiAZ: Bool?
-        /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"  
+        /// The offering type filter value. Specify this parameter to show only the available offerings matching the specified offering type. Valid Values: "Partial Upfront" | "All Upfront" | "No Upfront"
         public let offeringType: String?
-        /// Product description filter value. Specify this parameter to show only the available offerings that contain the specified product description.  The results show offerings that partially match the filter value. 
+        /// Product description filter value. Specify this parameter to show only the available offerings that contain the specified product description.  The results show offerings that partially match the filter value.
         public let productDescription: String?
-        /// The offering identifier filter value. Specify this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706 
+        /// The offering identifier filter value. Specify this parameter to show only the available offering that matches the specified reservation identifier. Example: 438012d3-4052-4cc7-b2e3-8d3372e0e706
         public let reservedDBInstancesOfferingId: String?
 
         public init(dBInstanceClass: String? = nil, duration: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, multiAZ: Bool? = nil, offeringType: String? = nil, productDescription: String? = nil, reservedDBInstancesOfferingId: String? = nil) {
@@ -5518,7 +5416,7 @@ extension RDS {
     }
 
     public struct DescribeSourceRegionsMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -5527,7 +5425,7 @@ extension RDS {
         public let marker: String?
         /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
         public let maxRecords: Int?
-        /// The source AWS Region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.  
+        /// The source AWS Region name. For example, us-east-1. Constraints:   Must specify a valid AWS Region name.
         public let regionName: String?
 
         public init(filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil, regionName: String? = nil) {
@@ -5546,8 +5444,7 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsMessage: AWSEncodableShape {
-
-        /// The customer identifier or the ARN of your DB instance. 
+        /// The customer identifier or the ARN of your DB instance.
         public let dBInstanceIdentifier: String
 
         public init(dBInstanceIdentifier: String) {
@@ -5560,7 +5457,6 @@ extension RDS {
     }
 
     public struct DescribeValidDBInstanceModificationsResult: AWSDecodableShape {
-
         public let validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage?
 
         public init(validDBInstanceModificationsMessage: ValidDBInstanceModificationsMessage? = nil) {
@@ -5573,7 +5469,6 @@ extension RDS {
     }
 
     public struct DomainMembership: AWSDecodableShape {
-
         /// The identifier of the Active Directory Domain.
         public let domain: String?
         /// The fully qualified domain name of the Active Directory Domain.
@@ -5599,7 +5494,6 @@ extension RDS {
     }
 
     public struct DoubleRange: AWSDecodableShape {
-
         /// The minimum value in the range.
         public let from: Double?
         /// The maximum value in the range.
@@ -5617,7 +5511,6 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionDetails: AWSDecodableShape {
-
         /// Boolean value that if true, indicates there is more data to be downloaded.
         public let additionalDataPending: Bool?
         /// Entries from the specified log file.
@@ -5639,14 +5532,13 @@ extension RDS {
     }
 
     public struct DownloadDBLogFilePortionMessage: AWSEncodableShape {
-
-        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The customer-assigned name of the DB instance that contains the log files you want to list. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         /// The name of the log file to be downloaded.
         public let logFileName: String
         /// The pagination token provided in the previous request or "0". If the Marker parameter is specified the response includes only records beyond the marker until the end of the file or up to NumberOfLines.
         public let marker: String?
-        /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file is truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker isn't specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.  
+        /// The number of lines to download. If the number of lines specified results in a file over 1 MB in size, the file is truncated at 1 MB in size. If the NumberOfLines parameter is specified, then the block of lines returned can be from the beginning or the end of the log file, depending on the value of the Marker parameter.   If neither Marker or NumberOfLines are specified, the entire log file is returned up to a maximum of 10000 lines, starting with the most recent log entries first.   If NumberOfLines is specified and Marker isn't specified, then the most recent lines from the end of the log file are returned.   If Marker is specified as "0", then the specified number of lines from the beginning of the log file are returned.   You can download the log file in blocks of lines by specifying the size of the block using the NumberOfLines parameter, and by specifying a value of "0" for the Marker parameter in your first request. Include the Marker value returned in the response as the Marker value for the next request, continuing until the AdditionalDataPending response element returns false.
         public let numberOfLines: Int?
 
         public init(dBInstanceIdentifier: String, logFileName: String, marker: String? = nil, numberOfLines: Int? = nil) {
@@ -5665,12 +5557,11 @@ extension RDS {
     }
 
     public struct EC2SecurityGroup: AWSDecodableShape {
-
         /// Specifies the id of the EC2 security group.
         public let eC2SecurityGroupId: String?
         /// Specifies the name of the EC2 security group.
         public let eC2SecurityGroupName: String?
-        ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field. 
+        ///  Specifies the AWS ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field.
         public let eC2SecurityGroupOwnerId: String?
         /// Provides the status of the EC2 security group. Status can be "authorizing", "authorized", "revoking", and "revoked".
         public let status: String?
@@ -5691,7 +5582,6 @@ extension RDS {
     }
 
     public struct Endpoint: AWSDecodableShape {
-
         /// Specifies the DNS address of the DB instance.
         public let address: String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -5713,11 +5603,11 @@ extension RDS {
     }
 
     public struct EngineDefaults: AWSDecodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
         public let dBParameterGroupFamily: String?
-        ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// Contains a list of engine default parameters.
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
@@ -5737,7 +5627,7 @@ extension RDS {
     }
 
     public struct Event: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
         /// Specifies the date and time of the event.
         public let date: Date?
@@ -5773,7 +5663,7 @@ extension RDS {
     }
 
     public struct EventCategoriesMap: AWSDecodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
         /// The event categories for the specified source type
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
@@ -5793,7 +5683,7 @@ extension RDS {
     }
 
     public struct EventCategoriesMessage: AWSDecodableShape {
-        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { static public let member = "EventCategoriesMap" }
+        public struct _EventCategoriesMapListEncoding: ArrayCoderProperties { public static let member = "EventCategoriesMap" }
 
         /// A list of EventCategoriesMap data types.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesMapListEncoding, EventCategoriesMap>>
@@ -5809,8 +5699,8 @@ extension RDS {
     }
 
     public struct EventSubscription: AWSDecodableShape {
-        public struct _EventCategoriesListEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
-        public struct _SourceIdsListEncoding: ArrayCoderProperties { static public let member = "SourceId" }
+        public struct _EventCategoriesListEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
+        public struct _SourceIdsListEncoding: ArrayCoderProperties { public static let member = "SourceId" }
 
         /// The AWS customer account associated with the RDS event notification subscription.
         public let customerAwsId: String?
@@ -5863,12 +5753,12 @@ extension RDS {
     }
 
     public struct EventSubscriptionsMessage: AWSDecodableShape {
-        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { static public let member = "EventSubscription" }
+        public struct _EventSubscriptionsListEncoding: ArrayCoderProperties { public static let member = "EventSubscription" }
 
         /// A list of EventSubscriptions data types.
         @OptionalCustomCoding<ArrayCoder<_EventSubscriptionsListEncoding, EventSubscription>>
         public var eventSubscriptionsList: [EventSubscription]?
-        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(eventSubscriptionsList: [EventSubscription]? = nil, marker: String? = nil) {
@@ -5883,12 +5773,12 @@ extension RDS {
     }
 
     public struct EventsMessage: AWSDecodableShape {
-        public struct _EventsEncoding: ArrayCoderProperties { static public let member = "Event" }
+        public struct _EventsEncoding: ArrayCoderProperties { public static let member = "Event" }
 
-        ///  A list of Event instances. 
+        ///  A list of Event instances.
         @OptionalCustomCoding<ArrayCoder<_EventsEncoding, Event>>
         public var events: [Event]?
-        ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
 
         public init(events: [Event]? = nil, marker: String? = nil) {
@@ -5903,17 +5793,16 @@ extension RDS {
     }
 
     public struct ExportTask: AWSDecodableShape {
-
-        /// The data exported from the snapshot. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.  
+        /// The data exported from the snapshot. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         @OptionalCustomCoding<StandardArrayCoder>
         public var exportOnly: [String]?
-        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to. 
+        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is exported to.
         public let exportTaskIdentifier: String?
         /// The reason the export failed, if it failed.
         public let failureCause: String?
-        /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot. 
+        /// The name of the IAM role that is used to write to Amazon S3 when exporting a snapshot.
         public let iamRoleArn: String?
-        /// The ID of the AWS KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key. 
+        /// The ID of the AWS KMS key that is used to encrypt the snapshot when it's exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The IAM role used for the snapshot export must have encryption and decryption permissions to use this KMS key.
         public let kmsKeyId: String?
         /// The progress of the snapshot export task as a percentage.
         public let percentProgress: Int?
@@ -5974,7 +5863,7 @@ extension RDS {
     }
 
     public struct ExportTasksMessage: AWSDecodableShape {
-        public struct _ExportTasksEncoding: ArrayCoderProperties { static public let member = "ExportTask" }
+        public struct _ExportTasksEncoding: ArrayCoderProperties { public static let member = "ExportTask" }
 
         /// Information about an export of a snapshot to Amazon S3.
         @OptionalCustomCoding<ArrayCoder<_ExportTasksEncoding, ExportTask>>
@@ -5994,8 +5883,7 @@ extension RDS {
     }
 
     public struct FailoverDBClusterMessage: AWSEncodableShape {
-
-        /// A DB cluster identifier to force a failover for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// A DB cluster identifier to force a failover for. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DBCluster.
         public let dBClusterIdentifier: String
         /// The name of the instance to promote to the primary instance. You must specify the instance identifier for an Aurora Replica in the DB cluster. For example, mydbcluster-replica1.
         public let targetDBInstanceIdentifier: String?
@@ -6012,7 +5900,6 @@ extension RDS {
     }
 
     public struct FailoverDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -6025,7 +5912,7 @@ extension RDS {
     }
 
     public struct Filter: AWSEncodableShape {
-        public struct _ValuesEncoding: ArrayCoderProperties { static public let member = "Value" }
+        public struct _ValuesEncoding: ArrayCoderProperties { public static let member = "Value" }
 
         /// The name of the filter. Filter names are case-sensitive.
         public let name: String
@@ -6045,28 +5932,28 @@ extension RDS {
     }
 
     public struct GlobalCluster: AWSDecodableShape {
-        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { static public let member = "GlobalClusterMember" }
+        public struct _GlobalClusterMembersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
 
-        ///  The default database name within the new global database cluster. 
+        ///  The default database name within the new global database cluster.
         public let databaseName: String?
-        ///  The deletion protection setting for the new global database cluster. 
+        ///  The deletion protection setting for the new global database cluster.
         public let deletionProtection: Bool?
-        ///  The Aurora database engine used by the global database cluster. 
+        ///  The Aurora database engine used by the global database cluster.
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// The Amazon Resource Name (ARN) for the global database cluster.
         public let globalClusterArn: String?
-        ///  Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster. 
+        ///  Contains a user-supplied global database cluster identifier. This identifier is the unique key that identifies a global database cluster.
         public let globalClusterIdentifier: String?
-        ///  The list of cluster IDs for secondary clusters within the global database cluster. Currently limited to 1 item. 
+        ///  The list of cluster IDs for secondary clusters within the global database cluster. Currently limited to 1 item.
         @OptionalCustomCoding<ArrayCoder<_GlobalClusterMembersEncoding, GlobalClusterMember>>
         public var globalClusterMembers: [GlobalClusterMember]?
-        ///  The AWS Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed. 
+        ///  The AWS Region-unique, immutable identifier for the global database cluster. This identifier is found in AWS CloudTrail log entries whenever the AWS KMS key for the DB cluster is accessed.
         public let globalClusterResourceId: String?
         /// Specifies the current state of this global database cluster.
         public let status: String?
-        ///  The storage encryption setting for the global database cluster. 
+        ///  The storage encryption setting for the global database cluster.
         public let storageEncrypted: Bool?
 
         public init(databaseName: String? = nil, deletionProtection: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalClusterArn: String? = nil, globalClusterIdentifier: String? = nil, globalClusterMembers: [GlobalClusterMember]? = nil, globalClusterResourceId: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil) {
@@ -6097,14 +5984,13 @@ extension RDS {
     }
 
     public struct GlobalClusterMember: AWSDecodableShape {
-
-        ///  The Amazon Resource Name (ARN) for each Aurora cluster. 
+        ///  The Amazon Resource Name (ARN) for each Aurora cluster.
         public let dBClusterArn: String?
         /// Specifies whether a secondary cluster in an Aurora global database has write forwarding enabled, not enabled, or is in the process of enabling it.
         public let globalWriteForwardingStatus: WriteForwardingStatus?
-        ///  Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated. 
+        ///  Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated.
         public let isWriter: Bool?
-        ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database. 
+        ///  The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database.
         @OptionalCustomCoding<StandardArrayCoder>
         public var readers: [String]?
 
@@ -6124,12 +6010,12 @@ extension RDS {
     }
 
     public struct GlobalClustersMessage: AWSDecodableShape {
-        public struct _GlobalClustersEncoding: ArrayCoderProperties { static public let member = "GlobalClusterMember" }
+        public struct _GlobalClustersEncoding: ArrayCoderProperties { public static let member = "GlobalClusterMember" }
 
-        ///  The list of global clusters returned by this request. 
+        ///  The list of global clusters returned by this request.
         @OptionalCustomCoding<ArrayCoder<_GlobalClustersEncoding, GlobalCluster>>
         public var globalClusters: [GlobalCluster]?
-        ///  An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribeGlobalClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
 
         public init(globalClusters: [GlobalCluster]? = nil, marker: String? = nil) {
@@ -6144,7 +6030,6 @@ extension RDS {
     }
 
     public struct IPRange: AWSDecodableShape {
-
         /// Specifies the IP range.
         public let cidrip: String?
         /// Specifies the status of the IP range. Status can be "authorizing", "authorized", "revoking", and "revoked".
@@ -6162,16 +6047,15 @@ extension RDS {
     }
 
     public struct ImportInstallationMediaMessage: AWSEncodableShape {
-
         /// The identifier of the custom Availability Zone (AZ) to import the installation media to.
         public let customAvailabilityZoneId: String
-        /// The name of the database engine to be used for this instance.  The list only includes supported DB engines that require an on-premises customer provided license.  Valid Values:     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        /// The name of the database engine to be used for this instance.  The list only includes supported DB engines that require an on-premises customer provided license.  Valid Values:     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String
-        /// The path to the installation medium for the specified DB engine. Example: SQLServerISO/en_sql_server_2016_enterprise_x64_dvd_8701793.iso 
+        /// The path to the installation medium for the specified DB engine. Example: SQLServerISO/en_sql_server_2016_enterprise_x64_dvd_8701793.iso
         public let engineInstallationMediaPath: String
-        /// The version number of the database engine to use. For a list of valid engine versions, call DescribeDBEngineVersions. The following are the database engines and links to information about the major and minor versions. The list only includes DB engines that require an on-premises customer provided license.  Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide. 
+        /// The version number of the database engine to use. For a list of valid engine versions, call DescribeDBEngineVersions. The following are the database engines and links to information about the major and minor versions. The list only includes DB engines that require an on-premises customer provided license.  Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.
         public let engineVersion: String
-        /// The path to the installation medium for the operating system associated with the specified DB engine. Example: WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso 
+        /// The path to the installation medium for the operating system associated with the specified DB engine. Example: WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso
         public let oSInstallationMediaPath: String
 
         public init(customAvailabilityZoneId: String, engine: String, engineInstallationMediaPath: String, engineVersion: String, oSInstallationMediaPath: String) {
@@ -6192,7 +6076,6 @@ extension RDS {
     }
 
     public struct InstallationMedia: AWSDecodableShape {
-
         /// The custom Availability Zone (AZ) that contains the installation media.
         public let customAvailabilityZoneId: String?
         /// The DB engine.
@@ -6234,7 +6117,6 @@ extension RDS {
     }
 
     public struct InstallationMediaFailureCause: AWSDecodableShape {
-
         /// The reason that an installation media import failed.
         public let message: String?
 
@@ -6248,7 +6130,7 @@ extension RDS {
     }
 
     public struct InstallationMediaMessage: AWSDecodableShape {
-        public struct _InstallationMediaEncoding: ArrayCoderProperties { static public let member = "InstallationMedia" }
+        public struct _InstallationMediaEncoding: ArrayCoderProperties { public static let member = "InstallationMedia" }
 
         /// The list of InstallationMedia objects for the AWS account.
         @OptionalCustomCoding<ArrayCoder<_InstallationMediaEncoding, InstallationMedia>>
@@ -6268,7 +6150,7 @@ extension RDS {
     }
 
     public struct ListTagsForResourceMessage: AWSEncodableShape {
-        public struct _FiltersEncoding: ArrayCoderProperties { static public let member = "Filter" }
+        public struct _FiltersEncoding: ArrayCoderProperties { public static let member = "Filter" }
 
         /// This parameter isn't currently supported.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
@@ -6288,7 +6170,6 @@ extension RDS {
     }
 
     public struct MinimumEngineVersionPerAllowedValue: AWSDecodableShape {
-
         /// The allowed value for an option setting.
         public let allowedValue: String?
         /// The minimum DB engine version required for the allowed value.
@@ -6306,7 +6187,6 @@ extension RDS {
     }
 
     public struct ModifyCertificatesMessage: AWSEncodableShape {
-
         /// The new default certificate identifier to override the current one with. To determine the valid values, use the describe-certificates AWS CLI command or the DescribeCertificates API operation.
         public let certificateIdentifier: String?
         /// A value that indicates whether to remove the override for the default certificate. If the override is removed, the default certificate is the system default.
@@ -6324,7 +6204,6 @@ extension RDS {
     }
 
     public struct ModifyCertificatesResult: AWSDecodableShape {
-
         public let certificate: Certificate?
 
         public init(certificate: Certificate? = nil) {
@@ -6337,12 +6216,11 @@ extension RDS {
     }
 
     public struct ModifyCurrentDBClusterCapacityMessage: AWSEncodableShape {
-
-        /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.  
+        /// The DB cluster capacity. When you change the capacity of a paused Aurora Serverless DB cluster, it automatically resumes. Constraints:   For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256.   For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384.
         public let capacity: Int?
-        /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB cluster.  
+        /// The DB cluster identifier for the cluster being modified. This parameter isn't case-sensitive. Constraints:   Must match the identifier of an existing DB cluster.
         public let dBClusterIdentifier: String
-        /// The amount of time, in seconds, that Aurora Serverless tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300.   Value must be from 10 through 600.  
+        /// The amount of time, in seconds, that Aurora Serverless tries to find a scaling point to perform seamless scaling before enforcing the timeout action. The default is 300.   Value must be from 10 through 600.
         public let secondsBeforeTimeout: Int?
         /// The action to take when the timeout is reached, either ForceApplyCapacityChange or RollbackCapacityChange.  ForceApplyCapacityChange, the default, sets the capacity to the specified value as soon as possible.  RollbackCapacityChange ignores the capacity change if a scaling point isn't found in the timeout period.
         public let timeoutAction: String?
@@ -6363,7 +6241,6 @@ extension RDS {
     }
 
     public struct ModifyDBClusterEndpointMessage: AWSEncodableShape {
-
         /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
         public let dBClusterEndpointIdentifier: String
         /// The type of the endpoint. One of: READER, WRITER, ANY.
@@ -6391,15 +6268,15 @@ extension RDS {
     }
 
     public struct ModifyDBClusterMessage: AWSEncodableShape {
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
         public let allowMajorVersionUpgrade: Bool?
         /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is disabled, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values. If the ApplyImmediately parameter is disabled, then changes to the EnableIAMDatabaseAuthentication, MasterUserPassword, and NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. By default, this parameter is disabled.
         public let applyImmediately: Bool?
-        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
-        /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
+        /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35
         public let backupRetentionPeriod: Int?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
@@ -6409,11 +6286,11 @@ extension RDS {
         public let dBClusterIdentifier: String
         /// The name of the DB cluster parameter group to use for the DB cluster.
         public let dBClusterParameterGroupName: String?
-        /// The name of the DB parameter group to apply to all instances of the DB cluster.   When you apply a parameter group using the DBInstanceParameterGroupName parameter, the DB cluster isn't rebooted automatically. Also, parameter changes aren't applied during the next maintenance window but instead are applied immediately.  Default: The existing name setting Constraints:   The DB parameter group must be in the same DB parameter group family as this DB cluster.   The DBInstanceParameterGroupName parameter is only valid in combination with the AllowMajorVersionUpgrade parameter.  
+        /// The name of the DB parameter group to apply to all instances of the DB cluster.   When you apply a parameter group using the DBInstanceParameterGroupName parameter, the DB cluster isn't rebooted automatically. Also, parameter changes aren't applied during the next maintenance window but instead are applied immediately.  Default: The existing name setting Constraints:   The DB parameter group must be in the same DB parameter group family as this DB cluster.   The DBInstanceParameterGroupName parameter is only valid in combination with the AllowMajorVersionUpgrade parameter.
         public let dBInstanceParameterGroupName: String?
-        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// The Active Directory directory ID to move the DB cluster to. Specify none to remove the cluster from its current domain. The domain must be created prior to this operation.  For more information, see Kerberos Authentication in the Amazon Aurora User Guide. 
+        /// The Active Directory directory ID to move the DB cluster to. Specify none to remove the cluster from its current domain. The domain must be created prior to this operation.  For more information, see Kerberos Authentication in the Amazon Aurora User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
@@ -6421,19 +6298,19 @@ extension RDS {
         public let enableGlobalWriteForwarding: Bool?
         /// A value that indicates whether to enable the HTTP endpoint for an Aurora Serverless DB cluster. By default, the HTTP endpoint is disabled. When enabled, the HTTP endpoint provides a connectionless web service API for running SQL queries on the Aurora Serverless DB cluster. You can also query your database from inside the RDS console with the query editor. For more information, see Using the Data API for Aurora Serverless in the Amazon Aurora User Guide.
         public let enableHttpEndpoint: Bool?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion" 
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless ApplyImmediately is enabled. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"
         public let engineVersion: String?
         /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
-        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
+        /// The new DB cluster identifier for the DB cluster when renaming a DB cluster. This value is stored as a lowercase string. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newDBClusterIdentifier: String?
         /// A value that indicates that the DB cluster should be associated with the specified option group. Changing this parameter doesn't result in an outage except in the following case, and the change is applied during the next maintenance window unless the ApplyImmediately is enabled for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options can't be removed from an option group. The option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
         /// The port number on which the DB cluster accepts connections. Constraints: Value must be 1150-65535  Default: The same port as the original DB cluster.
         public let port: Int?
-        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred DB Cluster Maintenance Window in the Amazon Aurora User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -6499,7 +6376,7 @@ extension RDS {
     }
 
     public struct ModifyDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to modify.
         public let dBClusterParameterGroupName: String
@@ -6519,7 +6396,6 @@ extension RDS {
     }
 
     public struct ModifyDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -6532,10 +6408,10 @@ extension RDS {
     }
 
     public struct ModifyDBClusterSnapshotAttributeMessage: AWSEncodableShape {
-        public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
-        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
-        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBClusterSnapshotAttributes API action. 
+        /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB cluster snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBClusterSnapshotAttributes API action.
         public let attributeName: String
         /// The identifier for the DB cluster snapshot to modify the attributes for.
         public let dBClusterSnapshotIdentifier: String
@@ -6562,7 +6438,6 @@ extension RDS {
     }
 
     public struct ModifyDBClusterSnapshotAttributeResult: AWSDecodableShape {
-
         public let dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult?
 
         public init(dBClusterSnapshotAttributesResult: DBClusterSnapshotAttributesResult? = nil) {
@@ -6575,23 +6450,23 @@ extension RDS {
     }
 
     public struct ModifyDBInstanceMessage: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The new amount of storage (in gibibytes) to allocate for the DB instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  For the valid values for allocated storage for each engine, see CreateDBInstance. 
+        /// The new amount of storage (in gibibytes) to allocate for the DB instance.  For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  For the valid values for allocated storage for each engine, see CreateDBInstance.
         public let allocatedStorage: Int?
         /// A value that indicates whether major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints: Major version upgrades must be allowed when specifying a value for the EngineVersion parameter that is a different major version than the DB instance's current version.
         public let allowMajorVersionUpgrade: Bool?
-        /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is disabled.   If this parameter is disabled, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance in the Amazon RDS User Guide. to see the impact of enabling or disabling ApplyImmediately for each modified parameter and to determine when the changes are applied. 
+        /// A value that indicates whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance. By default, this parameter is disabled.   If this parameter is disabled, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to RebootDBInstance, or the next failure reboot. Review the table of parameters in Modifying a DB Instance in the Amazon RDS User Guide. to see the impact of enabling or disabling ApplyImmediately for each modified parameter and to determine when the changes are applied.
         public let applyImmediately: Bool?
-        ///  A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage results if this parameter is enabled during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version. 
+        ///  A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage results if this parameter is enabled during the maintenance window, and a newer minor version is available, and RDS has enabled auto patching for that engine version.
         public let autoMinorVersionUpgrade: Bool?
-        /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL read replica only if the source is running MySQL 5.6 or later   Can be specified for a PostgreSQL read replica only if the source is running PostgreSQL 9.3.5   Can't be set to 0 if the DB instance is a source to read replicas  
+        /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Changing this parameter can result in an outage if you change from 0 to a non-zero value or from a non-zero value to 0. These changes are applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you change the parameter from one non-zero value to another non-zero value, the change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:   Must be a value from 0 to 35   Can be specified for a MySQL read replica only if the source is running MySQL 5.6 or later   Can be specified for a PostgreSQL read replica only if the source is running PostgreSQL 9.3.5   Can't be set to 0 if the DB instance is a source to read replicas
         public let backupRetentionPeriod: Int?
         /// Indicates the certificate that needs to be associated with the instance.
         public let cACertificateIdentifier: String?
-        /// A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.   
+        /// A value that indicates whether the DB instance is restarted when you rotate your SSL/TLS certificate. By default, the DB instance is restarted when you rotate your SSL/TLS certificate. The certificate is not updated until the DB instance is restarted.  Set this parameter only if you are not using SSL/TLS to connect to the DB instance.  If you are using SSL/TLS to connect to the DB instance, follow the appropriate instructions for your DB engine to rotate your SSL/TLS certificate:   For more information about rotating your SSL/TLS certificate for RDS DB engines, see  Rotating Your SSL/TLS Certificate. in the Amazon RDS User Guide.    For more information about rotating your SSL/TLS certificate for Aurora DB engines, see  Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
         public let certificateRotationRestart: Bool?
         /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance. A change to the CloudwatchLogsExportConfiguration parameter is always applied to the DB instance immediately. Therefore, the ApplyImmediately parameter has no effect.
         public let cloudwatchLogsExportConfiguration: CloudwatchLogsExportConfiguration?
@@ -6599,52 +6474,52 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The new compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  If you modify the DB instance class, an outage occurs during the change. The change is applied during the next maintenance window, unless ApplyImmediately is enabled for this request.  Default: Uses existing setting
         public let dBInstanceClass: String?
-        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         /// The name of the DB parameter group to apply to the DB instance. Changing this setting doesn't result in an outage. The parameter group name itself is changed immediately, but the actual parameter changes are not applied until you reboot the instance without failover. In this case, the DB instance isn't rebooted automatically and the parameter changes isn't applied during the next maintenance window. Default: Uses existing setting Constraints: The DB parameter group must be in the same DB parameter group family as this DB instance.
         public let dBParameterGroupName: String?
-        /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid values: 1150-65535   MariaDB   Default: 3306   Valid values: 1150-65535   PostgreSQL   Default: 5432   Valid values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid values: 1150-65535   SQL Server   Default: 1433   Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.  Amazon Aurora   Default: 3306   Valid values: 1150-65535 
+        /// The port number on which the database accepts connections. The value of the DBPortNumber parameter must not match any of the port values specified for options in the option group for the DB instance. Your database will restart when you change the DBPortNumber value regardless of the value of the ApplyImmediately parameter.  MySQL   Default: 3306   Valid values: 1150-65535   MariaDB   Default: 3306   Valid values: 1150-65535   PostgreSQL   Default: 5432   Valid values: 1150-65535  Type: Integer  Oracle   Default: 1521   Valid values: 1150-65535   SQL Server   Default: 1433   Valid values: 1150-65535 except 1234, 1434, 3260, 3343, 3389, 47001, and 49152-49156.  Amazon Aurora   Default: 3306   Valid values: 1150-65535
         public let dBPortNumber: Int?
-        /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.  
+        /// A list of DB security groups to authorize on this DB instance. Changing this setting doesn't result in an outage and the change is asynchronously applied as soon as possible. Constraints:   If supplied, must match existing DBSecurityGroups.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupsEncoding, String>>
         public var dBSecurityGroups: [String]?
-        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance in the Amazon RDS User Guide.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately.  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup 
+        /// The new DB subnet group for the DB instance. You can use this parameter to move your DB instance to a different VPC. If your DB instance isn't in a VPC, you can also use this parameter to move your DB instance into a VPC. For more information, see Updating the VPC for a DB Instance in the Amazon RDS User Guide.  Changing the subnet group causes an outage during the change. The change is applied during the next maintenance window, unless you enable ApplyImmediately.  Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetGroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// The Active Directory directory ID to move the DB instance to. Specify none to remove the instance from its current domain. The domain must be created prior to this operation. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
         /// The name of the IAM role to use when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
+        /// A value that indicates whether to enable Performance Insights for the DB instance. For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide.
         public let enablePerformanceInsights: Bool?
         ///  The version number of the database engine to upgrade to. Changing this parameter results in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is eanbled for this request.  For major version upgrades, if a nondefault DB parameter group is currently in use, a new DB parameter group in the DB parameter group family for the new engine version must be specified. The new DB parameter group can be the default for that DB parameter group family. For information about valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
         public let engineVersion: String?
         /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance.  Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect.  If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.  Default: Uses existing setting
         public let iops: Int?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
+        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
-        /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.  Default: Uses existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.  
+        /// The new password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Amazon Aurora  Not applicable. The password for the master user is managed by the DB cluster. For more information, see ModifyDBCluster.  Default: Uses existing setting  MariaDB  Constraints: Must contain from 8 to 41 characters.  Microsoft SQL Server  Constraints: Must contain from 8 to 128 characters.  MySQL  Constraints: Must contain from 8 to 41 characters.  Oracle  Constraints: Must contain from 8 to 30 characters.  PostgreSQL  Constraints: Must contain from 8 to 128 characters.  Amazon RDS API actions never return the password, so this action provides a way to regain access to a primary instance user if the password is lost. This includes restoring privileges that might have been accidentally revoked.
         public let masterUserPassword: String?
         /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
         public let maxAllocatedStorage: Int?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60 
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0. The default is 0. If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0. Valid Values: 0, 1, 5, 10, 15, 30, 60
         public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, go to To create an IAM role for Amazon RDS Enhanced Monitoring in the Amazon RDS User Guide.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
-        /// A value that indicates whether the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. 
+        /// A value that indicates whether the DB instance is a Multi-AZ deployment. Changing this parameter doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request.
         public let multiAZ: Bool?
-        ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot occurs immediately if you enable ApplyImmediately, or will occur during the next maintenance window if you disable Apply Immediately. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        ///  The new DB instance identifier for the DB instance when renaming a DB instance. When you change the DB instance identifier, an instance reboot occurs immediately if you enable ApplyImmediately, or will occur during the next maintenance window if you disable Apply Immediately. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   The first character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let newDBInstanceIdentifier: String?
         ///  Indicates that the DB instance should be associated with the specified option group. Changing this parameter doesn't result in an outage except in the following case and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If the parameter change results in an option group that enables OEM, this change can cause a brief (sub-second) period during which new connections are rejected but existing connections are not interrupted.  Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
-        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years). 
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
-        ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes  
+        ///  The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.   Amazon Aurora  Not applicable. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   Must be in the format hh24:mi-hh24:mi   Must be in Universal Time Coordinated (UTC)   Must not conflict with the preferred maintenance window   Must be at least 30 minutes
         public let preferredBackupWindow: String?
         /// The weekly time range (in UTC) during which system maintenance can occur, which might result in an outage. Changing this parameter doesn't result in an outage, except in the following situation, and the change is asynchronously applied as soon as possible. If there are pending actions that cause a reboot, and the maintenance window is changed to include the current time, then changing this parameter will cause a reboot of the DB instance. If moving this window to the current time, there must be at least 30 minutes between the current time and end of the window to ensure pending changes are applied. Default: Uses existing setting Format: ddd:hh24:mi-ddd:hh24:mi Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes
         public let preferredMaintenanceWindow: String?
@@ -6657,7 +6532,7 @@ extension RDS {
         public let publiclyAccessible: Bool?
         /// A value that sets the open mode of a replica database to either mounted or read-only.  Currently, this parameter is only supported for Oracle DB instances.  Mounted DB replicas are included in Oracle Enterprise Edition. The main use case for mounted replicas is cross-Region disaster recovery. The primary database doesn't use Active Data Guard to transmit information to the mounted replica. Because it doesn't accept user connections, a mounted replica can't serve a read-only workload. For more information, see Working with Oracle Read Replicas for Amazon RDS in the Amazon RDS User Guide.
         public let replicaMode: ReplicaMode?
-        /// Specifies the storage type to be associated with the DB instance.  If you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter.  If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance.   Valid values: standard | gp2 | io1  Default: io1 if the Iops parameter is specified, otherwise gp2 
+        /// Specifies the storage type to be associated with the DB instance.  If you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter.  If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance.   Valid values: standard | gp2 | io1  Default: io1 if the Iops parameter is specified, otherwise gp2
         public let storageType: String?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
@@ -6665,7 +6540,7 @@ extension RDS {
         public let tdeCredentialPassword: String?
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features.
         public let useDefaultProcessorFeatures: Bool?
-        /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.  
+        /// A list of EC2 VPC security groups to authorize on this DB instance. This change is asynchronously applied as soon as possible.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:   If supplied, must match existing VpcSecurityGroupIds.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
@@ -6763,7 +6638,6 @@ extension RDS {
     }
 
     public struct ModifyDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -6776,11 +6650,11 @@ extension RDS {
     }
 
     public struct ModifyDBParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
-        /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.  
+        /// The name of the DB parameter group. Constraints:   If supplied, must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
-        /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; later arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover. 
+        /// An array of parameter names, values, and the apply method for the parameter update. At least one parameter name, value, and apply method must be supplied; later arguments are optional. A maximum of 20 parameters can be modified in a single request. Valid Values (for the application method): immediate | pending-reboot   You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when you reboot the DB instance without failover.
         @CustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]
 
@@ -6796,7 +6670,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyRequest: AWSEncodableShape {
-
         /// The new authentication settings for the DBProxy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var auth: [UserAuthConfig]?
@@ -6840,7 +6713,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyResponse: AWSDecodableShape {
-
         /// The DBProxy object representing the new settings for the proxy.
         public let dBProxy: DBProxy?
 
@@ -6854,7 +6726,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupRequest: AWSEncodableShape {
-
         /// The settings that determine the size and behavior of the connection pool for the target group.
         public let connectionPoolConfig: ConnectionPoolConfiguration?
         /// The name of the new proxy to which to assign the target group.
@@ -6880,7 +6751,6 @@ extension RDS {
     }
 
     public struct ModifyDBProxyTargetGroupResponse: AWSDecodableShape {
-
         /// The settings of the modified DBProxyTarget.
         public let dBProxyTargetGroup: DBProxyTargetGroup?
 
@@ -6894,10 +6764,10 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotAttributeMessage: AWSEncodableShape {
-        public struct _ValuesToAddEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
-        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { static public let member = "AttributeValue" }
+        public struct _ValuesToAddEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
+        public struct _ValuesToRemoveEncoding: ArrayCoderProperties { public static let member = "AttributeValue" }
 
-        /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBSnapshotAttributes API action. 
+        /// The name of the DB snapshot attribute to modify. To manage authorization for other AWS accounts to copy or restore a manual DB snapshot, set this value to restore.  To view the list of attributes available to modify, use the DescribeDBSnapshotAttributes API action.
         public let attributeName: String
         /// The identifier for the DB snapshot to modify the attributes for.
         public let dBSnapshotIdentifier: String
@@ -6924,7 +6794,6 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotAttributeResult: AWSDecodableShape {
-
         public let dBSnapshotAttributesResult: DBSnapshotAttributesResult?
 
         public init(dBSnapshotAttributesResult: DBSnapshotAttributesResult? = nil) {
@@ -6937,12 +6806,11 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotMessage: AWSEncodableShape {
-
         /// The identifier of the DB snapshot to modify.
         public let dBSnapshotIdentifier: String
-        /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB Engine for Amazon RDS. 
+        /// The engine version to upgrade the DB snapshot to.  The following are the database engines and engine versions that are available when you upgrade a DB snapshot.   MySQL     5.5.46 (supported for 5.1 DB snapshots)    Oracle     12.1.0.2.v8 (supported for 12.1.0.1 DB snapshots)    11.2.0.4.v12 (supported for 11.2.0.2 DB snapshots)    11.2.0.4.v11 (supported for 11.2.0.3 DB snapshots)    PostgreSQL  For the list of engine versions that are available for upgrading a DB snapshot, see  Upgrading the PostgreSQL DB Engine for Amazon RDS.
         public let engineVersion: String?
-        /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations in the Amazon RDS User Guide. 
+        /// The option group to identify with the upgraded DB snapshot.  You can specify this parameter when you upgrade an Oracle DB snapshot. The same option group considerations apply when upgrading a DB snapshot as when upgrading a DB instance. For more information, see Option Group Considerations in the Amazon RDS User Guide.
         public let optionGroupName: String?
 
         public init(dBSnapshotIdentifier: String, engineVersion: String? = nil, optionGroupName: String? = nil) {
@@ -6959,7 +6827,6 @@ extension RDS {
     }
 
     public struct ModifyDBSnapshotResult: AWSDecodableShape {
-
         public let dBSnapshot: DBSnapshot?
 
         public init(dBSnapshot: DBSnapshot? = nil) {
@@ -6972,11 +6839,11 @@ extension RDS {
     }
 
     public struct ModifyDBSubnetGroupMessage: AWSEncodableShape {
-        public struct _SubnetIdsEncoding: ArrayCoderProperties { static public let member = "SubnetIdentifier" }
+        public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "SubnetIdentifier" }
 
         /// The description for the DB subnet group.
         public let dBSubnetGroupDescription: String?
-        /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup 
+        /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group.  Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
         public let dBSubnetGroupName: String
         /// The EC2 subnet IDs for the DB subnet group.
         @CustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
@@ -6996,7 +6863,6 @@ extension RDS {
     }
 
     public struct ModifyDBSubnetGroupResult: AWSDecodableShape {
-
         public let dBSubnetGroup: DBSubnetGroup?
 
         public init(dBSubnetGroup: DBSubnetGroup? = nil) {
@@ -7009,16 +6875,16 @@ extension RDS {
     }
 
     public struct ModifyEventSubscriptionMessage: AWSEncodableShape {
-        public struct _EventCategoriesEncoding: ArrayCoderProperties { static public let member = "EventCategory" }
+        public struct _EventCategoriesEncoding: ArrayCoderProperties { public static let member = "EventCategory" }
 
-        ///  A value that indicates whether to activate the subscription. 
+        ///  A value that indicates whether to activate the subscription.
         public let enabled: Bool?
-        ///  A list of event categories for a source type (SourceType) that you want to subscribe to. You can see a list of the categories for a given source type in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation. 
+        ///  A list of event categories for a source type (SourceType) that you want to subscribe to. You can see a list of the categories for a given source type in Events in the Amazon RDS User Guide or by using the DescribeEventCategories operation.
         @OptionalCustomCoding<ArrayCoder<_EventCategoriesEncoding, String>>
         public var eventCategories: [String]?
         /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
         public let snsTopicArn: String?
-        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. If this value isn't specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot 
+        /// The type of source that is generating the events. For example, if you want to be notified of events generated by a DB instance, you would set this parameter to db-instance. If this value isn't specified, all events are returned. Valid values: db-instance | db-cluster | db-parameter-group | db-security-group | db-snapshot | db-cluster-snapshot
         public let sourceType: String?
         /// The name of the RDS event notification subscription.
         public let subscriptionName: String
@@ -7041,7 +6907,6 @@ extension RDS {
     }
 
     public struct ModifyEventSubscriptionResult: AWSDecodableShape {
-
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -7054,12 +6919,11 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterMessage: AWSEncodableShape {
-
-        ///  Indicates if the global database cluster has deletion protection enabled. The global database cluster can't be deleted when deletion protection is enabled. 
+        ///  Indicates if the global database cluster has deletion protection enabled. The global database cluster can't be deleted when deletion protection is enabled.
         public let deletionProtection: Bool?
-        ///  The DB cluster identifier for the global cluster being modified. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing global database cluster.  
+        ///  The DB cluster identifier for the global cluster being modified. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing global database cluster.
         public let globalClusterIdentifier: String?
-        ///  The new cluster identifier for the global database cluster when modifying a global database cluster. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2 
+        ///  The new cluster identifier for the global database cluster when modifying a global database cluster. This value is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   The first character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-cluster2
         public let newGlobalClusterIdentifier: String?
 
         public init(deletionProtection: Bool? = nil, globalClusterIdentifier: String? = nil, newGlobalClusterIdentifier: String? = nil) {
@@ -7076,7 +6940,6 @@ extension RDS {
     }
 
     public struct ModifyGlobalClusterResult: AWSDecodableShape {
-
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -7089,7 +6952,7 @@ extension RDS {
     }
 
     public struct ModifyOptionGroupMessage: AWSEncodableShape {
-        public struct _OptionsToIncludeEncoding: ArrayCoderProperties { static public let member = "OptionConfiguration" }
+        public struct _OptionsToIncludeEncoding: ArrayCoderProperties { public static let member = "OptionConfiguration" }
 
         /// A value that indicates whether to apply the change immediately or during the next maintenance window for each instance associated with the option group.
         public let applyImmediately: Bool?
@@ -7118,7 +6981,6 @@ extension RDS {
     }
 
     public struct ModifyOptionGroupResult: AWSDecodableShape {
-
         public let optionGroup: OptionGroup?
 
         public init(optionGroup: OptionGroup? = nil) {
@@ -7131,9 +6993,9 @@ extension RDS {
     }
 
     public struct Option: AWSDecodableShape {
-        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroup" }
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionSetting" }
-        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupMembership" }
+        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroup" }
+        public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
+        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupMembership" }
 
         /// If the option requires access to a port, then this DB security group allows access to the port.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, DBSecurityGroupMembership>>
@@ -7183,9 +7045,9 @@ extension RDS {
     }
 
     public struct OptionConfiguration: AWSEncodableShape {
-        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _OptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionSetting" }
-        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
+        public struct _OptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionSetting" }
+        public struct _VpcSecurityGroupMembershipsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A list of DBSecurityGroupMembership name strings used for this option.
         @OptionalCustomCoding<ArrayCoder<_DBSecurityGroupMembershipsEncoding, String>>
@@ -7223,9 +7085,9 @@ extension RDS {
     }
 
     public struct OptionGroup: AWSDecodableShape {
-        public struct _OptionsEncoding: ArrayCoderProperties { static public let member = "Option" }
+        public struct _OptionsEncoding: ArrayCoderProperties { public static let member = "Option" }
 
-        /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances. 
+        /// Indicates whether this option group can be applied to both VPC and non-VPC instances. The value true indicates the option group can be applied to both VPC and non-VPC instances.
         public let allowsVpcAndNonVpcInstanceMemberships: Bool?
         /// Indicates the name of the engine that this option group can be applied to.
         public let engineName: String?
@@ -7240,7 +7102,7 @@ extension RDS {
         /// Indicates what options are available in the option group.
         @OptionalCustomCoding<ArrayCoder<_OptionsEncoding, Option>>
         public var options: [Option]?
-        /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field. 
+        /// If AllowsVpcAndNonVpcInstanceMemberships is false, this field is blank. If AllowsVpcAndNonVpcInstanceMemberships is true and this field is blank, then this option group can be applied to both VPC and non-VPC instances. If this field contains a value, then this option group can only be applied to instances that are in the VPC indicated by this field.
         public let vpcId: String?
 
         public init(allowsVpcAndNonVpcInstanceMemberships: Bool? = nil, engineName: String? = nil, majorEngineVersion: String? = nil, optionGroupArn: String? = nil, optionGroupDescription: String? = nil, optionGroupName: String? = nil, options: [Option]? = nil, vpcId: String? = nil) {
@@ -7267,10 +7129,9 @@ extension RDS {
     }
 
     public struct OptionGroupMembership: AWSDecodableShape {
-
         /// The name of the option group that the instance belongs to.
         public let optionGroupName: String?
-        /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed. 
+        /// The status of the DB instance's option group membership. Valid values are: in-sync, pending-apply, pending-removal, pending-maintenance-apply, pending-maintenance-removal, applying, removing, and failed.
         public let status: String?
 
         public init(optionGroupName: String? = nil, status: String? = nil) {
@@ -7285,10 +7146,10 @@ extension RDS {
     }
 
     public struct OptionGroupOption: AWSDecodableShape {
-        public struct _OptionGroupOptionSettingsEncoding: ArrayCoderProperties { static public let member = "OptionGroupOptionSetting" }
-        public struct _OptionGroupOptionVersionsEncoding: ArrayCoderProperties { static public let member = "OptionVersion" }
-        public struct _OptionsConflictsWithEncoding: ArrayCoderProperties { static public let member = "OptionConflictName" }
-        public struct _OptionsDependedOnEncoding: ArrayCoderProperties { static public let member = "OptionName" }
+        public struct _OptionGroupOptionSettingsEncoding: ArrayCoderProperties { public static let member = "OptionGroupOptionSetting" }
+        public struct _OptionGroupOptionVersionsEncoding: ArrayCoderProperties { public static let member = "OptionVersion" }
+        public struct _OptionsConflictsWithEncoding: ArrayCoderProperties { public static let member = "OptionConflictName" }
+        public struct _OptionsDependedOnEncoding: ArrayCoderProperties { public static let member = "OptionName" }
 
         /// If the option requires a port, specifies the default port for the option.
         public let defaultPort: Int?
@@ -7320,11 +7181,11 @@ extension RDS {
         public let persistent: Bool?
         /// Specifies whether the option requires a port.
         public let portRequired: Bool?
-        /// If true, you must enable the Auto Minor Version Upgrade setting for your DB instance before you can use this option. You can enable Auto Minor Version Upgrade when you first create your DB instance, or by modifying your DB instance later. 
+        /// If true, you must enable the Auto Minor Version Upgrade setting for your DB instance before you can use this option. You can enable Auto Minor Version Upgrade when you first create your DB instance, or by modifying your DB instance later.
         public let requiresAutoMinorEngineVersionUpgrade: Bool?
-        /// If true, you can change the option to an earlier version of the option. This only applies to options that have different versions available. 
+        /// If true, you can change the option to an earlier version of the option. This only applies to options that have different versions available.
         public let supportsOptionVersionDowngrade: Bool?
-        /// If true, you can only use this option with a DB instance that is in a VPC. 
+        /// If true, you can only use this option with a DB instance that is in a VPC.
         public let vpcOnly: Bool?
 
         public init(defaultPort: Int? = nil, description: String? = nil, engineName: String? = nil, majorEngineVersion: String? = nil, minimumRequiredMinorEngineVersion: String? = nil, name: String? = nil, optionGroupOptionSettings: [OptionGroupOptionSetting]? = nil, optionGroupOptionVersions: [OptionVersion]? = nil, optionsConflictsWith: [String]? = nil, optionsDependedOn: [String]? = nil, permanent: Bool? = nil, persistent: Bool? = nil, portRequired: Bool? = nil, requiresAutoMinorEngineVersionUpgrade: Bool? = nil, supportsOptionVersionDowngrade: Bool? = nil, vpcOnly: Bool? = nil) {
@@ -7367,7 +7228,7 @@ extension RDS {
     }
 
     public struct OptionGroupOptionSetting: AWSDecodableShape {
-        public struct _MinimumEngineVersionPerAllowedValueEncoding: ArrayCoderProperties { static public let member = "MinimumEngineVersionPerAllowedValue" }
+        public struct _MinimumEngineVersionPerAllowedValueEncoding: ArrayCoderProperties { public static let member = "MinimumEngineVersionPerAllowedValue" }
 
         /// Indicates the acceptable values for the option group option.
         public let allowedValues: String?
@@ -7411,7 +7272,7 @@ extension RDS {
     }
 
     public struct OptionGroupOptionsMessage: AWSDecodableShape {
-        public struct _OptionGroupOptionsEncoding: ArrayCoderProperties { static public let member = "OptionGroupOption" }
+        public struct _OptionGroupOptionsEncoding: ArrayCoderProperties { public static let member = "OptionGroupOption" }
 
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -7430,9 +7291,9 @@ extension RDS {
     }
 
     public struct OptionGroups: AWSDecodableShape {
-        public struct _OptionGroupsListEncoding: ArrayCoderProperties { static public let member = "OptionGroup" }
+        public struct _OptionGroupsListEncoding: ArrayCoderProperties { public static let member = "OptionGroup" }
 
-        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// List of option groups.
         @OptionalCustomCoding<ArrayCoder<_OptionGroupsListEncoding, OptionGroup>>
@@ -7450,7 +7311,6 @@ extension RDS {
     }
 
     public struct OptionSetting: AWSEncodableShape & AWSDecodableShape {
-
         /// The allowed values of the option setting.
         public let allowedValues: String?
         /// The DB engine specific parameter type.
@@ -7496,7 +7356,6 @@ extension RDS {
     }
 
     public struct OptionVersion: AWSDecodableShape {
-
         /// True if the version is the default version of the option, and otherwise false.
         public let isDefault: Bool?
         /// The version of the option.
@@ -7514,8 +7373,8 @@ extension RDS {
     }
 
     public struct OrderableDBInstanceOption: AWSDecodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _AvailableProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "AvailableProcessorFeature" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _AvailableProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "AvailableProcessorFeature" }
 
         /// The Availability Zone group for a DB instance.
         public let availabilityZoneGroup: String?
@@ -7547,13 +7406,13 @@ extension RDS {
         public let minStorageSize: Int?
         /// Indicates whether a DB instance is Multi-AZ capable.
         public let multiAZCapable: Bool?
-        /// Whether a DB instance supports RDS on Outposts. For more information about RDS on Outposts, see Amazon RDS on AWS Outposts in the Amazon RDS User Guide. 
+        /// Whether a DB instance supports RDS on Outposts. For more information about RDS on Outposts, see Amazon RDS on AWS Outposts in the Amazon RDS User Guide.
         public let outpostCapable: Bool?
         /// Indicates whether a DB instance can have a read replica.
         public let readReplicaCapable: Bool?
         /// Indicates the storage type for a DB instance.
         public let storageType: String?
-        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.  
+        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.
         @OptionalCustomCoding<StandardArrayCoder>
         public var supportedEngineModes: [String]?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
@@ -7637,9 +7496,9 @@ extension RDS {
     }
 
     public struct OrderableDBInstanceOptionsMessage: AWSDecodableShape {
-        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { static public let member = "OrderableDBInstanceOption" }
+        public struct _OrderableDBInstanceOptionsEncoding: ArrayCoderProperties { public static let member = "OrderableDBInstanceOption" }
 
-        ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords . 
+        ///  An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
         public let marker: String?
         /// An OrderableDBInstanceOption structure containing information about orderable options for the DB instance.
         @OptionalCustomCoding<ArrayCoder<_OrderableDBInstanceOptionsEncoding, OrderableDBInstanceOption>>
@@ -7657,7 +7516,6 @@ extension RDS {
     }
 
     public struct Outpost: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let arn: String?
 
@@ -7671,7 +7529,6 @@ extension RDS {
     }
 
     public struct Parameter: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies the valid range of values for the parameter.
         public let allowedValues: String?
         /// Indicates when to apply parameter updates.
@@ -7682,7 +7539,7 @@ extension RDS {
         public let dataType: String?
         /// Provides a description of the parameter.
         public let description: String?
-        ///  Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed. 
+        ///  Indicates whether (true) or not (false) the parameter can be modified. Some parameters have security or operational implications that prevent them from being changed.
         public let isModifiable: Bool?
         /// The earliest engine version to which the parameter can apply.
         public let minimumEngineVersion: String?
@@ -7726,7 +7583,6 @@ extension RDS {
     }
 
     public struct PendingCloudwatchLogsExports: AWSDecodableShape {
-
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         @OptionalCustomCoding<StandardArrayCoder>
         public var logTypesToDisable: [String]?
@@ -7746,7 +7602,6 @@ extension RDS {
     }
 
     public struct PendingMaintenanceAction: AWSDecodableShape {
-
         /// The type of pending maintenance action that is available for the resource. Valid actions are system-update, db-upgrade, hardware-maintenance, and ca-certificate-rotation.
         public let action: String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date.
@@ -7780,9 +7635,9 @@ extension RDS {
     }
 
     public struct PendingMaintenanceActionsMessage: AWSDecodableShape {
-        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { static public let member = "ResourcePendingMaintenanceActions" }
+        public struct _PendingMaintenanceActionsEncoding: ArrayCoderProperties { public static let member = "ResourcePendingMaintenanceActions" }
 
-        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
         public let marker: String?
         /// A list of the pending maintenance actions for the resource.
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionsEncoding, ResourcePendingMaintenanceActions>>
@@ -7800,25 +7655,25 @@ extension RDS {
     }
 
     public struct PendingModifiedValues: AWSDecodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
 
-        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
         public let allocatedStorage: Int?
         /// Specifies the pending number of days for which automated backups are retained.
         public let backupRetentionPeriod: Int?
         /// Specifies the identifier of the CA certificate for the DB instance.
         public let cACertificateIdentifier: String?
-        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new DBInstanceClass for the DB instance that will be applied or is currently being applied.
         public let dBInstanceClass: String?
-        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied. 
+        ///  Contains the new DBInstanceIdentifier for the DB instance that will be applied or is currently being applied.
         public let dBInstanceIdentifier: String?
-        /// The new DB subnet group for the DB instance. 
+        /// The new DB subnet group for the DB instance.
         public let dBSubnetGroupName: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
         /// Specifies the new Provisioned IOPS value for the DB instance that will be applied or is currently being applied.
         public let iops: Int?
-        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license 
+        /// The license model for the DB instance. Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
         /// Contains the pending or currently-in-progress change of the master credentials for the DB instance.
         public let masterUserPassword: String?
@@ -7871,7 +7726,6 @@ extension RDS {
     }
 
     public struct ProcessorFeature: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the processor feature. Valid names are coreCount and threadsPerCore.
         public let name: String?
         /// The value of a processor feature name.
@@ -7889,8 +7743,7 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterMessage: AWSEncodableShape {
-
-        /// The identifier of the DB cluster read replica to promote. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing DB cluster read replica.   Example: my-cluster-replica1 
+        /// The identifier of the DB cluster read replica to promote. This parameter isn't case-sensitive.  Constraints:   Must match the identifier of an existing DB cluster read replica.   Example: my-cluster-replica1
         public let dBClusterIdentifier: String
 
         public init(dBClusterIdentifier: String) {
@@ -7903,7 +7756,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -7916,12 +7768,11 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaMessage: AWSEncodableShape {
-
-        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to read replicas.  
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Default: 1 Constraints:   Must be a value from 0 to 35.   Can't be set to 0 if the DB instance is a source to read replicas.
         public let backupRetentionPeriod: Int?
-        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing read replica DB instance.   Example: mydbinstance 
+        /// The DB instance identifier. This value is stored as a lowercase string. Constraints:   Must match the identifier of an existing read replica DB instance.   Example: mydbinstance
         public let dBInstanceIdentifier: String
-        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        ///  The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter.   The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
 
         public init(backupRetentionPeriod: Int? = nil, dBInstanceIdentifier: String, preferredBackupWindow: String? = nil) {
@@ -7938,7 +7789,6 @@ extension RDS {
     }
 
     public struct PromoteReadReplicaResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -7951,9 +7801,9 @@ extension RDS {
     }
 
     public struct PurchaseReservedDBInstancesOfferingMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The number of instances to reserve. Default: 1 
+        /// The number of instances to reserve. Default: 1
         public let dBInstanceCount: Int?
         /// Customer-specified identifier to track this reservation. Example: myreservationID
         public let reservedDBInstanceId: String?
@@ -7978,7 +7828,6 @@ extension RDS {
     }
 
     public struct PurchaseReservedDBInstancesOfferingResult: AWSDecodableShape {
-
         public let reservedDBInstance: ReservedDBInstance?
 
         public init(reservedDBInstance: ReservedDBInstance? = nil) {
@@ -7991,10 +7840,9 @@ extension RDS {
     }
 
     public struct Range: AWSDecodableShape {
-
         /// The minimum value in the range.
         public let from: Int?
-        /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000... 
+        /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
         public let step: Int?
         /// The maximum value in the range.
         public let to: Int?
@@ -8013,8 +7861,7 @@ extension RDS {
     }
 
     public struct RebootDBInstanceMessage: AWSEncodableShape {
-
-        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.  
+        /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:   Must match the identifier of an existing DBInstance.
         public let dBInstanceIdentifier: String
         ///  A value that indicates whether the reboot is conducted through a Multi-AZ failover.  Constraint: You can't enable force failover if the instance isn't configured for Multi-AZ.
         public let forceFailover: Bool?
@@ -8031,7 +7878,6 @@ extension RDS {
     }
 
     public struct RebootDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -8044,7 +7890,6 @@ extension RDS {
     }
 
     public struct RecurringCharge: AWSDecodableShape {
-
         /// The amount of the recurring charge.
         public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
@@ -8062,7 +7907,6 @@ extension RDS {
     }
 
     public struct RegisterDBProxyTargetsRequest: AWSEncodableShape {
-
         /// One or more DB cluster identifiers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBClusterIdentifiers: [String]?
@@ -8090,7 +7934,6 @@ extension RDS {
     }
 
     public struct RegisterDBProxyTargetsResponse: AWSDecodableShape {
-
         /// One or more DBProxyTarget objects that are created when you register targets with a target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dBProxyTargets: [DBProxyTarget]?
@@ -8105,10 +7948,9 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterMessage: AWSEncodableShape {
-
-        ///  The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster. 
+        ///  The Amazon Resource Name (ARN) identifying the cluster that was detached from the Aurora global database cluster.
         public let dbClusterIdentifier: String?
-        ///  The cluster identifier to detach from the Aurora global database cluster. 
+        ///  The cluster identifier to detach from the Aurora global database cluster.
         public let globalClusterIdentifier: String?
 
         public init(dbClusterIdentifier: String? = nil, globalClusterIdentifier: String? = nil) {
@@ -8123,7 +7965,6 @@ extension RDS {
     }
 
     public struct RemoveFromGlobalClusterResult: AWSDecodableShape {
-
         public let globalCluster: GlobalCluster?
 
         public init(globalCluster: GlobalCluster? = nil) {
@@ -8136,7 +7977,6 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBClusterMessage: AWSEncodableShape {
-
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
         /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
@@ -8158,10 +7998,9 @@ extension RDS {
     }
 
     public struct RemoveRoleFromDBInstanceMessage: AWSEncodableShape {
-
         /// The name of the DB instance to disassociate the IAM role from.
         public let dBInstanceIdentifier: String
-        /// The name of the feature for the DB instance that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion. 
+        /// The name of the feature for the DB instance that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
         public let featureName: String
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB instance, for example arn:aws:iam::123456789012:role/AccessRole.
         public let roleArn: String
@@ -8180,8 +8019,7 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionMessage: AWSEncodableShape {
-
-        ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group. 
+        ///  The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
         public let sourceIdentifier: String
         /// The name of the RDS event notification subscription you want to remove a source identifier from.
         public let subscriptionName: String
@@ -8198,7 +8036,6 @@ extension RDS {
     }
 
     public struct RemoveSourceIdentifierFromSubscriptionResult: AWSDecodableShape {
-
         public let eventSubscription: EventSubscription?
 
         public init(eventSubscription: EventSubscription? = nil) {
@@ -8211,8 +8048,7 @@ extension RDS {
     }
 
     public struct RemoveTagsFromResourceMessage: AWSEncodableShape {
-
-        /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide. 
+        /// The Amazon RDS resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.
         public let resourceName: String
         /// The tag key (name) of the tag to be removed.
         @CustomCoding<StandardArrayCoder>
@@ -8230,7 +8066,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstance: AWSDecodableShape {
-        public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
+        public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
 
         /// The currency code for the reserved DB instance.
         public let currencyCode: String?
@@ -8242,7 +8078,7 @@ extension RDS {
         public let duration: Int?
         /// The fixed price charged for this reserved DB instance.
         public let fixedPrice: Double?
-        /// The unique identifier for the lease associated with the reserved DB instance.  AWS Support might request the lease ID for an issue related to a reserved DB instance. 
+        /// The unique identifier for the lease associated with the reserved DB instance.  AWS Support might request the lease ID for an issue related to a reserved DB instance.
         public let leaseId: String?
         /// Indicates if the reservation applies to Multi-AZ deployments.
         public let multiAZ: Bool?
@@ -8306,9 +8142,9 @@ extension RDS {
     }
 
     public struct ReservedDBInstanceMessage: AWSDecodableShape {
-        public struct _ReservedDBInstancesEncoding: ArrayCoderProperties { static public let member = "ReservedDBInstance" }
+        public struct _ReservedDBInstancesEncoding: ArrayCoderProperties { public static let member = "ReservedDBInstance" }
 
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of reserved DB instances.
         @OptionalCustomCoding<ArrayCoder<_ReservedDBInstancesEncoding, ReservedDBInstance>>
@@ -8326,7 +8162,7 @@ extension RDS {
     }
 
     public struct ReservedDBInstancesOffering: AWSDecodableShape {
-        public struct _RecurringChargesEncoding: ArrayCoderProperties { static public let member = "RecurringCharge" }
+        public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
 
         /// The currency code for the reserved DB instance offering.
         public let currencyCode: String?
@@ -8378,9 +8214,9 @@ extension RDS {
     }
 
     public struct ReservedDBInstancesOfferingMessage: AWSDecodableShape {
-        public struct _ReservedDBInstancesOfferingsEncoding: ArrayCoderProperties { static public let member = "ReservedDBInstancesOffering" }
+        public struct _ReservedDBInstancesOfferingsEncoding: ArrayCoderProperties { public static let member = "ReservedDBInstancesOffering" }
 
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of reserved DB instance offerings.
         @OptionalCustomCoding<ArrayCoder<_ReservedDBInstancesOfferingsEncoding, ReservedDBInstancesOffering>>
@@ -8398,7 +8234,7 @@ extension RDS {
     }
 
     public struct ResetDBClusterParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
         /// The name of the DB cluster parameter group to reset.
         public let dBClusterParameterGroupName: String
@@ -8422,14 +8258,14 @@ extension RDS {
     }
 
     public struct ResetDBParameterGroupMessage: AWSEncodableShape {
-        public struct _ParametersEncoding: ArrayCoderProperties { static public let member = "Parameter" }
+        public struct _ParametersEncoding: ArrayCoderProperties { public static let member = "Parameter" }
 
-        /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.  
+        /// The name of the DB parameter group. Constraints:   Must match the name of an existing DBParameterGroup.
         public let dBParameterGroupName: String
-        /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  MySQL  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  MariaDB  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  Oracle  Valid Values (for Apply method): pending-reboot 
+        /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  MySQL  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  MariaDB  Valid Values (for Apply method): immediate | pending-reboot  You can use the immediate value with dynamic parameters only. You can use the pending-reboot value for both dynamic and static parameters, and changes are applied when DB instance reboots.  Oracle  Valid Values (for Apply method): pending-reboot
         @OptionalCustomCoding<ArrayCoder<_ParametersEncoding, Parameter>>
         public var parameters: [Parameter]?
-        ///  A value that indicates whether to reset all parameters in the DB parameter group to default values. By default, all parameters in the DB parameter group are reset to default values. 
+        ///  A value that indicates whether to reset all parameters in the DB parameter group to default values. By default, all parameters in the DB parameter group are reset to default values.
         public let resetAllParameters: Bool?
 
         public init(dBParameterGroupName: String, parameters: [Parameter]? = nil, resetAllParameters: Bool? = nil) {
@@ -8446,7 +8282,7 @@ extension RDS {
     }
 
     public struct ResourcePendingMaintenanceActions: AWSDecodableShape {
-        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { static public let member = "PendingMaintenanceAction" }
+        public struct _PendingMaintenanceActionDetailsEncoding: ArrayCoderProperties { public static let member = "PendingMaintenanceAction" }
 
         /// A list that provides details about the pending maintenance actions for the resource.
         @OptionalCustomCoding<ArrayCoder<_PendingMaintenanceActionDetailsEncoding, PendingMaintenanceAction>>
@@ -8466,16 +8302,16 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromS3Message: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
-        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
-        /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35  
+        /// The number of days for which automated backups of the restored DB cluster are retained. You must specify a minimum value of 1. Default: 1 Constraints:   Must be a value from 1 to 35
         public let backupRetentionPeriod: Int?
         /// A value that indicates that the restored DB cluster should be associated with the specified CharacterSet.
         public let characterSetName: String?
@@ -8483,38 +8319,38 @@ extension RDS {
         public let copyTagsToSnapshot: Bool?
         /// The database name for the restored DB cluster.
         public let databaseName: String?
-        /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1 
+        /// The name of the DB cluster to create from the source data in the Amazon S3 bucket. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: my-cluster1
         public let dBClusterIdentifier: String
-        /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 is used.  Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.  
+        /// The name of the DB cluster parameter group to associate with the restored DB cluster. If this argument is omitted, default.aurora5.6 is used.  Constraints:   If supplied, must match the name of an existing DBClusterParameterGroup.
         public let dBClusterParameterGroupName: String?
-        /// A DB subnet group to associate with the restored DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup.  Example: mySubnetgroup 
+        /// A DB subnet group to associate with the restored DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup.  Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide. 
+        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql 
+        /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql
         public let engine: String
-        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
+        /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7
         public let engineVersion: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KM encryption key. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.  
+        /// The name of the master user for the restored DB cluster. Constraints:   Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String
         /// The password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String
         /// A value that indicates that the restored DB cluster should be associated with the specified option group. Permanent options can't be removed from an option group. An option group can't be removed from a DB cluster once it is associated with a DB cluster.
         public let optionGroupName: String?
-        /// The port number on which the instances in the restored DB cluster accept connections.  Default: 3306 
+        /// The port number on which the instances in the restored DB cluster accept connections.  Default: 3306
         public let port: Int?
-        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The daily time range during which automated backups are created if automated backups are enabled using the BackupRetentionPeriod parameter.  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Aurora User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi  The default is a 30-minute window selected at random from an 8-hour block of time for each AWS Region, occurring on a random day of the week. To see the time blocks available, see  Adjusting the Preferred Maintenance Window in the Amazon Aurora User Guide.  Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun. Constraints: Minimum 30-minute window.
         public let preferredMaintenanceWindow: String?
@@ -8524,9 +8360,9 @@ extension RDS {
         public let s3IngestionRoleArn: String
         /// The prefix for all of the file names that contain the data used to create the Amazon Aurora DB cluster. If you do not specify a SourceS3Prefix value, then the Amazon Aurora DB cluster is created by using all of the files in the Amazon S3 bucket.
         public let s3Prefix: String?
-        /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.  Valid values: mysql 
+        /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket.  Valid values: mysql
         public let sourceEngine: String
-        /// The version of the database that the backup files were created from. MySQL versions 5.5, 5.6, and 5.7 are supported.  Example: 5.6.40, 5.7.28 
+        /// The version of the database that the backup files were created from. MySQL versions 5.5, 5.6, and 5.7 are supported.  Example: 5.6.40, 5.7.28
         public let sourceEngineVersion: String
         /// A value that indicates whether the restored DB cluster is encrypted.
         public let storageEncrypted: Bool?
@@ -8606,7 +8442,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromS3Result: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -8619,43 +8454,43 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromSnapshotMessage: AWSEncodableShape {
-        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { static public let member = "AvailabilityZone" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _AvailabilityZonesEncoding: ArrayCoderProperties { public static let member = "AvailabilityZone" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// Provides the list of Availability Zones (AZs) where instances in the restored DB cluster can be created.
         @OptionalCustomCoding<ArrayCoder<_AvailabilityZonesEncoding, String>>
         public var availabilityZones: [String]?
-        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
         /// A value that indicates whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
         public let copyTagsToSnapshot: Bool?
         /// The database name for the restored DB cluster.
         public let databaseName: String?
-        /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        /// The name of the DB cluster to create from the DB snapshot or DB cluster snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
         public let dBClusterIdentifier: String
-        /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing default DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing default DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dBClusterParameterGroupName: String?
-        /// The name of the DB subnet group to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DB subnet group. Example: mySubnetgroup 
+        /// The name of the DB subnet group to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DB subnet group. Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide. 
+        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to Amazon CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
         public let engine: String
         /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
         public let engineMode: String?
-        /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   If you aren't using the default engine version, then you must specify the engine version.   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
+        /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   If you aren't using the default engine version, then you must specify the engine version.   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7
         public let engineVersion: String?
-        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier isn't encrypted, then the restored DB cluster isn't encrypted.  
+        /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from a DB snapshot or DB cluster snapshot. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the DB snapshot or DB cluster snapshot.   If the DB snapshot or DB cluster snapshot in SnapshotIdentifier isn't encrypted, then the restored DB cluster isn't encrypted.
         public let kmsKeyId: String?
         /// The name of the option group to use for the restored DB cluster.
         public let optionGroupName: String?
@@ -8663,7 +8498,7 @@ extension RDS {
         public let port: Int?
         /// For DB clusters in serverless DB engine mode, the scaling properties of the DB cluster.
         public let scalingConfiguration: ScalingConfiguration?
-        /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.  
+        /// The identifier for the DB snapshot or DB cluster snapshot to restore from. You can use either the name or the Amazon Resource Name (ARN) to specify a DB cluster snapshot. However, you can use only the ARN to specify a DB snapshot. Constraints:   Must match the identifier of an existing Snapshot.
         public let snapshotIdentifier: String
         /// The tags to be assigned to the restored DB cluster.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
@@ -8724,7 +8559,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterFromSnapshotResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -8737,29 +8571,29 @@ extension RDS {
     }
 
     public struct RestoreDBClusterToPointInTimeMessage: AWSEncodableShape {
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).  
+        /// The target backtrack window, in seconds. To disable backtracking, set this value to 0.  Currently, Backtrack is only supported for Aurora MySQL DB clusters.  Default: 0 Constraints:   If specified, this value must be set to a number from 0 to 259,200 (72 hours).
         public let backtrackWindow: Int64?
         /// A value that indicates whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them.
         public let copyTagsToSnapshot: Bool?
-        /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        /// The name of the new DB cluster to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let dBClusterIdentifier: String
-        /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB cluster parameter group to associate with this DB cluster. If this argument is omitted, the default DB cluster parameter group for the specified engine is used. Constraints:   If supplied, must match the name of an existing DB cluster parameter group.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dBClusterParameterGroupName: String?
-        /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        /// The DB subnet group name to use for the new DB cluster. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. 
+        /// A value that indicates whether the DB cluster has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled.
         public let deletionProtection: Bool?
-        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide. 
+        /// Specify the Active Directory directory ID to restore the DB cluster in. The domain must be created prior to this operation.   For Amazon Aurora DB clusters, Amazon RDS can use Kerberos Authentication to authenticate users that connect to the DB cluster. For more information, see Kerberos Authentication in the Amazon Aurora User Guide.
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
         /// The list of logs that the restored DB cluster is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For more information, see  IAM Database Authentication in the Amazon Aurora User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The AWS KMS key identifier to use when restoring an encrypted DB cluster from an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are restoring a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. You can restore to a new DB cluster and encrypt the new DB cluster with a KMS key that is different than the KMS key used to encrypt the source DB cluster. The new DB cluster is encrypted with the KMS key identified by the KmsKeyId parameter. If you don't specify a value for the KmsKeyId parameter, then the following occurs:   If the DB cluster is encrypted, then the restored DB cluster is encrypted using the KMS key that was used to encrypt the source DB cluster.   If the DB cluster isn't encrypted, then the restored DB cluster isn't encrypted.   If DBClusterIdentifier refers to a DB cluster that isn't encrypted, then the restore request is rejected.
         public let kmsKeyId: String?
@@ -8767,11 +8601,11 @@ extension RDS {
         public let optionGroupName: String?
         /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535.  Default: The default port for the engine.
         public let port: Int?
-        /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter isn't provided   Can't be specified if the UseLatestRestorableTime parameter is enabled   Can't be specified if the RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z 
+        /// The date and time to restore the DB cluster to. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Must be specified if UseLatestRestorableTime parameter isn't provided   Can't be specified if the UseLatestRestorableTime parameter is enabled   Can't be specified if the RestoreType parameter is copy-on-write    Example: 2015-03-07T23:45:00Z
         public let restoreToTime: Date?
         /// The type of restore to be performed. You can specify one of the following values:    full-copy - The new DB cluster is restored as a full copy of the source DB cluster.    copy-on-write - The new DB cluster is restored as a clone of the source DB cluster.   Constraints: You can't specify copy-on-write if the engine version of the source DB cluster is earlier than 1.11. If you don't specify a RestoreType value, then the new DB cluster is restored as a full copy of the source DB cluster.
         public let restoreType: String?
-        /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.  
+        /// The identifier of the source DB cluster from which to restore. Constraints:   Must match the identifier of an existing DBCluster.
         public let sourceDBClusterIdentifier: String
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -8827,7 +8661,6 @@ extension RDS {
     }
 
     public struct RestoreDBClusterToPointInTimeResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -8840,29 +8673,29 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromDBSnapshotMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a 
+        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
         public let availabilityZone: String?
         /// A value that indicates whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// The compute and memory capacity of the Amazon RDS DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
         public let dBInstanceClass: String?
-        /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 numbers, letters, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id 
+        /// Name of the DB instance to create from the DB snapshot. This parameter isn't case-sensitive. Constraints:   Must contain from 1 to 63 numbers, letters, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens   Example: my-snapshot-id
         public let dBInstanceIdentifier: String
-        /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines. 
+        /// The database name for the restored DB instance.  This parameter doesn't apply to the MySQL, PostgreSQL, or MariaDB engines.
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dBParameterGroupName: String?
-        /// The identifier for the DB snapshot to restore from. Constraints:   Must match the identifier of an existing DBSnapshot.   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.  
+        /// The identifier for the DB snapshot to restore from. Constraints:   Must match the identifier of an existing DBSnapshot.   If you are restoring from a shared manual DB snapshot, the DBSnapshotIdentifier must be the ARN of the shared DB snapshot.
         public let dBSnapshotIdentifier: String
-        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// Specify the Active Directory directory ID to restore the DB instance in. The domain must be created prior to this operation. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
@@ -8871,26 +8704,26 @@ extension RDS {
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source. For example, you can restore a MariaDB 10.1 DB instance from a MySQL 5.6 snapshot. Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
         /// Specifies the amount of provisioned IOPS for the DB instance, expressed in I/O operations per second. If this parameter isn't specified, the IOPS value is taken from the backup. If this parameter is set to 0, the new instance is converted to a non-PIOPS instance. The conversion takes additional time, though your DB instance is available for connections before the conversion starts.  The provisioned IOPS value must follow the requirements for your database engine. For more information, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: Must be an integer greater than 1000.
         public let iops: Int?
-        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
+        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
         /// A value that indicates whether the DB instance is a Multi-AZ deployment. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
-        /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535 
+        /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535
         public let port: Int?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
         /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
         public let storageType: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
@@ -8900,7 +8733,7 @@ extension RDS {
         public let tdeCredentialPassword: String?
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features.
         public let useDefaultProcessorFeatures: Bool?
-        ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
+        ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
@@ -8968,7 +8801,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromDBSnapshotResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -8981,26 +8813,26 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromS3Message: AWSEncodableShape {
-        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { static public let member = "DBSecurityGroupName" }
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _DBSecurityGroupsEncoding: ArrayCoderProperties { public static let member = "DBSecurityGroupName" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
-        /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.  
+        /// The amount of storage (in gigabytes) to allocate initially for the DB instance. Follow the allocation rules specified in CreateDBInstance.   Be sure to allocate enough memory for your new DB instance so that the restore operation can succeed. You can also allocate additional memory for future growth.
         public let allocatedStorage: Int?
-        /// A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically. 
+        /// A value that indicates whether minor engine upgrades are applied automatically to the DB instance during the maintenance window. By default, minor engine upgrades are not applied automatically.
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone that the DB instance is created in. For information about AWS Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.   Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same AWS Region as the current endpoint. 
+        /// The Availability Zone that the DB instance is created in. For information about AWS Regions and Availability Zones, see Regions and Availability Zones in the Amazon RDS User Guide.  Default: A random, system-chosen Availability Zone in the endpoint's AWS Region.   Example: us-east-1d  Constraint: The AvailabilityZone parameter can't be specified if the DB instance is a Multi-AZ deployment. The specified Availability Zone must be in the same AWS Region as the current endpoint.
         public let availabilityZone: String?
-        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance. 
+        /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance.
         public let backupRetentionPeriod: Int?
-        /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied. 
+        /// A value that indicates whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
-        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class. 
+        /// The compute and memory capacity of the DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
         public let dBInstanceClass: String
-        /// The DB instance identifier. This parameter is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance 
+        /// The DB instance identifier. This parameter is stored as a lowercase string.  Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.   Example: mydbinstance
         public let dBInstanceIdentifier: String
-        /// The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance. 
+        /// The name of the database to create when the DB instance is created. Follow the naming rules specified in CreateDBInstance.
         public let dBName: String?
         /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used.
         public let dBParameterGroupName: String?
@@ -9009,72 +8841,72 @@ extension RDS {
         public var dBSecurityGroups: [String]?
         /// A DB subnet group to associate with this DB instance.
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide. 
+        /// A value that indicates whether to enable Performance Insights for the DB instance.  For more information, see Using Amazon Performance Insights in the Amazon Relational Database Service User Guide.
         public let enablePerformanceInsights: Bool?
-        /// The name of the database engine to be used for this instance.  Valid Values: mysql 
+        /// The name of the database engine to be used for this instance.  Valid Values: mysql
         public let engine: String
-        /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions. 
+        /// The version number of the database engine to use. Choose the latest minor version of your database engine. For information about engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
         public let engineVersion: String?
-        /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide. 
+        /// The amount of Provisioned IOPS (input/output operations per second) to allocate initially for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.
         public let iops: Int?
-        /// The AWS KMS key identifier for an encrypted DB instance.  The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. 
+        /// The AWS KMS key identifier for an encrypted DB instance.  The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB instance with the same AWS account that owns the KMS encryption key used to encrypt the new DB instance, then you can use the KMS key alias instead of the ARN for the KM encryption key.  If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let kmsKeyId: String?
-        /// The license model for this DB instance. Use general-public-license. 
+        /// The license model for this DB instance. Use general-public-license.
         public let licenseModel: String?
-        /// The name for the master user.  Constraints:    Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.  
+        /// The name for the master user.  Constraints:    Must be 1 to 16 letters or numbers.   First character must be a letter.   Can't be a reserved word for the chosen database engine.
         public let masterUsername: String?
         /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
-        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0.  Valid Values: 0, 1, 5, 10, 15, 30, 60  Default: 0 
+        /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0.  Valid Values: 0, 1, 5, 10, 15, 30, 60  Default: 0
         public let monitoringInterval: Int?
-        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. 
+        /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value.
         public let monitoringRoleArn: String?
-        /// A value that indicates whether the DB instance is a Multi-AZ deployment. If the DB instance is a Multi-AZ deployment, you can't set the AvailabilityZone parameter. 
+        /// A value that indicates whether the DB instance is a Multi-AZ deployment. If the DB instance is a Multi-AZ deployment, you can't set the AvailabilityZone parameter.
         public let multiAZ: Bool?
-        /// The name of the option group to associate with this DB instance. If this argument is omitted, the default option group for the specified engine is used. 
+        /// The name of the option group to associate with this DB instance. If this argument is omitted, the default option group for the specified engine is used.
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key.  If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
         public let performanceInsightsKMSKeyId: String?
-        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years). 
+        /// The amount of time, in days, to retain Performance Insights data. Valid values are 7 or 731 (2 years).
         public let performanceInsightsRetentionPeriod: Int?
-        /// The port number on which the database accepts connections.  Type: Integer  Valid Values: 1150-65535  Default: 3306 
+        /// The port number on which the database accepts connections.  Type: Integer  Valid Values: 1150-65535  Default: 3306
         public let port: Int?
-        /// The time range each day during which automated backups are created if automated backups are enabled. For more information, see The Backup Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.  
+        /// The time range each day during which automated backups are created if automated backups are enabled. For more information, see The Backup Window in the Amazon RDS User Guide.  Constraints:   Must be in the format hh24:mi-hh24:mi.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred maintenance window.   Must be at least 30 minutes.
         public let preferredBackupWindow: String?
-        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format ddd:hh24:mi-ddd:hh24:mi.   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred backup window.   Must be at least 30 minutes.  
+        /// The time range each week during which system maintenance can occur, in Universal Coordinated Time (UTC). For more information, see Amazon RDS Maintenance Window in the Amazon RDS User Guide.  Constraints:   Must be in the format ddd:hh24:mi-ddd:hh24:mi.   Valid Days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.   Must be in Universal Coordinated Time (UTC).   Must not conflict with the preferred backup window.   Must be at least 30 minutes.
         public let preferredMaintenanceWindow: String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance.
         @OptionalCustomCoding<ArrayCoder<_ProcessorFeaturesEncoding, ProcessorFeature>>
         public var processorFeatures: [ProcessorFeature]?
         /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// The name of your Amazon S3 bucket that contains your database backup file. 
+        /// The name of your Amazon S3 bucket that contains your database backup file.
         public let s3BucketName: String
-        /// An AWS Identity and Access Management (IAM) role to allow Amazon RDS to access your Amazon S3 bucket. 
+        /// An AWS Identity and Access Management (IAM) role to allow Amazon RDS to access your Amazon S3 bucket.
         public let s3IngestionRoleArn: String
-        /// The prefix of your Amazon S3 bucket. 
+        /// The prefix of your Amazon S3 bucket.
         public let s3Prefix: String?
-        /// The name of the engine of your source database.  Valid Values: mysql 
+        /// The name of the engine of your source database.  Valid Values: mysql
         public let sourceEngine: String
-        /// The version of the database that the backup files were created from. MySQL versions 5.6 and 5.7 are supported.  Example: 5.6.40 
+        /// The version of the database that the backup files were created from. MySQL versions 5.6 and 5.7 are supported.  Example: 5.6.40
         public let sourceEngineVersion: String
-        /// A value that indicates whether the new DB instance is encrypted or not. 
+        /// A value that indicates whether the new DB instance is encrypted or not.
         public let storageEncrypted: Bool?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1  If you specify io1, you must also include a value for the Iops parameter.  Default: io1 if the Iops parameter is specified; otherwise gp2 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1  If you specify io1, you must also include a value for the Iops parameter.  Default: io1 if the Iops parameter is specified; otherwise gp2
         public let storageType: String?
-        /// A list of tags to associate with this DB instance. For more information, see Tagging Amazon RDS Resources in the Amazon RDS User Guide. 
+        /// A list of tags to associate with this DB instance. For more information, see Tagging Amazon RDS Resources in the Amazon RDS User Guide.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// A value that indicates whether the DB instance class of the DB instance uses its default processor features.
         public let useDefaultProcessorFeatures: Bool?
-        /// A list of VPC security groups to associate with this DB instance. 
+        /// A list of VPC security groups to associate with this DB instance.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
@@ -9172,7 +9004,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceFromS3Result: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9185,25 +9016,25 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceToPointInTimeMessage: AWSEncodableShape {
-        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "ProcessorFeature" }
-        public struct _TagsEncoding: ArrayCoderProperties { static public let member = "Tag" }
-        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { static public let member = "VpcSecurityGroupId" }
+        public struct _ProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "ProcessorFeature" }
+        public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _VpcSecurityGroupIdsEncoding: ArrayCoderProperties { public static let member = "VpcSecurityGroupId" }
 
         /// A value that indicates whether minor version upgrades are applied automatically to the DB instance during the maintenance window.
         public let autoMinorVersionUpgrade: Bool?
-        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a 
+        /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
         public let availabilityZone: String?
         /// A value that indicates whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
         public let copyTagsToSnapshot: Bool?
         /// The compute and memory capacity of the Amazon RDS DB instance, for example, db.m4.large. Not all DB instance classes are available in all AWS Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see DB Instance Class in the Amazon RDS User Guide.  Default: The same DBInstanceClass as the original DB instance.
         public let dBInstanceClass: String?
-        /// The database name for the restored DB instance.  This parameter isn't used for the MySQL or MariaDB engines. 
+        /// The database name for the restored DB instance.  This parameter isn't used for the MySQL or MariaDB engines.
         public let dBName: String?
-        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.  
+        /// The name of the DB parameter group to associate with this DB instance. If you do not specify a value for DBParameterGroupName, then the default DBParameterGroup for the specified DB engine is used. Constraints:   If supplied, must match the name of an existing DBParameterGroup.   Must be 1 to 255 letters, numbers, or hyphens.   First character must be a letter.   Can't end with a hyphen or contain two consecutive hyphens.
         public let dBParameterGroupName: String?
-        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup 
+        /// The DB subnet group name to use for the new instance. Constraints: If supplied, must match the name of an existing DBSubnetGroup. Example: mySubnetgroup
         public let dBSubnetGroupName: String?
-        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance. 
+        /// A value that indicates whether the DB instance has deletion protection enabled. The database can't be deleted when deletion protection is enabled. By default, deletion protection is disabled. For more information, see  Deleting a DB Instance.
         public let deletionProtection: Bool?
         /// Specify the Active Directory directory ID to restore the DB instance in. The domain must be created prior to this operation. Currently, only MySQL, Microsoft SQL Server, Oracle, and PostgreSQL DB instances can be created in an Active Directory Domain. For more information, see  Kerberos Authentication in the Amazon RDS User Guide.
         public let domain: String?
@@ -9212,13 +9043,13 @@ extension RDS {
         /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enableCloudwatchLogsExports: [String]?
-        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
+        /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide.
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
+        /// The database engine to use for the new instance. Default: The same as source Constraint: Must be compatible with the engine of the source Valid Values:    mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web
         public let engine: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. Constraints: Must be an integer greater than 1000.  SQL Server  Setting the IOPS value for the SQL Server database engine isn't supported.
         public let iops: Int?
-        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
+        /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license
         public let licenseModel: String?
         /// A value that indicates whether the DB instance is a Multi-AZ deployment. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
@@ -9231,17 +9062,17 @@ extension RDS {
         public var processorFeatures: [ProcessorFeature]?
         /// A value that indicates whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its DNS endpoint resolves to the private IP address from within the DB instance's VPC, and to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses, and that public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see CreateDBInstance.
         public let publiclyAccessible: Bool?
-        /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Can't be specified if the UseLatestRestorableTime parameter is enabled   Example: 2009-09-07T23:45:00Z 
+        /// The date and time to restore from. Valid Values: Value must be a time in Universal Coordinated Time (UTC) format Constraints:   Must be before the latest restorable time for the DB instance   Can't be specified if the UseLatestRestorableTime parameter is enabled   Example: 2009-09-07T23:45:00Z
         public let restoreTime: Date?
-        /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DB instance.  
+        /// The identifier of the source DB instance from which to restore. Constraints:   Must match the identifier of an existing DB instance.
         public let sourceDBInstanceIdentifier: String?
         /// The resource ID of the source DB instance from which to restore.
         public let sourceDbiResourceId: String?
-        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2 
+        /// Specifies the storage type to be associated with the DB instance.  Valid values: standard | gp2 | io1   If you specify io1, you must also include a value for the Iops parameter.   Default: io1 if the Iops parameter is specified, otherwise gp2
         public let storageType: String?
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The name of the new DB instance to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens  
+        /// The name of the new DB instance to be created. Constraints:   Must contain from 1 to 63 letters, numbers, or hyphens   First character must be a letter   Can't end with a hyphen or contain two consecutive hyphens
         public let targetDBInstanceIdentifier: String
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
@@ -9251,7 +9082,7 @@ extension RDS {
         public let useDefaultProcessorFeatures: Bool?
         ///  A value that indicates whether the DB instance is restored from the latest backup time. By default, the DB instance isn't restored from the latest backup time.  Constraints: Can't be specified if the RestoreTime parameter is provided.
         public let useLatestRestorableTime: Bool?
-        ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
+        ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
@@ -9325,7 +9156,6 @@ extension RDS {
     }
 
     public struct RestoreDBInstanceToPointInTimeResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9338,7 +9168,6 @@ extension RDS {
     }
 
     public struct RestoreWindow: AWSDecodableShape {
-
         /// The earliest time you can restore an instance to.
         public let earliestTime: Date?
         /// The latest time you can restore an instance to.
@@ -9356,16 +9185,15 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressMessage: AWSEncodableShape {
-
-        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided. 
+        ///  The IP range to revoke access from. Must be a valid CIDR range. If CIDRIP is specified, EC2SecurityGroupName, EC2SecurityGroupId and EC2SecurityGroupOwnerId can't be provided.
         public let cidrip: String?
         /// The name of the DB security group to revoke ingress from.
         public let dBSecurityGroupName: String
-        ///  The id of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  The id of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupId: String?
-        ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  The name of the EC2 security group to revoke access from. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupName: String?
-        ///  The AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided. 
+        ///  The AWS account number of the owner of the EC2 security group specified in the EC2SecurityGroupName parameter. The AWS access key ID isn't an acceptable value. For VPC DB security groups, EC2SecurityGroupId must be provided. Otherwise, EC2SecurityGroupOwnerId and either EC2SecurityGroupName or EC2SecurityGroupId must be provided.
         public let eC2SecurityGroupOwnerId: String?
 
         public init(cidrip: String? = nil, dBSecurityGroupName: String, eC2SecurityGroupId: String? = nil, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
@@ -9386,7 +9214,6 @@ extension RDS {
     }
 
     public struct RevokeDBSecurityGroupIngressResult: AWSDecodableShape {
-
         public let dBSecurityGroup: DBSecurityGroup?
 
         public init(dBSecurityGroup: DBSecurityGroup? = nil) {
@@ -9399,8 +9226,7 @@ extension RDS {
     }
 
     public struct ScalingConfiguration: AWSEncodableShape {
-
-        /// A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).  If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it.  
+        /// A value that indicates whether to allow or disallow automatic pause for an Aurora DB cluster in serverless DB engine mode. A DB cluster can be paused only when it's idle (it has no connections).  If a DB cluster is paused for more than seven days, the DB cluster might be backed up with a snapshot. In this case, the DB cluster is restored when there is a request to connect to it.
         public let autoPause: Bool?
         /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode. For Aurora MySQL, valid capacity values are 1, 2, 4, 8, 16, 32, 64, 128, and 256. For Aurora PostgreSQL, valid capacity values are 2, 4, 8, 16, 32, 64, 192, and 384. The maximum capacity must be greater than or equal to the minimum capacity.
         public let maxCapacity: Int?
@@ -9429,7 +9255,6 @@ extension RDS {
     }
 
     public struct ScalingConfigurationInfo: AWSDecodableShape {
-
         /// A value that indicates whether automatic pause is allowed for the Aurora DB cluster in serverless DB engine mode. When the value is set to false for an Aurora Serverless DB cluster, the DB cluster automatically resumes.
         public let autoPause: Bool?
         /// The maximum capacity for an Aurora DB cluster in serverless DB engine mode.
@@ -9459,7 +9284,6 @@ extension RDS {
     }
 
     public struct SourceRegion: AWSDecodableShape {
-
         /// The endpoint for the source AWS Region endpoint.
         public let endpoint: String?
         /// The name of the source AWS Region.
@@ -9481,9 +9305,9 @@ extension RDS {
     }
 
     public struct SourceRegionMessage: AWSDecodableShape {
-        public struct _SourceRegionsEncoding: ArrayCoderProperties { static public let member = "SourceRegion" }
+        public struct _SourceRegionsEncoding: ArrayCoderProperties { public static let member = "SourceRegion" }
 
-        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        ///  An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
         /// A list of SourceRegion instances that contains each source AWS Region that the current AWS Region can get a read replica or a DB snapshot from.
         @OptionalCustomCoding<ArrayCoder<_SourceRegionsEncoding, SourceRegion>>
@@ -9501,12 +9325,11 @@ extension RDS {
     }
 
     public struct StartActivityStreamRequest: AWSEncodableShape {
-
         /// Specifies whether or not the database activity stream is to start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
         /// The AWS KMS key identifier for encrypting messages in the database activity stream. The key identifier can be either a key ID, a key ARN, or a key alias.
         public let kmsKeyId: String
-        /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously. 
+        /// Specifies the mode of the database activity stream. Database events such as a change or access generate an activity stream event. The database session can handle these events either synchronously or asynchronously.
         public let mode: ActivityStreamMode
         /// The Amazon Resource Name (ARN) of the DB cluster, for example arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
         public let resourceArn: String
@@ -9527,7 +9350,6 @@ extension RDS {
     }
 
     public struct StartActivityStreamResponse: AWSDecodableShape {
-
         /// Indicates whether or not the database activity stream will start as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
         /// The name of the Amazon Kinesis data stream to be used for the database activity stream.
@@ -9557,7 +9379,6 @@ extension RDS {
     }
 
     public struct StartDBClusterMessage: AWSEncodableShape {
-
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be started. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
 
@@ -9571,7 +9392,6 @@ extension RDS {
     }
 
     public struct StartDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -9584,8 +9404,7 @@ extension RDS {
     }
 
     public struct StartDBInstanceMessage: AWSEncodableShape {
-
-        ///  The user-supplied instance identifier. 
+        ///  The user-supplied instance identifier.
         public let dBInstanceIdentifier: String
 
         public init(dBInstanceIdentifier: String) {
@@ -9598,7 +9417,6 @@ extension RDS {
     }
 
     public struct StartDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9611,15 +9429,14 @@ extension RDS {
     }
 
     public struct StartExportTaskMessage: AWSEncodableShape {
-
-        /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.  
+        /// The data to be exported from the snapshot. If this parameter is not provided, all the snapshot data is exported. Valid values are the following:    database - Export all the data from a specified database.    database.table table-name - Export a table of the snapshot. This format is valid only for RDS for MySQL, RDS for MariaDB, and Aurora MySQL.    database.schema schema-name - Export a database schema of the snapshot. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.    database.schema.table table-name - Export a table of the database schema. This format is valid only for RDS for PostgreSQL and Aurora PostgreSQL.
         @OptionalCustomCoding<StandardArrayCoder>
         public var exportOnly: [String]?
-        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to. 
+        /// A unique identifier for the snapshot export task. This ID isn't an identifier for the Amazon S3 bucket where the snapshot is to be exported to.
         public let exportTaskIdentifier: String
-        /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot. 
+        /// The name of the IAM role to use for writing to the Amazon S3 bucket when exporting a snapshot.
         public let iamRoleArn: String
-        /// The ID of the AWS KMS key to use to encrypt the snapshot exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The caller of this operation must be authorized to execute the following operations. These can be set in the KMS key policy:    GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey   GrantOperation.RetireGrant  
+        /// The ID of the AWS KMS key to use to encrypt the snapshot exported to Amazon S3. The KMS key ID is the Amazon Resource Name (ARN), the KMS key identifier, or the KMS key alias for the KMS encryption key. The caller of this operation must be authorized to execute the following operations. These can be set in the KMS key policy:    GrantOperation.Encrypt   GrantOperation.Decrypt   GrantOperation.GenerateDataKey   GrantOperation.GenerateDataKeyWithoutPlaintext   GrantOperation.ReEncryptFrom   GrantOperation.ReEncryptTo   GrantOperation.CreateGrant   GrantOperation.DescribeKey   GrantOperation.RetireGrant
         public let kmsKeyId: String
         /// The name of the Amazon S3 bucket to export the snapshot to.
         public let s3BucketName: String
@@ -9650,10 +9467,9 @@ extension RDS {
     }
 
     public struct StopActivityStreamRequest: AWSEncodableShape {
-
         /// Specifies whether or not the database activity stream is to stop as soon as possible, regardless of the maintenance window for the database.
         public let applyImmediately: Bool?
-        /// The Amazon Resource Name (ARN) of the DB cluster for the database activity stream. For example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster. 
+        /// The Amazon Resource Name (ARN) of the DB cluster for the database activity stream. For example, arn:aws:rds:us-east-1:12345667890:cluster:das-cluster.
         public let resourceArn: String
 
         public init(applyImmediately: Bool? = nil, resourceArn: String) {
@@ -9668,7 +9484,6 @@ extension RDS {
     }
 
     public struct StopActivityStreamResponse: AWSDecodableShape {
-
         /// The name of the Amazon Kinesis data stream used for the database activity stream.
         public let kinesisStreamName: String?
         /// The AWS KMS key identifier used for encrypting messages in the database activity stream.
@@ -9690,7 +9505,6 @@ extension RDS {
     }
 
     public struct StopDBClusterMessage: AWSEncodableShape {
-
         /// The DB cluster identifier of the Amazon Aurora DB cluster to be stopped. This parameter is stored as a lowercase string.
         public let dBClusterIdentifier: String
 
@@ -9704,7 +9518,6 @@ extension RDS {
     }
 
     public struct StopDBClusterResult: AWSDecodableShape {
-
         public let dBCluster: DBCluster?
 
         public init(dBCluster: DBCluster? = nil) {
@@ -9717,10 +9530,9 @@ extension RDS {
     }
 
     public struct StopDBInstanceMessage: AWSEncodableShape {
-
-        ///  The user-supplied instance identifier. 
+        ///  The user-supplied instance identifier.
         public let dBInstanceIdentifier: String
-        ///  The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped. 
+        ///  The user-supplied instance identifier of the DB Snapshot created immediately before the DB instance is stopped.
         public let dBSnapshotIdentifier: String?
 
         public init(dBInstanceIdentifier: String, dBSnapshotIdentifier: String? = nil) {
@@ -9735,7 +9547,6 @@ extension RDS {
     }
 
     public struct StopDBInstanceResult: AWSDecodableShape {
-
         public let dBInstance: DBInstance?
 
         public init(dBInstance: DBInstance? = nil) {
@@ -9748,11 +9559,10 @@ extension RDS {
     }
 
     public struct Subnet: AWSDecodableShape {
-
         public let subnetAvailabilityZone: AvailabilityZone?
         /// The identifier of the subnet.
         public let subnetIdentifier: String?
-        /// If the subnet is associated with an Outpost, this value specifies the Outpost. For more information about RDS on Outposts, see Amazon RDS on AWS Outposts in the Amazon RDS User Guide. 
+        /// If the subnet is associated with an Outpost, this value specifies the Outpost. For more information about RDS on Outposts, see Amazon RDS on AWS Outposts in the Amazon RDS User Guide.
         public let subnetOutpost: Outpost?
         /// The status of the subnet.
         public let subnetStatus: String?
@@ -9773,7 +9583,6 @@ extension RDS {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public let key: String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
@@ -9791,7 +9600,7 @@ extension RDS {
     }
 
     public struct TagListMessage: AWSDecodableShape {
-        public struct _TagListEncoding: ArrayCoderProperties { static public let member = "Tag" }
+        public struct _TagListEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// List of tags returned by the ListTagsForResource operation.
         @OptionalCustomCoding<ArrayCoder<_TagListEncoding, Tag>>
@@ -9807,12 +9616,11 @@ extension RDS {
     }
 
     public struct TargetHealth: AWSDecodableShape {
-
         /// A description of the health of the RDS Proxy target. If the State is AVAILABLE, a description is not included.
         public let description: String?
         /// The reason for the current health State of the RDS Proxy target.
         public let reason: TargetHealthReason?
-        /// The current state of the connection health lifecycle for the RDS Proxy target. The following is a typical lifecycle example for the states of an RDS Proxy target:   registering &gt; unavailable &gt; available &gt; unavailable &gt; available 
+        /// The current state of the connection health lifecycle for the RDS Proxy target. The following is a typical lifecycle example for the states of an RDS Proxy target:   registering &gt; unavailable &gt; available &gt; unavailable &gt; available
         public let state: TargetState?
 
         public init(description: String? = nil, reason: TargetHealthReason? = nil, state: TargetState? = nil) {
@@ -9829,7 +9637,6 @@ extension RDS {
     }
 
     public struct Timezone: AWSDecodableShape {
-
         /// The name of the time zone.
         public let timezoneName: String?
 
@@ -9843,7 +9650,6 @@ extension RDS {
     }
 
     public struct UpgradeTarget: AWSDecodableShape {
-
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public let autoUpgrade: Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
@@ -9873,7 +9679,6 @@ extension RDS {
     }
 
     public struct UserAuthConfig: AWSEncodableShape {
-
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
@@ -9903,7 +9708,6 @@ extension RDS {
     }
 
     public struct UserAuthConfigInfo: AWSDecodableShape {
-
         /// The type of authentication that the proxy uses for connections from the proxy to the underlying database.
         public let authScheme: AuthScheme?
         /// A user-specified description about the authentication used by a proxy to log in as a specific database user.
@@ -9933,13 +9737,13 @@ extension RDS {
     }
 
     public struct ValidDBInstanceModificationsMessage: AWSDecodableShape {
-        public struct _StorageEncoding: ArrayCoderProperties { static public let member = "ValidStorageOptions" }
-        public struct _ValidProcessorFeaturesEncoding: ArrayCoderProperties { static public let member = "AvailableProcessorFeature" }
+        public struct _StorageEncoding: ArrayCoderProperties { public static let member = "ValidStorageOptions" }
+        public struct _ValidProcessorFeaturesEncoding: ArrayCoderProperties { public static let member = "AvailableProcessorFeature" }
 
-        /// Valid storage options for your DB instance. 
+        /// Valid storage options for your DB instance.
         @OptionalCustomCoding<ArrayCoder<_StorageEncoding, ValidStorageOptions>>
         public var storage: [ValidStorageOptions]?
-        /// Valid processor features for your DB instance. 
+        /// Valid processor features for your DB instance.
         @OptionalCustomCoding<ArrayCoder<_ValidProcessorFeaturesEncoding, AvailableProcessorFeature>>
         public var validProcessorFeatures: [AvailableProcessorFeature]?
 
@@ -9955,20 +9759,20 @@ extension RDS {
     }
 
     public struct ValidStorageOptions: AWSDecodableShape {
-        public struct _IopsToStorageRatioEncoding: ArrayCoderProperties { static public let member = "DoubleRange" }
-        public struct _ProvisionedIopsEncoding: ArrayCoderProperties { static public let member = "Range" }
-        public struct _StorageSizeEncoding: ArrayCoderProperties { static public let member = "Range" }
+        public struct _IopsToStorageRatioEncoding: ArrayCoderProperties { public static let member = "DoubleRange" }
+        public struct _ProvisionedIopsEncoding: ArrayCoderProperties { public static let member = "Range" }
+        public struct _StorageSizeEncoding: ArrayCoderProperties { public static let member = "Range" }
 
-        /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage. 
+        /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
         @OptionalCustomCoding<ArrayCoder<_IopsToStorageRatioEncoding, DoubleRange>>
         public var iopsToStorageRatio: [DoubleRange]?
-        /// The valid range of provisioned IOPS. For example, 1000-20000. 
+        /// The valid range of provisioned IOPS. For example, 1000-20000.
         @OptionalCustomCoding<ArrayCoder<_ProvisionedIopsEncoding, Range>>
         public var provisionedIops: [Range]?
-        /// The valid range of storage in gibibytes. For example, 100 to 16384. 
+        /// The valid range of storage in gibibytes. For example, 100 to 16384.
         @OptionalCustomCoding<ArrayCoder<_StorageSizeEncoding, Range>>
         public var storageSize: [Range]?
-        /// The valid storage types for your DB instance. For example, gp2, io1. 
+        /// The valid storage types for your DB instance. For example, gp2, io1.
         public let storageType: String?
         /// Whether or not Amazon RDS can automatically scale storage for DB instances that use the new instance class.
         public let supportsStorageAutoscaling: Bool?
@@ -9991,7 +9795,6 @@ extension RDS {
     }
 
     public struct VpcSecurityGroupMembership: AWSDecodableShape {
-
         /// The status of the VPC security group.
         public let status: String?
         /// The name of the VPC security group.
@@ -10009,7 +9812,6 @@ extension RDS {
     }
 
     public struct VpnDetails: AWSDecodableShape {
-
         /// The IP address of network traffic from AWS to your on-premises data center.
         public let vpnGatewayIp: String?
         /// The ID of the VPN.

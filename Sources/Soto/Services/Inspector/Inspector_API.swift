@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS Inspector service.
+ Client object for interacting with AWS Inspector service.
 
-Amazon Inspector Amazon Inspector enables you to analyze the behavior of your AWS resources and to identify potential security issues. For more information, see  Amazon Inspector User Guide.
-*/
+ Amazon Inspector Amazon Inspector enables you to analyze the behavior of your AWS resources and to identify potential security issues. For more information, see  Amazon Inspector User Guide.
+ */
 public struct Inspector: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct Inspector: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Assigns attributes (key and value pairs) to the findings that are specified by the ARNs of the findings.
@@ -79,7 +78,7 @@ public struct Inspector: AWSService {
         return self.client.execute(operation: "CreateAssessmentTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts the generation of an exclusions preview for the specified assessment template. The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can detect before it runs the assessment. 
+    ///  Starts the generation of an exclusions preview for the specified assessment template. The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can detect before it runs the assessment.
     public func createExclusionsPreview(_ input: CreateExclusionsPreviewRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateExclusionsPreviewResponse> {
         return self.client.execute(operation: "CreateExclusionsPreview", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -144,7 +143,7 @@ public struct Inspector: AWSService {
         return self.client.execute(operation: "DescribeRulesPackages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Produces an assessment report that includes detailed and comprehensive results of a specified assessment run. 
+    ///  Produces an assessment report that includes detailed and comprehensive results of a specified assessment run.
     public func getAssessmentReport(_ input: GetAssessmentReportRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAssessmentReportResponse> {
         return self.client.execute(operation: "GetAssessmentReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

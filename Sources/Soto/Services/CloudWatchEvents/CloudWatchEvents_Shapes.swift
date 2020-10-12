@@ -48,7 +48,6 @@ extension CloudWatchEvents {
     // MARK: Shapes
 
     public struct ActivateEventSourceRequest: AWSEncodableShape {
-
         /// The name of the partner event source to activate.
         public let name: String
 
@@ -68,7 +67,6 @@ extension CloudWatchEvents {
     }
 
     public struct AwsVpcConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies whether the task's elastic network interface receives a public IP address. You can specify ENABLED only when LaunchType in EcsParameters is set to FARGATE.
         public let assignPublicIp: AssignPublicIp?
         /// Specifies the security groups associated with the task. These security groups must all be in the same VPC. You can specify as many as five security groups. If you do not specify a security group, the default security group for the VPC is used.
@@ -90,7 +88,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchArrayProperties: AWSEncodableShape & AWSDecodableShape {
-
         /// The size of the array, if this is an array batch job. Valid values are integers between 2 and 10,000.
         public let size: Int?
 
@@ -104,7 +101,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. This parameter is used only if the target is an AWS Batch job.
         public let arrayProperties: BatchArrayProperties?
         /// The ARN or name of the job definition to use if the event target is an AWS Batch job. This job definition must already exist.
@@ -130,7 +126,6 @@ extension CloudWatchEvents {
     }
 
     public struct BatchRetryStrategy: AWSEncodableShape & AWSDecodableShape {
-
         /// The number of times to attempt to retry, if the job fails. Valid values are 1–10.
         public let attempts: Int?
 
@@ -144,7 +139,6 @@ extension CloudWatchEvents {
     }
 
     public struct Condition: AWSEncodableShape {
-
         /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         public let key: String
         /// Specifies the type of condition. Currently the only supported value is StringEquals.
@@ -166,7 +160,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreateEventBusRequest: AWSEncodableShape {
-
         /// If you are creating a partner event bus, this specifies the partner event source that the new event bus will be matched with.
         public let eventSourceName: String?
         /// The name of the new event bus.  Event bus names cannot contain the / character. You can't use the name default for a custom event bus, as this name is already used for your account's default event bus. If this is a partner event bus, the name must exactly match the name of the partner event source that this event bus is matched to.
@@ -200,7 +193,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreateEventBusResponse: AWSDecodableShape {
-
         /// The ARN of the new event bus.
         public let eventBusArn: String?
 
@@ -214,7 +206,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreatePartnerEventSourceRequest: AWSEncodableShape {
-
         /// The AWS account ID that is permitted to create a matching partner event bus for this partner event source.
         public let account: String
         /// The name of the partner event source. This name must be unique and must be in the format  partner_name/event_namespace/event_name . The AWS account that wants to use this partner event source must create a partner event bus with a name that matches the name of the partner event source.
@@ -241,7 +232,6 @@ extension CloudWatchEvents {
     }
 
     public struct CreatePartnerEventSourceResponse: AWSDecodableShape {
-
         /// The ARN of the partner event source.
         public let eventSourceArn: String?
 
@@ -255,7 +245,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeactivateEventSourceRequest: AWSEncodableShape {
-
         /// The name of the partner event source to deactivate.
         public let name: String
 
@@ -275,7 +264,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeleteEventBusRequest: AWSEncodableShape {
-
         /// The name of the event bus to delete.
         public let name: String
 
@@ -295,7 +283,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeletePartnerEventSourceRequest: AWSEncodableShape {
-
         /// The AWS account ID of the AWS customer that the event source was created for.
         public let account: String
         /// The name of the event source to delete.
@@ -322,7 +309,6 @@ extension CloudWatchEvents {
     }
 
     public struct DeleteRuleRequest: AWSEncodableShape {
-
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to delete the rule. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
@@ -353,7 +339,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventBusRequest: AWSEncodableShape {
-
         /// The name of the event bus to show details for. If you omit this, the default event bus is displayed.
         public let name: String?
 
@@ -373,7 +358,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventBusResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the account permitted to write events to the current account.
         public let arn: String?
         /// The name of the event bus. Currently, this is always default.
@@ -395,7 +379,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventSourceRequest: AWSEncodableShape {
-
         /// The name of the partner event source to display the details of.
         public let name: String
 
@@ -415,7 +398,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeEventSourceResponse: AWSDecodableShape {
-
         /// The ARN of the partner event source.
         public let arn: String?
         /// The name of the SaaS partner that created the event source.
@@ -449,7 +431,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribePartnerEventSourceRequest: AWSEncodableShape {
-
         /// The name of the event source to display.
         public let name: String
 
@@ -469,7 +450,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribePartnerEventSourceResponse: AWSDecodableShape {
-
         /// The ARN of the event source.
         public let arn: String?
         /// The name of the event source.
@@ -487,7 +467,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeRuleRequest: AWSEncodableShape {
-
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
@@ -514,7 +493,6 @@ extension CloudWatchEvents {
     }
 
     public struct DescribeRuleResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// The description of the rule.
@@ -560,7 +538,6 @@ extension CloudWatchEvents {
     }
 
     public struct DisableRuleRequest: AWSEncodableShape {
-
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
@@ -587,7 +564,6 @@ extension CloudWatchEvents {
     }
 
     public struct EcsParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
         /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where AWS Fargate with Amazon ECS is supported. For more information, see AWS Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
@@ -598,7 +574,7 @@ extension CloudWatchEvents {
         public let platformVersion: String?
         /// The number of tasks to create based on TaskDefinition. The default is 1.
         public let taskCount: Int?
-        /// The ARN of the task definition to use if the event target is an Amazon ECS task. 
+        /// The ARN of the task definition to use if the event target is an Amazon ECS task.
         public let taskDefinitionArn: String
 
         public init(group: String? = nil, launchType: LaunchType? = nil, networkConfiguration: NetworkConfiguration? = nil, platformVersion: String? = nil, taskCount: Int? = nil, taskDefinitionArn: String) {
@@ -627,7 +603,6 @@ extension CloudWatchEvents {
     }
 
     public struct EnableRuleRequest: AWSEncodableShape {
-
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
@@ -654,7 +629,6 @@ extension CloudWatchEvents {
     }
 
     public struct EventBus: AWSDecodableShape {
-
         /// The ARN of the event bus.
         public let arn: String?
         /// The name of the event bus.
@@ -676,7 +650,6 @@ extension CloudWatchEvents {
     }
 
     public struct EventSource: AWSDecodableShape {
-
         /// The ARN of the event source.
         public let arn: String?
         /// The name of the partner that created the event source.
@@ -710,7 +683,6 @@ extension CloudWatchEvents {
     }
 
     public struct HttpParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The headers that need to be sent as part of request invoking the API Gateway REST API.
         public let headerParameters: [String: String]?
         /// The path parameter values to be used to populate API Gateway REST API path wildcards ("*").
@@ -750,10 +722,9 @@ extension CloudWatchEvents {
     }
 
     public struct InputTransformer: AWSEncodableShape & AWSDecodableShape {
-
-        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS." 
+        /// Map of JSON paths to be extracted from the event. You can then insert these in the template in InputTemplate to produce the output you want to be sent to the target.  InputPathsMap is an array key-value pairs, where each value is a valid JSON path. You can have as many as 10 key-value pairs. You must use JSON dot notation, not bracket notation. The keys cannot start with "AWS."
         public let inputPathsMap: [String: String]?
-        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   } 
+        /// Input template where you specify placeholders that will be filled with the values of the keys from InputPathsMap to customize the data sent to the target. Enclose each InputPathsMaps value in brackets: &lt;value&gt; The InputTemplate must be valid JSON. If InputTemplate is a JSON object (surrounded by curly braces), the following restrictions apply:   The placeholder cannot be used as an object key.   Object values cannot include quote marks.   The following example shows the syntax for using InputPathsMap and InputTemplate.   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state &lt;status&gt;"   }  To have the InputTemplate include quote marks within a JSON string, escape each quote marks with a slash, as in the following example:   "InputTransformer":   {   "InputPathsMap": {"instance": "$.detail.instance","status": "$.detail.status"},   "InputTemplate": "&lt;instance&gt; is in state \"&lt;status&gt;\""   }
         public let inputTemplate: String
 
         public init(inputPathsMap: [String: String]? = nil, inputTemplate: String) {
@@ -779,7 +750,6 @@ extension CloudWatchEvents {
     }
 
     public struct KinesisParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The JSON path to be extracted from the event and used as the partition key. For more information, see Amazon Kinesis Streams Key Concepts in the Amazon Kinesis Streams Developer Guide.
         public let partitionKeyPath: String
 
@@ -797,7 +767,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventBusesRequest: AWSEncodableShape {
-
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// Specifying this limits the results to only those event buses with names that start with the specified prefix.
@@ -829,7 +798,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventBusesResponse: AWSDecodableShape {
-
         /// This list of event buses.
         public let eventBuses: [EventBus]?
         /// A token you can use in a subsequent operation to retrieve the next set of results.
@@ -847,7 +815,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventSourcesRequest: AWSEncodableShape {
-
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// Specifying this limits the results to only those partner event sources with names that start with the specified prefix.
@@ -879,7 +846,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListEventSourcesResponse: AWSDecodableShape {
-
         /// The list of event sources.
         public let eventSources: [EventSource]?
         /// A token you can use in a subsequent operation to retrieve the next set of results.
@@ -897,7 +863,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourceAccountsRequest: AWSEncodableShape {
-
         /// The name of the partner event source to display account information about.
         public let eventSourceName: String
         /// Specifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
@@ -929,7 +894,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourceAccountsResponse: AWSDecodableShape {
-
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
         /// The list of partner event sources returned by the operation.
@@ -947,7 +911,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourcesRequest: AWSEncodableShape {
-
         /// pecifying this limits the number of results returned by this operation. The operation also returns a NextToken which you can use in a subsequent operation to retrieve the next set of results.
         public let limit: Int?
         /// If you specify this, the results are limited to only those partner event sources that start with the string you specify.
@@ -979,7 +942,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListPartnerEventSourcesResponse: AWSDecodableShape {
-
         /// A token you can use in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
         /// The list of partner event sources returned by the operation.
@@ -997,7 +959,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRuleNamesByTargetRequest: AWSEncodableShape {
-
         /// Limits the results to show only the rules associated with the specified event bus.
         public let eventBusName: String?
         /// The maximum number of results to return.
@@ -1035,7 +996,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRuleNamesByTargetResponse: AWSDecodableShape {
-
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The names of the rules that can invoke the given target.
@@ -1053,7 +1013,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-
         /// Limits the results to show only the rules associated with the specified event bus.
         public let eventBusName: String?
         /// The maximum number of results to return.
@@ -1092,7 +1051,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListRulesResponse: AWSDecodableShape {
-
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The rules that match the specified criteria.
@@ -1110,7 +1068,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-
         /// The ARN of the EventBridge resource for which you want to view tags.
         public let resourceARN: String
 
@@ -1129,7 +1086,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// The list of tag keys and values associated with the resource you specified
         public let tags: [Tag]?
 
@@ -1143,7 +1099,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTargetsByRuleRequest: AWSEncodableShape {
-
         /// The event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The maximum number of results to return.
@@ -1182,7 +1137,6 @@ extension CloudWatchEvents {
     }
 
     public struct ListTargetsByRuleResponse: AWSDecodableShape {
-
         /// Indicates whether there are additional results to retrieve. If there are no more results, the value is null.
         public let nextToken: String?
         /// The targets assigned to the rule.
@@ -1200,7 +1154,6 @@ extension CloudWatchEvents {
     }
 
     public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
-
         /// Use this structure to specify the VPC subnets and security groups for the task, and whether a public IP address is to be used. This structure is relevant only for ECS tasks that use the awsvpc network mode.
         public let awsvpcConfiguration: AwsVpcConfiguration?
 
@@ -1209,12 +1162,11 @@ extension CloudWatchEvents {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsvpcConfiguration = "awsvpcConfiguration"
+            case awsvpcConfiguration
         }
     }
 
     public struct PartnerEventSource: AWSDecodableShape {
-
         /// The ARN of the partner event source.
         public let arn: String?
         /// The name of the partner event source.
@@ -1232,7 +1184,6 @@ extension CloudWatchEvents {
     }
 
     public struct PartnerEventSourceAccount: AWSDecodableShape {
-
         /// The AWS account ID that the partner event source was offered to.
         public let account: String?
         /// The date and time the event source was created.
@@ -1258,7 +1209,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsRequest: AWSEncodableShape {
-
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
 
@@ -1280,7 +1230,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsRequestEntry: AWSEncodableShape {
-
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
         /// Free-form string used to decide what fields to expect in the event detail.
@@ -1320,7 +1269,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsResponse: AWSDecodableShape {
-
         /// The successfully and unsuccessfully ingested events results. If the ingestion was successful, the entry has the event ID in it. Otherwise, you can use the error code and error message to identify the problem with the entry.
         public let entries: [PutEventsResultEntry]?
         /// The number of failed entries.
@@ -1338,7 +1286,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutEventsResultEntry: AWSDecodableShape {
-
         /// The error code that indicates why the event submission failed.
         public let errorCode: String?
         /// The error message that explains why the event submission failed.
@@ -1360,7 +1307,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsRequest: AWSEncodableShape {
-
         /// The list of events to write to the event bus.
         public let entries: [PutPartnerEventsRequestEntry]
 
@@ -1382,7 +1328,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsRequestEntry: AWSEncodableShape {
-
         /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
         public let detail: String?
         /// A free-form string used to decide what fields to expect in the event detail.
@@ -1418,7 +1363,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsResponse: AWSDecodableShape {
-
         /// The list of events from this operation that were successfully written to the partner event bus.
         public let entries: [PutPartnerEventsResultEntry]?
         /// The number of events from this operation that could not be written to the partner event bus.
@@ -1436,7 +1380,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPartnerEventsResultEntry: AWSDecodableShape {
-
         /// The error code that indicates why the event submission failed.
         public let errorCode: String?
         /// The error message that explains why the event submission failed.
@@ -1458,7 +1401,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutPermissionRequest: AWSEncodableShape {
-
         /// The action that you are enabling the other account to perform. Currently, this must be events:PutEvents.
         public let action: String
         /// This parameter enables you to limit the permission to accounts that fulfill a certain condition, such as being a member of a certain AWS organization. For more information about AWS Organizations, see What Is AWS Organizations in the AWS Organizations User Guide. If you specify Condition with an AWS organization ID, and specify "*" as the value for Principal, you grant permission to all the accounts in the named organization. The Condition is a JSON string which must contain Type, Key, and Value fields.
@@ -1503,7 +1445,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutRuleRequest: AWSEncodableShape {
-
         /// A description of the rule.
         public let description: String?
         /// The event bus to associate with this rule. If you omit this, the default event bus is used.
@@ -1561,7 +1502,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutRuleResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String?
 
@@ -1575,7 +1515,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsRequest: AWSEncodableShape {
-
         /// The name of the event bus associated with the rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The name of the rule.
@@ -1611,7 +1550,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsResponse: AWSDecodableShape {
-
         /// The failed target entries.
         public let failedEntries: [PutTargetsResultEntry]?
         /// The number of failed entries.
@@ -1629,7 +1567,6 @@ extension CloudWatchEvents {
     }
 
     public struct PutTargetsResultEntry: AWSDecodableShape {
-
         /// The error code that indicates why the target addition failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The error message that explains why the target addition failed.
@@ -1651,7 +1588,6 @@ extension CloudWatchEvents {
     }
 
     public struct RedshiftDataParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The name of the database. Required when authenticating using temporary credentials.
         public let database: String
         /// The database user name. Required when authenticating using temporary credentials.
@@ -1684,7 +1620,7 @@ extension CloudWatchEvents {
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1600)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
-            try self.validate(self.sql, name: "sql", parent: name, max: 100000)
+            try self.validate(self.sql, name: "sql", parent: name, max: 100_000)
             try self.validate(self.sql, name: "sql", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
             try self.validate(self.statementName, name: "statementName", parent: name, min: 1)
@@ -1701,7 +1637,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemovePermissionRequest: AWSEncodableShape {
-
         /// The name of the event bus to revoke permissions for. If you omit this, the default event bus is used.
         public let eventBusName: String?
         /// The statement ID corresponding to the account that is no longer allowed to put events to the default event bus.
@@ -1728,7 +1663,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsRequest: AWSEncodableShape {
-
         /// The name of the event bus associated with the rule.
         public let eventBusName: String?
         /// If this is a managed rule, created by an AWS service on your behalf, you must specify Force as True to remove targets. This parameter is ignored for rules that are not managed rules. You can check whether a rule is a managed rule by using DescribeRule or ListRules and checking the ManagedBy field of the response.
@@ -1770,7 +1704,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsResponse: AWSDecodableShape {
-
         /// The failed target entries.
         public let failedEntries: [RemoveTargetsResultEntry]?
         /// The number of failed entries.
@@ -1788,7 +1721,6 @@ extension CloudWatchEvents {
     }
 
     public struct RemoveTargetsResultEntry: AWSDecodableShape {
-
         /// The error code that indicates why the target removal failed. If the value is ConcurrentModificationException, too many requests were made at the same time.
         public let errorCode: String?
         /// The error message that explains why the target removal failed.
@@ -1810,7 +1742,6 @@ extension CloudWatchEvents {
     }
 
     public struct Rule: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the rule.
         public let arn: String?
         /// The description of the rule.
@@ -1856,7 +1787,6 @@ extension CloudWatchEvents {
     }
 
     public struct RunCommandParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// Currently, we support including only one RunCommandTarget block, which specifies either an array of InstanceIds or a tag.
         public let runCommandTargets: [RunCommandTarget]
 
@@ -1878,7 +1808,6 @@ extension CloudWatchEvents {
     }
 
     public struct RunCommandTarget: AWSEncodableShape & AWSDecodableShape {
-
         /// Can be either tag: tag-key or InstanceIds.
         public let key: String
         /// If Key is tag: tag-key, Values is a list of tag values. If Key is InstanceIds, Values is a list of Amazon EC2 instance IDs.
@@ -1908,7 +1837,6 @@ extension CloudWatchEvents {
     }
 
     public struct SqsParameters: AWSEncodableShape & AWSDecodableShape {
-
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
 
@@ -1922,7 +1850,6 @@ extension CloudWatchEvents {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
         /// A string you can use to assign a value. The combination of tag keys and values can help you organize and categorize your resources.
         public let key: String
         /// The value for the specified tag key.
@@ -1947,7 +1874,6 @@ extension CloudWatchEvents {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-
         /// The ARN of the EventBridge resource that you're adding tags to.
         public let resourceARN: String
         /// The list of key-value pairs to associate with the resource.
@@ -1973,15 +1899,10 @@ extension CloudWatchEvents {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct Target: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the target.
         public let arn: String
         /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
@@ -2061,7 +1982,6 @@ extension CloudWatchEvents {
     }
 
     public struct TestEventPatternRequest: AWSEncodableShape {
-
         /// The event, in JSON format, to test against the event pattern.
         public let event: String
         /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
@@ -2079,7 +1999,6 @@ extension CloudWatchEvents {
     }
 
     public struct TestEventPatternResponse: AWSDecodableShape {
-
         /// Indicates whether the event matches the event pattern.
         public let result: Bool?
 
@@ -2093,7 +2012,6 @@ extension CloudWatchEvents {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-
         /// The ARN of the EventBridge resource from which you are removing tags.
         public let resourceARN: String
         /// The list of tag keys to remove from the resource.
@@ -2120,10 +2038,6 @@ extension CloudWatchEvents {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 }

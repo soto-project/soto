@@ -32,7 +32,6 @@ extension IoTEventsData {
     // MARK: Shapes
 
     public struct BatchPutMessageErrorEntry: AWSDecodableShape {
-
         /// The code associated with the error.
         public let errorCode: ErrorCode?
         /// More information about the error.
@@ -47,15 +46,14 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case errorMessage = "errorMessage"
-            case messageId = "messageId"
+            case errorCode
+            case errorMessage
+            case messageId
         }
     }
 
     public struct BatchPutMessageRequest: AWSEncodableShape {
-
-        /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}' 
+        /// The list of messages to send. Each message has the following format: '{ "messageId": "string", "inputName": "string", "payload": "string"}'
         public let messages: [Message]
 
         public init(messages: [Message]) {
@@ -70,12 +68,11 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messages = "messages"
+            case messages
         }
     }
 
     public struct BatchPutMessageResponse: AWSDecodableShape {
-
         /// A list of any errors encountered when sending the messages.
         public let batchPutMessageErrorEntries: [BatchPutMessageErrorEntry]?
 
@@ -89,7 +86,6 @@ extension IoTEventsData {
     }
 
     public struct BatchUpdateDetectorErrorEntry: AWSDecodableShape {
-
         /// The code of the error.
         public let errorCode: ErrorCode?
         /// A message describing the error.
@@ -104,14 +100,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode = "errorCode"
-            case errorMessage = "errorMessage"
-            case messageId = "messageId"
+            case errorCode
+            case errorMessage
+            case messageId
         }
     }
 
     public struct BatchUpdateDetectorRequest: AWSEncodableShape {
-
         /// The list of detectors (instances) to update, along with the values to update.
         public let detectors: [UpdateDetectorRequest]
 
@@ -127,12 +122,11 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectors = "detectors"
+            case detectors
         }
     }
 
     public struct BatchUpdateDetectorResponse: AWSDecodableShape {
-
         /// A list of those detector updates that resulted in errors. (If an error is listed here, the specific update did not occur.)
         public let batchUpdateDetectorErrorEntries: [BatchUpdateDetectorErrorEntry]?
 
@@ -141,13 +135,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchUpdateDetectorErrorEntries = "batchUpdateDetectorErrorEntries"
+            case batchUpdateDetectorErrorEntries
         }
     }
 
     public struct DescribeDetectorRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
             AWSMemberEncoding(label: "keyValue", location: .querystring(locationName: "keyValue"))
         ]
 
@@ -174,7 +168,6 @@ extension IoTEventsData {
     }
 
     public struct DescribeDetectorResponse: AWSDecodableShape {
-
         /// Information about the detector (instance).
         public let detector: Detector?
 
@@ -183,12 +176,11 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detector = "detector"
+            case detector
         }
     }
 
     public struct Detector: AWSDecodableShape {
-
         /// The time the detector (instance) was created.
         public let creationTime: Date?
         /// The name of the detector model that created this detector (instance).
@@ -212,17 +204,16 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case detectorModelName = "detectorModelName"
-            case detectorModelVersion = "detectorModelVersion"
-            case keyValue = "keyValue"
-            case lastUpdateTime = "lastUpdateTime"
-            case state = "state"
+            case creationTime
+            case detectorModelName
+            case detectorModelVersion
+            case keyValue
+            case lastUpdateTime
+            case state
         }
     }
 
     public struct DetectorState: AWSDecodableShape {
-
         /// The name of the state.
         public let stateName: String
         /// The current state of the detector's timers.
@@ -237,14 +228,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName = "stateName"
-            case timers = "timers"
-            case variables = "variables"
+            case stateName
+            case timers
+            case variables
         }
     }
 
     public struct DetectorStateDefinition: AWSEncodableShape {
-
         /// The name of the new state of the detector (instance).
         public let stateName: String
         /// The new values of the detector's timers. Any timer whose value isn't specified is cleared, and its timeout event won't occur.
@@ -270,14 +260,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName = "stateName"
-            case timers = "timers"
-            case variables = "variables"
+            case stateName
+            case timers
+            case variables
         }
     }
 
     public struct DetectorStateSummary: AWSDecodableShape {
-
         /// The name of the state.
         public let stateName: String?
 
@@ -286,12 +275,11 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stateName = "stateName"
+            case stateName
         }
     }
 
     public struct DetectorSummary: AWSDecodableShape {
-
         /// The time the detector (instance) was created.
         public let creationTime: Date?
         /// The name of the detector model that created this detector (instance).
@@ -315,20 +303,20 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationTime = "creationTime"
-            case detectorModelName = "detectorModelName"
-            case detectorModelVersion = "detectorModelVersion"
-            case keyValue = "keyValue"
-            case lastUpdateTime = "lastUpdateTime"
-            case state = "state"
+            case creationTime
+            case detectorModelName
+            case detectorModelVersion
+            case keyValue
+            case lastUpdateTime
+            case state
         }
     }
 
     public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "detectorModelName", location: .uri(locationName: "detectorModelName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "stateName", location: .querystring(locationName: "stateName"))
         ]
 
@@ -362,7 +350,6 @@ extension IoTEventsData {
     }
 
     public struct ListDetectorsResponse: AWSDecodableShape {
-
         /// A list of summary information about the detectors (instances).
         public let detectorSummaries: [DetectorSummary]?
         /// A token to retrieve the next set of results, or null if there are no additional results.
@@ -374,13 +361,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorSummaries = "detectorSummaries"
-            case nextToken = "nextToken"
+            case detectorSummaries
+            case nextToken
         }
     }
 
     public struct Message: AWSEncodableShape {
-
         /// The name of the input into which the message payload is transformed.
         public let inputName: String
         /// The ID to assign to the message. Within each batch sent, each "messageId" must be unique.
@@ -404,14 +390,13 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputName = "inputName"
-            case messageId = "messageId"
-            case payload = "payload"
+            case inputName
+            case messageId
+            case payload
         }
     }
 
     public struct Timer: AWSDecodableShape {
-
         /// The name of the timer.
         public let name: String
         /// The number of seconds which have elapsed on the timer.
@@ -423,13 +408,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case timestamp = "timestamp"
+            case name
+            case timestamp
         }
     }
 
     public struct TimerDefinition: AWSEncodableShape {
-
         /// The name of the timer.
         public let name: String
         /// The new setting of the timer (the number of seconds before the timer elapses).
@@ -446,13 +430,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case seconds = "seconds"
+            case name
+            case seconds
         }
     }
 
     public struct UpdateDetectorRequest: AWSEncodableShape {
-
         /// The name of the detector model that created the detectors (instances).
         public let detectorModelName: String
         /// The value of the input key attribute (identifying the device or system) that caused the creation of this detector (instance).
@@ -483,15 +466,14 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detectorModelName = "detectorModelName"
-            case keyValue = "keyValue"
-            case messageId = "messageId"
-            case state = "state"
+            case detectorModelName
+            case keyValue
+            case messageId
+            case state
         }
     }
 
     public struct Variable: AWSDecodableShape {
-
         /// The name of the variable.
         public let name: String
         /// The current value of the variable.
@@ -503,13 +485,12 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case value = "value"
+            case name
+            case value
         }
     }
 
     public struct VariableDefinition: AWSEncodableShape {
-
         /// The name of the variable.
         public let name: String
         /// The new value of the variable.
@@ -529,8 +510,8 @@ extension IoTEventsData {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name = "name"
-            case value = "value"
+            case name
+            case value
         }
     }
 }

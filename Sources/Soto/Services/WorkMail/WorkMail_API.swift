@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS WorkMail service.
+ Client object for interacting with AWS WorkMail service.
 
-Amazon WorkMail is a secure, managed business email and calendaring service with support for existing desktop and mobile email clients. You can access your email, contacts, and calendars using Microsoft Outlook, your browser, or other native iOS and Android email applications. You can integrate WorkMail with your existing corporate directory and control both the keys that encrypt your data and the location in which your data is stored. The WorkMail API is designed for the following scenarios:   Listing and describing organizations     Managing users     Managing groups     Managing resources   All WorkMail API operations are Amazon-authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of AWS Identity and Access Management users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the WorkMail site, the IAM user gains full administrative visibility into the entire WorkMail organization (or as set in the IAM policy). This includes, but is not limited to, the ability to create, update, and delete users, groups, and resources. This allows developers to perform the scenarios listed above, as well as give users the ability to grant access on a selective basis using the IAM model.
-*/
+ Amazon WorkMail is a secure, managed business email and calendaring service with support for existing desktop and mobile email clients. You can access your email, contacts, and calendars using Microsoft Outlook, your browser, or other native iOS and Android email applications. You can integrate WorkMail with your existing corporate directory and control both the keys that encrypt your data and the location in which your data is stored. The WorkMail API is designed for the following scenarios:   Listing and describing organizations     Managing users     Managing groups     Managing resources   All WorkMail API operations are Amazon-authenticated and certificate-signed. They not only require the use of the AWS SDK, but also allow for the exclusive use of AWS Identity and Access Management users and roles to help facilitate access, trust, and permission policies. By creating a role and allowing an IAM user to access the WorkMail site, the IAM user gains full administrative visibility into the entire WorkMail organization (or as set in the IAM policy). This includes, but is not limited to, the ability to create, update, and delete users, groups, and resources. This allows developers to perform the scenarios listed above, as well as give users the ability to grant access on a selective basis using the IAM model.
+ */
 public struct WorkMail: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct WorkMail: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Adds a member (user or group) to the resource's set of delegates.
@@ -74,7 +73,7 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "AssociateMemberToGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it. 
+    ///  Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it.
     public func cancelMailboxExportJob(_ input: CancelMailboxExportJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelMailboxExportJobResponse> {
         return self.client.execute(operation: "CancelMailboxExportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -89,7 +88,7 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "CreateGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a new Amazon WorkMail resource. 
+    ///  Creates a new Amazon WorkMail resource.
     public func createResource(_ input: CreateResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResourceResponse> {
         return self.client.execute(operation: "CreateResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -119,7 +118,7 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "DeleteMailboxPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified resource. 
+    ///  Deletes the specified resource.
     public func deleteResource(_ input: DeleteResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResourceResponse> {
         return self.client.execute(operation: "DeleteResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -174,7 +173,7 @@ public struct WorkMail: AWSService {
         return self.client.execute(operation: "DisassociateMemberFromGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, or user ID. 
+    ///  Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, or user ID.
     public func getAccessControlEffect(_ input: GetAccessControlEffectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAccessControlEffectResponse> {
         return self.client.execute(operation: "GetAccessControlEffect", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

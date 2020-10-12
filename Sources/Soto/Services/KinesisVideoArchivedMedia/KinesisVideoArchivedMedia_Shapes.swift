@@ -92,7 +92,6 @@ extension KinesisVideoArchivedMedia {
     // MARK: Shapes
 
     public struct ClipFragmentSelector: AWSEncodableShape {
-
         /// The origin of the timestamps to use (Server or Producer).
         public let fragmentSelectorType: ClipFragmentSelectorType
         /// The range of timestamps to return.
@@ -110,10 +109,9 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct ClipTimestampRange: AWSEncodableShape {
-
-        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
+        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
         public let endTimestamp: Date
-        /// The starting timestamp in the range of timestamps for which to return fragments.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
+        /// The starting timestamp in the range of timestamps for which to return fragments.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date
 
         public init(endTimestamp: Date, startTimestamp: Date) {
@@ -128,7 +126,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct DASHFragmentSelector: AWSEncodableShape {
-
         /// The source of the timestamps for the requested media. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetDASHStreamingSessionURLInput$PlaybackMode is ON_DEMAND or LIVE_REPLAY, the first fragment ingested with a producer timestamp within the specified FragmentSelector$TimestampRange is included in the media playlist. In addition, the fragments with producer timestamps within the TimestampRange ingested immediately following the first fragment (up to the GetDASHStreamingSessionURLInput$MaxManifestFragmentResults value) are included.  Fragments that have duplicate producer timestamps are deduplicated. This means that if producers are producing a stream of fragments with producer timestamps that are approximately equal to the true clock time, the MPEG-DASH manifest will contain all of the fragments within the requested timestamp range. If some fragments are ingested within the same time range and very different points in time, only the oldest ingested collection of fragments are returned. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetDASHStreamingSessionURLInput$PlaybackMode is LIVE, the producer timestamps are used in the MP4 fragments and for deduplication. But the most recently ingested fragments based on server timestamps are included in the MPEG-DASH manifest. This means that even if fragments ingested in the past have producer timestamps with values now, they are not included in the HLS media playlist. The default is SERVER_TIMESTAMP.
         public let fragmentSelectorType: DASHFragmentSelectorType?
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
@@ -146,10 +143,9 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct DASHTimestampRange: AWSEncodableShape {
-
-        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
+        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
         public let endTimestamp: Date?
-        /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
+        /// The start of the timestamp range for the requested media. If the DASHTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date?
 
         public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
@@ -164,7 +160,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct Fragment: AWSDecodableShape {
-
         /// The playback duration or other time value associated with the fragment.
         public let fragmentLengthInMilliseconds: Int64?
         /// The unique identifier of the fragment. This value monotonically increases based on the ingestion order.
@@ -194,7 +189,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct FragmentSelector: AWSEncodableShape {
-
         /// The origin of the timestamps to use (Server or Producer).
         public let fragmentSelectorType: FragmentSelectorType
         /// The range of timestamps to return.
@@ -212,12 +206,11 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetClipInput: AWSEncodableShape {
-
         /// The time range of the requested clip and the source of the timestamps.
         public let clipFragmentSelector: ClipFragmentSelector
-        /// The Amazon Resource Name (ARN) of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
+        /// The Amazon Resource Name (ARN) of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN.
         public let streamARN: String?
-        /// The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN. 
+        /// The name of the stream for which to retrieve the media clip.  You must specify either the StreamName or the StreamARN.
         public let streamName: String?
 
         public init(clipFragmentSelector: ClipFragmentSelector, streamARN: String? = nil, streamName: String? = nil) {
@@ -247,13 +240,13 @@ extension KinesisVideoArchivedMedia {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
         ]
 
         /// The content type of the media in the requested clip.
         public let contentType: String?
-        /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see Kinesis Video Streams Limits. 
+        /// Traditional MP4 file that contains the media clip from the specified video stream. The output will contain the first 100 MB or the first 200 fragments from the specified start timestamp. For more information, see Kinesis Video Streams Limits.
         public let payload: AWSPayload?
 
         public init(contentType: String? = nil, payload: AWSPayload? = nil) {
@@ -268,12 +261,11 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetDASHStreamingSessionURLInput: AWSEncodableShape {
-
         /// The time range of the requested fragment and the source of the timestamps. This parameter is required if PlaybackMode is ON_DEMAND or LIVE_REPLAY. This parameter is optional if PlaybackMode is LIVE. If PlaybackMode is LIVE, the FragmentSelectorType can be set, but the TimestampRange should not be set. If PlaybackMode is ON_DEMAND or LIVE_REPLAY, both FragmentSelectorType and TimestampRange must be set.
         public let dASHFragmentSelector: DASHFragmentSelector?
         /// Fragments are identified in the manifest file based on their sequence number in the session. If DisplayFragmentNumber is set to ALWAYS, the Kinesis Video Streams fragment number is added to each S element in the manifest file with the attribute name “kvs:fn”. These fragment numbers can be used for logging or for use with other APIs (e.g. GetMedia and GetMediaForFragmentList). A custom MPEG-DASH media player is necessary to leverage these this custom attribute. The default value is NEVER.
         public let displayFragmentNumber: DASHDisplayFragmentNumber?
-        /// Per the MPEG-DASH specification, the wall-clock time of fragments in the manifest file can be derived using attributes in the manifest itself. However, typically, MPEG-DASH compatible media players do not properly handle gaps in the media timeline. Kinesis Video Streams adjusts the media timeline in the manifest file to enable playback of media with discontinuities. Therefore, the wall-clock time derived from the manifest file may be inaccurate. If DisplayFragmentTimestamp is set to ALWAYS, the accurate fragment timestamp is added to each S element in the manifest file with the attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to leverage this custom attribute. The default value is NEVER. When DASHFragmentSelector is SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when DASHFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps. 
+        /// Per the MPEG-DASH specification, the wall-clock time of fragments in the manifest file can be derived using attributes in the manifest itself. However, typically, MPEG-DASH compatible media players do not properly handle gaps in the media timeline. Kinesis Video Streams adjusts the media timeline in the manifest file to enable playback of media with discontinuities. Therefore, the wall-clock time derived from the manifest file may be inaccurate. If DisplayFragmentTimestamp is set to ALWAYS, the accurate fragment timestamp is added to each S element in the manifest file with the attribute name “kvs:ts”. A custom MPEG-DASH media player is necessary to leverage this custom attribute. The default value is NEVER. When DASHFragmentSelector is SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when DASHFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps.
         public let displayFragmentTimestamp: DASHDisplayFragmentTimestamp?
         /// The time in seconds until the requested session expires. This value can be between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to GetDashManifest, GetMP4InitFragment, or GetMP4MediaFragment can be made for that session. The default is 300 (5 minutes).
         public let expires: Int?
@@ -323,7 +315,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetDASHStreamingSessionURLOutput: AWSDecodableShape {
-
         /// The URL (containing the session token) that a media player can use to retrieve the MPEG-DASH manifest.
         public let dASHStreamingSessionURL: String?
 
@@ -337,12 +328,11 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetHLSStreamingSessionURLInput: AWSEncodableShape {
-
         /// Specifies which format should be used for packaging the media. Specifying the FRAGMENTED_MP4 container format packages the media into MP4 fragments (fMP4 or CMAF). This is the recommended packaging because there is minimal packaging overhead. The other container format option is MPEG_TS. HLS has supported MPEG TS chunks since it was released and is sometimes the only supported packaging on older HLS players. MPEG TS typically has a 5-25 percent packaging overhead. This means MPEG TS typically requires 5-25 percent more bandwidth and cost than fMP4. The default is FRAGMENTED_MP4.
         public let containerFormat: ContainerFormat?
         /// Specifies when flags marking discontinuities between fragments are added to the media playlists. Media players typically build a timeline of media content to play, based on the timestamps of each fragment. This means that if there is any overlap or gap between fragments (as is typical if HLSFragmentSelector is set to SERVER_TIMESTAMP), the media player timeline will also have small gaps between fragments in some places, and will overwrite frames in other places. Gaps in the media player timeline can cause playback to stall and overlaps can cause playback to be jittery. When there are discontinuity flags between fragments, the media player is expected to reset the timeline, resulting in the next fragment being played immediately after the previous fragment.  The following modes are supported:    ALWAYS: a discontinuity marker is placed between every fragment in the HLS media playlist. It is recommended to use a value of ALWAYS if the fragment timestamps are not accurate.    NEVER: no discontinuity markers are placed anywhere. It is recommended to use a value of NEVER to ensure the media player timeline most accurately maps to the producer timestamps.     ON_DISCONTIUNITY: a discontinuity marker is placed between fragments that have a gap or overlap of more than 50 milliseconds. For most playback scenarios, it is recommended to use a value of ON_DISCONTINUITY so that the media player timeline is only reset when there is a significant issue with the media timeline (e.g. a missing fragment).   The default is ALWAYS when HLSFragmentSelector is set to SERVER_TIMESTAMP, and NEVER when it is set to PRODUCER_TIMESTAMP.
         public let discontinuityMode: HLSDiscontinuityMode?
-        /// Specifies when the fragment start timestamps should be included in the HLS media playlist. Typically, media players report the playhead position as a time relative to the start of the first fragment in the playback session. However, when the start timestamps are included in the HLS media playlist, some media players might report the current playhead as an absolute time based on the fragment timestamps. This can be useful for creating a playback experience that shows viewers the wall-clock time of the media. The default is NEVER. When HLSFragmentSelector is SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when HLSFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps. 
+        /// Specifies when the fragment start timestamps should be included in the HLS media playlist. Typically, media players report the playhead position as a time relative to the start of the first fragment in the playback session. However, when the start timestamps are included in the HLS media playlist, some media players might report the current playhead as an absolute time based on the fragment timestamps. This can be useful for creating a playback experience that shows viewers the wall-clock time of the media. The default is NEVER. When HLSFragmentSelector is SERVER_TIMESTAMP, the timestamps will be the server start timestamps. Similarly, when HLSFragmentSelector is PRODUCER_TIMESTAMP, the timestamps will be the producer start timestamps.
         public let displayFragmentTimestamp: HLSDisplayFragmentTimestamp?
         /// The time in seconds until the requested session expires. This value can be between 300 (5 minutes) and 43200 (12 hours). When a session expires, no new calls to GetHLSMasterPlaylist, GetHLSMediaPlaylist, GetMP4InitFragment, GetMP4MediaFragment, or GetTSFragment can be made for that session. The default is 300 (5 minutes).
         public let expires: Int?
@@ -396,7 +386,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetHLSStreamingSessionURLOutput: AWSDecodableShape {
-
         /// The URL (containing the session token) that a media player can use to retrieve the HLS master playlist.
         public let hLSStreamingSessionURL: String?
 
@@ -410,7 +399,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct GetMediaForFragmentListInput: AWSEncodableShape {
-
         /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments.
         public let fragments: [String]
         /// The name of the stream from which to retrieve fragment media.
@@ -445,13 +433,13 @@ extension KinesisVideoArchivedMedia {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
             AWSMemberEncoding(label: "payload", location: .body(locationName: "Payload"))
         ]
 
         /// The content type of the requested media.
         public let contentType: String?
-        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception  
+        /// The payload that Kinesis Video Streams returns is a sequence of chunks from the specified stream. For information about the chunks, see PutMedia. The chunks that Kinesis Video Streams returns in the GetMediaForFragmentList call also include the following additional Matroska (MKV) tags:    AWS_KINESISVIDEO_FRAGMENT_NUMBER - Fragment number returned in the chunk.   AWS_KINESISVIDEO_SERVER_SIDE_TIMESTAMP - Server-side timestamp of the fragment.   AWS_KINESISVIDEO_PRODUCER_SIDE_TIMESTAMP - Producer-side timestamp of the fragment.   The following tags will be included if an exception occurs:   AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception   AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception   AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
         public let payload: AWSPayload?
 
         public init(contentType: String? = nil, payload: AWSPayload? = nil) {
@@ -466,7 +454,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct HLSFragmentSelector: AWSEncodableShape {
-
         /// The source of the timestamps for the requested media. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is ON_DEMAND or LIVE_REPLAY, the first fragment ingested with a producer timestamp within the specified FragmentSelector$TimestampRange is included in the media playlist. In addition, the fragments with producer timestamps within the TimestampRange ingested immediately following the first fragment (up to the GetHLSStreamingSessionURLInput$MaxMediaPlaylistFragmentResults value) are included.  Fragments that have duplicate producer timestamps are deduplicated. This means that if producers are producing a stream of fragments with producer timestamps that are approximately equal to the true clock time, the HLS media playlists will contain all of the fragments within the requested timestamp range. If some fragments are ingested within the same time range and very different points in time, only the oldest ingested collection of fragments are returned. When FragmentSelectorType is set to PRODUCER_TIMESTAMP and GetHLSStreamingSessionURLInput$PlaybackMode is LIVE, the producer timestamps are used in the MP4 fragments and for deduplication. But the most recently ingested fragments based on server timestamps are included in the HLS media playlist. This means that even if fragments ingested in the past have producer timestamps with values now, they are not included in the HLS media playlist. The default is SERVER_TIMESTAMP.
         public let fragmentSelectorType: HLSFragmentSelectorType?
         /// The start and end of the timestamp range for the requested media. This value should not be present if PlaybackType is LIVE.
@@ -484,10 +471,9 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct HLSTimestampRange: AWSEncodableShape {
-
-        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session. 
+        /// The end of the timestamp range for the requested media. This value must be within 3 hours of the specified StartTimestamp, and it must be later than the StartTimestamp value. If FragmentSelectorType for the request is SERVER_TIMESTAMP, this value must be in the past. The EndTimestamp value is required for ON_DEMAND mode, but optional for LIVE_REPLAY mode. If the EndTimestamp is not set for LIVE_REPLAY mode then the session will continue to include newly ingested fragments until the session expires.  This value is inclusive. The EndTimestamp is compared to the (starting) timestamp of the fragment. Fragments that start before the EndTimestamp value and continue past it are included in the session.
         public let endTimestamp: Date?
-        /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head. 
+        /// The start of the timestamp range for the requested media. If the HLSTimestampRange value is specified, the StartTimestamp value is required.  This value is inclusive. Fragments that start before the StartTimestamp and continue past it are included in the session. If FragmentSelectorType is SERVER_TIMESTAMP, the StartTimestamp must be later than the stream head.
         public let startTimestamp: Date?
 
         public init(endTimestamp: Date? = nil, startTimestamp: Date? = nil) {
@@ -502,7 +488,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct ListFragmentsInput: AWSEncodableShape {
-
         /// Describes the timestamp range and timestamp origin for the range of fragments to return.
         public let fragmentSelector: FragmentSelector?
         /// The total number of fragments to return. If the total number of fragments available is more than the value specified in max-results, then a ListFragmentsOutput$NextToken is provided in the output that you can use to resume pagination.
@@ -539,7 +524,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct ListFragmentsOutput: AWSDecodableShape {
-
         /// A list of archived Fragment objects from the stream that meet the selector criteria. Results are in no specific order, even across pages.
         public let fragments: [Fragment]?
         /// If the returned list is truncated, the operation returns this token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -557,7 +541,6 @@ extension KinesisVideoArchivedMedia {
     }
 
     public struct TimestampRange: AWSEncodableShape {
-
         /// The ending timestamp in the range of timestamps for which to return fragments.
         public let endTimestamp: Date
         /// The starting timestamp in the range of timestamps for which to return fragments.

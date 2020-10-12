@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS IoT service.
+ Client object for interacting with AWS IoT service.
 
-AWS IoT AWS IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in AWS IoT Core Endpoints and Quotas. You must use the endpoint for the region that has the resources you want to access. The service name used by AWS Signature Version 4 to sign the request is: execute-api. For more information about how AWS IoT works, see the Developer Guide. For information about how to use the credentials provider for AWS IoT, see Authorizing Direct Calls to AWS Services.
-*/
+ AWS IoT AWS IoT provides secure, bi-directional communication between Internet-connected devices (such as sensors, actuators, embedded devices, or smart appliances) and the AWS cloud. You can discover your custom IoT-Data endpoint to communicate with, configure rules for data processing and integration with other services, organize resources associated with each device (Registry), configure logging, and create and manage policies and credentials to authenticate devices. The service endpoints that expose this API are listed in AWS IoT Core Endpoints and Quotas. You must use the endpoint for the region that has the resources you want to access. The service name used by AWS Signature Version 4 to sign the request is: execute-api. For more information about how AWS IoT works, see the Developer Guide. For information about how to use the credentials provider for AWS IoT, see Authorizing Direct Calls to AWS Services.
+ */
 public struct IoT: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct IoT: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Accepts a pending certificate transfer. The default state of the certificate is INACTIVE. To check for pending certificate transfers, call ListCertificates to enumerate your certificates.
@@ -79,7 +78,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "AddThingToThingGroup", path: "/thing-groups/addThingToThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.  
+    ///  Associates a group with a continuous job. The following criteria must be met:    The job must have been created with the targetSelection field set to "CONTINUOUS".   The job status must currently be "IN_PROGRESS".   The total number of targets associated with a job must not exceed 100.
     public func associateTargetsWithJob(_ input: AssociateTargetsWithJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateTargetsWithJobResponse> {
         return self.client.execute(operation: "AssociateTargetsWithJob", path: "/jobs/{jobId}/targets", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -90,7 +89,7 @@ public struct IoT: AWSService {
     }
 
     ///  Attaches the specified policy to the specified principal (certificate or other credential).  Note: This API is deprecated. Please use AttachPolicy instead.
-    @available(*, deprecated, message:"AttachPrincipalPolicy is deprecated.")
+    @available(*, deprecated, message: "AttachPrincipalPolicy is deprecated.")
     @discardableResult public func attachPrincipalPolicy(_ input: AttachPrincipalPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AttachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -140,7 +139,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ConfirmTopicRuleDestination", path: "/confirmdestination/{confirmationToken+}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Creates a Device Defender audit suppression. 
+    ///   Creates a Device Defender audit suppression.
     public func createAuditSuppression(_ input: CreateAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAuditSuppressionResponse> {
         return self.client.execute(operation: "CreateAuditSuppression", path: "/audit/suppressions/create", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -165,7 +164,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateDimension", path: "/dimensions/{name}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Creates a domain configuration.  The domain configuration feature is in public preview and is subject to change.
     public func createDomainConfiguration(_ input: CreateDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDomainConfigurationResponse> {
         return self.client.execute(operation: "CreateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -240,12 +239,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateStream", path: "/streams/{streamId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
+    ///  Creates a thing record in the registry. If this call is made multiple times using the same thing name and configuration, the call will succeed. If this call is made with the same thing name but different configuration a ResourceAlreadyExistsException is thrown.  This is a control plane operation. See Authorization for information about authorizing control plane actions.
     public func createThing(_ input: CreateThingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThingResponse> {
         return self.client.execute(operation: "CreateThing", path: "/things/{thingName}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Create a thing group.  This is a control plane operation. See Authorization for information about authorizing control plane actions. 
+    ///  Create a thing group.  This is a control plane operation. See Authorization for information about authorizing control plane actions.
     public func createThingGroup(_ input: CreateThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateThingGroupResponse> {
         return self.client.execute(operation: "CreateThingGroup", path: "/thing-groups/{thingGroupName}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -265,12 +264,12 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "CreateTopicRuleDestination", path: "/destinations", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled. 
+    ///  Restores the default settings for Device Defender audits for this account. Any configuration data you entered is deleted and all audit checks are reset to disabled.
     public func deleteAccountAuditConfiguration(_ input: DeleteAccountAuditConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAccountAuditConfigurationResponse> {
         return self.client.execute(operation: "DeleteAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Deletes a Device Defender audit suppression. 
+    ///   Deletes a Device Defender audit suppression.
     public func deleteAuditSuppression(_ input: DeleteAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAuditSuppressionResponse> {
         return self.client.execute(operation: "DeleteAuditSuppression", path: "/audit/suppressions/delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -300,7 +299,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DeleteDimension", path: "/dimensions/{name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Deletes the specified domain configuration.  The domain configuration feature is in public preview and is subject to change.
     public func deleteDomainConfiguration(_ input: DeleteDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDomainConfigurationResponse> {
         return self.client.execute(operation: "DeleteDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -425,7 +424,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeAuditMitigationActionsTask", path: "/audit/mitigationactions/tasks/{taskId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Gets information about a Device Defender audit suppression. 
+    ///   Gets information about a Device Defender audit suppression.
     public func describeAuditSuppression(_ input: DescribeAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAuditSuppressionResponse> {
         return self.client.execute(operation: "DescribeAuditSuppression", path: "/audit/suppressions/describe", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -465,7 +464,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DescribeDimension", path: "/dimensions/{name}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Gets summary information about a domain configuration.  The domain configuration feature is in public preview and is subject to change.
     public func describeDomainConfiguration(_ input: DescribeDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDomainConfigurationResponse> {
         return self.client.execute(operation: "DescribeDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -556,7 +555,7 @@ public struct IoT: AWSService {
     }
 
     ///  Removes the specified policy from the specified certificate.  Note: This API is deprecated. Please use DetachPolicy instead.
-    @available(*, deprecated, message:"DetachPrincipalPolicy is deprecated.")
+    @available(*, deprecated, message: "DetachPrincipalPolicy is deprecated.")
     @discardableResult public func detachPrincipalPolicy(_ input: DetachPrincipalPolicyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DetachPrincipalPolicy", path: "/principal-policies/{policyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -566,7 +565,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "DetachSecurityProfile", path: "/security-profiles/{securityProfileName}/targets", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate. 
+    ///  Detaches the specified principal from the specified thing. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.  This call is asynchronous. It might take several seconds for the detachment to propagate.
     public func detachThingPrincipal(_ input: DetachThingPrincipalRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetachThingPrincipalResponse> {
         return self.client.execute(operation: "DetachThingPrincipal", path: "/things/{thingName}/principals", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -676,7 +675,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListAuditMitigationActionsTasks", path: "/audit/mitigationactions/tasks", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Lists your Device Defender audit listings. 
+    ///   Lists your Device Defender audit listings.
     public func listAuditSuppressions(_ input: ListAuditSuppressionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAuditSuppressionsResponse> {
         return self.client.execute(operation: "ListAuditSuppressions", path: "/audit/suppressions/list", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -716,7 +715,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListDimensions", path: "/dimensions", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Gets a list of domain configurations for the user. This list is sorted alphabetically by domain configuration name.  The domain configuration feature is in public preview and is subject to change.
     public func listDomainConfigurations(_ input: ListDomainConfigurationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDomainConfigurationsResponse> {
         return self.client.execute(operation: "ListDomainConfigurations", path: "/domainConfigurations", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -762,7 +761,7 @@ public struct IoT: AWSService {
     }
 
     ///  Lists the principals associated with the specified policy.  Note: This API is deprecated. Please use ListTargetsForPolicy instead.
-    @available(*, deprecated, message:"ListPolicyPrincipals is deprecated.")
+    @available(*, deprecated, message: "ListPolicyPrincipals is deprecated.")
     public func listPolicyPrincipals(_ input: ListPolicyPrincipalsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPolicyPrincipalsResponse> {
         return self.client.execute(operation: "ListPolicyPrincipals", path: "/policy-principals", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -773,12 +772,12 @@ public struct IoT: AWSService {
     }
 
     ///  Lists the policies attached to the specified principal. If you use an Cognito identity, the ID must be in AmazonCognito Identity format.  Note: This API is deprecated. Please use ListAttachedPolicies instead.
-    @available(*, deprecated, message:"ListPrincipalPolicies is deprecated.")
+    @available(*, deprecated, message: "ListPrincipalPolicies is deprecated.")
     public func listPrincipalPolicies(_ input: ListPrincipalPoliciesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalPoliciesResponse> {
         return self.client.execute(operation: "ListPrincipalPolicies", path: "/principal-policies", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities. 
+    ///  Lists the things associated with the specified principal. A principal can be X.509 certificates, IAM users, groups, and roles, Amazon Cognito identities or federated identities.
     public func listPrincipalThings(_ input: ListPrincipalThingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPrincipalThingsResponse> {
         return self.client.execute(operation: "ListPrincipalThings", path: "/principals/things", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -863,7 +862,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListThingTypes", path: "/thing-types", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned. 
+    ///  Lists your things. Use the attributeName and attributeValue parameters to filter your things. For example, calling ListThings with attributeName=Color and attributeValue=Red retrieves all things in the registry that contain an attribute Color with the value Red.   You will not be charged for calling this API if an Access denied error is returned. You will also not be charged if no attributes or pagination token was provided in request and no pagination token and no results were returned.
     public func listThings(_ input: ListThingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListThingsResponse> {
         return self.client.execute(operation: "ListThings", path: "/things", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -928,7 +927,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "RemoveThingFromBillingGroup", path: "/billing-groups/removeThingFromBillingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group. 
+    ///  Remove the specified thing from the specified group. You must specify either a thingGroupArn or a thingGroupName to identify the thing group and either a thingArn or a thingName to identify the thing to remove from the thing group.
     public func removeThingFromThingGroup(_ input: RemoveThingFromThingGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveThingFromThingGroupResponse> {
         return self.client.execute(operation: "RemoveThingFromThingGroup", path: "/thing-groups/removeThingFromThingGroup", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -1018,7 +1017,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateAccountAuditConfiguration", path: "/audit/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///   Updates a Device Defender audit suppression. 
+    ///   Updates a Device Defender audit suppression.
     public func updateAuditSuppression(_ input: UpdateAuditSuppressionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAuditSuppressionResponse> {
         return self.client.execute(operation: "UpdateAuditSuppression", path: "/audit/suppressions/update", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -1048,7 +1047,7 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "UpdateDimension", path: "/dimensions/{name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change. 
+    ///  Updates values stored in the domain configuration. Domain configurations for default endpoints can't be updated.  The domain configuration feature is in public preview and is subject to change.
     public func updateDomainConfiguration(_ input: UpdateDomainConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDomainConfigurationResponse> {
         return self.client.execute(operation: "UpdateDomainConfiguration", path: "/domainConfigurations/{domainConfigurationName}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

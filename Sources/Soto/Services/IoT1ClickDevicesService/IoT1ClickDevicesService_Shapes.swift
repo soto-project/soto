@@ -23,11 +23,7 @@ extension IoT1ClickDevicesService {
     // MARK: Shapes
 
     public struct Attributes: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct ClaimDevicesByClaimCodeRequest: AWSEncodableShape {
@@ -45,7 +41,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ClaimDevicesByClaimCodeResponse: AWSDecodableShape {
-
         /// The claim code provided by the device manufacturer.
         public let claimCode: String?
         /// The total number of devices associated with the claim code that has been processed in
@@ -58,8 +53,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case claimCode = "claimCode"
-            case total = "total"
+            case claimCode
+            case total
         }
     }
 
@@ -78,7 +73,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
-
         /// Device details.
         public let deviceDescription: DeviceDescription?
 
@@ -87,12 +81,11 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceDescription = "deviceDescription"
+            case deviceDescription
         }
     }
 
     public struct Device: AWSDecodableShape {
-
         /// The user specified attributes associated with the device for an event.
         public let attributes: Attributes?
         /// The unique identifier of the device.
@@ -107,14 +100,13 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributes = "attributes"
-            case deviceId = "deviceId"
-            case `type` = "type"
+            case attributes
+            case deviceId
+            case `type`
         }
     }
 
     public struct DeviceDescription: AWSDecodableShape {
-
         /// The ARN of the device.
         public let arn: String?
         /// An array of zero or more elements of DeviceAttribute objects providing
@@ -142,18 +134,17 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn = "arn"
-            case attributes = "attributes"
-            case deviceId = "deviceId"
-            case enabled = "enabled"
-            case remainingLife = "remainingLife"
-            case tags = "tags"
-            case `type` = "type"
+            case arn
+            case attributes
+            case deviceId
+            case enabled
+            case remainingLife
+            case tags
+            case `type`
         }
     }
 
     public struct DeviceEvent: AWSDecodableShape {
-
         /// An object representing the device associated with the event.
         public let device: Device?
         /// A serialized JSON object representing the device-type specific event.
@@ -165,13 +156,12 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case device = "device"
-            case stdEvent = "stdEvent"
+            case device
+            case stdEvent
         }
     }
 
     public struct DeviceMethod: AWSEncodableShape & AWSDecodableShape {
-
         /// The type of the device, such as "button".
         public let deviceType: String?
         /// The name of the method applicable to the deviceType.
@@ -183,8 +173,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceType = "deviceType"
-            case methodName = "methodName"
+            case deviceType
+            case methodName
         }
     }
 
@@ -202,12 +192,11 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
     public struct FinalizeDeviceClaimResponse: AWSDecodableShape {
-
         public let state: String?
 
         public init(state: String? = nil) {
@@ -215,7 +204,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "state"
+            case state
         }
     }
 
@@ -234,7 +223,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct GetDeviceMethodsResponse: AWSDecodableShape {
-
         /// List of available device APIs.
         public let deviceMethods: [DeviceMethod]?
 
@@ -243,7 +231,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethods = "deviceMethods"
+            case deviceMethods
         }
     }
 
@@ -262,7 +250,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct InitiateDeviceClaimResponse: AWSDecodableShape {
-
         public let state: String?
 
         public init(state: String? = nil) {
@@ -270,7 +257,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "state"
+            case state
         }
     }
 
@@ -292,13 +279,12 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethod = "deviceMethod"
-            case deviceMethodParameters = "deviceMethodParameters"
+            case deviceMethod
+            case deviceMethodParameters
         }
     }
 
     public struct InvokeDeviceMethodResponse: AWSDecodableShape {
-
         /// A JSON encoded string containing the device method response.
         public let deviceMethodResponse: String?
 
@@ -307,16 +293,16 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceMethodResponse = "deviceMethodResponse"
+            case deviceMethodResponse
         }
     }
 
     public struct ListDeviceEventsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")), 
-            AWSMemberEncoding(label: "fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
+            AWSMemberEncoding(label: "fromTimeStamp", location: .querystring(locationName: "fromTimeStamp")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
             AWSMemberEncoding(label: "toTimeStamp", location: .querystring(locationName: "toTimeStamp"))
         ]
 
@@ -343,7 +329,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDeviceEventsResponse: AWSDecodableShape {
-
         public let events: [DeviceEvent]?
         public let nextToken: String?
 
@@ -353,15 +338,15 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events = "events"
-            case nextToken = "nextToken"
+            case events
+            case nextToken
         }
     }
 
     public struct ListDevicesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deviceType", location: .querystring(locationName: "deviceType")), 
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "deviceType", location: .querystring(locationName: "deviceType")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -384,7 +369,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListDevicesResponse: AWSDecodableShape {
-
         /// A list of devices.
         public let devices: [DeviceDescription]?
         /// The token to retrieve the next set of results.
@@ -396,8 +380,8 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case devices = "devices"
-            case nextToken = "nextToken"
+            case devices
+            case nextToken
         }
     }
 
@@ -416,7 +400,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         public let tags: [String: String]?
 
         public init(tags: [String: String]? = nil) {
@@ -424,7 +407,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
@@ -442,7 +425,7 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags = "tags"
+            case tags
         }
     }
 
@@ -461,7 +444,6 @@ extension IoT1ClickDevicesService {
     }
 
     public struct UnclaimDeviceResponse: AWSDecodableShape {
-
         public let state: String?
 
         public init(state: String? = nil) {
@@ -469,13 +451,13 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state = "state"
+            case state
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")), 
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resource-arn")),
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -506,15 +488,11 @@ extension IoT1ClickDevicesService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case enabled = "enabled"
+            case enabled
         }
     }
 
     public struct UpdateDeviceStateResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 }

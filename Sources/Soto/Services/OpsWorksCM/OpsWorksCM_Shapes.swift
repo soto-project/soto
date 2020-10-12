@@ -67,12 +67,11 @@ extension OpsWorksCM {
     // MARK: Shapes
 
     public struct AccountAttribute: AWSDecodableShape {
-
-        ///  The maximum allowed value. 
+        ///  The maximum allowed value.
         public let maximum: Int?
-        ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.   
+        ///  The attribute name. The following are supported attribute names.     ServerLimit: The number of current servers/maximum number of servers allowed. By default, you can have a maximum of 10 servers.     ManualBackupLimit: The number of current manual backups/maximum number of backups allowed. By default, you can have a maximum of 50 manual backups saved.
         public let name: String?
-        ///  The current usage, such as the current number of servers that are associated with the account. 
+        ///  The current usage, such as the current number of servers that are associated with the account.
         public let used: Int?
 
         public init(maximum: Int? = nil, name: String? = nil, used: Int? = nil) {
@@ -89,12 +88,11 @@ extension OpsWorksCM {
     }
 
     public struct AssociateNodeRequest: AWSEncodableShape {
-
-        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.   
+        /// Engine attributes used for associating the node.   Attributes accepted in a AssociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node is associated. By default only one organization named default can exist.     CHEF_NODE_PUBLIC_KEY: A PEM-formatted public key. This key is required for the chef-client agent to access the Chef API.     Attributes accepted in a AssociateNode request for Puppet     PUPPET_NODE_CSR: A PEM-formatted certificate-signing request (CSR) that is created by the node.
         public let engineAttributes: [EngineAttribute]
-        /// The name of the node. 
+        /// The name of the node.
         public let nodeName: String
-        /// The name of the server with which to associate the node. 
+        /// The name of the server with which to associate the node.
         public let serverName: String
 
         public init(engineAttributes: [EngineAttribute], nodeName: String, serverName: String) {
@@ -122,8 +120,7 @@ extension OpsWorksCM {
     }
 
     public struct AssociateNodeResponse: AWSDecodableShape {
-
-        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request. 
+        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the association request.
         public let nodeAssociationStatusToken: String?
 
         public init(nodeAssociationStatusToken: String? = nil) {
@@ -136,50 +133,49 @@ extension OpsWorksCM {
     }
 
     public struct Backup: AWSDecodableShape {
-
-        /// The ARN of the backup. 
+        /// The ARN of the backup.
         public let backupArn: String?
-        ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS 
+        ///  The generated ID of the backup. Example: myServerName-yyyyMMddHHmmssSSS
         public let backupId: String?
-        ///  The backup type. Valid values are automated or manual. 
+        ///  The backup type. Valid values are automated or manual.
         public let backupType: BackupType?
-        ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z 
+        ///  The time stamp when the backup was created in the database. Example: 2016-07-29T13:38:47.520Z
         public let createdAt: Date?
-        ///  A user-provided description for a manual backup. This field is empty for automated backups. 
+        ///  A user-provided description for a manual backup. This field is empty for automated backups.
         public let description: String?
-        ///  The engine type that is obtained from the server when the backup is created. 
+        ///  The engine type that is obtained from the server when the backup is created.
         public let engine: String?
-        ///  The engine model that is obtained from the server when the backup is created. 
+        ///  The engine model that is obtained from the server when the backup is created.
         public let engineModel: String?
-        ///  The engine version that is obtained from the server when the backup is created. 
+        ///  The engine version that is obtained from the server when the backup is created.
         public let engineVersion: String?
-        ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup. 
+        ///  The EC2 instance profile ARN that is obtained from the server when the backup is created. Because this value is stored, you are not required to provide the InstanceProfileArn again if you restore a backup.
         public let instanceProfileArn: String?
-        ///  The instance type that is obtained from the server when the backup is created. 
+        ///  The instance type that is obtained from the server when the backup is created.
         public let instanceType: String?
-        ///  The key pair that is obtained from the server when the backup is created. 
+        ///  The key pair that is obtained from the server when the backup is created.
         public let keyPair: String?
-        ///  The preferred backup period that is obtained from the server when the backup is created. 
+        ///  The preferred backup period that is obtained from the server when the backup is created.
         public let preferredBackupWindow: String?
-        ///  The preferred maintenance period that is obtained from the server when the backup is created. 
+        ///  The preferred maintenance period that is obtained from the server when the backup is created.
         public let preferredMaintenanceWindow: String?
-        ///  The Amazon S3 URL of the backup's log file. 
+        ///  The Amazon S3 URL of the backup's log file.
         public let s3LogUrl: String?
-        ///  The security group IDs that are obtained from the server when the backup is created. 
+        ///  The security group IDs that are obtained from the server when the backup is created.
         public let securityGroupIds: [String]?
-        ///  The name of the server from which the backup was made. 
+        ///  The name of the server from which the backup was made.
         public let serverName: String?
-        ///  The service role ARN that is obtained from the server when the backup is created. 
+        ///  The service role ARN that is obtained from the server when the backup is created.
         public let serviceRoleArn: String?
-        /// The status of a backup while in progress. 
+        /// The status of a backup while in progress.
         public let status: BackupStatus?
-        ///  An informational message about backup status. 
+        ///  An informational message about backup status.
         public let statusDescription: String?
-        ///  The subnet IDs that are obtained from the server when the backup is created. 
+        ///  The subnet IDs that are obtained from the server when the backup is created.
         public let subnetIds: [String]?
-        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created. 
+        ///  The version of AWS OpsWorks CM-specific tools that is obtained from the server when the backup is created.
         public let toolsVersion: String?
-        ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups. 
+        ///  The IAM user ARN of the requester for manual backups. This field is empty for automated backups.
         public let userArn: String?
 
         public init(backupArn: String? = nil, backupId: String? = nil, backupType: BackupType? = nil, createdAt: Date? = nil, description: String? = nil, engine: String? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, s3LogUrl: String? = nil, securityGroupIds: [String]? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: BackupStatus? = nil, statusDescription: String? = nil, subnetIds: [String]? = nil, toolsVersion: String? = nil, userArn: String? = nil) {
@@ -234,12 +230,11 @@ extension OpsWorksCM {
     }
 
     public struct CreateBackupRequest: AWSEncodableShape {
-
-        ///  A user-defined description of the backup. 
+        ///  A user-defined description of the backup.
         public let description: String?
-        /// The name of the server that you want to back up. 
+        /// The name of the server that you want to back up.
         public let serverName: String
-        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.  
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks-CM server backup.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for tag-supported AWS OpsWorks-CM resources.
         public let tags: [Tag]?
 
         public init(description: String? = nil, serverName: String, tags: [Tag]? = nil) {
@@ -269,7 +264,6 @@ extension OpsWorksCM {
     }
 
     public struct CreateBackupResponse: AWSDecodableShape {
-
         /// Backup created by request.
         public let backup: Backup?
 
@@ -283,48 +277,47 @@ extension OpsWorksCM {
     }
 
     public struct CreateServerRequest: AWSEncodableShape {
-
-        ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true. 
+        ///  Associate a public IP address with a server that you are launching. Valid values are true or false. The default value is true.
         public let associatePublicIpAddress: Bool?
-        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId. 
+        ///  If you specify this field, AWS OpsWorks CM creates the server by using the backup represented by BackupId.
         public let backupId: String?
-        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1. 
+        ///  The number of automated backups that you want to keep. Whenever a new backup is created, AWS OpsWorks CM deletes the oldest backups if this number is exceeded. The default value is 1.
         public let backupRetentionCount: Int?
-        /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.  
+        /// A PEM-formatted HTTPS certificate. The value can be be a single, self-signed certificate, or a certificate chain. If you specify a custom certificate, you must also specify values for CustomDomain and CustomPrivateKey. The following are requirements for the CustomCertificate value:   You can provide either a self-signed, custom certificate, or the full certificate chain.   The certificate must be a valid X509 certificate, or a certificate chain in PEM format.   The certificate must be valid at the time of upload. A certificate can't be used before its validity period begins (the certificate's NotBefore date), or after it expires (the certificate's NotAfter date).   The certificate’s common name or subject alternative names (SANs), if present, must match the value of CustomDomain.   The certificate must match the value of CustomPrivateKey.
         public let customCertificate: String?
         /// An optional public endpoint of a server, such as https://aws.my-company.com. To access the server, create a CNAME DNS record in your preferred DNS service that points the custom domain to the endpoint that is generated when the server is created (the value of the CreateServer Endpoint attribute). You cannot access the server by using the generated Endpoint value if the server is using a custom domain. If you specify a custom domain, you must also specify values for CustomCertificate and CustomPrivateKey.
         public let customDomain: String?
         /// A private key in PEM format for connecting to the server by using HTTPS. The private key must not be encrypted; it cannot be protected by a password or passphrase. If you specify a custom private key, you must also specify values for CustomDomain and CustomCertificate.
         public let customPrivateKey: String?
-        ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true. 
+        ///  Enable or disable scheduled backups. Valid values are true or false. The default value is true.
         public let disableAutomatedBackup: Bool?
-        ///  The configuration management engine to use. Valid values include ChefAutomate and Puppet. 
+        ///  The configuration management engine to use. Valid values include ChefAutomate and Puppet.
         public let engine: String
-        /// Optional engine attributes on a specified server.   Attributes accepted in a Chef createServer request:     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA public key. The corresponding private key is required to access the Chef API. When no CHEF_AUTOMATE_PIVOTAL_KEY is set, a private key is generated and returned in the response.     CHEF_AUTOMATE_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate web-based dashboard. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD is set, one is generated and returned in the response.    Attributes accepted in a Puppet createServer request:     PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a password must use ASCII characters.    PUPPET_R10K_REMOTE: The r10k remote is the URL of your control repository (for example, ssh://git@your.git-repo.com:user/control-repo.git). Specifying an r10k remote opens TCP port 8170.    PUPPET_R10K_PRIVATE_KEY: If you are using a private Git repository, add PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH key.  
+        /// Optional engine attributes on a specified server.   Attributes accepted in a Chef createServer request:     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA public key. The corresponding private key is required to access the Chef API. When no CHEF_AUTOMATE_PIVOTAL_KEY is set, a private key is generated and returned in the response.     CHEF_AUTOMATE_ADMIN_PASSWORD: The password for the administrative user in the Chef Automate web-based dashboard. The password length is a minimum of eight characters, and a maximum of 32. The password can contain letters, numbers, and special characters (!/@#$%^&amp;+=_). The password must contain at least one lower case letter, one upper case letter, one number, and one special character. When no CHEF_AUTOMATE_ADMIN_PASSWORD is set, one is generated and returned in the response.    Attributes accepted in a Puppet createServer request:     PUPPET_ADMIN_PASSWORD: To work with the Puppet Enterprise console, a password must use ASCII characters.    PUPPET_R10K_REMOTE: The r10k remote is the URL of your control repository (for example, ssh://git@your.git-repo.com:user/control-repo.git). Specifying an r10k remote opens TCP port 8170.    PUPPET_R10K_PRIVATE_KEY: If you are using a private Git repository, add PUPPET_R10K_PRIVATE_KEY to specify a PEM-encoded private SSH key.
         public let engineAttributes: [EngineAttribute]?
-        ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
+        ///  The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
         public let engineModel: String?
-        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017. 
+        ///  The major release version of the engine that you want to use. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017.
         public let engineVersion: String?
-        ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need. 
+        ///  The ARN of the instance profile that your Amazon EC2 instances use. Although the AWS OpsWorks console typically creates the instance profile for you, if you are using API commands instead, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the instance profile you need.
         public let instanceProfileArn: String
-        ///  The Amazon EC2 instance type to use. For example, m5.large. 
+        ///  The Amazon EC2 instance type to use. For example, m5.large.
         public let instanceType: String
-        ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH. 
+        ///  The Amazon EC2 key pair to set for the instance. This parameter is optional; if desired, you may specify this parameter to connect to your instances by using SSH.
         public let keyPair: String?
         ///  The start time for a one-hour period during which AWS OpsWorks CM backs up application-level data on your server if automated backups are enabled. Valid values must be specified in one of the following formats:     HH:MM for daily backups    DDD:HH:MM for weekly backups    MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random, daily start time.  Example: 08:00, which represents a daily start time of 08:00 UTC.  Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredBackupWindow: String?
-        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.) 
+        ///  The start time for a one-hour period each week during which AWS OpsWorks CM performs maintenance on the instance. Valid values must be specified in the following format: DDD:HH:MM. MM must be specified as 00. The specified time is in coordinated universal time (UTC). The default value is a random one-hour period on Tuesday, Wednesday, or Friday. See TimeWindowDefinition for more information.   Example: Mon:08:00, which represents a start time of every Monday at 08:00 UTC. (8:00 a.m.)
         public let preferredMaintenanceWindow: String?
-        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone). 
+        ///  A list of security group IDs to attach to the Amazon EC2 instance. If you add this parameter, the specified security groups must be within the VPC that is specified by SubnetIds.   If you do not specify this parameter, AWS OpsWorks CM creates one new security group that uses TCP ports 22 and 443, open to 0.0.0.0/0 (everyone).
         public let securityGroupIds: [String]?
-        ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters. 
+        ///  The name of the server. The server name must be unique within your AWS account, within each region. Server names must start with a letter; then letters, numbers, or hyphens (-) are allowed, up to a maximum of 40 characters.
         public let serverName: String
-        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need. 
+        ///  The service role that the AWS OpsWorks CM service backend uses to work with your account. Although the AWS OpsWorks management console typically creates the service role for you, if you are using the AWS CLI or API commands, run the service-role-creation.yaml AWS CloudFormation template, located at https://s3.amazonaws.com/opsworks-cm-us-east-1-prod-default-assets/misc/opsworks-cm-roles.yaml. This template creates a CloudFormation stack that includes the service role and instance profile that you need.
         public let serviceRoleArn: String
         ///  The IDs of subnets in which to launch the server EC2 instance.   Amazon EC2-Classic customers: This field is required. All servers must run within a VPC. The VPC must have "Auto Assign Public IP" enabled.   EC2-VPC customers: This field is optional. If you do not specify subnet IDs, your EC2 instances are created in a default subnet that is selected by Amazon EC2. If you specify subnet IDs, the VPC must have "Auto Assign Public IP" enabled.  For more information about supported Amazon EC2 platforms, see Supported Platforms.
         public let subnetIds: [String]?
-        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.  
+        /// A map that contains tag keys and tag values to attach to an AWS OpsWorks for Chef Automate or AWS OpsWorks for Puppet Enterprise server.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / @    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server.
         public let tags: [Tag]?
 
         public init(associatePublicIpAddress: Bool? = nil, backupId: String? = nil, backupRetentionCount: Int? = nil, customCertificate: String? = nil, customDomain: String? = nil, customPrivateKey: String? = nil, disableAutomatedBackup: Bool? = nil, engine: String, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String, instanceType: String, keyPair: String? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverName: String, serviceRoleArn: String, subnetIds: [String]? = nil, tags: [Tag]? = nil) {
@@ -355,7 +348,7 @@ extension OpsWorksCM {
             try self.validate(self.backupId, name: "backupId", parent: name, max: 79)
             try self.validate(self.backupId, name: "backupId", parent: name, pattern: "[a-zA-Z][a-zA-Z0-9\\-\\.\\:]*")
             try self.validate(self.backupRetentionCount, name: "backupRetentionCount", parent: name, min: 1)
-            try self.validate(self.customCertificate, name: "customCertificate", parent: name, max: 2097152)
+            try self.validate(self.customCertificate, name: "customCertificate", parent: name, max: 2_097_152)
             try self.validate(self.customCertificate, name: "customCertificate", parent: name, pattern: "(?s)\\s*-----BEGIN CERTIFICATE-----.+-----END CERTIFICATE-----\\s*")
             try self.validate(self.customDomain, name: "customDomain", parent: name, max: 253)
             try self.validate(self.customDomain, name: "customDomain", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])$")
@@ -426,8 +419,7 @@ extension OpsWorksCM {
     }
 
     public struct CreateServerResponse: AWSDecodableShape {
-
-        /// The server that is created by the request. 
+        /// The server that is created by the request.
         public let server: Server?
 
         public init(server: Server? = nil) {
@@ -440,8 +432,7 @@ extension OpsWorksCM {
     }
 
     public struct DeleteBackupRequest: AWSEncodableShape {
-
-        /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS. 
+        /// The ID of the backup to delete. Run the DescribeBackups command to get a list of backup IDs. Backup IDs are in the format ServerName-yyyyMMddHHmmssSSS.
         public let backupId: String
 
         public init(backupId: String) {
@@ -459,15 +450,10 @@ extension OpsWorksCM {
     }
 
     public struct DeleteBackupResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteServerRequest: AWSEncodableShape {
-
         /// The ID of the server to delete.
         public let serverName: String
 
@@ -487,24 +473,15 @@ extension OpsWorksCM {
     }
 
     public struct DeleteServerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeAccountAttributesRequest: AWSEncodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeAccountAttributesResponse: AWSDecodableShape {
-
-        ///  The attributes that are currently set for the account. 
+        ///  The attributes that are currently set for the account.
         public let attributes: [AccountAttribute]?
 
         public init(attributes: [AccountAttribute]? = nil) {
@@ -517,14 +494,13 @@ extension OpsWorksCM {
     }
 
     public struct DescribeBackupsRequest: AWSEncodableShape {
-
-        /// Describes a single backup. 
+        /// Describes a single backup.
         public let backupId: String?
         /// This is not currently implemented for DescribeBackups requests.
         public let maxResults: Int?
         /// This is not currently implemented for DescribeBackups requests.
         public let nextToken: String?
-        /// Returns backups for the server with the specified ServerName. 
+        /// Returns backups for the server with the specified ServerName.
         public let serverName: String?
 
         public init(backupId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serverName: String? = nil) {
@@ -554,8 +530,7 @@ extension OpsWorksCM {
     }
 
     public struct DescribeBackupsResponse: AWSDecodableShape {
-
-        /// Contains the response to a DescribeBackups request. 
+        /// Contains the response to a DescribeBackups request.
         public let backups: [Backup]?
         /// This is not currently implemented for DescribeBackups requests.
         public let nextToken: String?
@@ -572,10 +547,9 @@ extension OpsWorksCM {
     }
 
     public struct DescribeEventsRequest: AWSEncodableShape {
-
-        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. 
+        /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
-        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
+        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
         public let nextToken: String?
         /// The name of the server for which you want to view events.
         public let serverName: String
@@ -603,10 +577,9 @@ extension OpsWorksCM {
     }
 
     public struct DescribeEventsResponse: AWSDecodableShape {
-
-        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur. 
+        /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call DescribeEvents again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
         public let nextToken: String?
-        /// Contains the response to a DescribeEvents request. 
+        /// Contains the response to a DescribeEvents request.
         public let serverEvents: [ServerEvent]?
 
         public init(nextToken: String? = nil, serverEvents: [ServerEvent]? = nil) {
@@ -621,10 +594,9 @@ extension OpsWorksCM {
     }
 
     public struct DescribeNodeAssociationStatusRequest: AWSEncodableShape {
-
-        /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse. 
+        /// The token returned in either the AssociateNodeResponse or the DisassociateNodeResponse.
         public let nodeAssociationStatusToken: String
-        /// The name of the server from which to disassociate the node. 
+        /// The name of the server from which to disassociate the node.
         public let serverName: String
 
         public init(nodeAssociationStatusToken: String, serverName: String) {
@@ -647,10 +619,9 @@ extension OpsWorksCM {
     }
 
     public struct DescribeNodeAssociationStatusResponse: AWSDecodableShape {
-
-        /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR). 
+        /// Attributes specific to the node association. In Puppet, the attibute PUPPET_NODE_CERT contains the signed certificate (the result of the CSR).
         public let engineAttributes: [EngineAttribute]?
-        /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.   
+        /// The status of the association or disassociation request.   Possible values:     SUCCESS: The association or disassociation succeeded.     FAILED: The association or disassociation failed.     IN_PROGRESS: The association or disassociation is still in progress.
         public let nodeAssociationStatus: NodeAssociationStatus?
 
         public init(engineAttributes: [EngineAttribute]? = nil, nodeAssociationStatus: NodeAssociationStatus? = nil) {
@@ -665,10 +636,9 @@ extension OpsWorksCM {
     }
 
     public struct DescribeServersRequest: AWSEncodableShape {
-
-        /// This is not currently implemented for DescribeServers requests. 
+        /// This is not currently implemented for DescribeServers requests.
         public let maxResults: Int?
-        /// This is not currently implemented for DescribeServers requests. 
+        /// This is not currently implemented for DescribeServers requests.
         public let nextToken: String?
         /// Describes the server with the specified ServerName.
         public let serverName: String?
@@ -696,8 +666,7 @@ extension OpsWorksCM {
     }
 
     public struct DescribeServersResponse: AWSDecodableShape {
-
-        /// This is not currently implemented for DescribeServers requests. 
+        /// This is not currently implemented for DescribeServers requests.
         public let nextToken: String?
         /// Contains the response to a DescribeServers request.  For Chef Automate servers: If DescribeServersResponse$Servers$EngineAttributes includes CHEF_MAJOR_UPGRADE_AVAILABLE, you can upgrade the Chef Automate server to Chef Automate 2. To be eligible for upgrade, a server running Chef Automate 1 must have had at least one successful maintenance run after November 1, 2019.  For Puppet Server: DescribeServersResponse$Servers$EngineAttributes contains PUPPET_API_CA_CERT. This is the PEM-encoded CA certificate that is used by the Puppet API over TCP port number 8140. The CA certificate is also used to sign node certificates.
         public let servers: [Server]?
@@ -714,12 +683,11 @@ extension OpsWorksCM {
     }
 
     public struct DisassociateNodeRequest: AWSEncodableShape {
-
-        /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.   
+        /// Engine attributes that are used for disassociating the node. No attributes are required for Puppet.   Attributes required in a DisassociateNode request for Chef     CHEF_ORGANIZATION: The Chef organization with which the node was associated. By default only one organization named default can exist.
         public let engineAttributes: [EngineAttribute]?
-        /// The name of the client node. 
+        /// The name of the client node.
         public let nodeName: String
-        /// The name of the server from which to disassociate the node. 
+        /// The name of the server from which to disassociate the node.
         public let serverName: String
 
         public init(engineAttributes: [EngineAttribute]? = nil, nodeName: String, serverName: String) {
@@ -747,8 +715,7 @@ extension OpsWorksCM {
     }
 
     public struct DisassociateNodeResponse: AWSDecodableShape {
-
-        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request. 
+        /// Contains a token which can be passed to the DescribeNodeAssociationStatus API call to get the status of the disassociation request.
         public let nodeAssociationStatusToken: String?
 
         public init(nodeAssociationStatusToken: String? = nil) {
@@ -761,10 +728,9 @@ extension OpsWorksCM {
     }
 
     public struct EngineAttribute: AWSEncodableShape & AWSDecodableShape {
-
-        /// The name of the engine attribute. 
+        /// The name of the engine attribute.
         public let name: String?
-        /// The value of the engine attribute. 
+        /// The value of the engine attribute.
         public let value: String?
 
         public init(name: String? = nil, value: String? = nil) {
@@ -786,10 +752,9 @@ extension OpsWorksCM {
     }
 
     public struct ExportServerEngineAttributeRequest: AWSEncodableShape {
-
         /// The name of the export attribute. Currently, the supported export attribute is Userdata. This exports a user data script that includes parameters and values provided in the InputAttributes list.
         public let exportAttributeName: String
-        /// The list of engine attributes. The list type is EngineAttribute. An EngineAttribute list item is a pair that includes an attribute name and its value. For the Userdata ExportAttributeName, the following are supported engine attribute names.    RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet, this parameter is ignored.    OrganizationName In Chef, an organization name. AWS OpsWorks for Chef Automate always creates the organization default. In Puppet, this parameter is ignored.    NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box). In Puppet, this parameter is ignored.    NodeClientVersion In Chef, the version of the Chef engine (three numbers separated by dots, such as 13.8.5). If this attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet, this parameter is ignored.  
+        /// The list of engine attributes. The list type is EngineAttribute. An EngineAttribute list item is a pair that includes an attribute name and its value. For the Userdata ExportAttributeName, the following are supported engine attribute names.    RunList In Chef, a list of roles or recipes that are run in the specified order. In Puppet, this parameter is ignored.    OrganizationName In Chef, an organization name. AWS OpsWorks for Chef Automate always creates the organization default. In Puppet, this parameter is ignored.    NodeEnvironment In Chef, a node environment (for example, development, staging, or one-box). In Puppet, this parameter is ignored.    NodeClientVersion In Chef, the version of the Chef engine (three numbers separated by dots, such as 13.8.5). If this attribute is empty, OpsWorks for Chef Automate uses the most current version. In Puppet, this parameter is ignored.
         public let inputAttributes: [EngineAttribute]?
         /// The name of the server from which you are exporting the attribute.
         public let serverName: String
@@ -819,7 +784,6 @@ extension OpsWorksCM {
     }
 
     public struct ExportServerEngineAttributeResponse: AWSDecodableShape {
-
         /// The requested engine attribute pair with attribute name and value.
         public let engineAttribute: EngineAttribute?
         /// The server name used in the request.
@@ -837,7 +801,6 @@ extension OpsWorksCM {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-
         /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
         public let maxResults: Int?
         /// NextToken is a string that is returned in some command responses. It indicates that not all entries have been returned, and that you must run at least one more request to get remaining items. To get remaining results, call ListTagsForResource again, and assign the token from the previous results as the value of the nextToken parameter. If there are no more results, the response object's nextToken parameter value is null. Setting a nextToken value that was not returned in your previous results causes an InvalidNextTokenException to occur.
@@ -866,7 +829,6 @@ extension OpsWorksCM {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-
         /// A token that you can use as the value of NextToken in subsequent calls to the API to show more results.
         public let nextToken: String?
         /// Tags that have been applied to the resource.
@@ -884,14 +846,13 @@ extension OpsWorksCM {
     }
 
     public struct RestoreServerRequest: AWSEncodableShape {
-
-        ///  The ID of the backup that you want to use to restore a server. 
+        ///  The ID of the backup that you want to use to restore a server.
         public let backupId: String
-        ///  The type of instance to restore. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large, r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup. 
+        ///  The type of instance to restore. Valid values must be specified in the following format: ^([cm][34]|t2).* For example, m5.large. Valid values are m5.large, r5.xlarge, and r5.2xlarge. If you do not specify this parameter, RestoreServer uses the instance type from the specified backup.
         public let instanceType: String?
-        ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key. 
+        ///  The name of the key pair to set on the new EC2 instance. This can be helpful if the administrator no longer has the SSH key.
         public let keyPair: String?
-        ///  The name of the server that you want to restore. 
+        ///  The name of the server that you want to restore.
         public let serverName: String
 
         public init(backupId: String, instanceType: String? = nil, keyPair: String? = nil, serverName: String) {
@@ -922,62 +883,57 @@ extension OpsWorksCM {
     }
 
     public struct RestoreServerResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct Server: AWSDecodableShape {
-
-        /// Associate a public IP address with a server that you are launching. 
+        /// Associate a public IP address with a server that you are launching.
         public let associatePublicIpAddress: Bool?
-        /// The number of automated backups to keep. 
+        /// The number of automated backups to keep.
         public let backupRetentionCount: Int?
-        /// The ARN of the CloudFormation stack that was used to create the server. 
+        /// The ARN of the CloudFormation stack that was used to create the server.
         public let cloudFormationStackArn: String?
-        /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z 
+        /// Time stamp of server creation. Example 2016-07-29T13:38:47.520Z
         public let createdAt: Date?
         /// An optional public endpoint of a server, such as https://aws.my-company.com. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified.
         public let customDomain: String?
-        /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount. 
+        /// Disables automated backups. The number of stored backups is dependent on the value of PreferredBackupCount.
         public let disableAutomatedBackup: Bool?
-        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified. 
+        ///  A DNS name that can be used to access the engine. Example: myserver-asdfghjkl.us-east-1.opsworks.io. You cannot access the server by using the Endpoint value if the server has a CustomDomain specified.
         public let endpoint: String?
-        /// The engine type of the server. Valid values in this release include ChefAutomate and Puppet. 
+        /// The engine type of the server. Valid values in this release include ChefAutomate and Puppet.
         public let engine: String?
-        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.  
+        /// The response of a createServer() request returns the master credential to access the server in EngineAttributes. These credentials are not stored by AWS OpsWorks CM; they are returned only as part of the result of createServer().   Attributes returned in a createServer response for Chef     CHEF_AUTOMATE_PIVOTAL_KEY: A base64-encoded RSA private key that is generated by AWS OpsWorks for Chef Automate. This private key is required to access the Chef API.    CHEF_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Chef starter kit, which includes a README, a configuration file, and the required RSA private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents. From this directory, you can run Knife commands.    Attributes returned in a createServer response for Puppet     PUPPET_STARTER_KIT: A base64-encoded ZIP file. The ZIP file contains a Puppet starter kit, including a README and a required private key. Save this file, unzip it, and then change to the directory where you've unzipped the file contents.    PUPPET_ADMIN_PASSWORD: An administrator password that you can use to sign in to the Puppet Enterprise console after the server is online.
         public let engineAttributes: [EngineAttribute]?
-        /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef. 
+        /// The engine model of the server. Valid values in this release include Monolithic for Puppet and Single for Chef.
         public let engineModel: String?
-        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017. 
+        /// The engine version of the server. For a Chef server, the valid value for EngineVersion is currently 2. For a Puppet server, the valid value is 2017.
         public let engineVersion: String?
-        /// The instance profile ARN of the server. 
+        /// The instance profile ARN of the server.
         public let instanceProfileArn: String?
-        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console. 
+        ///  The instance type for the server, as specified in the CloudFormation stack. This might not be the same instance type that is shown in the EC2 console.
         public let instanceType: String?
-        /// The key pair associated with the server. 
+        /// The key pair associated with the server.
         public let keyPair: String?
-        /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED. 
+        /// The status of the most recent server maintenance run. Shows SUCCESS or FAILED.
         public let maintenanceStatus: MaintenanceStatus?
-        /// The preferred backup period specified for the server. 
+        /// The preferred backup period specified for the server.
         public let preferredBackupWindow: String?
-        /// The preferred maintenance period specified for the server. 
+        /// The preferred maintenance period specified for the server.
         public let preferredMaintenanceWindow: String?
-        ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console. 
+        ///  The security group IDs for the server, as specified in the CloudFormation stack. These might not be the same security groups that are shown in the EC2 console.
         public let securityGroupIds: [String]?
-        /// The ARN of the server. 
+        /// The ARN of the server.
         public let serverArn: String?
-        /// The name of the server. 
+        /// The name of the server.
         public let serverName: String?
-        /// The service role ARN used to create the server. 
+        /// The service role ARN used to create the server.
         public let serviceRoleArn: String?
-        ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state. 
+        ///  The server's status. This field displays the states of actions in progress, such as creating, running, or backing up the server, as well as the server's health state.
         public let status: ServerStatus?
-        ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results). 
+        ///  Depending on the server status, this field has either a human-readable message (such as a create or backup error), or an escaped block of JSON (used for health check results).
         public let statusReason: String?
-        ///  The subnet IDs specified in a CreateServer request. 
+        ///  The subnet IDs specified in a CreateServer request.
         public let subnetIds: [String]?
 
         public init(associatePublicIpAddress: Bool? = nil, backupRetentionCount: Int? = nil, cloudFormationStackArn: String? = nil, createdAt: Date? = nil, customDomain: String? = nil, disableAutomatedBackup: Bool? = nil, endpoint: String? = nil, engine: String? = nil, engineAttributes: [EngineAttribute]? = nil, engineModel: String? = nil, engineVersion: String? = nil, instanceProfileArn: String? = nil, instanceType: String? = nil, keyPair: String? = nil, maintenanceStatus: MaintenanceStatus? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, securityGroupIds: [String]? = nil, serverArn: String? = nil, serverName: String? = nil, serviceRoleArn: String? = nil, status: ServerStatus? = nil, statusReason: String? = nil, subnetIds: [String]? = nil) {
@@ -1036,14 +992,13 @@ extension OpsWorksCM {
     }
 
     public struct ServerEvent: AWSDecodableShape {
-
-        /// The time when the event occurred. 
+        /// The time when the event occurred.
         public let createdAt: Date?
         /// The Amazon S3 URL of the event's log file.
         public let logUrl: String?
         /// A human-readable informational or status message.
         public let message: String?
-        /// The name of the server on or for which the event occurred. 
+        /// The name of the server on or for which the event occurred.
         public let serverName: String?
 
         public init(createdAt: Date? = nil, logUrl: String? = nil, message: String? = nil, serverName: String? = nil) {
@@ -1062,10 +1017,9 @@ extension OpsWorksCM {
     }
 
     public struct StartMaintenanceRequest: AWSEncodableShape {
-
-        /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.   
+        /// Engine attributes that are specific to the server on which you want to run maintenance.  Attributes accepted in a StartMaintenance request for Chef     CHEF_MAJOR_UPGRADE: If a Chef Automate server is eligible for upgrade to Chef Automate 2, add this engine attribute to a StartMaintenance request and set the value to true to upgrade the server to Chef Automate 2. For more information, see Upgrade an AWS OpsWorks for Chef Automate Server to Chef Automate 2.
         public let engineAttributes: [EngineAttribute]?
-        /// The name of the server on which to run maintenance. 
+        /// The name of the server on which to run maintenance.
         public let serverName: String
 
         public init(engineAttributes: [EngineAttribute]? = nil, serverName: String) {
@@ -1089,8 +1043,7 @@ extension OpsWorksCM {
     }
 
     public struct StartMaintenanceResponse: AWSDecodableShape {
-
-        /// Contains the response to a StartMaintenance request. 
+        /// Contains the response to a StartMaintenance request.
         public let server: Server?
 
         public init(server: Server? = nil) {
@@ -1103,10 +1056,9 @@ extension OpsWorksCM {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-
-        /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        /// A tag key, such as Stage or Name. A tag key cannot be empty. The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         public let key: String
-        /// An optional tag value, such as Production or test-owcm-server. The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : / 
+        /// An optional tag value, such as Production or test-owcm-server. The value can be a maximum of 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /
         public let value: String
 
         public init(key: String, value: String) {
@@ -1130,10 +1082,9 @@ extension OpsWorksCM {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Number (ARN) of a resource to which you want to apply tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
-        /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.  
+        /// A map that contains tag keys and tag values to attach to AWS OpsWorks-CM servers or backups.   The key cannot be empty.   The key can be a maximum of 127 characters, and can contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    The value can be a maximum 255 characters, and contain only Unicode letters, numbers, or separators, or the following special characters: + - = . _ : /    Leading and trailing white spaces are trimmed from both the key and value.   A maximum of 50 user-applied tags is allowed for any AWS OpsWorks-CM server or backup.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -1157,15 +1108,10 @@ extension OpsWorksCM {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-
         /// The Amazon Resource Number (ARN) of a resource from which you want to remove tags. For example, arn:aws:opsworks-cm:us-west-2:123456789012:server/test-owcm-server/EXAMPLE-66b0-4196-8274-d1a2bEXAMPLE.
         public let resourceArn: String
         /// The keys of tags that you want to remove.
@@ -1194,20 +1140,15 @@ extension OpsWorksCM {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct UpdateServerEngineAttributesRequest: AWSEncodableShape {
-
-        /// The name of the engine attribute to update. 
+        /// The name of the engine attribute to update.
         public let attributeName: String
-        /// The value to set for the attribute. 
+        /// The value to set for the attribute.
         public let attributeValue: String?
-        /// The name of the server to update. 
+        /// The name of the server to update.
         public let serverName: String
 
         public init(attributeName: String, attributeValue: String? = nil, serverName: String) {
@@ -1235,8 +1176,7 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerEngineAttributesResponse: AWSDecodableShape {
-
-        /// Contains the response to an UpdateServerEngineAttributes request. 
+        /// Contains the response to an UpdateServerEngineAttributes request.
         public let server: Server?
 
         public init(server: Server? = nil) {
@@ -1249,14 +1189,13 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerRequest: AWSEncodableShape {
-
-        /// Sets the number of automated backups that you want to keep. 
+        /// Sets the number of automated backups that you want to keep.
         public let backupRetentionCount: Int?
-        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default. 
+        /// Setting DisableAutomatedBackup to true disables automated or scheduled backups. Automated backups are enabled by default.
         public let disableAutomatedBackup: Bool?
         public let preferredBackupWindow: String?
         public let preferredMaintenanceWindow: String?
-        /// The name of the server to update. 
+        /// The name of the server to update.
         public let serverName: String
 
         public init(backupRetentionCount: Int? = nil, disableAutomatedBackup: Bool? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, serverName: String) {
@@ -1287,8 +1226,7 @@ extension OpsWorksCM {
     }
 
     public struct UpdateServerResponse: AWSDecodableShape {
-
-        /// Contains the response to a UpdateServer request. 
+        /// Contains the response to a UpdateServer request.
         public let server: Server?
 
         public init(server: Server? = nil) {

@@ -23,7 +23,6 @@ extension SSOOIDC {
     // MARK: Shapes
 
     public struct CreateTokenRequest: AWSEncodableShape {
-
         /// The unique identifier string for each client. This value should come from the persisted result of the RegisterClient API.
         public let clientId: String
         /// A secret string generated for the client. This value should come from the persisted result of the RegisterClient API.
@@ -53,19 +52,18 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId = "clientId"
-            case clientSecret = "clientSecret"
-            case code = "code"
-            case deviceCode = "deviceCode"
-            case grantType = "grantType"
-            case redirectUri = "redirectUri"
-            case refreshToken = "refreshToken"
-            case scope = "scope"
+            case clientId
+            case clientSecret
+            case code
+            case deviceCode
+            case grantType
+            case redirectUri
+            case refreshToken
+            case scope
         }
     }
 
     public struct CreateTokenResponse: AWSDecodableShape {
-
         /// An opaque token to access AWS SSO resources assigned to a user.
         public let accessToken: String?
         /// Indicates the time in seconds when an access token will expire.
@@ -86,16 +84,15 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessToken = "accessToken"
-            case expiresIn = "expiresIn"
-            case idToken = "idToken"
-            case refreshToken = "refreshToken"
-            case tokenType = "tokenType"
+            case accessToken
+            case expiresIn
+            case idToken
+            case refreshToken
+            case tokenType
         }
     }
 
     public struct RegisterClientRequest: AWSEncodableShape {
-
         /// The friendly name of the client.
         public let clientName: String
         /// The type of client. The service supports only public as a client type. Anything other than public will be rejected by the service.
@@ -110,14 +107,13 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientName = "clientName"
-            case clientType = "clientType"
-            case scopes = "scopes"
+            case clientName
+            case clientType
+            case scopes
         }
     }
 
     public struct RegisterClientResponse: AWSDecodableShape {
-
         /// The endpoint where the client can request authorization.
         public let authorizationEndpoint: String?
         /// The unique identifier string for each client. This client uses this identifier to get authenticated by the service in subsequent calls.
@@ -141,17 +137,16 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationEndpoint = "authorizationEndpoint"
-            case clientId = "clientId"
-            case clientIdIssuedAt = "clientIdIssuedAt"
-            case clientSecret = "clientSecret"
-            case clientSecretExpiresAt = "clientSecretExpiresAt"
-            case tokenEndpoint = "tokenEndpoint"
+            case authorizationEndpoint
+            case clientId
+            case clientIdIssuedAt
+            case clientSecret
+            case clientSecretExpiresAt
+            case tokenEndpoint
         }
     }
 
     public struct StartDeviceAuthorizationRequest: AWSEncodableShape {
-
         /// The unique identifier string for the client that is registered with AWS SSO. This value should come from the persisted result of the RegisterClient API operation.
         public let clientId: String
         /// A secret string that is generated for the client. This value should come from the persisted result of the RegisterClient API operation.
@@ -166,14 +161,13 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientId = "clientId"
-            case clientSecret = "clientSecret"
-            case startUrl = "startUrl"
+            case clientId
+            case clientSecret
+            case startUrl
         }
     }
 
     public struct StartDeviceAuthorizationResponse: AWSDecodableShape {
-
         /// The short-lived code that is used by the device when polling for a session token.
         public let deviceCode: String?
         /// Indicates the number of seconds in which the verification code will become invalid.
@@ -197,12 +191,12 @@ extension SSOOIDC {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deviceCode = "deviceCode"
-            case expiresIn = "expiresIn"
-            case interval = "interval"
-            case userCode = "userCode"
-            case verificationUri = "verificationUri"
-            case verificationUriComplete = "verificationUriComplete"
+            case deviceCode
+            case expiresIn
+            case interval
+            case userCode
+            case verificationUri
+            case verificationUriComplete
         }
     }
 }

@@ -56,7 +56,7 @@ extension WorkMailMessageFlow {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case messageContent = "messageContent"
+            case messageContent
         }
     }
 }

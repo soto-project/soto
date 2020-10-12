@@ -24,7 +24,7 @@ extension IoTDataPlane {
 
     public struct DeleteThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -63,13 +63,13 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+            case payload
         }
     }
 
     public struct GetThingShadowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -108,14 +108,14 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+            case payload
         }
     }
 
     public struct ListNamedShadowsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
-            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "pageSize", location: .querystring(locationName: "pageSize")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -144,7 +144,6 @@ extension IoTDataPlane {
     }
 
     public struct ListNamedShadowsForThingResponse: AWSDecodableShape {
-
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// The list of shadows for the specified thing.
@@ -159,9 +158,9 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken = "nextToken"
-            case results = "results"
-            case timestamp = "timestamp"
+            case nextToken
+            case results
+            case timestamp
         }
     }
 
@@ -170,7 +169,7 @@ extension IoTDataPlane {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")), 
+            AWSMemberEncoding(label: "qos", location: .querystring(locationName: "qos")),
             AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
         ]
 
@@ -200,7 +199,7 @@ extension IoTDataPlane {
         public static let _payloadPath: String = "payload"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "shadowName", location: .querystring(locationName: "name")),
             AWSMemberEncoding(label: "thingName", location: .uri(locationName: "thingName"))
         ]
 
@@ -242,7 +241,7 @@ extension IoTDataPlane {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case payload = "payload"
+            case payload
         }
     }
 }

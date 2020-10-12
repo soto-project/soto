@@ -84,7 +84,7 @@ extension Rekognition {
     public enum LandmarkType: String, CustomStringConvertible, Codable {
         case eyeleft = "eyeLeft"
         case eyeright = "eyeRight"
-        case nose = "nose"
+        case nose
         case mouthleft = "mouthLeft"
         case mouthright = "mouthRight"
         case lefteyebrowleft = "leftEyeBrowLeft"
@@ -207,7 +207,6 @@ extension Rekognition {
     // MARK: Shapes
 
     public struct AgeRange: AWSDecodableShape {
-
         /// The highest estimated age.
         public let high: Int?
         /// The lowest estimated age.
@@ -225,7 +224,6 @@ extension Rekognition {
     }
 
     public struct Asset: AWSEncodableShape & AWSDecodableShape {
-
         public let groundTruthManifest: GroundTruthManifest?
 
         public init(groundTruthManifest: GroundTruthManifest? = nil) {
@@ -242,8 +240,7 @@ extension Rekognition {
     }
 
     public struct AudioMetadata: AWSDecodableShape {
-
-        /// The audio codec used to encode or decode the audio stream. 
+        /// The audio codec used to encode or decode the audio stream.
         public let codec: String?
         /// The duration of the audio stream in milliseconds.
         public let durationMillis: Int64?
@@ -268,7 +265,6 @@ extension Rekognition {
     }
 
     public struct Beard: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face has beard or not.
@@ -286,7 +282,6 @@ extension Rekognition {
     }
 
     public struct BoundingBox: AWSEncodableShape & AWSDecodableShape {
-
         /// Height of the bounding box as a ratio of the overall image height.
         public let height: Float?
         /// Left coordinate of the bounding box as a ratio of overall image width.
@@ -312,10 +307,9 @@ extension Rekognition {
     }
 
     public struct Celebrity: AWSDecodableShape {
-
         /// Provides information about the celebrity's face, such as its location on the image.
         public let face: ComparedFace?
-        /// A unique identifier for the celebrity. 
+        /// A unique identifier for the celebrity.
         public let id: String?
         /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity.
         public let matchConfidence: Float?
@@ -342,18 +336,17 @@ extension Rekognition {
     }
 
     public struct CelebrityDetail: AWSDecodableShape {
-
         /// Bounding box around the body of a celebrity.
         public let boundingBox: BoundingBox?
-        /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity. 
+        /// The confidence, in percentage, that Amazon Rekognition has that the recognized face is the celebrity.
         public let confidence: Float?
         /// Face details for the recognized celebrity.
         public let face: FaceDetail?
-        /// The unique identifier for the celebrity. 
+        /// The unique identifier for the celebrity.
         public let id: String?
         /// The name of the celebrity.
         public let name: String?
-        /// An array of URLs pointing to additional celebrity information. 
+        /// An array of URLs pointing to additional celebrity information.
         public let urls: [String]?
 
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, face: FaceDetail? = nil, id: String? = nil, name: String? = nil, urls: [String]? = nil) {
@@ -376,7 +369,6 @@ extension Rekognition {
     }
 
     public struct CelebrityRecognition: AWSDecodableShape {
-
         /// Information about a recognized celebrity.
         public let celebrity: CelebrityDetail?
         /// The time, in milliseconds from the start of the video, that the celebrity was recognized.
@@ -394,7 +386,6 @@ extension Rekognition {
     }
 
     public struct CompareFacesMatch: AWSDecodableShape {
-
         /// Provides face metadata (bounding box and confidence that the bounding box actually contains a face).
         public let face: ComparedFace?
         /// Level of confidence that the faces match.
@@ -412,7 +403,6 @@ extension Rekognition {
     }
 
     public struct CompareFacesRequest: AWSEncodableShape {
-
         /// A filter that specifies a quality bar for how much filtering is done to identify faces. Filtered faces aren't compared. If you specify AUTO, Amazon Rekognition chooses the quality bar. If you specify LOW, MEDIUM, or HIGH, filtering removes all faces that don’t meet the chosen quality bar. The quality bar is based on a variety of common use cases. Low-quality detections can occur for a number of reasons. Some examples are an object that's misidentified as a face, a face that's too blurry, or a face with a pose that's too extreme to use. If you specify NONE, no filtering is performed. The default value is NONE.  To use quality filtering, the collection you are using must be associated with version 3 of the face model or higher.
         public let qualityFilter: QualityFilter?
         /// The minimum level of confidence in the face matches that a match must meet to be included in the FaceMatches array.
@@ -445,14 +435,13 @@ extension Rekognition {
     }
 
     public struct CompareFacesResponse: AWSDecodableShape {
-
         /// An array of faces in the target image that match the source image face. Each CompareFacesMatch object provides the bounding box, the confidence level that the bounding box contains a face, and the similarity score for the face in the bounding box and the face in the source image.
         public let faceMatches: [CompareFacesMatch]?
         /// The face in the source image that was used for comparison.
         public let sourceImageFace: ComparedSourceImageFace?
-        /// The value of SourceImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
+        /// The value of SourceImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let sourceImageOrientationCorrection: OrientationCorrection?
-        /// The value of TargetImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
+        /// The value of TargetImageOrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let targetImageOrientationCorrection: OrientationCorrection?
         /// An array of faces in the target image that did not match the source image face.
         public let unmatchedFaces: [ComparedFace]?
@@ -475,7 +464,6 @@ extension Rekognition {
     }
 
     public struct ComparedFace: AWSDecodableShape {
-
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Level of confidence that what the bounding box contains is a face.
@@ -484,7 +472,7 @@ extension Rekognition {
         public let landmarks: [Landmark]?
         /// Indicates the pose of the face as determined by its pitch, roll, and yaw.
         public let pose: Pose?
-        /// Identifies face image brightness and sharpness. 
+        /// Identifies face image brightness and sharpness.
         public let quality: ImageQuality?
 
         public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, landmarks: [Landmark]? = nil, pose: Pose? = nil, quality: ImageQuality? = nil) {
@@ -505,7 +493,6 @@ extension Rekognition {
     }
 
     public struct ComparedSourceImageFace: AWSDecodableShape {
-
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Confidence level that the selected bounding box contains a face.
@@ -523,7 +510,6 @@ extension Rekognition {
     }
 
     public struct ContentModerationDetection: AWSDecodableShape {
-
         /// The unsafe content label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
         /// Time, in milliseconds from the beginning of the video, that the unsafe content label was detected.
@@ -541,7 +527,6 @@ extension Rekognition {
     }
 
     public struct CreateCollectionRequest: AWSEncodableShape {
-
         /// ID for the collection that you are creating.
         public let collectionId: String
 
@@ -561,8 +546,7 @@ extension Rekognition {
     }
 
     public struct CreateCollectionResponse: AWSDecodableShape {
-
-        /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources. 
+        /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources.
         public let collectionArn: String?
         /// Version number of the face detection model associated with the collection you are creating.
         public let faceModelVersion: String?
@@ -583,7 +567,6 @@ extension Rekognition {
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
-
         /// The name of the project to create.
         public let projectName: String
 
@@ -603,8 +586,7 @@ extension Rekognition {
     }
 
     public struct CreateProjectResponse: AWSDecodableShape {
-
-        /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to configure IAM access to the project. 
+        /// The Amazon Resource Name (ARN) of the new project. You can use the ARN to configure IAM access to the project.
         public let projectArn: String?
 
         public init(projectArn: String? = nil) {
@@ -617,14 +599,13 @@ extension Rekognition {
     }
 
     public struct CreateProjectVersionRequest: AWSEncodableShape {
-
         /// The Amazon S3 location to store the results of training.
         public let outputConfig: OutputConfig
         /// The ARN of the Amazon Rekognition Custom Labels project that manages the model that you want to train.
         public let projectArn: String
         /// The dataset to use for testing.
         public let testingData: TestingData
-        /// The dataset to use for training. 
+        /// The dataset to use for training.
         public let trainingData: TrainingData
         /// A name for the version of the model. This value must be unique.
         public let versionName: String
@@ -659,7 +640,6 @@ extension Rekognition {
     }
 
     public struct CreateProjectVersionResponse: AWSDecodableShape {
-
         /// The ARN of the model version that was created. Use DescribeProjectVersion to get the current status of the training operation.
         public let projectVersionArn: String?
 
@@ -673,10 +653,9 @@ extension Rekognition {
     }
 
     public struct CreateStreamProcessorRequest: AWSEncodableShape {
-
         /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
         public let input: StreamProcessorInput
-        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent. 
+        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent.
         public let name: String
         /// Kinesis data stream stream to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
         public let output: StreamProcessorOutput
@@ -713,7 +692,6 @@ extension Rekognition {
     }
 
     public struct CreateStreamProcessorResponse: AWSDecodableShape {
-
         /// ARN for the newly create stream processor.
         public let streamProcessorArn: String?
 
@@ -727,7 +705,6 @@ extension Rekognition {
     }
 
     public struct CustomLabel: AWSDecodableShape {
-
         /// The confidence that the model has in the detection of the custom label. The range is 0-100. A higher value indicates a higher confidence.
         public let confidence: Float?
         /// The location of the detected object on the image that corresponds to the custom label. Includes an axis aligned coarse bounding box surrounding the object and a finer grain polygon for more accurate spatial information.
@@ -749,7 +726,6 @@ extension Rekognition {
     }
 
     public struct DeleteCollectionRequest: AWSEncodableShape {
-
         /// ID of the collection to delete.
         public let collectionId: String
 
@@ -769,7 +745,6 @@ extension Rekognition {
     }
 
     public struct DeleteCollectionResponse: AWSDecodableShape {
-
         /// HTTP status code that indicates the result of the operation.
         public let statusCode: Int?
 
@@ -783,7 +758,6 @@ extension Rekognition {
     }
 
     public struct DeleteFacesRequest: AWSEncodableShape {
-
         /// Collection from which to remove the specific faces.
         public let collectionId: String
         /// An array of face IDs to delete.
@@ -812,7 +786,6 @@ extension Rekognition {
     }
 
     public struct DeleteFacesResponse: AWSDecodableShape {
-
         /// An array of strings (face IDs) of the faces that were deleted.
         public let deletedFaces: [String]?
 
@@ -826,7 +799,6 @@ extension Rekognition {
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the project that you want to delete.
         public let projectArn: String
 
@@ -846,7 +818,6 @@ extension Rekognition {
     }
 
     public struct DeleteProjectResponse: AWSDecodableShape {
-
         /// The current status of the delete project operation.
         public let status: ProjectStatus?
 
@@ -860,7 +831,6 @@ extension Rekognition {
     }
 
     public struct DeleteProjectVersionRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the model version that you want to delete.
         public let projectVersionArn: String
 
@@ -880,7 +850,6 @@ extension Rekognition {
     }
 
     public struct DeleteProjectVersionResponse: AWSDecodableShape {
-
         /// The status of the deletion operation.
         public let status: ProjectVersionStatus?
 
@@ -894,7 +863,6 @@ extension Rekognition {
     }
 
     public struct DeleteStreamProcessorRequest: AWSEncodableShape {
-
         /// The name of the stream processor you want to delete.
         public let name: String
 
@@ -914,15 +882,10 @@ extension Rekognition {
     }
 
     public struct DeleteStreamProcessorResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DescribeCollectionRequest: AWSEncodableShape {
-
         /// The ID of the collection to describe.
         public let collectionId: String
 
@@ -942,7 +905,6 @@ extension Rekognition {
     }
 
     public struct DescribeCollectionResponse: AWSDecodableShape {
-
         /// The Amazon Resource Name (ARN) of the collection.
         public let collectionARN: String?
         /// The number of milliseconds since the Unix epoch time until the creation of the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January 1970.
@@ -968,10 +930,9 @@ extension Rekognition {
     }
 
     public struct DescribeProjectVersionsRequest: AWSEncodableShape {
-
-        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100. 
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the project that contains the models you want to describe.
         public let projectArn: String
@@ -1010,8 +971,7 @@ extension Rekognition {
     }
 
     public struct DescribeProjectVersionsResponse: AWSDecodableShape {
-
-        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
         public let nextToken: String?
         /// A list of model descriptions. The list is sorted by the creation date and time of the model versions, latest to earliest.
         public let projectVersionDescriptions: [ProjectVersionDescription]?
@@ -1028,10 +988,9 @@ extension Rekognition {
     }
 
     public struct DescribeProjectsRequest: AWSEncodableShape {
-
-        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100. 
+        /// The maximum number of results to return per paginated call. The largest value you can specify is 100. If you specify a value greater than 100, a ValidationException error occurs. The default value is 100.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1052,8 +1011,7 @@ extension Rekognition {
     }
 
     public struct DescribeProjectsResponse: AWSDecodableShape {
-
-        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results. 
+        /// If the previous response was incomplete (because there is more results to retrieve), Amazon Rekognition Custom Labels returns a pagination token in the response. You can use this pagination token to retrieve the next set of results.
         public let nextToken: String?
         /// A list of project descriptions. The list is sorted by the date and time the projects are created.
         public let projectDescriptions: [ProjectDescription]?
@@ -1070,7 +1028,6 @@ extension Rekognition {
     }
 
     public struct DescribeStreamProcessorRequest: AWSEncodableShape {
-
         /// Name of the stream processor for which you want information.
         public let name: String
 
@@ -1090,14 +1047,13 @@ extension Rekognition {
     }
 
     public struct DescribeStreamProcessorResponse: AWSDecodableShape {
-
         /// Date and time the stream processor was created
         public let creationTimestamp: Date?
         /// Kinesis video stream that provides the source streaming video.
         public let input: StreamProcessorInput?
         /// The time, in Unix format, the stream processor was last updated. For example, when the stream processor moves from a running state to a failed state, or when the user starts or stops the stream processor.
         public let lastUpdateTimestamp: Date?
-        /// Name of the stream processor. 
+        /// Name of the stream processor.
         public let name: String?
         /// Kinesis data stream to which Amazon Rekognition Video puts the analysis results.
         public let output: StreamProcessorOutput?
@@ -1140,7 +1096,6 @@ extension Rekognition {
     }
 
     public struct DetectCustomLabelsRequest: AWSEncodableShape {
-
         public let image: Image
         /// Maximum number of results you want the service to return in the response. The service returns the specified number of highest confidence labels ranked from highest confidence to lowest.
         public let maxResults: Int?
@@ -1175,7 +1130,6 @@ extension Rekognition {
     }
 
     public struct DetectCustomLabelsResponse: AWSDecodableShape {
-
         /// An array of custom labels detected in the input image.
         public let customLabels: [CustomLabel]?
 
@@ -1189,8 +1143,7 @@ extension Rekognition {
     }
 
     public struct DetectFacesRequest: AWSEncodableShape {
-
-        /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
+        /// An array of facial attributes you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
         public let attributes: [Attribute]?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
@@ -1211,10 +1164,9 @@ extension Rekognition {
     }
 
     public struct DetectFacesResponse: AWSDecodableShape {
-
-        /// Details of each face found in the image. 
+        /// Details of each face found in the image.
         public let faceDetails: [FaceDetail]?
-        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
+        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let orientationCorrection: OrientationCorrection?
 
         public init(faceDetails: [FaceDetail]? = nil, orientationCorrection: OrientationCorrection? = nil) {
@@ -1229,10 +1181,9 @@ extension Rekognition {
     }
 
     public struct DetectLabelsRequest: AWSEncodableShape {
-
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing image bytes is not supported. Images stored in an S3 Bucket do not need to be base64-encoded. If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
-        /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels. 
+        /// Maximum number of labels you want the service to return in the response. The service returns the specified number of highest confidence labels.
         public let maxLabels: Int?
         /// Specifies the minimum confidence level for the labels to return. Amazon Rekognition doesn't return any labels with confidence lower than this specified value. If MinConfidence is not specified, the operation returns labels with a confidence values greater than or equal to 55 percent.
         public let minConfidence: Float?
@@ -1258,12 +1209,11 @@ extension Rekognition {
     }
 
     public struct DetectLabelsResponse: AWSDecodableShape {
-
         /// Version number of the label detection model that was used to detect labels.
         public let labelModelVersion: String?
-        /// An array of labels for the real-world objects detected. 
+        /// An array of labels for the real-world objects detected.
         public let labels: [Label]?
-        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated. 
+        /// The value of OrientationCorrection is always null. If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction. The bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. Amazon Rekognition doesn’t perform image correction for images in .png format and .jpeg images without orientation information in the image Exif metadata. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.
         public let orientationCorrection: OrientationCorrection?
 
         public init(labelModelVersion: String? = nil, labels: [Label]? = nil, orientationCorrection: OrientationCorrection? = nil) {
@@ -1280,7 +1230,6 @@ extension Rekognition {
     }
 
     public struct DetectModerationLabelsRequest: AWSEncodableShape {
-
         /// Sets up the configuration for human evaluation, including the FlowDefinition the image will be sent to.
         public let humanLoopConfig: HumanLoopConfig?
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -1309,7 +1258,6 @@ extension Rekognition {
     }
 
     public struct DetectModerationLabelsResponse: AWSDecodableShape {
-
         /// Shows the results of the human in the loop evaluation.
         public let humanLoopActivationOutput: HumanLoopActivationOutput?
         /// Array of detected Moderation labels and the time, in milliseconds from the start of the video, they were detected.
@@ -1331,7 +1279,6 @@ extension Rekognition {
     }
 
     public struct DetectTextFilters: AWSEncodableShape {
-
         ///  A Filter focusing on a certain area of the image. Uses a BoundingBox object to set the region of the image.
         public let regionsOfInterest: [RegionOfInterest]?
         public let wordFilter: DetectionFilter?
@@ -1354,7 +1301,6 @@ extension Rekognition {
     }
 
     public struct DetectTextRequest: AWSEncodableShape {
-
         /// Optional parameters that let you set the criteria that the text must meet to be included in your response.
         public let filters: DetectTextFilters?
         /// The input image as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Rekognition operations, you can't pass image bytes.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
@@ -1377,7 +1323,6 @@ extension Rekognition {
     }
 
     public struct DetectTextResponse: AWSDecodableShape {
-
         /// An array of text that was detected in the input image.
         public let textDetections: [TextDetection]?
         /// The model version used to detect text.
@@ -1395,7 +1340,6 @@ extension Rekognition {
     }
 
     public struct DetectionFilter: AWSEncodableShape {
-
         /// Sets the minimum height of the word bounding box. Words with bounding box heights lesser than this value will be excluded from the result. Value is relative to the video frame height.
         public let minBoundingBoxHeight: Float?
         /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
@@ -1426,7 +1370,6 @@ extension Rekognition {
     }
 
     public struct Emotion: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Type of emotion detected.
@@ -1444,8 +1387,7 @@ extension Rekognition {
     }
 
     public struct EvaluationResult: AWSDecodableShape {
-
-        /// The F1 score for the evaluation of all labels. The F1 score metric evaluates the overall precision and recall performance of the model as a single value. A higher value indicates better precision and recall performance. A lower score indicates that precision, recall, or both are performing poorly. 
+        /// The F1 score for the evaluation of all labels. The F1 score metric evaluates the overall precision and recall performance of the model as a single value. A higher value indicates better precision and recall performance. A lower score indicates that precision, recall, or both are performing poorly.
         public let f1Score: Float?
         /// The S3 bucket that contains the training summary.
         public let summary: Summary?
@@ -1462,7 +1404,6 @@ extension Rekognition {
     }
 
     public struct EyeOpen: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the eyes on the face are open.
@@ -1480,7 +1421,6 @@ extension Rekognition {
     }
 
     public struct Eyeglasses: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing eye glasses or not.
@@ -1498,7 +1438,6 @@ extension Rekognition {
     }
 
     public struct Face: AWSDecodableShape {
-
         /// Bounding box of the face.
         public let boundingBox: BoundingBox?
         /// Confidence level that the bounding box contains a face (and not a different object such as a tree).
@@ -1528,7 +1467,6 @@ extension Rekognition {
     }
 
     public struct FaceDetail: AWSDecodableShape {
-
         /// The estimated age range, in years, for the face. Low represents the lowest estimated age and High represents the highest estimated age.
         public let ageRange: AgeRange?
         /// Indicates whether or not the face has a beard, and the confidence level in the determination.
@@ -1543,7 +1481,7 @@ extension Rekognition {
         public let eyeglasses: Eyeglasses?
         /// Indicates whether or not the eyes on the face are open, and the confidence level in the determination.
         public let eyesOpen: EyeOpen?
-        /// The predicted gender of a detected face. 
+        /// The predicted gender of a detected face.
         public let gender: Gender?
         /// Indicates the location of landmarks on the face. Default attribute.
         public let landmarks: [Landmark]?
@@ -1598,7 +1536,6 @@ extension Rekognition {
     }
 
     public struct FaceDetection: AWSDecodableShape {
-
         /// The face properties for the detected face.
         public let face: FaceDetail?
         /// Time, in milliseconds from the start of the video, that the face was detected.
@@ -1616,7 +1553,6 @@ extension Rekognition {
     }
 
     public struct FaceMatch: AWSDecodableShape {
-
         /// Describes the face properties such as the bounding box, face ID, image ID of the source image, and external image ID that you assigned.
         public let face: Face?
         /// Confidence in the match of this face with the input face.
@@ -1634,8 +1570,7 @@ extension Rekognition {
     }
 
     public struct FaceRecord: AWSDecodableShape {
-
-        /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned. 
+        /// Describes the face properties such as the bounding box, face ID, image ID of the input image, and external image ID that you assigned.
         public let face: Face?
         /// Structure containing attributes of the face that the algorithm detected.
         public let faceDetail: FaceDetail?
@@ -1652,7 +1587,6 @@ extension Rekognition {
     }
 
     public struct FaceSearchSettings: AWSEncodableShape & AWSDecodableShape {
-
         /// The ID of a collection that contains faces that you want to search for.
         public let collectionId: String?
         /// Minimum face match confidence score that must be met to return a result for a recognized face. Default is 80. 0 is the lowest confidence. 100 is the highest confidence.
@@ -1678,7 +1612,6 @@ extension Rekognition {
     }
 
     public struct Gender: AWSDecodableShape {
-
         /// Level of confidence in the prediction.
         public let confidence: Float?
         /// The predicted gender of the face.
@@ -1696,7 +1629,6 @@ extension Rekognition {
     }
 
     public struct Geometry: AWSDecodableShape {
-
         /// An axis-aligned coarse representation of the detected item's location on the image.
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the detected item.
@@ -1714,8 +1646,7 @@ extension Rekognition {
     }
 
     public struct GetCelebrityInfoRequest: AWSEncodableShape {
-
-        /// The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image. 
+        /// The ID for the celebrity. You get the celebrity ID from a call to the RecognizeCelebrities operation, which recognizes celebrities in an image.
         public let id: String
 
         public init(id: String) {
@@ -1732,10 +1663,9 @@ extension Rekognition {
     }
 
     public struct GetCelebrityInfoResponse: AWSDecodableShape {
-
         /// The name of the celebrity.
         public let name: String?
-        /// An array of URLs pointing to additional celebrity information. 
+        /// An array of URLs pointing to additional celebrity information.
         public let urls: [String]?
 
         public init(name: String? = nil, urls: [String]? = nil) {
@@ -1750,12 +1680,11 @@ extension Rekognition {
     }
 
     public struct GetCelebrityRecognitionRequest: AWSEncodableShape {
-
         /// Job identifier for the required celebrity recognition analysis. You can get the job identifer from a call to StartCelebrityRecognition.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more recognized celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities. 
+        /// If the previous response was incomplete (because there is more recognized celebrities to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of celebrities.
         public let nextToken: String?
         /// Sort to use for celebrities returned in Celebrities field. Specify ID to sort by the celebrity identifier, specify TIMESTAMP to sort by the time the celebrity was recognized.
         public let sortBy: CelebrityRecognitionSortBy?
@@ -1784,7 +1713,6 @@ extension Rekognition {
     }
 
     public struct GetCelebrityRecognitionResponse: AWSDecodableShape {
-
         /// Array of celebrities recognized in the video.
         public let celebrities: [CelebrityRecognition]?
         /// The current status of the celebrity recognition job.
@@ -1814,7 +1742,6 @@ extension Rekognition {
     }
 
     public struct GetContentModerationRequest: AWSEncodableShape {
-
         /// The identifier for the unsafe content job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1848,18 +1775,17 @@ extension Rekognition {
     }
 
     public struct GetContentModerationResponse: AWSDecodableShape {
-
         /// The current status of the unsafe content analysis job.
         public let jobStatus: VideoJobStatus?
         /// The detected unsafe content labels and the time(s) they were detected.
         public let moderationLabels: [ContentModerationDetection]?
         /// Version number of the moderation detection model that was used to detect unsafe content.
         public let moderationModelVersion: String?
-        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of unsafe content labels. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of unsafe content labels.
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
-        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration. 
+        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from GetContentModeration.
         public let videoMetadata: VideoMetadata?
 
         public init(jobStatus: VideoJobStatus? = nil, moderationLabels: [ContentModerationDetection]? = nil, moderationModelVersion: String? = nil, nextToken: String? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
@@ -1882,7 +1808,6 @@ extension Rekognition {
     }
 
     public struct GetFaceDetectionRequest: AWSEncodableShape {
-
         /// Unique identifier for the face detection job. The JobId is returned from StartFaceDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
@@ -1912,12 +1837,11 @@ extension Rekognition {
     }
 
     public struct GetFaceDetectionResponse: AWSDecodableShape {
-
-        /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected. 
+        /// An array of faces detected in the video. Each element contains a detected face's details and the time, in milliseconds from the start of the video, the face was detected.
         public let faces: [FaceDetection]?
         /// The current status of the face detection job.
         public let jobStatus: VideoJobStatus?
-        /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces. 
+        /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
         public let nextToken: String?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -1942,14 +1866,13 @@ extension Rekognition {
     }
 
     public struct GetFaceSearchRequest: AWSEncodableShape {
-
         /// The job identifer for the search request. You get the job identifier from an initial call to StartFaceSearch.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results. 
+        /// If the previous response was incomplete (because there is more search results to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of search results.
         public let nextToken: String?
-        /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces. 
+        /// Sort to use for grouping faces in the response. Use TIMESTAMP to group faces by the time that they are recognized. Use INDEX to sort by recognized faces.
         public let sortBy: FaceSearchSortBy?
 
         public init(jobId: String, maxResults: Int? = nil, nextToken: String? = nil, sortBy: FaceSearchSortBy? = nil) {
@@ -1976,16 +1899,15 @@ extension Rekognition {
     }
 
     public struct GetFaceSearchResponse: AWSDecodableShape {
-
         /// The current status of the face search job.
         public let jobStatus: VideoJobStatus?
-        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of search results.
         public let nextToken: String?
-        /// An array of persons, PersonMatch, in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person. 
+        /// An array of persons, PersonMatch, in the video whose face(s) match the face(s) in an Amazon Rekognition collection. It also includes time information for when persons are matched in the video. You specify the input collection in an initial call to StartFaceSearch. Each Persons element includes a time the person was matched, face match details (FaceMatches) for matching faces in the collection, and person information (Person) for the matched person.
         public let persons: [PersonMatch]?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
-        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation. 
+        /// Information about a video that Amazon Rekognition analyzed. Videometadata is returned in every page of paginated responses from a Amazon Rekognition Video operation.
         public let videoMetadata: VideoMetadata?
 
         public init(jobStatus: VideoJobStatus? = nil, nextToken: String? = nil, persons: [PersonMatch]? = nil, statusMessage: String? = nil, videoMetadata: VideoMetadata? = nil) {
@@ -2006,12 +1928,11 @@ extension Rekognition {
     }
 
     public struct GetLabelDetectionRequest: AWSEncodableShape {
-
         /// Job identifier for the label detection operation for which you want results returned. You get the job identifer from an initial call to StartlabelDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels. 
+        /// If the previous response was incomplete (because there are more labels to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of labels.
         public let nextToken: String?
         /// Sort to use for elements in the Labels array. Use TIMESTAMP to sort array elements by the time labels are detected. Use NAME to alphabetically group elements for a label together. Within each label group, the array element are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: LabelDetectionSortBy?
@@ -2040,12 +1961,11 @@ extension Rekognition {
     }
 
     public struct GetLabelDetectionResponse: AWSDecodableShape {
-
         /// The current status of the label detection job.
         public let jobStatus: VideoJobStatus?
         /// Version number of the label detection model that was used to detect labels.
         public let labelModelVersion: String?
-        /// An array of labels detected in the video. Each element contains the detected label and the time, in milliseconds from the start of the video, that the label was detected. 
+        /// An array of labels detected in the video. Each element contains the detected label and the time, in milliseconds from the start of the video, that the label was detected.
         public let labels: [LabelDetection]?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of labels.
         public let nextToken: String?
@@ -2074,12 +1994,11 @@ extension Rekognition {
     }
 
     public struct GetPersonTrackingRequest: AWSEncodableShape {
-
-        /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking. 
+        /// The identifier for a job that tracks persons in a video. You get the JobId from a call to StartPersonTracking.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000. If you specify a value greater than 1000, a maximum of 1000 results is returned. The default value is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons. 
+        /// If the previous response was incomplete (because there are more persons to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of persons.
         public let nextToken: String?
         /// Sort to use for elements in the Persons array. Use TIMESTAMP to sort array elements by the time persons are detected. Use INDEX to sort by the tracked persons. If you sort by INDEX, the array elements for each person are sorted by detection confidence. The default sort is by TIMESTAMP.
         public let sortBy: PersonTrackingSortBy?
@@ -2108,12 +2027,11 @@ extension Rekognition {
     }
 
     public struct GetPersonTrackingResponse: AWSDecodableShape {
-
         /// The current status of the person tracking job.
         public let jobStatus: VideoJobStatus?
-        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of persons.
         public let nextToken: String?
-        /// An array of the persons detected in the video and the time(s) their path was tracked throughout the video. An array element will exist for each time a person's path is tracked. 
+        /// An array of the persons detected in the video and the time(s) their path was tracked throughout the video. An array element will exist for each time a person's path is tracked.
         public let persons: [PersonDetection]?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -2138,7 +2056,6 @@ extension Rekognition {
     }
 
     public struct GetSegmentDetectionRequest: AWSEncodableShape {
-
         /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartSegmentDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.
@@ -2168,7 +2085,6 @@ extension Rekognition {
     }
 
     public struct GetSegmentDetectionResponse: AWSDecodableShape {
-
         /// An array of objects. There can be multiple audio streams. Each AudioMetadata object contains metadata for a single audio stream. Audio information in an AudioMetadata objects includes the audio codec, the number of audio channels, the duration of the audio stream, and the sample rate. Audio metadata is returned in each page of information returned by GetSegmentDetection.
         public let audioMetadata: [AudioMetadata]?
         /// Current status of the segment detection job.
@@ -2177,7 +2093,7 @@ extension Rekognition {
         public let nextToken: String?
         /// An array of segments detected in a video.
         public let segments: [SegmentDetection]?
-        /// An array containing the segment types requested in the call to StartSegmentDetection. 
+        /// An array containing the segment types requested in the call to StartSegmentDetection.
         public let selectedSegmentTypes: [SegmentTypeInfo]?
         /// If the job fails, StatusMessage provides a descriptive error message.
         public let statusMessage: String?
@@ -2206,7 +2122,6 @@ extension Rekognition {
     }
 
     public struct GetTextDetectionRequest: AWSEncodableShape {
-
         /// Job identifier for the text detection operation for which you want results returned. You get the job identifer from an initial call to StartTextDetection.
         public let jobId: String
         /// Maximum number of results to return per paginated call. The largest value you can specify is 1000.
@@ -2236,7 +2151,6 @@ extension Rekognition {
     }
 
     public struct GetTextDetectionResponse: AWSDecodableShape {
-
         /// Current status of the text detection job.
         public let jobStatus: VideoJobStatus?
         /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of text.
@@ -2269,7 +2183,6 @@ extension Rekognition {
     }
 
     public struct GroundTruthManifest: AWSEncodableShape & AWSDecodableShape {
-
         public let s3Object: S3Object?
 
         public init(s3Object: S3Object? = nil) {
@@ -2286,7 +2199,6 @@ extension Rekognition {
     }
 
     public struct HumanLoopActivationOutput: AWSDecodableShape {
-
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
         /// Shows if and why human review was needed.
@@ -2308,10 +2220,9 @@ extension Rekognition {
     }
 
     public struct HumanLoopConfig: AWSEncodableShape {
-
         /// Sets attributes of the input data.
         public let dataAttributes: HumanLoopDataAttributes?
-        /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow definition by using the Amazon Sagemaker CreateFlowDefinition Operation. 
+        /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow definition by using the Amazon Sagemaker CreateFlowDefinition Operation.
         public let flowDefinitionArn: String
         /// The name of the human review used for this image. This should be kept unique within a region.
         public let humanLoopName: String
@@ -2338,7 +2249,6 @@ extension Rekognition {
     }
 
     public struct HumanLoopDataAttributes: AWSEncodableShape {
-
         /// Sets whether the input image is free of personally identifiable information.
         public let contentClassifiers: [ContentClassifier]?
 
@@ -2356,7 +2266,6 @@ extension Rekognition {
     }
 
     public struct Image: AWSEncodableShape {
-
         /// Blob of image bytes up to 5 MBs.
         public let bytes: Data?
         /// Identifies an S3 object as the image source.
@@ -2368,7 +2277,7 @@ extension Rekognition {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bytes, name: "bytes", parent: name, max: 5242880)
+            try self.validate(self.bytes, name: "bytes", parent: name, max: 5_242_880)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
         }
@@ -2380,7 +2289,6 @@ extension Rekognition {
     }
 
     public struct ImageQuality: AWSDecodableShape {
-
         /// Value representing brightness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a brighter face image.
         public let brightness: Float?
         /// Value representing sharpness of the face. The service returns a value between 0 and 100 (inclusive). A higher value indicates a sharper face image.
@@ -2398,10 +2306,9 @@ extension Rekognition {
     }
 
     public struct IndexFacesRequest: AWSEncodableShape {
-
         /// The ID of an existing collection to which you want to add the faces that are detected in the input images.
         public let collectionId: String
-        /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes). 
+        /// An array of facial attributes that you want to be returned. This can be the default list of attributes or all attributes. If you don't specify a value for Attributes or if you specify ["DEFAULT"], the API returns the following subset of facial attributes: BoundingBox, Confidence, Pose, Quality, and Landmarks. If you provide ["ALL"], all facial attributes are returned, but the operation takes longer to complete. If you provide both, ["ALL", "DEFAULT"], the service uses a logical AND operator to determine which attributes to return (in this case, all attributes).
         public let detectionAttributes: [Attribute]?
         /// The ID you want to assign to all the faces detected in the image.
         public let externalImageId: String?
@@ -2443,12 +2350,11 @@ extension Rekognition {
     }
 
     public struct IndexFacesResponse: AWSDecodableShape {
-
         /// The version number of the face detection model that's associated with the input collection (CollectionId).
         public let faceModelVersion: String?
-        /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide. 
+        /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide.
         public let faceRecords: [FaceRecord]?
-        /// If your collection is associated with a face detection model that's later than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned. If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.   Bounding box information is returned in the FaceRecords array. You can get the version of the face detection model by calling DescribeCollection. 
+        /// If your collection is associated with a face detection model that's later than version 3.0, the value of OrientationCorrection is always null and no orientation information is returned. If your collection is associated with a face detection model that's version 3.0 or earlier, the following applies:   If the input image is in .jpeg format, it might contain exchangeable image file format (Exif) metadata that includes the image's orientation. Amazon Rekognition uses this orientation information to perform image correction - the bounding box coordinates are translated to represent object locations after the orientation information in the Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata. The value of OrientationCorrection is null.   If the image doesn't contain orientation information in its Exif metadata, Amazon Rekognition returns an estimated orientation (ROTATE_0, ROTATE_90, ROTATE_180, ROTATE_270). Amazon Rekognition doesn’t perform image correction for images. The bounding box coordinates aren't translated and represent the object locations before the image is rotated.   Bounding box information is returned in the FaceRecords array. You can get the version of the face detection model by calling DescribeCollection.
         public let orientationCorrection: OrientationCorrection?
         /// An array of faces that were detected in the image but weren't indexed. They weren't indexed because the quality filter identified them as low quality, or the MaxFaces request parameter filtered them out. To use the quality filter, you specify the QualityFilter request parameter.
         public let unindexedFaces: [UnindexedFace]?
@@ -2469,7 +2375,6 @@ extension Rekognition {
     }
 
     public struct Instance: AWSDecodableShape {
-
         /// The position of the label instance on the image.
         public let boundingBox: BoundingBox?
         /// The confidence that Amazon Rekognition has in the accuracy of the bounding box.
@@ -2487,7 +2392,6 @@ extension Rekognition {
     }
 
     public struct KinesisDataStream: AWSEncodableShape & AWSDecodableShape {
-
         /// ARN of the output Amazon Kinesis Data Streams stream.
         public let arn: String?
 
@@ -2505,7 +2409,6 @@ extension Rekognition {
     }
 
     public struct KinesisVideoStream: AWSEncodableShape & AWSDecodableShape {
-
         /// ARN of the Kinesis video stream stream that streams the source video.
         public let arn: String?
 
@@ -2523,7 +2426,6 @@ extension Rekognition {
     }
 
     public struct Label: AWSDecodableShape {
-
         /// Level of confidence.
         public let confidence: Float?
         /// If Label represents an object, Instances contains the bounding boxes for each instance of the detected object. Bounding boxes are returned for common object labels such as people, cars, furniture, apparel or pets.
@@ -2549,7 +2451,6 @@ extension Rekognition {
     }
 
     public struct LabelDetection: AWSDecodableShape {
-
         /// Details about the detected label.
         public let label: Label?
         /// Time, in milliseconds from the start of the video, that the label was detected.
@@ -2567,10 +2468,9 @@ extension Rekognition {
     }
 
     public struct Landmark: AWSDecodableShape {
-
         /// Type of landmark.
         public let `type`: LandmarkType?
-        /// The x-coordinate from the top left of the landmark expressed as the ratio of the width of the image. For example, if the image is 700 x 200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5. 
+        /// The x-coordinate from the top left of the landmark expressed as the ratio of the width of the image. For example, if the image is 700 x 200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5.
         public let x: Float?
         /// The y-coordinate from the top left of the landmark expressed as the ratio of the height of the image. For example, if the image is 700 x 200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
         public let y: Float?
@@ -2589,8 +2489,7 @@ extension Rekognition {
     }
 
     public struct ListCollectionsRequest: AWSEncodableShape {
-
-        /// Maximum number of collection IDs to return. 
+        /// Maximum number of collection IDs to return.
         public let maxResults: Int?
         /// Pagination token from the previous response.
         public let nextToken: String?
@@ -2613,7 +2512,6 @@ extension Rekognition {
     }
 
     public struct ListCollectionsResponse: AWSDecodableShape {
-
         /// An array of collection IDs.
         public let collectionIds: [String]?
         /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
@@ -2635,7 +2533,6 @@ extension Rekognition {
     }
 
     public struct ListFacesRequest: AWSEncodableShape {
-
         /// ID of the collection from which to list the faces.
         public let collectionId: String
         /// Maximum number of faces to return.
@@ -2666,10 +2563,9 @@ extension Rekognition {
     }
 
     public struct ListFacesResponse: AWSDecodableShape {
-
         /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
-        /// An array of Face objects. 
+        /// An array of Face objects.
         public let faces: [Face]?
         /// If the response is truncated, Amazon Rekognition returns this token that you can use in the subsequent request to retrieve the next set of faces.
         public let nextToken: String?
@@ -2688,10 +2584,9 @@ extension Rekognition {
     }
 
     public struct ListStreamProcessorsRequest: AWSEncodableShape {
-
-        /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000. 
+        /// Maximum number of stream processors you want Amazon Rekognition Video to return in the response. The default is 1000.
         public let maxResults: Int?
-        /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors. 
+        /// If the previous response was incomplete (because there are more stream processors to retrieve), Amazon Rekognition Video returns a pagination token in the response. You can use this pagination token to retrieve the next set of stream processors.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2711,8 +2606,7 @@ extension Rekognition {
     }
 
     public struct ListStreamProcessorsResponse: AWSDecodableShape {
-
-        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors. 
+        /// If the response is truncated, Amazon Rekognition Video returns this token that you can use in the subsequent request to retrieve the next set of stream processors.
         public let nextToken: String?
         /// List of stream processors that you have created.
         public let streamProcessors: [StreamProcessor]?
@@ -2729,7 +2623,6 @@ extension Rekognition {
     }
 
     public struct ModerationLabel: AWSDecodableShape {
-
         /// Specifies the confidence that Amazon Rekognition has that the label has been correctly identified. If you don't specify the MinConfidence parameter in the call to DetectModerationLabels, the operation returns labels with a confidence value greater than or equal to 50 percent.
         public let confidence: Float?
         /// The label name for the type of unsafe content detected in the image.
@@ -2751,7 +2644,6 @@ extension Rekognition {
     }
 
     public struct MouthOpen: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the mouth on the face is open or not.
@@ -2769,7 +2661,6 @@ extension Rekognition {
     }
 
     public struct Mustache: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face has mustache or not.
@@ -2787,8 +2678,7 @@ extension Rekognition {
     }
 
     public struct NotificationChannel: AWSEncodableShape {
-
-        /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic. 
+        /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic.
         public let roleArn: String
         /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
         public let sNSTopicArn: String
@@ -2810,10 +2700,9 @@ extension Rekognition {
     }
 
     public struct OutputConfig: AWSEncodableShape & AWSDecodableShape {
-
         /// The S3 bucket where training output is placed.
         public let s3Bucket: String?
-        /// The prefix applied to the training output files. 
+        /// The prefix applied to the training output files.
         public let s3KeyPrefix: String?
 
         public init(s3Bucket: String? = nil, s3KeyPrefix: String? = nil) {
@@ -2835,7 +2724,6 @@ extension Rekognition {
     }
 
     public struct Parent: AWSDecodableShape {
-
         /// The name of the parent label.
         public let name: String?
 
@@ -2849,7 +2737,6 @@ extension Rekognition {
     }
 
     public struct PersonDetail: AWSDecodableShape {
-
         /// Bounding box around the detected person.
         public let boundingBox: BoundingBox?
         /// Face details for the detected person.
@@ -2871,7 +2758,6 @@ extension Rekognition {
     }
 
     public struct PersonDetection: AWSDecodableShape {
-
         /// Details about a person whose path was tracked in a video.
         public let person: PersonDetail?
         /// The time, in milliseconds from the start of the video, that the person's path was tracked.
@@ -2889,7 +2775,6 @@ extension Rekognition {
     }
 
     public struct PersonMatch: AWSDecodableShape {
-
         /// Information about the faces in the input collection that match the face of a person in the video.
         public let faceMatches: [FaceMatch]?
         /// Information about the matched person.
@@ -2911,7 +2796,6 @@ extension Rekognition {
     }
 
     public struct Point: AWSDecodableShape {
-
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
@@ -2929,7 +2813,6 @@ extension Rekognition {
     }
 
     public struct Pose: AWSDecodableShape {
-
         /// Value representing the face rotation on the pitch axis.
         public let pitch: Float?
         /// Value representing the face rotation on the roll axis.
@@ -2951,7 +2834,6 @@ extension Rekognition {
     }
 
     public struct ProjectDescription: AWSDecodableShape {
-
         /// The Unix timestamp for the date and time that the project was created.
         public let creationTimestamp: Date?
         /// The Amazon Resource Name (ARN) of the project.
@@ -2973,7 +2855,6 @@ extension Rekognition {
     }
 
     public struct ProjectVersionDescription: AWSDecodableShape {
-
         /// The duration, in seconds, that the model version has been billed for training. This value is only returned if the model version has been successfully trained.
         public let billableTrainingTimeInSeconds: Int64?
         /// The Unix datetime for the date and time that training started.
@@ -2984,7 +2865,7 @@ extension Rekognition {
         public let minInferenceUnits: Int?
         /// The location where training results are saved.
         public let outputConfig: OutputConfig?
-        /// The Amazon Resource Name (ARN) of the model version. 
+        /// The Amazon Resource Name (ARN) of the model version.
         public let projectVersionArn: String?
         /// The current status of the model version.
         public let status: ProjectVersionStatus?
@@ -3027,7 +2908,6 @@ extension Rekognition {
     }
 
     public struct RecognizeCelebritiesRequest: AWSEncodableShape {
-
         /// The input image as base64-encoded bytes or an S3 object. If you use the AWS CLI to call Amazon Rekognition operations, passing base64-encoded image bytes is not supported.  If you are using an AWS SDK to call Amazon Rekognition, you might not need to base64-encode image bytes passed using the Bytes field. For more information, see Images in the Amazon Rekognition developer guide.
         public let image: Image
 
@@ -3045,10 +2925,9 @@ extension Rekognition {
     }
 
     public struct RecognizeCelebritiesResponse: AWSDecodableShape {
-
         /// Details about each celebrity found in the image. Amazon Rekognition can detect a maximum of 15 celebrities in an image.
         public let celebrityFaces: [Celebrity]?
-        /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.  
+        /// The orientation of the input image (counterclockwise direction). If your application displays the image, you can use this value to correct the orientation. The bounding box coordinates returned in CelebrityFaces and UnrecognizedFaces represent face locations before the image orientation is corrected.   If the input image is in .jpeg format, it might contain exchangeable image (Exif) metadata that includes the image's orientation. If so, and the Exif metadata for the input image populates the orientation field, the value of OrientationCorrection is null. The CelebrityFaces and UnrecognizedFaces bounding box coordinates represent face locations after Exif metadata is used to correct the image orientation. Images in .png format don't contain Exif metadata.
         public let orientationCorrection: OrientationCorrection?
         /// Details about each unrecognized face in the image.
         public let unrecognizedFaces: [ComparedFace]?
@@ -3067,7 +2946,6 @@ extension Rekognition {
     }
 
     public struct RegionOfInterest: AWSEncodableShape {
-
         /// The box representing a region of interest on screen.
         public let boundingBox: BoundingBox?
 
@@ -3081,12 +2959,11 @@ extension Rekognition {
     }
 
     public struct S3Object: AWSEncodableShape & AWSDecodableShape {
-
         /// Name of the S3 bucket.
         public let bucket: String?
         /// S3 object key name.
         public let name: String?
-        /// If the bucket is versioning enabled, you can specify the object version. 
+        /// If the bucket is versioning enabled, you can specify the object version.
         public let version: String?
 
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
@@ -3113,7 +2990,6 @@ extension Rekognition {
     }
 
     public struct SearchFacesByImageRequest: AWSEncodableShape {
-
         /// ID of the collection to search.
         public let collectionId: String
         /// (Optional) Specifies the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%.
@@ -3154,7 +3030,6 @@ extension Rekognition {
     }
 
     public struct SearchFacesByImageResponse: AWSDecodableShape {
-
         /// An array of faces that match the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -3180,12 +3055,11 @@ extension Rekognition {
     }
 
     public struct SearchFacesRequest: AWSEncodableShape {
-
         /// ID of the collection the face belongs to.
         public let collectionId: String
         /// ID of a face to find matches for in the collection.
         public let faceId: String
-        /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%. 
+        /// Optional value specifying the minimum confidence in the face match to return. For example, don't return any matches where confidence in matches is less than 70%. The default value is 80%.
         public let faceMatchThreshold: Float?
         /// Maximum number of faces to return. The operation returns the maximum number of faces with the highest confidence in the match.
         public let maxFaces: Int?
@@ -3217,7 +3091,6 @@ extension Rekognition {
     }
 
     public struct SearchFacesResponse: AWSDecodableShape {
-
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
         /// Version number of the face detection model associated with the input collection (CollectionId).
@@ -3239,8 +3112,7 @@ extension Rekognition {
     }
 
     public struct SegmentDetection: AWSDecodableShape {
-
-        /// The duration of the detected segment in milliseconds. 
+        /// The duration of the detected segment in milliseconds.
         public let durationMillis: Int64?
         /// The duration of the timecode for the detected segment in SMPTE format.
         public let durationSMPTE: String?
@@ -3250,7 +3122,7 @@ extension Rekognition {
         public let endTimestampMillis: Int64?
         /// If the segment is a shot detection, contains information about the shot detection.
         public let shotSegment: ShotSegment?
-        /// The frame-accurate SMPTE timecode, from the start of a video, for the start of a detected segment. StartTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates). 
+        /// The frame-accurate SMPTE timecode, from the start of a video, for the start of a detected segment. StartTimecode is in HH:MM:SS:fr format (and ;fr for drop frame-rates).
         public let startTimecodeSMPTE: String?
         /// The start time of the detected segment in milliseconds from the start of the video.
         public let startTimestampMillis: Int64?
@@ -3285,7 +3157,6 @@ extension Rekognition {
     }
 
     public struct SegmentTypeInfo: AWSDecodableShape {
-
         /// The version of the model used to detect segments.
         public let modelVersion: String?
         /// The type of a segment (technical cue or shot detection).
@@ -3303,10 +3174,9 @@ extension Rekognition {
     }
 
     public struct ShotSegment: AWSDecodableShape {
-
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public let confidence: Float?
-        /// An Identifier for a shot detection segment detected in a video 
+        /// An Identifier for a shot detection segment detected in a video
         public let index: Int64?
 
         public init(confidence: Float? = nil, index: Int64? = nil) {
@@ -3321,7 +3191,6 @@ extension Rekognition {
     }
 
     public struct Smile: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is smiling or not.
@@ -3339,8 +3208,7 @@ extension Rekognition {
     }
 
     public struct StartCelebrityRecognitionRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartCelebrityRecognition requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
@@ -3376,7 +3244,6 @@ extension Rekognition {
     }
 
     public struct StartCelebrityRecognitionResponse: AWSDecodableShape {
-
         /// The identifier for the celebrity recognition analysis job. Use JobId to identify the job in a subsequent call to GetCelebrityRecognition.
         public let jobId: String?
 
@@ -3390,8 +3257,7 @@ extension Rekognition {
     }
 
     public struct StartContentModerationRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartContentModeration requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
@@ -3433,7 +3299,6 @@ extension Rekognition {
     }
 
     public struct StartContentModerationResponse: AWSDecodableShape {
-
         /// The identifier for the unsafe content analysis job. Use JobId to identify the job in a subsequent call to GetContentModeration.
         public let jobId: String?
 
@@ -3447,8 +3312,7 @@ extension Rekognition {
     }
 
     public struct StartFaceDetectionRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// The face attributes you want returned.  DEFAULT - The following subset of facial attributes are returned: BoundingBox, Confidence, Pose, Quality and Landmarks.   ALL - All facial attributes are returned.
         public let faceAttributes: FaceAttributes?
@@ -3488,7 +3352,6 @@ extension Rekognition {
     }
 
     public struct StartFaceDetectionResponse: AWSDecodableShape {
-
         /// The identifier for the face detection job. Use JobId to identify the job in a subsequent call to GetFaceDetection.
         public let jobId: String?
 
@@ -3502,8 +3365,7 @@ extension Rekognition {
     }
 
     public struct StartFaceSearchRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceSearch requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartFaceSearch requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// ID of the collection that contains the faces you want to search for.
         public let collectionId: String
@@ -3511,9 +3373,9 @@ extension Rekognition {
         public let faceMatchThreshold: Float?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
-        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search. 
+        /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video to publish the completion status of the search.
         public let notificationChannel: NotificationChannel?
-        /// The video you want to search. The video must be stored in an Amazon S3 bucket. 
+        /// The video you want to search. The video must be stored in an Amazon S3 bucket.
         public let video: Video
 
         public init(clientRequestToken: String? = nil, collectionId: String, faceMatchThreshold: Float? = nil, jobTag: String? = nil, notificationChannel: NotificationChannel? = nil, video: Video) {
@@ -3552,8 +3414,7 @@ extension Rekognition {
     }
 
     public struct StartFaceSearchResponse: AWSDecodableShape {
-
-        /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch. 
+        /// The identifier for the search job. Use JobId to identify the job in a subsequent call to GetFaceSearch.
         public let jobId: String?
 
         public init(jobId: String? = nil) {
@@ -3566,14 +3427,13 @@ extension Rekognition {
     }
 
     public struct StartLabelDetectionRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartLabelDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected label. Confidence represents how certain Amazon Rekognition is that a label is correctly identified.0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any labels with a confidence level lower than this specified value. If you don't specify MinConfidence, the operation returns labels with confidence values greater than or equal to 50 percent.
         public let minConfidence: Float?
-        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to. 
+        /// The Amazon SNS topic ARN you want Amazon Rekognition Video to publish the completion status of the label detection operation to.
         public let notificationChannel: NotificationChannel?
         /// The video in which you want to detect labels. The video must be stored in an Amazon S3 bucket.
         public let video: Video
@@ -3609,8 +3469,7 @@ extension Rekognition {
     }
 
     public struct StartLabelDetectionResponse: AWSDecodableShape {
-
-        /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection. 
+        /// The identifier for the label detection job. Use JobId to identify the job in a subsequent call to GetLabelDetection.
         public let jobId: String?
 
         public init(jobId: String? = nil) {
@@ -3623,8 +3482,7 @@ extension Rekognition {
     }
 
     public struct StartPersonTrackingRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartPersonTracking requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// An identifier you specify that's returned in the completion notification that's published to your Amazon Simple Notification Service topic. For example, you can use JobTag to group related jobs and identify them in the completion notification.
         public let jobTag: String?
@@ -3660,7 +3518,6 @@ extension Rekognition {
     }
 
     public struct StartPersonTrackingResponse: AWSDecodableShape {
-
         /// The identifier for the person detection job. Use JobId to identify the job in a subsequent call to GetPersonTracking.
         public let jobId: String?
 
@@ -3674,8 +3531,7 @@ extension Rekognition {
     }
 
     public struct StartProjectVersionRequest: AWSEncodableShape {
-
-        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS). Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use. 
+        /// The minimum number of inference units to use. A single inference unit represents 1 hour of processing and can support up to 5 Transaction Pers Second (TPS). Use a higher number to increase the TPS throughput of your model. You are charged for the number of inference units that you use.
         public let minInferenceUnits: Int
         /// The Amazon Resource Name(ARN) of the model version that you want to start.
         public let projectVersionArn: String
@@ -3699,8 +3555,7 @@ extension Rekognition {
     }
 
     public struct StartProjectVersionResponse: AWSDecodableShape {
-
-        /// The current running status of the model. 
+        /// The current running status of the model.
         public let status: ProjectVersionStatus?
 
         public init(status: ProjectVersionStatus? = nil) {
@@ -3713,7 +3568,6 @@ extension Rekognition {
     }
 
     public struct StartSegmentDetectionFilters: AWSEncodableShape {
-
         /// Filters that are specific to shot detections.
         public let shotFilter: StartShotDetectionFilter?
         /// Filters that are specific to technical cues.
@@ -3736,8 +3590,7 @@ extension Rekognition {
     }
 
     public struct StartSegmentDetectionRequest: AWSEncodableShape {
-
-        /// Idempotent token used to identify the start request. If you use the same token with multiple StartSegmentDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once. 
+        /// Idempotent token used to identify the start request. If you use the same token with multiple StartSegmentDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidently started more than once.
         public let clientRequestToken: String?
         /// Filters for technical cue or shot detection.
         public let filters: StartSegmentDetectionFilters?
@@ -3782,8 +3635,7 @@ extension Rekognition {
     }
 
     public struct StartSegmentDetectionResponse: AWSDecodableShape {
-
-        /// Unique identifier for the segment detection job. The JobId is returned from StartSegmentDetection. 
+        /// Unique identifier for the segment detection job. The JobId is returned from StartSegmentDetection.
         public let jobId: String?
 
         public init(jobId: String? = nil) {
@@ -3796,7 +3648,6 @@ extension Rekognition {
     }
 
     public struct StartShotDetectionFilter: AWSEncodableShape {
-
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, the GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
         public let minSegmentConfidence: Float?
 
@@ -3815,7 +3666,6 @@ extension Rekognition {
     }
 
     public struct StartStreamProcessorRequest: AWSEncodableShape {
-
         /// The name of the stream processor to start processing.
         public let name: String
 
@@ -3835,15 +3685,10 @@ extension Rekognition {
     }
 
     public struct StartStreamProcessorResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StartTechnicalCueDetectionFilter: AWSEncodableShape {
-
         /// Specifies the minimum confidence that Amazon Rekognition Video must have in order to return a detected segment. Confidence represents how certain Amazon Rekognition is that a segment is correctly identified. 0 is the lowest confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't return any segments with a confidence level lower than this specified value. If you don't specify MinSegmentConfidence, GetSegmentDetection returns segments with confidence values greater than or equal to 50 percent.
         public let minSegmentConfidence: Float?
 
@@ -3862,7 +3707,6 @@ extension Rekognition {
     }
 
     public struct StartTextDetectionFilters: AWSEncodableShape {
-
         /// Filter focusing on a certain area of the frame. Uses a BoundingBox object to set the region of the screen.
         public let regionsOfInterest: [RegionOfInterest]?
         /// Filters focusing on qualities of the text, such as confidence or size.
@@ -3886,7 +3730,6 @@ extension Rekognition {
     }
 
     public struct StartTextDetectionRequest: AWSEncodableShape {
-
         /// Idempotent token used to identify the start request. If you use the same token with multiple StartTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentaly started more than once.
         public let clientRequestToken: String?
         /// Optional parameters that let you set criteria the text must meet to be included in your response.
@@ -3926,7 +3769,6 @@ extension Rekognition {
     }
 
     public struct StartTextDetectionResponse: AWSDecodableShape {
-
         /// Identifier for the text detection job. Use JobId to identify the job in a subsequent call to GetTextDetection.
         public let jobId: String?
 
@@ -3940,7 +3782,6 @@ extension Rekognition {
     }
 
     public struct StopProjectVersionRequest: AWSEncodableShape {
-
         /// The Amazon Resource Name (ARN) of the model version that you want to delete. This operation requires permissions to perform the rekognition:StopProjectVersion action.
         public let projectVersionArn: String
 
@@ -3960,8 +3801,7 @@ extension Rekognition {
     }
 
     public struct StopProjectVersionResponse: AWSDecodableShape {
-
-        /// The current status of the stop operation. 
+        /// The current status of the stop operation.
         public let status: ProjectVersionStatus?
 
         public init(status: ProjectVersionStatus? = nil) {
@@ -3974,7 +3814,6 @@ extension Rekognition {
     }
 
     public struct StopStreamProcessorRequest: AWSEncodableShape {
-
         /// The name of a stream processor created by CreateStreamProcessor.
         public let name: String
 
@@ -3994,16 +3833,11 @@ extension Rekognition {
     }
 
     public struct StopStreamProcessorResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct StreamProcessor: AWSDecodableShape {
-
-        /// Name of the Amazon Rekognition stream processor. 
+        /// Name of the Amazon Rekognition stream processor.
         public let name: String?
         /// Current status of the Amazon Rekognition stream processor.
         public let status: StreamProcessorStatus?
@@ -4020,7 +3854,6 @@ extension Rekognition {
     }
 
     public struct StreamProcessorInput: AWSEncodableShape & AWSDecodableShape {
-
         /// The Kinesis video stream input stream for the source streaming video.
         public let kinesisVideoStream: KinesisVideoStream?
 
@@ -4038,7 +3871,6 @@ extension Rekognition {
     }
 
     public struct StreamProcessorOutput: AWSEncodableShape & AWSDecodableShape {
-
         /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
         public let kinesisDataStream: KinesisDataStream?
 
@@ -4056,8 +3888,7 @@ extension Rekognition {
     }
 
     public struct StreamProcessorSettings: AWSEncodableShape & AWSDecodableShape {
-
-        /// Face search settings to use on a streaming video. 
+        /// Face search settings to use on a streaming video.
         public let faceSearch: FaceSearchSettings?
 
         public init(faceSearch: FaceSearchSettings? = nil) {
@@ -4074,7 +3905,6 @@ extension Rekognition {
     }
 
     public struct Summary: AWSDecodableShape {
-
         public let s3Object: S3Object?
 
         public init(s3Object: S3Object? = nil) {
@@ -4087,7 +3917,6 @@ extension Rekognition {
     }
 
     public struct Sunglasses: AWSDecodableShape {
-
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Boolean value that indicates whether the face is wearing sunglasses or not.
@@ -4105,7 +3934,6 @@ extension Rekognition {
     }
 
     public struct TechnicalCueSegment: AWSDecodableShape {
-
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public let confidence: Float?
         /// The type of the technical cue.
@@ -4123,7 +3951,6 @@ extension Rekognition {
     }
 
     public struct TestingData: AWSEncodableShape & AWSDecodableShape {
-
         /// The assets used for testing.
         public let assets: [Asset]?
         /// If specified, Amazon Rekognition Custom Labels creates a testing dataset with an 80/20 split of the training dataset.
@@ -4147,10 +3974,9 @@ extension Rekognition {
     }
 
     public struct TestingDataResult: AWSDecodableShape {
-
         /// The testing dataset that was supplied for training.
         public let input: TestingData?
-        /// The subset of the dataset that was actually tested. Some images (assets) might not be tested due to file formatting and other issues. 
+        /// The subset of the dataset that was actually tested. Some images (assets) might not be tested due to file formatting and other issues.
         public let output: TestingData?
 
         public init(input: TestingData? = nil, output: TestingData? = nil) {
@@ -4165,16 +3991,15 @@ extension Rekognition {
     }
 
     public struct TextDetection: AWSDecodableShape {
-
         /// The confidence that Amazon Rekognition has in the accuracy of the detected text and the accuracy of the geometry points around the detected text.
         public let confidence: Float?
-        /// The word or line of text recognized by Amazon Rekognition. 
+        /// The word or line of text recognized by Amazon Rekognition.
         public let detectedText: String?
         /// The location of the detected text on the image. Includes an axis aligned coarse bounding box surrounding the text and a finer grain polygon for more accurate spatial information.
         public let geometry: Geometry?
-        /// The identifier for the detected text. The identifier is only unique for a single call to DetectText. 
+        /// The identifier for the detected text. The identifier is only unique for a single call to DetectText.
         public let id: Int?
-        /// The Parent identifier for the detected text identified by the value of ID. If the type of detected text is LINE, the value of ParentId is Null. 
+        /// The Parent identifier for the detected text identified by the value of ID. If the type of detected text is LINE, the value of ParentId is Null.
         public let parentId: Int?
         /// The type of text that was detected.
         public let `type`: TextTypes?
@@ -4199,7 +4024,6 @@ extension Rekognition {
     }
 
     public struct TextDetectionResult: AWSDecodableShape {
-
         /// Details about text detected in a video.
         public let textDetection: TextDetection?
         /// The time, in milliseconds from the start of the video, that the text was detected.
@@ -4217,7 +4041,6 @@ extension Rekognition {
     }
 
     public struct TrainingData: AWSEncodableShape & AWSDecodableShape {
-
         /// A Sagemaker GroundTruth manifest file that contains the training images (assets).
         public let assets: [Asset]?
 
@@ -4237,10 +4060,9 @@ extension Rekognition {
     }
 
     public struct TrainingDataResult: AWSDecodableShape {
-
         /// The training assets that you supplied for training.
         public let input: TrainingData?
-        /// The images (assets) that were actually trained by Amazon Rekognition Custom Labels. 
+        /// The images (assets) that were actually trained by Amazon Rekognition Custom Labels.
         public let output: TrainingData?
 
         public init(input: TrainingData? = nil, output: TrainingData? = nil) {
@@ -4255,10 +4077,9 @@ extension Rekognition {
     }
 
     public struct UnindexedFace: AWSDecodableShape {
-
-        /// The structure that contains attributes of a face that IndexFacesdetected, but didn't index. 
+        /// The structure that contains attributes of a face that IndexFacesdetected, but didn't index.
         public let faceDetail: FaceDetail?
-        /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.  
+        /// An array of reasons that specify why a face wasn't indexed.    EXTREME_POSE - The face is at a pose that can't be detected. For example, the head is turned too far away from the camera.   EXCEEDS_MAX_FACES - The number of faces detected is already higher than that specified by the MaxFaces input parameter for IndexFaces.   LOW_BRIGHTNESS - The image is too dark.   LOW_SHARPNESS - The image is too blurry.   LOW_CONFIDENCE - The face was detected with a low confidence.   SMALL_BOUNDING_BOX - The bounding box around the face is too small.
         public let reasons: [Reason]?
 
         public init(faceDetail: FaceDetail? = nil, reasons: [Reason]? = nil) {
@@ -4273,7 +4094,6 @@ extension Rekognition {
     }
 
     public struct Video: AWSEncodableShape {
-
         /// The Amazon S3 bucket name and file name for the video.
         public let s3Object: S3Object?
 
@@ -4291,12 +4111,11 @@ extension Rekognition {
     }
 
     public struct VideoMetadata: AWSDecodableShape {
-
-        /// Type of compression used in the analyzed video. 
+        /// Type of compression used in the analyzed video.
         public let codec: String?
         /// Length of the video in milliseconds.
         public let durationMillis: Int64?
-        /// Format of the analyzed video. Possible values are MP4, MOV and AVI. 
+        /// Format of the analyzed video. Possible values are MP4, MOV and AVI.
         public let format: String?
         /// Vertical pixel dimension of the video.
         public let frameHeight: Int64?

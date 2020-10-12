@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS WorkMailMessageFlow service.
+ Client object for interacting with AWS WorkMailMessageFlow service.
 
-The WorkMail Message Flow API provides access to email messages as they are being sent and received by a WorkMail organization.
-*/
+ The WorkMail Message Flow API provides access to email messages as they are being sent and received by a WorkMail organization.
+ */
 public struct WorkMailMessageFlow: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,10 +59,10 @@ public struct WorkMailMessageFlow: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
-    ///  Retrieves the raw content of an in-transit email message, in MIME format. 
+    ///  Retrieves the raw content of an in-transit email message, in MIME format.
     public func getRawMessageContent(_ input: GetRawMessageContentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRawMessageContentResponse> {
         return self.client.execute(operation: "GetRawMessageContent", path: "/messages/{messageId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

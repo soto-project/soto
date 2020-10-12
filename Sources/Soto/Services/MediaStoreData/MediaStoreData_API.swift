@@ -17,12 +17,11 @@
 @_exported import SotoCore
 
 /*
-Client object for interacting with AWS MediaStoreData service.
+ Client object for interacting with AWS MediaStoreData service.
 
-An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
-*/
+ An AWS Elemental MediaStore asset is an object, similar to an object in the Amazon S3 service. Objects are the fundamental entities that are stored in AWS Elemental MediaStore.
+ */
 public struct MediaStoreData: AWSService {
-
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +60,7 @@ public struct MediaStoreData: AWSService {
             options: options
         )
     }
-    
+
     // MARK: API Calls
 
     ///  Deletes an object at the specified path.
@@ -92,7 +91,7 @@ public struct MediaStoreData: AWSService {
     // MARK: Streaming API Calls
 
     ///  Downloads the object at the specified path. If the object’s upload availability is set to streaming, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
-    public func getObjectStreaming(_ input: GetObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<GetObjectResponse> {
+    public func getObjectStreaming(_ input: GetObjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<GetObjectResponse> {
         return self.client.execute(operation: "GetObject", path: "/{Path+}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }

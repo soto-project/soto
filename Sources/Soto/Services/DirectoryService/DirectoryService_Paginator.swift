@@ -46,6 +46,7 @@ extension DirectoryService {
             onPage: onPage
         )
     }
+
     /// Provide paginated results to closure `onPage`.
     ///
     /// - Parameters:

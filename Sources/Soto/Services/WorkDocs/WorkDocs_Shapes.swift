@@ -108,17 +108,17 @@ extension WorkDocs {
     }
 
     public enum LocaleType: String, CustomStringConvertible, Codable {
-        case en = "en"
-        case fr = "fr"
-        case ko = "ko"
-        case de = "de"
-        case es = "es"
-        case ja = "ja"
-        case ru = "ru"
+        case en
+        case fr
+        case ko
+        case de
+        case es
+        case ja
+        case ru
         case zhCn = "zh_CN"
         case zhTw = "zh_TW"
         case ptBr = "pt_BR"
-        case `default` = "default"
+        case `default`
         public var description: String { return self.rawValue }
     }
 
@@ -233,8 +233,8 @@ extension WorkDocs {
 
     public struct AbortDocumentVersionUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -267,7 +267,7 @@ extension WorkDocs {
 
     public struct ActivateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -293,7 +293,6 @@ extension WorkDocs {
     }
 
     public struct ActivateUserResponse: AWSDecodableShape {
-
         /// The user information.
         public let user: User?
 
@@ -307,7 +306,6 @@ extension WorkDocs {
     }
 
     public struct Activity: AWSDecodableShape {
-
         /// Metadata of the commenting activity. This is an optional field and is filled for commenting activities.
         public let commentMetadata: CommentMetadata?
         /// The user who performed the action.
@@ -354,7 +352,7 @@ extension WorkDocs {
 
     public struct AddResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -393,7 +391,6 @@ extension WorkDocs {
     }
 
     public struct AddResourcePermissionsResponse: AWSDecodableShape {
-
         /// The share results.
         public let shareResults: [ShareResult]?
 
@@ -407,7 +404,6 @@ extension WorkDocs {
     }
 
     public struct Comment: AWSDecodableShape {
-
         /// The ID of the comment.
         public let commentId: String
         /// The details of the user who made the comment.
@@ -453,7 +449,6 @@ extension WorkDocs {
     }
 
     public struct CommentMetadata: AWSDecodableShape {
-
         /// The ID of the comment.
         public let commentId: String?
         /// The status of the comment.
@@ -484,8 +479,8 @@ extension WorkDocs {
 
     public struct CreateCommentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -546,7 +541,6 @@ extension WorkDocs {
     }
 
     public struct CreateCommentResponse: AWSDecodableShape {
-
         /// The comment that has been created.
         public let comment: Comment?
 
@@ -561,8 +555,8 @@ extension WorkDocs {
 
     public struct CreateCustomMetadataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionid"))
         ]
 
@@ -607,11 +601,7 @@ extension WorkDocs {
     }
 
     public struct CreateCustomMetadataResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateFolderRequest: AWSEncodableShape {
@@ -650,7 +640,6 @@ extension WorkDocs {
     }
 
     public struct CreateFolderResponse: AWSDecodableShape {
-
         /// The metadata of the folder.
         public let metadata: FolderMetadata?
 
@@ -665,7 +654,7 @@ extension WorkDocs {
 
     public struct CreateLabelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -702,11 +691,7 @@ extension WorkDocs {
     }
 
     public struct CreateLabelsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct CreateNotificationSubscriptionRequest: AWSEncodableShape {
@@ -746,7 +731,6 @@ extension WorkDocs {
     }
 
     public struct CreateNotificationSubscriptionResponse: AWSDecodableShape {
-
         /// The subscription.
         public let subscription: Subscription?
 
@@ -832,7 +816,6 @@ extension WorkDocs {
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
-
         /// The user information.
         public let user: User?
 
@@ -847,7 +830,7 @@ extension WorkDocs {
 
     public struct DeactivateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -874,9 +857,9 @@ extension WorkDocs {
 
     public struct DeleteCommentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "commentId", location: .uri(locationName: "CommentId")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "commentId", location: .uri(locationName: "CommentId")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -915,10 +898,10 @@ extension WorkDocs {
 
     public struct DeleteCustomMetadataRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
-            AWSMemberEncoding(label: "keys", location: .querystring(locationName: "keys")), 
-            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")),
+            AWSMemberEncoding(label: "keys", location: .querystring(locationName: "keys")),
+            AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId")),
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -962,16 +945,12 @@ extension WorkDocs {
     }
 
     public struct DeleteCustomMetadataResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
         ]
 
@@ -998,7 +977,7 @@ extension WorkDocs {
 
     public struct DeleteFolderContentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
@@ -1025,7 +1004,7 @@ extension WorkDocs {
 
     public struct DeleteFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
@@ -1052,9 +1031,9 @@ extension WorkDocs {
 
     public struct DeleteLabelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")), 
-            AWSMemberEncoding(label: "labels", location: .querystring(locationName: "labels")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "deleteAll", location: .querystring(locationName: "deleteAll")),
+            AWSMemberEncoding(label: "labels", location: .querystring(locationName: "labels")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -1092,16 +1071,12 @@ extension WorkDocs {
     }
 
     public struct DeleteLabelsResponse: AWSDecodableShape {
-
-
-        public init() {
-        }
-
+        public init() {}
     }
 
     public struct DeleteNotificationSubscriptionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId")), 
+            AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId")),
             AWSMemberEncoding(label: "subscriptionId", location: .uri(locationName: "SubscriptionId"))
         ]
 
@@ -1129,7 +1104,7 @@ extension WorkDocs {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -1156,15 +1131,15 @@ extension WorkDocs {
 
     public struct DescribeActivitiesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "activityTypes", location: .querystring(locationName: "activityTypes")), 
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")), 
-            AWSMemberEncoding(label: "includeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
-            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")), 
-            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")), 
+            AWSMemberEncoding(label: "activityTypes", location: .querystring(locationName: "activityTypes")),
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "endTime", location: .querystring(locationName: "endTime")),
+            AWSMemberEncoding(label: "includeIndirectActivities", location: .querystring(locationName: "includeIndirectActivities")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")),
+            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")),
+            AWSMemberEncoding(label: "startTime", location: .querystring(locationName: "startTime")),
             AWSMemberEncoding(label: "userId", location: .querystring(locationName: "userId"))
         ]
 
@@ -1228,7 +1203,6 @@ extension WorkDocs {
     }
 
     public struct DescribeActivitiesResponse: AWSDecodableShape {
-
         /// The marker for the next set of results.
         public let marker: String?
         /// The list of activities for the specified user and time period.
@@ -1247,10 +1221,10 @@ extension WorkDocs {
 
     public struct DescribeCommentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -1293,7 +1267,6 @@ extension WorkDocs {
     }
 
     public struct DescribeCommentsResponse: AWSDecodableShape {
-
         /// The list of comments for the specified document version.
         public let comments: [Comment]?
         /// The marker for the next set of results. This marker was received from a previous call.
@@ -1312,11 +1285,11 @@ extension WorkDocs {
 
     public struct DescribeDocumentVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")),
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
@@ -1364,7 +1337,6 @@ extension WorkDocs {
     }
 
     public struct DescribeDocumentVersionsResponse: AWSDecodableShape {
-
         /// The document versions.
         public let documentVersions: [DocumentVersionMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1383,13 +1355,13 @@ extension WorkDocs {
 
     public struct DescribeFolderContentsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
-            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
-            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")),
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")),
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")),
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
@@ -1440,7 +1412,6 @@ extension WorkDocs {
     }
 
     public struct DescribeFolderContentsResponse: AWSDecodableShape {
-
         /// The documents in the specified folder.
         public let documents: [DocumentMetadata]?
         /// The subfolders in the specified folder.
@@ -1463,10 +1434,10 @@ extension WorkDocs {
 
     public struct DescribeGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")),
             AWSMemberEncoding(label: "searchQuery", location: .querystring(locationName: "searchQuery"))
         ]
 
@@ -1508,7 +1479,6 @@ extension WorkDocs {
     }
 
     public struct DescribeGroupsResponse: AWSDecodableShape {
-
         /// The list of groups.
         public let groups: [GroupMetadata]?
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1527,8 +1497,8 @@ extension WorkDocs {
 
     public struct DescribeNotificationSubscriptionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
             AWSMemberEncoding(label: "organizationId", location: .uri(locationName: "OrganizationId"))
         ]
 
@@ -1559,7 +1529,6 @@ extension WorkDocs {
     }
 
     public struct DescribeNotificationSubscriptionsResponse: AWSDecodableShape {
-
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The subscriptions.
@@ -1578,10 +1547,10 @@ extension WorkDocs {
 
     public struct DescribeResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "principalId", location: .querystring(locationName: "principalId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "principalId", location: .querystring(locationName: "principalId")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -1623,7 +1592,6 @@ extension WorkDocs {
     }
 
     public struct DescribeResourcePermissionsResponse: AWSDecodableShape {
-
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The principals.
@@ -1642,8 +1610,8 @@ extension WorkDocs {
 
     public struct DescribeRootFoldersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
@@ -1673,7 +1641,6 @@ extension WorkDocs {
     }
 
     public struct DescribeRootFoldersResponse: AWSDecodableShape {
-
         /// The user's special folders.
         public let folders: [FolderMetadata]?
         /// The marker for the next set of results.
@@ -1692,15 +1659,15 @@ extension WorkDocs {
 
     public struct DescribeUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
-            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")), 
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "query")), 
-            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")),
+            AWSMemberEncoding(label: "include", location: .querystring(locationName: "include")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")),
+            AWSMemberEncoding(label: "organizationId", location: .querystring(locationName: "organizationId")),
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "query")),
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")),
             AWSMemberEncoding(label: "userIds", location: .querystring(locationName: "userIds"))
         ]
 
@@ -1763,7 +1730,6 @@ extension WorkDocs {
     }
 
     public struct DescribeUsersResponse: AWSDecodableShape {
-
         /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
         public let marker: String?
         /// The users.
@@ -1781,7 +1747,6 @@ extension WorkDocs {
     }
 
     public struct DocumentMetadata: AWSDecodableShape {
-
         /// The time when the document was created.
         public let createdTimestamp: Date?
         /// The ID of the creator.
@@ -1823,7 +1788,6 @@ extension WorkDocs {
     }
 
     public struct DocumentVersionMetadata: AWSDecodableShape {
-
         /// The timestamp when the content of the document was originally created.
         public let contentCreatedTimestamp: Date?
         /// The timestamp when the content of the document was modified.
@@ -1885,7 +1849,6 @@ extension WorkDocs {
     }
 
     public struct FolderMetadata: AWSDecodableShape {
-
         /// The time when the folder was created.
         public let createdTimestamp: Date?
         /// The ID of the creator.
@@ -1959,7 +1922,6 @@ extension WorkDocs {
     }
 
     public struct GetCurrentUserResponse: AWSDecodableShape {
-
         /// Metadata of the user.
         public let user: User?
 
@@ -1974,10 +1936,10 @@ extension WorkDocs {
 
     public struct GetDocumentPathRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
@@ -2019,7 +1981,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentPathResponse: AWSDecodableShape {
-
         /// The path information.
         public let path: ResourcePath?
 
@@ -2034,8 +1995,8 @@ extension WorkDocs {
 
     public struct GetDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
             AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
@@ -2064,7 +2025,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentResponse: AWSDecodableShape {
-
         /// The custom metadata on the document.
         public let customMetadata: [String: String]?
         /// The metadata details of the document.
@@ -2083,10 +2043,10 @@ extension WorkDocs {
 
     public struct GetDocumentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
-            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")),
+            AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -2127,7 +2087,6 @@ extension WorkDocs {
     }
 
     public struct GetDocumentVersionResponse: AWSDecodableShape {
-
         /// The custom metadata on the document version.
         public let customMetadata: [String: String]?
         /// The version metadata.
@@ -2146,10 +2105,10 @@ extension WorkDocs {
 
     public struct GetFolderPathRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")), 
-            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "fields", location: .querystring(locationName: "fields")),
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
             AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker"))
         ]
 
@@ -2191,7 +2150,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderPathResponse: AWSDecodableShape {
-
         /// The path information.
         public let path: ResourcePath?
 
@@ -2206,8 +2164,8 @@ extension WorkDocs {
 
     public struct GetFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId")),
             AWSMemberEncoding(label: "includeCustomMetadata", location: .querystring(locationName: "includeCustomMetadata"))
         ]
 
@@ -2236,7 +2194,6 @@ extension WorkDocs {
     }
 
     public struct GetFolderResponse: AWSDecodableShape {
-
         /// The custom metadata on the folder.
         public let customMetadata: [String: String]?
         /// The metadata of the folder.
@@ -2255,10 +2212,10 @@ extension WorkDocs {
 
     public struct GetResourcesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "collectionType", location: .querystring(locationName: "collectionType")), 
-            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")), 
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "collectionType", location: .querystring(locationName: "collectionType")),
+            AWSMemberEncoding(label: "limit", location: .querystring(locationName: "limit")),
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
             AWSMemberEncoding(label: "userId", location: .querystring(locationName: "userId"))
         ]
 
@@ -2297,7 +2254,6 @@ extension WorkDocs {
     }
 
     public struct GetResourcesResponse: AWSDecodableShape {
-
         /// The documents in the specified collection.
         public let documents: [DocumentMetadata]?
         /// The folders in the specified folder.
@@ -2319,7 +2275,6 @@ extension WorkDocs {
     }
 
     public struct GroupMetadata: AWSDecodableShape {
-
         /// The ID of the user group.
         public let id: String?
         /// The name of the group.
@@ -2397,7 +2352,6 @@ extension WorkDocs {
     }
 
     public struct InitiateDocumentVersionUploadResponse: AWSDecodableShape {
-
         /// The document metadata.
         public let metadata: DocumentMetadata?
         /// The upload metadata.
@@ -2415,7 +2369,6 @@ extension WorkDocs {
     }
 
     public struct NotificationOptions: AWSEncodableShape {
-
         /// Text value to be included in the email body.
         public let emailMessage: String?
         /// Boolean value to indicate an email notification should be sent to the receipients.
@@ -2438,7 +2391,6 @@ extension WorkDocs {
     }
 
     public struct Participants: AWSDecodableShape {
-
         /// The list of user groups.
         public let groups: [GroupMetadata]?
         /// The list of users.
@@ -2456,7 +2408,6 @@ extension WorkDocs {
     }
 
     public struct PermissionInfo: AWSDecodableShape {
-
         /// The role of the user.
         public let role: RoleType?
         /// The type of permissions.
@@ -2474,7 +2425,6 @@ extension WorkDocs {
     }
 
     public struct Principal: AWSDecodableShape {
-
         /// The ID of the resource.
         public let id: String?
         /// The permission information for the resource.
@@ -2497,7 +2447,7 @@ extension WorkDocs {
 
     public struct RemoveAllResourcePermissionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -2524,9 +2474,9 @@ extension WorkDocs {
 
     public struct RemoveResourcePermissionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId")), 
-            AWSMemberEncoding(label: "principalType", location: .querystring(locationName: "type")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "principalId", location: .uri(locationName: "PrincipalId")),
+            AWSMemberEncoding(label: "principalType", location: .querystring(locationName: "type")),
             AWSMemberEncoding(label: "resourceId", location: .uri(locationName: "ResourceId"))
         ]
 
@@ -2561,7 +2511,6 @@ extension WorkDocs {
     }
 
     public struct ResourceMetadata: AWSDecodableShape {
-
         /// The ID of the resource.
         public let id: String?
         /// The name of the resource.
@@ -2599,7 +2548,6 @@ extension WorkDocs {
     }
 
     public struct ResourcePath: AWSDecodableShape {
-
         /// The components of the resource path.
         public let components: [ResourcePathComponent]?
 
@@ -2613,7 +2561,6 @@ extension WorkDocs {
     }
 
     public struct ResourcePathComponent: AWSDecodableShape {
-
         /// The ID of the resource path.
         public let id: String?
         /// The name of the resource path.
@@ -2631,7 +2578,6 @@ extension WorkDocs {
     }
 
     public struct SharePrincipal: AWSEncodableShape {
-
         /// The ID of the recipient.
         public let id: String
         /// The role of the recipient.
@@ -2659,7 +2605,6 @@ extension WorkDocs {
     }
 
     public struct ShareResult: AWSDecodableShape {
-
         /// The ID of the invited user.
         public let inviteePrincipalId: String?
         /// The ID of the principal.
@@ -2693,7 +2638,6 @@ extension WorkDocs {
     }
 
     public struct StorageRuleType: AWSEncodableShape & AWSDecodableShape {
-
         /// The amount of storage allocated, in bytes.
         public let storageAllocatedInBytes: Int64?
         /// The type of storage.
@@ -2715,7 +2659,6 @@ extension WorkDocs {
     }
 
     public struct Subscription: AWSDecodableShape {
-
         /// The endpoint of the subscription.
         public let endPoint: String?
         /// The protocol of the subscription.
@@ -2738,7 +2681,7 @@ extension WorkDocs {
 
     public struct UpdateDocumentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId"))
         ]
 
@@ -2784,8 +2727,8 @@ extension WorkDocs {
 
     public struct UpdateDocumentVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
-            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
+            AWSMemberEncoding(label: "documentId", location: .uri(locationName: "DocumentId")),
             AWSMemberEncoding(label: "versionId", location: .uri(locationName: "VersionId"))
         ]
 
@@ -2823,7 +2766,7 @@ extension WorkDocs {
 
     public struct UpdateFolderRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "folderId", location: .uri(locationName: "FolderId"))
         ]
 
@@ -2869,7 +2812,7 @@ extension WorkDocs {
 
     public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")), 
+            AWSMemberEncoding(label: "authenticationToken", location: .header(locationName: "Authentication")),
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -2931,7 +2874,6 @@ extension WorkDocs {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
-
         /// The user information.
         public let user: User?
 
@@ -2945,7 +2887,6 @@ extension WorkDocs {
     }
 
     public struct UploadMetadata: AWSDecodableShape {
-
         /// The signed headers.
         public let signedHeaders: [String: String]?
         /// The URL of the upload.
@@ -2963,7 +2904,6 @@ extension WorkDocs {
     }
 
     public struct User: AWSDecodableShape {
-
         /// The time when the user was created.
         public let createdTimestamp: Date?
         /// The email address of the user.
@@ -3033,7 +2973,6 @@ extension WorkDocs {
     }
 
     public struct UserMetadata: AWSDecodableShape {
-
         /// The email address of the user.
         public let emailAddress: String?
         /// The given name of the user before a rename operation.
@@ -3063,7 +3002,6 @@ extension WorkDocs {
     }
 
     public struct UserStorageMetadata: AWSDecodableShape {
-
         /// The storage for a user.
         public let storageRule: StorageRuleType?
         /// The amount of storage used, in bytes.
