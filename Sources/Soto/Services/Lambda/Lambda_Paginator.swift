@@ -20,6 +20,39 @@ import SotoCore
 
 extension Lambda {
     ///  Returns a list of aliases for a Lambda function.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAliasesPaginator<Result>(
+        _ input: ListAliasesRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListAliasesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAliases,
+            tokenKey: \ListAliasesResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAliasesPaginator(
         _ input: ListAliasesRequest,
         on eventLoop: EventLoop? = nil,
@@ -36,6 +69,39 @@ extension Lambda {
     }
 
     ///  Lists event source mappings. Specify an EventSourceArn to only show event source mappings for a single event source.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEventSourceMappingsPaginator<Result>(
+        _ input: ListEventSourceMappingsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListEventSourceMappingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEventSourceMappings,
+            tokenKey: \ListEventSourceMappingsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listEventSourceMappingsPaginator(
         _ input: ListEventSourceMappingsRequest,
         on eventLoop: EventLoop? = nil,
@@ -52,6 +118,39 @@ extension Lambda {
     }
 
     ///  Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFunctionEventInvokeConfigsPaginator<Result>(
+        _ input: ListFunctionEventInvokeConfigsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListFunctionEventInvokeConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFunctionEventInvokeConfigs,
+            tokenKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFunctionEventInvokeConfigsPaginator(
         _ input: ListFunctionEventInvokeConfigsRequest,
         on eventLoop: EventLoop? = nil,
@@ -68,6 +167,39 @@ extension Lambda {
     }
 
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version. To get more information about a function or version, use GetFunction.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFunctionsPaginator<Result>(
+        _ input: ListFunctionsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListFunctionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFunctions,
+            tokenKey: \ListFunctionsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFunctionsPaginator(
         _ input: ListFunctionsRequest,
         on eventLoop: EventLoop? = nil,
@@ -84,6 +216,39 @@ extension Lambda {
     }
 
     ///  Lists the versions of an AWS Lambda layer. Versions that have been deleted aren't listed. Specify a runtime identifier to list only versions that indicate that they're compatible with that runtime.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listLayerVersionsPaginator<Result>(
+        _ input: ListLayerVersionsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListLayerVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listLayerVersions,
+            tokenKey: \ListLayerVersionsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLayerVersionsPaginator(
         _ input: ListLayerVersionsRequest,
         on eventLoop: EventLoop? = nil,
@@ -100,6 +265,39 @@ extension Lambda {
     }
 
     ///  Lists AWS Lambda layers and shows information about the latest version of each. Specify a runtime identifier to list only layers that indicate that they're compatible with that runtime.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listLayersPaginator<Result>(
+        _ input: ListLayersRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListLayersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listLayers,
+            tokenKey: \ListLayersResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listLayersPaginator(
         _ input: ListLayersRequest,
         on eventLoop: EventLoop? = nil,
@@ -116,6 +314,39 @@ extension Lambda {
     }
 
     ///  Retrieves a list of provisioned concurrency configurations for a function.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProvisionedConcurrencyConfigsPaginator<Result>(
+        _ input: ListProvisionedConcurrencyConfigsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListProvisionedConcurrencyConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listProvisionedConcurrencyConfigs,
+            tokenKey: \ListProvisionedConcurrencyConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listProvisionedConcurrencyConfigsPaginator(
         _ input: ListProvisionedConcurrencyConfigsRequest,
         on eventLoop: EventLoop? = nil,
@@ -132,6 +363,39 @@ extension Lambda {
     }
 
     ///  Returns a list of versions, with the version-specific configuration of each. Lambda returns up to 50 versions per call.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listVersionsByFunctionPaginator<Result>(
+        _ input: ListVersionsByFunctionRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListVersionsByFunctionResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listVersionsByFunction,
+            tokenKey: \ListVersionsByFunctionResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVersionsByFunctionPaginator(
         _ input: ListVersionsByFunctionRequest,
         on eventLoop: EventLoop? = nil,

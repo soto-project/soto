@@ -27,16 +27,17 @@ extension CloudSearchDomain {
     }
 
     public enum QueryParser: String, CustomStringConvertible, Codable {
-        case simple
-        case structured
-        case lucene
-        case dismax
+        case simple = "simple"
+        case structured = "structured"
+        case lucene = "lucene"
+        case dismax = "dismax"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Bucket: AWSDecodableShape {
+
         /// The number of hits that contain the facet value in the specified facet field.
         public let count: Int64?
         /// The facet value being counted.
@@ -48,12 +49,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case value
+            case count = "count"
+            case value = "value"
         }
     }
 
     public struct BucketInfo: AWSDecodableShape {
+
         /// A list of the calculated facet values and counts.
         public let buckets: [Bucket]?
 
@@ -62,11 +64,12 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case buckets
+            case buckets = "buckets"
         }
     }
 
     public struct DocumentServiceWarning: AWSDecodableShape {
+
         /// The description for a warning returned by the document service.
         public let message: String?
 
@@ -75,11 +78,12 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case message
+            case message = "message"
         }
     }
 
     public struct FieldStats: AWSDecodableShape {
+
         /// The number of documents that contain a value in the specified field in the result set.
         public let count: Int64?
         /// The maximum value found in the specified field in the result set. If the field is numeric (int, int-array, double, or double-array), max is the string representation of a double-precision 64-bit floating point value. If the field is date or date-array, max is the string representation of a date with the format specified in IETF RFC3339: yyyy-mm-ddTHH:mm:ss.SSSZ.
@@ -109,18 +113,19 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case max
-            case mean
-            case min
-            case missing
-            case stddev
-            case sum
-            case sumOfSquares
+            case count = "count"
+            case max = "max"
+            case mean = "mean"
+            case min = "min"
+            case missing = "missing"
+            case stddev = "stddev"
+            case sum = "sum"
+            case sumOfSquares = "sumOfSquares"
         }
     }
 
     public struct Hit: AWSDecodableShape {
+
         /// The expressions returned from a document that matches the search request.
         public let exprs: [String: String]?
         /// The fields returned from a document that matches the search request.
@@ -138,14 +143,15 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exprs
-            case fields
-            case highlights
-            case id
+            case exprs = "exprs"
+            case fields = "fields"
+            case highlights = "highlights"
+            case id = "id"
         }
     }
 
     public struct Hits: AWSDecodableShape {
+
         /// A cursor that can be used to retrieve the next set of matching documents when you want to page through a large result set.
         public let cursor: String?
         /// The total number of documents that match the search request.
@@ -163,28 +169,28 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cursor
-            case found
-            case hit
-            case start
+            case cursor = "cursor"
+            case found = "found"
+            case hit = "hit"
+            case start = "start"
         }
     }
 
     public struct SearchRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")),
-            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")),
-            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")),
-            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")),
-            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")),
-            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")),
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")),
-            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")),
-            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
-            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")),
-            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")),
+            AWSMemberEncoding(label: "cursor", location: .querystring(locationName: "cursor")), 
+            AWSMemberEncoding(label: "expr", location: .querystring(locationName: "expr")), 
+            AWSMemberEncoding(label: "facet", location: .querystring(locationName: "facet")), 
+            AWSMemberEncoding(label: "filterQuery", location: .querystring(locationName: "fq")), 
+            AWSMemberEncoding(label: "highlight", location: .querystring(locationName: "highlight")), 
+            AWSMemberEncoding(label: "partial", location: .querystring(locationName: "partial")), 
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "queryOptions", location: .querystring(locationName: "q.options")), 
+            AWSMemberEncoding(label: "queryParser", location: .querystring(locationName: "q.parser")), 
+            AWSMemberEncoding(label: "return", location: .querystring(locationName: "return")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
+            AWSMemberEncoding(label: "sort", location: .querystring(locationName: "sort")), 
+            AWSMemberEncoding(label: "start", location: .querystring(locationName: "start")), 
             AWSMemberEncoding(label: "stats", location: .querystring(locationName: "stats"))
         ]
 
@@ -202,13 +208,13 @@ extension CloudSearchDomain {
         public let partial: Bool?
         /// Specifies the search criteria for the request. How you specify the search criteria depends on the query parser used for the request and the parser options specified in the queryOptions parameter. By default, the simple query parser is used to process requests. To use the structured, lucene, or dismax query parser, you must also specify the queryParser parameter.  For more information about specifying search criteria, see Searching Your Data in the Amazon CloudSearch Developer Guide.
         public let query: String
-        /// Configures options for the query parser specified in the queryParser parameter. You specify the options in JSON using the following form {"OPTION1":"VALUE1","OPTION2":VALUE2"..."OPTIONN":"VALUEN"}. The options you can configure vary according to which parser you use:  defaultOperator: The default operator used to combine individual terms in the search string. For example: defaultOperator: 'or'. For the dismax parser, you specify a percentage that represents the percentage of terms in the search string (rounded down) that must match, rather than a default operator. A value of 0% is the equivalent to OR, and a value of 100% is equivalent to AND. The percentage must be specified as a value in the range 0-100 followed by the percent (%) symbol. For example, defaultOperator: 50%. Valid values: and, or, a percentage in the range 0%-100% (dismax). Default: and (simple, structured, lucene) or 100 (dismax). Valid for: simple, structured, lucene, and dismax. fields: An array of the fields to search when no fields are specified in a search. If no fields are specified in a search and this option is not specified, all text and text-array fields are searched. You can specify a weight for each field to control the relative importance of each field when Amazon CloudSearch calculates relevance scores. To specify a field weight, append a caret (^) symbol and the weight to the field name. For example, to boost the importance of the title field over the description field you could specify: "fields":["title^5","description"]. Valid values: The name of any configured field and an optional numeric value greater than zero. Default: All text and text-array fields. Valid for: simple, structured, lucene, and dismax. operators: An array of the operators or special characters you want to disable for the simple query parser. If you disable the and, or, or not operators, the corresponding operators (+, |, -) have no special meaning and are dropped from the search string. Similarly, disabling prefix disables the wildcard operator (*) and disabling phrase disables the ability to search for phrases by enclosing phrases in double quotes. Disabling precedence disables the ability to control order of precedence using parentheses. Disabling near disables the ability to use the ~ operator to perform a sloppy phrase search. Disabling the fuzzy operator disables the ability to use the ~ operator to perform a fuzzy search. escape disables the ability to use a backslash (\) to escape special characters within the search string. Disabling whitespace is an advanced option that prevents the parser from tokenizing on whitespace, which can be useful for Vietnamese. (It prevents Vietnamese words from being split incorrectly.) For example, you could disable all operators other than the phrase operator to support just simple term and phrase queries: "operators":["and","not","or", "prefix"]. Valid values: and, escape, fuzzy, near, not, or, phrase, precedence, prefix, whitespace. Default: All operators and special characters are enabled. Valid for: simple. phraseFields: An array of the text or text-array fields you want to use for phrase searches. When the terms in the search string appear in close proximity within a field, the field scores higher. You can specify a weight for each field to boost that score. The phraseSlop option controls how much the matches can deviate from the search string and still be boosted. To specify a field weight, append a caret (^) symbol and the weight to the field name. For example, to boost phrase matches in the title field over the abstract field, you could specify: "phraseFields":["title^3", "plot"] Valid values: The name of any text or text-array field and an optional numeric value greater than zero. Default: No fields. If you don't specify any fields with phraseFields, proximity scoring is disabled even if phraseSlop is specified. Valid for: dismax. phraseSlop: An integer value that specifies how much matches can deviate from the search phrase and still be boosted according to the weights specified in the phraseFields option; for example, phraseSlop: 2. You must also specify phraseFields to enable proximity scoring. Valid values: positive integers. Default: 0. Valid for: dismax. explicitPhraseSlop: An integer value that specifies how much a match can deviate from the search phrase when the phrase is enclosed in double quotes in the search string. (Phrases that exceed this proximity distance are not considered a match.) For example, to specify a slop of three for dismax phrase queries, you would specify "explicitPhraseSlop":3. Valid values: positive integers. Default: 0. Valid for: dismax. tieBreaker: When a term in the search string is found in a document's field, a score is calculated for that field based on how common the word is in that field compared to other documents. If the term occurs in multiple fields within a document, by default only the highest scoring field contributes to the document's overall score. You can specify a tieBreaker value to enable the matches in lower-scoring fields to contribute to the document's score. That way, if two documents have the same max field score for a particular term, the score for the document that has matches in more fields will be higher. The formula for calculating the score with a tieBreaker is (max field score) + (tieBreaker) * (sum of the scores for the rest of the matching fields). Set tieBreaker to 0 to disregard all but the highest scoring field (pure max): "tieBreaker":0. Set to 1 to sum the scores from all fields (pure sum): "tieBreaker":1. Valid values: 0.0 to 1.0. Default: 0.0. Valid for: dismax.
+        /// Configures options for the query parser specified in the queryParser parameter. You specify the options in JSON using the following form {"OPTION1":"VALUE1","OPTION2":VALUE2"..."OPTIONN":"VALUEN"}. The options you can configure vary according to which parser you use:  defaultOperator: The default operator used to combine individual terms in the search string. For example: defaultOperator: 'or'. For the dismax parser, you specify a percentage that represents the percentage of terms in the search string (rounded down) that must match, rather than a default operator. A value of 0% is the equivalent to OR, and a value of 100% is equivalent to AND. The percentage must be specified as a value in the range 0-100 followed by the percent (%) symbol. For example, defaultOperator: 50%. Valid values: and, or, a percentage in the range 0%-100% (dismax). Default: and (simple, structured, lucene) or 100 (dismax). Valid for: simple, structured, lucene, and dismax. fields: An array of the fields to search when no fields are specified in a search. If no fields are specified in a search and this option is not specified, all text and text-array fields are searched. You can specify a weight for each field to control the relative importance of each field when Amazon CloudSearch calculates relevance scores. To specify a field weight, append a caret (^) symbol and the weight to the field name. For example, to boost the importance of the title field over the description field you could specify: "fields":["title^5","description"]. Valid values: The name of any configured field and an optional numeric value greater than zero. Default: All text and text-array fields. Valid for: simple, structured, lucene, and dismax. operators: An array of the operators or special characters you want to disable for the simple query parser. If you disable the and, or, or not operators, the corresponding operators (+, |, -) have no special meaning and are dropped from the search string. Similarly, disabling prefix disables the wildcard operator (*) and disabling phrase disables the ability to search for phrases by enclosing phrases in double quotes. Disabling precedence disables the ability to control order of precedence using parentheses. Disabling near disables the ability to use the ~ operator to perform a sloppy phrase search. Disabling the fuzzy operator disables the ability to use the ~ operator to perform a fuzzy search. escape disables the ability to use a backslash (\) to escape special characters within the search string. Disabling whitespace is an advanced option that prevents the parser from tokenizing on whitespace, which can be useful for Vietnamese. (It prevents Vietnamese words from being split incorrectly.) For example, you could disable all operators other than the phrase operator to support just simple term and phrase queries: "operators":["and","not","or", "prefix"]. Valid values: and, escape, fuzzy, near, not, or, phrase, precedence, prefix, whitespace. Default: All operators and special characters are enabled. Valid for: simple. phraseFields: An array of the text or text-array fields you want to use for phrase searches. When the terms in the search string appear in close proximity within a field, the field scores higher. You can specify a weight for each field to boost that score. The phraseSlop option controls how much the matches can deviate from the search string and still be boosted. To specify a field weight, append a caret (^) symbol and the weight to the field name. For example, to boost phrase matches in the title field over the abstract field, you could specify: "phraseFields":["title^3", "plot"] Valid values: The name of any text or text-array field and an optional numeric value greater than zero. Default: No fields. If you don't specify any fields with phraseFields, proximity scoring is disabled even if phraseSlop is specified. Valid for: dismax. phraseSlop: An integer value that specifies how much matches can deviate from the search phrase and still be boosted according to the weights specified in the phraseFields option; for example, phraseSlop: 2. You must also specify phraseFields to enable proximity scoring. Valid values: positive integers. Default: 0. Valid for: dismax. explicitPhraseSlop: An integer value that specifies how much a match can deviate from the search phrase when the phrase is enclosed in double quotes in the search string. (Phrases that exceed this proximity distance are not considered a match.) For example, to specify a slop of three for dismax phrase queries, you would specify "explicitPhraseSlop":3. Valid values: positive integers. Default: 0. Valid for: dismax. tieBreaker: When a term in the search string is found in a document's field, a score is calculated for that field based on how common the word is in that field compared to other documents. If the term occurs in multiple fields within a document, by default only the highest scoring field contributes to the document's overall score. You can specify a tieBreaker value to enable the matches in lower-scoring fields to contribute to the document's score. That way, if two documents have the same max field score for a particular term, the score for the document that has matches in more fields will be higher. The formula for calculating the score with a tieBreaker is (max field score) + (tieBreaker) * (sum of the scores for the rest of the matching fields). Set tieBreaker to 0 to disregard all but the highest scoring field (pure max): "tieBreaker":0. Set to 1 to sum the scores from all fields (pure sum): "tieBreaker":1. Valid values: 0.0 to 1.0. Default: 0.0. Valid for: dismax.  
         public let queryOptions: String?
-        /// Specifies which query parser to use to process the request. If queryParser is not specified, Amazon CloudSearch uses the simple query parser.  Amazon CloudSearch supports four query parsers:   simple: perform simple searches of text and text-array fields. By default, the simple query parser searches all text and text-array fields. You can specify which fields to search by with the queryOptions parameter. If you prefix a search term with a plus sign (+) documents must contain the term to be considered a match. (This is the default, unless you configure the default operator with the queryOptions parameter.) You can use the - (NOT), | (OR), and * (wildcard) operators to exclude particular terms, find results that match any of the specified terms, or search for a prefix. To search for a phrase rather than individual terms, enclose the phrase in double quotes. For more information, see Searching for Text in the Amazon CloudSearch Developer Guide.   structured: perform advanced searches by combining multiple expressions to define the search criteria. You can also search within particular fields, search for values and ranges of values, and use advanced options such as term boosting, matchall, and near. For more information, see Constructing Compound Queries in the Amazon CloudSearch Developer Guide.   lucene: search using the Apache Lucene query parser syntax. For more information, see Apache Lucene Query Parser Syntax.   dismax: search using the simplified subset of the Apache Lucene query parser syntax defined by the DisMax query parser. For more information, see DisMax Query Parser Syntax.
+        /// Specifies which query parser to use to process the request. If queryParser is not specified, Amazon CloudSearch uses the simple query parser.  Amazon CloudSearch supports four query parsers:   simple: perform simple searches of text and text-array fields. By default, the simple query parser searches all text and text-array fields. You can specify which fields to search by with the queryOptions parameter. If you prefix a search term with a plus sign (+) documents must contain the term to be considered a match. (This is the default, unless you configure the default operator with the queryOptions parameter.) You can use the - (NOT), | (OR), and * (wildcard) operators to exclude particular terms, find results that match any of the specified terms, or search for a prefix. To search for a phrase rather than individual terms, enclose the phrase in double quotes. For more information, see Searching for Text in the Amazon CloudSearch Developer Guide.   structured: perform advanced searches by combining multiple expressions to define the search criteria. You can also search within particular fields, search for values and ranges of values, and use advanced options such as term boosting, matchall, and near. For more information, see Constructing Compound Queries in the Amazon CloudSearch Developer Guide.   lucene: search using the Apache Lucene query parser syntax. For more information, see Apache Lucene Query Parser Syntax.   dismax: search using the simplified subset of the Apache Lucene query parser syntax defined by the DisMax query parser. For more information, see DisMax Query Parser Syntax.  
         public let queryParser: QueryParser?
-        /// Specifies the field and expression values to include in the response. Multiple fields or expressions are specified as a comma-separated list. By default, a search response includes all return enabled fields (_all_fields). To return only the document IDs for the matching documents, specify _no_fields. To retrieve the relevance score calculated for each document, specify _score.
+        /// Specifies the field and expression values to include in the response. Multiple fields or expressions are specified as a comma-separated list. By default, a search response includes all return enabled fields (_all_fields). To return only the document IDs for the matching documents, specify _no_fields. To retrieve the relevance score calculated for each document, specify _score. 
         public let `return`: String?
-        /// Specifies the maximum number of search hits to include in the response.
+        /// Specifies the maximum number of search hits to include in the response. 
         public let size: Int64?
         /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see Sorting Results in the Amazon CloudSearch Developer Guide.
         public let sort: String?
@@ -238,6 +244,7 @@ extension CloudSearchDomain {
     }
 
     public struct SearchResponse: AWSDecodableShape {
+
         /// The requested facet information.
         public let facets: [String: BucketInfo]?
         /// The documents that match the search criteria.
@@ -255,14 +262,15 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case facets
-            case hits
-            case stats
-            case status
+            case facets = "facets"
+            case hits = "hits"
+            case stats = "stats"
+            case status = "status"
         }
     }
 
     public struct SearchStatus: AWSDecodableShape {
+
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -274,12 +282,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct SuggestModel: AWSDecodableShape {
+
         /// The number of documents that were found to match the query string.
         public let found: Int64?
         /// The query string specified in the suggest request.
@@ -294,22 +303,22 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case found
-            case query
-            case suggestions
+            case found = "found"
+            case query = "query"
+            case suggestions = "suggestions"
         }
     }
 
     public struct SuggestRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")),
-            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")),
+            AWSMemberEncoding(label: "query", location: .querystring(locationName: "q")), 
+            AWSMemberEncoding(label: "size", location: .querystring(locationName: "size")), 
             AWSMemberEncoding(label: "suggester", location: .querystring(locationName: "suggester"))
         ]
 
         /// Specifies the string for which you want to get suggestions.
         public let query: String
-        /// Specifies the maximum number of suggestions to return.
+        /// Specifies the maximum number of suggestions to return. 
         public let size: Int64?
         /// Specifies the name of the suggester to use to find suggested matches.
         public let suggester: String
@@ -324,6 +333,7 @@ extension CloudSearchDomain {
     }
 
     public struct SuggestResponse: AWSDecodableShape {
+
         /// The status of a SuggestRequest. Contains the resource ID (rid) and how long it took to process the request (timems).
         public let status: SuggestStatus?
         /// Container for the matching search suggestion information.
@@ -335,12 +345,13 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case status
-            case suggest
+            case status = "status"
+            case suggest = "suggest"
         }
     }
 
     public struct SuggestStatus: AWSDecodableShape {
+
         /// The encrypted resource ID for the request.
         public let rid: String?
         /// How long it took to process the request, in milliseconds.
@@ -352,17 +363,18 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rid
-            case timems
+            case rid = "rid"
+            case timems = "timems"
         }
     }
 
     public struct SuggestionMatch: AWSDecodableShape {
+
         /// The document ID of the suggested document.
         public let id: String?
         /// The relevance score of a suggested match.
         public let score: Int64?
-        /// The string that matches the query string specified in the SuggestRequest.
+        /// The string that matches the query string specified in the SuggestRequest. 
         public let suggestion: String?
 
         public init(id: String? = nil, score: Int64? = nil, suggestion: String? = nil) {
@@ -372,9 +384,9 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case score
-            case suggestion
+            case id = "id"
+            case score = "score"
+            case suggestion = "suggestion"
         }
     }
 
@@ -386,7 +398,7 @@ extension CloudSearchDomain {
             AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type"))
         ]
 
-        /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml
+        /// The format of the batch you are uploading. Amazon CloudSearch supports two document batch formats:  application/json application/xml 
         public let contentType: ContentType
         /// A batch of documents formatted in JSON or HTML.
         public let documents: AWSPayload
@@ -400,6 +412,7 @@ extension CloudSearchDomain {
     }
 
     public struct UploadDocumentsResponse: AWSDecodableShape {
+
         /// The number of documents that were added to the search domain.
         public let adds: Int64?
         /// The number of documents that were deleted from the search domain.
@@ -417,10 +430,10 @@ extension CloudSearchDomain {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adds
-            case deletes
-            case status
-            case warnings
+            case adds = "adds"
+            case deletes = "deletes"
+            case status = "status"
+            case warnings = "warnings"
         }
     }
 }

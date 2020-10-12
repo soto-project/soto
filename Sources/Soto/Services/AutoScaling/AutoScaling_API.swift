@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS AutoScaling service.
+Client object for interacting with AWS AutoScaling service.
 
- Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances based on user-defined scaling policies, scheduled actions, and health checks. Use this service with AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing. For more information, including information about granting IAM users required permissions for Amazon EC2 Auto Scaling actions, see the Amazon EC2 Auto Scaling User Guide.
- */
+Amazon EC2 Auto Scaling Amazon EC2 Auto Scaling is designed to automatically launch or terminate EC2 instances based on user-defined scaling policies, scheduled actions, and health checks. Use this service with AWS Auto Scaling, Amazon CloudWatch, and Elastic Load Balancing. For more information, including information about granting IAM users required permissions for Amazon EC2 Auto Scaling actions, see the Amazon EC2 Auto Scaling User Guide.
+*/
 public struct AutoScaling: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct AutoScaling: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Attaches one or more EC2 instances to the specified Auto Scaling group. When you attach instances, Amazon EC2 Auto Scaling increases the desired capacity of the group by the number of instances being attached. If the number of instances being attached plus the desired capacity of the group exceeds the maximum size of the group, the operation fails. If there is a Classic Load Balancer attached to your Auto Scaling group, the instances are also registered with the load balancer. If there are target groups attached to your Auto Scaling group, the instances are also registered with the target groups. For more information, see Attach EC2 Instances to Your Auto Scaling Group in the Amazon EC2 Auto Scaling User Guide.
@@ -152,7 +153,7 @@ public struct AutoScaling: AWSService {
         return self.client.execute(operation: "DescribeAccountLimits", path: "/", httpMethod: .POST, serviceConfig: self.config, on: eventLoop, logger: logger)
     }
 
-    ///  Describes the available adjustment types for Amazon EC2 Auto Scaling scaling policies. These settings apply to step scaling policies and simple scaling policies; they do not apply to target tracking scaling policies. The following adjustment types are supported:   ChangeInCapacity   ExactCapacity   PercentChangeInCapacity
+    ///  Describes the available adjustment types for Amazon EC2 Auto Scaling scaling policies. These settings apply to step scaling policies and simple scaling policies; they do not apply to target tracking scaling policies. The following adjustment types are supported:   ChangeInCapacity   ExactCapacity   PercentChangeInCapacity  
     public func describeAdjustmentTypes(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAdjustmentTypesAnswer> {
         return self.client.execute(operation: "DescribeAdjustmentTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, on: eventLoop, logger: logger)
     }
@@ -182,7 +183,7 @@ public struct AutoScaling: AWSService {
         return self.client.execute(operation: "DescribeLaunchConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Describes the available types of lifecycle hooks. The following hook types are supported:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING
+    ///  Describes the available types of lifecycle hooks. The following hook types are supported:   autoscaling:EC2_INSTANCE_LAUNCHING   autoscaling:EC2_INSTANCE_TERMINATING  
     public func describeLifecycleHookTypes(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeLifecycleHookTypesAnswer> {
         return self.client.execute(operation: "DescribeLifecycleHookTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, on: eventLoop, logger: logger)
     }

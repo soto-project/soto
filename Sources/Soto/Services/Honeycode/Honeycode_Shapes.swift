@@ -38,6 +38,7 @@ extension Honeycode {
     // MARK: Shapes
 
     public struct ColumnMetadata: AWSDecodableShape {
+
         /// The format of the column.
         public let format: Format
         /// The name of the column.
@@ -49,15 +50,16 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case name
+            case format = "format"
+            case name = "name"
         }
     }
 
     public struct DataItem: AWSDecodableShape {
+
         /// The formatted value of the data. e.g. John Smith.
         public let formattedValue: String?
-        ///  The overrideFormat is optional and is specified only if a particular row of data has a different format for the data than the default format defined on the screen or the table.
+        ///  The overrideFormat is optional and is specified only if a particular row of data has a different format for the data than the default format defined on the screen or the table. 
         public let overrideFormat: Format?
         /// The raw value of the data. e.g. jsmith@example.com
         public let rawValue: String?
@@ -69,22 +71,23 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case formattedValue
-            case overrideFormat
-            case rawValue
+            case formattedValue = "formattedValue"
+            case overrideFormat = "overrideFormat"
+            case rawValue = "rawValue"
         }
     }
 
     public struct GetScreenDataRequest: AWSEncodableShape {
+
         /// The ID of the app that contains the screem.
         public let appId: String
-        ///  The number of results to be returned on a single page. Specify a number between 1 and 100. The maximum value is 100.   This parameter is optional. If you don't specify this parameter, the default page size is 100.
+        ///  The number of results to be returned on a single page. Specify a number between 1 and 100. The maximum value is 100.   This parameter is optional. If you don't specify this parameter, the default page size is 100. 
         public let maxResults: Int?
-        ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
+        ///  This parameter is optional. If a nextToken is not specified, the API returns the first page of data.   Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException. 
         public let nextToken: String?
         /// The ID of the screen.
         public let screenId: String
-        ///  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen.
+        ///  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
         public let variables: [String: VariableValue]?
         /// The ID of the workbook that contains the screen.
         public let workbookId: String
@@ -109,21 +112,22 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case appId
-            case maxResults
-            case nextToken
-            case screenId
-            case variables
-            case workbookId
+            case appId = "appId"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case screenId = "screenId"
+            case variables = "variables"
+            case workbookId = "workbookId"
         }
     }
 
     public struct GetScreenDataResult: AWSDecodableShape {
-        ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the query has been loaded.
+
+        ///  Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the query has been loaded. 
         public let nextToken: String?
         /// A map of all the rows on the screen keyed by block name.
         public let results: [String: ResultSet]
-        ///  Indicates the cursor of the workbook at which the data returned by this workbook is read. Workbook cursor keeps increasing with every update and the increments are not sequential.
+        ///  Indicates the cursor of the workbook at which the data returned by this workbook is read. Workbook cursor keeps increasing with every update and the increments are not sequential. 
         public let workbookCursor: Int64
 
         public init(nextToken: String? = nil, results: [String: ResultSet], workbookCursor: Int64) {
@@ -133,31 +137,31 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case results
-            case workbookCursor
+            case nextToken = "nextToken"
+            case results = "results"
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct InvokeScreenAutomationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")),
-            AWSMemberEncoding(label: "screenAutomationId", location: .uri(locationName: "automationId")),
-            AWSMemberEncoding(label: "screenId", location: .uri(locationName: "screenId")),
+            AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId")), 
+            AWSMemberEncoding(label: "screenAutomationId", location: .uri(locationName: "automationId")), 
+            AWSMemberEncoding(label: "screenId", location: .uri(locationName: "screenId")), 
             AWSMemberEncoding(label: "workbookId", location: .uri(locationName: "workbookId"))
         ]
 
         /// The ID of the app that contains the screen automation.
         public let appId: String
-        ///  The request token for performing the automation action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will return the response of the previous call rather than performing the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
+        ///  The request token for performing the automation action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will return the response of the previous call rather than performing the action again.   Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days. 
         public let clientRequestToken: String?
-        ///  The row ID for the automation if the automation is defined inside a block with source or list.
+        ///  The row ID for the automation if the automation is defined inside a block with source or list. 
         public let rowId: String?
         /// The ID of the automation action to be performed.
         public let screenAutomationId: String
         /// The ID of the screen that contains the screen automation.
         public let screenId: String
-        ///  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen.
+        ///  Variables are optional and are needed only if the screen requires them to render correctly. Variables are specified as a map where the key is the name of the variable as defined on the screen. The value is an object which currently has only one property, rawValue, which holds the value of the variable to be passed to the screen. 
         public let variables: [String: VariableValue]?
         /// The ID of the workbook that contains the screen automation.
         public let workbookId: String
@@ -183,13 +187,14 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case rowId
-            case variables
+            case clientRequestToken = "clientRequestToken"
+            case rowId = "rowId"
+            case variables = "variables"
         }
     }
 
     public struct InvokeScreenAutomationResult: AWSDecodableShape {
+
         /// The updated workbook cursor after performing the automation action.
         public let workbookCursor: Int64
 
@@ -198,11 +203,12 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case workbookCursor
+            case workbookCursor = "workbookCursor"
         }
     }
 
     public struct ResultRow: AWSDecodableShape {
+
         /// List of all the data cells in a row.
         public let dataItems: [DataItem]
         /// The ID for a particular row.
@@ -214,15 +220,16 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataItems
-            case rowId
+            case dataItems = "dataItems"
+            case rowId = "rowId"
         }
     }
 
     public struct ResultSet: AWSDecodableShape {
-        ///  List of headers for all the data cells in the block. The header identifies the name and default format of the data cell. Data cells appear in the same order in all rows as defined in the header. The names and formats are not repeated in the rows. If a particular row does not have a value for a data cell, a blank value is used.   For example, a task list that displays the task name, due date and assigned person might have headers [ { "name": "Task Name"}, {"name": "Due Date", "format": "DATE"}, {"name": "Assigned", "format": "CONTACT"} ]. Every row in the result will have the task name as the first item, due date as the second item and assigned person as the third item. If a particular task does not have a due date, that row will still have a blank value in the second element and the assigned person will still be in the third element.
+
+        ///  List of headers for all the data cells in the block. The header identifies the name and default format of the data cell. Data cells appear in the same order in all rows as defined in the header. The names and formats are not repeated in the rows. If a particular row does not have a value for a data cell, a blank value is used.   For example, a task list that displays the task name, due date and assigned person might have headers [ { "name": "Task Name"}, {"name": "Due Date", "format": "DATE"}, {"name": "Assigned", "format": "CONTACT"} ]. Every row in the result will have the task name as the first item, due date as the second item and assigned person as the third item. If a particular task does not have a due date, that row will still have a blank value in the second element and the assigned person will still be in the third element. 
         public let headers: [ColumnMetadata]
-        ///  List of rows returned by the request. Each row has a row Id and a list of data cells in that row. The data cells will be present in the same order as they are defined in the header.
+        ///  List of rows returned by the request. Each row has a row Id and a list of data cells in that row. The data cells will be present in the same order as they are defined in the header. 
         public let rows: [ResultRow]
 
         public init(headers: [ColumnMetadata], rows: [ResultRow]) {
@@ -231,12 +238,13 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case headers
-            case rows
+            case headers = "headers"
+            case rows = "rows"
         }
     }
 
     public struct VariableValue: AWSEncodableShape {
+
         /// Raw value of the variable.
         public let rawValue: String
 
@@ -245,7 +253,7 @@ extension Honeycode {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case rawValue
+            case rawValue = "rawValue"
         }
     }
 }

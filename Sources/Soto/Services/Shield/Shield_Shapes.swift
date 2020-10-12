@@ -74,6 +74,7 @@ extension Shield {
     // MARK: Shapes
 
     public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
+
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
@@ -93,10 +94,15 @@ extension Shield {
     }
 
     public struct AssociateDRTLogBucketResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateDRTRoleRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the role the DRT will use to access your AWS account. Prior to making the AssociateDRTRole request, you must attach the AWSShieldDRTAccessPolicy managed policy to this role. For more information see Attaching and Detaching IAM Policies.
         public let roleArn: String
 
@@ -116,13 +122,18 @@ extension Shield {
     }
 
     public struct AssociateDRTRoleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateHealthCheckRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the health check to associate with the protection.
         public let healthCheckArn: String
-        /// The unique identifier (ID) for the Protection object to add the health check association to.
+        /// The unique identifier (ID) for the Protection object to add the health check association to. 
         public let protectionId: String
 
         public init(healthCheckArn: String, protectionId: String) {
@@ -146,11 +157,16 @@ extension Shield {
     }
 
     public struct AssociateHealthCheckResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateProactiveEngagementDetailsRequest: AWSEncodableShape {
-        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.
+
+        /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you for escalations to the DRT and to initiate proactive customer support.  To enable proactive engagement, the contact list must include at least one phone number.  The contacts that you provide here replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using DescribeEmergencyContactSettings and then provide it here.  
         public let emergencyContactList: [EmergencyContact]
 
         public init(emergencyContactList: [EmergencyContact]) {
@@ -171,10 +187,15 @@ extension Shield {
     }
 
     public struct AssociateProactiveEngagementDetailsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AttackDetail: AWSDecodableShape {
+
         /// List of counters that describe the attack for the specified time period.
         public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
@@ -216,11 +237,12 @@ extension Shield {
     }
 
     public struct AttackProperty: AWSDecodableShape {
+
         /// The type of distributed denial of service (DDoS) event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events.
         public let attackLayer: AttackLayer?
         /// Defines the DDoS attack property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback DDoS attacks.
         public let attackPropertyIdentifier: AttackPropertyIdentifier?
-        /// The array of Contributor objects that includes the top five contributors to an attack.
+        /// The array of Contributor objects that includes the top five contributors to an attack. 
         public let topContributors: [Contributor]?
         /// The total contributions made to this attack by all contributors, not just the five listed in the TopContributors list.
         public let total: Int64?
@@ -245,6 +267,7 @@ extension Shield {
     }
 
     public struct AttackSummary: AWSDecodableShape {
+
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
         /// The list of attacks for a specified time period.
@@ -274,7 +297,8 @@ extension Shield {
     }
 
     public struct AttackVectorDescription: AWSDecodableShape {
-        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION
+
+        /// The attack type. Valid values:   UDP_TRAFFIC   UDP_FRAGMENT   GENERIC_UDP_REFLECTION   DNS_REFLECTION   NTP_REFLECTION   CHARGEN_REFLECTION   SSDP_REFLECTION   PORT_MAPPER   RIP_REFLECTION   SNMP_REFLECTION   MSSQL_REFLECTION   NET_BIOS_REFLECTION   SYN_FLOOD   ACK_FLOOD   REQUEST_FLOOD   HTTP_REFLECTION   UDS_REFLECTION   MEMCACHED_REFLECTION  
         public let vectorType: String
 
         public init(vectorType: String) {
@@ -287,6 +311,7 @@ extension Shield {
     }
 
     public struct Contributor: AWSDecodableShape {
+
         /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
         /// The contribution of this contributor expressed in Protection units. For example 10,000.
@@ -304,9 +329,10 @@ extension Shield {
     }
 
     public struct CreateProtectionRequest: AWSEncodableShape {
+
         /// Friendly name for the Protection you are creating.
         public let name: String
-        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
+        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an AWS CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an AWS Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id    
         public let resourceArn: String
 
         public init(name: String, resourceArn: String) {
@@ -330,6 +356,7 @@ extension Shield {
     }
 
     public struct CreateProtectionResponse: AWSDecodableShape {
+
         /// The unique identifier (ID) for the Protection object that is created.
         public let protectionId: String?
 
@@ -343,14 +370,23 @@ extension Shield {
     }
 
     public struct CreateSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProtectionRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the Protection object to be deleted.
         public let protectionId: String
 
@@ -370,18 +406,31 @@ extension Shield {
     }
 
     public struct DeleteProtectionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAttackRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the attack that to be described.
         public let attackId: String
 
@@ -401,6 +450,7 @@ extension Shield {
     }
 
     public struct DescribeAttackResponse: AWSDecodableShape {
+
         /// The attack that is described.
         public let attack: AttackDetail?
 
@@ -414,10 +464,15 @@ extension Shield {
     }
 
     public struct DescribeDRTAccessRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeDRTAccessResponse: AWSDecodableShape {
+
         /// The list of Amazon S3 buckets accessed by the DRT.
         public let logBucketList: [String]?
         /// The Amazon Resource Name (ARN) of the role the DRT used to access your AWS account.
@@ -435,10 +490,15 @@ extension Shield {
     }
 
     public struct DescribeEmergencyContactSettingsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeEmergencyContactSettingsResponse: AWSDecodableShape {
+
         /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support.
         public let emergencyContactList: [EmergencyContact]?
 
@@ -452,6 +512,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionRequest: AWSEncodableShape {
+
         /// The unique identifier (ID) for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
         public let protectionId: String?
         /// The ARN (Amazon Resource Name) of the AWS resource for the Protection object that is described. When submitting the DescribeProtection request you must provide either the ResourceArn or the ProtectionID, but not both.
@@ -478,6 +539,7 @@ extension Shield {
     }
 
     public struct DescribeProtectionResponse: AWSDecodableShape {
+
         /// The Protection object that is described.
         public let protection: Protection?
 
@@ -491,10 +553,15 @@ extension Shield {
     }
 
     public struct DescribeSubscriptionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeSubscriptionResponse: AWSDecodableShape {
+
         /// The AWS Shield Advanced subscription details for an account.
         public let subscription: Subscription?
 
@@ -508,14 +575,23 @@ extension Shield {
     }
 
     public struct DisableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableProactiveEngagementResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTLogBucketRequest: AWSEncodableShape {
+
         /// The Amazon S3 bucket that contains your AWS WAF logs.
         public let logBucket: String
 
@@ -535,21 +611,34 @@ extension Shield {
     }
 
     public struct DisassociateDRTLogBucketResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTRoleRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateDRTRoleResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateHealthCheckRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the health check that is associated with the protection.
         public let healthCheckArn: String
-        /// The unique identifier (ID) for the Protection object to remove the health check association from.
+        /// The unique identifier (ID) for the Protection object to remove the health check association from. 
         public let protectionId: String
 
         public init(healthCheckArn: String, protectionId: String) {
@@ -573,11 +662,16 @@ extension Shield {
     }
 
     public struct DisassociateHealthCheckResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EmergencyContact: AWSEncodableShape & AWSDecodableShape {
-        /// Additional notes regarding the contact.
+
+        /// Additional notes regarding the contact. 
         public let contactNotes: String?
         /// The email address for the contact.
         public let emailAddress: String
@@ -610,18 +704,31 @@ extension Shield {
     }
 
     public struct EnableProactiveEngagementRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableProactiveEngagementResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetSubscriptionStateRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetSubscriptionStateResponse: AWSDecodableShape {
+
         /// The status of the subscription.
         public let subscriptionState: SubscriptionState
 
@@ -635,6 +742,7 @@ extension Shield {
     }
 
     public struct Limit: AWSDecodableShape {
+
         /// The maximum number of protections that can be created for the specified Type.
         public let max: Int64?
         /// The type of protection.
@@ -652,7 +760,8 @@ extension Shield {
     }
 
     public struct ListAttacksRequest: AWSEncodableShape {
-        /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
+
+        /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let endTime: TimeRange?
         /// The maximum number of AttackSummary objects to be returned. If this is left blank, the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of AttackSummary objects returned could be less than MaxResults, even if there are still more AttackSummary objects yet to return. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
         public let maxResults: Int?
@@ -660,7 +769,7 @@ extension Shield {
         public let nextToken: String?
         /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
         public let resourceArns: [String]?
-        /// The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed.
+        /// The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format is allowed. 
         public let startTime: TimeRange?
 
         public init(endTime: TimeRange? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil, startTime: TimeRange? = nil) {
@@ -694,6 +803,7 @@ extension Shield {
     }
 
     public struct ListAttacksResponse: AWSDecodableShape {
+
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
         /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. AWS WAF might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more AttackSummary objects to return, AWS WAF will always also return a NextToken.
@@ -711,6 +821,7 @@ extension Shield {
     }
 
     public struct ListProtectionsRequest: AWSEncodableShape {
+
         /// The maximum number of Protection objects to be returned. If this is left blank the first 20 results will be returned. This is a maximum value; it is possible that AWS WAF will return the results in smaller batches. That is, the number of Protection objects returned could be less than MaxResults, even if there are still more Protection objects yet to return. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let maxResults: Int?
         /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
@@ -736,6 +847,7 @@ extension Shield {
     }
 
     public struct ListProtectionsResponse: AWSDecodableShape {
+
         /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, AWS Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. AWS WAF might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, AWS WAF will always also return a NextToken.
         public let nextToken: String?
         /// The array of enabled Protection objects.
@@ -753,6 +865,7 @@ extension Shield {
     }
 
     public struct Mitigation: AWSDecodableShape {
+
         /// The name of the mitigation taken for this attack.
         public let mitigationName: String?
 
@@ -766,7 +879,8 @@ extension Shield {
     }
 
     public struct Protection: AWSDecodableShape {
-        /// The unique identifier (ID) for the Route 53 health check that's associated with the protection.
+
+        /// The unique identifier (ID) for the Route 53 health check that's associated with the protection. 
         public let healthCheckIds: [String]?
         /// The unique identifier (ID) of the protection.
         public let id: String?
@@ -791,6 +905,7 @@ extension Shield {
     }
 
     public struct SubResourceSummary: AWSDecodableShape {
+
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
         /// The counters that describe the details of the attack.
@@ -816,13 +931,14 @@ extension Shield {
     }
 
     public struct Subscription: AWSDecodableShape {
+
         /// If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. When you initally create a subscription, AutoRenew is set to ENABLED. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
         /// The date and time your subscription will end.
         public let endTime: Date?
         /// Specifies how many protections of a given type you can create.
         public let limits: [Limit]?
-        /// If ENABLED, the DDoS Response Team (DRT) will use email and phone to notify contacts about escalations to the DRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the DRT will not proactively notify contacts about escalations or to initiate proactive customer support.
+        /// If ENABLED, the DDoS Response Team (DRT) will use email and phone to notify contacts about escalations to the DRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the DRT will not proactively notify contacts about escalations or to initiate proactive customer support. 
         public let proactiveEngagementStatus: ProactiveEngagementStatus?
         /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
         public let startTime: Date?
@@ -849,6 +965,7 @@ extension Shield {
     }
 
     public struct SummarizedAttackVector: AWSDecodableShape {
+
         /// The list of counters that describe the details of the attack.
         public let vectorCounters: [SummarizedCounter]?
         /// The attack type, for example, SNMP reflection or SYN flood.
@@ -866,6 +983,7 @@ extension Shield {
     }
 
     public struct SummarizedCounter: AWSDecodableShape {
+
         /// The average value of the counter for a specified time period.
         public let average: Double?
         /// The maximum value of the counter for a specified time period.
@@ -899,6 +1017,7 @@ extension Shield {
     }
 
     public struct TimeRange: AWSEncodableShape {
+
         /// The start time, in Unix time in seconds. For more information see timestamp.
         public let fromInclusive: Date?
         /// The end time, in Unix time in seconds. For more information see timestamp.
@@ -916,6 +1035,7 @@ extension Shield {
     }
 
     public struct UpdateEmergencyContactSettingsRequest: AWSEncodableShape {
+
         /// A list of email addresses and phone numbers that the DDoS Response Team (DRT) can use to contact you if you have proactive engagement enabled, for escalations to the DRT and to initiate proactive customer support. If you have proactive engagement enabled, the contact list must include at least one phone number.
         public let emergencyContactList: [EmergencyContact]?
 
@@ -937,10 +1057,15 @@ extension Shield {
     }
 
     public struct UpdateEmergencyContactSettingsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSubscriptionRequest: AWSEncodableShape {
+
         /// When you initally create a subscription, AutoRenew is set to ENABLED. If ENABLED, the subscription will be automatically renewed at the end of the existing subscription period. You can change this by submitting an UpdateSubscription request. If the UpdateSubscription request does not included a value for AutoRenew, the existing value for AutoRenew remains unchanged.
         public let autoRenew: AutoRenew?
 
@@ -954,6 +1079,10 @@ extension Shield {
     }
 
     public struct UpdateSubscriptionResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

@@ -75,6 +75,7 @@ extension GlobalAccelerator {
     // MARK: Shapes
 
     public struct Accelerator: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator.
         public let acceleratorArn: String?
         /// The date and time that the accelerator was created.
@@ -83,7 +84,7 @@ extension GlobalAccelerator {
         public let dnsName: String?
         /// Indicates whether the accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
+        /// The value for the address type must be IPv4. 
         public let ipAddressType: IpAddressType?
         /// The static IP addresses that Global Accelerator associates with the accelerator.
         public let ipSets: [IpSet]?
@@ -120,6 +121,7 @@ extension GlobalAccelerator {
     }
 
     public struct AcceleratorAttributes: AWSDecodableShape {
+
         /// Indicates whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
         public let flowLogsEnabled: Bool?
         /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if FlowLogsEnabled is true. The bucket must exist and have a bucket policy that grants AWS Global Accelerator permission to write to the bucket.
@@ -141,6 +143,7 @@ extension GlobalAccelerator {
     }
 
     public struct AdvertiseByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
         public let cidr: String
 
@@ -158,6 +161,7 @@ extension GlobalAccelerator {
     }
 
     public struct AdvertiseByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -171,6 +175,7 @@ extension GlobalAccelerator {
     }
 
     public struct ByoipCidr: AWSDecodableShape {
+
         /// The address range, in CIDR notation.
         public let cidr: String?
         /// A history of status changes for an IP address range that that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
@@ -192,6 +197,7 @@ extension GlobalAccelerator {
     }
 
     public struct ByoipCidrEvent: AWSDecodableShape {
+
         /// A string that contains an Event message describing changes that you make in the status of an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
         public let message: String?
         /// A timestamp when you make a status change for an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
@@ -209,6 +215,7 @@ extension GlobalAccelerator {
     }
 
     public struct CidrAuthorizationContext: AWSEncodableShape {
+
         /// The plain-text authorization message for the prefix and account.
         public let message: String
         /// The signed authorization message for the prefix and account.
@@ -231,13 +238,14 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorRequest: AWSEncodableShape {
+
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, an accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
         public let idempotencyToken: String
         /// Optionally, if you've added your own IP address pool to Global Accelerator, you can choose IP addresses from your own pool to use for the accelerator's static IP addresses. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
         public let ipAddresses: [String]?
-        /// The value for the address type must be IPv4.
+        /// The value for the address type must be IPv4. 
         public let ipAddressType: IpAddressType?
         /// The name of an accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String
@@ -274,6 +282,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateAcceleratorResponse: AWSDecodableShape {
+
         /// The accelerator that is created by specifying a listener and the supported IP address types.
         public let accelerator: Accelerator?
 
@@ -287,6 +296,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupRequest: AWSEncodableShape {
+
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
         /// The name of the AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
@@ -356,6 +366,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateEndpointGroupResponse: AWSDecodableShape {
+
         /// The information about the endpoint group that was created.
         public let endpointGroup: EndpointGroup?
 
@@ -369,6 +380,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of your accelerator.
         public let acceleratorArn: String
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
@@ -408,6 +420,7 @@ extension GlobalAccelerator {
     }
 
     public struct CreateListenerResponse: AWSDecodableShape {
+
         /// The listener that you've created.
         public let listener: Listener?
 
@@ -421,6 +434,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of an accelerator.
         public let acceleratorArn: String
 
@@ -438,6 +452,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to delete.
         public let endpointGroupArn: String
 
@@ -455,6 +470,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeleteListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -472,6 +488,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeprovisionByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
         public let cidr: String
 
@@ -489,6 +506,7 @@ extension GlobalAccelerator {
     }
 
     public struct DeprovisionByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -502,6 +520,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator with the attributes that you want to describe.
         public let acceleratorArn: String
 
@@ -519,6 +538,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// The attributes of the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
@@ -532,6 +552,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to describe.
         public let acceleratorArn: String
 
@@ -549,6 +570,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeAcceleratorResponse: AWSDecodableShape {
+
         /// The description of the accelerator.
         public let accelerator: Accelerator?
 
@@ -562,6 +584,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the endpoint group to describe.
         public let endpointGroupArn: String
 
@@ -579,6 +602,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeEndpointGroupResponse: AWSDecodableShape {
+
         /// The description of an endpoint group.
         public let endpointGroup: EndpointGroup?
 
@@ -592,6 +616,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener to describe.
         public let listenerArn: String
 
@@ -609,6 +634,7 @@ extension GlobalAccelerator {
     }
 
     public struct DescribeListenerResponse: AWSDecodableShape {
+
         /// The description of a listener.
         public let listener: Listener?
 
@@ -622,6 +648,7 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointConfiguration: AWSEncodableShape {
+
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
@@ -649,15 +676,16 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointDescription: AWSDecodableShape {
+
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Viewing Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
         /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String?
-        /// The reason code associated with why the endpoint is not healthy. If the endpoint state is healthy, a reason code is not provided. If the endpoint state is unhealthy, the reason code can be one of the following values:    Timeout: The health check requests to the endpoint are timing out before returning a status.    Failed: The health check failed, for example because the endpoint response was invalid (malformed).   If the endpoint state is initial, the reason code can be one of the following values:    ProvisioningInProgress: The endpoint is in the process of being provisioned.    InitialHealthChecking: Global Accelerator is still setting up the minimum number of health checks for the endpoint that are required to determine its health status.
+        /// The reason code associated with why the endpoint is not healthy. If the endpoint state is healthy, a reason code is not provided. If the endpoint state is unhealthy, the reason code can be one of the following values:    Timeout: The health check requests to the endpoint are timing out before returning a status.    Failed: The health check failed, for example because the endpoint response was invalid (malformed).   If the endpoint state is initial, the reason code can be one of the following values:    ProvisioningInProgress: The endpoint is in the process of being provisioned.    InitialHealthChecking: Global Accelerator is still setting up the minimum number of health checks for the endpoint that are required to determine its health status.  
         public let healthReason: String?
         /// The health status of the endpoint.
         public let healthState: HealthState?
-        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
+        /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide. 
         public let weight: Int?
 
         public init(clientIPPreservationEnabled: Bool? = nil, endpointId: String? = nil, healthReason: String? = nil, healthState: HealthState? = nil, weight: Int? = nil) {
@@ -678,6 +706,7 @@ extension GlobalAccelerator {
     }
 
     public struct EndpointGroup: AWSDecodableShape {
+
         /// The list of endpoint objects.
         public let endpointDescriptions: [EndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -723,6 +752,7 @@ extension GlobalAccelerator {
     }
 
     public struct IpSet: AWSDecodableShape {
+
         /// The array of IP addresses in the IP address set. An IP address set can have a maximum of two IP addresses.
         public let ipAddresses: [String]?
         /// The types of IP addresses included in this IP set.
@@ -740,6 +770,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsRequest: AWSEncodableShape {
+
         /// The number of Global Accelerator objects that you want to return with this call. The default value is 10.
         public let maxResults: Int?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -763,6 +794,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListAcceleratorsResponse: AWSDecodableShape {
+
         /// The list of accelerators for a customer account.
         public let accelerators: [Accelerator]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -780,6 +812,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListByoipCidrsRequest: AWSEncodableShape {
+
         /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
         public let maxResults: Int?
         /// The token for the next page of results.
@@ -803,6 +836,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListByoipCidrsResponse: AWSDecodableShape {
+
         /// Information about your address ranges.
         public let byoipCidrs: [ByoipCidr]?
         /// The token for the next page of results.
@@ -820,6 +854,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
         /// The number of endpoint group objects that you want to return with this call. The default value is 10.
@@ -848,6 +883,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListEndpointGroupsResponse: AWSDecodableShape {
+
         /// The list of the endpoint groups associated with a listener.
         public let endpointGroups: [EndpointGroup]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -865,6 +901,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator for which you want to list listener objects.
         public let acceleratorArn: String
         /// The number of listener objects that you want to return with this call. The default value is 10.
@@ -893,6 +930,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListListenersResponse: AWSDecodableShape {
+
         /// The list of listeners for an accelerator.
         public let listeners: [Listener]?
         /// The token for the next set of results. You receive this token from a previous call.
@@ -910,6 +948,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to list tags for. An ARN uniquely identifies an accelerator.
         public let resourceArn: String
 
@@ -928,6 +967,7 @@ extension GlobalAccelerator {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// Root level tag for the Tags parameters.
         public let tags: [Tag]?
 
@@ -941,6 +981,7 @@ extension GlobalAccelerator {
     }
 
     public struct Listener: AWSDecodableShape {
+
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener.
@@ -966,6 +1007,7 @@ extension GlobalAccelerator {
     }
 
     public struct PortRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The first port in the range of ports, inclusive.
         public let fromPort: Int?
         /// The last port in the range of ports, inclusive.
@@ -990,9 +1032,10 @@ extension GlobalAccelerator {
     }
 
     public struct ProvisionByoipCidrRequest: AWSEncodableShape {
+
         /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this or another Region.
         public let cidr: String
-        /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP.
+        /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP. 
         public let cidrAuthorizationContext: CidrAuthorizationContext
 
         public init(cidr: String, cidrAuthorizationContext: CidrAuthorizationContext) {
@@ -1012,6 +1055,7 @@ extension GlobalAccelerator {
     }
 
     public struct ProvisionByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address range.
         public let byoipCidr: ByoipCidr?
 
@@ -1025,6 +1069,7 @@ extension GlobalAccelerator {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// A string that contains a Tag key.
         public let key: String
         /// A string that contains a Tag value.
@@ -1049,6 +1094,7 @@ extension GlobalAccelerator {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Global Accelerator resource to add tags to. An ARN uniquely identifies a resource.
         public let resourceArn: String
         /// The tags to add to a resource. A tag consists of a key and a value that you define.
@@ -1074,10 +1120,15 @@ extension GlobalAccelerator {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the Global Accelerator resource to remove tags from. An ARN uniquely identifies a resource.
         public let resourceArn: String
         /// The tag key pairs that you want to remove from the specified resources.
@@ -1106,10 +1157,15 @@ extension GlobalAccelerator {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAcceleratorAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator that you want to update.
         public let acceleratorArn: String
         /// Update whether flow logs are enabled. The default value is false. If the value is true, FlowLogsS3Bucket and FlowLogsS3Prefix must be specified. For more information, see Flow Logs in the AWS Global Accelerator Developer Guide.
@@ -1141,6 +1197,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorAttributesResponse: AWSDecodableShape {
+
         /// Updated attributes for the accelerator.
         public let acceleratorAttributes: AcceleratorAttributes?
 
@@ -1154,11 +1211,12 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the accelerator to update.
         public let acceleratorArn: String
         /// Indicates whether an accelerator is enabled. The value is true or false. The default value is true.  If the value is set to true, the accelerator cannot be deleted. If set to false, the accelerator can be deleted.
         public let enabled: Bool?
-        /// The value for the address type must be IPv4.
+        /// The value for the address type must be IPv4. 
         public let ipAddressType: IpAddressType?
         /// The name of the accelerator. The name can have a maximum of 32 characters, must contain only alphanumeric characters or hyphens (-), and must not begin or end with a hyphen.
         public let name: String?
@@ -1184,6 +1242,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateAcceleratorResponse: AWSDecodableShape {
+
         /// Information about the updated accelerator.
         public let accelerator: Accelerator?
 
@@ -1197,6 +1256,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupRequest: AWSEncodableShape {
+
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
@@ -1256,6 +1316,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateEndpointGroupResponse: AWSDecodableShape {
+
         /// The information about the endpoint group that was updated.
         public let endpointGroup: EndpointGroup?
 
@@ -1269,6 +1330,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerRequest: AWSEncodableShape {
+
         /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener to update.
@@ -1303,6 +1365,7 @@ extension GlobalAccelerator {
     }
 
     public struct UpdateListenerResponse: AWSDecodableShape {
+
         /// Information for the updated listener.
         public let listener: Listener?
 
@@ -1316,6 +1379,7 @@ extension GlobalAccelerator {
     }
 
     public struct WithdrawByoipCidrRequest: AWSEncodableShape {
+
         /// The address range, in CIDR notation.
         public let cidr: String
 
@@ -1333,6 +1397,7 @@ extension GlobalAccelerator {
     }
 
     public struct WithdrawByoipCidrResponse: AWSDecodableShape {
+
         /// Information about the address pool.
         public let byoipCidr: ByoipCidr?
 

@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS IoT1ClickProjects service.
+Client object for interacting with AWS IoT1ClickProjects service.
 
- The AWS IoT 1-Click Projects API Reference
- */
+The AWS IoT 1-Click Projects API Reference
+*/
 public struct IoT1ClickProjects: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +61,7 @@ public struct IoT1ClickProjects: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Associates a physical device with a placement.
@@ -78,12 +79,12 @@ public struct IoT1ClickProjects: AWSService {
         return self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable.
+    ///  Deletes a placement. To delete a placement, it must not have any devices associated with it.  When you delete a placement, all associated data becomes irretrievable. 
     public func deletePlacement(_ input: DeletePlacementRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePlacementResponse> {
         return self.client.execute(operation: "DeletePlacement", path: "/projects/{projectName}/placements/{placementName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable.
+    ///  Deletes a project. To delete a project, it must not have any placements associated with it.  When you delete a project, all associated data becomes irretrievable. 
     public func deleteProject(_ input: DeleteProjectRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteProjectResponse> {
         return self.client.execute(operation: "DeleteProject", path: "/projects/{projectName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

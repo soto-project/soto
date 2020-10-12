@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS TranscribeService service.
+Client object for interacting with AWS TranscribeService service.
 
- Operations and objects for transcribing speech to text.
- */
+Operations and objects for transcribing speech to text.
+*/
 public struct TranscribeService: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +62,7 @@ public struct TranscribeService: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Creates a new custom language model. Use Amazon S3 prefixes to provide the location of your input files. The time it takes to create your model depends on the size of your training data.
@@ -74,7 +75,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "CreateMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a new custom vocabulary that you can use to change the way Amazon Transcribe handles transcription of an audio file.
+    ///  Creates a new custom vocabulary that you can use to change the way Amazon Transcribe handles transcription of an audio file. 
     public func createVocabulary(_ input: CreateVocabularyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVocabularyResponse> {
         return self.client.execute(operation: "CreateVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -104,7 +105,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "DeleteTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deletes a vocabulary from Amazon Transcribe.
+    ///  Deletes a vocabulary from Amazon Transcribe. 
     @discardableResult public func deleteVocabulary(_ input: DeleteVocabularyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -114,7 +115,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "DeleteVocabularyFilter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets information about a single custom language model. Use this information to see details about the language model in your AWS account. You can also see whether the base language model used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If the language model wasn't created, you can use this operation to understand why Amazon Transcribe couldn't create it.
+    ///  Gets information about a single custom language model. Use this information to see details about the language model in your AWS account. You can also see whether the base language model used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can create a new custom language model using the updated base model. If the language model wasn't created, you can use this operation to understand why Amazon Transcribe couldn't create it. 
     public func describeLanguageModel(_ input: DescribeLanguageModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeLanguageModelResponse> {
         return self.client.execute(operation: "DescribeLanguageModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -134,7 +135,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "GetTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Gets information about a vocabulary.
+    ///  Gets information about a vocabulary. 
     public func getVocabulary(_ input: GetVocabularyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVocabularyResponse> {
         return self.client.execute(operation: "GetVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -179,7 +180,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "StartMedicalTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts an asynchronous job to transcribe speech to text.
+    ///  Starts an asynchronous job to transcribe speech to text. 
     public func startTranscriptionJob(_ input: StartTranscriptionJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartTranscriptionJobResponse> {
         return self.client.execute(operation: "StartTranscriptionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -189,7 +190,7 @@ public struct TranscribeService: AWSService {
         return self.client.execute(operation: "UpdateMedicalVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites all of the existing information with the values that you provide in the request.
+    ///  Updates an existing vocabulary with new values. The UpdateVocabulary operation overwrites all of the existing information with the values that you provide in the request. 
     public func updateVocabulary(_ input: UpdateVocabularyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVocabularyResponse> {
         return self.client.execute(operation: "UpdateVocabulary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

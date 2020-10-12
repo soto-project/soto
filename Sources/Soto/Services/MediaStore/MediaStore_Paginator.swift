@@ -19,7 +19,40 @@ import SotoCore
 // MARK: Paginators
 
 extension MediaStore {
-    ///  Lists the properties of all containers in AWS Elemental MediaStore.  You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of containers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers to receive.  See also DescribeContainer, which gets the properties of one container.
+    ///  Lists the properties of all containers in AWS Elemental MediaStore.  You can query to receive all the containers in one response. Or you can include the MaxResults parameter to receive a limited number of containers in each response. In this case, the response includes a token. To get the next set of containers, send the command again, this time with the NextToken parameter (with the returned token as its value). The next set of responses appears, with a token if there are still more containers to receive.  See also DescribeContainer, which gets the properties of one container. 
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listContainersPaginator<Result>(
+        _ input: ListContainersInput,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListContainersOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listContainers,
+            tokenKey: \ListContainersOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listContainersPaginator(
         _ input: ListContainersInput,
         on eventLoop: EventLoop? = nil,

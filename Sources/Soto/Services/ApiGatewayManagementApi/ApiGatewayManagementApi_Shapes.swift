@@ -51,6 +51,7 @@ extension ApiGatewayManagementApi {
     }
 
     public struct GetConnectionResponse: AWSDecodableShape {
+
         @OptionalCustomCoding<ISO8601DateCoder>
         public var connectedAt: Date?
         public let identity: Identity?
@@ -64,13 +65,14 @@ extension ApiGatewayManagementApi {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectedAt
-            case identity
-            case lastActiveAt
+            case connectedAt = "connectedAt"
+            case identity = "identity"
+            case lastActiveAt = "lastActiveAt"
         }
     }
 
     public struct Identity: AWSDecodableShape {
+
         /// The source IP address of the TCP connection making the request to API Gateway.
         public let sourceIp: String
         /// The User Agent of the API caller.
@@ -82,8 +84,8 @@ extension ApiGatewayManagementApi {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceIp
-            case userAgent
+            case sourceIp = "sourceIp"
+            case userAgent = "userAgent"
         }
     }
 
@@ -92,7 +94,7 @@ extension ApiGatewayManagementApi {
         public static let _payloadPath: String = "data"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
+            AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")), 
             AWSMemberEncoding(label: "data", location: .body(locationName: "Data"))
         ]
 
@@ -105,7 +107,7 @@ extension ApiGatewayManagementApi {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 131_072)
+            try self.validate(self.data, name: "data", parent: name, max: 131072)
         }
 
         private enum CodingKeys: CodingKey {}

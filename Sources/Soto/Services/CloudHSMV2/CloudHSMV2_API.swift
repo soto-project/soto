@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS CloudHSMV2 service.
+Client object for interacting with AWS CloudHSMV2 service.
 
- For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM User Guide.
- */
+For more information about AWS CloudHSM, see AWS CloudHSM and the AWS CloudHSM User Guide.
+*/
 public struct CloudHSMV2: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +62,7 @@ public struct CloudHSMV2: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Copy an AWS CloudHSM cluster backup to a different region.

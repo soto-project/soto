@@ -20,6 +20,39 @@ import SotoCore
 
 extension MediaPackage {
     ///  Returns a collection of Channels.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listChannelsPaginator<Result>(
+        _ input: ListChannelsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListChannelsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listChannels,
+            tokenKey: \ListChannelsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listChannelsPaginator(
         _ input: ListChannelsRequest,
         on eventLoop: EventLoop? = nil,
@@ -36,6 +69,39 @@ extension MediaPackage {
     }
 
     ///  Returns a collection of HarvestJob records.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listHarvestJobsPaginator<Result>(
+        _ input: ListHarvestJobsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListHarvestJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listHarvestJobs,
+            tokenKey: \ListHarvestJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listHarvestJobsPaginator(
         _ input: ListHarvestJobsRequest,
         on eventLoop: EventLoop? = nil,
@@ -52,6 +118,39 @@ extension MediaPackage {
     }
 
     ///  Returns a collection of OriginEndpoint records.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listOriginEndpointsPaginator<Result>(
+        _ input: ListOriginEndpointsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListOriginEndpointsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listOriginEndpoints,
+            tokenKey: \ListOriginEndpointsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOriginEndpointsPaginator(
         _ input: ListOriginEndpointsRequest,
         on eventLoop: EventLoop? = nil,

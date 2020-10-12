@@ -196,9 +196,9 @@ extension ElasticsearchService {
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable {
-        case standard
-        case gp2
-        case io1
+        case standard = "standard"
+        case gp2 = "gp2"
+        case io1 = "io1"
         public var description: String { return self.rawValue }
     }
 
@@ -220,7 +220,8 @@ extension ElasticsearchService {
     }
 
     public struct AcceptInboundCrossClusterSearchConnectionResponse: AWSDecodableShape {
-        /// Specifies the InboundCrossClusterSearchConnection of accepted inbound connection.
+
+        /// Specifies the InboundCrossClusterSearchConnection of accepted inbound connection. 
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
@@ -233,9 +234,10 @@ extension ElasticsearchService {
     }
 
     public struct AccessPoliciesStatus: AWSDecodableShape {
+
         /// The access policy configured for the Elasticsearch domain. Access policies may be resource-based, IP-based, or IAM-based. See  Configuring Access Policiesfor more information.
         public let options: String
-        /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included.
+        /// The status of the access policy for the Elasticsearch domain. See OptionStatus for the status information that's included. 
         public let status: OptionStatus
 
         public init(options: String, status: OptionStatus) {
@@ -250,9 +252,10 @@ extension ElasticsearchService {
     }
 
     public struct AddTagsRequest: AWSEncodableShape {
+
         ///  Specify the ARN for which you want to add the tags.
         public let arn: String
-        ///  List of Tag that need to be added for the Elasticsearch domain.
+        ///  List of Tag that need to be added for the Elasticsearch domain. 
         public let tagList: [Tag]
 
         public init(arn: String, tagList: [Tag]) {
@@ -273,9 +276,10 @@ extension ElasticsearchService {
     }
 
     public struct AdditionalLimit: AWSDecodableShape {
-        ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.
+
+        ///  Name of Additional Limit is specific to a given InstanceType and for each of it's  InstanceRole  etc.  Attributes and their details:   MaximumNumberOfDataNodesSupported This attribute will be present in Master node only to specify how much data nodes upto which given  ESPartitionInstanceType  can support as master node. MaximumNumberOfDataNodesWithoutMasterNode This attribute will be present in Data node only to specify how much data nodes of given  ESPartitionInstanceType  upto which you don't need any master nodes to govern them.  
         public let limitName: String?
-        ///  Value for given  AdditionalLimit$LimitName  .
+        ///  Value for given  AdditionalLimit$LimitName  . 
         public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
@@ -290,6 +294,7 @@ extension ElasticsearchService {
     }
 
     public struct AdvancedOptionsStatus: AWSDecodableShape {
+
         ///  Specifies the status of advanced options for the specified Elasticsearch domain.
         public let options: [String: String]
         ///  Specifies the status of OptionStatus for advanced options for the specified Elasticsearch domain.
@@ -307,6 +312,7 @@ extension ElasticsearchService {
     }
 
     public struct AdvancedSecurityOptions: AWSDecodableShape {
+
         /// True if advanced security is enabled.
         public let enabled: Bool?
         /// True if the internal user database is enabled.
@@ -324,6 +330,7 @@ extension ElasticsearchService {
     }
 
     public struct AdvancedSecurityOptionsInput: AWSEncodableShape {
+
         /// True if advanced security is enabled.
         public let enabled: Bool?
         /// True if the internal user database is enabled.
@@ -349,6 +356,7 @@ extension ElasticsearchService {
     }
 
     public struct AdvancedSecurityOptionsStatus: AWSDecodableShape {
+
         ///  Specifies advanced security options for the specified Elasticsearch domain.
         public let options: AdvancedSecurityOptions
         ///  Status of the advanced security options for the specified Elasticsearch domain.
@@ -367,7 +375,7 @@ extension ElasticsearchService {
 
     public struct AssociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
         ]
 
@@ -391,6 +399,7 @@ extension ElasticsearchService {
     }
 
     public struct AssociatePackageResponse: AWSDecodableShape {
+
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
 
@@ -404,6 +413,7 @@ extension ElasticsearchService {
     }
 
     public struct CancelElasticsearchServiceSoftwareUpdateRequest: AWSEncodableShape {
+
         /// The name of the domain that you want to stop the latest service software update on.
         public let domainName: String
 
@@ -423,6 +433,7 @@ extension ElasticsearchService {
     }
 
     public struct CancelElasticsearchServiceSoftwareUpdateResponse: AWSDecodableShape {
+
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
@@ -436,6 +447,7 @@ extension ElasticsearchService {
     }
 
     public struct CognitoOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the option to enable Cognito for Kibana authentication.
         public let enabled: Bool?
         /// Specifies the Cognito identity pool ID for Kibana authentication.
@@ -472,6 +484,7 @@ extension ElasticsearchService {
     }
 
     public struct CognitoOptionsStatus: AWSDecodableShape {
+
         /// Specifies the Cognito options for the specified Elasticsearch domain.
         public let options: CognitoOptions
         /// Specifies the status of the Cognito options for the specified Elasticsearch domain.
@@ -489,6 +502,7 @@ extension ElasticsearchService {
     }
 
     public struct CompatibleVersionsMap: AWSDecodableShape {
+
         /// The current version of Elasticsearch on which a domain is.
         public let sourceVersion: String?
         public let targetVersions: [String]?
@@ -505,6 +519,7 @@ extension ElasticsearchService {
     }
 
     public struct CreateElasticsearchDomainRequest: AWSEncodableShape {
+
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         ///  Option to allow references to indices in an HTTP request body. Must be false when configuring access to individual sub-resources. By default, the value is true. See Configuration Advanced Options for more information.
@@ -517,9 +532,9 @@ extension ElasticsearchService {
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the Elasticsearch domain that you are creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
-        /// Options to enable, disable and specify the type and size of EBS storage volumes.
+        /// Options to enable, disable and specify the type and size of EBS storage volumes. 
         public let eBSOptions: EBSOptions?
-        /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster.
+        /// Configuration options for an Elasticsearch domain. Specifies the instance type and number of instances in the domain cluster. 
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// String of format X.Y to specify version for the Elasticsearch domain eg. "1.5" or "2.3". For more information, see Creating Elasticsearch Domains in the Amazon Elasticsearch Service Developer Guide.
         public let elasticsearchVersion: String?
@@ -529,7 +544,7 @@ extension ElasticsearchService {
         public let logPublishingOptions: [LogType: LogPublishingOption]?
         /// Specifies the NodeToNodeEncryptionOptions.
         public let nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions?
-        /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours.
+        /// Option to set time, in UTC format, of the daily automated snapshot. Default value is 0 hours. 
         public let snapshotOptions: SnapshotOptions?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
@@ -579,7 +594,8 @@ extension ElasticsearchService {
     }
 
     public struct CreateElasticsearchDomainResponse: AWSDecodableShape {
-        /// The status of the newly created Elasticsearch domain.
+
+        /// The status of the newly created Elasticsearch domain. 
         public let domainStatus: ElasticsearchDomainStatus?
 
         public init(domainStatus: ElasticsearchDomainStatus? = nil) {
@@ -592,6 +608,7 @@ extension ElasticsearchService {
     }
 
     public struct CreateOutboundCrossClusterSearchConnectionRequest: AWSEncodableShape {
+
         /// Specifies the connection alias that will be used by the customer for this connection.
         public let connectionAlias: String
         /// Specifies the DomainInformation for the destination Elasticsearch domain.
@@ -619,6 +636,7 @@ extension ElasticsearchService {
     }
 
     public struct CreateOutboundCrossClusterSearchConnectionResponse: AWSDecodableShape {
+
         /// Specifies the connection alias provided during the create connection request.
         public let connectionAlias: String?
         /// Specifies the OutboundCrossClusterSearchConnectionStatus for the newly created connection.
@@ -648,6 +666,7 @@ extension ElasticsearchService {
     }
 
     public struct CreatePackageRequest: AWSEncodableShape {
+
         /// Description of the package.
         public let packageDescription: String?
         /// Unique identifier for the package.
@@ -681,6 +700,7 @@ extension ElasticsearchService {
     }
 
     public struct CreatePackageResponse: AWSDecodableShape {
+
         /// Information about the package PackageDetails.
         public let packageDetails: PackageDetails?
 
@@ -715,6 +735,7 @@ extension ElasticsearchService {
     }
 
     public struct DeleteElasticsearchDomainResponse: AWSDecodableShape {
+
         /// The status of the Elasticsearch domain being deleted.
         public let domainStatus: ElasticsearchDomainStatus?
 
@@ -743,7 +764,8 @@ extension ElasticsearchService {
     }
 
     public struct DeleteInboundCrossClusterSearchConnectionResponse: AWSDecodableShape {
-        /// Specifies the InboundCrossClusterSearchConnection of deleted inbound connection.
+
+        /// Specifies the InboundCrossClusterSearchConnection of deleted inbound connection. 
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
@@ -771,7 +793,8 @@ extension ElasticsearchService {
     }
 
     public struct DeleteOutboundCrossClusterSearchConnectionResponse: AWSDecodableShape {
-        /// Specifies the OutboundCrossClusterSearchConnection of deleted outbound connection.
+
+        /// Specifies the OutboundCrossClusterSearchConnection of deleted outbound connection. 
         public let crossClusterSearchConnection: OutboundCrossClusterSearchConnection?
 
         public init(crossClusterSearchConnection: OutboundCrossClusterSearchConnection? = nil) {
@@ -799,6 +822,7 @@ extension ElasticsearchService {
     }
 
     public struct DeletePackageResponse: AWSDecodableShape {
+
         /// PackageDetails
         public let packageDetails: PackageDetails?
 
@@ -833,6 +857,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainConfigResponse: AWSDecodableShape {
+
         /// The configuration information of the domain requested in the DescribeElasticsearchDomainConfig request.
         public let domainConfig: ElasticsearchDomainConfig
 
@@ -867,6 +892,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainResponse: AWSDecodableShape {
+
         /// The current status of the Elasticsearch domain.
         public let domainStatus: ElasticsearchDomainStatus
 
@@ -880,6 +906,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainsRequest: AWSEncodableShape {
+
         /// The Elasticsearch domains for which you want information.
         public let domainNames: [String]
 
@@ -901,6 +928,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchDomainsResponse: AWSDecodableShape {
+
         /// The status of the domains requested in the DescribeElasticsearchDomains request.
         public let domainStatusList: [ElasticsearchDomainStatus]
 
@@ -915,16 +943,16 @@ extension ElasticsearchService {
 
     public struct DescribeElasticsearchInstanceTypeLimitsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")),
+            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
             AWSMemberEncoding(label: "instanceType", location: .uri(locationName: "InstanceType"))
         ]
 
-        ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain.
+        ///  DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for Elasticsearch  Limits  for existing domain. 
         public let domainName: String?
-        ///  Version of Elasticsearch for which  Limits  are needed.
+        ///  Version of Elasticsearch for which  Limits  are needed. 
         public let elasticsearchVersion: String
-        ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed.
+        ///  The instance type for an Elasticsearch cluster for which Elasticsearch  Limits  are needed. 
         public let instanceType: ESPartitionInstanceType
 
         public init(domainName: String? = nil, elasticsearchVersion: String, instanceType: ESPartitionInstanceType) {
@@ -943,6 +971,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeElasticsearchInstanceTypeLimitsResponse: AWSDecodableShape {
+
         public let limitsByRole: [String: Limits]?
 
         public init(limitsByRole: [String: Limits]? = nil) {
@@ -955,7 +984,8 @@ extension ElasticsearchService {
     }
 
     public struct DescribeInboundCrossClusterSearchConnectionsRequest: AWSEncodableShape {
-        ///  A list of filters used to match properties for inbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id source-domain-info.domain-name source-domain-info.owner-id source-domain-info.region destination-domain-info.domain-name
+
+        ///  A list of filters used to match properties for inbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id source-domain-info.domain-name source-domain-info.owner-id source-domain-info.region destination-domain-info.domain-name  
         public let filters: [Filter]?
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
         public let maxResults: Int?
@@ -983,9 +1013,10 @@ extension ElasticsearchService {
     }
 
     public struct DescribeInboundCrossClusterSearchConnectionsResponse: AWSDecodableShape {
+
         /// Consists of list of InboundCrossClusterSearchConnection matching the specified filter criteria.
         public let crossClusterSearchConnections: [InboundCrossClusterSearchConnection]?
-        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
+        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results. 
         public let nextToken: String?
 
         public init(crossClusterSearchConnections: [InboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
@@ -1000,7 +1031,8 @@ extension ElasticsearchService {
     }
 
     public struct DescribeOutboundCrossClusterSearchConnectionsRequest: AWSEncodableShape {
-        ///  A list of filters used to match properties for outbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id destination-domain-info.domain-name destination-domain-info.owner-id destination-domain-info.region source-domain-info.domain-name
+
+        ///  A list of filters used to match properties for outbound cross-cluster search connection. Available Filter names for this operation are:  cross-cluster-search-connection-id destination-domain-info.domain-name destination-domain-info.owner-id destination-domain-info.region source-domain-info.domain-name  
         public let filters: [Filter]?
         /// Set this value to limit the number of results returned. If not specified, defaults to 100.
         public let maxResults: Int?
@@ -1028,9 +1060,10 @@ extension ElasticsearchService {
     }
 
     public struct DescribeOutboundCrossClusterSearchConnectionsResponse: AWSDecodableShape {
+
         /// Consists of list of OutboundCrossClusterSearchConnection matching the specified filter criteria.
         public let crossClusterSearchConnections: [OutboundCrossClusterSearchConnection]?
-        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results.
+        /// If more results are available and NextToken is present, make the next request to the same API with the received NextToken to paginate the remaining results. 
         public let nextToken: String?
 
         public init(crossClusterSearchConnections: [OutboundCrossClusterSearchConnection]? = nil, nextToken: String? = nil) {
@@ -1045,6 +1078,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribePackagesFilter: AWSEncodableShape {
+
         /// Any field from PackageDetails.
         public let name: DescribePackagesFilterName?
         /// A list of values for the specified field.
@@ -1068,6 +1102,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribePackagesRequest: AWSEncodableShape {
+
         /// Only returns packages that match the DescribePackagesFilterList values.
         public let filters: [DescribePackagesFilter]?
         /// Limits results to a maximum number of packages.
@@ -1096,6 +1131,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribePackagesResponse: AWSDecodableShape {
+
         public let nextToken: String?
         /// List of PackageDetails objects.
         public let packageDetailsList: [PackageDetails]?
@@ -1113,8 +1149,8 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstanceOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "reservedElasticsearchInstanceOfferingId", location: .querystring(locationName: "offeringId"))
         ]
 
@@ -1140,6 +1176,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeReservedElasticsearchInstanceOfferingsResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// List of reserved Elasticsearch instance offerings
@@ -1158,8 +1195,8 @@ extension ElasticsearchService {
 
     public struct DescribeReservedElasticsearchInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "reservedElasticsearchInstanceId", location: .querystring(locationName: "reservationId"))
         ]
 
@@ -1185,6 +1222,7 @@ extension ElasticsearchService {
     }
 
     public struct DescribeReservedElasticsearchInstancesResponse: AWSDecodableShape {
+
         /// Provides an identifier to allow retrieval of paginated results.
         public let nextToken: String?
         /// List of reserved Elasticsearch instances.
@@ -1203,7 +1241,7 @@ extension ElasticsearchService {
 
     public struct DissociatePackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
         ]
 
@@ -1227,6 +1265,7 @@ extension ElasticsearchService {
     }
 
     public struct DissociatePackageResponse: AWSDecodableShape {
+
         /// DomainPackageDetails
         public let domainPackageDetails: DomainPackageDetails?
 
@@ -1240,9 +1279,10 @@ extension ElasticsearchService {
     }
 
     public struct DomainEndpointOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify if only HTTPS endpoint should be enabled for the Elasticsearch domain.
         public let enforceHTTPS: Bool?
-        /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain.  It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy which supports TLSv1.0 and higher. Policy-Min-TLS-1-2-2019-07:  TLS security policy which supports only TLSv1.2
+        /// Specify the TLS security policy that needs to be applied to the HTTPS endpoint of Elasticsearch domain.  It can be one of the following values:  Policy-Min-TLS-1-0-2019-07:  TLS security policy which supports TLSv1.0 and higher. Policy-Min-TLS-1-2-2019-07:  TLS security policy which supports only TLSv1.2  
         public let tLSSecurityPolicy: TLSSecurityPolicy?
 
         public init(enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
@@ -1257,9 +1297,10 @@ extension ElasticsearchService {
     }
 
     public struct DomainEndpointOptionsStatus: AWSDecodableShape {
+
         /// Options to configure endpoint for the Elasticsearch domain.
         public let options: DomainEndpointOptions
-        /// The status of the endpoint options for the Elasticsearch domain. See OptionStatus for the status information that's included.
+        /// The status of the endpoint options for the Elasticsearch domain. See OptionStatus for the status information that's included. 
         public let status: OptionStatus
 
         public init(options: DomainEndpointOptions, status: OptionStatus) {
@@ -1274,6 +1315,7 @@ extension ElasticsearchService {
     }
 
     public struct DomainInfo: AWSDecodableShape {
+
         ///  Specifies the DomainName.
         public let domainName: String?
 
@@ -1287,6 +1329,7 @@ extension ElasticsearchService {
     }
 
     public struct DomainInformation: AWSEncodableShape & AWSDecodableShape {
+
         public let domainName: String
         public let ownerId: String?
         public let region: String?
@@ -1313,6 +1356,7 @@ extension ElasticsearchService {
     }
 
     public struct DomainPackageDetails: AWSDecodableShape {
+
         /// Name of the domain you've associated a package with.
         public let domainName: String?
         /// State of the association. Values are ASSOCIATING/ASSOCIATION_FAILED/ACTIVE/DISSOCIATING/DISSOCIATION_FAILED.
@@ -1354,6 +1398,7 @@ extension ElasticsearchService {
     }
 
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether EBS-based storage is enabled.
         public let eBSEnabled: Bool?
         /// Specifies the IOPD for a Provisioned IOPS EBS volume (SSD).
@@ -1379,6 +1424,7 @@ extension ElasticsearchService {
     }
 
     public struct EBSOptionsStatus: AWSDecodableShape {
+
         ///  Specifies the EBS options for the specified Elasticsearch domain.
         public let options: EBSOptions
         ///  Specifies the status of the EBS options for the specified Elasticsearch domain.
@@ -1396,6 +1442,7 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Total number of dedicated master nodes, active and on standby, for the cluster.
         public let dedicatedMasterCount: Int?
         /// A boolean value to indicate whether a dedicated master node is enabled. See About Dedicated Master Nodes for more information.
@@ -1445,6 +1492,7 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchClusterConfigStatus: AWSDecodableShape {
+
         ///  Specifies the cluster configuration for the specified Elasticsearch domain.
         public let options: ElasticsearchClusterConfig
         ///  Specifies the status of the configuration for the specified Elasticsearch domain.
@@ -1462,11 +1510,12 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchDomainConfig: AWSDecodableShape {
+
         /// IAM access policy as a JSON-formatted string.
         public let accessPolicies: AccessPoliciesStatus?
         /// Specifies the AdvancedOptions for the domain. See Configuring Advanced Options for more information.
         public let advancedOptions: AdvancedOptionsStatus?
-        /// Specifies AdvancedSecurityOptions for the domain.
+        /// Specifies AdvancedSecurityOptions for the domain. 
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
         /// The CognitoOptions for the specified domain. For more information, see Amazon Cognito Authentication for Kibana.
         public let cognitoOptions: CognitoOptionsStatus?
@@ -1523,6 +1572,7 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchDomainStatus: AWSDecodableShape {
+
         ///  IAM access policy as a JSON-formatted string.
         public let accessPolicies: String?
         /// Specifies the status of the AdvancedOptions
@@ -1623,6 +1673,7 @@ extension ElasticsearchService {
     }
 
     public struct ElasticsearchVersionStatus: AWSDecodableShape {
+
         ///  Specifies the Elasticsearch version for the specified Elasticsearch domain.
         public let options: String
         ///  Specifies the status of the Elasticsearch version options for the specified Elasticsearch domain.
@@ -1640,6 +1691,7 @@ extension ElasticsearchService {
     }
 
     public struct EncryptionAtRestOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the option to enable Encryption At Rest.
         public let enabled: Bool?
         ///  Specifies the KMS Key ID for Encryption At Rest options.
@@ -1662,6 +1714,7 @@ extension ElasticsearchService {
     }
 
     public struct EncryptionAtRestOptionsStatus: AWSDecodableShape {
+
         ///  Specifies the Encryption At Rest options for the specified Elasticsearch domain.
         public let options: EncryptionAtRestOptions
         ///  Specifies the status of the Encryption At Rest options for the specified Elasticsearch domain.
@@ -1679,6 +1732,7 @@ extension ElasticsearchService {
     }
 
     public struct ErrorDetails: AWSDecodableShape {
+
         public let errorMessage: String?
         public let errorType: String?
 
@@ -1694,9 +1748,10 @@ extension ElasticsearchService {
     }
 
     public struct Filter: AWSEncodableShape {
-        ///  Specifies the name of the filter.
+
+        ///  Specifies the name of the filter. 
         public let name: String?
-        ///  Contains one or more values for the filter.
+        ///  Contains one or more values for the filter. 
         public let values: [String]?
 
         public init(name: String? = nil, values: [String]? = nil) {
@@ -1739,7 +1794,8 @@ extension ElasticsearchService {
     }
 
     public struct GetCompatibleElasticsearchVersionsResponse: AWSDecodableShape {
-        ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation.
+
+        ///  A map of compatible Elasticsearch versions returned as part of the  GetCompatibleElasticsearchVersions  operation. 
         public let compatibleElasticsearchVersions: [CompatibleVersionsMap]?
 
         public init(compatibleElasticsearchVersions: [CompatibleVersionsMap]? = nil) {
@@ -1753,8 +1809,8 @@ extension ElasticsearchService {
 
     public struct GetUpgradeHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1779,9 +1835,10 @@ extension ElasticsearchService {
     }
 
     public struct GetUpgradeHistoryResponse: AWSDecodableShape {
+
         /// Pagination token that needs to be supplied to the next call to get the next page of results
         public let nextToken: String?
-        ///  A list of  UpgradeHistory  objects corresponding to each Upgrade or Upgrade Eligibility Check performed on a domain returned as part of  GetUpgradeHistoryResponse  object.
+        ///  A list of  UpgradeHistory  objects corresponding to each Upgrade or Upgrade Eligibility Check performed on a domain returned as part of  GetUpgradeHistoryResponse  object. 
         public let upgradeHistories: [UpgradeHistory]?
 
         public init(nextToken: String? = nil, upgradeHistories: [UpgradeHistory]? = nil) {
@@ -1816,11 +1873,12 @@ extension ElasticsearchService {
     }
 
     public struct GetUpgradeStatusResponse: AWSDecodableShape {
-        ///  One of 4 statuses that a step can go through returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+
+        ///  One of 4 statuses that a step can go through returned as part of the  GetUpgradeStatusResponse  object. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let stepStatus: UpgradeStatus?
         /// A string that describes the update briefly
         public let upgradeName: String?
-        ///  Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does through:  PreUpgradeCheck Snapshot Upgrade
+        ///  Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does through:  PreUpgradeCheck Snapshot Upgrade  
         public let upgradeStep: UpgradeStep?
 
         public init(stepStatus: UpgradeStatus? = nil, upgradeName: String? = nil, upgradeStep: UpgradeStep? = nil) {
@@ -1837,6 +1895,7 @@ extension ElasticsearchService {
     }
 
     public struct InboundCrossClusterSearchConnection: AWSDecodableShape {
+
         /// Specifies the InboundCrossClusterSearchConnectionStatus for the outbound connection.
         public let connectionStatus: InboundCrossClusterSearchConnectionStatus?
         /// Specifies the connection id for the inbound cross-cluster search connection.
@@ -1862,9 +1921,10 @@ extension ElasticsearchService {
     }
 
     public struct InboundCrossClusterSearchConnectionStatus: AWSDecodableShape {
+
         /// Specifies verbose information for the inbound connection status.
         public let message: String?
-        /// The state code for inbound connection. This can be one of the following:  PENDING_ACCEPTANCE: Inbound connection is not yet accepted by destination domain owner. APPROVED: Inbound connection is pending acceptance by destination domain owner. REJECTING: Inbound connection rejection is in process. REJECTED: Inbound connection is rejected. DELETING: Inbound connection deletion is in progress. DELETED: Inbound connection is deleted and cannot be used further.
+        /// The state code for inbound connection. This can be one of the following:  PENDING_ACCEPTANCE: Inbound connection is not yet accepted by destination domain owner. APPROVED: Inbound connection is pending acceptance by destination domain owner. REJECTING: Inbound connection rejection is in process. REJECTED: Inbound connection is rejected. DELETING: Inbound connection deletion is in progress. DELETED: Inbound connection is deleted and cannot be used further. 
         public let statusCode: InboundCrossClusterSearchConnectionStatusCode?
 
         public init(message: String? = nil, statusCode: InboundCrossClusterSearchConnectionStatusCode? = nil) {
@@ -1879,6 +1939,7 @@ extension ElasticsearchService {
     }
 
     public struct InstanceCountLimits: AWSDecodableShape {
+
         public let maximumInstanceCount: Int?
         public let minimumInstanceCount: Int?
 
@@ -1894,6 +1955,7 @@ extension ElasticsearchService {
     }
 
     public struct InstanceLimits: AWSDecodableShape {
+
         public let instanceCountLimits: InstanceCountLimits?
 
         public init(instanceCountLimits: InstanceCountLimits? = nil) {
@@ -1906,10 +1968,11 @@ extension ElasticsearchService {
     }
 
     public struct Limits: AWSDecodableShape {
-        ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  .
+
+        ///  List of additional limits that are specific to a given InstanceType and for each of it's  InstanceRole  . 
         public let additionalLimits: [AdditionalLimit]?
         public let instanceLimits: InstanceLimits?
-        /// StorageType represents the list of storage related types and attributes that are available for given InstanceType.
+        /// StorageType represents the list of storage related types and attributes that are available for given InstanceType. 
         public let storageTypes: [StorageType]?
 
         public init(additionalLimits: [AdditionalLimit]? = nil, instanceLimits: InstanceLimits? = nil, storageTypes: [StorageType]? = nil) {
@@ -1926,6 +1989,7 @@ extension ElasticsearchService {
     }
 
     public struct ListDomainNamesResponse: AWSDecodableShape {
+
         /// List of Elasticsearch domain names.
         public let domainNames: [DomainInfo]?
 
@@ -1940,8 +2004,8 @@ extension ElasticsearchService {
 
     public struct ListDomainsForPackageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "packageID", location: .uri(locationName: "PackageID"))
         ]
 
@@ -1966,6 +2030,7 @@ extension ElasticsearchService {
     }
 
     public struct ListDomainsForPackageResponse: AWSDecodableShape {
+
         /// List of DomainPackageDetails objects.
         public let domainPackageDetailsList: [DomainPackageDetails]?
         public let nextToken: String?
@@ -1983,19 +2048,19 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchInstanceTypesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")),
-            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "domainName", location: .querystring(locationName: "domainName")), 
+            AWSMemberEncoding(label: "elasticsearchVersion", location: .uri(locationName: "ElasticsearchVersion")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain.
+        /// DomainName represents the name of the Domain that we are trying to modify. This should be present only if we are querying for list of available Elasticsearch instance types when modifying existing domain. 
         public let domainName: String?
-        /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed.
+        /// Version of Elasticsearch for which list of supported elasticsearch instance types are needed. 
         public let elasticsearchVersion: String
-        ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored.
+        ///  Set this value to limit the number of results returned. Value provided must be greater than 30 else it wont be honored. 
         public let maxResults: Int?
-        /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination.
+        /// NextToken should be sent in case if earlier API call produced result containing NextToken. It is used for pagination. 
         public let nextToken: String?
 
         public init(domainName: String? = nil, elasticsearchVersion: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2016,9 +2081,10 @@ extension ElasticsearchService {
     }
 
     public struct ListElasticsearchInstanceTypesResponse: AWSDecodableShape {
-        ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion
+
+        ///  List of instance types supported by Amazon Elasticsearch service for given  ElasticsearchVersion  
         public let elasticsearchInstanceTypes: [ESPartitionInstanceType]?
-        /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results.
+        /// In case if there are more results available NextToken would be present, make further request to the same API with received NextToken to paginate remaining results. 
         public let nextToken: String?
 
         public init(elasticsearchInstanceTypes: [ESPartitionInstanceType]? = nil, nextToken: String? = nil) {
@@ -2034,11 +2100,11 @@ extension ElasticsearchService {
 
     public struct ListElasticsearchVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
-        ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored.
+        ///  Set this value to limit the number of results returned. Value provided must be greater than 10 else it wont be honored. 
         public let maxResults: Int?
         public let nextToken: String?
 
@@ -2055,6 +2121,7 @@ extension ElasticsearchService {
     }
 
     public struct ListElasticsearchVersionsResponse: AWSDecodableShape {
+
         public let elasticsearchVersions: [String]?
         public let nextToken: String?
 
@@ -2071,8 +2138,8 @@ extension ElasticsearchService {
 
     public struct ListPackagesForDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "domainName", location: .uri(locationName: "DomainName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2100,6 +2167,7 @@ extension ElasticsearchService {
     }
 
     public struct ListPackagesForDomainResponse: AWSDecodableShape {
+
         /// List of DomainPackageDetails objects.
         public let domainPackageDetailsList: [DomainPackageDetails]?
         /// Pagination token that needs to be supplied to the next call to get the next page of results.
@@ -2132,6 +2200,7 @@ extension ElasticsearchService {
     }
 
     public struct ListTagsResponse: AWSDecodableShape {
+
         ///  List of Tag for the requested Elasticsearch domain.
         public let tagList: [Tag]?
 
@@ -2145,6 +2214,7 @@ extension ElasticsearchService {
     }
 
     public struct LogPublishingOption: AWSEncodableShape & AWSDecodableShape {
+
         public let cloudWatchLogsLogGroupArn: String?
         ///  Specifies whether given log publishing option is enabled or not.
         public let enabled: Bool?
@@ -2161,9 +2231,10 @@ extension ElasticsearchService {
     }
 
     public struct LogPublishingOptionsStatus: AWSDecodableShape {
+
         /// The log publishing options configured for the Elasticsearch domain.
         public let options: [LogType: LogPublishingOption]?
-        /// The status of the log publishing options for the Elasticsearch domain. See OptionStatus for the status information that's included.
+        /// The status of the log publishing options for the Elasticsearch domain. See OptionStatus for the status information that's included. 
         public let status: OptionStatus?
 
         public init(options: [LogType: LogPublishingOption]? = nil, status: OptionStatus? = nil) {
@@ -2178,6 +2249,7 @@ extension ElasticsearchService {
     }
 
     public struct MasterUserOptions: AWSEncodableShape {
+
         /// ARN for the master user (if IAM is enabled).
         public let masterUserARN: String?
         /// The master user's username, which is stored in the Amazon Elasticsearch Service domain's internal database.
@@ -2204,6 +2276,7 @@ extension ElasticsearchService {
     }
 
     public struct NodeToNodeEncryptionOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify true to enable node-to-node encryption.
         public let enabled: Bool?
 
@@ -2217,6 +2290,7 @@ extension ElasticsearchService {
     }
 
     public struct NodeToNodeEncryptionOptionsStatus: AWSDecodableShape {
+
         /// Specifies the node-to-node encryption options for the specified Elasticsearch domain.
         public let options: NodeToNodeEncryptionOptions
         /// Specifies the status of the node-to-node encryption options for the specified Elasticsearch domain.
@@ -2234,6 +2308,7 @@ extension ElasticsearchService {
     }
 
     public struct OptionStatus: AWSDecodableShape {
+
         /// Timestamp which tells the creation date for the entity.
         public let creationDate: Date
         /// Indicates whether the Elasticsearch domain is being deleted.
@@ -2263,6 +2338,7 @@ extension ElasticsearchService {
     }
 
     public struct OutboundCrossClusterSearchConnection: AWSDecodableShape {
+
         /// Specifies the connection alias for the outbound cross-cluster search connection.
         public let connectionAlias: String?
         /// Specifies the OutboundCrossClusterSearchConnectionStatus for the outbound connection.
@@ -2292,9 +2368,10 @@ extension ElasticsearchService {
     }
 
     public struct OutboundCrossClusterSearchConnectionStatus: AWSDecodableShape {
+
         /// Specifies verbose information for the outbound connection status.
         public let message: String?
-        /// The state code for outbound connection. This can be one of the following:  VALIDATING: The outbound connection request is being validated. VALIDATION_FAILED: Validation failed for the connection request. PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by destination domain owner. PROVISIONING: Outbound connection request is in process. ACTIVE: Outbound connection is active and ready to use. REJECTED: Outbound connection request is rejected by destination domain owner. DELETING: Outbound connection deletion is in progress. DELETED: Outbound connection is deleted and cannot be used further.
+        /// The state code for outbound connection. This can be one of the following:  VALIDATING: The outbound connection request is being validated. VALIDATION_FAILED: Validation failed for the connection request. PENDING_ACCEPTANCE: Outbound connection request is validated and is not yet accepted by destination domain owner. PROVISIONING: Outbound connection request is in process. ACTIVE: Outbound connection is active and ready to use. REJECTED: Outbound connection request is rejected by destination domain owner. DELETING: Outbound connection deletion is in progress. DELETED: Outbound connection is deleted and cannot be used further. 
         public let statusCode: OutboundCrossClusterSearchConnectionStatusCode?
 
         public init(message: String? = nil, statusCode: OutboundCrossClusterSearchConnectionStatusCode? = nil) {
@@ -2309,6 +2386,7 @@ extension ElasticsearchService {
     }
 
     public struct PackageDetails: AWSDecodableShape {
+
         /// Timestamp which tells creation date of the package.
         public let createdAt: Date?
         /// Additional information if the package is in an error state. Null otherwise.
@@ -2346,6 +2424,7 @@ extension ElasticsearchService {
     }
 
     public struct PackageSource: AWSEncodableShape {
+
         /// Name of the bucket containing the package.
         public let s3BucketName: String?
         /// Key (file name) of the package.
@@ -2368,6 +2447,7 @@ extension ElasticsearchService {
     }
 
     public struct PurchaseReservedElasticsearchInstanceOfferingRequest: AWSEncodableShape {
+
         /// The number of Elasticsearch instances to reserve.
         public let instanceCount: Int?
         /// A customer-specified identifier to track this reservation.
@@ -2396,6 +2476,7 @@ extension ElasticsearchService {
     }
 
     public struct PurchaseReservedElasticsearchInstanceOfferingResponse: AWSDecodableShape {
+
         /// The customer-specified identifier used to track this reservation.
         public let reservationName: String?
         /// Details of the reserved Elasticsearch instance which was purchased.
@@ -2413,6 +2494,7 @@ extension ElasticsearchService {
     }
 
     public struct RecurringCharge: AWSDecodableShape {
+
         /// The monetary amount of the recurring charge.
         public let recurringChargeAmount: Double?
         /// The frequency of the recurring charge.
@@ -2445,7 +2527,8 @@ extension ElasticsearchService {
     }
 
     public struct RejectInboundCrossClusterSearchConnectionResponse: AWSDecodableShape {
-        /// Specifies the InboundCrossClusterSearchConnection of rejected inbound connection.
+
+        /// Specifies the InboundCrossClusterSearchConnection of rejected inbound connection. 
         public let crossClusterSearchConnection: InboundCrossClusterSearchConnection?
 
         public init(crossClusterSearchConnection: InboundCrossClusterSearchConnection? = nil) {
@@ -2458,6 +2541,7 @@ extension ElasticsearchService {
     }
 
     public struct RemoveTagsRequest: AWSEncodableShape {
+
         /// Specifies the ARN for the Elasticsearch domain from which you want to delete the specified tags.
         public let arn: String
         /// Specifies the TagKey list which you want to remove from the Elasticsearch domain.
@@ -2475,6 +2559,7 @@ extension ElasticsearchService {
     }
 
     public struct ReservedElasticsearchInstance: AWSDecodableShape {
+
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the Elasticsearch instance is reserved.
@@ -2483,7 +2568,7 @@ extension ElasticsearchService {
         public let elasticsearchInstanceCount: Int?
         /// The Elasticsearch instance type offered by the reserved instance offering.
         public let elasticsearchInstanceType: ESPartitionInstanceType?
-        /// The upfront fixed charge you will paid to purchase the specific reserved Elasticsearch instance offering.
+        /// The upfront fixed charge you will paid to purchase the specific reserved Elasticsearch instance offering. 
         public let fixedPrice: Double?
         /// The payment option as defined in the reserved Elasticsearch instance offering.
         public let paymentOption: ReservedElasticsearchInstancePaymentOption?
@@ -2536,13 +2621,14 @@ extension ElasticsearchService {
     }
 
     public struct ReservedElasticsearchInstanceOffering: AWSDecodableShape {
+
         /// The currency code for the reserved Elasticsearch instance offering.
         public let currencyCode: String?
         /// The duration, in seconds, for which the offering will reserve the Elasticsearch instance.
         public let duration: Int?
         /// The Elasticsearch instance type offered by the reserved instance offering.
         public let elasticsearchInstanceType: ESPartitionInstanceType?
-        /// The upfront fixed charge you will pay to purchase the specific reserved Elasticsearch instance offering.
+        /// The upfront fixed charge you will pay to purchase the specific reserved Elasticsearch instance offering. 
         public let fixedPrice: Double?
         /// Payment option for the reserved Elasticsearch instance offering
         public let paymentOption: ReservedElasticsearchInstancePaymentOption?
@@ -2577,9 +2663,10 @@ extension ElasticsearchService {
     }
 
     public struct ServiceSoftwareOptions: AWSDecodableShape {
+
         /// Timestamp, in Epoch time, until which you can manually request a service software update. After this date, we automatically update your service software.
         public let automatedUpdateDate: Date?
-        /// True if you are able to cancel your service software version update. False if you are not able to cancel your service software version.
+        /// True if you are able to cancel your service software version update. False if you are not able to cancel your service software version. 
         public let cancellable: Bool?
         /// The current service software version that is present on the domain.
         public let currentVersion: String?
@@ -2587,9 +2674,9 @@ extension ElasticsearchService {
         public let description: String?
         /// The new service software version if one is available.
         public let newVersion: String?
-        /// True if a service software is never automatically updated. False if a service software is automatically updated after AutomatedUpdateDate.
+        /// True if a service software is never automatically updated. False if a service software is automatically updated after AutomatedUpdateDate. 
         public let optionalDeployment: Bool?
-        /// True if you are able to update you service software version. False if you are not able to update your service software version.
+        /// True if you are able to update you service software version. False if you are not able to update your service software version. 
         public let updateAvailable: Bool?
         /// The status of your service software update. This field can take the following values: ELIGIBLE, PENDING_UPDATE, IN_PROGRESS, COMPLETED, and NOT_ELIGIBLE.
         public let updateStatus: DeploymentStatus?
@@ -2618,6 +2705,7 @@ extension ElasticsearchService {
     }
 
     public struct SnapshotOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the time, in UTC format, when the service takes a daily automated snapshot of the specified Elasticsearch domain. Default value is 0 hours.
         public let automatedSnapshotStartHour: Int?
 
@@ -2631,6 +2719,7 @@ extension ElasticsearchService {
     }
 
     public struct SnapshotOptionsStatus: AWSDecodableShape {
+
         /// Specifies the daily snapshot options specified for the Elasticsearch domain.
         public let options: SnapshotOptions
         /// Specifies the status of a daily automated snapshot.
@@ -2648,6 +2737,7 @@ extension ElasticsearchService {
     }
 
     public struct StartElasticsearchServiceSoftwareUpdateRequest: AWSEncodableShape {
+
         /// The name of the domain that you want to update to the latest service software.
         public let domainName: String
 
@@ -2667,6 +2757,7 @@ extension ElasticsearchService {
     }
 
     public struct StartElasticsearchServiceSoftwareUpdateResponse: AWSDecodableShape {
+
         /// The current status of the Elasticsearch service software update.
         public let serviceSoftwareOptions: ServiceSoftwareOptions?
 
@@ -2680,8 +2771,9 @@ extension ElasticsearchService {
     }
 
     public struct StorageType: AWSDecodableShape {
+
         public let storageSubTypeName: String?
-        /// List of limits that are applicable for given storage type.
+        /// List of limits that are applicable for given storage type. 
         public let storageTypeLimits: [StorageTypeLimit]?
         public let storageTypeName: String?
 
@@ -2699,9 +2791,10 @@ extension ElasticsearchService {
     }
 
     public struct StorageTypeLimit: AWSDecodableShape {
-        ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.
+
+        ///  Name of storage limits that are applicable for given storage type. If  StorageType  is ebs, following storage options are applicable  MinimumVolumeSize Minimum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumVolumeSize Maximum amount of volume size that is applicable for given storage type.It can be empty if it is not applicable. MaximumIops Maximum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable. MinimumIops Minimum amount of Iops that is applicable for given storage type.It can be empty if it is not applicable.  
         public let limitName: String?
-        ///  Values for the  StorageTypeLimit$LimitName  .
+        ///  Values for the  StorageTypeLimit$LimitName  . 
         public let limitValues: [String]?
 
         public init(limitName: String? = nil, limitValues: [String]? = nil) {
@@ -2716,6 +2809,7 @@ extension ElasticsearchService {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the TagKey, the name of the tag. Tag keys must be unique for the Elasticsearch domain to which they are attached.
         public let key: String
         /// Specifies the TagValue, the value assigned to the corresponding tag key. Tag values can be null and do not have to be unique in a tag set. For example, you can have a key value pair in a tag set of project : Trinity and cost-center : Trinity
@@ -2754,15 +2848,15 @@ extension ElasticsearchService {
         public let cognitoOptions: CognitoOptions?
         /// Options to specify configuration that will be applied to the domain endpoint.
         public let domainEndpointOptions: DomainEndpointOptions?
-        /// The name of the Elasticsearch domain that you are updating.
+        /// The name of the Elasticsearch domain that you are updating. 
         public let domainName: String
-        /// Specify the type and size of the EBS volume that you want to use.
+        /// Specify the type and size of the EBS volume that you want to use. 
         public let eBSOptions: EBSOptions?
         /// The type and number of instances to instantiate for the domain cluster.
         public let elasticsearchClusterConfig: ElasticsearchClusterConfig?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of Elasticsearch log.
         public let logPublishingOptions: [LogType: LogPublishingOption]?
-        /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
+        /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours. 
         public let snapshotOptions: SnapshotOptions?
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vPCOptions: VPCOptions?
@@ -2804,7 +2898,8 @@ extension ElasticsearchService {
     }
 
     public struct UpdateElasticsearchDomainConfigResponse: AWSDecodableShape {
-        /// The status of the updated Elasticsearch domain.
+
+        /// The status of the updated Elasticsearch domain. 
         public let domainConfig: ElasticsearchDomainConfig
 
         public init(domainConfig: ElasticsearchDomainConfig) {
@@ -2817,8 +2912,9 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeElasticsearchDomainRequest: AWSEncodableShape {
+
         public let domainName: String
-        ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
+        ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
         public let performCheckOnly: Bool?
         /// The version of Elasticsearch that you intend to upgrade the domain to.
         public let targetVersion: String
@@ -2843,8 +2939,9 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeElasticsearchDomainResponse: AWSDecodableShape {
+
         public let domainName: String?
-        ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade.
+        ///  This flag, when set to True, indicates that an Upgrade Eligibility Check needs to be performed. This will not actually perform the Upgrade. 
         public let performCheckOnly: Bool?
         /// The version of Elasticsearch that you intend to upgrade the domain to.
         public let targetVersion: String?
@@ -2863,13 +2960,14 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeHistory: AWSDecodableShape {
+
         /// UTC Timestamp at which the Upgrade API call was made in "yyyy-MM-ddTHH:mm:ssZ" format.
         public let startTimestamp: Date?
-        ///  A list of  UpgradeStepItem  s representing information about each step performed as pard of a specific Upgrade or Upgrade Eligibility Check.
+        ///  A list of  UpgradeStepItem  s representing information about each step performed as pard of a specific Upgrade or Upgrade Eligibility Check. 
         public let stepsList: [UpgradeStepItem]?
         /// A string that describes the update briefly
         public let upgradeName: String?
-        ///  The overall status of the update. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+        ///  The overall status of the update. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let upgradeStatus: UpgradeStatus?
 
         public init(startTimestamp: Date? = nil, stepsList: [UpgradeStepItem]? = nil, upgradeName: String? = nil, upgradeStatus: UpgradeStatus? = nil) {
@@ -2888,13 +2986,14 @@ extension ElasticsearchService {
     }
 
     public struct UpgradeStepItem: AWSDecodableShape {
+
         /// A list of strings containing detailed information about the errors encountered in a particular step.
         public let issues: [String]?
         /// The Floating point value representing progress percentage of a particular step.
         public let progressPercent: Double?
-        ///  Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does through:  PreUpgradeCheck Snapshot Upgrade
+        ///  Represents one of 3 steps that an Upgrade or Upgrade Eligibility Check does through:  PreUpgradeCheck Snapshot Upgrade  
         public let upgradeStep: UpgradeStep?
-        ///  The status of a particular step during an upgrade. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed
+        ///  The status of a particular step during an upgrade. The status can take one of the following values:  In Progress Succeeded Succeeded with Issues Failed  
         public let upgradeStepStatus: UpgradeStatus?
 
         public init(issues: [String]? = nil, progressPercent: Double? = nil, upgradeStep: UpgradeStep? = nil, upgradeStepStatus: UpgradeStatus? = nil) {
@@ -2913,6 +3012,7 @@ extension ElasticsearchService {
     }
 
     public struct VPCDerivedInfo: AWSDecodableShape {
+
         /// The availability zones for the Elasticsearch domain. Exists only if the domain was created with VPCOptions.
         public let availabilityZones: [String]?
         /// Specifies the security groups for VPC endpoint.
@@ -2938,6 +3038,7 @@ extension ElasticsearchService {
     }
 
     public struct VPCDerivedInfoStatus: AWSDecodableShape {
+
         ///  Specifies the VPC options for the specified Elasticsearch domain.
         public let options: VPCDerivedInfo
         ///  Specifies the status of the VPC options for the specified Elasticsearch domain.
@@ -2955,6 +3056,7 @@ extension ElasticsearchService {
     }
 
     public struct VPCOptions: AWSEncodableShape {
+
         /// Specifies the security groups for VPC endpoint.
         public let securityGroupIds: [String]?
         /// Specifies the subnets for VPC endpoint.
@@ -2972,6 +3074,7 @@ extension ElasticsearchService {
     }
 
     public struct ZoneAwarenessConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// An integer value to indicate the number of availability zones for a domain when zone awareness is enabled. This should be equal to number of subnets if VPC endpoints is enabled
         public let availabilityZoneCount: Int?
 

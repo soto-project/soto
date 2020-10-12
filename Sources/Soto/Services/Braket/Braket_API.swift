@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS Braket service.
+Client object for interacting with AWS Braket service.
 
- The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket.
- */
+The Amazon Braket API Reference provides information about the operations and structures supported in Amazon Braket.
+*/
 public struct Braket: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct Braket: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Cancels the specified task.

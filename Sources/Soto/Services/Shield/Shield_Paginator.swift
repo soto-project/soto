@@ -20,6 +20,39 @@ import SotoCore
 
 extension Shield {
     ///  Returns all ongoing DDoS attacks or all DDoS attacks during a specified time period.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAttacksPaginator<Result>(
+        _ input: ListAttacksRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListAttacksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAttacks,
+            tokenKey: \ListAttacksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listAttacksPaginator(
         _ input: ListAttacksRequest,
         on eventLoop: EventLoop? = nil,
@@ -36,6 +69,39 @@ extension Shield {
     }
 
     ///  Lists all Protection objects for the account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listProtectionsPaginator<Result>(
+        _ input: ListProtectionsRequest,
+        _ initialValue: Result,
+        on eventLoop: EventLoop? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        onPage: @escaping (Result, ListProtectionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listProtections,
+            tokenKey: \ListProtectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - logger: Logger used flot logging
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listProtectionsPaginator(
         _ input: ListProtectionsRequest,
         on eventLoop: EventLoop? = nil,

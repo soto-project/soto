@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS SavingsPlans service.
+Client object for interacting with AWS SavingsPlans service.
 
- Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the AWS Savings Plans User Guide.
- */
+Savings Plans are a pricing model that offer significant savings on AWS usage (for example, on Amazon EC2 instances). You commit to a consistent amount of usage, in USD per hour, for a term of 1 or 3 years, and receive a lower price for that usage. For more information, see the AWS Savings Plans User Guide.
+*/
 public struct SavingsPlans: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct SavingsPlans: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Creates a Savings Plan.

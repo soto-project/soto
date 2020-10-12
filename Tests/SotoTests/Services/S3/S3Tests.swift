@@ -308,6 +308,7 @@ class S3Tests: XCTestCase {
         let name = TestEnvironment.generateResourceName()
         let eventLoop = Self.s3.client.eventLoopGroup.next()
         var list: [S3.Object] = []
+        var list2: [S3.Object] = []
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<Void> in
                 // put 16 files into bucket
@@ -325,12 +326,20 @@ class S3Tests: XCTestCase {
                 }
             }
             .flatMap { _ in
+                // test both types of paginator
+                return Self.s3.listObjectsV2Paginator(.init(bucket: name, maxKeys: 5), []) { list, result, eventLoop in
+                    return eventLoop.makeSucceededFuture((true, list + (result.contents ?? [])))
+                }
+            }
+            .flatMap { result in
+                list2 = result
                 return Self.s3.listObjectsV2(.init(bucket: name))
             }
-            .map { response in
+            .map { (response: S3.ListObjectsV2Output) in
                 XCTAssertEqual(list.count, response.contents?.count)
                 for i in 0..<list.count {
                     XCTAssertEqual(list[i].key, response.contents?[i].key)
+                    XCTAssertEqual(list2[i].key, response.contents?[i].key)
                 }
             }
             .flatAlways { _ in

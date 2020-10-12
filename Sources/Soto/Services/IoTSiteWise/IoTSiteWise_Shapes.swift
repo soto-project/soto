@@ -175,6 +175,7 @@ extension IoTSiteWise {
     // MARK: Shapes
 
     public struct AccessPolicySummary: AWSDecodableShape {
+
         /// The date the access policy was created, in Unix epoch time.
         public let creationDate: Date?
         /// The ID of the access policy.
@@ -198,16 +199,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case id
-            case identity
-            case lastUpdateDate
-            case permission
-            case resource
+            case creationDate = "creationDate"
+            case id = "id"
+            case identity = "identity"
+            case lastUpdateDate = "lastUpdateDate"
+            case permission = "permission"
+            case resource = "resource"
         }
     }
 
     public struct AggregatedValue: AWSDecodableShape {
+
         /// The quality of the aggregated data.
         public let quality: Quality?
         /// The date the aggregating computations occurred, in Unix epoch time.
@@ -222,13 +224,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quality
-            case timestamp
-            case value
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
     public struct Aggregates: AWSDecodableShape {
+
         /// The average (mean) value of the time series over a time interval window.
         public let average: Double?
         /// The count of data points in the time series over a time interval window.
@@ -252,16 +255,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case average
-            case count
-            case maximum
-            case minimum
-            case standardDeviation
-            case sum
+            case average = "average"
+            case count = "count"
+            case maximum = "maximum"
+            case minimum = "minimum"
+            case standardDeviation = "standardDeviation"
+            case sum = "sum"
         }
     }
 
     public struct AssetErrorDetails: AWSDecodableShape {
+
         /// The ID of the asset.
         public let assetId: String
         /// The error code.
@@ -276,13 +280,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case code
-            case message
+            case assetId = "assetId"
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct AssetHierarchy: AWSDecodableShape {
+
         /// The ID of the hierarchy. This ID is a hierarchyId.
         public let id: String?
         /// The hierarchy name provided in the CreateAssetModel or UpdateAssetModel API operation.
@@ -294,12 +299,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case name
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct AssetModelHierarchy: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the asset model. All assets in this hierarchy must be instances of the childAssetModelId asset model.
         public let childAssetModelId: String
         /// The ID of the asset model hierarchy. This ID is a hierarchyId.
@@ -326,13 +332,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetModelId
-            case id
-            case name
+            case childAssetModelId = "childAssetModelId"
+            case id = "id"
+            case name = "name"
         }
     }
 
     public struct AssetModelHierarchyDefinition: AWSEncodableShape {
+
         /// The ID of an asset model for this hierarchy.
         public let childAssetModelId: String
         /// The name of the asset model hierarchy definition (as specified in the CreateAssetModel or UpdateAssetModel API operation).
@@ -353,12 +360,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetModelId
-            case name
+            case childAssetModelId = "childAssetModelId"
+            case name = "name"
         }
     }
 
     public struct AssetModelProperty: AWSEncodableShape & AWSDecodableShape {
+
         /// The data type of the asset model property.
         public let dataType: PropertyDataType
         /// The ID of the asset model property.
@@ -392,15 +400,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case id
-            case name
-            case `type`
-            case unit
+            case dataType = "dataType"
+            case id = "id"
+            case name = "name"
+            case `type` = "type"
+            case unit = "unit"
         }
     }
 
     public struct AssetModelPropertyDefinition: AWSEncodableShape {
+
         /// The data type of the property definition.
         public let dataType: PropertyDataType
         /// The name of the property definition.
@@ -428,14 +437,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataType
-            case name
-            case `type`
-            case unit
+            case dataType = "dataType"
+            case name = "name"
+            case `type` = "type"
+            case unit = "unit"
         }
     }
 
     public struct AssetModelStatus: AWSDecodableShape {
+
         /// Contains associated error information, if any.
         public let error: ErrorDetails?
         /// The current state of the asset model.
@@ -447,13 +457,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
     public struct AssetModelSummary: AWSDecodableShape {
-        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+
+        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId} 
         public let arn: String
         /// The date the asset model was created, in Unix epoch time.
         public let creationDate: Date
@@ -479,17 +490,18 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct AssetProperty: AWSDecodableShape {
+
         /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let alias: String?
         /// The data type of the asset property.
@@ -513,16 +525,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case dataType
-            case id
-            case name
-            case notification
-            case unit
+            case alias = "alias"
+            case dataType = "dataType"
+            case id = "id"
+            case name = "name"
+            case notification = "notification"
+            case unit = "unit"
         }
     }
 
     public struct AssetPropertyValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The quality of the asset property value.
         public let quality: Quality?
         /// The timestamp of the asset property value.
@@ -542,13 +555,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case quality
-            case timestamp
-            case value
+            case quality = "quality"
+            case timestamp = "timestamp"
+            case value = "value"
         }
     }
 
     public struct AssetStatus: AWSDecodableShape {
+
         /// Contains associated error information, if any.
         public let error: ErrorDetails?
         /// The current status of the asset.
@@ -560,13 +574,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
     public struct AssetSummary: AWSDecodableShape {
-        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
+
+        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId} 
         public let arn: String
         /// The ID of the asset model used to create this asset.
         public let assetModelId: String
@@ -595,14 +610,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetModelId
-            case creationDate
-            case hierarchies
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case assetModelId = "assetModelId"
+            case creationDate = "creationDate"
+            case hierarchies = "hierarchies"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
@@ -643,14 +658,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetId
-            case clientToken
-            case hierarchyId
+            case childAssetId = "childAssetId"
+            case clientToken = "clientToken"
+            case hierarchyId = "hierarchyId"
         }
     }
 
     public struct AssociatedAssetsSummary: AWSDecodableShape {
-        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
+
+        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId} 
         public let arn: String
         /// The ID of the asset model used to create the asset.
         public let assetModelId: String
@@ -679,18 +695,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetModelId
-            case creationDate
-            case hierarchies
-            case id
-            case lastUpdateDate
-            case name
-            case status
+            case arn = "arn"
+            case assetModelId = "assetModelId"
+            case creationDate = "creationDate"
+            case hierarchies = "hierarchies"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct Attribute: AWSEncodableShape & AWSDecodableShape {
+
         /// The default value of the asset model property attribute. All assets that you create from the asset model contain this attribute value. You can update an attribute's value after you create an asset. For more information, see Updating attribute values in the AWS IoT SiteWise User Guide.
         public let defaultValue: String?
 
@@ -705,7 +722,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultValue
+            case defaultValue = "defaultValue"
         }
     }
 
@@ -744,12 +761,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case clientToken
+            case assetIds = "assetIds"
+            case clientToken = "clientToken"
         }
     }
 
     public struct BatchAssociateProjectAssetsResponse: AWSDecodableShape {
+
         /// A list of associated error information, if any.
         public let errors: [AssetErrorDetails]?
 
@@ -758,7 +776,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
@@ -797,12 +815,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case clientToken
+            case assetIds = "assetIds"
+            case clientToken = "clientToken"
         }
     }
 
     public struct BatchDisassociateProjectAssetsResponse: AWSDecodableShape {
+
         /// A list of associated error information, if any.
         public let errors: [AssetErrorDetails]?
 
@@ -811,11 +830,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
     public struct BatchPutAssetPropertyError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: BatchPutAssetPropertyValueErrorCode
         /// The associated error message.
@@ -830,13 +850,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
-            case timestamps
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case timestamps = "timestamps"
         }
     }
 
     public struct BatchPutAssetPropertyErrorEntry: AWSDecodableShape {
+
         /// The ID of the failed entry.
         public let entryId: String
         /// The list of update property value errors.
@@ -848,12 +869,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entryId
-            case errors
+            case entryId = "entryId"
+            case errors = "errors"
         }
     }
 
     public struct BatchPutAssetPropertyValueRequest: AWSEncodableShape {
+
         /// The list of asset property value entries for the batch put request. You can specify up to 10 entries per request.
         public let entries: [PutAssetPropertyValueEntry]
 
@@ -868,11 +890,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entries
+            case entries = "entries"
         }
     }
 
     public struct BatchPutAssetPropertyValueResponse: AWSDecodableShape {
+
         /// A list of the errors (if any) associated with the batch put request. Each error entry contains the entryId of the entry that failed.
         public let errorEntries: [BatchPutAssetPropertyErrorEntry]
 
@@ -881,11 +904,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorEntries
+            case errorEntries = "errorEntries"
         }
     }
 
     public struct CreateAccessPolicyRequest: AWSEncodableShape {
+
         /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
@@ -920,16 +944,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyIdentity
-            case accessPolicyPermission
-            case accessPolicyResource
-            case clientToken
-            case tags
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
     public struct CreateAccessPolicyResponse: AWSDecodableShape {
-        /// The ARN of the access policy, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}
+
+        /// The ARN of the access policy, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId} 
         public let accessPolicyArn: String
         /// The ID of the access policy.
         public let accessPolicyId: String
@@ -940,12 +965,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyArn
-            case accessPolicyId
+            case accessPolicyArn = "accessPolicyArn"
+            case accessPolicyId = "accessPolicyId"
         }
     }
 
     public struct CreateAssetModelRequest: AWSEncodableShape {
+
         /// A description for the asset model.
         public let assetModelDescription: String?
         /// The hierarchy definitions of the asset model. Each hierarchy specifies an asset model whose assets can be children of any other assets created from this asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide. You can specify up to 10 hierarchies per asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
@@ -993,17 +1019,18 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelName
-            case assetModelProperties
-            case clientToken
-            case tags
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
     public struct CreateAssetModelResponse: AWSDecodableShape {
-        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+
+        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId} 
         public let assetModelArn: String
         /// The ID of the asset model. You can use this ID when you call other AWS IoT SiteWise APIs.
         public let assetModelId: String
@@ -1017,13 +1044,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelArn
-            case assetModelId
-            case assetModelStatus
+            case assetModelArn = "assetModelArn"
+            case assetModelId = "assetModelId"
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
     public struct CreateAssetRequest: AWSEncodableShape {
+
         /// The ID of the asset model from which to create the asset.
         public let assetModelId: String
         /// A unique, friendly name for the asset.
@@ -1059,15 +1087,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelId
-            case assetName
-            case clientToken
-            case tags
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case clientToken = "clientToken"
+            case tags = "tags"
         }
     }
 
     public struct CreateAssetResponse: AWSDecodableShape {
-        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
+
+        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId} 
         public let assetArn: String
         /// The ID of the asset. This ID uniquely identifies the asset within AWS IoT SiteWise and can be used with other AWS IoT SiteWise APIs.
         public let assetId: String
@@ -1081,13 +1110,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetArn
-            case assetId
-            case assetStatus
+            case assetArn = "assetArn"
+            case assetId = "assetId"
+            case assetStatus = "assetStatus"
         }
     }
 
     public struct CreateDashboardRequest: AWSEncodableShape {
+
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The dashboard definition specified in a JSON literal. For detailed information, see Creating dashboards (CLI) in the AWS IoT SiteWise User Guide.
@@ -1114,7 +1144,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
-            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
+            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, min: 0)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: ".+")
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
@@ -1135,17 +1165,18 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardName
-            case projectId
-            case tags
+            case clientToken = "clientToken"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardName = "dashboardName"
+            case projectId = "projectId"
+            case tags = "tags"
         }
     }
 
     public struct CreateDashboardResponse: AWSDecodableShape {
-        /// The ARN of the dashboard, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}
+
+        /// The ARN of the dashboard, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId} 
         public let dashboardArn: String
         /// The ID of the dashboard.
         public let dashboardId: String
@@ -1156,12 +1187,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardArn
-            case dashboardId
+            case dashboardArn = "dashboardArn"
+            case dashboardId = "dashboardId"
         }
     }
 
     public struct CreateGatewayRequest: AWSEncodableShape {
+
         /// A unique, friendly name for the gateway.
         public let gatewayName: String
         /// The gateway's platform. You can only specify one platform in a gateway.
@@ -1189,14 +1221,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayName
-            case gatewayPlatform
-            case tags
+            case gatewayName = "gatewayName"
+            case gatewayPlatform = "gatewayPlatform"
+            case tags = "tags"
         }
     }
 
     public struct CreateGatewayResponse: AWSDecodableShape {
-        /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}
+
+        /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId} 
         public let gatewayArn: String
         /// The ID of the gateway device. You can use this ID when you call other AWS IoT SiteWise APIs.
         public let gatewayId: String
@@ -1207,15 +1240,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayArn
-            case gatewayId
+            case gatewayArn = "gatewayArn"
+            case gatewayId = "gatewayId"
         }
     }
 
     public struct CreatePortalRequest: AWSEncodableShape {
+
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
-        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO 
         public let portalAuthMode: AuthMode?
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
@@ -1267,19 +1301,20 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case portalAuthMode
-            case portalContactEmail
-            case portalDescription
-            case portalLogoImageFile
-            case portalName
-            case roleArn
-            case tags
+            case clientToken = "clientToken"
+            case portalAuthMode = "portalAuthMode"
+            case portalContactEmail = "portalContactEmail"
+            case portalDescription = "portalDescription"
+            case portalLogoImageFile = "portalLogoImageFile"
+            case portalName = "portalName"
+            case roleArn = "roleArn"
+            case tags = "tags"
         }
     }
 
     public struct CreatePortalResponse: AWSDecodableShape {
-        /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}
+
+        /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId} 
         public let portalArn: String
         /// The ID of the created portal.
         public let portalId: String
@@ -1299,17 +1334,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case portalId
-            case portalStartUrl
-            case portalStatus
-            case ssoApplicationId
+            case portalArn = "portalArn"
+            case portalId = "portalId"
+            case portalStartUrl = "portalStartUrl"
+            case portalStatus = "portalStatus"
+            case ssoApplicationId = "ssoApplicationId"
         }
     }
 
     public struct CreatePresignedPortalUrlRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId")),
+            AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId")), 
             AWSMemberEncoding(label: "sessionDurationSeconds", location: .querystring(locationName: "sessionDurationSeconds"))
         ]
 
@@ -1335,7 +1370,8 @@ extension IoTSiteWise {
     }
 
     public struct CreatePresignedPortalUrlResponse: AWSDecodableShape {
-        /// The pre-signed URL to the portal. The URL contains the portal ID and a session token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/auth?token=&lt;encrypted-token&gt;
+
+        /// The pre-signed URL to the portal. The URL contains the portal ID and a session token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/auth?token=&lt;encrypted-token&gt; 
         public let presignedPortalUrl: String
 
         public init(presignedPortalUrl: String) {
@@ -1343,11 +1379,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case presignedPortalUrl
+            case presignedPortalUrl = "presignedPortalUrl"
         }
     }
 
     public struct CreateProjectRequest: AWSEncodableShape {
+
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
         /// The ID of the portal in which to create the project.
@@ -1389,16 +1426,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case portalId
-            case projectDescription
-            case projectName
-            case tags
+            case clientToken = "clientToken"
+            case portalId = "portalId"
+            case projectDescription = "projectDescription"
+            case projectName = "projectName"
+            case tags = "tags"
         }
     }
 
     public struct CreateProjectResponse: AWSDecodableShape {
-        /// The ARN of the project, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}
+
+        /// The ARN of the project, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId} 
         public let projectArn: String
         /// The ID of the project.
         public let projectId: String
@@ -1409,12 +1447,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case projectArn
-            case projectId
+            case projectArn = "projectArn"
+            case projectId = "projectId"
         }
     }
 
     public struct DashboardSummary: AWSDecodableShape {
+
         /// The date the dashboard was created, in Unix epoch time.
         public let creationDate: Date?
         /// The dashboard's description.
@@ -1435,17 +1474,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
         }
     }
 
     public struct DeleteAccessPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessPolicyId", location: .uri(locationName: "accessPolicyId")),
+            AWSMemberEncoding(label: "accessPolicyId", location: .uri(locationName: "accessPolicyId")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
@@ -1472,12 +1511,16 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAccessPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAssetModelRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId")),
+            AWSMemberEncoding(label: "assetModelId", location: .uri(locationName: "assetModelId")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
@@ -1504,6 +1547,7 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetModelResponse: AWSDecodableShape {
+
         /// The status of the asset model, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
@@ -1512,13 +1556,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelStatus
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
     public struct DeleteAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
@@ -1545,6 +1589,7 @@ extension IoTSiteWise {
     }
 
     public struct DeleteAssetResponse: AWSDecodableShape {
+
         /// The status of the asset, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
@@ -1553,13 +1598,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetStatus
+            case assetStatus = "assetStatus"
         }
     }
 
     public struct DeleteDashboardRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
             AWSMemberEncoding(label: "dashboardId", location: .uri(locationName: "dashboardId"))
         ]
 
@@ -1586,7 +1631,11 @@ extension IoTSiteWise {
     }
 
     public struct DeleteDashboardResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteGatewayRequest: AWSEncodableShape {
@@ -1612,7 +1661,7 @@ extension IoTSiteWise {
 
     public struct DeletePortalRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
             AWSMemberEncoding(label: "portalId", location: .uri(locationName: "portalId"))
         ]
 
@@ -1639,6 +1688,7 @@ extension IoTSiteWise {
     }
 
     public struct DeletePortalResponse: AWSDecodableShape {
+
         /// The status of the portal, which contains a state (DELETING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
@@ -1647,13 +1697,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalStatus
+            case portalStatus = "portalStatus"
         }
     }
 
     public struct DeleteProjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
@@ -1680,7 +1730,11 @@ extension IoTSiteWise {
     }
 
     public struct DeleteProjectResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAccessPolicyRequest: AWSEncodableShape {
@@ -1705,7 +1759,8 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAccessPolicyResponse: AWSDecodableShape {
-        /// The ARN of the access policy, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId}
+
+        /// The ARN of the access policy, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:access-policy/${AccessPolicyId} 
         public let accessPolicyArn: String
         /// The date the access policy was created, in Unix epoch time.
         public let accessPolicyCreationDate: Date
@@ -1731,13 +1786,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyArn
-            case accessPolicyCreationDate
-            case accessPolicyId
-            case accessPolicyIdentity
-            case accessPolicyLastUpdateDate
-            case accessPolicyPermission
-            case accessPolicyResource
+            case accessPolicyArn = "accessPolicyArn"
+            case accessPolicyCreationDate = "accessPolicyCreationDate"
+            case accessPolicyId = "accessPolicyId"
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyLastUpdateDate = "accessPolicyLastUpdateDate"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
         }
     }
 
@@ -1763,7 +1818,8 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetModelResponse: AWSDecodableShape {
-        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId}
+
+        /// The ARN of the asset model, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset-model/${AssetModelId} 
         public let assetModelArn: String
         /// The date the asset model was created, in Unix epoch time.
         public let assetModelCreationDate: Date
@@ -1795,21 +1851,21 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelArn
-            case assetModelCreationDate
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelId
-            case assetModelLastUpdateDate
-            case assetModelName
-            case assetModelProperties
-            case assetModelStatus
+            case assetModelArn = "assetModelArn"
+            case assetModelCreationDate = "assetModelCreationDate"
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelId = "assetModelId"
+            case assetModelLastUpdateDate = "assetModelLastUpdateDate"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
     public struct DescribeAssetPropertyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")), 
             AWSMemberEncoding(label: "propertyId", location: .uri(locationName: "propertyId"))
         ]
 
@@ -1836,6 +1892,7 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetPropertyResponse: AWSDecodableShape {
+
         /// The ID of the asset.
         public let assetId: String
         /// The ID of the asset model.
@@ -1853,10 +1910,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case assetModelId
-            case assetName
-            case assetProperty
+            case assetId = "assetId"
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case assetProperty = "assetProperty"
         }
     }
 
@@ -1882,7 +1939,8 @@ extension IoTSiteWise {
     }
 
     public struct DescribeAssetResponse: AWSDecodableShape {
-        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
+
+        /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId} 
         public let assetArn: String
         /// The date the asset was created, in Unix epoch time.
         public let assetCreationDate: Date
@@ -1914,15 +1972,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetArn
-            case assetCreationDate
-            case assetHierarchies
-            case assetId
-            case assetLastUpdateDate
-            case assetModelId
-            case assetName
-            case assetProperties
-            case assetStatus
+            case assetArn = "assetArn"
+            case assetCreationDate = "assetCreationDate"
+            case assetHierarchies = "assetHierarchies"
+            case assetId = "assetId"
+            case assetLastUpdateDate = "assetLastUpdateDate"
+            case assetModelId = "assetModelId"
+            case assetName = "assetName"
+            case assetProperties = "assetProperties"
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -1948,7 +2006,8 @@ extension IoTSiteWise {
     }
 
     public struct DescribeDashboardResponse: AWSDecodableShape {
-        /// The ARN of the dashboard, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId}
+
+        /// The ARN of the dashboard, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:dashboard/${DashboardId} 
         public let dashboardArn: String
         /// The date the dashboard was created, in Unix epoch time.
         public let dashboardCreationDate: Date
@@ -1977,20 +2036,20 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardArn
-            case dashboardCreationDate
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardId
-            case dashboardLastUpdateDate
-            case dashboardName
-            case projectId
+            case dashboardArn = "dashboardArn"
+            case dashboardCreationDate = "dashboardCreationDate"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardId = "dashboardId"
+            case dashboardLastUpdateDate = "dashboardLastUpdateDate"
+            case dashboardName = "dashboardName"
+            case projectId = "projectId"
         }
     }
 
     public struct DescribeGatewayCapabilityConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "capabilityNamespace", location: .uri(locationName: "capabilityNamespace")),
+            AWSMemberEncoding(label: "capabilityNamespace", location: .uri(locationName: "capabilityNamespace")), 
             AWSMemberEncoding(label: "gatewayId", location: .uri(locationName: "gatewayId"))
         ]
 
@@ -2017,11 +2076,12 @@ extension IoTSiteWise {
     }
 
     public struct DescribeGatewayCapabilityConfigurationResponse: AWSDecodableShape {
+
         /// The JSON document that defines the gateway capability's configuration. For more information, see Configuring data sources (CLI) in the AWS IoT SiteWise User Guide.
         public let capabilityConfiguration: String
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
+        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.  
         public let capabilitySyncStatus: CapabilitySyncStatus
         /// The ID of the gateway that defines the capability configuration.
         public let gatewayId: String
@@ -2034,10 +2094,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityConfiguration
-            case capabilityNamespace
-            case capabilitySyncStatus
-            case gatewayId
+            case capabilityConfiguration = "capabilityConfiguration"
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
+            case gatewayId = "gatewayId"
         }
     }
 
@@ -2063,9 +2123,10 @@ extension IoTSiteWise {
     }
 
     public struct DescribeGatewayResponse: AWSDecodableShape {
+
         /// The date the gateway was created, in Unix epoch time.
         public let creationDate: Date
-        /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId}
+        /// The ARN of the gateway, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:gateway/${GatewayId} 
         public let gatewayArn: String
         /// A list of gateway capability summaries that each contain a namespace and status. Each gateway capability defines data sources for the gateway. To retrieve a capability configuration's definition, use DescribeGatewayCapabilityConfiguration.
         public let gatewayCapabilitySummaries: [GatewayCapabilitySummary]
@@ -2089,21 +2150,26 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case gatewayArn
-            case gatewayCapabilitySummaries
-            case gatewayId
-            case gatewayName
-            case gatewayPlatform
-            case lastUpdateDate
+            case creationDate = "creationDate"
+            case gatewayArn = "gatewayArn"
+            case gatewayCapabilitySummaries = "gatewayCapabilitySummaries"
+            case gatewayId = "gatewayId"
+            case gatewayName = "gatewayName"
+            case gatewayPlatform = "gatewayPlatform"
+            case lastUpdateDate = "lastUpdateDate"
         }
     }
 
     public struct DescribeLoggingOptionsRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeLoggingOptionsResponse: AWSDecodableShape {
+
         /// The current logging options.
         public let loggingOptions: LoggingOptions
 
@@ -2112,7 +2178,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
@@ -2138,7 +2204,8 @@ extension IoTSiteWise {
     }
 
     public struct DescribePortalResponse: AWSDecodableShape {
-        /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId}
+
+        /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId} 
         public let portalArn: String
         /// The service to use to authenticate users to the portal.
         public let portalAuthMode: AuthMode?
@@ -2182,19 +2249,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalArn
-            case portalAuthMode
-            case portalClientId
-            case portalContactEmail
-            case portalCreationDate
-            case portalDescription
-            case portalId
-            case portalLastUpdateDate
-            case portalLogoImageLocation
-            case portalName
-            case portalStartUrl
-            case portalStatus
-            case roleArn
+            case portalArn = "portalArn"
+            case portalAuthMode = "portalAuthMode"
+            case portalClientId = "portalClientId"
+            case portalContactEmail = "portalContactEmail"
+            case portalCreationDate = "portalCreationDate"
+            case portalDescription = "portalDescription"
+            case portalId = "portalId"
+            case portalLastUpdateDate = "portalLastUpdateDate"
+            case portalLogoImageLocation = "portalLogoImageLocation"
+            case portalName = "portalName"
+            case portalStartUrl = "portalStartUrl"
+            case portalStatus = "portalStatus"
+            case roleArn = "roleArn"
         }
     }
 
@@ -2220,9 +2287,10 @@ extension IoTSiteWise {
     }
 
     public struct DescribeProjectResponse: AWSDecodableShape {
+
         /// The ID of the portal that the project is in.
         public let portalId: String
-        /// The ARN of the project, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId}
+        /// The ARN of the project, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:project/${ProjectId} 
         public let projectArn: String
         /// The date the project was created, in Unix epoch time.
         public let projectCreationDate: Date
@@ -2246,13 +2314,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalId
-            case projectArn
-            case projectCreationDate
-            case projectDescription
-            case projectId
-            case projectLastUpdateDate
-            case projectName
+            case portalId = "portalId"
+            case projectArn = "projectArn"
+            case projectCreationDate = "projectCreationDate"
+            case projectDescription = "projectDescription"
+            case projectId = "projectId"
+            case projectLastUpdateDate = "projectLastUpdateDate"
+            case projectName = "projectName"
         }
     }
 
@@ -2293,13 +2361,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case childAssetId
-            case clientToken
-            case hierarchyId
+            case childAssetId = "childAssetId"
+            case clientToken = "clientToken"
+            case hierarchyId = "hierarchyId"
         }
     }
 
     public struct ErrorDetails: AWSDecodableShape {
+
         /// The error code.
         public let code: ErrorCode
         /// The error message.
@@ -2311,12 +2380,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct ExpressionVariable: AWSEncodableShape & AWSDecodableShape {
+
         /// The friendly name of the variable to be used in the expression.
         public let name: String
         /// The variable that identifies an asset property from which to use values.
@@ -2335,15 +2405,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case value
+            case name = "name"
+            case value = "value"
         }
     }
 
     public struct GatewayCapabilitySummary: AWSDecodableShape {
+
         /// The namespace of the capability configuration. For example, if you configure OPC-UA sources from the AWS IoT SiteWise console, your OPC-UA capability configuration has the namespace iotsitewise:opcuacollector:version, where version is a number such as 1.
         public let capabilityNamespace: String
-        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.
+        /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.  
         public let capabilitySyncStatus: CapabilitySyncStatus
 
         public init(capabilityNamespace: String, capabilitySyncStatus: CapabilitySyncStatus) {
@@ -2352,12 +2423,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityNamespace
-            case capabilitySyncStatus
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
         }
     }
 
     public struct GatewayPlatform: AWSEncodableShape & AWSDecodableShape {
+
         /// A gateway that runs on AWS IoT Greengrass.
         public let greengrass: Greengrass
 
@@ -2370,11 +2442,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case greengrass
+            case greengrass = "greengrass"
         }
     }
 
     public struct GatewaySummary: AWSDecodableShape {
+
         /// The date the gateway was created, in Unix epoch time.
         public let creationDate: Date
         /// A list of gateway capability summaries that each contain a namespace and status. Each gateway capability defines data sources for the gateway. To retrieve a capability configuration's definition, use DescribeGatewayCapabilityConfiguration.
@@ -2395,26 +2468,26 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case gatewayCapabilitySummaries
-            case gatewayId
-            case gatewayName
-            case lastUpdateDate
+            case creationDate = "creationDate"
+            case gatewayCapabilitySummaries = "gatewayCapabilitySummaries"
+            case gatewayId = "gatewayId"
+            case gatewayName = "gatewayName"
+            case lastUpdateDate = "lastUpdateDate"
         }
     }
 
     public struct GetAssetPropertyAggregatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "aggregateTypes", location: .querystring(locationName: "aggregateTypes")),
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")),
-            AWSMemberEncoding(label: "resolution", location: .querystring(locationName: "resolution")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")),
+            AWSMemberEncoding(label: "aggregateTypes", location: .querystring(locationName: "aggregateTypes")), 
+            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")), 
+            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")), 
+            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")), 
+            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")), 
+            AWSMemberEncoding(label: "resolution", location: .querystring(locationName: "resolution")), 
+            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")), 
             AWSMemberEncoding(label: "timeOrdering", location: .querystring(locationName: "timeOrdering"))
         ]
 
@@ -2438,7 +2511,7 @@ extension IoTSiteWise {
         public let resolution: String
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let startDate: Date
-        /// The chronological sorting order of the requested information. Default: ASCENDING
+        /// The chronological sorting order of the requested information. Default: ASCENDING 
         public let timeOrdering: TimeOrdering?
 
         public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: Date, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: Date, timeOrdering: TimeOrdering? = nil) {
@@ -2482,6 +2555,7 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyAggregatesResponse: AWSDecodableShape {
+
         /// The requested aggregated values.
         public let aggregatedValues: [AggregatedValue]
         /// The token for the next set of results, or null if there are no additional results.
@@ -2493,21 +2567,21 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregatedValues
-            case nextToken
+            case aggregatedValues = "aggregatedValues"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetAssetPropertyValueHistoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
-            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")),
-            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")),
-            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")),
+            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")), 
+            AWSMemberEncoding(label: "endDate", location: .querystring(locationName: "endDate")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")), 
+            AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId")), 
+            AWSMemberEncoding(label: "qualities", location: .querystring(locationName: "qualities")), 
+            AWSMemberEncoding(label: "startDate", location: .querystring(locationName: "startDate")), 
             AWSMemberEncoding(label: "timeOrdering", location: .querystring(locationName: "timeOrdering"))
         ]
 
@@ -2527,7 +2601,7 @@ extension IoTSiteWise {
         public let qualities: [Quality]?
         /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
         public let startDate: Date?
-        /// The chronological sorting order of the requested information. Default: ASCENDING
+        /// The chronological sorting order of the requested information. Default: ASCENDING 
         public let timeOrdering: TimeOrdering?
 
         public init(assetId: String? = nil, endDate: Date? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: Date? = nil, timeOrdering: TimeOrdering? = nil) {
@@ -2565,6 +2639,7 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyValueHistoryResponse: AWSDecodableShape {
+
         /// The asset property's value history.
         public let assetPropertyValueHistory: [AssetPropertyValue]
         /// The token for the next set of results, or null if there are no additional results.
@@ -2576,15 +2651,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetPropertyValueHistory
-            case nextToken
+            case assetPropertyValueHistory = "assetPropertyValueHistory"
+            case nextToken = "nextToken"
         }
     }
 
     public struct GetAssetPropertyValueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")),
-            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")),
+            AWSMemberEncoding(label: "assetId", location: .querystring(locationName: "assetId")), 
+            AWSMemberEncoding(label: "propertyAlias", location: .querystring(locationName: "propertyAlias")), 
             AWSMemberEncoding(label: "propertyId", location: .querystring(locationName: "propertyId"))
         ]
 
@@ -2617,6 +2692,7 @@ extension IoTSiteWise {
     }
 
     public struct GetAssetPropertyValueResponse: AWSDecodableShape {
+
         /// The current asset property value.
         public let propertyValue: AssetPropertyValue?
 
@@ -2625,11 +2701,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case propertyValue
+            case propertyValue = "propertyValue"
         }
     }
 
     public struct Greengrass: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the Greengrass group. For more information about how to find a group's ARN, see ListGroups and GetGroup in the AWS IoT Greengrass API Reference.
         public let groupArn: String
 
@@ -2644,11 +2721,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case groupArn
+            case groupArn = "groupArn"
         }
     }
 
     public struct GroupIdentity: AWSEncodableShape & AWSDecodableShape {
+
         /// The AWS SSO ID of the group.
         public let id: String
 
@@ -2663,12 +2741,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct IAMUserIdentity: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the IAM user. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists.
+
+        /// The ARN of the IAM user. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists. 
         public let arn: String
 
         public init(arn: String) {
@@ -2682,11 +2761,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct Identity: AWSEncodableShape & AWSDecodableShape {
+
         /// An AWS SSO group identity.
         public let group: GroupIdentity?
         /// An IAM user identity.
@@ -2707,13 +2787,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case group
-            case iamUser
-            case user
+            case group = "group"
+            case iamUser = "iamUser"
+            case user = "user"
         }
     }
 
     public struct Image: AWSEncodableShape {
+
         public let file: ImageFile?
         /// The ID of an existing image. Specify this parameter to keep an existing image.
         public let id: String?
@@ -2731,12 +2812,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case file
-            case id
+            case file = "file"
+            case id = "id"
         }
     }
 
     public struct ImageFile: AWSEncodableShape {
+
         /// The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB.
         public let data: Data
         /// The file type of the image.
@@ -2748,17 +2830,18 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.data, name: "data", parent: name, max: 1_500_000)
+            try self.validate(self.data, name: "data", parent: name, max: 1500000)
             try self.validate(self.data, name: "data", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case data
-            case `type`
+            case data = "data"
+            case `type` = "type"
         }
     }
 
     public struct ImageLocation: AWSDecodableShape {
+
         /// The ID of the image.
         public let id: String
         /// The URL where the image is available. The URL is valid for 15 minutes so that you can view and download the image
@@ -2770,19 +2853,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
-            case url
+            case id = "id"
+            case url = "url"
         }
     }
 
     public struct ListAccessPoliciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "iamArn", location: .querystring(locationName: "iamArn")),
-            AWSMemberEncoding(label: "identityId", location: .querystring(locationName: "identityId")),
-            AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "identityType")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")),
+            AWSMemberEncoding(label: "iamArn", location: .querystring(locationName: "iamArn")), 
+            AWSMemberEncoding(label: "identityId", location: .querystring(locationName: "identityId")), 
+            AWSMemberEncoding(label: "identityType", location: .querystring(locationName: "identityType")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "resourceId", location: .querystring(locationName: "resourceId")), 
             AWSMemberEncoding(label: "resourceType", location: .querystring(locationName: "resourceType"))
         ]
 
@@ -2832,6 +2915,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAccessPoliciesResponse: AWSDecodableShape {
+
         /// A list that summarizes each access policy.
         public let accessPolicySummaries: [AccessPolicySummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -2843,14 +2927,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicySummaries
-            case nextToken
+            case accessPolicySummaries = "accessPolicySummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAssetModelsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2876,6 +2960,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetModelsResponse: AWSDecodableShape {
+
         /// A list that summarizes each asset model.
         public let assetModelSummaries: [AssetModelSummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -2887,22 +2972,22 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelSummaries
-            case nextToken
+            case assetModelSummaries = "assetModelSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetModelId", location: .querystring(locationName: "assetModelId")),
-            AWSMemberEncoding(label: "filter", location: .querystring(locationName: "filter")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "assetModelId", location: .querystring(locationName: "assetModelId")), 
+            AWSMemberEncoding(label: "filter", location: .querystring(locationName: "filter")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
         /// The ID of the asset model by which to filter the list of assets. This parameter is required if you choose ALL for filter.
         public let assetModelId: String?
-        /// The filter for the requested list of assets. Choose one of the following options:    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.   Default: ALL
+        /// The filter for the requested list of assets. Choose one of the following options:    ALL – The list includes all assets for a given asset model ID. The assetModelId parameter is required if you filter by ALL.    TOP_LEVEL – The list includes only top-level assets in the asset hierarchy tree.   Default: ALL 
         public let filter: ListAssetsFilter?
         /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
@@ -2931,6 +3016,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAssetsResponse: AWSDecodableShape {
+
         /// A list that summarizes each asset.
         public let assetSummaries: [AssetSummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -2942,17 +3028,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetSummaries
-            case nextToken
+            case assetSummaries = "assetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAssociatedAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
-            AWSMemberEncoding(label: "hierarchyId", location: .querystring(locationName: "hierarchyId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")), 
+            AWSMemberEncoding(label: "hierarchyId", location: .querystring(locationName: "hierarchyId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "traversalDirection", location: .querystring(locationName: "traversalDirection"))
         ]
 
@@ -2964,7 +3050,7 @@ extension IoTSiteWise {
         public let maxResults: Int?
         /// The token to be used for the next set of paginated results.
         public let nextToken: String?
-        /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset. The hierarchyId parameter is required if you choose CHILD.    PARENT – The list includes the asset's parent asset.   Default: CHILD
+        /// The direction to list associated assets. Choose one of the following options:    CHILD – The list includes all child assets associated to the asset. The hierarchyId parameter is required if you choose CHILD.    PARENT – The list includes the asset's parent asset.   Default: CHILD 
         public let traversalDirection: TraversalDirection?
 
         public init(assetId: String, hierarchyId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, traversalDirection: TraversalDirection? = nil) {
@@ -2993,6 +3079,7 @@ extension IoTSiteWise {
     }
 
     public struct ListAssociatedAssetsResponse: AWSDecodableShape {
+
         /// A list that summarizes the associated assets.
         public let assetSummaries: [AssociatedAssetsSummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -3004,15 +3091,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetSummaries
-            case nextToken
+            case assetSummaries = "assetSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDashboardsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "projectId", location: .querystring(locationName: "projectId"))
         ]
 
@@ -3044,6 +3131,7 @@ extension IoTSiteWise {
     }
 
     public struct ListDashboardsResponse: AWSDecodableShape {
+
         /// A list that summarizes each dashboard in the project.
         public let dashboardSummaries: [DashboardSummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -3055,14 +3143,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dashboardSummaries
-            case nextToken
+            case dashboardSummaries = "dashboardSummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListGatewaysRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -3088,6 +3176,7 @@ extension IoTSiteWise {
     }
 
     public struct ListGatewaysResponse: AWSDecodableShape {
+
         /// A list that summarizes each gateway.
         public let gatewaySummaries: [GatewaySummary]
         /// The token for the next set of results, or null if there are no additional results.
@@ -3099,14 +3188,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewaySummaries
-            case nextToken
+            case gatewaySummaries = "gatewaySummaries"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPortalsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -3132,6 +3221,7 @@ extension IoTSiteWise {
     }
 
     public struct ListPortalsResponse: AWSDecodableShape {
+
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// A list that summarizes each portal.
@@ -3143,15 +3233,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case portalSummaries
+            case nextToken = "nextToken"
+            case portalSummaries = "portalSummaries"
         }
     }
 
     public struct ListProjectAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "projectId", location: .uri(locationName: "projectId"))
         ]
 
@@ -3183,6 +3273,7 @@ extension IoTSiteWise {
     }
 
     public struct ListProjectAssetsResponse: AWSDecodableShape {
+
         /// A list that contains the IDs of each asset associated with the project.
         public let assetIds: [String]
         /// The token for the next set of results, or null if there are no additional results.
@@ -3194,15 +3285,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetIds
-            case nextToken
+            case assetIds = "assetIds"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListProjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "portalId", location: .querystring(locationName: "portalId"))
         ]
 
@@ -3234,6 +3325,7 @@ extension IoTSiteWise {
     }
 
     public struct ListProjectsResponse: AWSDecodableShape {
+
         /// The token for the next set of results, or null if there are no additional results.
         public let nextToken: String?
         /// A list that summarizes each project in the portal.
@@ -3245,8 +3337,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case projectSummaries
+            case nextToken = "nextToken"
+            case projectSummaries = "projectSummaries"
         }
     }
 
@@ -3271,6 +3363,7 @@ extension IoTSiteWise {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The list of key-value pairs that contain metadata for the resource. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
         public let tags: [String: String]?
 
@@ -3279,11 +3372,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
+
         /// The AWS IoT SiteWise logging verbosity level.
         public let level: LoggingLevel
 
@@ -3292,15 +3386,20 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case level
+            case level = "level"
         }
     }
 
     public struct Measurement: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Metric: AWSEncodableShape & AWSDecodableShape {
+
         /// The mathematical expression that defines the metric aggregation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let expression: String
         /// The list of variables used in the expression.
@@ -3325,13 +3424,14 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case variables
-            case window
+            case expression = "expression"
+            case variables = "variables"
+            case window = "window"
         }
     }
 
     public struct MetricWindow: AWSEncodableShape & AWSDecodableShape {
+
         /// The tumbling time interval window.
         public let tumbling: TumblingWindow?
 
@@ -3344,11 +3444,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tumbling
+            case tumbling = "tumbling"
         }
     }
 
     public struct MonitorErrorDetails: AWSDecodableShape {
+
         /// The error code.
         public let code: MonitorErrorCode?
         /// The error message.
@@ -3360,12 +3461,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case message
+            case code = "code"
+            case message = "message"
         }
     }
 
     public struct PortalResource: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the portal.
         public let id: String
 
@@ -3380,11 +3482,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct PortalStatus: AWSDecodableShape {
+
         /// Contains associated error information, if any.
         public let error: MonitorErrorDetails?
         /// The current state of the portal.
@@ -3396,12 +3499,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case error
-            case state
+            case error = "error"
+            case state = "state"
         }
     }
 
     public struct PortalSummary: AWSDecodableShape {
+
         /// The date the portal was created, in Unix epoch time.
         public let creationDate: Date?
         /// The portal's description.
@@ -3430,18 +3534,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
-            case roleArn
-            case startUrl
-            case status
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
+            case roleArn = "roleArn"
+            case startUrl = "startUrl"
+            case status = "status"
         }
     }
 
     public struct ProjectResource: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the project.
         public let id: String
 
@@ -3456,11 +3561,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct ProjectSummary: AWSDecodableShape {
+
         /// The date the project was created, in Unix epoch time.
         public let creationDate: Date?
         /// The project's description.
@@ -3481,15 +3587,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDate
-            case description
-            case id
-            case lastUpdateDate
-            case name
+            case creationDate = "creationDate"
+            case description = "description"
+            case id = "id"
+            case lastUpdateDate = "lastUpdateDate"
+            case name = "name"
         }
     }
 
     public struct Property: AWSDecodableShape {
+
         /// The property alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the AWS IoT SiteWise User Guide.
         public let alias: String?
         /// The property data type.
@@ -3516,17 +3623,18 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alias
-            case dataType
-            case id
-            case name
-            case notification
-            case `type`
-            case unit
+            case alias = "alias"
+            case dataType = "dataType"
+            case id = "id"
+            case name = "name"
+            case notification = "notification"
+            case `type` = "type"
+            case unit = "unit"
         }
     }
 
     public struct PropertyNotification: AWSDecodableShape {
+
         /// The current notification state.
         public let state: PropertyNotificationState
         /// The MQTT topic to which AWS IoT SiteWise publishes property value update notifications.
@@ -3538,12 +3646,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case state
-            case topic
+            case state = "state"
+            case topic = "topic"
         }
     }
 
     public struct PropertyType: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies an asset attribute property. An attribute generally contains static information, such as the serial number of an IIoT wind turbine.
         public let attribute: Attribute?
         /// Specifies an asset measurement property. A measurement represents a device's raw sensor data stream, such as timestamped temperature values or timestamped power values.
@@ -3567,14 +3676,15 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attribute
-            case measurement
-            case metric
-            case transform
+            case attribute = "attribute"
+            case measurement = "measurement"
+            case metric = "metric"
+            case transform = "transform"
         }
     }
 
     public struct PutAssetPropertyValueEntry: AWSEncodableShape {
+
         /// The ID of the asset to update.
         public let assetId: String?
         /// The user specified ID for the entry. You can use this ID to identify which entries failed.
@@ -3583,7 +3693,7 @@ extension IoTSiteWise {
         public let propertyAlias: String?
         /// The ID of the asset property for this entry.
         public let propertyId: String?
-        /// The list of property values to upload. You can specify up to 10 propertyValues array elements.
+        /// The list of property values to upload. You can specify up to 10 propertyValues array elements. 
         public let propertyValues: [AssetPropertyValue]
 
         public init(assetId: String? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, propertyValues: [AssetPropertyValue]) {
@@ -3613,15 +3723,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetId
-            case entryId
-            case propertyAlias
-            case propertyId
-            case propertyValues
+            case assetId = "assetId"
+            case entryId = "entryId"
+            case propertyAlias = "propertyAlias"
+            case propertyId = "propertyId"
+            case propertyValues = "propertyValues"
         }
     }
 
     public struct PutLoggingOptionsRequest: AWSEncodableShape {
+
         /// The logging options to set.
         public let loggingOptions: LoggingOptions
 
@@ -3630,15 +3741,20 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case loggingOptions
+            case loggingOptions = "loggingOptions"
         }
     }
 
     public struct PutLoggingOptionsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
+
         /// A portal resource.
         public let portal: PortalResource?
         /// A project resource.
@@ -3655,8 +3771,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portal
-            case project
+            case portal = "portal"
+            case project = "project"
         }
     }
 
@@ -3687,15 +3803,20 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TimeInNanos: AWSEncodableShape & AWSDecodableShape {
+
         /// The nanosecond offset from timeInSeconds.
         public let offsetInNanos: Int?
         /// The timestamp date, in seconds, in the Unix epoch format. Fractional nanosecond data is provided by offsetInNanos.
@@ -3707,19 +3828,20 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999_999_999)
+            try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999999999)
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, min: 0)
-            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 31556889864403199)
             try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offsetInNanos
-            case timeInSeconds
+            case offsetInNanos = "offsetInNanos"
+            case timeInSeconds = "timeInSeconds"
         }
     }
 
     public struct Transform: AWSEncodableShape & AWSDecodableShape {
+
         /// The mathematical expression that defines the transformation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the AWS IoT SiteWise User Guide.
         public let expression: String
         /// The list of variables used in the expression.
@@ -3740,12 +3862,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expression
-            case variables
+            case expression = "expression"
+            case variables = "variables"
         }
     }
 
     public struct TumblingWindow: AWSEncodableShape & AWSDecodableShape {
+
         /// The time interval for the tumbling window. Note that w represents weeks, d represents days, h represents hours, and m represents minutes. AWS IoT SiteWise computes the 1w interval the end of Sunday at midnight each week (UTC), the 1d interval at the end of each day at midnight (UTC), the 1h interval at the end of each hour, and so on.  When AWS IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. AWS IoT SiteWise places the computed data point at the end of the interval.
         public let interval: String
 
@@ -3760,13 +3883,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case interval
+            case interval = "interval"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -3795,7 +3918,11 @@ extension IoTSiteWise {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAccessPolicyRequest: AWSEncodableShape {
@@ -3834,15 +3961,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPolicyIdentity
-            case accessPolicyPermission
-            case accessPolicyResource
-            case clientToken
+            case accessPolicyIdentity = "accessPolicyIdentity"
+            case accessPolicyPermission = "accessPolicyPermission"
+            case accessPolicyResource = "accessPolicyResource"
+            case clientToken = "clientToken"
         }
     }
 
     public struct UpdateAccessPolicyResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateAssetModelRequest: AWSEncodableShape {
@@ -3894,15 +4025,16 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelDescription
-            case assetModelHierarchies
-            case assetModelName
-            case assetModelProperties
-            case clientToken
+            case assetModelDescription = "assetModelDescription"
+            case assetModelHierarchies = "assetModelHierarchies"
+            case assetModelName = "assetModelName"
+            case assetModelProperties = "assetModelProperties"
+            case clientToken = "clientToken"
         }
     }
 
     public struct UpdateAssetModelResponse: AWSDecodableShape {
+
         /// The status of the asset model, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetModelStatus: AssetModelStatus
 
@@ -3911,13 +4043,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetModelStatus
+            case assetModelStatus = "assetModelStatus"
         }
     }
 
     public struct UpdateAssetPropertyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")),
+            AWSMemberEncoding(label: "assetId", location: .uri(locationName: "assetId")), 
             AWSMemberEncoding(label: "propertyId", location: .uri(locationName: "propertyId"))
         ]
 
@@ -3955,9 +4087,9 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case propertyAlias
-            case propertyNotificationState
+            case clientToken = "clientToken"
+            case propertyAlias = "propertyAlias"
+            case propertyNotificationState = "propertyNotificationState"
         }
     }
 
@@ -3992,12 +4124,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetName
-            case clientToken
+            case assetName = "assetName"
+            case clientToken = "clientToken"
         }
     }
 
     public struct UpdateAssetResponse: AWSDecodableShape {
+
         /// The status of the asset, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let assetStatus: AssetStatus
 
@@ -4006,7 +4139,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assetStatus
+            case assetStatus = "assetStatus"
         }
     }
 
@@ -4038,7 +4171,7 @@ extension IoTSiteWise {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S{36,64}")
-            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204_800)
+            try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, max: 204800)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, min: 0)
             try self.validate(self.dashboardDefinition, name: "dashboardDefinition", parent: name, pattern: ".+")
             try self.validate(self.dashboardDescription, name: "dashboardDescription", parent: name, max: 2048)
@@ -4053,15 +4186,19 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case dashboardDefinition
-            case dashboardDescription
-            case dashboardName
+            case clientToken = "clientToken"
+            case dashboardDefinition = "dashboardDefinition"
+            case dashboardDescription = "dashboardDescription"
+            case dashboardName = "dashboardName"
         }
     }
 
     public struct UpdateDashboardResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateGatewayCapabilityConfigurationRequest: AWSEncodableShape {
@@ -4083,7 +4220,7 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 204_800)
+            try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, max: 204800)
             try self.validate(self.capabilityConfiguration, name: "capabilityConfiguration", parent: name, min: 1)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, max: 512)
             try self.validate(self.capabilityNamespace, name: "capabilityNamespace", parent: name, min: 1)
@@ -4094,12 +4231,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityConfiguration
-            case capabilityNamespace
+            case capabilityConfiguration = "capabilityConfiguration"
+            case capabilityNamespace = "capabilityNamespace"
         }
     }
 
     public struct UpdateGatewayCapabilityConfigurationResponse: AWSDecodableShape {
+
         /// The namespace of the gateway capability.
         public let capabilityNamespace: String
         /// The synchronization status of the capability configuration. The sync status can be one of the following:    IN_SYNC – The gateway is running the capability configuration.    OUT_OF_SYNC – The gateway hasn't received the capability configuration.    SYNC_FAILED – The gateway rejected the capability configuration.   After you update a capability configuration, its sync status is OUT_OF_SYNC until the gateway receives and applies or rejects the updated configuration.
@@ -4111,8 +4249,8 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case capabilityNamespace
-            case capabilitySyncStatus
+            case capabilityNamespace = "capabilityNamespace"
+            case capabilitySyncStatus = "capabilitySyncStatus"
         }
     }
 
@@ -4141,7 +4279,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gatewayName
+            case gatewayName = "gatewayName"
         }
     }
 
@@ -4197,16 +4335,17 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case portalContactEmail
-            case portalDescription
-            case portalLogoImage
-            case portalName
-            case roleArn
+            case clientToken = "clientToken"
+            case portalContactEmail = "portalContactEmail"
+            case portalDescription = "portalDescription"
+            case portalLogoImage = "portalLogoImage"
+            case portalName = "portalName"
+            case roleArn = "roleArn"
         }
     }
 
     public struct UpdatePortalResponse: AWSDecodableShape {
+
         /// The status of the portal, which contains a state (UPDATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
 
@@ -4215,7 +4354,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portalStatus
+            case portalStatus = "portalStatus"
         }
     }
 
@@ -4256,17 +4395,22 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case projectDescription
-            case projectName
+            case clientToken = "clientToken"
+            case projectDescription = "projectDescription"
+            case projectName = "projectName"
         }
     }
 
     public struct UpdateProjectResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UserIdentity: AWSEncodableShape & AWSDecodableShape {
+
         /// The AWS SSO ID of the user.
         public let id: String
 
@@ -4281,11 +4425,12 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id
+            case id = "id"
         }
     }
 
     public struct VariableValue: AWSEncodableShape & AWSDecodableShape {
+
         /// The ID of the hierarchy to query for the property ID. You can use the hierarchy's name instead of the hierarchy's ID. You use a hierarchy ID instead of a model ID because you can have several hierarchies using the same model and therefore the same propertyId. For example, you might have separately grouped assets that come from the same asset model. For more information, see Asset hierarchies in the AWS IoT SiteWise User Guide.
         public let hierarchyId: String?
         /// The ID of the property to use as the variable. You can use the property name if it's from the same asset model.
@@ -4306,12 +4451,13 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hierarchyId
-            case propertyId
+            case hierarchyId = "hierarchyId"
+            case propertyId = "propertyId"
         }
     }
 
     public struct Variant: AWSEncodableShape & AWSDecodableShape {
+
         /// Asset property data of type Boolean (true or false).
         public let booleanValue: Bool?
         /// Asset property data of type double (floating point number).
@@ -4335,10 +4481,10 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case booleanValue
-            case doubleValue
-            case integerValue
-            case stringValue
+            case booleanValue = "booleanValue"
+            case doubleValue = "doubleValue"
+            case integerValue = "integerValue"
+            case stringValue = "stringValue"
         }
     }
 }

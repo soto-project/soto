@@ -202,6 +202,7 @@ extension Chime {
     // MARK: Shapes
 
     public struct Account: AWSDecodableShape {
+
         /// The Amazon Chime account ID.
         public let accountId: String
         /// The Amazon Chime account type. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
@@ -244,6 +245,7 @@ extension Chime {
     }
 
     public struct AccountSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Setting that stops or starts remote control of shared screens during meetings.
         public let disableRemoteControl: Bool?
         /// Setting that allows meeting participants to choose the Call me at a phone number option. For more information, see Join a Meeting without the Amazon Chime App.
@@ -261,6 +263,7 @@ extension Chime {
     }
 
     public struct AlexaForBusinessMetadata: AWSEncodableShape & AWSDecodableShape {
+
         /// The ARN of the room resource.
         public let alexaForBusinessRoomArn: String?
         /// Starts or stops Alexa for Business.
@@ -279,7 +282,7 @@ extension Chime {
 
     public struct AssociatePhoneNumberWithUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -306,7 +309,11 @@ extension Chime {
     }
 
     public struct AssociatePhoneNumberWithUserResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorGroupRequest: AWSEncodableShape {
@@ -341,6 +348,7 @@ extension Chime {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorGroupResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -385,6 +393,7 @@ extension Chime {
     }
 
     public struct AssociatePhoneNumbersWithVoiceConnectorResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -425,10 +434,15 @@ extension Chime {
     }
 
     public struct AssociateSigninDelegateGroupsWithAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Attendee: AWSDecodableShape {
+
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
         /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
@@ -477,6 +491,7 @@ extension Chime {
     }
 
     public struct BatchCreateAttendeeResponse: AWSDecodableShape {
+
         /// The attendee information, including attendees IDs and join tokens.
         public let attendees: [Attendee]?
         /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -495,7 +510,7 @@ extension Chime {
 
     public struct BatchCreateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -527,6 +542,7 @@ extension Chime {
     }
 
     public struct BatchCreateRoomMembershipResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the member IDs in the request, a list of the member IDs is returned, along with error codes and error messages.
         public let errors: [MemberError]?
 
@@ -540,6 +556,7 @@ extension Chime {
     }
 
     public struct BatchDeletePhoneNumberRequest: AWSEncodableShape {
+
         /// List of phone number IDs.
         public let phoneNumberIds: [String]
 
@@ -557,6 +574,7 @@ extension Chime {
     }
 
     public struct BatchDeletePhoneNumberResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -598,6 +616,7 @@ extension Chime {
     }
 
     public struct BatchSuspendUserResponse: AWSDecodableShape {
+
         /// If the BatchSuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
@@ -639,6 +658,7 @@ extension Chime {
     }
 
     public struct BatchUnsuspendUserResponse: AWSDecodableShape {
+
         /// If the BatchUnsuspendUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
@@ -652,6 +672,7 @@ extension Chime {
     }
 
     public struct BatchUpdatePhoneNumberRequest: AWSEncodableShape {
+
         /// The request containing the phone number IDs and product types or calling names to update.
         public let updatePhoneNumberRequestItems: [UpdatePhoneNumberRequestItem]
 
@@ -671,6 +692,7 @@ extension Chime {
     }
 
     public struct BatchUpdatePhoneNumberResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -712,6 +734,7 @@ extension Chime {
     }
 
     public struct BatchUpdateUserResponse: AWSDecodableShape {
+
         /// If the BatchUpdateUser action fails for one or more of the user IDs in the request, a list of the user IDs is returned, along with error codes and error messages.
         public let userErrors: [UserError]?
 
@@ -725,6 +748,7 @@ extension Chime {
     }
 
     public struct Bot: AWSDecodableShape {
+
         /// The bot email address.
         public let botEmail: String?
         /// The bot ID.
@@ -772,6 +796,7 @@ extension Chime {
     }
 
     public struct BusinessCallingSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
 
@@ -785,6 +810,7 @@ extension Chime {
     }
 
     public struct ConversationRetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of days for which to retain chat conversation messages.
         public let retentionDays: Int?
 
@@ -803,6 +829,7 @@ extension Chime {
     }
 
     public struct CreateAccountRequest: AWSEncodableShape {
+
         /// The name of the Amazon Chime account.
         public let name: String
 
@@ -822,6 +849,7 @@ extension Chime {
     }
 
     public struct CreateAccountResponse: AWSDecodableShape {
+
         /// The Amazon Chime account details.
         public let account: Account?
 
@@ -835,6 +863,7 @@ extension Chime {
     }
 
     public struct CreateAttendeeError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: String?
         /// The error message.
@@ -891,6 +920,7 @@ extension Chime {
     }
 
     public struct CreateAttendeeRequestItem: AWSEncodableShape {
+
         /// The Amazon Chime SDK external user ID. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
         /// The tag key-value pairs.
@@ -918,6 +948,7 @@ extension Chime {
     }
 
     public struct CreateAttendeeResponse: AWSDecodableShape {
+
         /// The attendee information, including attendee ID and join token.
         public let attendee: Attendee?
 
@@ -960,6 +991,7 @@ extension Chime {
     }
 
     public struct CreateBotResponse: AWSDecodableShape {
+
         /// The bot details.
         public let bot: Bot?
 
@@ -973,6 +1005,7 @@ extension Chime {
     }
 
     public struct CreateMeetingRequest: AWSEncodableShape {
+
         /// The unique identifier for the client request. Use a different token for different meetings.
         public let clientRequestToken: String
         /// The external meeting ID.
@@ -1022,6 +1055,7 @@ extension Chime {
     }
 
     public struct CreateMeetingResponse: AWSDecodableShape {
+
         /// The meeting information, including the meeting ID and MediaPlacement.
         public let meeting: Meeting?
 
@@ -1035,6 +1069,7 @@ extension Chime {
     }
 
     public struct CreateMeetingWithAttendeesRequest: AWSEncodableShape {
+
         /// The request containing the attendees to create.
         public let attendees: [CreateAttendeeRequestItem]?
         /// The unique identifier for the client request. Use a different token for different meetings.
@@ -1092,6 +1127,7 @@ extension Chime {
     }
 
     public struct CreateMeetingWithAttendeesResponse: AWSDecodableShape {
+
         /// The attendee information, including attendees IDs and join tokens.
         public let attendees: [Attendee]?
         /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -1112,6 +1148,7 @@ extension Chime {
     }
 
     public struct CreatePhoneNumberOrderRequest: AWSEncodableShape {
+
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]
         /// The phone number product type.
@@ -1135,6 +1172,7 @@ extension Chime {
     }
 
     public struct CreatePhoneNumberOrderResponse: AWSDecodableShape {
+
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
@@ -1206,6 +1244,7 @@ extension Chime {
     }
 
     public struct CreateProxySessionResponse: AWSDecodableShape {
+
         /// The proxy session details.
         public let proxySession: ProxySession?
 
@@ -1220,7 +1259,7 @@ extension Chime {
 
     public struct CreateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -1253,6 +1292,7 @@ extension Chime {
     }
 
     public struct CreateRoomMembershipResponse: AWSDecodableShape {
+
         /// The room membership details.
         public let roomMembership: RoomMembership?
 
@@ -1297,6 +1337,7 @@ extension Chime {
     }
 
     public struct CreateRoomResponse: AWSDecodableShape {
+
         /// The room details.
         public let room: Room?
 
@@ -1343,6 +1384,7 @@ extension Chime {
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
+
         public let user: User?
 
         public init(user: User? = nil) {
@@ -1355,6 +1397,7 @@ extension Chime {
     }
 
     public struct CreateVoiceConnectorGroupRequest: AWSEncodableShape {
+
         /// The name of the Amazon Chime Voice Connector group.
         public let name: String
         /// The Amazon Chime Voice Connectors to route inbound calls to.
@@ -1380,6 +1423,7 @@ extension Chime {
     }
 
     public struct CreateVoiceConnectorGroupResponse: AWSDecodableShape {
+
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
@@ -1393,6 +1437,7 @@ extension Chime {
     }
 
     public struct CreateVoiceConnectorRequest: AWSEncodableShape {
+
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default value: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The name of the Amazon Chime Voice Connector.
@@ -1419,6 +1464,7 @@ extension Chime {
     }
 
     public struct CreateVoiceConnectorResponse: AWSDecodableShape {
+
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
@@ -1432,6 +1478,7 @@ extension Chime {
     }
 
     public struct Credential: AWSEncodableShape {
+
         /// The RFC2617 compliant password associated with the SIP credentials, in US-ASCII format.
         public let password: String?
         /// The RFC2617 compliant user name associated with the SIP credentials, in US-ASCII format.
@@ -1449,6 +1496,7 @@ extension Chime {
     }
 
     public struct DNISEmergencyCallingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The country from which emergency calls are allowed, in ISO 3166-1 alpha-2 format.
         public let callingCountry: String
         /// The DNIS phone number to route emergency calls to, in E.164 format.
@@ -1495,12 +1543,16 @@ extension Chime {
     }
 
     public struct DeleteAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")),
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
@@ -1524,7 +1576,7 @@ extension Chime {
 
     public struct DeleteEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -1582,7 +1634,7 @@ extension Chime {
 
     public struct DeleteProxySessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")),
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
 
@@ -1610,8 +1662,8 @@ extension Chime {
 
     public struct DeleteRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -1639,7 +1691,7 @@ extension Chime {
 
     public struct DeleteRoomRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -1822,7 +1874,7 @@ extension Chime {
 
     public struct DisassociatePhoneNumberFromUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -1840,7 +1892,11 @@ extension Chime {
     }
 
     public struct DisassociatePhoneNumberFromUserResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorGroupRequest: AWSEncodableShape {
@@ -1871,6 +1927,7 @@ extension Chime {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorGroupResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -1911,6 +1968,7 @@ extension Chime {
     }
 
     public struct DisassociatePhoneNumbersFromVoiceConnectorResponse: AWSDecodableShape {
+
         /// If the action fails for one or more of the phone numbers in the request, a list of the phone numbers is returned, along with error codes and error messages.
         public let phoneNumberErrors: [PhoneNumberError]?
 
@@ -1949,10 +2007,15 @@ extension Chime {
     }
 
     public struct DisassociateSigninDelegateGroupsFromAccountResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EmergencyCallingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Dialed Number Identification Service (DNIS) emergency calling configuration details.
         public let dnis: [DNISEmergencyCallingConfiguration]?
 
@@ -1972,6 +2035,7 @@ extension Chime {
     }
 
     public struct EventsConfiguration: AWSDecodableShape {
+
         /// The bot ID.
         public let botId: String?
         /// Lambda function ARN that allows a bot to receive outgoing events.
@@ -1993,6 +2057,7 @@ extension Chime {
     }
 
     public struct GeoMatchParams: AWSEncodableShape & AWSDecodableShape {
+
         /// The area code.
         public let areaCode: String
         /// The country.
@@ -2034,6 +2099,7 @@ extension Chime {
     }
 
     public struct GetAccountResponse: AWSDecodableShape {
+
         /// The Amazon Chime account details.
         public let account: Account?
 
@@ -2066,6 +2132,7 @@ extension Chime {
     }
 
     public struct GetAccountSettingsResponse: AWSDecodableShape {
+
         /// The Amazon Chime account settings.
         public let accountSettings: AccountSettings?
 
@@ -2080,7 +2147,7 @@ extension Chime {
 
     public struct GetAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")),
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
@@ -2103,6 +2170,7 @@ extension Chime {
     }
 
     public struct GetAttendeeResponse: AWSDecodableShape {
+
         /// The Amazon Chime SDK attendee information.
         public let attendee: Attendee?
 
@@ -2117,7 +2185,7 @@ extension Chime {
 
     public struct GetBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -2140,6 +2208,7 @@ extension Chime {
     }
 
     public struct GetBotResponse: AWSDecodableShape {
+
         /// The chat bot details.
         public let bot: Bot?
 
@@ -2154,7 +2223,7 @@ extension Chime {
 
     public struct GetEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -2177,6 +2246,7 @@ extension Chime {
     }
 
     public struct GetEventsConfigurationResponse: AWSDecodableShape {
+
         /// The events configuration details.
         public let eventsConfiguration: EventsConfiguration?
 
@@ -2190,6 +2260,7 @@ extension Chime {
     }
 
     public struct GetGlobalSettingsResponse: AWSDecodableShape {
+
         /// The Amazon Chime Business Calling settings.
         public let businessCalling: BusinessCallingSettings?
         /// The Amazon Chime Voice Connector settings.
@@ -2226,6 +2297,7 @@ extension Chime {
     }
 
     public struct GetMeetingResponse: AWSDecodableShape {
+
         /// The Amazon Chime SDK meeting information.
         public let meeting: Meeting?
 
@@ -2258,6 +2330,7 @@ extension Chime {
     }
 
     public struct GetPhoneNumberOrderResponse: AWSDecodableShape {
+
         /// The phone number order details.
         public let phoneNumberOrder: PhoneNumberOrder?
 
@@ -2286,6 +2359,7 @@ extension Chime {
     }
 
     public struct GetPhoneNumberResponse: AWSDecodableShape {
+
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
@@ -2299,6 +2373,7 @@ extension Chime {
     }
 
     public struct GetPhoneNumberSettingsResponse: AWSDecodableShape {
+
         /// The default outbound calling name for the account.
         public let callingName: String?
         /// The updated outbound calling name timestamp, in ISO 8601 format.
@@ -2318,7 +2393,7 @@ extension Chime {
 
     public struct GetProxySessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")),
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
 
@@ -2345,6 +2420,7 @@ extension Chime {
     }
 
     public struct GetProxySessionResponse: AWSDecodableShape {
+
         /// The proxy session details.
         public let proxySession: ProxySession?
 
@@ -2377,6 +2453,7 @@ extension Chime {
     }
 
     public struct GetRetentionSettingsResponse: AWSDecodableShape {
+
         /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var initiateDeletionTimestamp: Date?
@@ -2396,7 +2473,7 @@ extension Chime {
 
     public struct GetRoomRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -2419,6 +2496,7 @@ extension Chime {
     }
 
     public struct GetRoomResponse: AWSDecodableShape {
+
         /// The room details.
         public let room: Room?
 
@@ -2433,7 +2511,7 @@ extension Chime {
 
     public struct GetUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -2456,6 +2534,7 @@ extension Chime {
     }
 
     public struct GetUserResponse: AWSDecodableShape {
+
         /// The user details.
         public let user: User?
 
@@ -2470,7 +2549,7 @@ extension Chime {
 
     public struct GetUserSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -2488,6 +2567,7 @@ extension Chime {
     }
 
     public struct GetUserSettingsResponse: AWSDecodableShape {
+
         /// The user settings.
         public let userSettings: UserSettings?
 
@@ -2520,6 +2600,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorEmergencyCallingConfigurationResponse: AWSDecodableShape {
+
         /// The emergency calling configuration details.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
@@ -2552,6 +2633,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorGroupResponse: AWSDecodableShape {
+
         /// The Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
@@ -2584,6 +2666,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -2616,6 +2699,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorOriginationResponse: AWSDecodableShape {
+
         /// The origination setting details.
         public let origination: Origination?
 
@@ -2650,6 +2734,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorProxyResponse: AWSDecodableShape {
+
         /// The proxy configuration details.
         public let proxy: Proxy?
 
@@ -2682,6 +2767,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorResponse: AWSDecodableShape {
+
         /// The Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
@@ -2714,6 +2800,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
+
         /// The streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
 
@@ -2746,6 +2833,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorTerminationHealthResponse: AWSDecodableShape {
+
         /// The termination health details.
         public let terminationHealth: TerminationHealth?
 
@@ -2778,6 +2866,7 @@ extension Chime {
     }
 
     public struct GetVoiceConnectorTerminationResponse: AWSDecodableShape {
+
         /// The termination setting details.
         public let termination: Termination?
 
@@ -2791,6 +2880,7 @@ extension Chime {
     }
 
     public struct Invite: AWSDecodableShape {
+
         /// The email address to which the invite is sent.
         public let emailAddress: String?
         /// The status of the invite email.
@@ -2848,6 +2938,7 @@ extension Chime {
     }
 
     public struct InviteUsersResponse: AWSDecodableShape {
+
         /// The email invitation details.
         public let invites: [Invite]?
 
@@ -2862,9 +2953,9 @@ extension Chime {
 
     public struct ListAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "name", location: .querystring(locationName: "name")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "userEmail", location: .querystring(locationName: "user-email"))
         ]
 
@@ -2897,6 +2988,7 @@ extension Chime {
     }
 
     public struct ListAccountsResponse: AWSDecodableShape {
+
         /// List of Amazon Chime accounts and account details.
         public let accounts: [Account]?
         /// The token to use to retrieve the next page of results.
@@ -2915,7 +3007,7 @@ extension Chime {
 
     public struct ListAttendeeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")),
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
@@ -2938,6 +3030,7 @@ extension Chime {
     }
 
     public struct ListAttendeeTagsResponse: AWSDecodableShape {
+
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
 
@@ -2952,8 +3045,8 @@ extension Chime {
 
     public struct ListAttendeesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -2980,6 +3073,7 @@ extension Chime {
     }
 
     public struct ListAttendeesResponse: AWSDecodableShape {
+
         /// The Amazon Chime SDK attendee information.
         public let attendees: [Attendee]?
         /// The token to use to retrieve the next page of results.
@@ -2998,8 +3092,8 @@ extension Chime {
 
     public struct ListBotsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3026,6 +3120,7 @@ extension Chime {
     }
 
     public struct ListBotsResponse: AWSDecodableShape {
+
         /// List of bots and bot details.
         public let bots: [Bot]?
         /// The token to use to retrieve the next page of results.
@@ -3062,6 +3157,7 @@ extension Chime {
     }
 
     public struct ListMeetingTagsResponse: AWSDecodableShape {
+
         /// A list of tag key-value pairs.
         public let tags: [Tag]?
 
@@ -3076,7 +3172,7 @@ extension Chime {
 
     public struct ListMeetingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3099,6 +3195,7 @@ extension Chime {
     }
 
     public struct ListMeetingsResponse: AWSDecodableShape {
+
         /// The Amazon Chime SDK meeting information.
         public let meetings: [Meeting]?
         /// The token to use to retrieve the next page of results.
@@ -3117,7 +3214,7 @@ extension Chime {
 
     public struct ListPhoneNumberOrdersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3140,6 +3237,7 @@ extension Chime {
     }
 
     public struct ListPhoneNumberOrdersResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The phone number order details.
@@ -3158,11 +3256,11 @@ extension Chime {
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "filterName", location: .querystring(locationName: "filter-name")),
-            AWSMemberEncoding(label: "filterValue", location: .querystring(locationName: "filter-value")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "productType", location: .querystring(locationName: "product-type")),
+            AWSMemberEncoding(label: "filterName", location: .querystring(locationName: "filter-name")), 
+            AWSMemberEncoding(label: "filterValue", location: .querystring(locationName: "filter-value")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "productType", location: .querystring(locationName: "product-type")), 
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
@@ -3197,6 +3295,7 @@ extension Chime {
     }
 
     public struct ListPhoneNumbersResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The phone number details.
@@ -3215,9 +3314,9 @@ extension Chime {
 
     public struct ListProxySessionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status")), 
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
 
@@ -3250,6 +3349,7 @@ extension Chime {
     }
 
     public struct ListProxySessionsResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The proxy session details.
@@ -3268,9 +3368,9 @@ extension Chime {
 
     public struct ListRoomMembershipsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -3301,6 +3401,7 @@ extension Chime {
     }
 
     public struct ListRoomMembershipsResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The room membership details.
@@ -3319,9 +3420,9 @@ extension Chime {
 
     public struct ListRoomsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "member-id")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "memberId", location: .querystring(locationName: "member-id")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3351,6 +3452,7 @@ extension Chime {
     }
 
     public struct ListRoomsResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The room details.
@@ -3389,6 +3491,7 @@ extension Chime {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// A list of tag-key value pairs.
         public let tags: [Tag]?
 
@@ -3403,10 +3506,10 @@ extension Chime {
 
     public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "userEmail", location: .querystring(locationName: "user-email")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "userEmail", location: .querystring(locationName: "user-email")), 
             AWSMemberEncoding(label: "userType", location: .querystring(locationName: "user-type"))
         ]
 
@@ -3440,6 +3543,7 @@ extension Chime {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// List of users and user details.
@@ -3458,7 +3562,7 @@ extension Chime {
 
     public struct ListVoiceConnectorGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3481,6 +3585,7 @@ extension Chime {
     }
 
     public struct ListVoiceConnectorGroupsResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The details of the Amazon Chime Voice Connector groups.
@@ -3517,6 +3622,7 @@ extension Chime {
     }
 
     public struct ListVoiceConnectorTerminationCredentialsResponse: AWSDecodableShape {
+
         /// A list of user names.
         public let usernames: [String]?
 
@@ -3531,7 +3637,7 @@ extension Chime {
 
     public struct ListVoiceConnectorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token"))
         ]
 
@@ -3554,6 +3660,7 @@ extension Chime {
     }
 
     public struct ListVoiceConnectorsResponse: AWSDecodableShape {
+
         /// The token to use to retrieve the next page of results.
         public let nextToken: String?
         /// The details of the Amazon Chime Voice Connectors.
@@ -3571,6 +3678,7 @@ extension Chime {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
         public let enableSIPLogs: Bool?
 
@@ -3585,7 +3693,7 @@ extension Chime {
 
     public struct LogoutUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -3608,10 +3716,15 @@ extension Chime {
     }
 
     public struct LogoutUserResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct MediaPlacement: AWSDecodableShape {
+
         /// The audio fallback URL.
         public let audioFallbackUrl: String?
         /// The audio host URL.
@@ -3649,6 +3762,7 @@ extension Chime {
     }
 
     public struct Meeting: AWSDecodableShape {
+
         /// The external meeting ID.
         public let externalMeetingId: String?
         /// The media placement for the meeting.
@@ -3674,6 +3788,7 @@ extension Chime {
     }
 
     public struct MeetingNotificationConfiguration: AWSEncodableShape {
+
         /// The SNS topic ARN.
         public let snsTopicArn: String?
         /// The SQS queue ARN.
@@ -3700,6 +3815,7 @@ extension Chime {
     }
 
     public struct Member: AWSDecodableShape {
+
         /// The Amazon Chime account ID.
         public let accountId: String?
         /// The member email address.
@@ -3729,6 +3845,7 @@ extension Chime {
     }
 
     public struct MemberError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: ErrorCode?
         /// The error message.
@@ -3750,6 +3867,7 @@ extension Chime {
     }
 
     public struct MembershipItem: AWSEncodableShape {
+
         /// The member ID.
         public let memberId: String?
         /// The member role.
@@ -3771,6 +3889,7 @@ extension Chime {
     }
 
     public struct OrderedPhoneNumber: AWSDecodableShape {
+
         /// The phone number, in E.164 format.
         public let e164PhoneNumber: String?
         /// The phone number status.
@@ -3788,6 +3907,7 @@ extension Chime {
     }
 
     public struct Origination: AWSEncodableShape & AWSDecodableShape {
+
         /// When origination settings are disabled, inbound calls are not enabled for your Amazon Chime Voice Connector.
         public let disabled: Bool?
         /// The call distribution properties defined for your SIP hosts. Valid range: Minimum value of 1. Maximum value of 20.
@@ -3811,6 +3931,7 @@ extension Chime {
     }
 
     public struct OriginationRoute: AWSEncodableShape & AWSDecodableShape {
+
         /// The FQDN or IP address to contact for origination traffic.
         public let host: String?
         /// The designated origination route port. Defaults to 5060.
@@ -3849,6 +3970,7 @@ extension Chime {
     }
 
     public struct Participant: AWSDecodableShape {
+
         /// The participant's phone number.
         public let phoneNumber: String?
         /// The participant's proxy phone number.
@@ -3866,6 +3988,7 @@ extension Chime {
     }
 
     public struct PhoneNumber: AWSDecodableShape {
+
         /// The phone number associations.
         public let associations: [PhoneNumberAssociation]?
         /// The outbound calling name associated with the phone number.
@@ -3926,6 +4049,7 @@ extension Chime {
     }
 
     public struct PhoneNumberAssociation: AWSDecodableShape {
+
         /// The timestamp of the phone number association, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var associatedTimestamp: Date?
@@ -3948,6 +4072,7 @@ extension Chime {
     }
 
     public struct PhoneNumberCapabilities: AWSDecodableShape {
+
         /// Allows or denies inbound calling for the specified phone number.
         public let inboundCall: Bool?
         /// Allows or denies inbound MMS messaging for the specified phone number.
@@ -3981,6 +4106,7 @@ extension Chime {
     }
 
     public struct PhoneNumberError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: ErrorCode?
         /// The error message.
@@ -4002,6 +4128,7 @@ extension Chime {
     }
 
     public struct PhoneNumberOrder: AWSDecodableShape {
+
         /// The phone number order creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
@@ -4037,6 +4164,7 @@ extension Chime {
     }
 
     public struct Proxy: AWSDecodableShape {
+
         /// The default number of minutes allowed for proxy sessions.
         public let defaultSessionExpiryMinutes: Int?
         /// When true, stops proxy sessions from being created on the specified Amazon Chime Voice Connector.
@@ -4062,6 +4190,7 @@ extension Chime {
     }
 
     public struct ProxySession: AWSDecodableShape {
+
         /// The proxy session capabilities.
         public let capabilities: [Capability]?
         /// The created timestamp, in ISO 8601 format.
@@ -4127,7 +4256,7 @@ extension Chime {
 
     public struct PutEventsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -4159,6 +4288,7 @@ extension Chime {
     }
 
     public struct PutEventsConfigurationResponse: AWSDecodableShape {
+
         public let eventsConfiguration: EventsConfiguration?
 
         public init(eventsConfiguration: EventsConfiguration? = nil) {
@@ -4196,6 +4326,7 @@ extension Chime {
     }
 
     public struct PutRetentionSettingsResponse: AWSDecodableShape {
+
         /// The timestamp representing the time at which the specified items are permanently deleted, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var initiateDeletionTimestamp: Date?
@@ -4239,6 +4370,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorEmergencyCallingConfigurationResponse: AWSDecodableShape {
+
         /// The emergency calling configuration details.
         public let emergencyCallingConfiguration: EmergencyCallingConfiguration?
 
@@ -4276,6 +4408,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorLoggingConfigurationResponse: AWSDecodableShape {
+
         /// The updated logging configuration details.
         public let loggingConfiguration: LoggingConfiguration?
 
@@ -4314,6 +4447,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorOriginationResponse: AWSDecodableShape {
+
         /// The updated origination setting details.
         public let origination: Origination?
 
@@ -4371,6 +4505,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorProxyResponse: AWSDecodableShape {
+
         /// The proxy configuration details.
         public let proxy: Proxy?
 
@@ -4409,6 +4544,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorStreamingConfigurationResponse: AWSDecodableShape {
+
         /// The updated streaming configuration details.
         public let streamingConfiguration: StreamingConfiguration?
 
@@ -4471,6 +4607,7 @@ extension Chime {
     }
 
     public struct PutVoiceConnectorTerminationResponse: AWSDecodableShape {
+
         /// The updated termination setting details.
         public let termination: Termination?
 
@@ -4485,8 +4622,8 @@ extension Chime {
 
     public struct RedactConversationMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "conversationId", location: .uri(locationName: "conversationId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "conversationId", location: .uri(locationName: "conversationId")), 
             AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId"))
         ]
 
@@ -4513,13 +4650,17 @@ extension Chime {
     }
 
     public struct RedactConversationMessageResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RedactRoomMessageRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "messageId", location: .uri(locationName: "messageId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -4546,12 +4687,16 @@ extension Chime {
     }
 
     public struct RedactRoomMessageResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RegenerateSecurityTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -4574,6 +4719,7 @@ extension Chime {
     }
 
     public struct RegenerateSecurityTokenResponse: AWSDecodableShape {
+
         public let bot: Bot?
 
         public init(bot: Bot? = nil) {
@@ -4587,7 +4733,7 @@ extension Chime {
 
     public struct ResetPersonalPINRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -4610,6 +4756,7 @@ extension Chime {
     }
 
     public struct ResetPersonalPINResponse: AWSDecodableShape {
+
         /// The user details and new personal meeting PIN.
         public let user: User?
 
@@ -4642,6 +4789,7 @@ extension Chime {
     }
 
     public struct RestorePhoneNumberResponse: AWSDecodableShape {
+
         /// The phone number details.
         public let phoneNumber: PhoneNumber?
 
@@ -4655,6 +4803,7 @@ extension Chime {
     }
 
     public struct RetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The chat conversation retention settings.
         public let conversationRetentionSettings: ConversationRetentionSettings?
         /// The chat room retention settings.
@@ -4677,6 +4826,7 @@ extension Chime {
     }
 
     public struct Room: AWSDecodableShape {
+
         /// The Amazon Chime account ID.
         public let accountId: String?
         /// The identifier of the room creator.
@@ -4712,6 +4862,7 @@ extension Chime {
     }
 
     public struct RoomMembership: AWSDecodableShape {
+
         /// The identifier of the user that invited the room member.
         public let invitedBy: String?
         public let member: Member?
@@ -4741,6 +4892,7 @@ extension Chime {
     }
 
     public struct RoomRetentionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of days for which to retain chat room messages.
         public let retentionDays: Int?
 
@@ -4760,12 +4912,12 @@ extension Chime {
 
     public struct SearchAvailablePhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "areaCode", location: .querystring(locationName: "area-code")),
-            AWSMemberEncoding(label: "city", location: .querystring(locationName: "city")),
-            AWSMemberEncoding(label: "country", location: .querystring(locationName: "country")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")),
+            AWSMemberEncoding(label: "areaCode", location: .querystring(locationName: "area-code")), 
+            AWSMemberEncoding(label: "city", location: .querystring(locationName: "city")), 
+            AWSMemberEncoding(label: "country", location: .querystring(locationName: "country")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state")), 
             AWSMemberEncoding(label: "tollFreePrefix", location: .querystring(locationName: "toll-free-prefix"))
         ]
 
@@ -4806,6 +4958,7 @@ extension Chime {
     }
 
     public struct SearchAvailablePhoneNumbersResponse: AWSDecodableShape {
+
         /// List of phone numbers, in E.164 format.
         public let e164PhoneNumbers: [String]?
 
@@ -4819,6 +4972,7 @@ extension Chime {
     }
 
     public struct SigninDelegateGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// The group name.
         public let groupName: String?
 
@@ -4836,6 +4990,7 @@ extension Chime {
     }
 
     public struct StreamingConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The retention period, in hours, for the Amazon Kinesis data.
         public let dataRetentionInHours: Int
         /// When true, media streaming to Amazon Kinesis is turned off.
@@ -4863,6 +5018,7 @@ extension Chime {
     }
 
     public struct StreamingNotificationTarget: AWSEncodableShape & AWSDecodableShape {
+
         /// The streaming notification target.
         public let notificationTarget: NotificationTarget
 
@@ -4876,6 +5032,7 @@ extension Chime {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -4901,7 +5058,7 @@ extension Chime {
 
     public struct TagAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")),
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
@@ -4963,6 +5120,7 @@ extension Chime {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The resource ARN.
         public let resourceARN: String
         /// The tag key-value pairs.
@@ -4991,6 +5149,7 @@ extension Chime {
     }
 
     public struct TelephonySettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Allows or denies inbound calling.
         public let inboundCalling: Bool
         /// Allows or denies outbound calling.
@@ -5012,6 +5171,7 @@ extension Chime {
     }
 
     public struct Termination: AWSEncodableShape & AWSDecodableShape {
+
         /// The countries to which calls are allowed, in ISO 3166-1 alpha-2 format. Required.
         public let callingRegions: [String]?
         /// The IP addresses allowed to make calls, in CIDR format. Required.
@@ -5046,6 +5206,7 @@ extension Chime {
     }
 
     public struct TerminationHealth: AWSDecodableShape {
+
         /// The source IP address.
         public let source: String?
         /// The timestamp, in ISO 8601 format.
@@ -5065,7 +5226,7 @@ extension Chime {
 
     public struct UntagAttendeeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")),
+            AWSMemberEncoding(label: "attendeeId", location: .uri(locationName: "attendeeId")), 
             AWSMemberEncoding(label: "meetingId", location: .uri(locationName: "meetingId"))
         ]
 
@@ -5129,6 +5290,7 @@ extension Chime {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
+
         /// The resource ARN.
         public let resourceARN: String
         /// The tag keys.
@@ -5185,6 +5347,7 @@ extension Chime {
     }
 
     public struct UpdateAccountResponse: AWSDecodableShape {
+
         /// The updated Amazon Chime account details.
         public let account: Account?
 
@@ -5222,12 +5385,16 @@ extension Chime {
     }
 
     public struct UpdateAccountSettingsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateBotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId"))
         ]
 
@@ -5255,6 +5422,7 @@ extension Chime {
     }
 
     public struct UpdateBotResponse: AWSDecodableShape {
+
         /// The updated bot details.
         public let bot: Bot?
 
@@ -5268,6 +5436,7 @@ extension Chime {
     }
 
     public struct UpdateGlobalSettingsRequest: AWSEncodableShape {
+
         /// The Amazon Chime Business Calling settings.
         public let businessCalling: BusinessCallingSettings
         /// The Amazon Chime Voice Connector settings.
@@ -5313,6 +5482,7 @@ extension Chime {
     }
 
     public struct UpdatePhoneNumberRequestItem: AWSEncodableShape {
+
         /// The outbound calling name to update.
         public let callingName: String?
         /// The phone number ID to update.
@@ -5339,6 +5509,7 @@ extension Chime {
     }
 
     public struct UpdatePhoneNumberResponse: AWSDecodableShape {
+
         /// The updated phone number details.
         public let phoneNumber: PhoneNumber?
 
@@ -5352,6 +5523,7 @@ extension Chime {
     }
 
     public struct UpdatePhoneNumberSettingsRequest: AWSEncodableShape {
+
         /// The default outbound calling name for the account.
         public let callingName: String
 
@@ -5370,7 +5542,7 @@ extension Chime {
 
     public struct UpdateProxySessionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")),
+            AWSMemberEncoding(label: "proxySessionId", location: .uri(locationName: "proxySessionId")), 
             AWSMemberEncoding(label: "voiceConnectorId", location: .uri(locationName: "voiceConnectorId"))
         ]
 
@@ -5407,6 +5579,7 @@ extension Chime {
     }
 
     public struct UpdateProxySessionResponse: AWSDecodableShape {
+
         /// The proxy session details.
         public let proxySession: ProxySession?
 
@@ -5421,8 +5594,8 @@ extension Chime {
 
     public struct UpdateRoomMembershipRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
-            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
+            AWSMemberEncoding(label: "memberId", location: .uri(locationName: "memberId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -5454,6 +5627,7 @@ extension Chime {
     }
 
     public struct UpdateRoomMembershipResponse: AWSDecodableShape {
+
         /// The room membership details.
         public let roomMembership: RoomMembership?
 
@@ -5468,7 +5642,7 @@ extension Chime {
 
     public struct UpdateRoomRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "roomId", location: .uri(locationName: "roomId"))
         ]
 
@@ -5496,6 +5670,7 @@ extension Chime {
     }
 
     public struct UpdateRoomResponse: AWSDecodableShape {
+
         /// The room details.
         public let room: Room?
 
@@ -5510,7 +5685,7 @@ extension Chime {
 
     public struct UpdateUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -5546,6 +5721,7 @@ extension Chime {
     }
 
     public struct UpdateUserRequestItem: AWSEncodableShape {
+
         /// The Alexa for Business metadata.
         public let alexaForBusinessMetadata: AlexaForBusinessMetadata?
         /// The user license type.
@@ -5575,6 +5751,7 @@ extension Chime {
     }
 
     public struct UpdateUserResponse: AWSDecodableShape {
+
         /// The updated user details.
         public let user: User?
 
@@ -5589,7 +5766,7 @@ extension Chime {
 
     public struct UpdateUserSettingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")),
+            AWSMemberEncoding(label: "accountId", location: .uri(locationName: "accountId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "userId"))
         ]
 
@@ -5645,6 +5822,7 @@ extension Chime {
     }
 
     public struct UpdateVoiceConnectorGroupResponse: AWSDecodableShape {
+
         /// The updated Amazon Chime Voice Connector group details.
         public let voiceConnectorGroup: VoiceConnectorGroup?
 
@@ -5688,6 +5866,7 @@ extension Chime {
     }
 
     public struct UpdateVoiceConnectorResponse: AWSDecodableShape {
+
         /// The updated Amazon Chime Voice Connector details.
         public let voiceConnector: VoiceConnector?
 
@@ -5701,6 +5880,7 @@ extension Chime {
     }
 
     public struct User: AWSDecodableShape {
+
         /// The Amazon Chime account ID.
         public let accountId: String?
         /// The Alexa for Business metadata.
@@ -5764,6 +5944,7 @@ extension Chime {
     }
 
     public struct UserError: AWSDecodableShape {
+
         /// The error code.
         public let errorCode: ErrorCode?
         /// The error message.
@@ -5785,6 +5966,7 @@ extension Chime {
     }
 
     public struct UserSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The telephony settings associated with the user.
         public let telephony: TelephonySettings
 
@@ -5798,6 +5980,7 @@ extension Chime {
     }
 
     public struct VoiceConnector: AWSDecodableShape {
+
         /// The AWS Region in which the Amazon Chime Voice Connector is created. Default: us-east-1.
         public let awsRegion: VoiceConnectorAwsRegion?
         /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
@@ -5837,6 +6020,7 @@ extension Chime {
     }
 
     public struct VoiceConnectorGroup: AWSDecodableShape {
+
         /// The Amazon Chime Voice Connector group creation timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdTimestamp: Date?
@@ -5868,7 +6052,8 @@ extension Chime {
     }
 
     public struct VoiceConnectorItem: AWSEncodableShape & AWSDecodableShape {
-        /// The priority associated with the Amazon Chime Voice Connector, with 1 being the highest priority. Higher priority Amazon Chime Voice Connectors are attempted first.
+
+        /// The priority associated with the Amazon Chime Voice Connector, with 1 being the highest priority. Higher priority Amazon Chime Voice Connectors are attempted first. 
         public let priority: Int
         /// The Amazon Chime Voice Connector ID.
         public let voiceConnectorId: String
@@ -5891,6 +6076,7 @@ extension Chime {
     }
 
     public struct VoiceConnectorSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket designated for call detail record storage.
         public let cdrBucket: String?
 

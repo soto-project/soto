@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS MediaPackage service.
+Client object for interacting with AWS MediaPackage service.
 
- AWS Elemental MediaPackage
- */
+AWS Elemental MediaPackage
+*/
 public struct MediaPackage: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct MediaPackage: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Creates a new Channel.
@@ -122,7 +123,7 @@ public struct MediaPackage: AWSService {
     }
 
     ///  Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
-    @available(*, deprecated, message: "This API is deprecated. Please use RotateIngestEndpointCredentials instead")
+    @available(*, deprecated, message:"This API is deprecated. Please use RotateIngestEndpointCredentials instead")
     public func rotateChannelCredentials(_ input: RotateChannelCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RotateChannelCredentialsResponse> {
         return self.client.execute(operation: "RotateChannelCredentials", path: "/channels/{id}/credentials", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

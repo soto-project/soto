@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS PersonalizeEvents service.
+Client object for interacting with AWS PersonalizeEvents service.
 
- Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see recording-events.
- */
+Amazon Personalize can consume real-time user event data, such as stream or click data, and use it for model training either alone or combined with historical data. For more information see recording-events.
+*/
 public struct PersonalizeEvents: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +61,7 @@ public struct PersonalizeEvents: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Records user interaction event data. For more information see event-record-api.

@@ -31,15 +31,16 @@ extension EBS {
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case completed
-        case pending
-        case error
+        case completed = "completed"
+        case pending = "pending"
+        case error = "error"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Block: AWSDecodableShape {
+
         /// The block index.
         public let blockIndex: Int?
         /// The block token for the block index.
@@ -57,6 +58,7 @@ extension EBS {
     }
 
     public struct ChangedBlock: AWSDecodableShape {
+
         /// The block index.
         public let blockIndex: Int?
         /// The block token for the block index of the FirstSnapshotId specified in the ListChangedBlocks operation. This value is absent if the first snapshot does not have the changed block that is on the second snapshot.
@@ -79,10 +81,10 @@ extension EBS {
 
     public struct CompleteSnapshotRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "changedBlocksCount", location: .header(locationName: "x-amz-ChangedBlocksCount")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAggregationMethod", location: .header(locationName: "x-amz-Checksum-Aggregation-Method")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
+            AWSMemberEncoding(label: "changedBlocksCount", location: .header(locationName: "x-amz-ChangedBlocksCount")), 
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
+            AWSMemberEncoding(label: "checksumAggregationMethod", location: .header(locationName: "x-amz-Checksum-Aggregation-Method")), 
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
             AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
@@ -118,6 +120,7 @@ extension EBS {
     }
 
     public struct CompleteSnapshotResponse: AWSDecodableShape {
+
         /// The status of the snapshot.
         public let status: Status?
 
@@ -132,8 +135,8 @@ extension EBS {
 
     public struct GetSnapshotBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")),
-            AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")),
+            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")), 
+            AWSMemberEncoding(label: "blockToken", location: .querystring(locationName: "blockToken")), 
             AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
@@ -167,9 +170,9 @@ extension EBS {
         public static let _payloadPath: String = "blockData"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
+            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")), 
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
             AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length"))
         ]
 
@@ -199,20 +202,20 @@ extension EBS {
 
     public struct ListChangedBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "secondSnapshotId", location: .uri(locationName: "secondSnapshotId")),
+            AWSMemberEncoding(label: "firstSnapshotId", location: .querystring(locationName: "firstSnapshotId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "secondSnapshotId", location: .uri(locationName: "secondSnapshotId")), 
             AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
-        /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs.
+        /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs. 
         public let firstSnapshotId: String?
         /// The number of results to return.
         public let maxResults: Int?
         /// The token to request the next page of results.
         public let nextToken: String?
-        /// The ID of the second snapshot to use for the comparison.  The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs.
+        /// The ID of the second snapshot to use for the comparison.  The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs. 
         public let secondSnapshotId: String
         /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots.
         public let startingBlockIndex: Int?
@@ -243,6 +246,7 @@ extension EBS {
     }
 
     public struct ListChangedBlocksResponse: AWSDecodableShape {
+
         /// The size of the block.
         public let blockSize: Int?
         /// An array of objects containing information about the changed blocks.
@@ -273,9 +277,9 @@ extension EBS {
 
     public struct ListSnapshotBlocksRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")),
-            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "pageToken")), 
+            AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId")), 
             AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
@@ -310,6 +314,7 @@ extension EBS {
     }
 
     public struct ListSnapshotBlocksResponse: AWSDecodableShape {
+
         /// An array of objects containing information about the blocks.
         public let blocks: [Block]?
         /// The size of the block.
@@ -343,12 +348,12 @@ extension EBS {
         public static let _payloadPath: String = "blockData"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming, .allowChunkedStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")),
-            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")),
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
-            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")),
-            AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length")),
-            AWSMemberEncoding(label: "progress", location: .header(locationName: "x-amz-Progress")),
+            AWSMemberEncoding(label: "blockData", location: .body(locationName: "BlockData")), 
+            AWSMemberEncoding(label: "blockIndex", location: .uri(locationName: "blockIndex")), 
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
+            AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm")), 
+            AWSMemberEncoding(label: "dataLength", location: .header(locationName: "x-amz-Data-Length")), 
+            AWSMemberEncoding(label: "progress", location: .header(locationName: "x-amz-Progress")), 
             AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
@@ -360,7 +365,7 @@ extension EBS {
         public let checksum: String
         /// The algorithm used to generate the checksum. Currently, the only supported algorithm is SHA256.
         public let checksumAlgorithm: ChecksumAlgorithm
-        /// The size of the data to write to the block, in bytes. Currently, the only supported size is 524288. Valid values: 524288
+        /// The size of the data to write to the block, in bytes. Currently, the only supported size is 524288. Valid values: 524288 
         public let dataLength: Int
         /// The progress of the write process, as a percentage.
         public let progress: Int?
@@ -393,7 +398,7 @@ extension EBS {
 
     public struct PutSnapshotBlockResponse: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")),
+            AWSMemberEncoding(label: "checksum", location: .header(locationName: "x-amz-Checksum")), 
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header(locationName: "x-amz-Checksum-Algorithm"))
         ]
 
@@ -414,13 +419,14 @@ extension EBS {
     }
 
     public struct StartSnapshotRequest: AWSEncodableShape {
+
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully. The subsequent retries with the same client token return the result from the original successful request and they have no additional effect. If you do not specify a client token, one is automatically generated by the AWS SDK. For more information, see  Idempotency for StartSnapshot API in the Amazon Elastic Compute Cloud User Guide.
         public let clientToken: String?
         /// A description for the snapshot.
         public let description: String?
         /// Indicates whether to encrypt the snapshot. To create an encrypted snapshot, specify true. To create an unencrypted snapshot, omit this parameter. If you specify a value for ParentSnapshotId, omit this parameter. If you specify true, the snapshot is encrypted using the CMK specified using the KmsKeyArn parameter. If no value is specified for KmsKeyArn, the default CMK for your account is used. If no default CMK has been specified for your account, the AWS managed CMK is used. To set a default CMK for your account, use  ModifyEbsDefaultKmsKeyId. If your account is enabled for encryption by default, you cannot set this parameter to false. In this case, you can omit this parameter. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) to be used to encrypt the snapshot. If you do not specify a CMK, the default AWS managed CMK is used. If you specify a ParentSnapshotId, omit this parameter; the snapshot will be encrypted using the same CMK that was used to encrypt the parent snapshot. If Encrypted is set to true, you must specify a CMK ARN.
+        /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS) customer master key (CMK) to be used to encrypt the snapshot. If you do not specify a CMK, the default AWS managed CMK is used. If you specify a ParentSnapshotId, omit this parameter; the snapshot will be encrypted using the same CMK that was used to encrypt the parent snapshot. If Encrypted is set to true, you must specify a CMK ARN. 
         public let kmsKeyArn: String?
         /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. If your account is enabled for encryption by default, you cannot use an unencrypted snapshot as a parent snapshot. You must first create an encrypted copy of the parent snapshot using CopySnapshot.
         public let parentSnapshotId: String?
@@ -474,6 +480,7 @@ extension EBS {
     }
 
     public struct StartSnapshotResponse: AWSDecodableShape {
+
         /// The size of the blocks in the snapshot, in bytes.
         public let blockSize: Int?
         /// The description of the snapshot.
@@ -523,6 +530,7 @@ extension EBS {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag.
         public let key: String?
         /// The value of the tag.

@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS IoTSecureTunneling service.
+Client object for interacting with AWS IoTSecureTunneling service.
 
- AWS IoT Secure Tunneling AWS IoT Secure Tunnling enables you to create remote connections to devices deployed in the field. For more information about how AWS IoT Secure Tunneling works, see the User Guide.
- */
+AWS IoT Secure Tunneling AWS IoT Secure Tunnling enables you to create remote connections to devices deployed in the field. For more information about how AWS IoT Secure Tunneling works, see the User Guide.
+*/
 public struct IoTSecureTunneling: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -61,7 +62,7 @@ public struct IoTSecureTunneling: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Closes a tunnel identified by the unique tunnel id. When a CloseTunnel request is received, we close the WebSocket connections between the client and proxy server so no data can be transmitted.

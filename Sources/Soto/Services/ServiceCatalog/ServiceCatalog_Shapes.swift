@@ -250,11 +250,12 @@ extension ServiceCatalog {
     // MARK: Shapes
 
     public struct AcceptPortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS
+        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
@@ -278,11 +279,16 @@ extension ServiceCatalog {
     }
 
     public struct AcceptPortfolioShareOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AccessLevelFilter: AWSEncodableShape {
-        /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.
+
+        /// The access level.    Account - Filter results based on the account.    Role - Filter results based on the federated role of the specified user.    User - Filter results based on the specified user.  
         public let key: AccessLevelFilterKey?
         /// The user to which the access level applies. The only supported value is Self.
         public let value: String?
@@ -299,6 +305,7 @@ extension ServiceCatalog {
     }
 
     public struct AssociateBudgetWithResourceInput: AWSEncodableShape {
+
         /// The name of the budget you want to associate.
         public let budgetName: String
         ///  The resource identifier. Either a portfolio-id or a product-id.
@@ -324,11 +331,16 @@ extension ServiceCatalog {
     }
 
     public struct AssociateBudgetWithResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociatePrincipalWithPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -362,11 +374,16 @@ extension ServiceCatalog {
     }
 
     public struct AssociatePrincipalWithPortfolioOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateProductWithPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -404,11 +421,16 @@ extension ServiceCatalog {
     }
 
     public struct AssociateProductWithPortfolioOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
@@ -446,10 +468,15 @@ extension ServiceCatalog {
     }
 
     public struct AssociateServiceActionWithProvisioningArtifactOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AssociateTagOptionWithResourceInput: AWSEncodableShape {
+
         /// The resource identifier.
         public let resourceId: String
         /// The TagOption identifier.
@@ -472,11 +499,16 @@ extension ServiceCatalog {
     }
 
     public struct AssociateTagOptionWithResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct BatchAssociateServiceActionWithProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
@@ -502,6 +534,7 @@ extension ServiceCatalog {
     }
 
     public struct BatchAssociateServiceActionWithProvisioningArtifactOutput: AWSDecodableShape {
+
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
 
@@ -515,7 +548,8 @@ extension ServiceCatalog {
     }
 
     public struct BatchDisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// One or more associations, each consisting of the Action ID, the Product ID, and the Provisioning Artifact ID.
         public let serviceActionAssociations: [ServiceActionAssociation]
@@ -541,6 +575,7 @@ extension ServiceCatalog {
     }
 
     public struct BatchDisassociateServiceActionFromProvisioningArtifactOutput: AWSDecodableShape {
+
         /// An object that contains a list of errors, along with information to help you identify the self-service action.
         public let failedServiceActionAssociations: [FailedServiceActionAssociation]?
 
@@ -554,6 +589,7 @@ extension ServiceCatalog {
     }
 
     public struct BudgetDetail: AWSDecodableShape {
+
         /// Name of the associated budget.
         public let budgetName: String?
 
@@ -567,6 +603,7 @@ extension ServiceCatalog {
     }
 
     public struct CloudWatchDashboard: AWSDecodableShape {
+
         /// The name of the CloudWatch dashboard.
         public let name: String?
 
@@ -580,6 +617,7 @@ extension ServiceCatalog {
     }
 
     public struct ConstraintDetail: AWSDecodableShape {
+
         /// The identifier of the constraint.
         public let constraintId: String?
         /// The description of the constraint.
@@ -590,7 +628,7 @@ extension ServiceCatalog {
         public let portfolioId: String?
         /// The identifier of the product the constraint applies to. Note that a constraint applies to a specific instance of a product within a certain portfolio.
         public let productId: String?
-        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
+        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
         public let `type`: String?
 
         public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, portfolioId: String? = nil, productId: String? = nil, type: String? = nil) {
@@ -613,9 +651,10 @@ extension ServiceCatalog {
     }
 
     public struct ConstraintSummary: AWSDecodableShape {
+
         /// The description of the constraint.
         public let description: String?
-        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
+        /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE   
         public let `type`: String?
 
         public init(description: String? = nil, type: String? = nil) {
@@ -630,11 +669,12 @@ extension ServiceCatalog {
     }
 
     public struct CopyProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The copy options. If the value is CopyTags, the tags from the source product are copied to the target product.
         public let copyOptions: [CopyOption]?
-        ///  A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
+        ///  A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request. 
         public let idempotencyToken: String
         /// The Amazon Resource Name (ARN) of the source product.
         public let sourceProductArn: String
@@ -681,6 +721,7 @@ extension ServiceCatalog {
     }
 
     public struct CopyProductOutput: AWSDecodableShape {
+
         /// The token to use to track the progress of the operation.
         public let copyProductToken: String?
 
@@ -694,19 +735,20 @@ extension ServiceCatalog {
     }
 
     public struct CreateConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The description of the constraint.
         public let description: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
         public let parameters: String
         /// The portfolio identifier.
         public let portfolioId: String
         /// The product identifier.
         public let productId: String
-        /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE
+        /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE   
         public let `type`: String
 
         public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String = CreateConstraintInput.idempotencyToken(), parameters: String, portfolioId: String, productId: String, type: String) {
@@ -747,6 +789,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateConstraintOutput: AWSDecodableShape {
+
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The constraint parameters.
@@ -768,7 +811,8 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The description of the portfolio.
         public let description: String?
@@ -817,6 +861,7 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioOutput: AWSDecodableShape {
+
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
         /// Information about the tags associated with the portfolio.
@@ -834,7 +879,8 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The AWS account ID. For example, 123456789012.
         public let accountId: String?
@@ -868,6 +914,7 @@ extension ServiceCatalog {
     }
 
     public struct CreatePortfolioShareOutput: AWSDecodableShape {
+
         /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
         public let portfolioShareToken: String?
 
@@ -881,7 +928,8 @@ extension ServiceCatalog {
     }
 
     public struct CreateProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The description of the product.
         public let description: String?
@@ -957,6 +1005,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProductOutput: AWSDecodableShape {
+
         /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
         /// Information about the provisioning artifact.
@@ -978,7 +1027,8 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -1063,6 +1113,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisionedProductPlanOutput: AWSDecodableShape {
+
         /// The plan identifier.
         public let planId: String?
         /// The name of the plan.
@@ -1092,7 +1143,8 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -1128,6 +1180,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateProvisioningArtifactOutput: AWSDecodableShape {
+
         /// The URL of the CloudFormation template in Amazon S3, in JSON format.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
@@ -1149,9 +1202,10 @@ extension ServiceCatalog {
     }
 
     public struct CreateServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].
+        /// The self-service action definition. Can be one of the following:  Name  The name of the AWS Systems Manager document (SSM document). For example, AWS-RestartEC2Instance. If you are using a shared SSM document, you must provide the ARN instead of the name.  Version  The AWS Systems Manager automation document version. For example, "Version": "1"   AssumeRole  The Amazon Resource Name (ARN) of the role that performs the self-service actions on your behalf. For example, "AssumeRole": "arn:aws:iam::12345678910:role/ActionRole". To reuse the provisioned product launch role, set to "AssumeRole": "LAUNCH_ROLE".  Parameters  The list of parameters in JSON format. For example: [{\"Name\":\"InstanceId\",\"Type\":\"TARGET\"}] or [{\"Name\":\"InstanceId\",\"Type\":\"TEXT_VALUE\"}].  
         public let definition: [ServiceActionDefinitionKey: String]
         /// The service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType
@@ -1197,6 +1251,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateServiceActionOutput: AWSDecodableShape {
+
         /// An object containing information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
@@ -1210,6 +1265,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateTagOptionInput: AWSEncodableShape {
+
         /// The TagOption key.
         public let key: String
         /// The TagOption value.
@@ -1236,6 +1292,7 @@ extension ServiceCatalog {
     }
 
     public struct CreateTagOptionOutput: AWSDecodableShape {
+
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
@@ -1249,7 +1306,8 @@ extension ServiceCatalog {
     }
 
     public struct DeleteConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
@@ -1273,11 +1331,16 @@ extension ServiceCatalog {
     }
 
     public struct DeleteConstraintOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
@@ -1301,11 +1364,16 @@ extension ServiceCatalog {
     }
 
     public struct DeletePortfolioOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The AWS account ID.
         public let accountId: String?
@@ -1339,6 +1407,7 @@ extension ServiceCatalog {
     }
 
     public struct DeletePortfolioShareOutput: AWSDecodableShape {
+
         /// The portfolio share unique identifier. This will only be returned if delete is made to an organization node.
         public let portfolioShareToken: String?
 
@@ -1352,7 +1421,8 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String
@@ -1376,11 +1446,16 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProductOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
@@ -1408,11 +1483,16 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisionedProductPlanOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -1443,11 +1523,16 @@ extension ServiceCatalog {
     }
 
     public struct DeleteProvisioningArtifactOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The self-service action identifier. For example, act-fs7abcd89wxyz.
         public let id: String
@@ -1471,10 +1556,15 @@ extension ServiceCatalog {
     }
 
     public struct DeleteServiceActionOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTagOptionInput: AWSEncodableShape {
+
         /// The TagOption identifier.
         public let id: String
 
@@ -1493,11 +1583,16 @@ extension ServiceCatalog {
     }
 
     public struct DeleteTagOptionOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the constraint.
         public let id: String
@@ -1521,6 +1616,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeConstraintOutput: AWSDecodableShape {
+
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The constraint parameters.
@@ -1542,7 +1638,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeCopyProductStatusInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The token for the copy product operation. This token is returned by CopyProduct.
         public let copyProductToken: String
@@ -1566,6 +1663,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeCopyProductStatusOutput: AWSDecodableShape {
+
         /// The status of the copy product operation.
         public let copyProductStatus: CopyProductStatus?
         /// The status message.
@@ -1587,7 +1685,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let id: String
@@ -1611,6 +1710,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribePortfolioOutput: AWSDecodableShape {
+
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
         /// Information about the portfolio.
@@ -1636,6 +1736,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribePortfolioShareStatusInput: AWSEncodableShape {
+
         /// The token for the portfolio share operation. This token is returned either by CreatePortfolioShare or by DeletePortfolioShare.
         public let portfolioShareToken: String
 
@@ -1655,6 +1756,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribePortfolioShareStatusOutput: AWSDecodableShape {
+
         /// Organization node identifier. It can be either account id, organizational unit id or organization id.
         public let organizationNodeValue: String?
         /// The portfolio identifier.
@@ -1684,7 +1786,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductAsAdminInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String?
@@ -1713,6 +1816,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductAsAdminOutput: AWSDecodableShape {
+
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
         /// Information about the product view.
@@ -1742,7 +1846,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let id: String?
@@ -1771,6 +1876,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductOutput: AWSDecodableShape {
+
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
         /// Information about the associated launch paths.
@@ -1796,7 +1902,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductViewInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product view identifier.
         public let id: String
@@ -1820,6 +1927,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProductViewOutput: AWSDecodableShape {
+
         /// Summary information about the product.
         public let productViewSummary: ProductViewSummary?
         /// Information about the provisioning artifacts for the product.
@@ -1837,7 +1945,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
         public let id: String?
@@ -1868,6 +1977,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductOutput: AWSDecodableShape {
+
         /// Any CloudWatch dashboards that were created when provisioning the product.
         public let cloudWatchDashboards: [CloudWatchDashboard]?
         /// Information about the provisioned product.
@@ -1885,7 +1995,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -1921,6 +2032,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisionedProductPlanOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the plan.
@@ -1942,7 +2054,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String?
@@ -1987,6 +2100,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningArtifactOutput: AWSDecodableShape {
+
         /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
@@ -2008,7 +2122,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningParametersInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The path identifier of the product. This value is optional if the product has a default path, and required if the product has more than one path. To list the paths for a product, use ListLaunchPaths. You must provide the name or ID, but not both.
         public let pathId: String?
@@ -2062,6 +2177,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeProvisioningParametersOutput: AWSDecodableShape {
+
         /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
         /// The output of the provisioning artifact.
@@ -2095,7 +2211,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeRecordInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The record identifier of the provisioned product. This identifier is returned by the request operation.
         public let id: String
@@ -2131,6 +2248,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeRecordOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the product.
@@ -2152,7 +2270,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionExecutionParametersInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
@@ -2183,6 +2302,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionExecutionParametersOutput: AWSDecodableShape {
+
         /// The parameters of the self-service action.
         public let serviceActionParameters: [ExecutionParameter]?
 
@@ -2196,7 +2316,8 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The self-service action identifier.
         public let id: String
@@ -2220,6 +2341,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeServiceActionOutput: AWSDecodableShape {
+
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
@@ -2233,6 +2355,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeTagOptionInput: AWSEncodableShape {
+
         /// The TagOption identifier.
         public let id: String
 
@@ -2251,6 +2374,7 @@ extension ServiceCatalog {
     }
 
     public struct DescribeTagOptionOutput: AWSDecodableShape {
+
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
@@ -2264,14 +2388,23 @@ extension ServiceCatalog {
     }
 
     public struct DisableAWSOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisableAWSOrganizationsAccessOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateBudgetFromResourceInput: AWSEncodableShape {
+
         /// The name of the budget you want to disassociate.
         public let budgetName: String
         /// The resource identifier you want to disassociate from. Either a portfolio-id or a product-id.
@@ -2297,11 +2430,16 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateBudgetFromResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociatePrincipalFromPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2331,11 +2469,16 @@ extension ServiceCatalog {
     }
 
     public struct DisassociatePrincipalFromPortfolioOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateProductFromPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -2366,11 +2509,16 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateProductFromPortfolioOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateServiceActionFromProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
@@ -2408,10 +2556,15 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateServiceActionFromProvisioningArtifactOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DisassociateTagOptionFromResourceInput: AWSEncodableShape {
+
         /// The resource identifier.
         public let resourceId: String
         /// The TagOption identifier.
@@ -2434,19 +2587,32 @@ extension ServiceCatalog {
     }
 
     public struct DisassociateTagOptionFromResourceOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableAWSOrganizationsAccessInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EnableAWSOrganizationsAccessOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ExecuteProvisionedProductPlanInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String
@@ -2477,6 +2643,7 @@ extension ServiceCatalog {
     }
 
     public struct ExecuteProvisionedProductPlanOutput: AWSDecodableShape {
+
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
@@ -2490,7 +2657,8 @@ extension ServiceCatalog {
     }
 
     public struct ExecuteProvisionedProductServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// An idempotency token that uniquely identifies the execute request.
         public let executeToken: String
@@ -2538,6 +2706,7 @@ extension ServiceCatalog {
     }
 
     public struct ExecuteProvisionedProductServiceActionOutput: AWSDecodableShape {
+
         /// An object containing detailed information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
@@ -2551,6 +2720,7 @@ extension ServiceCatalog {
     }
 
     public struct ExecutionParameter: AWSDecodableShape {
+
         /// The default values for the execution parameter.
         public let defaultValues: [String]?
         /// The name of the execution parameter.
@@ -2572,6 +2742,7 @@ extension ServiceCatalog {
     }
 
     public struct FailedServiceActionAssociation: AWSDecodableShape {
+
         /// The error code. Valid values are listed below.
         public let errorCode: ServiceActionAssociationErrorCode?
         /// A text description of the error.
@@ -2601,10 +2772,15 @@ extension ServiceCatalog {
     }
 
     public struct GetAWSOrganizationsAccessStatusInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetAWSOrganizationsAccessStatusOutput: AWSDecodableShape {
+
         /// The status of the portfolio share feature.
         public let accessStatus: AccessStatus?
 
@@ -2618,6 +2794,7 @@ extension ServiceCatalog {
     }
 
     public struct LaunchPath: AWSDecodableShape {
+
         /// The identifier of the launch path.
         public let id: String?
         /// The name of the launch path.
@@ -2635,6 +2812,7 @@ extension ServiceCatalog {
     }
 
     public struct LaunchPathSummary: AWSDecodableShape {
+
         /// The constraints on the portfolio-product relationship.
         public let constraintSummaries: [ConstraintSummary]?
         /// The identifier of the product path.
@@ -2660,13 +2838,14 @@ extension ServiceCatalog {
     }
 
     public struct ListAcceptedPortfolioSharesInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios
+        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
@@ -2693,6 +2872,7 @@ extension ServiceCatalog {
     }
 
     public struct ListAcceptedPortfolioSharesOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the portfolios.
@@ -2710,7 +2890,8 @@ extension ServiceCatalog {
     }
 
     public struct ListBudgetsForResourceInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -2746,6 +2927,7 @@ extension ServiceCatalog {
     }
 
     public struct ListBudgetsForResourceOutput: AWSDecodableShape {
+
         /// Information about the associated budgets.
         public let budgets: [BudgetDetail]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -2763,7 +2945,8 @@ extension ServiceCatalog {
     }
 
     public struct ListConstraintsForPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -2806,6 +2989,7 @@ extension ServiceCatalog {
     }
 
     public struct ListConstraintsForPortfolioOutput: AWSDecodableShape {
+
         /// Information about the constraints.
         public let constraintDetails: [ConstraintDetail]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -2823,7 +3007,8 @@ extension ServiceCatalog {
     }
 
     public struct ListLaunchPathsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -2859,6 +3044,7 @@ extension ServiceCatalog {
     }
 
     public struct ListLaunchPathsOutput: AWSDecodableShape {
+
         /// Information about the launch path.
         public let launchPathSummaries: [LaunchPathSummary]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -2876,9 +3062,10 @@ extension ServiceCatalog {
     }
 
     public struct ListOrganizationPortfolioAccessInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.
+        /// The organization node type that will be returned in the output.    ORGANIZATION - Organization that has access to the portfolio.     ORGANIZATIONAL_UNIT - Organizational unit that has access to the portfolio within your organization.    ACCOUNT - Account that has access to the portfolio within your organization.  
         public let organizationNodeType: OrganizationNodeType
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -2916,6 +3103,7 @@ extension ServiceCatalog {
     }
 
     public struct ListOrganizationPortfolioAccessOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Displays information about the organization nodes.
@@ -2933,7 +3121,8 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfolioAccessInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The ID of an organization node the portfolio is shared with. All children of this node with an inherited portfolio share will be returned.
         public let organizationParentId: String?
@@ -2976,6 +3165,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfolioAccessOutput: AWSDecodableShape {
+
         /// Information about the AWS accounts with access to the portfolio.
         public let accountIds: [String]?
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
@@ -2993,7 +3183,8 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosForProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3029,6 +3220,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosForProductOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the portfolios.
@@ -3046,7 +3238,8 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3075,6 +3268,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPortfoliosOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the portfolios.
@@ -3092,7 +3286,8 @@ extension ServiceCatalog {
     }
 
     public struct ListPrincipalsForPortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3128,6 +3323,7 @@ extension ServiceCatalog {
     }
 
     public struct ListPrincipalsForPortfolioOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// The IAM principals (users or roles) associated with the portfolio.
@@ -3145,7 +3341,8 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisionedProductPlansInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -3185,6 +3382,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisionedProductPlansOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the plans.
@@ -3202,7 +3400,8 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsForServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3238,6 +3437,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsForServiceActionOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// An array of objects with information about product views and provisioning artifacts.
@@ -3255,7 +3455,8 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The product identifier.
         public let productId: String
@@ -3279,6 +3480,7 @@ extension ServiceCatalog {
     }
 
     public struct ListProvisioningArtifactsOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the provisioning artifacts.
@@ -3296,7 +3498,8 @@ extension ServiceCatalog {
     }
 
     public struct ListRecordHistoryInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -3333,6 +3536,7 @@ extension ServiceCatalog {
     }
 
     public struct ListRecordHistoryOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// The records, in reverse chronological order.
@@ -3350,7 +3554,8 @@ extension ServiceCatalog {
     }
 
     public struct ListRecordHistorySearchFilter: AWSEncodableShape {
-        /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.
+
+        /// The filter key.    product - Filter results based on the specified product identifier.    provisionedproduct - Filter results based on the provisioned product identifier.  
         public let key: String?
         /// The filter value.
         public let value: String?
@@ -3367,11 +3572,12 @@ extension ServiceCatalog {
     }
 
     public struct ListResourcesForTagOptionInput: AWSEncodableShape {
+
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The resource type.    Portfolio     Product
+        /// The resource type.    Portfolio     Product   
         public let resourceType: String?
         /// The TagOption identifier.
         public let tagOptionId: String
@@ -3401,6 +3607,7 @@ extension ServiceCatalog {
     }
 
     public struct ListResourcesForTagOptionOutput: AWSDecodableShape {
+
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// Information about the resources.
@@ -3418,7 +3625,8 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsForProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3461,6 +3669,7 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsForProvisioningArtifactOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// An object containing information about the self-service actions associated with the provisioning artifact.
@@ -3478,7 +3687,8 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3507,6 +3717,7 @@ extension ServiceCatalog {
     }
 
     public struct ListServiceActionsOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// An object containing information about the service actions associated with the provisioning artifact.
@@ -3524,7 +3735,8 @@ extension ServiceCatalog {
     }
 
     public struct ListStackInstancesForProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -3560,6 +3772,7 @@ extension ServiceCatalog {
     }
 
     public struct ListStackInstancesForProvisionedProductOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// List of stack instances.
@@ -3577,6 +3790,7 @@ extension ServiceCatalog {
     }
 
     public struct ListTagOptionsFilters: AWSEncodableShape {
+
         /// The active state.
         public let active: Bool?
         /// The TagOption key.
@@ -3607,6 +3821,7 @@ extension ServiceCatalog {
     }
 
     public struct ListTagOptionsInput: AWSEncodableShape {
+
         /// The search filters. If no search filters are specified, the output includes all TagOptions.
         public let filters: ListTagOptionsFilters?
         /// The maximum number of items to return with this call.
@@ -3636,6 +3851,7 @@ extension ServiceCatalog {
     }
 
     public struct ListTagOptionsOutput: AWSDecodableShape {
+
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
         /// Information about the TagOptions.
@@ -3653,6 +3869,7 @@ extension ServiceCatalog {
     }
 
     public struct OrganizationNode: AWSEncodableShape & AWSDecodableShape {
+
         /// The organization node type.
         public let `type`: OrganizationNodeType?
         /// The identifier of the organization node.
@@ -3674,6 +3891,7 @@ extension ServiceCatalog {
     }
 
     public struct ParameterConstraints: AWSDecodableShape {
+
         /// The values that the administrator has allowed for the parameter.
         public let allowedValues: [String]?
 
@@ -3687,6 +3905,7 @@ extension ServiceCatalog {
     }
 
     public struct PortfolioDetail: AWSDecodableShape {
+
         /// The ARN assigned to the portfolio.
         public let arn: String?
         /// The UTC time stamp of the creation time.
@@ -3720,6 +3939,7 @@ extension ServiceCatalog {
     }
 
     public struct Principal: AWSDecodableShape {
+
         /// The ARN of the principal (IAM user, role, or group).
         public let principalARN: String?
         /// The principal type. The supported value is IAM.
@@ -3737,6 +3957,7 @@ extension ServiceCatalog {
     }
 
     public struct ProductViewAggregationValue: AWSDecodableShape {
+
         /// An approximate count of the products that match the value.
         public let approximateCount: Int?
         /// The value of the product view aggregation.
@@ -3754,13 +3975,14 @@ extension ServiceCatalog {
     }
 
     public struct ProductViewDetail: AWSDecodableShape {
+
         /// The UTC time stamp of the creation time.
         public let createdTime: Date?
         /// The ARN of the product.
         public let productARN: String?
         /// Summary information about the product view.
         public let productViewSummary: ProductViewSummary?
-        /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.
+        /// The status of the product.    AVAILABLE - The product is ready for use.    CREATING - Product creation has started; the product is not ready for use.    FAILED - An action failed.  
         public let status: Status?
 
         public init(createdTime: Date? = nil, productARN: String? = nil, productViewSummary: ProductViewSummary? = nil, status: Status? = nil) {
@@ -3779,6 +4001,7 @@ extension ServiceCatalog {
     }
 
     public struct ProductViewSummary: AWSDecodableShape {
+
         /// The distributor of the product. Contact the product administrator for the significance of this value.
         public let distributor: String?
         /// Indicates whether the product has a default path. If the product does not have a default path, call ListLaunchPaths to disambiguate between paths. Otherwise, ListLaunchPaths is not required, and the output of ProductViewSummary can be used directly with DescribeProvisioningParameters.
@@ -3832,7 +4055,8 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
         public let notificationArns: [String]?
@@ -3930,6 +4154,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionProductOutput: AWSDecodableShape {
+
         /// Information about the result of provisioning the product.
         public let recordDetail: RecordDetail?
 
@@ -3943,6 +4168,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionedProductAttribute: AWSDecodableShape {
+
         /// The ARN of the provisioned product.
         public let arn: String?
         /// The UTC time stamp of the creation time.
@@ -3951,11 +4177,11 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
-        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
         public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
-        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
         public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
@@ -3969,7 +4195,7 @@ extension ServiceCatalog {
         public let provisioningArtifactId: String?
         /// The name of the provisioning artifact.
         public let provisioningArtifactName: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
         public let statusMessage: String?
@@ -4028,6 +4254,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionedProductDetail: AWSDecodableShape {
+
         /// The ARN of the provisioned product.
         public let arn: String?
         /// The UTC time stamp of the creation time.
@@ -4036,11 +4263,11 @@ extension ServiceCatalog {
         public let id: String?
         /// A unique identifier that you provide to ensure idempotency. If multiple requests differ only by the idempotency token, the same response is returned for each repeated request.
         public let idempotencyToken: String?
-        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
         public let lastProvisioningRecordId: String?
         /// The record identifier of the last request performed on this provisioned product.
         public let lastRecordId: String?
-        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct
+        /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
         public let lastSuccessfulProvisioningRecordId: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
@@ -4048,7 +4275,7 @@ extension ServiceCatalog {
         public let productId: String?
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
         public let provisioningArtifactId: String?
-        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.
+        /// The current status of the provisioned product.    AVAILABLE - Stable state, ready to perform any operation. The most recent operation succeeded and completed.    UNDER_CHANGE - Transitive state. Operations performed might not have valid results. Wait for an AVAILABLE status before performing operations.    TAINTED - Stable state, ready to perform any operation. The stack has completed the requested operation but is not exactly what was requested. For example, a request to update to a new version failed and the stack rolled back to the current version.    ERROR - An unexpected error occurred. The provisioned product exists but the stack is not running. For example, CloudFormation received a parameter value that was not valid and could not launch the stack.    PLAN_IN_PROGRESS - Transitive state. The plan operations were performed to provision a new product, but resources have not yet been created. After reviewing the list of resources to be created, execute the plan. Wait for an AVAILABLE status before performing operations.  
         public let status: ProvisionedProductStatus?
         /// The current status message of the provisioned product.
         public let statusMessage: String?
@@ -4089,6 +4316,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionedProductPlanDetails: AWSDecodableShape {
+
         /// The UTC time stamp of the creation time.
         public let createdTime: Date?
         /// Passed to CloudFormation. The SNS topic ARNs to which to publish stack-related events.
@@ -4158,6 +4386,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisionedProductPlanSummary: AWSDecodableShape {
+
         /// The plan identifier.
         public let planId: String?
         /// The name of the plan.
@@ -4191,6 +4420,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifact: AWSDecodableShape {
+
         /// The UTC time stamp of the creation time.
         public let createdTime: Date?
         /// The description of the provisioning artifact.
@@ -4220,6 +4450,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactDetail: AWSDecodableShape {
+
         /// Indicates whether the product version is active.
         public let active: Bool?
         /// The UTC time stamp of the creation time.
@@ -4232,7 +4463,7 @@ extension ServiceCatalog {
         public let id: String?
         /// The name of the provisioning artifact.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
 
         public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4257,6 +4488,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactOutput: AWSDecodableShape {
+
         /// Description of the provisioning artifact output key.
         public let description: String?
         /// The provisioning artifact output key.
@@ -4274,6 +4506,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactParameter: AWSDecodableShape {
+
         /// The default value.
         public let defaultValue: String?
         /// The description of the parameter.
@@ -4307,6 +4540,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactPreferences: AWSDecodableShape {
+
         /// One or more AWS accounts where stack instances are deployed from the stack set. These accounts can be scoped in ProvisioningPreferences$StackSetAccounts and UpdateProvisioningPreferences$StackSetAccounts. Applicable only to a CFN_STACKSET provisioned product type.
         public let stackSetAccounts: [String]?
         /// One or more AWS Regions where stack instances are deployed from the stack set. These regions can be scoped in ProvisioningPreferences$StackSetRegions and UpdateProvisioningPreferences$StackSetRegions. Applicable only to a CFN_STACKSET provisioned product type.
@@ -4324,15 +4558,16 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactProperties: AWSEncodableShape {
+
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public let description: String?
         /// If set to true, AWS Service Catalog stops validating the specified provisioning artifact even if it is invalid.
         public let disableTemplateValidation: Bool?
-        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."
+        /// The URL of the CloudFormation template in Amazon S3. Specify the URL in JSON format as follows:  "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..." 
         public let info: [String: String]
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
-        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
+        /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources  
         public let `type`: ProvisioningArtifactType?
 
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
@@ -4358,6 +4593,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactSummary: AWSDecodableShape {
+
         /// The UTC time stamp of the creation time.
         public let createdTime: Date?
         /// The description of the provisioning artifact.
@@ -4387,6 +4623,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningArtifactView: AWSDecodableShape {
+
         /// Summary information about a product view.
         public let productViewSummary: ProductViewSummary?
         /// Information about a provisioning artifact. A provisioning artifact is also known as a product version.
@@ -4404,6 +4641,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningParameter: AWSEncodableShape {
+
         /// The parameter key.
         public let key: String?
         /// The parameter value.
@@ -4427,6 +4665,7 @@ extension ServiceCatalog {
     }
 
     public struct ProvisioningPreferences: AWSEncodableShape {
+
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
         /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
@@ -4472,6 +4711,7 @@ extension ServiceCatalog {
     }
 
     public struct RecordDetail: AWSDecodableShape {
+
         /// The UTC time stamp of the creation time.
         public let createdTime: Date?
         /// The path identifier.
@@ -4492,9 +4732,9 @@ extension ServiceCatalog {
         public let recordId: String?
         /// One or more tags.
         public let recordTags: [RecordTag]?
-        /// The record type.    PROVISION_PRODUCT     UPDATE_PROVISIONED_PRODUCT     TERMINATE_PROVISIONED_PRODUCT
+        /// The record type.    PROVISION_PRODUCT     UPDATE_PROVISIONED_PRODUCT     TERMINATE_PROVISIONED_PRODUCT   
         public let recordType: String?
-        /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.
+        /// The status of the provisioned product.    CREATED - The request was created but the operation has not started.    IN_PROGRESS - The requested operation is in progress.    IN_PROGRESS_IN_ERROR - The provisioned product is under change but the requested operation failed and some remediation is occurring. For example, a rollback.    SUCCEEDED - The requested operation has successfully completed.    FAILED - The requested operation has unsuccessfully completed. Investigate using the error messages returned.  
         public let status: RecordStatus?
         /// The time when the record was last updated.
         public let updatedTime: Date?
@@ -4533,6 +4773,7 @@ extension ServiceCatalog {
     }
 
     public struct RecordError: AWSDecodableShape {
+
         /// The numeric value of the error.
         public let code: String?
         /// The description of the error.
@@ -4550,6 +4791,7 @@ extension ServiceCatalog {
     }
 
     public struct RecordOutput: AWSDecodableShape {
+
         /// The description of the output.
         public let description: String?
         /// The output key.
@@ -4571,6 +4813,7 @@ extension ServiceCatalog {
     }
 
     public struct RecordTag: AWSDecodableShape {
+
         /// The key for this tag.
         public let key: String?
         /// The value for this tag.
@@ -4588,11 +4831,12 @@ extension ServiceCatalog {
     }
 
     public struct RejectPortfolioShareInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS
+        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
@@ -4616,10 +4860,15 @@ extension ServiceCatalog {
     }
 
     public struct RejectPortfolioShareOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ResourceChange: AWSDecodableShape {
+
         /// The change action.
         public let action: ChangeAction?
         /// Information about the resource changes.
@@ -4657,6 +4906,7 @@ extension ServiceCatalog {
     }
 
     public struct ResourceChangeDetail: AWSDecodableShape {
+
         /// The ID of the entity that caused the change.
         public let causingEntity: String?
         /// For static evaluations, the value of the resource attribute will change and the new value is known. For dynamic evaluations, the value might change, and any new value will be determined when the plan is updated.
@@ -4678,6 +4928,7 @@ extension ServiceCatalog {
     }
 
     public struct ResourceDetail: AWSDecodableShape {
+
         /// The ARN of the resource.
         public let arn: String?
         /// The creation time of the resource.
@@ -4707,6 +4958,7 @@ extension ServiceCatalog {
     }
 
     public struct ResourceTargetDefinition: AWSDecodableShape {
+
         /// The attribute to be changed.
         public let attribute: ResourceAttribute?
         /// If the attribute is Properties, the value is the name of the property. Otherwise, the value is null.
@@ -4728,7 +4980,8 @@ extension ServiceCatalog {
     }
 
     public struct ScanProvisionedProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
@@ -4761,6 +5014,7 @@ extension ServiceCatalog {
     }
 
     public struct ScanProvisionedProductsOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the provisioned products.
@@ -4778,7 +5032,8 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsAsAdminInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The search filters. If no search filters are specified, the output includes all products to which the administrator has access.
         public let filters: [ProductViewFilterBy: [String]]?
@@ -4830,6 +5085,7 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsAsAdminOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the product views.
@@ -4847,7 +5103,8 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The search filters. If no search filters are specified, the output includes all products to which the caller has access.
         public let filters: [ProductViewFilterBy: [String]]?
@@ -4888,6 +5145,7 @@ extension ServiceCatalog {
     }
 
     public struct SearchProductsOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// The product view aggregations.
@@ -4909,11 +5167,12 @@ extension ServiceCatalog {
     }
 
     public struct SearchProvisionedProductsInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The access level to use to obtain results. The default is User.
         public let accessLevelFilter: AccessLevelFilter?
-        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
+        /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"] 
         public let filters: [ProvisionedProductViewFilterBy: [String]]?
         /// The maximum number of items to return with this call.
         public let pageSize: Int?
@@ -4954,6 +5213,7 @@ extension ServiceCatalog {
     }
 
     public struct SearchProvisionedProductsOutput: AWSDecodableShape {
+
         /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
         public let nextPageToken: String?
         /// Information about the provisioned products.
@@ -4975,6 +5235,7 @@ extension ServiceCatalog {
     }
 
     public struct ServiceActionAssociation: AWSEncodableShape {
+
         /// The product identifier. For example, prod-abcdzk7xy33qa.
         public let productId: String
         /// The identifier of the provisioning artifact. For example, pa-4abcdjnxjj6ne.
@@ -5008,6 +5269,7 @@ extension ServiceCatalog {
     }
 
     public struct ServiceActionDetail: AWSDecodableShape {
+
         /// A map that defines the self-service action.
         public let definition: [ServiceActionDefinitionKey: String]?
         /// Summary information about the self-service action.
@@ -5025,6 +5287,7 @@ extension ServiceCatalog {
     }
 
     public struct ServiceActionSummary: AWSDecodableShape {
+
         /// The self-service action definition type. For example, SSM_AUTOMATION.
         public let definitionType: ServiceActionDefinitionType?
         /// The self-service action description.
@@ -5050,6 +5313,7 @@ extension ServiceCatalog {
     }
 
     public struct ShareDetails: AWSDecodableShape {
+
         /// List of errors.
         public let shareErrors: [ShareError]?
         /// List of accounts for whom the operation succeeded.
@@ -5067,6 +5331,7 @@ extension ServiceCatalog {
     }
 
     public struct ShareError: AWSDecodableShape {
+
         /// List of accounts impacted by the error.
         public let accounts: [String]?
         /// Error type that happened when processing the operation.
@@ -5088,11 +5353,12 @@ extension ServiceCatalog {
     }
 
     public struct StackInstance: AWSDecodableShape {
+
         /// The name of the AWS account that the stack instance is associated with.
         public let account: String?
         /// The name of the AWS region that the stack instance is associated with.
         public let region: String?
-        /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either the associated stack failed during a CreateStackSet or UpdateStackSet operation, or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.
+        /// The status of the stack instance, in terms of its synchronization with its associated stack set.     INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.     OUTDATED: The stack isn't currently up to date with the stack set because either the associated stack failed during a CreateStackSet or UpdateStackSet operation, or the stack was part of a CreateStackSet or UpdateStackSet operation that failed or was stopped before the stack was created or updated.    CURRENT: The stack is currently up to date with the stack set.  
         public let stackInstanceStatus: StackInstanceStatus?
 
         public init(account: String? = nil, region: String? = nil, stackInstanceStatus: StackInstanceStatus? = nil) {
@@ -5109,6 +5375,7 @@ extension ServiceCatalog {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The tag key.
         public let key: String
         /// The value for this key.
@@ -5135,6 +5402,7 @@ extension ServiceCatalog {
     }
 
     public struct TagOptionDetail: AWSDecodableShape {
+
         /// The TagOption active state.
         public let active: Bool?
         /// The TagOption identifier.
@@ -5160,6 +5428,7 @@ extension ServiceCatalog {
     }
 
     public struct TagOptionSummary: AWSDecodableShape {
+
         /// The TagOption key.
         public let key: String?
         /// The TagOption value.
@@ -5177,7 +5446,8 @@ extension ServiceCatalog {
     }
 
     public struct TerminateProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// If set to true, AWS Service Catalog stops managing the specified provisioned product even if it cannot delete the underlying resources.
         public let ignoreErrors: Bool?
@@ -5219,6 +5489,7 @@ extension ServiceCatalog {
     }
 
     public struct TerminateProvisionedProductOutput: AWSDecodableShape {
+
         /// Information about the result of this request.
         public let recordDetail: RecordDetail?
 
@@ -5232,13 +5503,14 @@ extension ServiceCatalog {
     }
 
     public struct UpdateConstraintInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The updated description of the constraint.
         public let description: String?
         /// The identifier of the constraint.
         public let id: String
-        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.
+        /// The constraint parameters, in JSON format. The syntax depends on the constraint type as follows:  LAUNCH  You are required to specify either the RoleArn or the LocalRoleName but can't use both. Specify the RoleArn property as follows:  {"RoleArn" : "arn:aws:iam::123456789012:role/LaunchRole"}  Specify the LocalRoleName property as follows:  {"LocalRoleName": "SCBasicLaunchRole"}  If you specify the LocalRoleName property, when an account uses the launch constraint, the IAM role with that name in the account will be used. This allows launch-role constraints to be account-agnostic so the administrator can create fewer resources per shared account.  The given role name must exist in the account used to create the launch constraint and the account of the user who launches a product with this launch constraint.  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one LAUNCH constraint on a product and portfolio.  NOTIFICATION  Specify the NotificationArns property as follows:  {"NotificationArns" : ["arn:aws:sns:us-east-1:123456789012:Topic"]}   RESOURCE_UPDATE  Specify the TagUpdatesOnProvisionedProduct property as follows:  {"Version":"2.0","Properties":{"TagUpdateOnProvisionedProduct":"String"}}  The TagUpdatesOnProvisionedProduct property accepts a string value of ALLOWED or NOT_ALLOWED.  STACKSET  Specify the Parameters property as follows:  {"Version": "String", "Properties": {"AccountList": [ "String" ], "RegionList": [ "String" ], "AdminRole": "String", "ExecutionRole": "String"}}  You cannot have both a LAUNCH and a STACKSET constraint. You also cannot have more than one STACKSET constraint on a product and portfolio. Products with a STACKSET constraint will launch an AWS CloudFormation stack set.  TEMPLATE  Specify the Rules property. For more information, see Template Constraint Rules.  
         public let parameters: String?
 
         public init(acceptLanguage: String? = nil, description: String? = nil, id: String, parameters: String? = nil) {
@@ -5265,6 +5537,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateConstraintOutput: AWSDecodableShape {
+
         /// Information about the constraint.
         public let constraintDetail: ConstraintDetail?
         /// The constraint parameters.
@@ -5286,7 +5559,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdatePortfolioInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The tags to add.
         public let addTags: [Tag]?
@@ -5344,6 +5618,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdatePortfolioOutput: AWSDecodableShape {
+
         /// Information about the portfolio.
         public let portfolioDetail: PortfolioDetail?
         /// Information about the tags associated with the portfolio.
@@ -5361,7 +5636,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The tags to add to the product.
         public let addTags: [Tag]?
@@ -5437,6 +5713,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProductOutput: AWSDecodableShape {
+
         /// Information about the product view.
         public let productViewDetail: ProductViewDetail?
         /// Information about the tags associated with the product.
@@ -5454,7 +5731,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The path identifier. This value is optional if the product has a default path, and required if the product has more than one path. You must provide the name or ID, but not both.
         public let pathId: String?
@@ -5549,6 +5827,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductOutput: AWSDecodableShape {
+
         /// Information about the result of the request.
         public let recordDetail: RecordDetail?
 
@@ -5562,7 +5841,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductPropertiesInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// The idempotency token that uniquely identifies the provisioning product update request.
         public let idempotencyToken: String
@@ -5601,6 +5881,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisionedProductPropertiesOutput: AWSDecodableShape {
+
         /// The provisioned product identifier.
         public let provisionedProductId: String?
         /// A map that contains the properties updated.
@@ -5626,7 +5907,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningArtifactInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// Indicates whether the product version is active. Inactive provisioning artifacts are invisible to end users. End users cannot launch or update a provisioned product from an inactive provisioning artifact.
         public let active: Bool?
@@ -5675,6 +5957,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningArtifactOutput: AWSDecodableShape {
+
         /// The URL of the CloudFormation template in Amazon S3.
         public let info: [String: String]?
         /// Information about the provisioning artifact.
@@ -5696,6 +5979,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningParameter: AWSEncodableShape & AWSDecodableShape {
+
         /// The parameter key.
         public let key: String?
         /// If set to true, Value is ignored and the previous parameter value is kept.
@@ -5723,6 +6007,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateProvisioningPreferences: AWSEncodableShape {
+
         /// One or more AWS accounts that will have access to the provisioned product. Applicable only to a CFN_STACKSET provisioned product type. The AWS accounts specified should be within the list of accounts in the STACKSET constraint. To get the list of accounts in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all accounts from the STACKSET constraint.
         public let stackSetAccounts: [String]?
         /// The number of accounts, per region, for which this operation can fail before AWS Service Catalog stops the operation in that region. If the operation is stopped in a region, AWS Service Catalog doesn't attempt the operation in any subsequent regions. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetFailureToleranceCount or StackSetFailureTolerancePercentage, but not both. The default value is 0 if no value is specified.
@@ -5733,7 +6018,7 @@ extension ServiceCatalog {
         public let stackSetMaxConcurrencyCount: Int?
         /// The maximum percentage of accounts in which to perform this operation at one time. When calculating the number of accounts based on the specified percentage, AWS Service Catalog rounds down to the next whole number. This is true except in cases where rounding down would result is zero. In this case, AWS Service Catalog sets the number as 1 instead. Note that this setting lets you specify the maximum for operations. For large deployments, under certain circumstances the actual number of accounts acted upon concurrently may be lower due to service throttling. Applicable only to a CFN_STACKSET provisioned product type. Conditional: You must specify either StackSetMaxConcurrentCount or StackSetMaxConcurrentPercentage, but not both.
         public let stackSetMaxConcurrencyPercentage: Int?
-        /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.
+        /// Determines what action AWS Service Catalog performs to a stack set or a stack instance represented by the provisioned product. The default value is UPDATE if nothing is specified. Applicable only to a CFN_STACKSET provisioned product type.  CREATE  Creates a new stack instance in the stack set represented by the provisioned product. In this case, only new stack instances are created based on accounts and regions; if new ProductId or ProvisioningArtifactID are passed, they will be ignored.  UPDATE  Updates the stack set represented by the provisioned product and also its stack instances.  DELETE  Deletes a stack instance in the stack set represented by the provisioned product.  
         public let stackSetOperationType: StackSetOperationType?
         /// One or more AWS Regions where the provisioned product will be available. Applicable only to a CFN_STACKSET provisioned product type. The specified regions should be within the list of regions from the STACKSET constraint. To get the list of regions in the STACKSET constraint, use the DescribeProvisioningParameters operation. If no values are specified, the default value is all regions from the STACKSET constraint.
         public let stackSetRegions: [String]?
@@ -5772,7 +6057,8 @@ extension ServiceCatalog {
     }
 
     public struct UpdateServiceActionInput: AWSEncodableShape {
-        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
         /// A map that defines the self-service action.
         public let definition: [ServiceActionDefinitionKey: String]?
@@ -5816,6 +6102,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateServiceActionOutput: AWSDecodableShape {
+
         /// Detailed information about the self-service action.
         public let serviceActionDetail: ServiceActionDetail?
 
@@ -5829,6 +6116,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateTagOptionInput: AWSEncodableShape {
+
         /// The updated active state.
         public let active: Bool?
         /// The TagOption identifier.
@@ -5858,6 +6146,7 @@ extension ServiceCatalog {
     }
 
     public struct UpdateTagOptionOutput: AWSDecodableShape {
+
         /// Information about the TagOption.
         public let tagOptionDetail: TagOptionDetail?
 
@@ -5871,6 +6160,7 @@ extension ServiceCatalog {
     }
 
     public struct UsageInstruction: AWSDecodableShape {
+
         /// The usage instruction type for the value.
         public let `type`: String?
         /// The usage instruction value for this type.

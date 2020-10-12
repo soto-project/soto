@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS AppSync service.
+Client object for interacting with AWS AppSync service.
 
- AWS AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
- */
+AWS AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
+*/
 public struct AppSync: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct AppSync: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Creates a cache for the GraphQL API.
@@ -177,7 +178,7 @@ public struct AppSync: AWSService {
         return self.client.execute(operation: "GetType", path: "/v1/apis/{apiId}/types/{typeName}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Lists the API keys for a given API.  API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
+    ///  Lists the API keys for a given API.  API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted. 
     public func listApiKeys(_ input: ListApiKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApiKeysResponse> {
         return self.client.execute(operation: "ListApiKeys", path: "/v1/apis/{apiId}/apikeys", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

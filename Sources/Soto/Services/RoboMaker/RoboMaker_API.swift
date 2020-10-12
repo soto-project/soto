@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS RoboMaker service.
+Client object for interacting with AWS RoboMaker service.
 
- This section provides documentation for the AWS RoboMaker API operations.
- */
+This section provides documentation for the AWS RoboMaker API operations.
+*/
 public struct RoboMaker: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct RoboMaker: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Deletes one or more worlds in a batch operation.
@@ -82,7 +83,7 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "CancelSimulationJob", path: "/cancelSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch.
+    ///  Cancels a simulation job batch. When you cancel a simulation job batch, you are also cancelling all of the active simulation jobs created as part of the batch. 
     public func cancelSimulationJobBatch(_ input: CancelSimulationJobBatchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelSimulationJobBatchResponse> {
         return self.client.execute(operation: "CancelSimulationJobBatch", path: "/cancelSimulationJobBatch", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -97,7 +98,7 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "CancelWorldGenerationJob", path: "/cancelWorldGenerationJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.
+    ///  Deploys a specific version of a robot application to robots in a fleet. The robot application must have a numbered applicationVersion for consistency reasons. To create a new version, use CreateRobotApplicationVersion or see Creating a Robot Application Version.   After 90 days, deployment jobs expire and will be deleted. They will no longer be accessible.  
     public func createDeploymentJob(_ input: CreateDeploymentJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDeploymentJobResponse> {
         return self.client.execute(operation: "CreateDeploymentJob", path: "/createDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -112,7 +113,7 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "CreateRobot", path: "/createRobot", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a robot application.
+    ///  Creates a robot application. 
     public func createRobotApplication(_ input: CreateRobotApplicationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRobotApplicationResponse> {
         return self.client.execute(operation: "CreateRobotApplication", path: "/createRobotApplication", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -132,7 +133,7 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "CreateSimulationApplicationVersion", path: "/createSimulationApplicationVersion", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.
+    ///  Creates a simulation job.  After 90 days, simulation jobs expire and will be deleted. They will no longer be accessible.  
     public func createSimulationJob(_ input: CreateSimulationJobRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateSimulationJobResponse> {
         return self.client.execute(operation: "CreateSimulationJob", path: "/createSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -242,12 +243,12 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "GetWorldTemplateBody", path: "/getWorldTemplateBody", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs. 
     public func listDeploymentJobs(_ input: ListDeploymentJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDeploymentJobsResponse> {
         return self.client.execute(operation: "ListDeploymentJobs", path: "/listDeploymentJobs", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets. 
     public func listFleets(_ input: ListFleetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListFleetsResponse> {
         return self.client.execute(operation: "ListFleets", path: "/listFleets", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -262,17 +263,17 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "ListRobots", path: "/listRobots", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications.
+    ///  Returns a list of simulation applications. You can optionally provide filters to retrieve specific simulation applications. 
     public func listSimulationApplications(_ input: ListSimulationApplicationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSimulationApplicationsResponse> {
         return self.client.execute(operation: "ListSimulationApplications", path: "/listSimulationApplications", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs.
+    ///  Returns a list simulation job batches. You can optionally provide filters to retrieve specific simulation batch jobs. 
     public func listSimulationJobBatches(_ input: ListSimulationJobBatchesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSimulationJobBatchesResponse> {
         return self.client.execute(operation: "ListSimulationJobBatches", path: "/listSimulationJobBatches", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs.
+    ///  Returns a list of simulation jobs. You can optionally provide filters to retrieve specific simulation jobs. 
     public func listSimulationJobs(_ input: ListSimulationJobsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSimulationJobsResponse> {
         return self.client.execute(operation: "ListSimulationJobs", path: "/listSimulationJobs", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -312,7 +313,7 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "RestartSimulationJob", path: "/restartSimulationJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects.
+    ///  Starts a new simulation job batch. The batch is defined using one or more SimulationJobRequest objects. 
     public func startSimulationJobBatch(_ input: StartSimulationJobBatchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSimulationJobBatchResponse> {
         return self.client.execute(operation: "StartSimulationJobBatch", path: "/startSimulationJobBatch", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
@@ -322,12 +323,12 @@ public struct RoboMaker: AWSService {
         return self.client.execute(operation: "SyncDeploymentJob", path: "/syncDeploymentJob", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide.
+    ///  Adds or edits tags for a AWS RoboMaker resource. Each tag consists of a tag key and a tag value. Tag keys and tag values are both required, but tag values can be empty strings.  For information about the rules that apply to tag keys and tag values, see User-Defined Tag Restrictions in the AWS Billing and Cost Management User Guide. 
     public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource .
+    ///  Removes the specified tags from the specified AWS RoboMaker resource. To remove a tag, specify the tag key. To change the tag value of an existing tag key, use  TagResource . 
     public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UntagResourceResponse> {
         return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

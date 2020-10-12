@@ -2316,6 +2316,7 @@ extension MediaConvert {
     // MARK: Shapes
 
     public struct AacSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Choose BROADCASTER_MIXED_AD when the input contains pre-mixed main audio + audio description (AD) as a stereo pair. The value for AudioType will be set to 3, which signals to downstream systems that this stream contains "broadcaster mixed AD". Note that the input received by the encoder must contain pre-mixed audio; the encoder does not perform the mixing. When you choose BROADCASTER_MIXED_AD, the encoder ignores any values you provide in AudioType and  FollowInputAudioType. Choose NORMAL when the input does not contain pre-mixed audio + audio description (AD). In this case, the encoder will use any values you provide for AudioType and FollowInputAudioType.
         public let audioDescriptionBroadcasterMix: AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile (codecProfile), Bitrate control mode (codingMode), and Sample rate (sampleRate). Default values depend on Bitrate control mode and Profile.
@@ -2348,26 +2349,27 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_024_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1024000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 6000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 96000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptionBroadcasterMix
-            case bitrate
-            case codecProfile
-            case codingMode
-            case rateControlMode
-            case rawFormat
-            case sampleRate
-            case specification
-            case vbrQuality
+            case audioDescriptionBroadcasterMix = "audioDescriptionBroadcasterMix"
+            case bitrate = "bitrate"
+            case codecProfile = "codecProfile"
+            case codingMode = "codingMode"
+            case rateControlMode = "rateControlMode"
+            case rawFormat = "rawFormat"
+            case sampleRate = "sampleRate"
+            case specification = "specification"
+            case vbrQuality = "vbrQuality"
         }
     }
 
     public struct Ac3Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
         public let bitrate: Int?
         /// Specify the bitstream mode for the AC-3 stream that the encoder emits. For more information about the AC3 bitstream mode, see ATSC A/52-2012 (Annex E).
@@ -2397,7 +2399,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 64000)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
@@ -2406,18 +2408,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dialnorm
-            case dynamicRangeCompressionProfile
-            case lfeFilter
-            case metadataControl
-            case sampleRate
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialnorm = "dialnorm"
+            case dynamicRangeCompressionProfile = "dynamicRangeCompressionProfile"
+            case lfeFilter = "lfeFilter"
+            case metadataControl = "metadataControl"
+            case sampleRate = "sampleRate"
         }
     }
 
     public struct AccelerationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the conditions when the service will run your job with accelerated transcoding.
         public let mode: AccelerationMode
 
@@ -2426,11 +2429,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mode
+            case mode = "mode"
         }
     }
 
     public struct AiffSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
@@ -2449,18 +2453,19 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192_000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitDepth
-            case channels
-            case sampleRate
+            case bitDepth = "bitDepth"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
     public struct AncillarySourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: AncillaryConvert608To708?
         /// Specifies the 608 channel number in the ancillary data track from which to extract captions. Unused for passthrough.
@@ -2480,13 +2485,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case sourceAncillaryChannelNumber
-            case terminateCaptions
+            case convert608To708 = "convert608To708"
+            case sourceAncillaryChannelNumber = "sourceAncillaryChannelNumber"
+            case terminateCaptions = "terminateCaptions"
         }
     }
 
     public struct AssociateCertificateRequest: AWSEncodableShape {
+
         /// The ARN of the ACM certificate that you want to associate with your MediaConvert resource.
         public let arn: String
 
@@ -2495,15 +2501,20 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
     public struct AssociateCertificateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AudioChannelTaggingSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// You can add a tag for this mono-channel audio track to mimic its placement in a multi-channel layout.  For example, if this track is the left surround channel, choose Left surround (LS).
         public let channelTag: AudioChannelTag?
 
@@ -2512,11 +2523,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelTag
+            case channelTag = "channelTag"
         }
     }
 
     public struct AudioCodecSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AAC. The service accepts one of two mutually exclusive groups of AAC settings--VBR and CBR. To select one of these modes, set the value of Bitrate control mode (rateControlMode) to "VBR" or "CBR".  In VBR mode, you control the audio quality with the setting VBR quality (vbrQuality). In CBR mode, you use the setting Bitrate (bitrate). Defaults and valid values depend on the rate control mode.
         public let aacSettings: AacSettings?
         /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to the value AC3.
@@ -2568,21 +2580,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aacSettings
-            case ac3Settings
-            case aiffSettings
-            case codec
-            case eac3AtmosSettings
-            case eac3Settings
-            case mp2Settings
-            case mp3Settings
-            case opusSettings
-            case vorbisSettings
-            case wavSettings
+            case aacSettings = "aacSettings"
+            case ac3Settings = "ac3Settings"
+            case aiffSettings = "aiffSettings"
+            case codec = "codec"
+            case eac3AtmosSettings = "eac3AtmosSettings"
+            case eac3Settings = "eac3Settings"
+            case mp2Settings = "mp2Settings"
+            case mp3Settings = "mp3Settings"
+            case opusSettings = "opusSettings"
+            case vorbisSettings = "vorbisSettings"
+            case wavSettings = "wavSettings"
         }
     }
 
     public struct AudioDescription: AWSEncodableShape & AWSDecodableShape {
+
         /// When you mimic a multi-channel audio layout with multiple mono-channel tracks, you can tag each channel layout manually. For example, you would tag the tracks that contain your left, right, and center audio with Left (L), Right (R), and Center (C), respectively. When you don't specify a value, MediaConvert labels your track as Center (C) by default. To use audio layout tagging, your output must be in a QuickTime (.mov) container; your audio codec must be AAC, WAV, or AIFF; and you must set up your audio track to have only one channel.
         public let audioChannelTaggingSettings: AudioChannelTaggingSettings?
         /// Advanced audio normalization settings. Ignore these settings unless you need to comply with a loudness standard.
@@ -2631,21 +2644,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioChannelTaggingSettings
-            case audioNormalizationSettings
-            case audioSourceName
-            case audioType
-            case audioTypeControl
-            case codecSettings
-            case customLanguageCode
-            case languageCode
-            case languageCodeControl
-            case remixSettings
-            case streamName
+            case audioChannelTaggingSettings = "audioChannelTaggingSettings"
+            case audioNormalizationSettings = "audioNormalizationSettings"
+            case audioSourceName = "audioSourceName"
+            case audioType = "audioType"
+            case audioTypeControl = "audioTypeControl"
+            case codecSettings = "codecSettings"
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case languageCodeControl = "languageCodeControl"
+            case remixSettings = "remixSettings"
+            case streamName = "streamName"
         }
     }
 
     public struct AudioNormalizationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Choose one of the following audio normalization algorithms: ITU-R BS.1770-1: Ungated loudness. A measurement of ungated average loudness for an entire piece of content, suitable for measurement of short-form content under ATSC recommendation A/85. Supports up to 5.1 audio channels. ITU-R BS.1770-2: Gated loudness. A measurement of gated average loudness compliant with the requirements of EBU-R128. Supports up to 5.1 audio channels. ITU-R BS.1770-3: Modified peak. The same loudness measurement algorithm as 1770-2, with an updated true peak measurement. ITU-R BS.1770-4: Higher channel count. Allows for more audio channels than the other algorithms, including configurations such as 7.1.
         public let algorithm: AudioNormalizationAlgorithm?
         /// When enabled the output audio is corrected using the chosen algorithm. If disabled, the audio will be measured but not adjusted.
@@ -2674,16 +2688,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case algorithmControl
-            case correctionGateLevel
-            case loudnessLogging
-            case peakCalculation
-            case targetLkfs
+            case algorithm = "algorithm"
+            case algorithmControl = "algorithmControl"
+            case correctionGateLevel = "correctionGateLevel"
+            case loudnessLogging = "loudnessLogging"
+            case peakCalculation = "peakCalculation"
+            case targetLkfs = "targetLkfs"
         }
     }
 
     public struct AudioSelector: AWSEncodableShape & AWSDecodableShape {
+
         /// Selects a specific language code from within an audio source, using the ISO 639-2 or ISO 639-3 three-letter language code
         public let customLanguageCode: String?
         /// Enable this setting on one audio selector to set it as the default for the job. The service uses this default for outputs where it can't find the specified input audio. If you don't set a default, those outputs have no audio.
@@ -2723,36 +2738,37 @@ extension MediaConvert {
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, min: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
             try self.validate(self.externalAudioFileInput, name: "externalAudioFileInput", parent: name, pattern: "^((s3://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[pP]|[wW][eE][bB][mM]|[mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE]))))|(https?://([^\\/]+\\/+)+([^\\/\\.]+|(([^\\/]*)\\.([mM]2[vV]|[mM][pP][eE][gG]|[mM][pP]3|[aA][vV][iI]|[mM][pP]4|[fF][lL][vV]|[mM][pP][tT]|[mM][pP][gG]|[mM]4[vV]|[tT][rR][pP]|[fF]4[vV]|[mM]2[tT][sS]|[tT][sS]|264|[hH]264|[mM][kK][vV]|[mM][kK][aA]|[mM][oO][vV]|[mM][tT][sS]|[mM]2[tT]|[wW][mM][vV]|[aA][sS][fF]|[vV][oO][bB]|3[gG][pP]|3[gG][pP][pP]|[mM][xX][fF]|[dD][iI][vV][xX]|[xX][vV][iI][dD]|[rR][aA][wW]|[dD][vV]|[gG][xX][fF]|[mM]1[vV]|3[gG]2|[vV][mM][fF]|[mM]3[uU]8|[lL][cC][hH]|[gG][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF]_[mM][pP][eE][gG]2|[mM][xX][fF][hH][dD]|[wW][aA][vV]|[yY]4[mM]|[aA][aA][cC]|[aA][iI][fF][fF]|[mM][pP]2|[aA][cC]3|[eE][cC]3|[dD][tT][sS][eE])))(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.offset, name: "offset", parent: name, max: 2_147_483_647)
-            try self.validate(self.offset, name: "offset", parent: name, min: -2_147_483_648)
+            try self.validate(self.offset, name: "offset", parent: name, max: 2147483647)
+            try self.validate(self.offset, name: "offset", parent: name, min: -2147483648)
             try self.pids?.forEach {
-                try validate($0, name: "pids[]", parent: name, max: 2_147_483_647)
+                try validate($0, name: "pids[]", parent: name, max: 2147483647)
                 try validate($0, name: "pids[]", parent: name, min: 1)
             }
             try self.validate(self.programSelection, name: "programSelection", parent: name, max: 8)
             try self.validate(self.programSelection, name: "programSelection", parent: name, min: 0)
             try self.remixSettings?.validate(name: "\(name).remixSettings")
             try self.tracks?.forEach {
-                try validate($0, name: "tracks[]", parent: name, max: 2_147_483_647)
+                try validate($0, name: "tracks[]", parent: name, max: 2147483647)
                 try validate($0, name: "tracks[]", parent: name, min: 1)
             }
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customLanguageCode
-            case defaultSelection
-            case externalAudioFileInput
-            case languageCode
-            case offset
-            case pids
-            case programSelection
-            case remixSettings
-            case selectorType
-            case tracks
+            case customLanguageCode = "customLanguageCode"
+            case defaultSelection = "defaultSelection"
+            case externalAudioFileInput = "externalAudioFileInput"
+            case languageCode = "languageCode"
+            case offset = "offset"
+            case pids = "pids"
+            case programSelection = "programSelection"
+            case remixSettings = "remixSettings"
+            case selectorType = "selectorType"
+            case tracks = "tracks"
         }
     }
 
     public struct AudioSelectorGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// Name of an Audio Selector within the same input to include in the group.  Audio selector names are standardized, based on their order within the input (e.g., "Audio Selector 1"). The audio selector name parameter can be repeated to add any number of audio selectors to the group.
         public let audioSelectorNames: [String]?
 
@@ -2767,11 +2783,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorNames
+            case audioSelectorNames = "audioSelectorNames"
         }
     }
 
     public struct Av1QvbrSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within av1Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
         public let qvbrQualityLevel: Int?
         /// Optional. Specify a value here to set the QVBR quality to a level that is between whole numbers. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33. MediaConvert rounds your QVBR quality level to the nearest third of a whole number. For example, if you set qvbrQualityLevel to 7 and you set qvbrQualityLevelFineTune to .25, your actual QVBR quality level is 7.33.
@@ -2788,12 +2805,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
     public struct Av1Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to Spatial adaptive quantization (spatialAdaptiveQuantization).
         public let adaptiveQuantization: Av1AdaptiveQuantization?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
@@ -2835,11 +2853,11 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, max: 15)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 7)
@@ -2849,22 +2867,23 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case maxBitrate
-            case numberBFramesBetweenReferenceFrames
-            case qvbrSettings
-            case rateControlMode
-            case slices
-            case spatialAdaptiveQuantization
+            case adaptiveQuantization = "adaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case maxBitrate = "maxBitrate"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case slices = "slices"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
         }
     }
 
     public struct AvailBlanking: AWSEncodableShape & AWSDecodableShape {
+
         /// Blanking image to be used. Leave empty for solid black. Only bmp and png images are supported.
         public let availBlankingImage: String?
 
@@ -2878,11 +2897,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availBlankingImage
+            case availBlankingImage = "availBlankingImage"
         }
     }
 
     public struct AvcIntraSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the AVC-Intra class of your output. The AVC-Intra class selection determines the output video bit rate depending on the frame rate of the output. Outputs with higher class values have higher bitrates and improved image quality.
         public let avcIntraClass: AvcIntraClass?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
@@ -2919,18 +2939,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case avcIntraClass
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case slowPal
-            case telecine
+            case avcIntraClass = "avcIntraClass"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
         }
     }
 
     public struct BurninDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: BurninSubtitleAlignment?
         /// Specifies the color of the rectangle behind the captions.
@@ -3003,34 +3024,34 @@ extension MediaConvert {
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2147483648)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2147483648)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2147483647)
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case backgroundColor
-            case backgroundOpacity
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontScript
-            case fontSize
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case teletextSpacing
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontScript = "fontScript"
+            case fontSize = "fontSize"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case teletextSpacing = "teletextSpacing"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
@@ -3050,10 +3071,15 @@ extension MediaConvert {
     }
 
     public struct CancelJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CaptionDescription: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies which "Caption Selector":#inputs-caption_selector to use from each input when generating captions. The name should be of the format "Caption Selector ", which denotes that the Nth Caption Selector will be used from each input.
         public let captionSelectorName: String?
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
@@ -3080,15 +3106,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionSelectorName
-            case customLanguageCode
-            case destinationSettings
-            case languageCode
-            case languageDescription
+            case captionSelectorName = "captionSelectorName"
+            case customLanguageCode = "customLanguageCode"
+            case destinationSettings = "destinationSettings"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
     public struct CaptionDescriptionPreset: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the language for this captions output track. For most captions output formats, the encoder puts this language information in the output captions metadata. If your output captions format is DVB-Sub or Burn in, the encoder uses this language information when automatically selecting the font script for rendering the captions text. For all outputs, you can use an ISO 639-2 or ISO 639-3 code. For streaming outputs, you can also use any other code in the full RFC-5646 specification. Streaming outputs are those that are in one of the following output groups: CMAF, DASH ISO, Apple HLS, or Microsoft Smooth Streaming.
         public let customLanguageCode: String?
         /// Specific settings required by destination type. Note that burnin_destination_settings are not available if the source of the caption data is Embedded or Teletext.
@@ -3111,14 +3138,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customLanguageCode
-            case destinationSettings
-            case languageCode
-            case languageDescription
+            case customLanguageCode = "customLanguageCode"
+            case destinationSettings = "destinationSettings"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
     public struct CaptionDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Burn-In Destination Settings.
         public let burninDestinationSettings: BurninDestinationSettings?
         /// Specify the format for this set of captions on this output. The default format is embedded without SCTE-20. Other options are embedded with SCTE-20, burn-in, DVB-sub, IMSC, SCC, SRT, teletext, TTML, and web-VTT. If you are using SCTE-20, choose SCTE-20 plus embedded (SCTE20_PLUS_EMBEDDED) to create an output that complies with the SCTE-43 spec. To create a non-compliant output where the embedded captions come first, choose Embedded plus SCTE-20 (EMBEDDED_PLUS_SCTE20).
@@ -3155,18 +3183,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case burninDestinationSettings
-            case destinationType
-            case dvbSubDestinationSettings
-            case embeddedDestinationSettings
-            case imscDestinationSettings
-            case sccDestinationSettings
-            case teletextDestinationSettings
-            case ttmlDestinationSettings
+            case burninDestinationSettings = "burninDestinationSettings"
+            case destinationType = "destinationType"
+            case dvbSubDestinationSettings = "dvbSubDestinationSettings"
+            case embeddedDestinationSettings = "embeddedDestinationSettings"
+            case imscDestinationSettings = "imscDestinationSettings"
+            case sccDestinationSettings = "sccDestinationSettings"
+            case teletextDestinationSettings = "teletextDestinationSettings"
+            case ttmlDestinationSettings = "ttmlDestinationSettings"
         }
     }
 
     public struct CaptionSelector: AWSEncodableShape & AWSDecodableShape {
+
         /// The specific language to extract from source, using the ISO 639-2 or ISO 639-3 three-letter language code. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
         public let customLanguageCode: String?
         /// The specific language to extract from source. If input is SCTE-27, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub and output is Burn-in or SMPTE-TT, complete this field and/or PID to select the caption language to extract. If input is DVB-Sub that is being passed through, omit this field (and PID field); there is no way to extract a specific language with pass-through captions.
@@ -3188,13 +3217,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customLanguageCode
-            case languageCode
-            case sourceSettings
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case sourceSettings = "sourceSettings"
         }
     }
 
     public struct CaptionSourceFramerate: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the denominator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate numerator (framerateNumerator).
         public let framerateDenominator: Int?
         /// Specify the numerator of the fraction that represents the frame rate for the setting Caption source frame rate (CaptionSourceFramerate). Use this setting along with the setting Framerate denominator (framerateDenominator).
@@ -3213,12 +3243,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
         }
     }
 
     public struct CaptionSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Settings for ancillary captions source.
         public let ancillarySourceSettings: AncillarySourceSettings?
         /// DVB Sub Source Settings
@@ -3254,17 +3285,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ancillarySourceSettings
-            case dvbSubSourceSettings
-            case embeddedSourceSettings
-            case fileSourceSettings
-            case sourceType
-            case teletextSourceSettings
-            case trackSourceSettings
+            case ancillarySourceSettings = "ancillarySourceSettings"
+            case dvbSubSourceSettings = "dvbSubSourceSettings"
+            case embeddedSourceSettings = "embeddedSourceSettings"
+            case fileSourceSettings = "fileSourceSettings"
+            case sourceType = "sourceType"
+            case teletextSourceSettings = "teletextSourceSettings"
+            case trackSourceSettings = "trackSourceSettings"
         }
     }
 
     public struct ChannelMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// List of output channels
         public let outputChannels: [OutputChannelMapping]?
 
@@ -3279,11 +3311,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputChannels
+            case outputChannels = "outputChannels"
         }
     }
 
     public struct CmafAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public let manifestNameModifier: String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -3302,12 +3335,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
     public struct CmafEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
         /// Specify the encryption scheme that you want the service to use when encrypting your CMAF segments. Choose AES-CBC subsample (SAMPLE-AES) or AES_CTR (AES-CTR).
@@ -3339,16 +3373,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case encryptionMethod
-            case initializationVectorInManifest
-            case spekeKeyProvider
-            case staticKeyProvider
-            case `type`
+            case constantInitializationVector = "constantInitializationVector"
+            case encryptionMethod = "encryptionMethod"
+            case initializationVectorInManifest = "initializationVectorInManifest"
+            case spekeKeyProvider = "spekeKeyProvider"
+            case staticKeyProvider = "staticKeyProvider"
+            case `type` = "type"
         }
     }
 
     public struct CmafGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// By default, the service creates one top-level .m3u8 HLS manifest and one top -level .mpd DASH manifest for each CMAF output group in your job. These default manifests reference every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here. For each additional manifest that you specify, the service creates one HLS manifest and one DASH manifest.
         public let additionalManifests: [CmafAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
@@ -3417,38 +3452,39 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
-            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
+            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2147483647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case baseUrl
-            case clientCache
-            case codecSpecification
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case manifestCompression
-            case manifestDurationFormat
-            case minBufferTime
-            case minFinalSegmentLength
-            case mpdProfile
-            case segmentControl
-            case segmentLength
-            case streamInfResolution
-            case writeDashManifest
-            case writeHlsManifest
-            case writeSegmentTimelineInRepresentation
+            case additionalManifests = "additionalManifests"
+            case baseUrl = "baseUrl"
+            case clientCache = "clientCache"
+            case codecSpecification = "codecSpecification"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case manifestCompression = "manifestCompression"
+            case manifestDurationFormat = "manifestDurationFormat"
+            case minBufferTime = "minBufferTime"
+            case minFinalSegmentLength = "minFinalSegmentLength"
+            case mpdProfile = "mpdProfile"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case streamInfResolution = "streamInfResolution"
+            case writeDashManifest = "writeDashManifest"
+            case writeHlsManifest = "writeHlsManifest"
+            case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
         }
     }
 
     public struct CmfcSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
@@ -3460,12 +3496,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scte35Esam
-            case scte35Source
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
         }
     }
 
     public struct ColorCorrector: AWSEncodableShape & AWSDecodableShape {
+
         /// Brightness level.
         public let brightness: Int?
         /// Specify the color space you want for this output. The service supports conversion between HDR formats, between SDR formats, from SDR to HDR, and from HDR to SDR. SDR to HDR conversion doesn't upgrade the dynamic range. The converted video has an HDR format, but visually appears the same as an unconverted output. HDR to SDR conversion uses Elemental tone mapping technology to approximate the outcome of manually regrading from HDR to SDR.
@@ -3501,16 +3538,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case brightness
-            case colorSpaceConversion
-            case contrast
-            case hdr10Metadata
-            case hue
-            case saturation
+            case brightness = "brightness"
+            case colorSpaceConversion = "colorSpaceConversion"
+            case contrast = "contrast"
+            case hdr10Metadata = "hdr10Metadata"
+            case hue = "hue"
+            case saturation = "saturation"
         }
     }
 
     public struct ContainerSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Settings for MP4 segments in CMAF
         public let cmfcSettings: CmfcSettings?
         /// Container for this output. Some containers require a container settings object. If not specified, the default object will be created.
@@ -3549,19 +3587,20 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cmfcSettings
-            case container
-            case f4vSettings
-            case m2tsSettings
-            case m3u8Settings
-            case movSettings
-            case mp4Settings
-            case mpdSettings
-            case mxfSettings
+            case cmfcSettings = "cmfcSettings"
+            case container = "container"
+            case f4vSettings = "f4vSettings"
+            case m2tsSettings = "m2tsSettings"
+            case m3u8Settings = "m3u8Settings"
+            case movSettings = "movSettings"
+            case mp4Settings = "mp4Settings"
+            case mpdSettings = "mpdSettings"
+            case mxfSettings = "mxfSettings"
         }
     }
 
     public struct CreateJobRequest: AWSEncodableShape {
+
         /// Optional. Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
         /// Optional. Choose a tag type that AWS Billing and Cost Management will use to sort your AWS Elemental MediaConvert costs on any billing report that you set up. Any transcoding outputs that don't have an associated tag will appear in your billing report unsorted. If you don't choose a valid value for this field, your job outputs will appear on the billing report unsorted.
@@ -3615,23 +3654,24 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case billingTagsSource
-            case clientRequestToken
-            case hopDestinations
-            case jobTemplate
-            case priority
-            case queue
-            case role
-            case settings
-            case simulateReservedQueue
-            case statusUpdateInterval
-            case tags
-            case userMetadata
+            case accelerationSettings = "accelerationSettings"
+            case billingTagsSource = "billingTagsSource"
+            case clientRequestToken = "clientRequestToken"
+            case hopDestinations = "hopDestinations"
+            case jobTemplate = "jobTemplate"
+            case priority = "priority"
+            case queue = "queue"
+            case role = "role"
+            case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case tags = "tags"
+            case userMetadata = "userMetadata"
         }
     }
 
     public struct CreateJobResponse: AWSDecodableShape {
+
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
 
@@ -3640,11 +3680,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct CreateJobTemplateRequest: AWSEncodableShape {
+
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content. Outputs that use this feature incur pro-tier pricing. For information about feature limitations, see the AWS Elemental MediaConvert User Guide.
         public let accelerationSettings: AccelerationSettings?
         /// Optional. A category for the job template you are creating
@@ -3689,20 +3730,21 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case category
-            case description
-            case hopDestinations
-            case name
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
-            case tags
+            case accelerationSettings = "accelerationSettings"
+            case category = "category"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case name = "name"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case tags = "tags"
         }
     }
 
     public struct CreateJobTemplateResponse: AWSDecodableShape {
+
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
 
@@ -3711,11 +3753,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
     public struct CreatePresetRequest: AWSEncodableShape {
+
         /// Optional. A category for the preset you are creating.
         public let category: String?
         /// Optional. A description of the preset you are creating.
@@ -3740,15 +3783,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case name
-            case settings
-            case tags
+            case category = "category"
+            case description = "description"
+            case name = "name"
+            case settings = "settings"
+            case tags = "tags"
         }
     }
 
     public struct CreatePresetResponse: AWSDecodableShape {
+
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
 
@@ -3757,11 +3801,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
     public struct CreateQueueRequest: AWSEncodableShape {
+
         /// Optional. A description of the queue that you are creating.
         public let description: String?
         /// The name of the queue that you are creating.
@@ -3785,16 +3830,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
-            case pricingPlan
-            case reservationPlanSettings
-            case status
-            case tags
+            case description = "description"
+            case name = "name"
+            case pricingPlan = "pricingPlan"
+            case reservationPlanSettings = "reservationPlanSettings"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct CreateQueueResponse: AWSDecodableShape {
+
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
 
@@ -3803,11 +3849,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
     public struct DashAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your DASH group is film-name.mpd. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.mpd.
         public let manifestNameModifier: String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -3826,12 +3873,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
     public struct DashIsoEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// This setting can improve the compatibility of your output with video players on obsolete devices. It applies only to DASH H.264 outputs with DRM encryption. Choose Unencrypted SEI (UNENCRYPTED_SEI) only to correct problems with playback on older devices. Otherwise, keep the default setting CENC v1 (CENC_V1). If you choose Unencrypted SEI, for that output, the service will exclude the access unit delimiter and will leave the SEI NAL units unencrypted.
         public let playbackDeviceCompatibility: DashIsoPlaybackDeviceCompatibility?
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
@@ -3847,12 +3895,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case playbackDeviceCompatibility
-            case spekeKeyProvider
+            case playbackDeviceCompatibility = "playbackDeviceCompatibility"
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
     public struct DashIsoGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// By default, the service creates one .mpd DASH manifest for each DASH ISO output group in your job. This default manifest references every output in the output group. To create additional DASH manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [DashAdditionalManifest]?
         /// A partial URI prefix that will be put in the manifest (.mpd) file at the top level BaseURL element. Can be used if streams are delivered from a different URL than the manifest file.
@@ -3900,31 +3949,32 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
-            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2_147_483_647)
+            try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, max: 2147483647)
             try self.validate(self.minBufferTime, name: "minBufferTime", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case baseUrl
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case hbbtvCompliance
-            case minBufferTime
-            case mpdProfile
-            case segmentControl
-            case segmentLength
-            case writeSegmentTimelineInRepresentation
+            case additionalManifests = "additionalManifests"
+            case baseUrl = "baseUrl"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case hbbtvCompliance = "hbbtvCompliance"
+            case minBufferTime = "minBufferTime"
+            case mpdProfile = "mpdProfile"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case writeSegmentTimelineInRepresentation = "writeSegmentTimelineInRepresentation"
         }
     }
 
     public struct Deinterlacer: AWSEncodableShape & AWSDecodableShape {
+
         /// Only applies when you set Deinterlacer (DeinterlaceMode) to Deinterlace (DEINTERLACE) or Adaptive (ADAPTIVE). Motion adaptive interpolate (INTERPOLATE) produces sharper pictures, while blend (BLEND) produces smoother motion. Use (INTERPOLATE_TICKER) OR (BLEND_TICKER) if your source file includes a ticker, such as a scrolling headline at the bottom of the frame.
         public let algorithm: DeinterlaceAlgorithm?
         /// - When set to NORMAL (default), the deinterlacer does not convert frames that are tagged  in metadata as progressive. It will only convert those that are tagged as some other type. - When set to FORCE_ALL_FRAMES, the deinterlacer converts every frame to progressive - even those that are already tagged as progressive. Turn Force mode on only if there is  a good chance that the metadata has tagged frames as progressive when they are not  progressive. Do not turn on otherwise; processing frames that are already progressive  into progressive will probably result in lower quality video.
@@ -3939,9 +3989,9 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case control
-            case mode
+            case algorithm = "algorithm"
+            case control = "control"
+            case mode = "mode"
         }
     }
 
@@ -3961,7 +4011,11 @@ extension MediaConvert {
     }
 
     public struct DeleteJobTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeletePresetRequest: AWSEncodableShape {
@@ -3980,7 +4034,11 @@ extension MediaConvert {
     }
 
     public struct DeletePresetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteQueueRequest: AWSEncodableShape {
@@ -3999,10 +4057,15 @@ extension MediaConvert {
     }
 
     public struct DeleteQueueResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeEndpointsRequest: AWSEncodableShape {
+
         /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
         public let maxResults: Int?
         /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
@@ -4017,13 +4080,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case mode
-            case nextToken
+            case maxResults = "maxResults"
+            case mode = "mode"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEndpointsResponse: AWSDecodableShape {
+
         /// List of endpoints
         public let endpoints: [Endpoint]?
         /// Use this string to request the next batch of endpoints.
@@ -4035,12 +4099,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endpoints
-            case nextToken
+            case endpoints = "endpoints"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Settings associated with S3 destination
         public let s3Settings: S3DestinationSettings?
 
@@ -4053,7 +4118,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Settings
+            case s3Settings = "s3Settings"
         }
     }
 
@@ -4073,10 +4138,15 @@ extension MediaConvert {
     }
 
     public struct DisassociateCertificateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DolbyVision: AWSEncodableShape & AWSDecodableShape {
+
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
         public let l6Metadata: DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
@@ -4095,13 +4165,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case l6Metadata
-            case l6Mode
-            case profile
+            case l6Metadata = "l6Metadata"
+            case l6Mode = "l6Mode"
+            case profile = "profile"
         }
     }
 
     public struct DolbyVisionLevel6Metadata: AWSEncodableShape & AWSDecodableShape {
+
         /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
         public let maxCll: Int?
         /// Maximum Frame-Average Light Level. Static HDR metadata that corresponds to the highest frame-average brightness in the entire stream. Measured in nits.
@@ -4120,12 +4191,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxCll
-            case maxFall
+            case maxCll = "maxCll"
+            case maxFall = "maxFall"
         }
     }
 
     public struct DvbNitSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The numeric value placed in the Network Information Table (NIT).
         public let networkId: Int?
         /// The network name text placed in the network_name_descriptor inside the Network Information Table. Maximum length is 256 characters.
@@ -4149,13 +4221,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkId
-            case networkName
-            case nitInterval
+            case networkId = "networkId"
+            case networkName = "networkName"
+            case nitInterval = "nitInterval"
         }
     }
 
     public struct DvbSdtSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Selects method of inserting SDT information into output stream.  "Follow input SDT" copies SDT information from input stream to  output stream. "Follow input SDT if present" copies SDT information from  input stream to output stream if SDT information is present in the input, otherwise it will fall back on the user-defined values. Enter "SDT  Manually" means user will enter the SDT information. "No SDT" means output  stream will not contain SDT information.
         public let outputSdt: OutputSdt?
         /// The number of milliseconds between instances of this table in the output transport stream.
@@ -4182,14 +4255,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputSdt
-            case sdtInterval
-            case serviceName
-            case serviceProviderName
+            case outputSdt = "outputSdt"
+            case sdtInterval = "sdtInterval"
+            case serviceName = "serviceName"
+            case serviceProviderName = "serviceProviderName"
         }
     }
 
     public struct DvbSubDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// If no explicit x_position or y_position is provided, setting alignment to centered will place the captions at the bottom center of the output. Similarly, setting a left alignment will align captions to the bottom left of the output. If x and y positions are given in conjunction with the alignment parameter, the font will be justified (either left or centered) relative to those coordinates. This option is not valid for source captions that are STL, 608/embedded or teletext. These source settings are already pre-defined by the caption stream. All burn-in and DVB-Sub font settings must match.
         public let alignment: DvbSubtitleAlignment?
         /// Specifies the color of the rectangle behind the captions.
@@ -4265,39 +4339,40 @@ extension MediaConvert {
             try self.validate(self.outlineSize, name: "outlineSize", parent: name, min: 0)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, max: 255)
             try self.validate(self.shadowOpacity, name: "shadowOpacity", parent: name, min: 0)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2_147_483_647)
-            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2_147_483_648)
-            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowXOffset, name: "shadowXOffset", parent: name, min: -2147483648)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, max: 2147483647)
+            try self.validate(self.shadowYOffset, name: "shadowYOffset", parent: name, min: -2147483648)
+            try self.validate(self.xPosition, name: "xPosition", parent: name, max: 2147483647)
             try self.validate(self.xPosition, name: "xPosition", parent: name, min: 0)
-            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2_147_483_647)
+            try self.validate(self.yPosition, name: "yPosition", parent: name, max: 2147483647)
             try self.validate(self.yPosition, name: "yPosition", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alignment
-            case backgroundColor
-            case backgroundOpacity
-            case fontColor
-            case fontOpacity
-            case fontResolution
-            case fontScript
-            case fontSize
-            case outlineColor
-            case outlineSize
-            case shadowColor
-            case shadowOpacity
-            case shadowXOffset
-            case shadowYOffset
-            case subtitlingType
-            case teletextSpacing
-            case xPosition
-            case yPosition
+            case alignment = "alignment"
+            case backgroundColor = "backgroundColor"
+            case backgroundOpacity = "backgroundOpacity"
+            case fontColor = "fontColor"
+            case fontOpacity = "fontOpacity"
+            case fontResolution = "fontResolution"
+            case fontScript = "fontScript"
+            case fontSize = "fontSize"
+            case outlineColor = "outlineColor"
+            case outlineSize = "outlineSize"
+            case shadowColor = "shadowColor"
+            case shadowOpacity = "shadowOpacity"
+            case shadowXOffset = "shadowXOffset"
+            case shadowYOffset = "shadowYOffset"
+            case subtitlingType = "subtitlingType"
+            case teletextSpacing = "teletextSpacing"
+            case xPosition = "xPosition"
+            case yPosition = "yPosition"
         }
     }
 
     public struct DvbSubSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// When using DVB-Sub with Burn-In or SMPTE-TT, use this PID for the source content. Unused for DVB-Sub passthrough. All DVB-Sub content is passed through, regardless of selectors.
         public let pid: Int?
 
@@ -4306,16 +4381,17 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pid, name: "pid", parent: name, max: 2_147_483_647)
+            try self.validate(self.pid, name: "pid", parent: name, max: 2147483647)
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pid
+            case pid = "pid"
         }
     }
 
     public struct DvbTdtSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of milliseconds between instances of this table in the output transport stream.
         public let tdtInterval: Int?
 
@@ -4329,11 +4405,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tdtInterval
+            case tdtInterval = "tdtInterval"
         }
     }
 
     public struct Eac3AtmosSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the average bitrate in bits per second.
         /// Valid values: 384k, 448k, 640k, 768k
         public let bitrate: Int?
@@ -4388,8 +4465,8 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 768_000)
-            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 384_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 768000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, min: 384000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 48000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 48000)
             try self.validate(self.speechThreshold, name: "speechThreshold", parent: name, max: 100)
@@ -4397,25 +4474,26 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dialogueIntelligence
-            case dynamicRangeCompressionLine
-            case dynamicRangeCompressionRf
-            case loRoCenterMixLevel
-            case loRoSurroundMixLevel
-            case ltRtCenterMixLevel
-            case ltRtSurroundMixLevel
-            case meteringMode
-            case sampleRate
-            case speechThreshold
-            case stereoDownmix
-            case surroundExMode
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dialogueIntelligence = "dialogueIntelligence"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case meteringMode = "meteringMode"
+            case sampleRate = "sampleRate"
+            case speechThreshold = "speechThreshold"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
         }
     }
 
     public struct Eac3Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// If set to ATTENUATE_3_DB, applies a 3 dB attenuation to the surround channels. Only used for 3/2 coding mode.
         public let attenuationControl: Eac3AttenuationControl?
         /// Specify the average bitrate in bits per second. Valid bitrates depend on the coding mode.
@@ -4484,7 +4562,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 640000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 64000)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, max: 31)
             try self.validate(self.dialnorm, name: "dialnorm", parent: name, min: 1)
@@ -4493,31 +4571,32 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attenuationControl
-            case bitrate
-            case bitstreamMode
-            case codingMode
-            case dcFilter
-            case dialnorm
-            case dynamicRangeCompressionLine
-            case dynamicRangeCompressionRf
-            case lfeControl
-            case lfeFilter
-            case loRoCenterMixLevel
-            case loRoSurroundMixLevel
-            case ltRtCenterMixLevel
-            case ltRtSurroundMixLevel
-            case metadataControl
-            case passthroughControl
-            case phaseControl
-            case sampleRate
-            case stereoDownmix
-            case surroundExMode
-            case surroundMode
+            case attenuationControl = "attenuationControl"
+            case bitrate = "bitrate"
+            case bitstreamMode = "bitstreamMode"
+            case codingMode = "codingMode"
+            case dcFilter = "dcFilter"
+            case dialnorm = "dialnorm"
+            case dynamicRangeCompressionLine = "dynamicRangeCompressionLine"
+            case dynamicRangeCompressionRf = "dynamicRangeCompressionRf"
+            case lfeControl = "lfeControl"
+            case lfeFilter = "lfeFilter"
+            case loRoCenterMixLevel = "loRoCenterMixLevel"
+            case loRoSurroundMixLevel = "loRoSurroundMixLevel"
+            case ltRtCenterMixLevel = "ltRtCenterMixLevel"
+            case ltRtSurroundMixLevel = "ltRtSurroundMixLevel"
+            case metadataControl = "metadataControl"
+            case passthroughControl = "passthroughControl"
+            case phaseControl = "phaseControl"
+            case sampleRate = "sampleRate"
+            case stereoDownmix = "stereoDownmix"
+            case surroundExMode = "surroundExMode"
+            case surroundMode = "surroundMode"
         }
     }
 
     public struct EmbeddedDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Ignore this setting unless your input captions are SCC format and your output captions are embedded in the video stream. Specify a CC number for each captions channel in this output. If you have two channels, choose CC numbers that aren't in the same field. For example, choose 1 and 3. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
         public let destination608ChannelNumber: Int?
         /// Ignore this setting unless your input captions are SCC format and you want both 608 and 708 captions embedded in your output stream. Optionally, specify the 708 service number for each output captions channel. Choose a different number for each channel. To use this setting, also set Force 608 to 708 upconvert (Convert608To708) to Upconvert (UPCONVERT) in your input captions selector settings. If you choose to upconvert but don't specify a 708 service number, MediaConvert uses the number that you specify for CC channel number (destination608ChannelNumber) for the 708 service number. For more information, see https://docs.aws.amazon.com/console/mediaconvert/dual-scc-to-embedded.
@@ -4536,12 +4615,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination608ChannelNumber
-            case destination708ServiceNumber
+            case destination608ChannelNumber = "destination608ChannelNumber"
+            case destination708ServiceNumber = "destination708ServiceNumber"
         }
     }
 
     public struct EmbeddedSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: EmbeddedConvert608To708?
         /// Specifies the 608/708 channel number within the video track from which to extract captions. Unused for passthrough.
@@ -4566,14 +4646,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case source608ChannelNumber
-            case source608TrackNumber
-            case terminateCaptions
+            case convert608To708 = "convert608To708"
+            case source608ChannelNumber = "source608ChannelNumber"
+            case source608TrackNumber = "source608TrackNumber"
+            case terminateCaptions = "terminateCaptions"
         }
     }
 
     public struct Endpoint: AWSDecodableShape {
+
         /// URL of endpoint
         public let url: String?
 
@@ -4582,11 +4663,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case url
+            case url = "url"
         }
     }
 
     public struct EsamManifestConfirmConditionNotification: AWSEncodableShape & AWSDecodableShape {
+
         /// Provide your ESAM ManifestConfirmConditionNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the Manifest Conditioning instructions in the message that you supply.
         public let mccXml: String?
 
@@ -4599,11 +4681,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mccXml
+            case mccXml = "mccXml"
         }
     }
 
     public struct EsamSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies an ESAM ManifestConfirmConditionNotification XML as per OC-SP-ESAM-API-I03-131025. The transcoder uses the manifest conditioning instructions that you provide in the setting MCC XML (mccXml).
         public let manifestConfirmConditionNotification: EsamManifestConfirmConditionNotification?
         /// Specifies the stream distance, in milliseconds, between the SCTE 35 messages that the transcoder places and the splice points that they refer to. If the time between the start of the asset and the SCTE-35 message is less than this value, then the transcoder places the SCTE-35 marker at the beginning of the stream.
@@ -4625,13 +4708,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestConfirmConditionNotification
-            case responseSignalPreroll
-            case signalProcessingNotification
+            case manifestConfirmConditionNotification = "manifestConfirmConditionNotification"
+            case responseSignalPreroll = "responseSignalPreroll"
+            case signalProcessingNotification = "signalProcessingNotification"
         }
     }
 
     public struct EsamSignalProcessingNotification: AWSEncodableShape & AWSDecodableShape {
+
         /// Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. Form the XML document as per OC-SP-ESAM-API-I03-131025. The transcoder will use the signal processing instructions in the message that you supply. Provide your ESAM SignalProcessingNotification XML document inside your JSON job settings. For your MPEG2-TS file outputs, if you want the service to place SCTE-35 markers at the insertion points you specify in the XML document, you must also enable SCTE-35 ESAM (scte35Esam). Note that you can either specify an ESAM XML document or enable SCTE-35 passthrough. You can't do both.
         public let sccXml: String?
 
@@ -4644,11 +4728,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sccXml
+            case sccXml = "sccXml"
         }
     }
 
     public struct F4vSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// If set to PROGRESSIVE_DOWNLOAD, the MOOV atom is relocated to the beginning of the archive as required for progressive downloading. Otherwise it is placed normally at the end.
         public let moovPlacement: F4vMoovPlacement?
 
@@ -4657,11 +4742,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case moovPlacement
+            case moovPlacement = "moovPlacement"
         }
     }
 
     public struct FileGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Destination (Destination) to specify the S3 output location and the output filename base. Destination accepts format identifiers. If you do not specify the base filename in the URI, the service will use the filename of the input file. If your job has multiple inputs, the service uses the filename of the first input file.
         public let destination: String?
         /// Settings associated with the destination. Will vary based on the type of destination
@@ -4678,12 +4764,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destination
-            case destinationSettings
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
         }
     }
 
     public struct FileSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify whether this set of input captions appears in your outputs in both 608 and 708 format. If you choose Upconvert (UPCONVERT), MediaConvert includes the captions data in two ways: it passes the 608 data through using the 608 compatibility bytes fields of the 708 wrapper, and it also translates the 608 data into 708.
         public let convert608To708: FileSourceConvert608To708?
         /// Ignore this setting unless your input captions format is SCC. To have the service compensate for differing frame rates between your input captions and input video, specify the frame rate of the captions file. Specify this value as a fraction, using the settings Framerate numerator (framerateNumerator) and Framerate denominator (framerateDenominator). For example, you might specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps, or 30000 / 1001 for 29.97 fps.
@@ -4704,19 +4791,20 @@ extension MediaConvert {
             try self.framerate?.validate(name: "\(name).framerate")
             try self.validate(self.sourceFile, name: "sourceFile", parent: name, min: 14)
             try self.validate(self.sourceFile, name: "sourceFile", parent: name, pattern: "^((s3://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI))|(https?://(.*?)\\.(scc|SCC|ttml|TTML|dfxp|DFXP|stl|STL|srt|SRT|xml|XML|smi|SMI)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.timeDelta, name: "timeDelta", parent: name, max: 2_147_483_647)
-            try self.validate(self.timeDelta, name: "timeDelta", parent: name, min: -2_147_483_648)
+            try self.validate(self.timeDelta, name: "timeDelta", parent: name, max: 2147483647)
+            try self.validate(self.timeDelta, name: "timeDelta", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case convert608To708
-            case framerate
-            case sourceFile
-            case timeDelta
+            case convert608To708 = "convert608To708"
+            case framerate = "framerate"
+            case sourceFile = "sourceFile"
+            case timeDelta = "timeDelta"
         }
     }
 
     public struct FrameCaptureSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.n.jpg where n is the 0-based sequence number of each Capture.
         public let framerateDenominator: Int?
         /// Frame capture will encode the first frame of the output stream, then one frame every framerateDenominator/framerateNumerator seconds. For example, settings of framerateNumerator = 1 and framerateDenominator = 3 (a rate of 1/3 frame per second) will capture the first frame, then 1 frame every 3s. Files will be named as filename.NNNNNNN.jpg where N is the 0-based frame sequence number zero padded to 7 decimal places.
@@ -4734,21 +4822,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, max: 10_000_000)
+            try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, max: 10000000)
             try self.validate(self.maxCaptures, name: "maxCaptures", parent: name, min: 1)
             try self.validate(self.quality, name: "quality", parent: name, max: 100)
             try self.validate(self.quality, name: "quality", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
-            case maxCaptures
-            case quality
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case maxCaptures = "maxCaptures"
+            case quality = "quality"
         }
     }
 
@@ -4768,6 +4856,7 @@ extension MediaConvert {
     }
 
     public struct GetJobResponse: AWSDecodableShape {
+
         /// Each job converts an input file into an output file or files. For more information, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
         public let job: Job?
 
@@ -4776,7 +4865,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
@@ -4796,6 +4885,7 @@ extension MediaConvert {
     }
 
     public struct GetJobTemplateResponse: AWSDecodableShape {
+
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
 
@@ -4804,7 +4894,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -4824,6 +4914,7 @@ extension MediaConvert {
     }
 
     public struct GetPresetResponse: AWSDecodableShape {
+
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
 
@@ -4832,7 +4923,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
@@ -4852,6 +4943,7 @@ extension MediaConvert {
     }
 
     public struct GetQueueResponse: AWSDecodableShape {
+
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
 
@@ -4860,11 +4952,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
     public struct H264QvbrSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h264Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
@@ -4879,20 +4972,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, min: 1000)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAverageBitrate
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case maxAverageBitrate = "maxAverageBitrate"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
     public struct H264Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
         public let adaptiveQuantization: H264AdaptiveQuantization?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
@@ -5015,19 +5109,19 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_152_000_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1152000000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
@@ -5035,9 +5129,9 @@ extension MediaConvert {
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, max: 6)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
@@ -5047,49 +5141,50 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case entropyEncoding
-            case fieldEncoding
-            case flickerAdaptiveQuantization
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopBReference
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case numberReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case qvbrSettings
-            case rateControlMode
-            case repeatPps
-            case sceneChangeDetect
-            case slices
-            case slowPal
-            case softness
-            case spatialAdaptiveQuantization
-            case syntax
-            case telecine
-            case temporalAdaptiveQuantization
-            case unregisteredSeiTimecode
+            case adaptiveQuantization = "adaptiveQuantization"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case entropyEncoding = "entropyEncoding"
+            case fieldEncoding = "fieldEncoding"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case numberReferenceFrames = "numberReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case repeatPps = "repeatPps"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case slowPal = "slowPal"
+            case softness = "softness"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case syntax = "syntax"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
+            case unregisteredSeiTimecode = "unregisteredSeiTimecode"
         }
     }
 
     public struct H265QvbrSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this setting only when Rate control mode is QVBR and Quality tuning level is Multi-pass HQ. For Max average bitrate values suited to the complexity of your input video, the service limits the average bitrate of the video part of this output to the value that you choose. That is, the total size of the video element is less than or equal to the value you set multiplied by the number of seconds of encoded output.
         public let maxAverageBitrate: Int?
         /// Required when you use QVBR rate control mode. That is, when you specify qvbrSettings within h265Settings. Specify the general target quality level for this output, from 1 to 10. Use higher numbers for greater quality. Level 10 results in nearly lossless compression. The quality level for most broadcast-quality transcodes is between 6 and 9. Optionally, to specify a value between whole numbers, also provide a value for the setting qvbrQualityLevelFineTune. For example, if you want your QVBR quality level to be 7.33, set qvbrQualityLevel to 7 and set qvbrQualityLevelFineTune to .33.
@@ -5104,20 +5199,21 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, max: 1466400000)
             try self.validate(self.maxAverageBitrate, name: "maxAverageBitrate", parent: name, min: 1000)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, max: 10)
             try self.validate(self.qvbrQualityLevel, name: "qvbrQualityLevel", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxAverageBitrate
-            case qvbrQualityLevel
-            case qvbrQualityLevelFineTune
+            case maxAverageBitrate = "maxAverageBitrate"
+            case qvbrQualityLevel = "qvbrQualityLevel"
+            case qvbrQualityLevelFineTune = "qvbrQualityLevelFineTune"
         }
     }
 
     public struct H265Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Flicker adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
         public let adaptiveQuantization: H265AdaptiveQuantization?
         /// Enables Alternate Transfer Function SEI message for outputs using Hybrid Log Gamma (HLG) Electro-Optical Transfer Function (EOTF).
@@ -5240,19 +5336,19 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1466400000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1_466_400_000)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 1466400000)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_466_400_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1466400000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
@@ -5260,9 +5356,9 @@ extension MediaConvert {
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, max: 6)
             try self.validate(self.numberReferenceFrames, name: "numberReferenceFrames", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.qvbrSettings?.validate(name: "\(name).qvbrSettings")
             try self.validate(self.slices, name: "slices", parent: name, max: 32)
@@ -5270,49 +5366,50 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case alternateTransferFunctionSei
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case flickerAdaptiveQuantization
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopBReference
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case numberReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case qvbrSettings
-            case rateControlMode
-            case sampleAdaptiveOffsetFilterMode
-            case sceneChangeDetect
-            case slices
-            case slowPal
-            case spatialAdaptiveQuantization
-            case telecine
-            case temporalAdaptiveQuantization
-            case temporalIds
-            case tiles
-            case unregisteredSeiTimecode
-            case writeMp4PackagingType
+            case adaptiveQuantization = "adaptiveQuantization"
+            case alternateTransferFunctionSei = "alternateTransferFunctionSei"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case flickerAdaptiveQuantization = "flickerAdaptiveQuantization"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopBReference = "gopBReference"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case numberReferenceFrames = "numberReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case qvbrSettings = "qvbrSettings"
+            case rateControlMode = "rateControlMode"
+            case sampleAdaptiveOffsetFilterMode = "sampleAdaptiveOffsetFilterMode"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slices = "slices"
+            case slowPal = "slowPal"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
+            case temporalIds = "temporalIds"
+            case tiles = "tiles"
+            case unregisteredSeiTimecode = "unregisteredSeiTimecode"
+            case writeMp4PackagingType = "writeMp4PackagingType"
         }
     }
 
     public struct Hdr10Metadata: AWSEncodableShape & AWSDecodableShape {
+
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
         public let bluePrimaryX: Int?
         /// HDR Master Display Information must be provided by a color grader, using color grading tools. Range is 0 to 50,000, each increment represents 0.00002 in CIE1931 color coordinate. Note that this setting is not for color correction.
@@ -5366,9 +5463,9 @@ extension MediaConvert {
             try self.validate(self.maxContentLightLevel, name: "maxContentLightLevel", parent: name, min: 0)
             try self.validate(self.maxFrameAverageLightLevel, name: "maxFrameAverageLightLevel", parent: name, max: 65535)
             try self.validate(self.maxFrameAverageLightLevel, name: "maxFrameAverageLightLevel", parent: name, min: 0)
-            try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, max: 2_147_483_647)
+            try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, max: 2147483647)
             try self.validate(self.maxLuminance, name: "maxLuminance", parent: name, min: 0)
-            try self.validate(self.minLuminance, name: "minLuminance", parent: name, max: 2_147_483_647)
+            try self.validate(self.minLuminance, name: "minLuminance", parent: name, max: 2147483647)
             try self.validate(self.minLuminance, name: "minLuminance", parent: name, min: 0)
             try self.validate(self.redPrimaryX, name: "redPrimaryX", parent: name, max: 50000)
             try self.validate(self.redPrimaryX, name: "redPrimaryX", parent: name, min: 0)
@@ -5381,22 +5478,23 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bluePrimaryX
-            case bluePrimaryY
-            case greenPrimaryX
-            case greenPrimaryY
-            case maxContentLightLevel
-            case maxFrameAverageLightLevel
-            case maxLuminance
-            case minLuminance
-            case redPrimaryX
-            case redPrimaryY
-            case whitePointX
-            case whitePointY
+            case bluePrimaryX = "bluePrimaryX"
+            case bluePrimaryY = "bluePrimaryY"
+            case greenPrimaryX = "greenPrimaryX"
+            case greenPrimaryY = "greenPrimaryY"
+            case maxContentLightLevel = "maxContentLightLevel"
+            case maxFrameAverageLightLevel = "maxFrameAverageLightLevel"
+            case maxLuminance = "maxLuminance"
+            case minLuminance = "minLuminance"
+            case redPrimaryX = "redPrimaryX"
+            case redPrimaryY = "redPrimaryY"
+            case whitePointX = "whitePointX"
+            case whitePointY = "whitePointY"
         }
     }
 
     public struct HlsAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your HLS group is film-name.m3u8. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.m3u8. For HLS output groups, specify a manifestNameModifier that is different from the nameModifier of the output. The service uses the output name modifier to create unique names for the individual variant manifests.
         public let manifestNameModifier: String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -5415,12 +5513,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
     public struct HlsCaptionLanguageMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// Caption channel.
         public let captionChannel: Int?
         /// Specify the language for this captions channel, using the ISO 639-2 or ISO 639-3 three-letter language code
@@ -5438,22 +5537,23 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 2_147_483_647)
-            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: -2_147_483_648)
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, max: 2147483647)
+            try self.validate(self.captionChannel, name: "captionChannel", parent: name, min: -2147483648)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, max: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, min: 3)
             try self.validate(self.customLanguageCode, name: "customLanguageCode", parent: name, pattern: "^[A-Za-z]{3}$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionChannel
-            case customLanguageCode
-            case languageCode
-            case languageDescription
+            case captionChannel = "captionChannel"
+            case customLanguageCode = "customLanguageCode"
+            case languageCode = "languageCode"
+            case languageDescription = "languageDescription"
         }
     }
 
     public struct HlsEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// This is a 128-bit, 16-byte hex value represented by a 32-character text string. If this parameter is not set then the Initialization Vector will follow the segment number by default.
         public let constantInitializationVector: String?
         /// Encrypts the segments with the given encryption scheme. Leave blank to disable. Selecting 'Disabled' in the web interface also disables encryption.
@@ -5488,17 +5588,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case constantInitializationVector
-            case encryptionMethod
-            case initializationVectorInManifest
-            case offlineEncrypted
-            case spekeKeyProvider
-            case staticKeyProvider
-            case `type`
+            case constantInitializationVector = "constantInitializationVector"
+            case encryptionMethod = "encryptionMethod"
+            case initializationVectorInManifest = "initializationVectorInManifest"
+            case offlineEncrypted = "offlineEncrypted"
+            case spekeKeyProvider = "spekeKeyProvider"
+            case staticKeyProvider = "staticKeyProvider"
+            case `type` = "type"
         }
     }
 
     public struct HlsGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// By default, the service creates one top-level .m3u8 HLS manifest for each HLS output group in your job. This default manifest references every output in the output group. To create additional top-level manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [HlsAdditionalManifest]?
         /// Choose one or more ad marker types to decorate your Apple HLS manifest. This setting does not determine whether SCTE-35 markers appear in the outputs themselves.
@@ -5591,51 +5692,52 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, max: 2147483647)
             try self.validate(self.minSegmentLength, name: "minSegmentLength", parent: name, min: 0)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, max: 3600)
             try self.validate(self.programDateTimePeriod, name: "programDateTimePeriod", parent: name, min: 0)
-            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentLength, name: "segmentLength", parent: name, max: 2147483647)
             try self.validate(self.segmentLength, name: "segmentLength", parent: name, min: 1)
-            try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, max: 2_147_483_647)
+            try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, max: 2147483647)
             try self.validate(self.segmentsPerSubdirectory, name: "segmentsPerSubdirectory", parent: name, min: 1)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 2_147_483_647)
-            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: -2_147_483_648)
-            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, max: 2_147_483_647)
-            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: -2_147_483_648)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, max: 2147483647)
+            try self.validate(self.timedMetadataId3Period, name: "timedMetadataId3Period", parent: name, min: -2147483648)
+            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, max: 2147483647)
+            try self.validate(self.timestampDeltaMilliseconds, name: "timestampDeltaMilliseconds", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case adMarkers
-            case audioOnlyHeader
-            case baseUrl
-            case captionLanguageMappings
-            case captionLanguageSetting
-            case clientCache
-            case codecSpecification
-            case destination
-            case destinationSettings
-            case directoryStructure
-            case encryption
-            case manifestCompression
-            case manifestDurationFormat
-            case minFinalSegmentLength
-            case minSegmentLength
-            case outputSelection
-            case programDateTime
-            case programDateTimePeriod
-            case segmentControl
-            case segmentLength
-            case segmentsPerSubdirectory
-            case streamInfResolution
-            case timedMetadataId3Frame
-            case timedMetadataId3Period
-            case timestampDeltaMilliseconds
+            case additionalManifests = "additionalManifests"
+            case adMarkers = "adMarkers"
+            case audioOnlyHeader = "audioOnlyHeader"
+            case baseUrl = "baseUrl"
+            case captionLanguageMappings = "captionLanguageMappings"
+            case captionLanguageSetting = "captionLanguageSetting"
+            case clientCache = "clientCache"
+            case codecSpecification = "codecSpecification"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case directoryStructure = "directoryStructure"
+            case encryption = "encryption"
+            case manifestCompression = "manifestCompression"
+            case manifestDurationFormat = "manifestDurationFormat"
+            case minFinalSegmentLength = "minFinalSegmentLength"
+            case minSegmentLength = "minSegmentLength"
+            case outputSelection = "outputSelection"
+            case programDateTime = "programDateTime"
+            case programDateTimePeriod = "programDateTimePeriod"
+            case segmentControl = "segmentControl"
+            case segmentLength = "segmentLength"
+            case segmentsPerSubdirectory = "segmentsPerSubdirectory"
+            case streamInfResolution = "streamInfResolution"
+            case timedMetadataId3Frame = "timedMetadataId3Frame"
+            case timedMetadataId3Period = "timedMetadataId3Period"
+            case timestampDeltaMilliseconds = "timestampDeltaMilliseconds"
         }
     }
 
     public struct HlsSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the group to which the audio Rendition belongs.
         public let audioGroupId: String?
         /// Use this setting only in audio-only outputs. Choose MPEG-2 Transport Stream (M2TS) to create a file in an MPEG2-TS container. Keep the default value Automatic (AUTOMATIC) to create an audio-only file in a raw container. Regardless of the value that you specify here, if this output has video, the service will place the output into an MPEG2-TS container.
@@ -5659,16 +5761,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioGroupId
-            case audioOnlyContainer
-            case audioRenditionSets
-            case audioTrackType
-            case iFrameOnlyManifest
-            case segmentModifier
+            case audioGroupId = "audioGroupId"
+            case audioOnlyContainer = "audioOnlyContainer"
+            case audioRenditionSets = "audioRenditionSets"
+            case audioTrackType = "audioTrackType"
+            case iFrameOnlyManifest = "iFrameOnlyManifest"
+            case segmentModifier = "segmentModifier"
         }
     }
 
     public struct HopDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. When you set up a job to use queue hopping, you can specify a different relative priority for the job in the destination queue. If you don't specify, the relative priority will remain the same as in the previous queue.
         public let priority: Int?
         /// Optional unless the job is submitted on the default queue. When you set up a job to use queue hopping, you can specify a destination queue. This queue cannot be the original queue to which the job is submitted. If the original queue isn't the default queue and you don't specify the destination queue, the job will move to the default queue.
@@ -5688,13 +5791,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case priority
-            case queue
-            case waitMinutes
+            case priority = "priority"
+            case queue = "queue"
+            case waitMinutes = "waitMinutes"
         }
     }
 
     public struct Id3Insertion: AWSEncodableShape & AWSDecodableShape {
+
         /// Use ID3 tag (Id3) to provide a tag value in base64-encode format.
         public let id3: String?
         /// Provide a Timecode (TimeCode) in HH:MM:SS:FF or HH:MM:SS;FF format.
@@ -5711,12 +5815,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id3
-            case timecode
+            case id3 = "id3"
+            case timecode = "timecode"
         }
     }
 
     public struct ImageInserter: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the images that you want to overlay on your video. The images must be PNG or TGA files.
         public let insertableImages: [InsertableImage]?
 
@@ -5731,11 +5836,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case insertableImages
+            case insertableImages = "insertableImages"
         }
     }
 
     public struct ImscDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Keep this setting enabled to have MediaConvert use the font style and position information from the captions source in the output. This option is available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable this setting for simplified output captions.
         public let stylePassthrough: ImscStylePassthrough?
 
@@ -5744,11 +5850,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stylePassthrough
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
     public struct Input: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
         /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
@@ -5833,7 +5940,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
             try self.position?.validate(name: "\(name).position")
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 1)
             try self.supplementalImps?.forEach {
                 try validate($0, name: "supplementalImps[]", parent: name, pattern: "^s3:\\/\\/.*\\/(ASSETMAP.xml)?$")
@@ -5845,30 +5952,31 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorGroups
-            case audioSelectors
-            case captionSelectors
-            case crop
-            case deblockFilter
-            case decryptionSettings
-            case denoiseFilter
-            case fileInput
-            case filterEnable
-            case filterStrength
-            case imageInserter
-            case inputClippings
-            case inputScanType
-            case position
-            case programNumber
-            case psiControl
-            case supplementalImps
-            case timecodeSource
-            case timecodeStart
-            case videoSelector
+            case audioSelectorGroups = "audioSelectorGroups"
+            case audioSelectors = "audioSelectors"
+            case captionSelectors = "captionSelectors"
+            case crop = "crop"
+            case deblockFilter = "deblockFilter"
+            case decryptionSettings = "decryptionSettings"
+            case denoiseFilter = "denoiseFilter"
+            case fileInput = "fileInput"
+            case filterEnable = "filterEnable"
+            case filterStrength = "filterStrength"
+            case imageInserter = "imageInserter"
+            case inputClippings = "inputClippings"
+            case inputScanType = "inputScanType"
+            case position = "position"
+            case programNumber = "programNumber"
+            case psiControl = "psiControl"
+            case supplementalImps = "supplementalImps"
+            case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
+            case videoSelector = "videoSelector"
         }
     }
 
     public struct InputClipping: AWSEncodableShape & AWSDecodableShape {
+
         /// Set End timecode (EndTimecode) to the end of the portion of the input you are clipping. The frame corresponding to the End timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for timecode source under input settings (InputTimecodeSource). For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to end six minutes into the video, use 01:06:00:00.
         public let endTimecode: String?
         /// Set Start timecode (StartTimecode) to the beginning of the portion of the input you are clipping. The frame corresponding to the Start timecode value is included in the clip. Start timecode or End timecode may be left blank, but not both. Use the format HH:MM:SS:FF or HH:MM:SS;FF, where HH is the hour, MM is the minute, SS is the second, and FF is the frame number. When choosing this value, take into account your setting for Input timecode source. For example, if you have embedded timecodes that start at 01:00:00:00 and you want your clip to begin five minutes into the video, use 01:05:00:00.
@@ -5885,12 +5993,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTimecode
-            case startTimecode
+            case endTimecode = "endTimecode"
+            case startTimecode = "startTimecode"
         }
     }
 
     public struct InputDecryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the encryption mode that you used to encrypt your input files.
         public let decryptionMode: DecryptionMode?
         /// Warning! Don't provide your encryption key in plaintext. Your job settings could be intercepted, making your encrypted content vulnerable. Specify the encrypted version of the data key that you used to encrypt your content. The data key must be encrypted by AWS Key Management Service (KMS). The key can be 128, 192, or 256 bits.
@@ -5920,14 +6029,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryptionMode
-            case encryptedDecryptionKey
-            case initializationVector
-            case kmsKeyRegion
+            case decryptionMode = "decryptionMode"
+            case encryptedDecryptionKey = "encryptedDecryptionKey"
+            case initializationVector = "initializationVector"
+            case kmsKeyRegion = "kmsKeyRegion"
         }
     }
 
     public struct InputTemplate: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies set of audio selectors within an input to combine. An input may have multiple audio selector groups. See "Audio Selector Group":#inputs-audio_selector_group for more information.
         public let audioSelectorGroups: [String: AudioSelectorGroup]?
         /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks from the input that you will use in your outputs. You can use multiple Audio selectors per input.
@@ -6001,7 +6111,7 @@ extension MediaConvert {
                 try $0.validate(name: "\(name).inputClippings[]")
             }
             try self.position?.validate(name: "\(name).position")
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
             try self.validate(self.programNumber, name: "programNumber", parent: name, min: 1)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
@@ -6010,27 +6120,28 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioSelectorGroups
-            case audioSelectors
-            case captionSelectors
-            case crop
-            case deblockFilter
-            case denoiseFilter
-            case filterEnable
-            case filterStrength
-            case imageInserter
-            case inputClippings
-            case inputScanType
-            case position
-            case programNumber
-            case psiControl
-            case timecodeSource
-            case timecodeStart
-            case videoSelector
+            case audioSelectorGroups = "audioSelectorGroups"
+            case audioSelectors = "audioSelectors"
+            case captionSelectors = "captionSelectors"
+            case crop = "crop"
+            case deblockFilter = "deblockFilter"
+            case denoiseFilter = "denoiseFilter"
+            case filterEnable = "filterEnable"
+            case filterStrength = "filterStrength"
+            case imageInserter = "imageInserter"
+            case inputClippings = "inputClippings"
+            case inputScanType = "inputScanType"
+            case position = "position"
+            case programNumber = "programNumber"
+            case psiControl = "psiControl"
+            case timecodeSource = "timecodeSource"
+            case timecodeStart = "timecodeStart"
+            case videoSelector = "videoSelector"
         }
     }
 
     public struct InsertableImage: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the time, in milliseconds, for the image to remain on the output video. This duration includes fade-in time but not fade-out time.
         public let duration: Int?
         /// Specify the length of time, in milliseconds, between the Start time that you specify for the image insertion and the time that the image appears at full opacity. Full opacity is the level that you specify for the opacity setting. If you don't specify a value for Fade-in, the image will appear abruptly at the overlay start time.
@@ -6069,45 +6180,46 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.duration, name: "duration", parent: name, max: 2_147_483_647)
+            try self.validate(self.duration, name: "duration", parent: name, max: 2147483647)
             try self.validate(self.duration, name: "duration", parent: name, min: 0)
-            try self.validate(self.fadeIn, name: "fadeIn", parent: name, max: 2_147_483_647)
+            try self.validate(self.fadeIn, name: "fadeIn", parent: name, max: 2147483647)
             try self.validate(self.fadeIn, name: "fadeIn", parent: name, min: 0)
-            try self.validate(self.fadeOut, name: "fadeOut", parent: name, max: 2_147_483_647)
+            try self.validate(self.fadeOut, name: "fadeOut", parent: name, max: 2147483647)
             try self.validate(self.fadeOut, name: "fadeOut", parent: name, min: 0)
-            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: 0)
             try self.validate(self.imageInserterInput, name: "imageInserterInput", parent: name, min: 14)
             try self.validate(self.imageInserterInput, name: "imageInserterInput", parent: name, pattern: "^((s3://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA))|(https?://(.*?)\\.(bmp|BMP|png|PNG|tga|TGA)(\\?([^&=]+=[^&]+&)*[^&=]+=[^&]+)?))$")
-            try self.validate(self.imageX, name: "imageX", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageX, name: "imageX", parent: name, max: 2147483647)
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageY, name: "imageY", parent: name, max: 2147483647)
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
             try self.validate(self.layer, name: "layer", parent: name, max: 99)
             try self.validate(self.layer, name: "layer", parent: name, min: 0)
             try self.validate(self.opacity, name: "opacity", parent: name, max: 100)
             try self.validate(self.opacity, name: "opacity", parent: name, min: 0)
             try self.validate(self.startTime, name: "startTime", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
-            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case duration
-            case fadeIn
-            case fadeOut
-            case height
-            case imageInserterInput
-            case imageX
-            case imageY
-            case layer
-            case opacity
-            case startTime
-            case width
+            case duration = "duration"
+            case fadeIn = "fadeIn"
+            case fadeOut = "fadeOut"
+            case height = "height"
+            case imageInserterInput = "imageInserterInput"
+            case imageX = "imageX"
+            case imageY = "imageY"
+            case layer = "layer"
+            case opacity = "opacity"
+            case startTime = "startTime"
+            case width = "width"
         }
     }
 
     public struct Job: AWSDecodableShape {
+
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
         /// Describes whether the current job is running with accelerated transcoding. For jobs that have Acceleration (AccelerationMode) set to DISABLED, AccelerationStatus is always NOT_APPLICABLE. For jobs that have Acceleration (AccelerationMode) set to ENABLED or PREFERRED, AccelerationStatus is one of the other states. AccelerationStatus is IN_PROGRESS initially, while the service determines whether the input files and job settings are compatible with accelerated transcoding. If they are, AcclerationStatus is ACCELERATED. If your input files and job settings aren't compatible with accelerated transcoding, the service either fails your job or runs it without accelerated transcoding, depending on how you set Acceleration (AccelerationMode). When the service runs your job without accelerated transcoding, AccelerationStatus is NOT_ACCELERATED.
@@ -6189,35 +6301,36 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case accelerationStatus
-            case arn
-            case billingTagsSource
-            case createdAt
-            case currentPhase
-            case errorCode
-            case errorMessage
-            case hopDestinations
-            case id
-            case jobPercentComplete
-            case jobTemplate
-            case messages
-            case outputGroupDetails
-            case priority
-            case queue
-            case queueTransitions
-            case retryCount
-            case role
-            case settings
-            case simulateReservedQueue
-            case status
-            case statusUpdateInterval
-            case timing
-            case userMetadata
+            case accelerationSettings = "accelerationSettings"
+            case accelerationStatus = "accelerationStatus"
+            case arn = "arn"
+            case billingTagsSource = "billingTagsSource"
+            case createdAt = "createdAt"
+            case currentPhase = "currentPhase"
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
+            case hopDestinations = "hopDestinations"
+            case id = "id"
+            case jobPercentComplete = "jobPercentComplete"
+            case jobTemplate = "jobTemplate"
+            case messages = "messages"
+            case outputGroupDetails = "outputGroupDetails"
+            case priority = "priority"
+            case queue = "queue"
+            case queueTransitions = "queueTransitions"
+            case retryCount = "retryCount"
+            case role = "role"
+            case settings = "settings"
+            case simulateReservedQueue = "simulateReservedQueue"
+            case status = "status"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case timing = "timing"
+            case userMetadata = "userMetadata"
         }
     }
 
     public struct JobMessages: AWSDecodableShape {
+
         /// List of messages that are informational only and don't indicate a problem with your job.
         public let info: [String]?
         /// List of messages that warn about conditions that might cause your job not to run or to fail.
@@ -6229,12 +6342,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case info
-            case warning
+            case info = "info"
+            case warning = "warning"
         }
     }
 
     public struct JobSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public let adAvailOffset: Int?
         /// Settings for ad avail blanking.  Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
@@ -6288,20 +6402,21 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case availBlanking
-            case esam
-            case inputs
-            case motionImageInserter
-            case nielsenConfiguration
-            case nielsenNonLinearWatermark
-            case outputGroups
-            case timecodeConfig
-            case timedMetadataInsertion
+            case adAvailOffset = "adAvailOffset"
+            case availBlanking = "availBlanking"
+            case esam = "esam"
+            case inputs = "inputs"
+            case motionImageInserter = "motionImageInserter"
+            case nielsenConfiguration = "nielsenConfiguration"
+            case nielsenNonLinearWatermark = "nielsenNonLinearWatermark"
+            case outputGroups = "outputGroups"
+            case timecodeConfig = "timecodeConfig"
+            case timedMetadataInsertion = "timedMetadataInsertion"
         }
     }
 
     public struct JobTemplate: AWSDecodableShape {
+
         /// Accelerated transcoding can significantly speed up jobs with long, visually complex content.
         public let accelerationSettings: AccelerationSettings?
         /// An identifier for this resource that is unique within all of AWS.
@@ -6348,23 +6463,24 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case arn
-            case category
-            case createdAt
-            case description
-            case hopDestinations
-            case lastUpdated
-            case name
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
-            case `type`
+            case accelerationSettings = "accelerationSettings"
+            case arn = "arn"
+            case category = "category"
+            case createdAt = "createdAt"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
+            case `type` = "type"
         }
     }
 
     public struct JobTemplateSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// When specified, this offset (in milliseconds) is added to the input Ad Avail PTS time.
         public let adAvailOffset: Int?
         /// Settings for ad avail blanking.  Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
@@ -6418,25 +6534,25 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adAvailOffset
-            case availBlanking
-            case esam
-            case inputs
-            case motionImageInserter
-            case nielsenConfiguration
-            case nielsenNonLinearWatermark
-            case outputGroups
-            case timecodeConfig
-            case timedMetadataInsertion
+            case adAvailOffset = "adAvailOffset"
+            case availBlanking = "availBlanking"
+            case esam = "esam"
+            case inputs = "inputs"
+            case motionImageInserter = "motionImageInserter"
+            case nielsenConfiguration = "nielsenConfiguration"
+            case nielsenNonLinearWatermark = "nielsenNonLinearWatermark"
+            case outputGroups = "outputGroups"
+            case timecodeConfig = "timecodeConfig"
+            case timedMetadataInsertion = "timedMetadataInsertion"
         }
     }
 
     public struct ListJobTemplatesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
@@ -6468,6 +6584,7 @@ extension MediaConvert {
     }
 
     public struct ListJobTemplatesResponse: AWSDecodableShape {
+
         /// List of Job templates.
         public let jobTemplates: [JobTemplate]?
         /// Use this string to request the next batch of job templates.
@@ -6479,17 +6596,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplates
-            case nextToken
+            case jobTemplates = "jobTemplates"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListJobsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")),
-            AWSMemberEncoding(label: "queue", location: .querystring(locationName: "queue")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "order", location: .querystring(locationName: "order")), 
+            AWSMemberEncoding(label: "queue", location: .querystring(locationName: "queue")), 
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
@@ -6521,6 +6638,7 @@ extension MediaConvert {
     }
 
     public struct ListJobsResponse: AWSDecodableShape {
+
         /// List of jobs
         public let jobs: [Job]?
         /// Use this string to request the next batch of jobs.
@@ -6532,17 +6650,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case nextToken
+            case jobs = "jobs"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPresetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")),
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "category", location: .querystring(locationName: "category")), 
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
@@ -6574,6 +6692,7 @@ extension MediaConvert {
     }
 
     public struct ListPresetsResponse: AWSDecodableShape {
+
         /// Use this string to request the next batch of presets.
         public let nextToken: String?
         /// List of presets
@@ -6585,16 +6704,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case presets
+            case nextToken = "nextToken"
+            case presets = "presets"
         }
     }
 
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "listBy", location: .querystring(locationName: "listBy")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "order", location: .querystring(locationName: "order"))
         ]
 
@@ -6623,6 +6742,7 @@ extension MediaConvert {
     }
 
     public struct ListQueuesResponse: AWSDecodableShape {
+
         /// Use this string to request the next batch of queues.
         public let nextToken: String?
         /// List of queues.
@@ -6634,8 +6754,8 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case queues
+            case nextToken = "nextToken"
+            case queues = "queues"
         }
     }
 
@@ -6655,6 +6775,7 @@ extension MediaConvert {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) and tags for an AWS Elemental MediaConvert resource.
         public let resourceTags: ResourceTags?
 
@@ -6663,11 +6784,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceTags
+            case resourceTags = "resourceTags"
         }
     }
 
     public struct M2tsScte35Esam: AWSEncodableShape & AWSDecodableShape {
+
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream generated by ESAM.
         public let scte35EsamPid: Int?
 
@@ -6681,11 +6803,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case scte35EsamPid
+            case scte35EsamPid = "scte35EsamPid"
         }
     }
 
     public struct M2tsSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
         public let audioBufferModel: M2tsAudioBufferModel?
         /// The number of audio frames to insert for each PES packet.
@@ -6799,13 +6922,13 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2_147_483_647)
+            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2147483647)
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
             try self.audioPids?.forEach {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
                 try validate($0, name: "audioPids[]", parent: name, min: 32)
             }
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 2_147_483_647)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 2147483647)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 0)
             try self.dvbNitSettings?.validate(name: "\(name).dvbNitSettings")
             try self.dvbSdtSettings?.validate(name: "\(name).dvbSdtSettings")
@@ -6844,46 +6967,47 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioBufferModel
-            case audioFramesPerPes
-            case audioPids
-            case bitrate
-            case bufferModel
-            case dvbNitSettings
-            case dvbSdtSettings
-            case dvbSubPids
-            case dvbTdtSettings
-            case dvbTeletextPid
-            case ebpAudioInterval
-            case ebpPlacement
-            case esRateInPes
-            case forceTsVideoEbpOrder
-            case fragmentTime
-            case maxPcrInterval
-            case minEbpInterval
-            case nielsenId3
-            case nullPacketBitrate
-            case patInterval
-            case pcrControl
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case privateMetadataPid
-            case programNumber
-            case rateMode
-            case scte35Esam
-            case scte35Pid
-            case scte35Source
-            case segmentationMarkers
-            case segmentationStyle
-            case segmentationTime
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case audioBufferModel = "audioBufferModel"
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case bitrate = "bitrate"
+            case bufferModel = "bufferModel"
+            case dvbNitSettings = "dvbNitSettings"
+            case dvbSdtSettings = "dvbSdtSettings"
+            case dvbSubPids = "dvbSubPids"
+            case dvbTdtSettings = "dvbTdtSettings"
+            case dvbTeletextPid = "dvbTeletextPid"
+            case ebpAudioInterval = "ebpAudioInterval"
+            case ebpPlacement = "ebpPlacement"
+            case esRateInPes = "esRateInPes"
+            case forceTsVideoEbpOrder = "forceTsVideoEbpOrder"
+            case fragmentTime = "fragmentTime"
+            case maxPcrInterval = "maxPcrInterval"
+            case minEbpInterval = "minEbpInterval"
+            case nielsenId3 = "nielsenId3"
+            case nullPacketBitrate = "nullPacketBitrate"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case programNumber = "programNumber"
+            case rateMode = "rateMode"
+            case scte35Esam = "scte35Esam"
+            case scte35Pid = "scte35Pid"
+            case scte35Source = "scte35Source"
+            case segmentationMarkers = "segmentationMarkers"
+            case segmentationStyle = "segmentationStyle"
+            case segmentationTime = "segmentationTime"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
     public struct M3u8Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of audio frames to insert for each PES packet.
         public let audioFramesPerPes: Int?
         /// Packet Identifier (PID) of the elementary audio stream(s) in the transport stream. Multiple values are accepted, and can be entered in ranges and/or by comma separation.
@@ -6937,7 +7061,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2_147_483_647)
+            try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, max: 2147483647)
             try self.validate(self.audioFramesPerPes, name: "audioFramesPerPes", parent: name, min: 0)
             try self.audioPids?.forEach {
                 try validate($0, name: "audioPids[]", parent: name, max: 8182)
@@ -6966,26 +7090,27 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioFramesPerPes
-            case audioPids
-            case nielsenId3
-            case patInterval
-            case pcrControl
-            case pcrPid
-            case pmtInterval
-            case pmtPid
-            case privateMetadataPid
-            case programNumber
-            case scte35Pid
-            case scte35Source
-            case timedMetadata
-            case timedMetadataPid
-            case transportStreamId
-            case videoPid
+            case audioFramesPerPes = "audioFramesPerPes"
+            case audioPids = "audioPids"
+            case nielsenId3 = "nielsenId3"
+            case patInterval = "patInterval"
+            case pcrControl = "pcrControl"
+            case pcrPid = "pcrPid"
+            case pmtInterval = "pmtInterval"
+            case pmtPid = "pmtPid"
+            case privateMetadataPid = "privateMetadataPid"
+            case programNumber = "programNumber"
+            case scte35Pid = "scte35Pid"
+            case scte35Source = "scte35Source"
+            case timedMetadata = "timedMetadata"
+            case timedMetadataPid = "timedMetadataPid"
+            case transportStreamId = "transportStreamId"
+            case videoPid = "videoPid"
         }
     }
 
     public struct MotionImageInserter: AWSEncodableShape & AWSDecodableShape {
+
         /// If your motion graphic asset is a .mov file, keep this setting unspecified. If your motion graphic asset is a series of .png files, specify the frame rate of the overlay in frames per second, as a fraction. For example, specify 24 fps as 24/1. Make sure that the number of images in your series matches the frame rate and your intended overlay duration. For example, if you want a 30-second overlay at 30 fps, you should have 900 .png images. This overlay frame rate doesn't need to match the frame rate of the underlying video.
         public let framerate: MotionImageInsertionFramerate?
         /// Specify the .mov file or series of .png files that you want to overlay on your video. For .png files, provide the file name of the first file in the series. Make sure that the names of the .png files end with sequential numbers that specify the order that they are played in. For example, overlay_000.png, overlay_001.png, overlay_002.png, and so on. The sequence must start at zero, and each image file name must have the same number of digits. Pad your initial file names with enough zeros to complete the sequence. For example, if the first image is overlay_0.png, there can be only 10 images in the sequence, with the last image being overlay_9.png. But if the first image is overlay_00.png, there can be 100 images in the sequence.
@@ -7020,16 +7145,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerate
-            case input
-            case insertionMode
-            case offset
-            case playback
-            case startTime
+            case framerate = "framerate"
+            case input = "input"
+            case insertionMode = "insertionMode"
+            case offset = "offset"
+            case playback = "playback"
+            case startTime = "startTime"
         }
     }
 
     public struct MotionImageInsertionFramerate: AWSEncodableShape & AWSDecodableShape {
+
         /// The bottom of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 1.
         public let framerateDenominator: Int?
         /// The top of the fraction that expresses your overlay frame rate. For example, if your frame rate is 24 fps, set this value to 24.
@@ -7041,19 +7167,20 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 17_895_697)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 17895697)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_640)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483640)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateDenominator
-            case framerateNumerator
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
         }
     }
 
     public struct MotionImageInsertionOffset: AWSEncodableShape & AWSDecodableShape {
+
         /// Set the distance, in pixels, between the overlay and the left edge of the video frame.
         public let imageX: Int?
         /// Set the distance, in pixels, between the overlay and the top edge of the video frame.
@@ -7065,19 +7192,20 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.imageX, name: "imageX", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageX, name: "imageX", parent: name, max: 2147483647)
             try self.validate(self.imageX, name: "imageX", parent: name, min: 0)
-            try self.validate(self.imageY, name: "imageY", parent: name, max: 2_147_483_647)
+            try self.validate(self.imageY, name: "imageY", parent: name, max: 2147483647)
             try self.validate(self.imageY, name: "imageY", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case imageX
-            case imageY
+            case imageX = "imageX"
+            case imageY = "imageY"
         }
     }
 
     public struct MovSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// When enabled, include 'clap' atom if appropriate for the video output settings.
         public let clapAtom: MovClapAtom?
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
@@ -7098,15 +7226,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clapAtom
-            case cslgAtom
-            case mpeg2FourCCControl
-            case paddingControl
-            case reference
+            case clapAtom = "clapAtom"
+            case cslgAtom = "cslgAtom"
+            case mpeg2FourCCControl = "mpeg2FourCCControl"
+            case paddingControl = "paddingControl"
+            case reference = "reference"
         }
     }
 
     public struct Mp2Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
         /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in the console will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
@@ -7121,7 +7250,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 384_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 384000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -7130,13 +7259,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case sampleRate
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
     public struct Mp3Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the average bitrate in bits per second.
         public let bitrate: Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
@@ -7157,7 +7287,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 320_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 320000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 16000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -7168,15 +7298,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case rateControlMode
-            case sampleRate
-            case vbrQuality
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case rateControlMode = "rateControlMode"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
         }
     }
 
     public struct Mp4Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// When enabled, file composition times will start at zero, composition times in the 'ctts' (composition time to sample) box for B-frames will be negative, and a 'cslg' (composition shift least greatest) box will be included per 14496-1 amendment 1. This improves compatibility with Apple players and tools.
         public let cslgAtom: Mp4CslgAtom?
         /// Ignore this setting unless compliance to the CTTS box version specification matters in your workflow. Specify a value of 1 to set your CTTS box version to 1 and make your output compliant with the specification. When you specify a value of 1, you must also set CSLG atom (cslgAtom) to the value INCLUDE. Keep the default value 0 to set your CTTS box version to 0. This can provide backward compatibility for some players and packagers.
@@ -7202,15 +7333,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cslgAtom
-            case cttsVersion
-            case freeSpaceBox
-            case moovPlacement
-            case mp4MajorBrand
+            case cslgAtom = "cslgAtom"
+            case cttsVersion = "cttsVersion"
+            case freeSpaceBox = "freeSpaceBox"
+            case moovPlacement = "moovPlacement"
+            case mp4MajorBrand = "mp4MajorBrand"
         }
     }
 
     public struct MpdSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
@@ -7225,13 +7357,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case captionContainerType
-            case scte35Esam
-            case scte35Source
+            case captionContainerType = "captionContainerType"
+            case scte35Esam = "scte35Esam"
+            case scte35Source = "scte35Source"
         }
     }
 
     public struct Mpeg2Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify the strength of any adaptive quantization filters that you enable. The value that you choose here applies to the following settings: Spatial adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive quantization (temporalAdaptiveQuantization).
         public let adaptiveQuantization: Mpeg2AdaptiveQuantization?
         /// Specify the average bitrate in bits per second. Required for VBR and CBR. For MS Smooth outputs, bitrates must be unique when rounded down to the nearest multiple of 1000.
@@ -7330,68 +7463,69 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 288_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 288000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 1001)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 60000)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 24)
-            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2_147_483_647)
+            try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, max: 2147483647)
             try self.validate(self.gopClosedCadence, name: "gopClosedCadence", parent: name, min: 0)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, max: 100)
             try self.validate(self.hrdBufferInitialFillPercentage, name: "hrdBufferInitialFillPercentage", parent: name, min: 0)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 300_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 300000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, max: 30)
             try self.validate(self.minIInterval, name: "minIInterval", parent: name, min: 0)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, max: 7)
             try self.validate(self.numberBFramesBetweenReferenceFrames, name: "numberBFramesBetweenReferenceFrames", parent: name, min: 0)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
             try self.validate(self.softness, name: "softness", parent: name, max: 128)
             try self.validate(self.softness, name: "softness", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case adaptiveQuantization
-            case bitrate
-            case codecLevel
-            case codecProfile
-            case dynamicSubGop
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopClosedCadence
-            case gopSize
-            case gopSizeUnits
-            case hrdBufferInitialFillPercentage
-            case hrdBufferSize
-            case interlaceMode
-            case intraDcPrecision
-            case maxBitrate
-            case minIInterval
-            case numberBFramesBetweenReferenceFrames
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
-            case sceneChangeDetect
-            case slowPal
-            case softness
-            case spatialAdaptiveQuantization
-            case syntax
-            case telecine
-            case temporalAdaptiveQuantization
+            case adaptiveQuantization = "adaptiveQuantization"
+            case bitrate = "bitrate"
+            case codecLevel = "codecLevel"
+            case codecProfile = "codecProfile"
+            case dynamicSubGop = "dynamicSubGop"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopClosedCadence = "gopClosedCadence"
+            case gopSize = "gopSize"
+            case gopSizeUnits = "gopSizeUnits"
+            case hrdBufferInitialFillPercentage = "hrdBufferInitialFillPercentage"
+            case hrdBufferSize = "hrdBufferSize"
+            case interlaceMode = "interlaceMode"
+            case intraDcPrecision = "intraDcPrecision"
+            case maxBitrate = "maxBitrate"
+            case minIInterval = "minIInterval"
+            case numberBFramesBetweenReferenceFrames = "numberBFramesBetweenReferenceFrames"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
+            case sceneChangeDetect = "sceneChangeDetect"
+            case slowPal = "slowPal"
+            case softness = "softness"
+            case spatialAdaptiveQuantization = "spatialAdaptiveQuantization"
+            case syntax = "syntax"
+            case telecine = "telecine"
+            case temporalAdaptiveQuantization = "temporalAdaptiveQuantization"
         }
     }
 
     public struct MsSmoothAdditionalManifest: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify a name modifier that the service adds to the name of this manifest to make it different from the file names of the other main manifests in the output group. For example, say that the default main manifest for your Microsoft Smooth group is film-name.ismv. If you enter "-no-premium" for this setting, then the file name the service generates for this top-level manifest is film-name-no-premium.ismv.
         public let manifestNameModifier: String?
         /// Specify the outputs that you want this additional top-level manifest to reference.
@@ -7410,12 +7544,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case manifestNameModifier
-            case selectedOutputs
+            case manifestNameModifier = "manifestNameModifier"
+            case selectedOutputs = "selectedOutputs"
         }
     }
 
     public struct MsSmoothEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// If your output group type is HLS, DASH, or Microsoft Smooth, use these settings when doing DRM encryption with a SPEKE-compliant key provider.  If your output group type is CMAF, use the SpekeKeyProviderCmaf settings instead.
         public let spekeKeyProvider: SpekeKeyProvider?
 
@@ -7428,11 +7563,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case spekeKeyProvider
+            case spekeKeyProvider = "spekeKeyProvider"
         }
     }
 
     public struct MsSmoothGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// By default, the service creates one .ism Microsoft Smooth Streaming manifest for each Microsoft Smooth Streaming output group in your job. This default manifest references every output in the output group. To create additional manifests that reference a subset of the outputs in the output group, specify a list of them here.
         public let additionalManifests: [MsSmoothAdditionalManifest]?
         /// COMBINE_DUPLICATE_STREAMS combines identical audio encoding settings across a Microsoft Smooth output group into a single audio stream.
@@ -7465,22 +7601,23 @@ extension MediaConvert {
             try self.validate(self.destination, name: "destination", parent: name, pattern: "^s3:\\/\\/")
             try self.destinationSettings?.validate(name: "\(name).destinationSettings")
             try self.encryption?.validate(name: "\(name).encryption")
-            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2_147_483_647)
+            try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, max: 2147483647)
             try self.validate(self.fragmentLength, name: "fragmentLength", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case additionalManifests
-            case audioDeduplication
-            case destination
-            case destinationSettings
-            case encryption
-            case fragmentLength
-            case manifestEncoding
+            case additionalManifests = "additionalManifests"
+            case audioDeduplication = "audioDeduplication"
+            case destination = "destination"
+            case destinationSettings = "destinationSettings"
+            case encryption = "encryption"
+            case fragmentLength = "fragmentLength"
+            case manifestEncoding = "manifestEncoding"
         }
     }
 
     public struct MxfSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. When you have AFD signaling set up in your output video stream, use this setting to choose whether to also include it in the MXF wrapper. Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper. Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from the video stream for this output to the MXF wrapper. Regardless of which option you choose, the AFD values remain in the video stream. Related settings: To set up your output to include or exclude AFD values, see AfdSignaling, under VideoDescription. On the console, find AFD signaling under the output's video encoding settings.
         public let afdSignaling: MxfAfdSignaling?
         /// Specify the MXF profile, also called shim, for this output. When you choose Auto, MediaConvert chooses a profile based on the video codec and resolution. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
@@ -7492,12 +7629,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afdSignaling
-            case profile
+            case afdSignaling = "afdSignaling"
+            case profile = "profile"
         }
     }
 
     public struct NexGuardFileMarkerSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use the base64 license string that Nagra provides you. Enter it directly in your JSON job specification or in the console. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job.
         public let license: String?
         /// Specify the payload ID that you want associated with this output. Valid values vary depending on your Nagra NexGuard forensic watermarking workflow. Required when you include Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in your job. For PreRelease Content (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a unique ID for each asset you watermark, and keep a record of which ID you have assigned to each asset. Neither Nagra nor MediaConvert keep track of the relationship between output files and your IDs. For OTT Streaming, create two adaptive bitrate (ABR) stacks for each asset. Do this by setting up two output groups. For one output group, set the value of Payload ID (payload) to 0 in every output. For the other output group, set Payload ID (payload) to 1 in every output.
@@ -7515,23 +7653,24 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.license, name: "license", parent: name, max: 100_000)
+            try self.validate(self.license, name: "license", parent: name, max: 100000)
             try self.validate(self.license, name: "license", parent: name, min: 1)
-            try self.validate(self.payload, name: "payload", parent: name, max: 4_194_303)
+            try self.validate(self.payload, name: "payload", parent: name, max: 4194303)
             try self.validate(self.payload, name: "payload", parent: name, min: 0)
             try self.validate(self.preset, name: "preset", parent: name, max: 256)
             try self.validate(self.preset, name: "preset", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case license
-            case payload
-            case preset
-            case strength
+            case license = "license"
+            case payload = "payload"
+            case preset = "preset"
+            case strength = "strength"
         }
     }
 
     public struct NielsenConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Nielsen has discontinued the use of breakout code functionality. If you must include this property, set the value to zero.
         public let breakoutCode: Int?
         /// Use Distributor ID (DistributorID) to specify the distributor ID that is assigned to your organization by Neilsen.
@@ -7548,12 +7687,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case breakoutCode
-            case distributorId
+            case breakoutCode = "breakoutCode"
+            case distributorId = "distributorId"
         }
     }
 
     public struct NielsenNonLinearWatermarkSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Choose the type of Nielsen watermarks that you want in your outputs. When you choose NAES 2 and NW (NAES2_AND_NW), you must provide a value for the setting SID (sourceId). When you choose CBET (CBET), you must provide a value for the setting CSID (cbetSourceId). When you choose NAES 2, NW, and CBET (NAES2_AND_NW_AND_CBET), you must provide values for both of these settings.
         public let activeWatermarkProcess: NielsenActiveWatermarkProcessType?
         /// Optional. Use this setting when you want the service to include an ADI file in the Nielsen  metadata .zip file. To provide an ADI file, store it in Amazon S3 and provide a URL to it  here. The URL should be in the following format: S3://bucket/path/ADI-file. For more information about the metadata .zip file, see the setting Metadata destination (metadataDestination).
@@ -7607,21 +7747,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeWatermarkProcess
-            case adiFilename
-            case assetId
-            case assetName
-            case cbetSourceId
-            case episodeId
-            case metadataDestination
-            case sourceId
-            case sourceWatermarkStatus
-            case ticServerUrl
-            case uniqueTicPerAudioTrack
+            case activeWatermarkProcess = "activeWatermarkProcess"
+            case adiFilename = "adiFilename"
+            case assetId = "assetId"
+            case assetName = "assetName"
+            case cbetSourceId = "cbetSourceId"
+            case episodeId = "episodeId"
+            case metadataDestination = "metadataDestination"
+            case sourceId = "sourceId"
+            case sourceWatermarkStatus = "sourceWatermarkStatus"
+            case ticServerUrl = "ticServerUrl"
+            case uniqueTicPerAudioTrack = "uniqueTicPerAudioTrack"
         }
     }
 
     public struct NoiseReducer: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Noise reducer filter (NoiseReducerFilter) to select one of the following spatial image filtering functions. To use this setting, you must also enable Noise reducer (NoiseReducer). * Bilateral preserves edges while reducing noise. * Mean (softest), Gaussian, Lanczos, and Sharpen (sharpest) do convolution filtering. * Conserve does min/max noise reduction. * Spatial does frequency-domain filtering based on JND principles. * Temporal optimizes video quality for complex motion.
         public let filter: NoiseReducerFilter?
         /// Settings for a noise reducer filter
@@ -7645,14 +7786,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case filterSettings
-            case spatialFilterSettings
-            case temporalFilterSettings
+            case filter = "filter"
+            case filterSettings = "filterSettings"
+            case spatialFilterSettings = "spatialFilterSettings"
+            case temporalFilterSettings = "temporalFilterSettings"
         }
     }
 
     public struct NoiseReducerFilterSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Relative strength of noise reducing filter. Higher values produce stronger filtering.
         public let strength: Int?
 
@@ -7666,11 +7808,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case strength
+            case strength = "strength"
         }
     }
 
     public struct NoiseReducerSpatialFilterSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify strength of post noise reduction sharpening filter, with 0 disabling the filter and 3 enabling it at maximum strength.
         public let postFilterSharpenStrength: Int?
         /// The speed of the filter, from -2 (lower speed) to 3 (higher speed), with 0 being the nominal value.
@@ -7694,13 +7837,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case postFilterSharpenStrength
-            case speed
-            case strength
+            case postFilterSharpenStrength = "postFilterSharpenStrength"
+            case speed = "speed"
+            case strength = "strength"
         }
     }
 
     public struct NoiseReducerTemporalFilterSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Aggressive mode for content that has complex motion. Higher values produce stronger temporal filtering. This filters highly complex scenes more aggressively and creates better VQ for low bitrate outputs.
         public let aggressiveMode: Int?
         /// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL), you can use this setting to apply sharpening. The default behavior, Auto (AUTO), allows the transcoder to determine whether to apply filtering, depending on input type and quality. When you set Noise reducer to Temporal, your output bandwidth is reduced. When Post temporal sharpening is also enabled, that bandwidth reduction is smaller.
@@ -7727,14 +7871,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggressiveMode
-            case postTemporalSharpening
-            case speed
-            case strength
+            case aggressiveMode = "aggressiveMode"
+            case postTemporalSharpening = "postTemporalSharpening"
+            case speed = "speed"
+            case strength = "strength"
         }
     }
 
     public struct OpusSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
         public let bitrate: Int?
         /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
@@ -7749,7 +7894,7 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 192_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 192000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 32000)
             try self.validate(self.channels, name: "channels", parent: name, max: 2)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
@@ -7758,13 +7903,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case channels
-            case sampleRate
+            case bitrate = "bitrate"
+            case channels = "channels"
+            case sampleRate = "sampleRate"
         }
     }
 
     public struct Output: AWSEncodableShape & AWSDecodableShape {
+
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
         /// (CaptionDescriptions) contains groups of captions settings. For each output that has captions, include one instance of (CaptionDescriptions). (CaptionDescriptions) can contain multiple groups of captions settings.
@@ -7807,18 +7953,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptions
-            case captionDescriptions
-            case containerSettings
-            case `extension`
-            case nameModifier
-            case outputSettings
-            case preset
-            case videoDescription
+            case audioDescriptions = "audioDescriptions"
+            case captionDescriptions = "captionDescriptions"
+            case containerSettings = "containerSettings"
+            case `extension` = "extension"
+            case nameModifier = "nameModifier"
+            case outputSettings = "outputSettings"
+            case preset = "preset"
+            case videoDescription = "videoDescription"
         }
     }
 
     public struct OutputChannelMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// List of input channels
         public let inputChannels: [Int]?
 
@@ -7834,11 +7981,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case inputChannels
+            case inputChannels = "inputChannels"
         }
     }
 
     public struct OutputDetail: AWSDecodableShape {
+
         /// Duration in milliseconds
         public let durationInMs: Int?
         /// Contains details about the output's video stream
@@ -7850,12 +7998,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case durationInMs
-            case videoDetails
+            case durationInMs = "durationInMs"
+            case videoDetails = "videoDetails"
         }
     }
 
     public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Custom Group Name (CustomName) to specify a name for the output group. This value is displayed on the console and can make your job settings JSON more human-readable. It does not affect your outputs. Use up to twelve characters that are either letters, numbers, spaces, or underscores.
         public let customName: String?
         /// Name of the output group
@@ -7880,14 +8029,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case customName
-            case name
-            case outputGroupSettings
-            case outputs
+            case customName = "customName"
+            case name = "name"
+            case outputGroupSettings = "outputGroupSettings"
+            case outputs = "outputs"
         }
     }
 
     public struct OutputGroupDetail: AWSDecodableShape {
+
         /// Details about the output
         public let outputDetails: [OutputDetail]?
 
@@ -7896,11 +8046,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputDetails
+            case outputDetails = "outputDetails"
         }
     }
 
     public struct OutputGroupSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to CMAF_GROUP_SETTINGS. Each output in a CMAF Output Group may only contain a single video, audio, or caption output.
         public let cmafGroupSettings: CmafGroupSettings?
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to DASH_ISO_GROUP_SETTINGS.
@@ -7932,16 +8083,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cmafGroupSettings
-            case dashIsoGroupSettings
-            case fileGroupSettings
-            case hlsGroupSettings
-            case msSmoothGroupSettings
-            case `type`
+            case cmafGroupSettings = "cmafGroupSettings"
+            case dashIsoGroupSettings = "dashIsoGroupSettings"
+            case fileGroupSettings = "fileGroupSettings"
+            case hlsGroupSettings = "hlsGroupSettings"
+            case msSmoothGroupSettings = "msSmoothGroupSettings"
+            case `type` = "type"
         }
     }
 
     public struct OutputSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Settings for HLS output groups
         public let hlsSettings: HlsSettings?
 
@@ -7950,11 +8102,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hlsSettings
+            case hlsSettings = "hlsSettings"
         }
     }
 
     public struct PartnerWatermarking: AWSEncodableShape & AWSDecodableShape {
+
         /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2) and OTT Streaming workflows.
         public let nexguardFileMarkerSettings: NexGuardFileMarkerSettings?
 
@@ -7967,11 +8120,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nexguardFileMarkerSettings
+            case nexguardFileMarkerSettings = "nexguardFileMarkerSettings"
         }
     }
 
     public struct Preset: AWSDecodableShape {
+
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
         /// An optional category you create to organize your presets.
@@ -8003,18 +8157,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case category
-            case createdAt
-            case description
-            case lastUpdated
-            case name
-            case settings
-            case `type`
+            case arn = "arn"
+            case category = "category"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case settings = "settings"
+            case `type` = "type"
         }
     }
 
     public struct PresetSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// (AudioDescriptions) contains groups of audio encoding settings organized by audio codec. Include one instance of (AudioDescriptions) per output. (AudioDescriptions) can contain multiple groups of encoding settings.
         public let audioDescriptions: [AudioDescription]?
         /// Caption settings for this preset. There can be multiple caption settings in a single output.
@@ -8043,14 +8198,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case audioDescriptions
-            case captionDescriptions
-            case containerSettings
-            case videoDescription
+            case audioDescriptions = "audioDescriptions"
+            case captionDescriptions = "captionDescriptions"
+            case containerSettings = "containerSettings"
+            case videoDescription = "videoDescription"
         }
     }
 
     public struct ProresSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Profile (ProResCodecProfile) to specifiy the type of Apple ProRes codec to use for this output.
         public let codecProfile: ProresCodecProfile?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
@@ -8089,32 +8245,33 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case codecProfile
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case parControl
-            case parDenominator
-            case parNumerator
-            case slowPal
-            case telecine
+            case codecProfile = "codecProfile"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
         }
     }
 
     public struct Queue: AWSDecodableShape {
+
         /// An identifier for this resource that is unique within all of AWS.
         public let arn: String?
         /// The timestamp in epoch seconds for when you created the queue.
@@ -8155,21 +8312,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case description
-            case lastUpdated
-            case name
-            case pricingPlan
-            case progressingJobsCount
-            case reservationPlan
-            case status
-            case submittedJobsCount
-            case `type`
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case description = "description"
+            case lastUpdated = "lastUpdated"
+            case name = "name"
+            case pricingPlan = "pricingPlan"
+            case progressingJobsCount = "progressingJobsCount"
+            case reservationPlan = "reservationPlan"
+            case status = "status"
+            case submittedJobsCount = "submittedJobsCount"
+            case `type` = "type"
         }
     }
 
     public struct QueueTransition: AWSDecodableShape {
+
         /// The queue that the job was on after the transition.
         public let destinationQueue: String?
         /// The queue that the job was on before the transition.
@@ -8185,13 +8343,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case destinationQueue
-            case sourceQueue
-            case timestamp
+            case destinationQueue = "destinationQueue"
+            case sourceQueue = "sourceQueue"
+            case timestamp = "timestamp"
         }
     }
 
     public struct Rectangle: AWSEncodableShape & AWSDecodableShape {
+
         /// Height of rectangle in pixels. Specify only even numbers.
         public let height: Int?
         /// Width of rectangle in pixels. Specify only even numbers.
@@ -8209,25 +8368,26 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.height, name: "height", parent: name, max: 2_147_483_647)
+            try self.validate(self.height, name: "height", parent: name, max: 2147483647)
             try self.validate(self.height, name: "height", parent: name, min: 2)
-            try self.validate(self.width, name: "width", parent: name, max: 2_147_483_647)
+            try self.validate(self.width, name: "width", parent: name, max: 2147483647)
             try self.validate(self.width, name: "width", parent: name, min: 2)
-            try self.validate(self.x, name: "x", parent: name, max: 2_147_483_647)
+            try self.validate(self.x, name: "x", parent: name, max: 2147483647)
             try self.validate(self.x, name: "x", parent: name, min: 0)
-            try self.validate(self.y, name: "y", parent: name, max: 2_147_483_647)
+            try self.validate(self.y, name: "y", parent: name, max: 2147483647)
             try self.validate(self.y, name: "y", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case height
-            case width
-            case x
-            case y
+            case height = "height"
+            case width = "width"
+            case x = "x"
+            case y = "y"
         }
     }
 
     public struct RemixSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Channel mapping (ChannelMapping) contains the group of fields that hold the remixing value for each channel. Units are in dB. Acceptable values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification).
         public let channelMapping: ChannelMapping?
         /// Specify the number of audio channels from your input that you want to use in your output. With remixing, you might combine or split the data in these channels, so the number of channels in your final output might be different.
@@ -8250,13 +8410,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channelMapping
-            case channelsIn
-            case channelsOut
+            case channelMapping = "channelMapping"
+            case channelsIn = "channelsIn"
+            case channelsOut = "channelsOut"
         }
     }
 
     public struct ReservationPlan: AWSDecodableShape {
+
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment?
         /// The timestamp in epoch seconds for when the current pricing plan term for this reserved queue expires.
@@ -8282,16 +8443,17 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitment
-            case expiresAt
-            case purchasedAt
-            case renewalType
-            case reservedSlots
-            case status
+            case commitment = "commitment"
+            case expiresAt = "expiresAt"
+            case purchasedAt = "purchasedAt"
+            case renewalType = "renewalType"
+            case reservedSlots = "reservedSlots"
+            case status = "status"
         }
     }
 
     public struct ReservationPlanSettings: AWSEncodableShape {
+
         /// The length of the term of your reserved queue pricing plan commitment.
         public let commitment: Commitment
         /// Specifies whether the term of your reserved queue pricing plan is automatically extended (AUTO_RENEW) or expires (EXPIRE) at the end of the term. When your term is auto renewed, you extend your commitment by 12 months from the auto renew date. You can cancel this commitment.
@@ -8306,13 +8468,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case commitment
-            case renewalType
-            case reservedSlots
+            case commitment = "commitment"
+            case renewalType = "renewalType"
+            case reservedSlots = "reservedSlots"
         }
     }
 
     public struct ResourceTags: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let arn: String?
         /// The tags for the resource.
@@ -8324,12 +8487,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case tags
+            case arn = "arn"
+            case tags = "tags"
         }
     }
 
     public struct S3DestinationAccessControl: AWSEncodableShape & AWSDecodableShape {
+
         /// Choose an Amazon S3 canned ACL for MediaConvert to apply to this output.
         public let cannedAcl: S3ObjectCannedAcl?
 
@@ -8338,11 +8502,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cannedAcl
+            case cannedAcl = "cannedAcl"
         }
     }
 
     public struct S3DestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. Have MediaConvert automatically apply Amazon S3 access control for the outputs in this output group. When you don't use this setting, S3 automatically applies the default access control list PRIVATE.
         public let accessControl: S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
@@ -8358,12 +8523,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessControl
-            case encryption
+            case accessControl = "accessControl"
+            case encryption = "encryption"
         }
     }
 
     public struct S3EncryptionSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify how you want your data keys managed. AWS uses data keys to encrypt your content. AWS also encrypts the data keys themselves, using a customer master key (CMK), and then stores the encrypted data keys alongside your encrypted content. Use this setting to specify which AWS service manages the CMK. For simplest set up, choose Amazon S3 (SERVER_SIDE_ENCRYPTION_S3). If you want your master key to be managed by AWS Key Management Service (KMS), choose AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). By default, when you choose AWS KMS, KMS uses the AWS managed customer master key (CMK) associated with Amazon S3 to encrypt your data keys. You can optionally choose to specify a different, customer managed CMK. Do so by specifying the Amazon Resource Name (ARN) of the key for the setting  KMS ARN (kmsKeyArn).
         public let encryptionType: S3ServerSideEncryptionType?
         /// Optionally, specify the customer master key (CMK) that you want to use to encrypt the data key that AWS uses to encrypt your output content. Enter the Amazon Resource Name (ARN) of the CMK. To use this setting, you must also set Server-side encryption (S3ServerSideEncryptionType) to AWS KMS (SERVER_SIDE_ENCRYPTION_KMS). If you set Server-side encryption to AWS KMS but don't specify a CMK here, AWS uses the AWS managed CMK associated with Amazon S3.
@@ -8379,12 +8545,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionType
-            case kmsKeyArn
+            case encryptionType = "encryptionType"
+            case kmsKeyArn = "kmsKeyArn"
         }
     }
 
     public struct SccDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Set Framerate (SccDestinationFramerate) to make sure that the captions and the video are synchronized in the output. Specify a frame rate that matches the frame rate of the associated video. If the video frame rate is 29.97, choose 29.97 dropframe (FRAMERATE_29_97_DROPFRAME) only if the video has video_insertion=true and drop_frame_timecode=true; otherwise, choose 29.97 non-dropframe (FRAMERATE_29_97_NON_DROPFRAME).
         public let framerate: SccDestinationFramerate?
 
@@ -8393,11 +8560,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerate
+            case framerate = "framerate"
         }
     }
 
     public struct SpekeKeyProvider: AWSEncodableShape & AWSDecodableShape {
+
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
         /// Specify the resource ID that your SPEKE-compliant key provider uses to identify this content.
@@ -8424,14 +8592,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case resourceId
-            case systemIds
-            case url
+            case certificateArn = "certificateArn"
+            case resourceId = "resourceId"
+            case systemIds = "systemIds"
+            case url = "url"
         }
     }
 
     public struct SpekeKeyProviderCmaf: AWSEncodableShape & AWSDecodableShape {
+
         /// If you want your key provider to encrypt the content keys that it provides to MediaConvert, set up a certificate with a master key using AWS Certificate Manager. Specify the certificate's Amazon Resource Name (ARN) here.
         public let certificateArn: String?
         /// Specify the DRM system IDs that you want signaled in the DASH manifest that MediaConvert creates as part of this CMAF package. The DASH manifest can currently signal up to three system IDs. For more information, see https://dashif.org/identifiers/content_protection/.
@@ -8468,15 +8637,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case certificateArn
-            case dashSignaledSystemIds
-            case hlsSignaledSystemIds
-            case resourceId
-            case url
+            case certificateArn = "certificateArn"
+            case dashSignaledSystemIds = "dashSignaledSystemIds"
+            case hlsSignaledSystemIds = "hlsSignaledSystemIds"
+            case resourceId = "resourceId"
+            case url = "url"
         }
     }
 
     public struct StaticKeyProvider: AWSEncodableShape & AWSDecodableShape {
+
         /// Relates to DRM implementation. Sets the value of the KEYFORMAT attribute. Must be 'identity' or a reverse DNS string. May be omitted to indicate an implicit value of 'identity'.
         public let keyFormat: String?
         /// Relates to DRM implementation. Either a single positive integer version value or a slash delimited list of version values (1/2/3).
@@ -8500,14 +8670,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case keyFormat
-            case keyFormatVersions
-            case staticKeyValue
-            case url
+            case keyFormat = "keyFormat"
+            case keyFormatVersions = "keyFormatVersions"
+            case staticKeyValue = "staticKeyValue"
+            case url = "url"
         }
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource that you want to tag. To get the ARN, send a GET request with the resource name.
         public let arn: String
         /// The tags that you want to add to the resource. You can tag resources with a key-value pair or with only a key.
@@ -8519,16 +8690,21 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case tags
+            case arn = "arn"
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TeletextDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Set pageNumber to the Teletext page number for the destination captions for this output. This value must be a three-digit hexadecimal string; strings ending in -FF are invalid. If you are passing through the entire set of Teletext data, do not use this field.
         public let pageNumber: String?
         /// Specify the page types for this Teletext page. If you don't specify a value here, the service sets the page type to the default value Subtitle (PAGE_TYPE_SUBTITLE). If you pass through the entire set of Teletext data, don't use this field. When you pass through a set of Teletext pages, your output has the same page types as your input.
@@ -8546,12 +8722,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageNumber
-            case pageTypes
+            case pageNumber = "pageNumber"
+            case pageTypes = "pageTypes"
         }
     }
 
     public struct TeletextSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Page Number (PageNumber) to specify the three-digit hexadecimal page number that will be used for Teletext captions. Do not use this setting if you are passing through teletext from the input source to output.
         public let pageNumber: String?
 
@@ -8566,11 +8743,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case pageNumber
+            case pageNumber = "pageNumber"
         }
     }
 
     public struct TimecodeBurnin: AWSEncodableShape & AWSDecodableShape {
+
         /// Use Font Size (FontSize) to set the font size of any burned-in timecode. Valid values are 10, 16, 32, 48.
         public let fontSize: Int?
         /// Use Position (Position) under under Timecode burn-in (TimecodeBurnIn) to specify the location the burned-in timecode on output video.
@@ -8591,13 +8769,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fontSize
-            case position
-            case prefix
+            case fontSize = "fontSize"
+            case position = "position"
+            case prefix = "prefix"
         }
     }
 
     public struct TimecodeConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// If you use an editing platform that relies on an anchor timecode, use Anchor Timecode (Anchor) to specify a timecode that will match the input video frame to the output video frame. Use 24-hour format with frame number, (HH:MM:SS:FF) or (HH:MM:SS;FF). This setting ignores frame rate conversion. System behavior for Anchor Timecode varies depending on your setting for Source (TimecodeSource). * If Source (TimecodeSource) is set to Specified Start (SPECIFIEDSTART), the first input frame is the specified value in Start Timecode (Start). Anchor Timecode (Anchor) and Start Timecode (Start) are used calculate output timecode. * If Source (TimecodeSource) is set to Start at 0 (ZEROBASED)  the  first frame is 00:00:00:00. * If Source (TimecodeSource) is set to Embedded (EMBEDDED), the  first frame is the timecode value on the first input frame of the input.
         public let anchor: String?
         /// Use Source (TimecodeSource) to set how timecodes are handled within this job. To make sure that your video, audio, captions, and markers are synchronized and that time-based features, such as image inserter, work correctly, choose the Timecode source option that matches your assets. All timecodes are in a 24-hour format with frame number (HH:MM:SS:FF). * Embedded (EMBEDDED) - Use the timecode that is in the input video. If no embedded timecode is in the source, the service will use Start at 0 (ZEROBASED) instead. * Start at 0 (ZEROBASED) - Set the timecode of the initial frame to 00:00:00:00. * Specified Start (SPECIFIEDSTART) - Set the timecode of the initial frame to a value other than zero. You use Start timecode (Start) to provide this value.
@@ -8621,14 +8800,15 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case anchor
-            case source
-            case start
-            case timestampOffset
+            case anchor = "anchor"
+            case source = "source"
+            case start = "start"
+            case timestampOffset = "timestampOffset"
         }
     }
 
     public struct TimedMetadataInsertion: AWSEncodableShape & AWSDecodableShape {
+
         /// Id3Insertions contains the array of Id3Insertion instances.
         public let id3Insertions: [Id3Insertion]?
 
@@ -8643,11 +8823,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case id3Insertions
+            case id3Insertions = "id3Insertions"
         }
     }
 
     public struct Timing: AWSDecodableShape {
+
         /// The time, in Unix epoch format, that the transcoding job finished
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var finishTime: Date?
@@ -8665,13 +8846,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finishTime
-            case startTime
-            case submitTime
+            case finishTime = "finishTime"
+            case startTime = "startTime"
+            case submitTime = "submitTime"
         }
     }
 
     public struct TrackSourceSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Use this setting to select a single captions track from a source. Track numbers correspond to the order in the captions source file. For IMF sources, track numbering is based on the order that the captions appear in the CPL. For example, use 1 to select the captions asset that is listed first in the CPL. To include more than one captions track in your job outputs, create multiple input captions selectors. Specify one track per selector.
         public let trackNumber: Int?
 
@@ -8680,16 +8862,17 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.trackNumber, name: "trackNumber", parent: name, max: 2_147_483_647)
+            try self.validate(self.trackNumber, name: "trackNumber", parent: name, max: 2147483647)
             try self.validate(self.trackNumber, name: "trackNumber", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case trackNumber
+            case trackNumber = "trackNumber"
         }
     }
 
     public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Pass through style and position information from a TTML-like input source (TTML, SMPTE-TT) to the TTML output.
         public let stylePassthrough: TtmlStylePassthrough?
 
@@ -8698,7 +8881,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case stylePassthrough
+            case stylePassthrough = "stylePassthrough"
         }
     }
 
@@ -8718,12 +8901,16 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tagKeys
+            case tagKeys = "tagKeys"
         }
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateJobTemplateRequest: AWSEncodableShape {
@@ -8772,18 +8959,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accelerationSettings
-            case category
-            case description
-            case hopDestinations
-            case priority
-            case queue
-            case settings
-            case statusUpdateInterval
+            case accelerationSettings = "accelerationSettings"
+            case category = "category"
+            case description = "description"
+            case hopDestinations = "hopDestinations"
+            case priority = "priority"
+            case queue = "queue"
+            case settings = "settings"
+            case statusUpdateInterval = "statusUpdateInterval"
         }
     }
 
     public struct UpdateJobTemplateResponse: AWSDecodableShape {
+
         /// A job template is a pre-made set of encoding instructions that you can use to quickly create a job.
         public let jobTemplate: JobTemplate?
 
@@ -8792,7 +8980,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobTemplate
+            case jobTemplate = "jobTemplate"
         }
     }
 
@@ -8822,13 +9010,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case description
-            case settings
+            case category = "category"
+            case description = "description"
+            case settings = "settings"
         }
     }
 
     public struct UpdatePresetResponse: AWSDecodableShape {
+
         /// A preset is a collection of preconfigured media conversion settings that you want MediaConvert to apply to the output during the conversion process.
         public let preset: Preset?
 
@@ -8837,7 +9026,7 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case preset
+            case preset = "preset"
         }
     }
 
@@ -8863,13 +9052,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case reservationPlanSettings
-            case status
+            case description = "description"
+            case reservationPlanSettings = "reservationPlanSettings"
+            case status = "status"
         }
     }
 
     public struct UpdateQueueResponse: AWSDecodableShape {
+
         /// You can use queues to manage the resources that are available to your AWS account for running multiple transcoding jobs at the same time. If you don't specify a queue, the service sends all jobs through the default queue. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html.
         public let queue: Queue?
 
@@ -8878,11 +9068,12 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case queue
+            case queue = "queue"
         }
     }
 
     public struct Vc3Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
         public let framerateControl: Vc3FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. We recommend using drop duplicate (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30 fps. For numerically complex conversions, you can use interpolate (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated interpolation. FrameFormer chooses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost.
@@ -8919,18 +9110,19 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case interlaceMode
-            case slowPal
-            case telecine
-            case vc3Class
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case interlaceMode = "interlaceMode"
+            case slowPal = "slowPal"
+            case telecine = "telecine"
+            case vc3Class = "vc3Class"
         }
     }
 
     public struct VideoCodecSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Required when you set Codec, under VideoDescription>CodecSettings to the value AV1.
         public let av1Settings: Av1Settings?
         /// Required when you set your output video codec to AVC-Intra. For more information about the AVC-I settings, see the relevant specification. For detailed information about SD and HD in AVC-I, see https://ieeexplore.ieee.org/document/7290936.
@@ -8982,21 +9174,22 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case av1Settings
-            case avcIntraSettings
-            case codec
-            case frameCaptureSettings
-            case h264Settings
-            case h265Settings
-            case mpeg2Settings
-            case proresSettings
-            case vc3Settings
-            case vp8Settings
-            case vp9Settings
+            case av1Settings = "av1Settings"
+            case avcIntraSettings = "avcIntraSettings"
+            case codec = "codec"
+            case frameCaptureSettings = "frameCaptureSettings"
+            case h264Settings = "h264Settings"
+            case h265Settings = "h265Settings"
+            case mpeg2Settings = "mpeg2Settings"
+            case proresSettings = "proresSettings"
+            case vc3Settings = "vc3Settings"
+            case vp8Settings = "vp8Settings"
+            case vp9Settings = "vp9Settings"
         }
     }
 
     public struct VideoDescription: AWSEncodableShape & AWSDecodableShape {
+
         /// This setting only applies to H.264, H.265, and MPEG2 outputs. Use Insert AFD signaling (AfdSignaling) to specify whether the service includes AFD values in the output video data and what those values are. * Choose None to remove all AFD values from this output. * Choose Fixed to ignore input AFD values and instead encode the value specified in the job. * Choose Auto to calculate output AFD values based on the input AFD scaler data.
         public let afdSignaling: AfdSignaling?
         /// The anti-alias filter is automatically applied to all outputs. The service no longer accepts the value DISABLED for AntiAlias. If you specify that in your job, the service will ignore the setting.
@@ -9062,25 +9255,26 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case afdSignaling
-            case antiAlias
-            case codecSettings
-            case colorMetadata
-            case crop
-            case dropFrameTimecode
-            case fixedAfd
-            case height
-            case position
-            case respondToAfd
-            case scalingBehavior
-            case sharpness
-            case timecodeInsertion
-            case videoPreprocessors
-            case width
+            case afdSignaling = "afdSignaling"
+            case antiAlias = "antiAlias"
+            case codecSettings = "codecSettings"
+            case colorMetadata = "colorMetadata"
+            case crop = "crop"
+            case dropFrameTimecode = "dropFrameTimecode"
+            case fixedAfd = "fixedAfd"
+            case height = "height"
+            case position = "position"
+            case respondToAfd = "respondToAfd"
+            case scalingBehavior = "scalingBehavior"
+            case sharpness = "sharpness"
+            case timecodeInsertion = "timecodeInsertion"
+            case videoPreprocessors = "videoPreprocessors"
+            case width = "width"
         }
     }
 
     public struct VideoDetail: AWSDecodableShape {
+
         /// Height in pixels for the output
         public let heightInPx: Int?
         /// Width in pixels for the output
@@ -9092,12 +9286,13 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case heightInPx
-            case widthInPx
+            case heightInPx = "heightInPx"
+            case widthInPx = "widthInPx"
         }
     }
 
     public struct VideoPreprocessor: AWSEncodableShape & AWSDecodableShape {
+
         /// Enable the Color corrector (ColorCorrector) feature if necessary. Enable or disable this feature for each output individually. This setting is disabled by default.
         public let colorCorrector: ColorCorrector?
         /// Use Deinterlacer (Deinterlacer) to produce smoother motion and a clearer picture.
@@ -9133,17 +9328,18 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case colorCorrector
-            case deinterlacer
-            case dolbyVision
-            case imageInserter
-            case noiseReducer
-            case partnerWatermarking
-            case timecodeBurnin
+            case colorCorrector = "colorCorrector"
+            case deinterlacer = "deinterlacer"
+            case dolbyVision = "dolbyVision"
+            case imageInserter = "imageInserter"
+            case noiseReducer = "noiseReducer"
+            case partnerWatermarking = "partnerWatermarking"
+            case timecodeBurnin = "timecodeBurnin"
         }
     }
 
     public struct VideoSelector: AWSEncodableShape & AWSDecodableShape {
+
         /// Ignore this setting unless this input is a QuickTime animation with an alpha channel. Use this setting to create separate Key and Fill outputs. In each output, specify which part of the input MediaConvert uses. Leave this setting at the default value DISCARD to delete the alpha channel and preserve the video. Set it to REMAP_TO_LUMA to delete the video and map the alpha channel to the luma channel of your outputs.
         public let alphaBehavior: AlphaBehavior?
         /// If your input video has accurate color space metadata, or if you don't know about color space, leave this set to the default value Follow (FOLLOW). The service will automatically detect your input color space. If your input video has metadata indicating the wrong color space, specify the accurate color space here. If your input video is HDR 10 and the SMPTE ST 2086 Mastering Display Color Volume static metadata isn't present in your video stream, or if that metadata is present but not accurate, choose Force HDR 10 (FORCE_HDR10) here and specify correct values in the input HDR 10 metadata (Hdr10Metadata) settings. For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
@@ -9171,24 +9367,25 @@ extension MediaConvert {
 
         public func validate(name: String) throws {
             try self.hdr10Metadata?.validate(name: "\(name).hdr10Metadata")
-            try self.validate(self.pid, name: "pid", parent: name, max: 2_147_483_647)
+            try self.validate(self.pid, name: "pid", parent: name, max: 2147483647)
             try self.validate(self.pid, name: "pid", parent: name, min: 1)
-            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2_147_483_647)
-            try self.validate(self.programNumber, name: "programNumber", parent: name, min: -2_147_483_648)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, max: 2147483647)
+            try self.validate(self.programNumber, name: "programNumber", parent: name, min: -2147483648)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case alphaBehavior
-            case colorSpace
-            case colorSpaceUsage
-            case hdr10Metadata
-            case pid
-            case programNumber
-            case rotate
+            case alphaBehavior = "alphaBehavior"
+            case colorSpace = "colorSpace"
+            case colorSpaceUsage = "colorSpaceUsage"
+            case hdr10Metadata = "hdr10Metadata"
+            case pid = "pid"
+            case programNumber = "programNumber"
+            case rotate = "rotate"
         }
     }
 
     public struct VorbisSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Optional. Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2. The default value is 2.
         public let channels: Int?
         /// Optional. Specify the audio sample rate in Hz. Valid values are 22050, 32000, 44100, and 48000. The default value is 48000.
@@ -9212,13 +9409,14 @@ extension MediaConvert {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case channels
-            case sampleRate
-            case vbrQuality
+            case channels = "channels"
+            case sampleRate = "sampleRate"
+            case vbrQuality = "vbrQuality"
         }
     }
 
     public struct Vp8Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let bitrate: Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
@@ -9263,40 +9461,41 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 1152000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1_152_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 1152000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case hrdBufferSize
-            case maxBitrate
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
         }
     }
 
     public struct Vp9Settings: AWSEncodableShape & AWSDecodableShape {
+
         /// Target bitrate in bits/second. For example, enter five megabits per second as 5000000.
         public let bitrate: Int?
         /// If you are using the console, use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction. If you are creating your transcoding job specification as a JSON file without the console, use FramerateControl to specify which value the service uses for the frame rate for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to use the frame rate from the input. Choose SPECIFIED if you want the service to use the frame rate you specify in the settings FramerateNumerator and FramerateDenominator.
@@ -9341,40 +9540,41 @@ extension MediaConvert {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 480_000_000)
+            try self.validate(self.bitrate, name: "bitrate", parent: name, max: 480000000)
             try self.validate(self.bitrate, name: "bitrate", parent: name, min: 1000)
-            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, max: 2147483647)
             try self.validate(self.framerateDenominator, name: "framerateDenominator", parent: name, min: 1)
-            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, max: 2147483647)
             try self.validate(self.framerateNumerator, name: "framerateNumerator", parent: name, min: 1)
-            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47_185_920)
+            try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, max: 47185920)
             try self.validate(self.hrdBufferSize, name: "hrdBufferSize", parent: name, min: 0)
-            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 480_000_000)
+            try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, max: 480000000)
             try self.validate(self.maxBitrate, name: "maxBitrate", parent: name, min: 1000)
-            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parDenominator, name: "parDenominator", parent: name, max: 2147483647)
             try self.validate(self.parDenominator, name: "parDenominator", parent: name, min: 1)
-            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2_147_483_647)
+            try self.validate(self.parNumerator, name: "parNumerator", parent: name, max: 2147483647)
             try self.validate(self.parNumerator, name: "parNumerator", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitrate
-            case framerateControl
-            case framerateConversionAlgorithm
-            case framerateDenominator
-            case framerateNumerator
-            case gopSize
-            case hrdBufferSize
-            case maxBitrate
-            case parControl
-            case parDenominator
-            case parNumerator
-            case qualityTuningLevel
-            case rateControlMode
+            case bitrate = "bitrate"
+            case framerateControl = "framerateControl"
+            case framerateConversionAlgorithm = "framerateConversionAlgorithm"
+            case framerateDenominator = "framerateDenominator"
+            case framerateNumerator = "framerateNumerator"
+            case gopSize = "gopSize"
+            case hrdBufferSize = "hrdBufferSize"
+            case maxBitrate = "maxBitrate"
+            case parControl = "parControl"
+            case parDenominator = "parDenominator"
+            case parNumerator = "parNumerator"
+            case qualityTuningLevel = "qualityTuningLevel"
+            case rateControlMode = "rateControlMode"
         }
     }
 
     public struct WavSettings: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public let bitDepth: Int?
         /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
@@ -9396,15 +9596,15 @@ extension MediaConvert {
             try self.validate(self.bitDepth, name: "bitDepth", parent: name, min: 16)
             try self.validate(self.channels, name: "channels", parent: name, max: 64)
             try self.validate(self.channels, name: "channels", parent: name, min: 1)
-            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192_000)
+            try self.validate(self.sampleRate, name: "sampleRate", parent: name, max: 192000)
             try self.validate(self.sampleRate, name: "sampleRate", parent: name, min: 8000)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bitDepth
-            case channels
-            case format
-            case sampleRate
+            case bitDepth = "bitDepth"
+            case channels = "channels"
+            case format = "format"
+            case sampleRate = "sampleRate"
         }
     }
 }

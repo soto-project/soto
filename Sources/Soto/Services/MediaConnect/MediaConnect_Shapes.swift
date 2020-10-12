@@ -21,9 +21,9 @@ extension MediaConnect {
     // MARK: Enums
 
     public enum Algorithm: String, CustomStringConvertible, Codable {
-        case aes128
-        case aes192
-        case aes256
+        case aes128 = "aes128"
+        case aes192 = "aes192"
+        case aes256 = "aes256"
         public var description: String { return self.rawValue }
     }
 
@@ -39,7 +39,7 @@ extension MediaConnect {
     }
 
     public enum KeyType: String, CustomStringConvertible, Codable {
-        case speke
+        case speke = "speke"
         case staticKey = "static-key"
         public var description: String { return self.rawValue }
     }
@@ -52,9 +52,9 @@ extension MediaConnect {
     public enum `Protocol`: String, CustomStringConvertible, Codable {
         case zixiPush = "zixi-push"
         case rtpFec = "rtp-fec"
-        case rtp
+        case rtp = "rtp"
         case zixiPull = "zixi-pull"
-        case rist
+        case rist = "rist"
         public var description: String { return self.rawValue }
     }
 
@@ -111,11 +111,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case outputs
+            case outputs = "outputs"
         }
     }
 
     public struct AddFlowOutputsResponse: AWSDecodableShape {
+
         /// The ARN of the flow that these outputs were added to.
         public let flowArn: String?
         /// The details of the newly added outputs.
@@ -127,8 +128,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case outputs
+            case flowArn = "flowArn"
+            case outputs = "outputs"
         }
     }
 
@@ -147,11 +148,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sources
+            case sources = "sources"
         }
     }
 
     public struct AddFlowSourcesResponse: AWSDecodableShape {
+
         /// The ARN of the flow that these sources were added to.
         public let flowArn: String?
         /// The details of the newly added sources.
@@ -163,8 +165,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case sources
+            case flowArn = "flowArn"
+            case sources = "sources"
         }
     }
 
@@ -183,11 +185,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcInterfaces
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
     public struct AddFlowVpcInterfacesResponse: AWSDecodableShape {
+
         /// The ARN of the flow that these VPC interfaces were added to.
         public let flowArn: String?
         /// The details of the newly added VPC interfaces.
@@ -199,12 +202,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case vpcInterfaces
+            case flowArn = "flowArn"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
     public struct AddOutputRequest: AWSEncodableShape {
+
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
         /// A description of the output. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the end user.
@@ -246,22 +250,23 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case description
-            case destination
-            case encryption
-            case maxLatency
-            case name
-            case port
-            case `protocol`
-            case remoteId
-            case smoothingLatency
-            case streamId
-            case vpcInterfaceAttachment
+            case cidrAllowList = "cidrAllowList"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case maxLatency = "maxLatency"
+            case name = "name"
+            case port = "port"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
     public struct CreateFlowRequest: AWSEncodableShape {
+
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS Region.
         public let availabilityZone: String?
         /// The entitlements that you want to grant on a flow.
@@ -288,18 +293,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case entitlements
-            case name
-            case outputs
-            case source
-            case sourceFailoverConfig
-            case sources
-            case vpcInterfaces
+            case availabilityZone = "availabilityZone"
+            case entitlements = "entitlements"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
     public struct CreateFlowResponse: AWSDecodableShape {
+
         public let flow: Flow?
 
         public init(flow: Flow? = nil) {
@@ -307,7 +313,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
+            case flow = "flow"
         }
     }
 
@@ -326,6 +332,7 @@ extension MediaConnect {
     }
 
     public struct DeleteFlowResponse: AWSDecodableShape {
+
         /// The ARN of the flow that was deleted.
         public let flowArn: String?
         /// The status of the flow when the DeleteFlow process begins.
@@ -337,8 +344,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -357,6 +364,7 @@ extension MediaConnect {
     }
 
     public struct DescribeFlowResponse: AWSDecodableShape {
+
         public let flow: Flow?
         public let messages: Messages?
 
@@ -366,8 +374,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
-            case messages
+            case flow = "flow"
+            case messages = "messages"
         }
     }
 
@@ -386,6 +394,7 @@ extension MediaConnect {
     }
 
     public struct DescribeOfferingResponse: AWSDecodableShape {
+
         public let offering: Offering?
 
         public init(offering: Offering? = nil) {
@@ -393,7 +402,7 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case offering
+            case offering = "offering"
         }
     }
 
@@ -412,6 +421,7 @@ extension MediaConnect {
     }
 
     public struct DescribeReservationResponse: AWSDecodableShape {
+
         public let reservation: Reservation?
 
         public init(reservation: Reservation? = nil) {
@@ -419,11 +429,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
     public struct Encryption: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm
         /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
@@ -456,19 +467,20 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case constantInitializationVector
-            case deviceId
-            case keyType
-            case region
-            case resourceId
-            case roleArn
-            case secretArn
-            case url
+            case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
+            case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+            case url = "url"
         }
     }
 
     public struct Entitlement: AWSDecodableShape {
+
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement.
@@ -495,17 +507,18 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case encryption
-            case entitlementArn
-            case entitlementStatus
-            case name
-            case subscribers
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case entitlementStatus = "entitlementStatus"
+            case name = "name"
+            case subscribers = "subscribers"
         }
     }
 
     public struct FailoverConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Search window time to look for dash-7 packets
         public let recoveryWindow: Int?
         public let state: State?
@@ -516,12 +529,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryWindow
-            case state
+            case recoveryWindow = "recoveryWindow"
+            case state = "state"
         }
     }
 
     public struct Flow: AWSDecodableShape {
+
         /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current AWS.
         public let availabilityZone: String
         /// A description of the flow. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -560,22 +574,23 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case description
-            case egressIp
-            case entitlements
-            case flowArn
-            case name
-            case outputs
-            case source
-            case sourceFailoverConfig
-            case sources
-            case status
-            case vpcInterfaces
+            case availabilityZone = "availabilityZone"
+            case description = "description"
+            case egressIp = "egressIp"
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
+            case name = "name"
+            case outputs = "outputs"
+            case source = "source"
+            case sourceFailoverConfig = "sourceFailoverConfig"
+            case sources = "sources"
+            case status = "status"
+            case vpcInterfaces = "vpcInterfaces"
         }
     }
 
     public struct GrantEntitlementRequest: AWSEncodableShape {
+
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// A description of the entitlement. This description appears only on the AWS Elemental MediaConnect console and will not be seen by the subscriber or end user.
@@ -599,12 +614,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case encryption
-            case entitlementStatus
-            case name
-            case subscribers
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
+            case name = "name"
+            case subscribers = "subscribers"
         }
     }
 
@@ -623,11 +638,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
+            case entitlements = "entitlements"
         }
     }
 
     public struct GrantFlowEntitlementsResponse: AWSDecodableShape {
+
         /// The entitlements that were just granted.
         public let entitlements: [Entitlement]?
         /// The ARN of the flow that these entitlements were granted to.
@@ -639,14 +655,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
-            case flowArn
+            case entitlements = "entitlements"
+            case flowArn = "flowArn"
         }
     }
 
     public struct ListEntitlementsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -667,6 +683,7 @@ extension MediaConnect {
     }
 
     public struct ListEntitlementsResponse: AWSDecodableShape {
+
         /// A list of entitlements that have been granted to you from other AWS accounts.
         public let entitlements: [ListedEntitlement]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListEntitlements request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListEntitlements request a second time and specify the NextToken value.
@@ -678,14 +695,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlements
-            case nextToken
+            case entitlements = "entitlements"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -706,6 +723,7 @@ extension MediaConnect {
     }
 
     public struct ListFlowsResponse: AWSDecodableShape {
+
         /// A list of flow summaries.
         public let flows: [ListedFlow]?
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListFlows request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListFlows request a second time and specify the NextToken value.
@@ -717,14 +735,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flows
-            case nextToken
+            case flows = "flows"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListOfferingsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -745,6 +763,7 @@ extension MediaConnect {
     }
 
     public struct ListOfferingsResponse: AWSDecodableShape {
+
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
         public let nextToken: String?
         /// A list of offerings that are available to this account in the current AWS Region.
@@ -756,14 +775,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case offerings
+            case nextToken = "nextToken"
+            case offerings = "offerings"
         }
     }
 
     public struct ListReservationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -784,6 +803,7 @@ extension MediaConnect {
     }
 
     public struct ListReservationsResponse: AWSDecodableShape {
+
         /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
         public let nextToken: String?
         /// A list of all reservations that have been purchased by this account in the current AWS Region.
@@ -795,8 +815,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case reservations
+            case nextToken = "nextToken"
+            case reservations = "reservations"
         }
     }
 
@@ -815,6 +835,7 @@ extension MediaConnect {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// A map from tag keys to values. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
         public let tags: [String: String]?
 
@@ -823,11 +844,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListedEntitlement: AWSDecodableShape {
+
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// The ARN of the entitlement.
@@ -842,13 +864,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case entitlementArn
-            case entitlementName
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case entitlementArn = "entitlementArn"
+            case entitlementName = "entitlementName"
         }
     }
 
     public struct ListedFlow: AWSDecodableShape {
+
         /// The Availability Zone that the flow was created in.
         public let availabilityZone: String
         /// A description of the flow.
@@ -872,16 +895,17 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZone
-            case description
-            case flowArn
-            case name
-            case sourceType
-            case status
+            case availabilityZone = "availabilityZone"
+            case description = "description"
+            case flowArn = "flowArn"
+            case name = "name"
+            case sourceType = "sourceType"
+            case status = "status"
         }
     }
 
     public struct Messages: AWSDecodableShape {
+
         /// A list of errors that might have been generated from processes on this flow.
         public let errors: [String]
 
@@ -890,11 +914,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
     public struct Offering: AWSDecodableShape {
+
         /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
         public let currencyCode: String
         /// The length of time that your reservation would be active.
@@ -924,18 +949,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currencyCode
-            case duration
-            case durationUnits
-            case offeringArn
-            case offeringDescription
-            case pricePerUnit
-            case priceUnits
-            case resourceSpecification
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case resourceSpecification = "resourceSpecification"
         }
     }
 
     public struct Output: AWSDecodableShape {
+
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// A description of the output.
@@ -974,17 +1000,17 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case description
-            case destination
-            case encryption
-            case entitlementArn
-            case mediaLiveInputArn
-            case name
-            case outputArn
-            case port
-            case transport
-            case vpcInterfaceAttachment
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case entitlementArn = "entitlementArn"
+            case mediaLiveInputArn = "mediaLiveInputArn"
+            case name = "name"
+            case outputArn = "outputArn"
+            case port = "port"
+            case transport = "transport"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
@@ -1006,12 +1032,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservationName
-            case start
+            case reservationName = "reservationName"
+            case start = "start"
         }
     }
 
     public struct PurchaseOfferingResponse: AWSDecodableShape {
+
         public let reservation: Reservation?
 
         public init(reservation: Reservation? = nil) {
@@ -1019,13 +1046,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservation
+            case reservation = "reservation"
         }
     }
 
     public struct RemoveFlowOutputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
             AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "outputArn"))
         ]
 
@@ -1041,6 +1068,7 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowOutputResponse: AWSDecodableShape {
+
         /// The ARN of the flow that is associated with the output you removed.
         public let flowArn: String?
         /// The ARN of the output that was removed.
@@ -1052,14 +1080,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case outputArn
+            case flowArn = "flowArn"
+            case outputArn = "outputArn"
         }
     }
 
     public struct RemoveFlowSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
             AWSMemberEncoding(label: "sourceArn", location: .uri(locationName: "sourceArn"))
         ]
 
@@ -1075,6 +1103,7 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowSourceResponse: AWSDecodableShape {
+
         /// The ARN of the flow that is associated with the source you removed.
         public let flowArn: String?
         /// The ARN of the source that was removed.
@@ -1086,14 +1115,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case sourceArn
+            case flowArn = "flowArn"
+            case sourceArn = "sourceArn"
         }
     }
 
     public struct RemoveFlowVpcInterfaceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
             AWSMemberEncoding(label: "vpcInterfaceName", location: .uri(locationName: "vpcInterfaceName"))
         ]
 
@@ -1109,6 +1138,7 @@ extension MediaConnect {
     }
 
     public struct RemoveFlowVpcInterfaceResponse: AWSDecodableShape {
+
         /// The ARN of the flow that is associated with the VPC interface you removed.
         public let flowArn: String?
         /// IDs of network interfaces associated with the removed VPC interface that Media Connect was unable to remove.
@@ -1123,13 +1153,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case nonDeletedNetworkInterfaceIds
-            case vpcInterfaceName
+            case flowArn = "flowArn"
+            case nonDeletedNetworkInterfaceIds = "nonDeletedNetworkInterfaceIds"
+            case vpcInterfaceName = "vpcInterfaceName"
         }
     }
 
     public struct Reservation: AWSDecodableShape {
+
         /// The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
         public let currencyCode: String
         /// The length of time that this reservation is active. MediaConnect defines this value in the offering.
@@ -1174,23 +1205,24 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currencyCode
-            case duration
-            case durationUnits
-            case end
-            case offeringArn
-            case offeringDescription
-            case pricePerUnit
-            case priceUnits
-            case reservationArn
-            case reservationName
-            case reservationState
-            case resourceSpecification
-            case start
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case reservationArn = "reservationArn"
+            case reservationName = "reservationName"
+            case reservationState = "reservationState"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
         }
     }
 
     public struct ResourceSpecification: AWSDecodableShape {
+
         /// The amount of outbound bandwidth that is discounted in the offering.
         public let reservedBitrate: Int?
         /// The type of resource and the unit that is being billed for.
@@ -1202,14 +1234,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case reservedBitrate
-            case resourceType
+            case reservedBitrate = "reservedBitrate"
+            case resourceType = "resourceType"
         }
     }
 
     public struct RevokeFlowEntitlementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")),
+            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")), 
             AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
@@ -1225,6 +1257,7 @@ extension MediaConnect {
     }
 
     public struct RevokeFlowEntitlementResponse: AWSDecodableShape {
+
         /// The ARN of the entitlement that was revoked.
         public let entitlementArn: String?
         /// The ARN of the flow that the entitlement was revoked from.
@@ -1236,12 +1269,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlementArn
-            case flowArn
+            case entitlementArn = "entitlementArn"
+            case flowArn = "flowArn"
         }
     }
 
     public struct SetSourceRequest: AWSEncodableShape {
+
         /// The type of encryption that is used on the content ingested from this source.
         public let decryption: Encryption?
         /// A description for the source. This value is not used or seen outside of the current AWS Elemental MediaConnect account.
@@ -1280,21 +1314,22 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryption
-            case description
-            case entitlementArn
-            case ingestPort
-            case maxBitrate
-            case maxLatency
-            case name
-            case `protocol`
-            case streamId
-            case vpcInterfaceName
-            case whitelistCidr
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case name = "name"
+            case `protocol` = "protocol"
+            case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
     public struct Source: AWSDecodableShape {
+
         /// Percentage from 0-100 of the data transfer cost to be billed to the subscriber.
         public let dataTransferSubscriberFeePercent: Int?
         /// The type of encryption that is used on the content ingested from this source.
@@ -1333,17 +1368,17 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataTransferSubscriberFeePercent
-            case decryption
-            case description
-            case entitlementArn
-            case ingestIp
-            case ingestPort
-            case name
-            case sourceArn
-            case transport
-            case vpcInterfaceName
-            case whitelistCidr
+            case dataTransferSubscriberFeePercent = "dataTransferSubscriberFeePercent"
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestIp = "ingestIp"
+            case ingestPort = "ingestPort"
+            case name = "name"
+            case sourceArn = "sourceArn"
+            case transport = "transport"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
@@ -1362,6 +1397,7 @@ extension MediaConnect {
     }
 
     public struct StartFlowResponse: AWSDecodableShape {
+
         /// The ARN of the flow that you started.
         public let flowArn: String?
         /// The status of the flow when the StartFlow process begins.
@@ -1373,8 +1409,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -1393,6 +1429,7 @@ extension MediaConnect {
     }
 
     public struct StopFlowResponse: AWSDecodableShape {
+
         /// The ARN of the flow that you stopped.
         public let flowArn: String?
         /// The status of the flow when the StopFlow process begins.
@@ -1404,8 +1441,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case status
+            case flowArn = "flowArn"
+            case status = "status"
         }
     }
 
@@ -1424,11 +1461,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Transport: AWSDecodableShape {
+
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let cidrAllowList: [String]?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
@@ -1455,19 +1493,19 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case maxBitrate
-            case maxLatency
-            case `protocol`
-            case remoteId
-            case smoothingLatency
-            case streamId
+            case cidrAllowList = "cidrAllowList"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1483,6 +1521,7 @@ extension MediaConnect {
     }
 
     public struct UpdateEncryption: AWSEncodableShape {
+
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public let algorithm: Algorithm?
         /// A 128-bit, 16-byte hex value represented by a 32-character string, to be used with the key for encrypting content. This parameter is not valid for static key encryption.
@@ -1515,19 +1554,20 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
-            case constantInitializationVector
-            case deviceId
-            case keyType
-            case region
-            case resourceId
-            case roleArn
-            case secretArn
-            case url
+            case algorithm = "algorithm"
+            case constantInitializationVector = "constantInitializationVector"
+            case deviceId = "deviceId"
+            case keyType = "keyType"
+            case region = "region"
+            case resourceId = "resourceId"
+            case roleArn = "roleArn"
+            case secretArn = "secretArn"
+            case url = "url"
         }
     }
 
     public struct UpdateFailoverConfig: AWSEncodableShape {
+
         /// Recovery window time to look for dash-7 packets
         public let recoveryWindow: Int?
         public let state: State?
@@ -1538,14 +1578,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recoveryWindow
-            case state
+            case recoveryWindow = "recoveryWindow"
+            case state = "state"
         }
     }
 
     public struct UpdateFlowEntitlementRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")),
+            AWSMemberEncoding(label: "entitlementArn", location: .uri(locationName: "entitlementArn")), 
             AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn"))
         ]
 
@@ -1570,14 +1610,15 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case encryption
-            case entitlementStatus
-            case subscribers
+            case description = "description"
+            case encryption = "encryption"
+            case entitlementStatus = "entitlementStatus"
+            case subscribers = "subscribers"
         }
     }
 
     public struct UpdateFlowEntitlementResponse: AWSDecodableShape {
+
         /// The new configuration of the entitlement that you updated.
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
@@ -1589,14 +1630,14 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entitlement
-            case flowArn
+            case entitlement = "entitlement"
+            case flowArn = "flowArn"
         }
     }
 
     public struct UpdateFlowOutputRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
             AWSMemberEncoding(label: "outputArn", location: .uri(locationName: "outputArn"))
         ]
 
@@ -1642,21 +1683,22 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cidrAllowList
-            case description
-            case destination
-            case encryption
-            case maxLatency
-            case port
-            case `protocol`
-            case remoteId
-            case smoothingLatency
-            case streamId
-            case vpcInterfaceAttachment
+            case cidrAllowList = "cidrAllowList"
+            case description = "description"
+            case destination = "destination"
+            case encryption = "encryption"
+            case maxLatency = "maxLatency"
+            case port = "port"
+            case `protocol` = "protocol"
+            case remoteId = "remoteId"
+            case smoothingLatency = "smoothingLatency"
+            case streamId = "streamId"
+            case vpcInterfaceAttachment = "vpcInterfaceAttachment"
         }
     }
 
     public struct UpdateFlowOutputResponse: AWSDecodableShape {
+
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
         /// The new settings of the output that you updated.
@@ -1668,8 +1710,8 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case output
+            case flowArn = "flowArn"
+            case output = "output"
         }
     }
 
@@ -1687,11 +1729,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sourceFailoverConfig
+            case sourceFailoverConfig = "sourceFailoverConfig"
         }
     }
 
     public struct UpdateFlowResponse: AWSDecodableShape {
+
         public let flow: Flow?
 
         public init(flow: Flow? = nil) {
@@ -1699,13 +1742,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flow
+            case flow = "flow"
         }
     }
 
     public struct UpdateFlowSourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")),
+            AWSMemberEncoding(label: "flowArn", location: .uri(locationName: "flowArn")), 
             AWSMemberEncoding(label: "sourceArn", location: .uri(locationName: "sourceArn"))
         ]
 
@@ -1748,20 +1791,21 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case decryption
-            case description
-            case entitlementArn
-            case ingestPort
-            case maxBitrate
-            case maxLatency
-            case `protocol`
-            case streamId
-            case vpcInterfaceName
-            case whitelistCidr
+            case decryption = "decryption"
+            case description = "description"
+            case entitlementArn = "entitlementArn"
+            case ingestPort = "ingestPort"
+            case maxBitrate = "maxBitrate"
+            case maxLatency = "maxLatency"
+            case `protocol` = "protocol"
+            case streamId = "streamId"
+            case vpcInterfaceName = "vpcInterfaceName"
+            case whitelistCidr = "whitelistCidr"
         }
     }
 
     public struct UpdateFlowSourceResponse: AWSDecodableShape {
+
         /// The ARN of the flow that you want to update.
         public let flowArn: String?
         /// The settings for the source of the flow.
@@ -1773,12 +1817,13 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case flowArn
-            case source
+            case flowArn = "flowArn"
+            case source = "source"
         }
     }
 
     public struct VpcInterface: AWSDecodableShape {
+
         /// Immutable and has to be a unique against other VpcInterfaces in this Flow
         public let name: String
         /// IDs of the network interfaces created in customer's account by MediaConnect.
@@ -1799,15 +1844,16 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case networkInterfaceIds
-            case roleArn
-            case securityGroupIds
-            case subnetId
+            case name = "name"
+            case networkInterfaceIds = "networkInterfaceIds"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 
     public struct VpcInterfaceAttachment: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the VPC interface to use for this output.
         public let vpcInterfaceName: String?
 
@@ -1816,11 +1862,12 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vpcInterfaceName
+            case vpcInterfaceName = "vpcInterfaceName"
         }
     }
 
     public struct VpcInterfaceRequest: AWSEncodableShape {
+
         /// The name of the VPC Interface. This value must be unique within the current flow.
         public let name: String
         /// Role Arn MediaConnect can assumes to create ENIs in customer's account
@@ -1838,10 +1885,10 @@ extension MediaConnect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case roleArn
-            case securityGroupIds
-            case subnetId
+            case name = "name"
+            case roleArn = "roleArn"
+            case securityGroupIds = "securityGroupIds"
+            case subnetId = "subnetId"
         }
     }
 }

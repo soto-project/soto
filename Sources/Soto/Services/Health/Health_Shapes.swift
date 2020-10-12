@@ -40,38 +40,39 @@ extension Health {
     }
 
     public enum EventStatusCode: String, CustomStringConvertible, Codable {
-        case open
-        case closed
-        case upcoming
+        case open = "open"
+        case closed = "closed"
+        case upcoming = "upcoming"
         public var description: String { return self.rawValue }
     }
 
     public enum EventTypeCategory: String, CustomStringConvertible, Codable {
-        case issue
+        case issue = "issue"
         case accountnotification = "accountNotification"
         case scheduledchange = "scheduledChange"
-        case investigation
+        case investigation = "investigation"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AffectedEntity: AWSDecodableShape {
+
         /// The 12-digit AWS account number that contains the affected entity.
         public let awsAccountId: String?
-        /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K
+        /// The unique identifier for the entity. Format: arn:aws:health:entity-region:aws-account:entity/entity-id . Example: arn:aws:health:us-east-1:111222333444:entity/AVh5GGT7ul1arKr1sE1K 
         public let entityArn: String?
         /// The URL of the affected entity.
         public let entityUrl: String?
         /// The ID of the affected entity.
         public let entityValue: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
         /// The most recent time that the entity was updated.
         public let lastUpdatedTime: Date?
         /// The most recent status of the entity affected by the event. The possible values are IMPAIRED, UNIMPAIRED, and UNKNOWN.
         public let statusCode: EntityStatusCode?
-        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [String: String]?
 
         public init(awsAccountId: String? = nil, entityArn: String? = nil, entityUrl: String? = nil, entityValue: String? = nil, eventArn: String? = nil, lastUpdatedTime: Date? = nil, statusCode: EntityStatusCode? = nil, tags: [String: String]? = nil) {
@@ -86,18 +87,19 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case entityArn
-            case entityUrl
-            case entityValue
-            case eventArn
-            case lastUpdatedTime
-            case statusCode
-            case tags
+            case awsAccountId = "awsAccountId"
+            case entityArn = "entityArn"
+            case entityUrl = "entityUrl"
+            case entityValue = "entityValue"
+            case eventArn = "eventArn"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case statusCode = "statusCode"
+            case tags = "tags"
         }
     }
 
     public struct DateTimeRange: AWSEncodableShape {
+
         /// The starting date and time of a time range.
         public let from: Date?
         /// The ending date and time of a time range.
@@ -109,13 +111,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case from
-            case to
+            case from = "from"
+            case to = "to"
         }
     }
 
     public struct DescribeAffectedAccountsForOrganizationRequest: AWSEncodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
         public let maxResults: Int?
@@ -139,16 +142,17 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArn
-            case maxResults
-            case nextToken
+            case eventArn = "eventArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAffectedAccountsForOrganizationResponse: AWSDecodableShape {
+
         /// A JSON set of elements of the affected accounts.
         public let affectedAccounts: [String]?
-        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
         public let nextToken: String?
@@ -160,13 +164,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case affectedAccounts
-            case eventScopeCode
-            case nextToken
+            case affectedAccounts = "affectedAccounts"
+            case eventScopeCode = "eventScopeCode"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAffectedEntitiesForOrganizationRequest: AWSEncodableShape {
+
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
         /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
@@ -200,14 +205,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale
-            case maxResults
-            case nextToken
-            case organizationEntityFilters
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case organizationEntityFilters = "organizationEntityFilters"
         }
     }
 
     public struct DescribeAffectedEntitiesForOrganizationResponse: AWSDecodableShape {
+
         /// A JSON set of elements including the awsAccountId and its entityArn, entityValue and its entityArn, lastUpdatedTime, and statusCode.
         public let entities: [AffectedEntity]?
         /// A JSON set of elements of the failed response, including the awsAccountId, errorMessage, errorName, and eventArn.
@@ -222,13 +228,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case failedSet
-            case nextToken
+            case entities = "entities"
+            case failedSet = "failedSet"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAffectedEntitiesRequest: AWSEncodableShape {
+
         /// Values to narrow the results returned. At least one event ARN is required.
         public let filter: EntityFilter
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -258,14 +265,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAffectedEntitiesResponse: AWSDecodableShape {
+
         /// The entities that match the filter criteria.
         public let entities: [AffectedEntity]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -277,13 +285,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entities
-            case nextToken
+            case entities = "entities"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEntityAggregatesRequest: AWSEncodableShape {
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]?
 
         public init(eventArns: [String]? = nil) {
@@ -300,11 +309,12 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns
+            case eventArns = "eventArns"
         }
     }
 
     public struct DescribeEntityAggregatesResponse: AWSDecodableShape {
+
         /// The number of entities that are affected by each of the specified events.
         public let entityAggregates: [EntityAggregate]?
 
@@ -313,11 +323,12 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityAggregates
+            case entityAggregates = "entityAggregates"
         }
     }
 
     public struct DescribeEventAggregatesRequest: AWSEncodableShape {
+
         /// The only currently supported value is eventTypeCategory.
         public let aggregateField: EventAggregateField
         /// Values to narrow the results returned.
@@ -344,14 +355,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregateField
-            case filter
-            case maxResults
-            case nextToken
+            case aggregateField = "aggregateField"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventAggregatesResponse: AWSDecodableShape {
+
         /// The number of events in each category that meet the optional filter criteria.
         public let eventAggregates: [EventAggregate]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -363,12 +375,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventAggregates
-            case nextToken
+            case eventAggregates = "eventAggregates"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventDetailsForOrganizationRequest: AWSEncodableShape {
+
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
         /// A set of JSON elements that includes the awsAccountId and the eventArn.
@@ -391,12 +404,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case locale
-            case organizationEventDetailFilters
+            case locale = "locale"
+            case organizationEventDetailFilters = "organizationEventDetailFilters"
         }
     }
 
     public struct DescribeEventDetailsForOrganizationResponse: AWSDecodableShape {
+
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [OrganizationEventDetailsErrorItem]?
         /// Information about the events that could be retrieved.
@@ -408,13 +422,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedSet
-            case successfulSet
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
         }
     }
 
     public struct DescribeEventDetailsRequest: AWSEncodableShape {
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
         public let locale: String?
@@ -437,12 +452,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventArns
-            case locale
+            case eventArns = "eventArns"
+            case locale = "locale"
         }
     }
 
     public struct DescribeEventDetailsResponse: AWSDecodableShape {
+
         /// Error messages for any events that could not be retrieved.
         public let failedSet: [EventDetailsErrorItem]?
         /// Information about the events that could be retrieved.
@@ -454,12 +470,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedSet
-            case successfulSet
+            case failedSet = "failedSet"
+            case successfulSet = "successfulSet"
         }
     }
 
     public struct DescribeEventTypesRequest: AWSEncodableShape {
+
         /// Values to narrow the results returned.
         public let filter: EventTypeFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -489,14 +506,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventTypesResponse: AWSDecodableShape {
+
         /// A list of event types that match the filter criteria. Event types have a category (issue, accountNotification, or scheduledChange), a service (for example, EC2, RDS, DATAPIPELINE, BILLING), and a code (in the format AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT).
         public let eventTypes: [EventType]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -508,12 +526,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypes
-            case nextToken
+            case eventTypes = "eventTypes"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventsForOrganizationRequest: AWSEncodableShape {
+
         /// Values to narrow the results returned.
         public let filter: OrganizationEventFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -543,14 +562,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventsForOrganizationResponse: AWSDecodableShape {
+
         /// The events that match the specified filter criteria.
         public let events: [OrganizationEvent]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -562,12 +582,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventsRequest: AWSEncodableShape {
+
         /// Values to narrow the results returned.
         public let filter: EventFilter?
         /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
@@ -597,14 +618,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case locale
-            case maxResults
-            case nextToken
+            case filter = "filter"
+            case locale = "locale"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeEventsResponse: AWSDecodableShape {
+
         /// The events that match the specified filter criteria.
         public let events: [Event]?
         /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
@@ -616,13 +638,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case events
-            case nextToken
+            case events = "events"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeHealthServiceStatusForOrganizationResponse: AWSDecodableShape {
-        /// Information about the status of enabling or disabling AWS Health Organizational View in your organization. Valid values are ENABLED | DISABLED | PENDING.
+
+        /// Information about the status of enabling or disabling AWS Health Organizational View in your organization. Valid values are ENABLED | DISABLED | PENDING. 
         public let healthServiceAccessStatusForOrganization: String?
 
         public init(healthServiceAccessStatusForOrganization: String? = nil) {
@@ -630,14 +653,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case healthServiceAccessStatusForOrganization
+            case healthServiceAccessStatusForOrganization = "healthServiceAccessStatusForOrganization"
         }
     }
 
     public struct EntityAggregate: AWSDecodableShape {
+
         /// The number of entities that match the criteria for the specified events.
         public let count: Int?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
 
         public init(count: Int? = nil, eventArn: String? = nil) {
@@ -646,23 +670,24 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case count
-            case eventArn
+            case count = "count"
+            case eventArn = "eventArn"
         }
     }
 
     public struct EntityFilter: AWSEncodableShape {
+
         /// A list of entity ARNs (unique identifiers).
         public let entityArns: [String]?
         /// A list of IDs for affected entities.
         public let entityValues: [String]?
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]
         /// A list of the most recent dates and times that the entity was updated.
         public let lastUpdatedTimes: [DateTimeRange]?
         /// A list of entity status codes (IMPAIRED, UNIMPAIRED, or UNKNOWN).
         public let statusCodes: [EntityStatusCode]?
-        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String], lastUpdatedTimes: [DateTimeRange]? = nil, statusCodes: [EntityStatusCode]? = nil, tags: [[String: String]]? = nil) {
@@ -701,23 +726,24 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case entityArns
-            case entityValues
-            case eventArns
-            case lastUpdatedTimes
-            case statusCodes
-            case tags
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventArns = "eventArns"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case statusCodes = "statusCodes"
+            case tags = "tags"
         }
     }
 
     public struct Event: AWSDecodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let arn: String?
         /// The AWS Availability Zone of the event. For example, us-east-1a.
         public let availabilityZone: String?
         /// The date and time that the event ended.
         public let endTime: Date?
-        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// The category of the event. Possible values are issue, scheduledChange, and accountNotification.
         public let eventTypeCategory: EventTypeCategory?
@@ -749,24 +775,25 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case availabilityZone
-            case endTime
-            case eventScopeCode
-            case eventTypeCategory
-            case eventTypeCode
-            case lastUpdatedTime
-            case region
-            case service
-            case startTime
-            case statusCode
+            case arn = "arn"
+            case availabilityZone = "availabilityZone"
+            case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
+            case eventTypeCategory = "eventTypeCategory"
+            case eventTypeCode = "eventTypeCode"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case region = "region"
+            case service = "service"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
         }
     }
 
     public struct EventAccountFilter: AWSEncodableShape {
+
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String
 
         public init(awsAccountId: String? = nil, eventArn: String) {
@@ -782,12 +809,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case eventArn = "eventArn"
         }
     }
 
     public struct EventAggregate: AWSDecodableShape {
+
         /// The issue type for the associated count.
         public let aggregateValue: String?
         /// The number of events of the associated issue type.
@@ -799,12 +827,13 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aggregateValue
-            case count
+            case aggregateValue = "aggregateValue"
+            case count = "count"
         }
     }
 
     public struct EventDescription: AWSDecodableShape {
+
         /// The most recent description of the event.
         public let latestDescription: String?
 
@@ -813,11 +842,12 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case latestDescription
+            case latestDescription = "latestDescription"
         }
     }
 
     public struct EventDetails: AWSDecodableShape {
+
         /// Summary information about the event.
         public let event: Event?
         /// The most recent description of the event.
@@ -832,18 +862,19 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case event
-            case eventDescription
-            case eventMetadata
+            case event = "event"
+            case eventDescription = "eventDescription"
+            case eventMetadata = "eventMetadata"
         }
     }
 
     public struct EventDetailsErrorItem: AWSDecodableShape {
+
         /// A message that describes the error.
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
 
         public init(errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
@@ -853,13 +884,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorMessage
-            case errorName
-            case eventArn
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
     public struct EventFilter: AWSEncodableShape {
+
         /// A list of AWS availability zones.
         public let availabilityZones: [String]?
         /// A list of dates and times that the event ended.
@@ -868,13 +900,13 @@ extension Health {
         public let entityArns: [String]?
         /// A list of entity identifiers, such as EC2 instance IDs (i-34ab692e) or EBS volumes (vol-426ab23e).
         public let entityValues: [String]?
-        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101" 
         public let eventArns: [String]?
         /// A list of event status codes.
         public let eventStatusCodes: [EventStatusCode]?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
-        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".
+        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
         public let eventTypeCodes: [String]?
         /// A list of dates and times that the event was last updated.
         public let lastUpdatedTimes: [DateTimeRange]?
@@ -884,7 +916,7 @@ extension Health {
         public let services: [String]?
         /// A list of dates and times that the event began.
         public let startTimes: [DateTimeRange]?
-        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported.
+        /// A map of entity tags attached to the affected entity.  Currently, the tags property isn't supported. 
         public let tags: [[String: String]]?
 
         public init(availabilityZones: [String]? = nil, endTimes: [DateTimeRange]? = nil, entityArns: [String]? = nil, entityValues: [String]? = nil, eventArns: [String]? = nil, eventStatusCodes: [EventStatusCode]? = nil, eventTypeCategories: [EventTypeCategory]? = nil, eventTypeCodes: [String]? = nil, lastUpdatedTimes: [DateTimeRange]? = nil, regions: [String]? = nil, services: [String]? = nil, startTimes: [DateTimeRange]? = nil, tags: [[String: String]]? = nil) {
@@ -962,23 +994,24 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case availabilityZones
-            case endTimes
-            case entityArns
-            case entityValues
-            case eventArns
-            case eventStatusCodes
-            case eventTypeCategories
-            case eventTypeCodes
-            case lastUpdatedTimes
-            case regions
-            case services
-            case startTimes
-            case tags
+            case availabilityZones = "availabilityZones"
+            case endTimes = "endTimes"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventArns = "eventArns"
+            case eventStatusCodes = "eventStatusCodes"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case lastUpdatedTimes = "lastUpdatedTimes"
+            case regions = "regions"
+            case services = "services"
+            case startTimes = "startTimes"
+            case tags = "tags"
         }
     }
 
     public struct EventType: AWSDecodableShape {
+
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let category: EventTypeCategory?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION ; for example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
@@ -993,13 +1026,14 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case category
-            case code
-            case service
+            case category = "category"
+            case code = "code"
+            case service = "service"
         }
     }
 
     public struct EventTypeFilter: AWSEncodableShape {
+
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
         /// A list of event type codes.
@@ -1033,20 +1067,21 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTypeCategories
-            case eventTypeCodes
-            case services
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case services = "services"
         }
     }
 
     public struct OrganizationAffectedEntitiesErrorItem: AWSDecodableShape {
+
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
         /// The unique identifier for the event type. The format is AWS_SERVICE_DESCRIPTION. For example, AWS_EC2_SYSTEM_MAINTENANCE_EVENT.
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
 
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
@@ -1057,19 +1092,20 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case errorMessage
-            case errorName
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
     public struct OrganizationEvent: AWSDecodableShape {
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let arn: String?
         /// The date and time that the event ended.
         public let endTime: Date?
-        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.
+        /// This parameter specifies if the AWS Health event is a public AWS service event or an account-specific event.   If the eventScopeCode value is PUBLIC, then the affectedAccounts value is always empty.   If the eventScopeCode value is ACCOUNT_SPECIFIC, then the affectedAccounts value lists the affected AWS accounts in your organization. For example, if an event affects a service such as Amazon Elastic Compute Cloud and you have AWS accounts that use that service, those account IDs appear in the response.   If the eventScopeCode value is NONE, then the eventArn that you specified in the request is invalid or doesn't exist.  
         public let eventScopeCode: EventScopeCode?
         /// The category of the event type.
         public let eventTypeCategory: EventTypeCategory?
@@ -1100,20 +1136,21 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case endTime
-            case eventScopeCode
-            case eventTypeCategory
-            case eventTypeCode
-            case lastUpdatedTime
-            case region
-            case service
-            case startTime
-            case statusCode
+            case arn = "arn"
+            case endTime = "endTime"
+            case eventScopeCode = "eventScopeCode"
+            case eventTypeCategory = "eventTypeCategory"
+            case eventTypeCode = "eventTypeCode"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case region = "region"
+            case service = "service"
+            case startTime = "startTime"
+            case statusCode = "statusCode"
         }
     }
 
     public struct OrganizationEventDetails: AWSDecodableShape {
+
         /// The 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountId: String?
         public let event: Event?
@@ -1129,21 +1166,22 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case event
-            case eventDescription
-            case eventMetadata
+            case awsAccountId = "awsAccountId"
+            case event = "event"
+            case eventDescription = "eventDescription"
+            case eventMetadata = "eventMetadata"
         }
     }
 
     public struct OrganizationEventDetailsErrorItem: AWSDecodableShape {
+
         /// Error information returned when a DescribeEventDetailsForOrganization operation cannot find a specified event.
         public let awsAccountId: String?
         /// A message that describes the error.
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?
-        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// The unique identifier for the event. Format: arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID . Example: Example: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456 
         public let eventArn: String?
 
         public init(awsAccountId: String? = nil, errorMessage: String? = nil, errorName: String? = nil, eventArn: String? = nil) {
@@ -1154,14 +1192,15 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountId
-            case errorMessage
-            case errorName
-            case eventArn
+            case awsAccountId = "awsAccountId"
+            case errorMessage = "errorMessage"
+            case errorName = "errorName"
+            case eventArn = "eventArn"
         }
     }
 
     public struct OrganizationEventFilter: AWSEncodableShape {
+
         /// A list of 12-digit AWS account numbers that contains the affected entities.
         public let awsAccountIds: [String]?
         public let endTime: DateTimeRange?
@@ -1173,7 +1212,7 @@ extension Health {
         public let eventStatusCodes: [EventStatusCode]?
         /// A list of event type category codes (issue, scheduledChange, or accountNotification).
         public let eventTypeCategories: [EventTypeCategory]?
-        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".
+        /// A list of unique identifiers for event types. For example, "AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED". 
         public let eventTypeCodes: [String]?
         public let lastUpdatedTime: DateTimeRange?
         /// A list of AWS Regions.
@@ -1243,17 +1282,17 @@ extension Health {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsAccountIds
-            case endTime
-            case entityArns
-            case entityValues
-            case eventStatusCodes
-            case eventTypeCategories
-            case eventTypeCodes
-            case lastUpdatedTime
-            case regions
-            case services
-            case startTime
+            case awsAccountIds = "awsAccountIds"
+            case endTime = "endTime"
+            case entityArns = "entityArns"
+            case entityValues = "entityValues"
+            case eventStatusCodes = "eventStatusCodes"
+            case eventTypeCategories = "eventTypeCategories"
+            case eventTypeCodes = "eventTypeCodes"
+            case lastUpdatedTime = "lastUpdatedTime"
+            case regions = "regions"
+            case services = "services"
+            case startTime = "startTime"
         }
     }
 }

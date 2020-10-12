@@ -23,14 +23,23 @@ extension QLDBSession {
     // MARK: Shapes
 
     public struct AbortTransactionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AbortTransactionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CommitTransactionRequest: AWSEncodableShape {
+
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB.
         public let commitDigest: Data
         /// Specifies the transaction ID of the transaction to commit.
@@ -54,6 +63,7 @@ extension QLDBSession {
     }
 
     public struct CommitTransactionResult: AWSDecodableShape {
+
         /// The commit digest of the committed transaction.
         public let commitDigest: Data?
         /// The transaction ID of the committed transaction.
@@ -71,14 +81,23 @@ extension QLDBSession {
     }
 
     public struct EndSessionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct EndSessionResult: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ExecuteStatementRequest: AWSEncodableShape {
+
         /// Specifies the parameters for the parameterized statement in the request.
         public let parameters: [ValueHolder]?
         /// Specifies the statement of the request.
@@ -96,7 +115,7 @@ extension QLDBSession {
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
-            try self.validate(self.statement, name: "statement", parent: name, max: 100_000)
+            try self.validate(self.statement, name: "statement", parent: name, max: 100000)
             try self.validate(self.statement, name: "statement", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 22)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 22)
@@ -111,6 +130,7 @@ extension QLDBSession {
     }
 
     public struct ExecuteStatementResult: AWSDecodableShape {
+
         /// Contains the details of the first fetched page.
         public let firstPage: Page?
 
@@ -124,6 +144,7 @@ extension QLDBSession {
     }
 
     public struct FetchPageRequest: AWSEncodableShape {
+
         /// Specifies the next page token of the page to be fetched.
         public let nextPageToken: String
         /// Specifies the transaction ID of the page to be fetched.
@@ -150,6 +171,7 @@ extension QLDBSession {
     }
 
     public struct FetchPageResult: AWSDecodableShape {
+
         /// Contains details of the fetched page.
         public let page: Page?
 
@@ -163,6 +185,7 @@ extension QLDBSession {
     }
 
     public struct Page: AWSDecodableShape {
+
         /// The token of the next page.
         public let nextPageToken: String?
         /// A structure that contains values in multiple encoding formats.
@@ -180,6 +203,7 @@ extension QLDBSession {
     }
 
     public struct SendCommandRequest: AWSEncodableShape {
+
         /// Command to abort the current transaction.
         public let abortTransaction: AbortTransactionRequest?
         /// Command to commit the specified transaction.
@@ -231,6 +255,7 @@ extension QLDBSession {
     }
 
     public struct SendCommandResult: AWSDecodableShape {
+
         /// Contains the details of the aborted transaction.
         public let abortTransaction: AbortTransactionResult?
         /// Contains the details of the committed transaction.
@@ -268,6 +293,7 @@ extension QLDBSession {
     }
 
     public struct StartSessionRequest: AWSEncodableShape {
+
         /// The name of the ledger to start a new session against.
         public let ledgerName: String
 
@@ -287,6 +313,7 @@ extension QLDBSession {
     }
 
     public struct StartSessionResult: AWSDecodableShape {
+
         /// Session token of the started session. This SessionToken is required for every subsequent command that is issued during the current session.
         public let sessionToken: String?
 
@@ -300,10 +327,15 @@ extension QLDBSession {
     }
 
     public struct StartTransactionRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartTransactionResult: AWSDecodableShape {
+
         /// The transaction ID of the started transaction.
         public let transactionId: String?
 
@@ -317,6 +349,7 @@ extension QLDBSession {
     }
 
     public struct ValueHolder: AWSEncodableShape & AWSDecodableShape {
+
         /// An Amazon Ion binary value contained in a ValueHolder structure.
         public let ionBinary: Data?
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
@@ -328,9 +361,9 @@ extension QLDBSession {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.ionBinary, name: "ionBinary", parent: name, max: 131_072)
+            try self.validate(self.ionBinary, name: "ionBinary", parent: name, max: 131072)
             try self.validate(self.ionBinary, name: "ionBinary", parent: name, min: 1)
-            try self.validate(self.ionText, name: "ionText", parent: name, max: 1_048_576)
+            try self.validate(self.ionText, name: "ionText", parent: name, max: 1048576)
             try self.validate(self.ionText, name: "ionText", parent: name, min: 1)
         }
 

@@ -34,6 +34,7 @@ extension Personalize {
     // MARK: Shapes
 
     public struct Algorithm: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm.
         public let algorithmArn: String?
         /// The URI of the Docker container for the algorithm image.
@@ -69,20 +70,21 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
-            case algorithmImage
-            case creationDateTime
-            case defaultHyperParameterRanges
-            case defaultHyperParameters
-            case defaultResourceConfig
-            case lastUpdatedDateTime
-            case name
-            case roleArn
-            case trainingInputMode
+            case algorithmArn = "algorithmArn"
+            case algorithmImage = "algorithmImage"
+            case creationDateTime = "creationDateTime"
+            case defaultHyperParameterRanges = "defaultHyperParameterRanges"
+            case defaultHyperParameters = "defaultHyperParameters"
+            case defaultResourceConfig = "defaultResourceConfig"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case roleArn = "roleArn"
+            case trainingInputMode = "trainingInputMode"
         }
     }
 
     public struct AlgorithmImage: AWSDecodableShape {
+
         /// The URI of the Docker container for the algorithm image.
         public let dockerURI: String
         /// The name of the algorithm image.
@@ -94,12 +96,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dockerURI
-            case name
+            case dockerURI = "dockerURI"
+            case name = "name"
         }
     }
 
     public struct AutoMLConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The metric to optimize.
         public let metricName: String?
         /// The list of candidate recipes.
@@ -120,12 +123,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName
-            case recipeList
+            case metricName = "metricName"
+            case recipeList = "recipeList"
         }
     }
 
     public struct AutoMLResult: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the best recipe.
         public let bestRecipeArn: String?
 
@@ -134,11 +138,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bestRecipeArn
+            case bestRecipeArn = "bestRecipeArn"
         }
     }
 
     public struct BatchInferenceJob: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
         /// A string to string map of the configuration details of a batch inference job.
@@ -163,7 +168,7 @@ extension Personalize {
         public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the solution version from which the batch inference job was created.
         public let solutionVersionArn: String?
-        /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
+        /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
         public init(batchInferenceJobArn: String? = nil, batchInferenceJobConfig: BatchInferenceJobConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput? = nil, jobName: String? = nil, jobOutput: BatchInferenceJobOutput? = nil, lastUpdatedDateTime: Date? = nil, numResults: Int? = nil, roleArn: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
@@ -183,23 +188,24 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
-            case batchInferenceJobConfig
-            case creationDateTime
-            case failureReason
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case lastUpdatedDateTime
-            case numResults
-            case roleArn
-            case solutionVersionArn
-            case status
+            case batchInferenceJobArn = "batchInferenceJobArn"
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
     public struct BatchInferenceJobConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
         public let itemExplorationConfig: [String: String]?
 
@@ -215,11 +221,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemExplorationConfig
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
     public struct BatchInferenceJobInput: AWSEncodableShape & AWSDecodableShape {
+
         /// The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling.
         public let s3DataSource: S3DataConfig
 
@@ -232,11 +239,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataSource
+            case s3DataSource = "s3DataSource"
         }
     }
 
     public struct BatchInferenceJobOutput: AWSEncodableShape & AWSDecodableShape {
+
         /// Information on the Amazon S3 bucket in which the batch inference job's output is stored.
         public let s3DataDestination: S3DataConfig
 
@@ -249,11 +257,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3DataDestination
+            case s3DataDestination = "s3DataDestination"
         }
     }
 
     public struct BatchInferenceJobSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public let batchInferenceJobArn: String?
         /// The time at which the batch inference job was created.
@@ -266,7 +275,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The ARN of the solution version used by the batch inference job.
         public let solutionVersionArn: String?
-        /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED
+        /// The status of the batch inference job. The status is one of the following values:   PENDING   IN PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
 
         public init(batchInferenceJobArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
@@ -280,18 +289,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
-            case creationDateTime
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case solutionVersionArn
-            case status
+            case batchInferenceJobArn = "batchInferenceJobArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
     public struct Campaign: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the campaign.
+
+        /// The Amazon Resource Name (ARN) of the campaign. 
         public let campaignArn: String?
         /// The configuration details of a campaign.
         public let campaignConfig: CampaignConfig?
@@ -308,7 +318,7 @@ extension Personalize {
         public let name: String?
         /// The Amazon Resource Name (ARN) of a specific version of the solution.
         public let solutionVersionArn: String?
-        /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(campaignArn: String? = nil, campaignConfig: CampaignConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, latestCampaignUpdate: CampaignUpdateSummary? = nil, minProvisionedTPS: Int? = nil, name: String? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
@@ -325,20 +335,21 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case campaignConfig
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case latestCampaignUpdate
-            case minProvisionedTPS
-            case name
-            case solutionVersionArn
-            case status
+            case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestCampaignUpdate = "latestCampaignUpdate"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case name = "name"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
     public struct CampaignConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A string to string map specifying the inference hyperparameters you wish to use for hyperparameter optimization. See customizing-solution-config-hpo.
         public let itemExplorationConfig: [String: String]?
 
@@ -354,11 +365,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case itemExplorationConfig
+            case itemExplorationConfig = "itemExplorationConfig"
         }
     }
 
     public struct CampaignSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
         /// The date and time (in Unix time) that the campaign was created.
@@ -369,7 +381,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the campaign.
         public let name: String?
-        /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the campaign. A campaign can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(campaignArn: String? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -382,16 +394,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case name
-            case status
+            case campaignArn = "campaignArn"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct CampaignUpdateSummary: AWSDecodableShape {
+
         public let campaignConfig: CampaignConfig?
         /// The date and time (in Unix time) that the campaign update was created.
         public let creationDateTime: Date?
@@ -403,7 +416,7 @@ extension Personalize {
         public let minProvisionedTPS: Int?
         /// The Amazon Resource Name (ARN) of the deployed solution version.
         public let solutionVersionArn: String?
-        /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the campaign update. A campaign update can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(campaignConfig: CampaignConfig? = nil, creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, minProvisionedTPS: Int? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
@@ -417,17 +430,18 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignConfig
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case minProvisionedTPS
-            case solutionVersionArn
-            case status
+            case campaignConfig = "campaignConfig"
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
     public struct CategoricalHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the hyperparameter.
         public let name: String?
         /// A list of the categories for the hyperparameter.
@@ -447,12 +461,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct ContinuousHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Double?
         /// The minimum allowable value for the hyperparameter.
@@ -467,19 +482,20 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxValue, name: "maxValue", parent: name, min: -1_000_000)
-            try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, min: -1000000)
+            try self.validate(self.minValue, name: "minValue", parent: name, min: -1000000)
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxValue
-            case minValue
-            case name
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
+
         /// The configuration details of a batch inference job.
         public let batchInferenceJobConfig: BatchInferenceJobConfig?
         /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Using Filters with Amazon Personalize.
@@ -524,18 +540,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobConfig
-            case filterArn
-            case jobInput
-            case jobName
-            case jobOutput
-            case numResults
-            case roleArn
-            case solutionVersionArn
+            case batchInferenceJobConfig = "batchInferenceJobConfig"
+            case filterArn = "filterArn"
+            case jobInput = "jobInput"
+            case jobName = "jobName"
+            case jobOutput = "jobOutput"
+            case numResults = "numResults"
+            case roleArn = "roleArn"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct CreateBatchInferenceJobResponse: AWSDecodableShape {
+
         /// The ARN of the batch inference job.
         public let batchInferenceJobArn: String?
 
@@ -544,11 +561,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
+            case batchInferenceJobArn = "batchInferenceJobArn"
         }
     }
 
     public struct CreateCampaignRequest: AWSEncodableShape {
+
         /// The configuration details of a campaign.
         public let campaignConfig: CampaignConfig?
         /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support.
@@ -576,14 +594,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignConfig
-            case minProvisionedTPS
-            case name
-            case solutionVersionArn
+            case campaignConfig = "campaignConfig"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case name = "name"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct CreateCampaignResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String?
 
@@ -592,11 +611,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
     public struct CreateDatasetGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of a KMS key used to encrypt the datasets.
         public let kmsKeyArn: String?
         /// The name for the new dataset group.
@@ -619,13 +639,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case name
-            case roleArn
+            case kmsKeyArn = "kmsKeyArn"
+            case name = "name"
+            case roleArn = "roleArn"
         }
     }
 
     public struct CreateDatasetGroupResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the new dataset group.
         public let datasetGroupArn: String?
 
@@ -634,11 +655,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
+            case datasetGroupArn = "datasetGroupArn"
         }
     }
 
     public struct CreateDatasetImportJobRequest: AWSEncodableShape {
+
         /// The ARN of the dataset that receives the imported data.
         public let datasetArn: String
         /// The Amazon S3 bucket that contains the training data to import.
@@ -667,14 +689,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case dataSource
-            case jobName
-            case roleArn
+            case datasetArn = "datasetArn"
+            case dataSource = "dataSource"
+            case jobName = "jobName"
+            case roleArn = "roleArn"
         }
     }
 
     public struct CreateDatasetImportJobResponse: AWSDecodableShape {
+
         /// The ARN of the dataset import job.
         public let datasetImportJobArn: String?
 
@@ -683,14 +706,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobArn
+            case datasetImportJobArn = "datasetImportJobArn"
         }
     }
 
     public struct CreateDatasetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
         public let datasetGroupArn: String
-        /// The type of dataset. One of the following (case insensitive) values:   Interactions   Items   Users
+        /// The type of dataset. One of the following (case insensitive) values:   Interactions   Items   Users  
         public let datasetType: String
         /// The name for the dataset.
         public let name: String
@@ -716,14 +740,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case datasetType
-            case name
-            case schemaArn
+            case datasetGroupArn = "datasetGroupArn"
+            case datasetType = "datasetType"
+            case name = "name"
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct CreateDatasetResponse: AWSDecodableShape {
+
         /// The ARN of the dataset.
         public let datasetArn: String?
 
@@ -732,11 +757,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
     public struct CreateEventTrackerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group that receives the event data.
         public let datasetGroupArn: String
         /// The name for the event tracker.
@@ -756,12 +782,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case name
+            case datasetGroupArn = "datasetGroupArn"
+            case name = "name"
         }
     }
 
     public struct CreateEventTrackerResponse: AWSDecodableShape {
+
         /// The ARN of the event tracker.
         public let eventTrackerArn: String?
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
@@ -773,12 +800,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
-            case trackingId
+            case eventTrackerArn = "eventTrackerArn"
+            case trackingId = "trackingId"
         }
     }
 
     public struct CreateFilterRequest: AWSEncodableShape {
+
         /// The ARN of the dataset group that the filter will belong to.
         public let datasetGroupArn: String
         /// The filter expression that designates the interaction types that the filter will filter out. A filter expression must follow the following format:  EXCLUDE itemId WHERE INTERACTIONS.event_type in ("EVENT_TYPE")  Where "EVENT_TYPE" is the type of event to filter out. To filter out all items with any interactions history, set "*" as the EVENT_TYPE. For more information, see Using Filters with Amazon Personalize.
@@ -803,13 +831,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case filterExpression
-            case name
+            case datasetGroupArn = "datasetGroupArn"
+            case filterExpression = "filterExpression"
+            case name = "name"
         }
     }
 
     public struct CreateFilterResponse: AWSDecodableShape {
+
         /// The ARN of the new filter.
         public let filterArn: String?
 
@@ -818,11 +847,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
     public struct CreateSchemaRequest: AWSEncodableShape {
+
         /// The name for the schema.
         public let name: String
         /// A schema in Avro JSON format.
@@ -841,12 +871,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case schema
+            case name = "name"
+            case schema = "schema"
         }
     }
 
     public struct CreateSchemaResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the created schema.
         public let schemaArn: String?
 
@@ -855,11 +886,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct CreateSolutionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
         public let datasetGroupArn: String
         /// When your have multiple event types (using an EVENT_TYPE schema field), this parameter specifies which event type (for example, 'click' or 'like') is used for training the model.
@@ -898,17 +930,18 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case eventType
-            case name
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionConfig
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case name = "name"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionConfig = "solutionConfig"
         }
     }
 
     public struct CreateSolutionResponse: AWSDecodableShape {
+
         /// The ARN of the solution.
         public let solutionArn: String?
 
@@ -917,14 +950,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
     public struct CreateSolutionVersionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
-        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the native-recipe-hrnn-coldstart recipe.
+        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the native-recipe-hrnn-coldstart recipe. 
         public let trainingMode: TrainingMode?
 
         public init(solutionArn: String, trainingMode: TrainingMode? = nil) {
@@ -938,12 +972,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
-            case trainingMode
+            case solutionArn = "solutionArn"
+            case trainingMode = "trainingMode"
         }
     }
 
     public struct CreateSolutionVersionResponse: AWSDecodableShape {
+
         /// The ARN of the new solution version.
         public let solutionVersionArn: String?
 
@@ -952,12 +987,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv
+
+        /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example:   s3://bucket-name/training-data.csv 
         public let dataLocation: String?
 
         public init(dataLocation: String? = nil) {
@@ -969,18 +1005,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataLocation
+            case dataLocation = "dataLocation"
         }
     }
 
     public struct Dataset: AWSDecodableShape {
+
         /// The creation date and time (in Unix time) of the dataset.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
         public let datasetArn: String?
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
-        /// One of the following values:   Interactions   Items   Users
+        /// One of the following values:   Interactions   Items   Users  
         public let datasetType: String?
         /// A time stamp that shows when the dataset was updated.
         public let lastUpdatedDateTime: Date?
@@ -988,7 +1025,7 @@ extension Personalize {
         public let name: String?
         /// The ARN of the associated schema.
         public let schemaArn: String?
-        /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetGroupArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, schemaArn: String? = nil, status: String? = nil) {
@@ -1003,18 +1040,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetGroupArn
-            case datasetType
-            case lastUpdatedDateTime
-            case name
-            case schemaArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetGroupArn = "datasetGroupArn"
+            case datasetType = "datasetType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schemaArn = "schemaArn"
+            case status = "status"
         }
     }
 
     public struct DatasetGroup: AWSDecodableShape {
+
         /// The creation date and time (in Unix time) of the dataset group.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -1029,7 +1067,7 @@ extension Personalize {
         public let name: String?
         /// The ARN of the IAM role that has permissions to create the dataset group.
         public let roleArn: String?
-        /// The current status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING
+        /// The current status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, kmsKeyArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -1044,18 +1082,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case kmsKeyArn
-            case lastUpdatedDateTime
-            case name
-            case roleArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case kmsKeyArn = "kmsKeyArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
     public struct DatasetGroupSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the dataset group was created.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -1066,7 +1105,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the dataset group.
         public let name: String?
-        /// The status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING
+        /// The status of the dataset group. A dataset group can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -1079,16 +1118,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct DatasetImportJob: AWSDecodableShape {
+
         /// The creation date and time (in Unix time) of the dataset import job.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset that receives the imported data.
@@ -1105,7 +1145,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The ARN of the AWS Identity and Access Management (IAM) role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String?
-        /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetImportJobArn: String? = nil, dataSource: DataSource? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, roleArn: String? = nil, status: String? = nil) {
@@ -1121,19 +1161,20 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetImportJobArn
-            case dataSource
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case roleArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetImportJobArn = "datasetImportJobArn"
+            case dataSource = "dataSource"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case roleArn = "roleArn"
+            case status = "status"
         }
     }
 
     public struct DatasetImportJobSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the dataset import job was created.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -1144,7 +1185,7 @@ extension Personalize {
         public let jobName: String?
         /// The date and time (in Unix time) that the dataset was last updated.
         public let lastUpdatedDateTime: Date?
-        /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        /// The status of the dataset import job. A dataset import job can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetImportJobArn: String? = nil, failureReason: String? = nil, jobName: String? = nil, lastUpdatedDateTime: Date? = nil, status: String? = nil) {
@@ -1157,16 +1198,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetImportJobArn
-            case failureReason
-            case jobName
-            case lastUpdatedDateTime
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetImportJobArn = "datasetImportJobArn"
+            case failureReason = "failureReason"
+            case jobName = "jobName"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case status = "status"
         }
     }
 
     public struct DatasetSchema: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: Date?
         /// The date and time (in Unix time) that the schema was last updated.
@@ -1187,15 +1229,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case lastUpdatedDateTime
-            case name
-            case schema
-            case schemaArn
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schema = "schema"
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct DatasetSchemaSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the schema was created.
         public let creationDateTime: Date?
         /// The date and time (in Unix time) that the schema was last updated.
@@ -1213,25 +1256,26 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case lastUpdatedDateTime
-            case name
-            case schemaArn
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct DatasetSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the dataset was created.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset.
         public let datasetArn: String?
-        /// The dataset type. One of the following values:   Interactions   Items   Users   Event-Interactions
+        /// The dataset type. One of the following values:   Interactions   Items   Users   Event-Interactions  
         public let datasetType: String?
         /// The date and time (in Unix time) that the dataset was last updated.
         public let lastUpdatedDateTime: Date?
         /// The name of the dataset.
         public let name: String?
-        /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the dataset. A dataset can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetArn: String? = nil, datasetType: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -1244,16 +1288,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetArn
-            case datasetType
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetArn = "datasetArn"
+            case datasetType = "datasetType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct DefaultCategoricalHyperParameterRange: AWSDecodableShape {
+
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The name of the hyperparameter.
@@ -1268,13 +1313,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case name
-            case values
+            case isTunable = "isTunable"
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct DefaultContinuousHyperParameterRange: AWSDecodableShape {
+
         /// Whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The maximum allowable value for the hyperparameter.
@@ -1292,14 +1338,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case maxValue
-            case minValue
-            case name
+            case isTunable = "isTunable"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
     public struct DefaultHyperParameterRanges: AWSDecodableShape {
+
         /// The categorical hyperparameters and their default ranges.
         public let categoricalHyperParameterRanges: [DefaultCategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their default ranges.
@@ -1314,13 +1361,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categoricalHyperParameterRanges
-            case continuousHyperParameterRanges
-            case integerHyperParameterRanges
+            case categoricalHyperParameterRanges = "categoricalHyperParameterRanges"
+            case continuousHyperParameterRanges = "continuousHyperParameterRanges"
+            case integerHyperParameterRanges = "integerHyperParameterRanges"
         }
     }
 
     public struct DefaultIntegerHyperParameterRange: AWSDecodableShape {
+
         /// Indicates whether the hyperparameter is tunable.
         public let isTunable: Bool?
         /// The maximum allowable value for the hyperparameter.
@@ -1338,14 +1386,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case isTunable
-            case maxValue
-            case minValue
-            case name
+            case isTunable = "isTunable"
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
     public struct DeleteCampaignRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the campaign to delete.
         public let campaignArn: String
 
@@ -1359,11 +1408,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
     public struct DeleteDatasetGroupRequest: AWSEncodableShape {
+
         /// The ARN of the dataset group to delete.
         public let datasetGroupArn: String
 
@@ -1377,11 +1427,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
+            case datasetGroupArn = "datasetGroupArn"
         }
     }
 
     public struct DeleteDatasetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset to delete.
         public let datasetArn: String
 
@@ -1395,11 +1446,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
     public struct DeleteEventTrackerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the event tracker to delete.
         public let eventTrackerArn: String
 
@@ -1413,11 +1465,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
+            case eventTrackerArn = "eventTrackerArn"
         }
     }
 
     public struct DeleteFilterRequest: AWSEncodableShape {
+
         /// The ARN of the filter to delete.
         public let filterArn: String
 
@@ -1431,11 +1484,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
     public struct DeleteSchemaRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the schema to delete.
         public let schemaArn: String
 
@@ -1449,11 +1503,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct DeleteSolutionRequest: AWSEncodableShape {
+
         /// The ARN of the solution to delete.
         public let solutionArn: String
 
@@ -1467,11 +1522,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
     public struct DescribeAlgorithmRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm to describe.
         public let algorithmArn: String
 
@@ -1485,11 +1541,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
+            case algorithmArn = "algorithmArn"
         }
     }
 
     public struct DescribeAlgorithmResponse: AWSDecodableShape {
+
         /// A listing of the properties of the algorithm.
         public let algorithm: Algorithm?
 
@@ -1498,11 +1555,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithm
+            case algorithm = "algorithm"
         }
     }
 
     public struct DescribeBatchInferenceJobRequest: AWSEncodableShape {
+
         /// The ARN of the batch inference job to describe.
         public let batchInferenceJobArn: String
 
@@ -1516,11 +1574,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobArn
+            case batchInferenceJobArn = "batchInferenceJobArn"
         }
     }
 
     public struct DescribeBatchInferenceJobResponse: AWSDecodableShape {
+
         /// Information on the specified batch inference job.
         public let batchInferenceJob: BatchInferenceJob?
 
@@ -1529,11 +1588,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJob
+            case batchInferenceJob = "batchInferenceJob"
         }
     }
 
     public struct DescribeCampaignRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
 
@@ -1547,11 +1607,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 
     public struct DescribeCampaignResponse: AWSDecodableShape {
+
         /// The properties of the campaign.
         public let campaign: Campaign?
 
@@ -1560,11 +1621,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaign
+            case campaign = "campaign"
         }
     }
 
     public struct DescribeDatasetGroupRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group to describe.
         public let datasetGroupArn: String
 
@@ -1578,11 +1640,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
+            case datasetGroupArn = "datasetGroupArn"
         }
     }
 
     public struct DescribeDatasetGroupResponse: AWSDecodableShape {
+
         /// A listing of the dataset group's properties.
         public let datasetGroup: DatasetGroup?
 
@@ -1591,11 +1654,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroup
+            case datasetGroup = "datasetGroup"
         }
     }
 
     public struct DescribeDatasetImportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset import job to describe.
         public let datasetImportJobArn: String
 
@@ -1609,12 +1673,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobArn
+            case datasetImportJobArn = "datasetImportJobArn"
         }
     }
 
     public struct DescribeDatasetImportJobResponse: AWSDecodableShape {
-        /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
+
+        /// Information about the dataset import job, including the status. The status is one of the following values:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let datasetImportJob: DatasetImportJob?
 
         public init(datasetImportJob: DatasetImportJob? = nil) {
@@ -1622,11 +1687,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJob
+            case datasetImportJob = "datasetImportJob"
         }
     }
 
     public struct DescribeDatasetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset to describe.
         public let datasetArn: String
 
@@ -1640,11 +1706,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
+            case datasetArn = "datasetArn"
         }
     }
 
     public struct DescribeDatasetResponse: AWSDecodableShape {
+
         /// A listing of the dataset's properties.
         public let dataset: Dataset?
 
@@ -1653,11 +1720,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataset
+            case dataset = "dataset"
         }
     }
 
     public struct DescribeEventTrackerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the event tracker to describe.
         public let eventTrackerArn: String
 
@@ -1671,11 +1739,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackerArn
+            case eventTrackerArn = "eventTrackerArn"
         }
     }
 
     public struct DescribeEventTrackerResponse: AWSDecodableShape {
+
         /// An object that describes the event tracker.
         public let eventTracker: EventTracker?
 
@@ -1684,11 +1753,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTracker
+            case eventTracker = "eventTracker"
         }
     }
 
     public struct DescribeFeatureTransformationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the feature transformation to describe.
         public let featureTransformationArn: String
 
@@ -1702,11 +1772,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case featureTransformationArn
+            case featureTransformationArn = "featureTransformationArn"
         }
     }
 
     public struct DescribeFeatureTransformationResponse: AWSDecodableShape {
+
         /// A listing of the FeatureTransformation properties.
         public let featureTransformation: FeatureTransformation?
 
@@ -1715,11 +1786,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case featureTransformation
+            case featureTransformation = "featureTransformation"
         }
     }
 
     public struct DescribeFilterRequest: AWSEncodableShape {
+
         /// The ARN of the filter to describe.
         public let filterArn: String
 
@@ -1733,11 +1805,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filterArn
+            case filterArn = "filterArn"
         }
     }
 
     public struct DescribeFilterResponse: AWSDecodableShape {
+
         /// The filter's details.
         public let filter: Filter?
 
@@ -1746,11 +1819,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
+            case filter = "filter"
         }
     }
 
     public struct DescribeRecipeRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the recipe to describe.
         public let recipeArn: String
 
@@ -1764,11 +1838,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recipeArn
+            case recipeArn = "recipeArn"
         }
     }
 
     public struct DescribeRecipeResponse: AWSDecodableShape {
+
         /// An object that describes the recipe.
         public let recipe: Recipe?
 
@@ -1777,11 +1852,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recipe
+            case recipe = "recipe"
         }
     }
 
     public struct DescribeSchemaRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the schema to retrieve.
         public let schemaArn: String
 
@@ -1795,11 +1871,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schemaArn
+            case schemaArn = "schemaArn"
         }
     }
 
     public struct DescribeSchemaResponse: AWSDecodableShape {
+
         /// The requested schema.
         public let schema: DatasetSchema?
 
@@ -1808,11 +1885,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case schema
+            case schema = "schema"
         }
     }
 
     public struct DescribeSolutionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the solution to describe.
         public let solutionArn: String
 
@@ -1826,11 +1904,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionArn
+            case solutionArn = "solutionArn"
         }
     }
 
     public struct DescribeSolutionResponse: AWSDecodableShape {
+
         /// An object that describes the solution.
         public let solution: Solution?
 
@@ -1839,11 +1918,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solution
+            case solution = "solution"
         }
     }
 
     public struct DescribeSolutionVersionRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String
 
@@ -1857,11 +1937,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct DescribeSolutionVersionResponse: AWSDecodableShape {
+
         /// The solution version.
         public let solutionVersion: SolutionVersion?
 
@@ -1870,11 +1951,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersion
+            case solutionVersion = "solutionVersion"
         }
     }
 
     public struct EventTracker: AWSDecodableShape {
+
         /// The Amazon AWS account that owns the event tracker.
         public let accountId: String?
         /// The date and time (in Unix format) that the event tracker was created.
@@ -1887,7 +1969,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the event tracker.
         public let name: String?
-        /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
         /// The ID of the event tracker. Include this ID in requests to the PutEvents API.
         public let trackingId: String?
@@ -1904,18 +1986,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accountId
-            case creationDateTime
-            case datasetGroupArn
-            case eventTrackerArn
-            case lastUpdatedDateTime
-            case name
-            case status
-            case trackingId
+            case accountId = "accountId"
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventTrackerArn = "eventTrackerArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
+            case trackingId = "trackingId"
         }
     }
 
     public struct EventTrackerSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the event tracker was created.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the event tracker.
@@ -1924,7 +2007,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the event tracker.
         public let name: String?
-        /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the event tracker. An event tracker can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, eventTrackerArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -1936,15 +2019,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case eventTrackerArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case eventTrackerArn = "eventTrackerArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct FeatureTransformation: AWSDecodableShape {
+
         /// The creation date and time (in Unix time) of the feature transformation.
         public let creationDateTime: Date?
         /// Provides the default parameters for feature transformation.
@@ -1955,7 +2039,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The name of the feature transformation.
         public let name: String?
-        /// The status of the feature transformation. A feature transformation can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        /// The status of the feature transformation. A feature transformation can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, defaultParameters: [String: String]? = nil, featureTransformationArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, status: String? = nil) {
@@ -1968,16 +2052,17 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case defaultParameters
-            case featureTransformationArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case defaultParameters = "defaultParameters"
+            case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct Filter: AWSDecodableShape {
+
         /// The time at which the filter was created.
         public let creationDateTime: Date?
         /// The ARN of the dataset group to which the filter belongs.
@@ -2007,18 +2092,19 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case filterArn
-            case filterExpression
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case filterExpression = "filterExpression"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct FilterSummary: AWSDecodableShape {
+
         /// The time at which the filter was created.
         public let creationDateTime: Date?
         /// The ARN of the dataset group to which the filter belongs.
@@ -2045,17 +2131,18 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case failureReason
-            case filterArn
-            case lastUpdatedDateTime
-            case name
-            case status
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case failureReason = "failureReason"
+            case filterArn = "filterArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct GetSolutionMetricsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
         public let solutionVersionArn: String
 
@@ -2069,11 +2156,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case solutionVersionArn
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct GetSolutionMetricsResponse: AWSDecodableShape {
+
         /// The metrics for the solution version.
         public let metrics: [String: Double]?
         /// The same solution version ARN as specified in the request.
@@ -2085,12 +2173,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metrics
-            case solutionVersionArn
+            case metrics = "metrics"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct HPOConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The hyperparameters and their allowable ranges.
         public let algorithmHyperParameterRanges: HyperParameterRanges?
         /// The metric to optimize during HPO.
@@ -2111,13 +2200,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameterRanges
-            case hpoObjective
-            case hpoResourceConfig
+            case algorithmHyperParameterRanges = "algorithmHyperParameterRanges"
+            case hpoObjective = "hpoObjective"
+            case hpoResourceConfig = "hpoResourceConfig"
         }
     }
 
     public struct HPOObjective: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the metric.
         public let metricName: String?
         /// A regular expression for finding the metric in the training job logs.
@@ -2138,13 +2228,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case metricName
-            case metricRegex
-            case `type`
+            case metricName = "metricName"
+            case metricRegex = "metricRegex"
+            case `type` = "type"
         }
     }
 
     public struct HPOResourceConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum number of training jobs when you create a solution version. The maximum value for maxNumberOfTrainingJobs is 40.
         public let maxNumberOfTrainingJobs: String?
         /// The maximum number of parallel training jobs when you create a solution version. The maximum value for maxParallelTrainingJobs is 10.
@@ -2161,12 +2252,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxNumberOfTrainingJobs
-            case maxParallelTrainingJobs
+            case maxNumberOfTrainingJobs = "maxNumberOfTrainingJobs"
+            case maxParallelTrainingJobs = "maxParallelTrainingJobs"
         }
     }
 
     public struct HyperParameterRanges: AWSEncodableShape & AWSDecodableShape {
+
         /// The categorical hyperparameters and their ranges.
         public let categoricalHyperParameterRanges: [CategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their ranges.
@@ -2196,13 +2288,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case categoricalHyperParameterRanges
-            case continuousHyperParameterRanges
-            case integerHyperParameterRanges
+            case categoricalHyperParameterRanges = "categoricalHyperParameterRanges"
+            case continuousHyperParameterRanges = "continuousHyperParameterRanges"
+            case integerHyperParameterRanges = "integerHyperParameterRanges"
         }
     }
 
     public struct IntegerHyperParameterRange: AWSEncodableShape & AWSDecodableShape {
+
         /// The maximum allowable value for the hyperparameter.
         public let maxValue: Int?
         /// The minimum allowable value for the hyperparameter.
@@ -2217,19 +2310,20 @@ extension Personalize {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.maxValue, name: "maxValue", parent: name, max: 1_000_000)
-            try self.validate(self.minValue, name: "minValue", parent: name, min: -1_000_000)
+            try self.validate(self.maxValue, name: "maxValue", parent: name, max: 1000000)
+            try self.validate(self.minValue, name: "minValue", parent: name, min: -1000000)
             try self.validate(self.name, name: "name", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxValue
-            case minValue
-            case name
+            case maxValue = "maxValue"
+            case minValue = "minValue"
+            case name = "name"
         }
     }
 
     public struct ListBatchInferenceJobsRequest: AWSEncodableShape {
+
         /// The maximum number of batch inference job results to return in each page. The default value is 100.
         public let maxResults: Int?
         /// The token to request the next page of results.
@@ -2252,13 +2346,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionVersionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct ListBatchInferenceJobsResponse: AWSDecodableShape {
+
         /// A list containing information on each job that is returned.
         public let batchInferenceJobs: [BatchInferenceJobSummary]?
         /// The token to use to retreive the next page of results. The value is null when there are no more results to return.
@@ -2270,12 +2365,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchInferenceJobs
-            case nextToken
+            case batchInferenceJobs = "batchInferenceJobs"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListCampaignsRequest: AWSEncodableShape {
+
         /// The maximum number of campaigns to return.
         public let maxResults: Int?
         /// A token returned from the previous call to ListCampaigns for getting the next set of campaigns (if they exist).
@@ -2298,13 +2394,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionArn = "solutionArn"
         }
     }
 
     public struct ListCampaignsResponse: AWSDecodableShape {
+
         /// A list of the campaigns.
         public let campaigns: [CampaignSummary]?
         /// A token for getting the next set of campaigns (if they exist).
@@ -2316,12 +2413,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaigns
-            case nextToken
+            case campaigns = "campaigns"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetGroupsRequest: AWSEncodableShape {
+
         /// The maximum number of dataset groups to return.
         public let maxResults: Int?
         /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
@@ -2339,12 +2437,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetGroupsResponse: AWSDecodableShape {
+
         /// The list of your dataset groups.
         public let datasetGroups: [DatasetGroupSummary]?
         /// A token for getting the next set of dataset groups (if they exist).
@@ -2356,12 +2455,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroups
-            case nextToken
+            case datasetGroups = "datasetGroups"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetImportJobsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for.
         public let datasetArn: String?
         /// The maximum number of dataset import jobs to return.
@@ -2384,13 +2484,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetArn
-            case maxResults
-            case nextToken
+            case datasetArn = "datasetArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetImportJobsResponse: AWSDecodableShape {
+
         /// The list of dataset import jobs.
         public let datasetImportJobs: [DatasetImportJobSummary]?
         /// A token for getting the next set of dataset import jobs (if they exist).
@@ -2402,12 +2503,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetImportJobs
-            case nextToken
+            case datasetImportJobs = "datasetImportJobs"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list.
         public let datasetGroupArn: String?
         /// The maximum number of datasets to return.
@@ -2430,13 +2532,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDatasetsResponse: AWSDecodableShape {
+
         /// An array of Dataset objects. Each object provides metadata information.
         public let datasets: [DatasetSummary]?
         /// A token for getting the next set of datasets (if they exist).
@@ -2448,12 +2551,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasets
-            case nextToken
+            case datasets = "datasets"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListEventTrackersRequest: AWSEncodableShape {
+
         /// The ARN of a dataset group used to filter the response.
         public let datasetGroupArn: String?
         /// The maximum number of event trackers to return.
@@ -2476,13 +2580,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListEventTrackersResponse: AWSDecodableShape {
+
         /// A list of event trackers.
         public let eventTrackers: [EventTrackerSummary]?
         /// A token for getting the next set of event trackers (if they exist).
@@ -2494,12 +2599,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eventTrackers
-            case nextToken
+            case eventTrackers = "eventTrackers"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFiltersRequest: AWSEncodableShape {
+
         /// The ARN of the dataset group that contains the filters.
         public let datasetGroupArn: String?
         /// The maximum number of filters to return.
@@ -2522,13 +2628,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFiltersResponse: AWSDecodableShape {
+
         /// A list of returned filters.
         public let filters: [FilterSummary]?
         /// A token for getting the next set of filters (if they exist).
@@ -2541,11 +2648,12 @@ extension Personalize {
 
         private enum CodingKeys: String, CodingKey {
             case filters = "Filters"
-            case nextToken
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRecipesRequest: AWSEncodableShape {
+
         /// The maximum number of recipes to return.
         public let maxResults: Int?
         /// A token returned from the previous call to ListRecipes for getting the next set of recipes (if they exist).
@@ -2566,13 +2674,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case recipeProvider
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case recipeProvider = "recipeProvider"
         }
     }
 
     public struct ListRecipesResponse: AWSDecodableShape {
+
         /// A token for getting the next set of recipes.
         public let nextToken: String?
         /// The list of available recipes.
@@ -2584,12 +2693,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case recipes
+            case nextToken = "nextToken"
+            case recipes = "recipes"
         }
     }
 
     public struct ListSchemasRequest: AWSEncodableShape {
+
         /// The maximum number of schemas to return.
         public let maxResults: Int?
         /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
@@ -2607,12 +2717,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSchemasResponse: AWSDecodableShape {
+
         /// A token used to get the next set of schemas (if they exist).
         public let nextToken: String?
         /// A list of schemas.
@@ -2624,12 +2735,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case schemas
+            case nextToken = "nextToken"
+            case schemas = "schemas"
         }
     }
 
     public struct ListSolutionVersionsRequest: AWSEncodableShape {
+
         /// The maximum number of solution versions to return.
         public let maxResults: Int?
         /// A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist).
@@ -2652,13 +2764,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
-            case solutionArn
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case solutionArn = "solutionArn"
         }
     }
 
     public struct ListSolutionVersionsResponse: AWSDecodableShape {
+
         /// A token for getting the next set of solution versions (if they exist).
         public let nextToken: String?
         /// A list of solution versions describing the version properties.
@@ -2670,12 +2783,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case solutionVersions
+            case nextToken = "nextToken"
+            case solutionVersions = "solutionVersions"
         }
     }
 
     public struct ListSolutionsRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the dataset group.
         public let datasetGroupArn: String?
         /// The maximum number of solutions to return.
@@ -2698,13 +2812,14 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case datasetGroupArn
-            case maxResults
-            case nextToken
+            case datasetGroupArn = "datasetGroupArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSolutionsResponse: AWSDecodableShape {
+
         /// A token for getting the next set of solutions (if they exist).
         public let nextToken: String?
         /// A list of the current solutions.
@@ -2716,12 +2831,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case solutions
+            case nextToken = "nextToken"
+            case solutions = "solutions"
         }
     }
 
     public struct Recipe: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses to train the model.
         public let algorithmArn: String?
         /// The date and time (in Unix format) that the recipe was created.
@@ -2736,7 +2852,7 @@ extension Personalize {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the recipe.
         public let recipeArn: String?
-        /// One of the following values:   PERSONALIZED_RANKING   RELATED_ITEMS   USER_PERSONALIZATION
+        /// One of the following values:   PERSONALIZED_RANKING   RELATED_ITEMS   USER_PERSONALIZATION  
         public let recipeType: String?
         /// The status of the recipe.
         public let status: String?
@@ -2754,19 +2870,20 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmArn
-            case creationDateTime
-            case description
-            case featureTransformationArn
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case recipeType
-            case status
+            case algorithmArn = "algorithmArn"
+            case creationDateTime = "creationDateTime"
+            case description = "description"
+            case featureTransformationArn = "featureTransformationArn"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case recipeType = "recipeType"
+            case status = "status"
         }
     }
 
     public struct RecipeSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the recipe was created.
         public let creationDateTime: Date?
         /// The date and time (in Unix time) that the recipe was last updated.
@@ -2787,15 +2904,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case lastUpdatedDateTime
-            case name
-            case recipeArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case recipeArn = "recipeArn"
+            case status = "status"
         }
     }
 
     public struct S3DataConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the Amazon Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
         public let kmsKeyArn: String?
         /// The file path of the Amazon S3 bucket.
@@ -2811,12 +2929,13 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kmsKeyArn
-            case path
+            case kmsKeyArn = "kmsKeyArn"
+            case path = "path"
         }
     }
 
     public struct Solution: AWSDecodableShape {
+
         /// When performAutoML is true, specifies the best recipe found.
         public let autoMLResult: AutoMLResult?
         /// The creation date and time (in Unix time) of the solution.
@@ -2841,7 +2960,7 @@ extension Personalize {
         public let solutionArn: String?
         /// Describes the configuration properties for the solution.
         public let solutionConfig: SolutionConfig?
-        /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(autoMLResult: AutoMLResult? = nil, creationDateTime: Date? = nil, datasetGroupArn: String? = nil, eventType: String? = nil, lastUpdatedDateTime: Date? = nil, latestSolutionVersion: SolutionVersionSummary? = nil, name: String? = nil, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionArn: String? = nil, solutionConfig: SolutionConfig? = nil, status: String? = nil) {
@@ -2861,23 +2980,24 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case autoMLResult
-            case creationDateTime
-            case datasetGroupArn
-            case eventType
-            case lastUpdatedDateTime
-            case latestSolutionVersion
-            case name
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionArn
-            case solutionConfig
-            case status
+            case autoMLResult = "autoMLResult"
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case latestSolutionVersion = "latestSolutionVersion"
+            case name = "name"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionArn = "solutionArn"
+            case solutionConfig = "solutionConfig"
+            case status = "status"
         }
     }
 
     public struct SolutionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// Lists the hyperparameter names and ranges.
         public let algorithmHyperParameters: [String: String]?
         /// The AutoMLConfig object containing a list of recipes to search when AutoML is performed.
@@ -2912,15 +3032,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameters
-            case autoMLConfig
-            case eventValueThreshold
-            case featureTransformationParameters
-            case hpoConfig
+            case algorithmHyperParameters = "algorithmHyperParameters"
+            case autoMLConfig = "autoMLConfig"
+            case eventValueThreshold = "eventValueThreshold"
+            case featureTransformationParameters = "featureTransformationParameters"
+            case hpoConfig = "hpoConfig"
         }
     }
 
     public struct SolutionSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that the solution was created.
         public let creationDateTime: Date?
         /// The date and time (in Unix time) that the solution was last updated.
@@ -2929,7 +3050,7 @@ extension Personalize {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the solution.
         public let solutionArn: String?
-        /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS
+        /// The status of the solution. A solution can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED   DELETE PENDING &gt; DELETE IN_PROGRESS  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, solutionArn: String? = nil, status: String? = nil) {
@@ -2941,15 +3062,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case lastUpdatedDateTime
-            case name
-            case solutionArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case name = "name"
+            case solutionArn = "solutionArn"
+            case status = "status"
         }
     }
 
     public struct SolutionVersion: AWSDecodableShape {
+
         /// The date and time (in Unix time) that this version of the solution was created.
         public let creationDateTime: Date?
         /// The Amazon Resource Name (ARN) of the dataset group providing the training data.
@@ -2972,11 +3094,11 @@ extension Personalize {
         public let solutionConfig: SolutionConfig?
         /// The ARN of the solution version.
         public let solutionVersionArn: String?
-        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED
+        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING   CREATE IN_PROGRESS   ACTIVE   CREATE FAILED  
         public let status: String?
         /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public let trainingHours: Double?
-        /// The scope of training used to create the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the training data that has changed since the creation of the last solution version. Choose UPDATE when you want to start recommending items added to the dataset without retraining the model.  The UPDATE option can only be used after you've created a solution version with the FULL option and the training solution uses the native-recipe-hrnn-coldstart.
+        /// The scope of training used to create the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the training data that has changed since the creation of the last solution version. Choose UPDATE when you want to start recommending items added to the dataset without retraining the model.  The UPDATE option can only be used after you've created a solution version with the FULL option and the training solution uses the native-recipe-hrnn-coldstart. 
         public let trainingMode: TrainingMode?
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public let tunedHPOParams: TunedHPOParams?
@@ -3000,25 +3122,26 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case datasetGroupArn
-            case eventType
-            case failureReason
-            case lastUpdatedDateTime
-            case performAutoML
-            case performHPO
-            case recipeArn
-            case solutionArn
-            case solutionConfig
-            case solutionVersionArn
-            case status
-            case trainingHours
-            case trainingMode
-            case tunedHPOParams
+            case creationDateTime = "creationDateTime"
+            case datasetGroupArn = "datasetGroupArn"
+            case eventType = "eventType"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case performAutoML = "performAutoML"
+            case performHPO = "performHPO"
+            case recipeArn = "recipeArn"
+            case solutionArn = "solutionArn"
+            case solutionConfig = "solutionConfig"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
+            case trainingHours = "trainingHours"
+            case trainingMode = "trainingMode"
+            case tunedHPOParams = "tunedHPOParams"
         }
     }
 
     public struct SolutionVersionSummary: AWSDecodableShape {
+
         /// The date and time (in Unix time) that this version of a solution was created.
         public let creationDateTime: Date?
         /// If a solution version fails, the reason behind the failure.
@@ -3027,7 +3150,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The Amazon Resource Name (ARN) of the solution version.
         public let solutionVersionArn: String?
-        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED
+        /// The status of the solution version. A solution version can be in one of the following states:   CREATE PENDING &gt; CREATE IN_PROGRESS &gt; ACTIVE -or- CREATE FAILED  
         public let status: String?
 
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, solutionVersionArn: String? = nil, status: String? = nil) {
@@ -3039,15 +3162,16 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case creationDateTime
-            case failureReason
-            case lastUpdatedDateTime
-            case solutionVersionArn
-            case status
+            case creationDateTime = "creationDateTime"
+            case failureReason = "failureReason"
+            case lastUpdatedDateTime = "lastUpdatedDateTime"
+            case solutionVersionArn = "solutionVersionArn"
+            case status = "status"
         }
     }
 
     public struct TunedHPOParams: AWSDecodableShape {
+
         /// A list of the hyperparameter values of the best performing model.
         public let algorithmHyperParameters: [String: String]?
 
@@ -3056,11 +3180,12 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case algorithmHyperParameters
+            case algorithmHyperParameters = "algorithmHyperParameters"
         }
     }
 
     public struct UpdateCampaignRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the campaign.
         public let campaignArn: String
         /// The configuration details of a campaign.
@@ -3087,14 +3212,15 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
-            case campaignConfig
-            case minProvisionedTPS
-            case solutionVersionArn
+            case campaignArn = "campaignArn"
+            case campaignConfig = "campaignConfig"
+            case minProvisionedTPS = "minProvisionedTPS"
+            case solutionVersionArn = "solutionVersionArn"
         }
     }
 
     public struct UpdateCampaignResponse: AWSDecodableShape {
+
         /// The same campaign ARN as given in the request.
         public let campaignArn: String?
 
@@ -3103,7 +3229,7 @@ extension Personalize {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case campaignArn
+            case campaignArn = "campaignArn"
         }
     }
 }

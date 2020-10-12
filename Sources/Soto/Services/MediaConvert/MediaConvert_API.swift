@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS MediaConvert service.
+Client object for interacting with AWS MediaConvert service.
 
- AWS Elemental MediaConvert
- */
+AWS Elemental MediaConvert
+*/
 public struct MediaConvert: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +61,7 @@ public struct MediaConvert: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.

@@ -21,8 +21,8 @@ extension TranscribeStreamingService {
     // MARK: Enums
 
     public enum ItemType: String, CustomStringConvertible, Codable {
-        case pronunciation
-        case punctuation
+        case pronunciation = "pronunciation"
+        case punctuation = "punctuation"
         public var description: String { return self.rawValue }
     }
 
@@ -37,21 +37,22 @@ extension TranscribeStreamingService {
     }
 
     public enum MediaEncoding: String, CustomStringConvertible, Codable {
-        case pcm
+        case pcm = "pcm"
         public var description: String { return self.rawValue }
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
-        case remove
-        case mask
-        case tag
+        case remove = "remove"
+        case mask = "mask"
+        case tag = "tag"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Alternative: AWSDecodableShape {
-        /// One or more alternative interpretations of the input audio.
+
+        /// One or more alternative interpretations of the input audio. 
         public let items: [Item]?
         /// The text that was transcribed from the audio.
         public let transcript: String?
@@ -68,6 +69,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioEvent: AWSEncodableShape {
+
         /// An audio blob that contains the next part of the audio that you want to transcribe.
         public let audioChunk: Data?
 
@@ -81,6 +83,7 @@ extension TranscribeStreamingService {
     }
 
     public struct AudioStream: AWSEncodableShape {
+
         /// A blob of audio from your application. You audio stream consists of one or more audio events.
         public let audioEvent: AudioEvent?
 
@@ -94,6 +97,7 @@ extension TranscribeStreamingService {
     }
 
     public struct BadRequestException: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -106,6 +110,7 @@ extension TranscribeStreamingService {
     }
 
     public struct ConflictException: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -118,6 +123,7 @@ extension TranscribeStreamingService {
     }
 
     public struct InternalFailureException: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -130,6 +136,7 @@ extension TranscribeStreamingService {
     }
 
     public struct Item: AWSDecodableShape {
+
         /// The word or punctuation that was recognized in the input audio.
         public let content: String?
         /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
@@ -163,6 +170,7 @@ extension TranscribeStreamingService {
     }
 
     public struct LimitExceededException: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -175,6 +183,7 @@ extension TranscribeStreamingService {
     }
 
     public struct Result: AWSDecodableShape {
+
         /// A list of possible transcriptions for the audio. Each alternative typically contains one item that contains the result of the transcription.
         public let alternatives: [Alternative]?
         /// When channel identification is enabled, Amazon Transcribe transcribes the speech from each audio channel separately. You can use ChannelId to retrieve the transcription results for a single channel in your audio stream.
@@ -183,7 +192,7 @@ extension TranscribeStreamingService {
         public let endTime: Double?
         /// Amazon Transcribe divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments.  The IsPartial field is true to indicate that Amazon Transcribe has additional transcription data to send, false to indicate that this is the last transcription result for the segment.
         public let isPartial: Bool?
-        /// A unique identifier for the result.
+        /// A unique identifier for the result. 
         public let resultId: String?
         /// The offset in seconds from the beginning of the audio stream to the beginning of the result.
         public let startTime: Double?
@@ -208,6 +217,7 @@ extension TranscribeStreamingService {
     }
 
     public struct ServiceUnavailableException: AWSDecodableShape {
+
         public let message: String?
 
         public init(message: String? = nil) {
@@ -223,16 +233,16 @@ extension TranscribeStreamingService {
         /// The key for the payload
         public static let _payloadPath: String = "audioStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")),
-            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
-            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
-            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
-            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
-            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
-            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
-            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")),
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")),
+            AWSMemberEncoding(label: "audioStream", location: .body(locationName: "AudioStream")), 
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")), 
+            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")), 
+            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")), 
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")), 
+            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")), 
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")), 
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")), 
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
@@ -252,7 +262,7 @@ extension TranscribeStreamingService {
         public let sessionId: String?
         /// When true, enables speaker identification in your real-time stream.
         public let showSpeakerLabel: Bool?
-        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks those words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags them. The tag appears as VocabularyFilterMatch equal to True
+        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks those words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags them. The tag appears as VocabularyFilterMatch equal to True 
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// The name of the vocabulary filter you've created that is unique to your AWS account. Provide the name in this field to successfully use it in a stream.
         public let vocabularyFilterName: String?
@@ -297,17 +307,17 @@ extension TranscribeStreamingService {
         /// The key for the payload
         public static let _payloadPath: String = "transcriptResultStream"
         public static var _encoding = [
-            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")),
-            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")),
-            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")),
-            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")),
-            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")),
-            AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")),
-            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")),
-            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")),
-            AWSMemberEncoding(label: "transcriptResultStream", location: .body(locationName: "TranscriptResultStream")),
-            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")),
-            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")),
+            AWSMemberEncoding(label: "enableChannelIdentification", location: .header(locationName: "x-amzn-transcribe-enable-channel-identification")), 
+            AWSMemberEncoding(label: "languageCode", location: .header(locationName: "x-amzn-transcribe-language-code")), 
+            AWSMemberEncoding(label: "mediaEncoding", location: .header(locationName: "x-amzn-transcribe-media-encoding")), 
+            AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header(locationName: "x-amzn-transcribe-sample-rate")), 
+            AWSMemberEncoding(label: "numberOfChannels", location: .header(locationName: "x-amzn-transcribe-number-of-channels")), 
+            AWSMemberEncoding(label: "requestId", location: .header(locationName: "x-amzn-request-id")), 
+            AWSMemberEncoding(label: "sessionId", location: .header(locationName: "x-amzn-transcribe-session-id")), 
+            AWSMemberEncoding(label: "showSpeakerLabel", location: .header(locationName: "x-amzn-transcribe-show-speaker-label")), 
+            AWSMemberEncoding(label: "transcriptResultStream", location: .body(locationName: "TranscriptResultStream")), 
+            AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-method")), 
+            AWSMemberEncoding(label: "vocabularyFilterName", location: .header(locationName: "x-amzn-transcribe-vocabulary-filter-name")), 
             AWSMemberEncoding(label: "vocabularyName", location: .header(locationName: "x-amzn-transcribe-vocabulary-name"))
         ]
 
@@ -368,6 +378,7 @@ extension TranscribeStreamingService {
     }
 
     public struct Transcript: AWSDecodableShape {
+
         ///  Result objects that contain the results of transcribing a portion of the input audio stream. The array can be empty.
         public let results: [Result]?
 
@@ -381,6 +392,7 @@ extension TranscribeStreamingService {
     }
 
     public struct TranscriptEvent: AWSDecodableShape {
+
         /// The transcription of the audio stream. The transcription is composed of all of the items in the results list.
         public let transcript: Transcript?
 
@@ -394,6 +406,7 @@ extension TranscribeStreamingService {
     }
 
     public struct TranscriptResultStream: AWSDecodableShape {
+
         /// A client error occurred when the stream was created. Check the parameters of the request and try your request again.
         public let badRequestException: BadRequestException?
         /// A new stream started with the same session ID. The current stream has been terminated.
@@ -404,7 +417,7 @@ extension TranscribeStreamingService {
         public let limitExceededException: LimitExceededException?
         /// Service is currently unavailable. Try your request later.
         public let serviceUnavailableException: ServiceUnavailableException?
-        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream.
+        /// A portion of the transcription of the audio stream. Events are sent periodically from Amazon Transcribe to your application. The event can be a partial transcription of a section of the audio stream, or it can be the entire transcription of that portion of the audio stream. 
         public let transcriptEvent: TranscriptEvent?
 
         public init(badRequestException: BadRequestException? = nil, conflictException: ConflictException? = nil, internalFailureException: InternalFailureException? = nil, limitExceededException: LimitExceededException? = nil, serviceUnavailableException: ServiceUnavailableException? = nil, transcriptEvent: TranscriptEvent? = nil) {

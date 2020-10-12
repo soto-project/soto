@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS MediaConnect service.
+Client object for interacting with AWS MediaConnect service.
 
- API for AWS Elemental MediaConnect
- */
+API for AWS Elemental MediaConnect
+*/
 public struct MediaConnect: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct MediaConnect: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Adds outputs to an existing flow. You can create up to 50 outputs per flow.

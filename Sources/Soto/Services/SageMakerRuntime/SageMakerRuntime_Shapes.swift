@@ -27,12 +27,12 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")),
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
-            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")),
-            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")),
+            AWSMemberEncoding(label: "accept", location: .header(locationName: "Accept")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
+            AWSMemberEncoding(label: "endpointName", location: .uri(locationName: "EndpointName")), 
+            AWSMemberEncoding(label: "targetModel", location: .header(locationName: "X-Amzn-SageMaker-Target-Model")), 
             AWSMemberEncoding(label: "targetVariant", location: .header(locationName: "X-Amzn-SageMaker-Target-Variant"))
         ]
 
@@ -44,9 +44,9 @@ extension SageMakerRuntime {
         public let contentType: String?
         /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in Section 3.3.6. Field Value Components of the Hypertext Transfer Protocol (HTTP/1.1). This feature is currently supported in the AWS SDKs but not in the Amazon SageMaker Python SDK.
         public let customAttributes: String?
-        /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API.
+        /// The name of the endpoint that you specified when you created the endpoint using the CreateEndpoint API. 
         public let endpointName: String
-        /// The model to request for inference when invoking a multi-model endpoint.
+        /// The model to request for inference when invoking a multi-model endpoint. 
         public let targetModel: String?
         /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights.
         public let targetVariant: String?
@@ -64,7 +64,7 @@ extension SageMakerRuntime {
         public func validate(name: String) throws {
             try self.validate(self.accept, name: "accept", parent: name, max: 1024)
             try self.validate(self.accept, name: "accept", parent: name, pattern: "\\p{ASCII}*")
-            try self.validate(self.body, name: "body", parent: name, max: 6_291_456)
+            try self.validate(self.body, name: "body", parent: name, max: 6291456)
             try self.validate(self.contentType, name: "contentType", parent: name, max: 1024)
             try self.validate(self.contentType, name: "contentType", parent: name, pattern: "\\p{ASCII}*")
             try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 1024)
@@ -86,9 +86,9 @@ extension SageMakerRuntime {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "customAttributes", location: .header(locationName: "X-Amzn-SageMaker-Custom-Attributes")), 
             AWSMemberEncoding(label: "invokedProductionVariant", location: .header(locationName: "x-Amzn-Invoked-Production-Variant"))
         ]
 

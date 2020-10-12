@@ -23,6 +23,7 @@ extension Outposts {
     // MARK: Shapes
 
     public struct CreateOutpostInput: AWSEncodableShape {
+
         public let availabilityZone: String?
         public let availabilityZoneId: String?
         public let description: String?
@@ -65,6 +66,7 @@ extension Outposts {
     }
 
     public struct CreateOutpostOutput: AWSDecodableShape {
+
         public let outpost: Outpost?
 
         public init(outpost: Outpost? = nil) {
@@ -97,7 +99,11 @@ extension Outposts {
     }
 
     public struct DeleteOutpostOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSiteInput: AWSEncodableShape {
@@ -121,7 +127,11 @@ extension Outposts {
     }
 
     public struct DeleteSiteOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetOutpostInput: AWSEncodableShape {
@@ -146,8 +156,8 @@ extension Outposts {
 
     public struct GetOutpostInstanceTypesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")), 
             AWSMemberEncoding(label: "outpostId", location: .uri(locationName: "OutpostId"))
         ]
 
@@ -176,6 +186,7 @@ extension Outposts {
     }
 
     public struct GetOutpostInstanceTypesOutput: AWSDecodableShape {
+
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
         public let outpostArn: String?
@@ -197,6 +208,7 @@ extension Outposts {
     }
 
     public struct GetOutpostOutput: AWSDecodableShape {
+
         public let outpost: Outpost?
 
         public init(outpost: Outpost? = nil) {
@@ -209,6 +221,7 @@ extension Outposts {
     }
 
     public struct InstanceTypeItem: AWSDecodableShape {
+
         public let instanceType: String?
 
         public init(instanceType: String? = nil) {
@@ -222,7 +235,7 @@ extension Outposts {
 
     public struct ListOutpostsInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -246,6 +259,7 @@ extension Outposts {
     }
 
     public struct ListOutpostsOutput: AWSDecodableShape {
+
         public let nextToken: String?
         public let outposts: [Outpost]?
 
@@ -262,7 +276,7 @@ extension Outposts {
 
     public struct ListSitesInput: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
         ]
 
@@ -286,6 +300,7 @@ extension Outposts {
     }
 
     public struct ListSitesOutput: AWSDecodableShape {
+
         public let nextToken: String?
         public let sites: [Site]?
 
@@ -301,6 +316,7 @@ extension Outposts {
     }
 
     public struct Outpost: AWSDecodableShape {
+
         public let availabilityZone: String?
         public let availabilityZoneId: String?
         public let description: String?
@@ -337,6 +353,7 @@ extension Outposts {
     }
 
     public struct Site: AWSDecodableShape {
+
         public let accountId: String?
         public let description: String?
         public let name: String?

@@ -220,6 +220,7 @@ extension RoboMaker {
     // MARK: Shapes
 
     public struct BatchDeleteWorldsRequest: AWSEncodableShape {
+
         /// A list of Amazon Resource Names (arns) that correspond to worlds to delete.
         public let worlds: [String]
 
@@ -238,11 +239,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case worlds
+            case worlds = "worlds"
         }
     }
 
     public struct BatchDeleteWorldsResponse: AWSDecodableShape {
+
         /// A list of unprocessed worlds associated with the call. These worlds were not deleted.
         public let unprocessedWorlds: [String]?
 
@@ -251,11 +253,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case unprocessedWorlds
+            case unprocessedWorlds = "unprocessedWorlds"
         }
     }
 
     public struct BatchDescribeSimulationJobRequest: AWSEncodableShape {
+
         /// A list of Amazon Resource Names (ARNs) of simulation jobs to describe.
         public let jobs: [String]
 
@@ -274,11 +277,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
+            case jobs = "jobs"
         }
     }
 
     public struct BatchDescribeSimulationJobResponse: AWSDecodableShape {
+
         /// A list of simulation jobs.
         public let jobs: [SimulationJob]?
         /// A list of unprocessed simulation job Amazon Resource Names (ARNs).
@@ -290,15 +294,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case jobs
-            case unprocessedJobs
+            case jobs = "jobs"
+            case unprocessedJobs = "unprocessedJobs"
         }
     }
 
     public struct BatchPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The number of active simulation jobs create as part of the batch that can be in an active state at the same time.  Active states include: Pending,Preparing, Running, Restarting, RunningFailed and Terminating. All other states are terminal states.
+
+        /// The number of active simulation jobs create as part of the batch that can be in an active state at the same time.  Active states include: Pending,Preparing, Running, Restarting, RunningFailed and Terminating. All other states are terminal states. 
         public let maxConcurrency: Int?
-        /// The amount of time, in seconds, to wait for the batch to complete.  If a batch times out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), they will be moved to the failed list and the batch status will be Failed. If the pending requests were failing for any other reason, the failed pending requests will be moved to the failed list and the batch status will be TimedOut.
+        /// The amount of time, in seconds, to wait for the batch to complete.  If a batch times out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), they will be moved to the failed list and the batch status will be Failed. If the pending requests were failing for any other reason, the failed pending requests will be moved to the failed list and the batch status will be TimedOut. 
         public let timeoutInSeconds: Int64?
 
         public init(maxConcurrency: Int? = nil, timeoutInSeconds: Int64? = nil) {
@@ -307,12 +312,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxConcurrency
-            case timeoutInSeconds
+            case maxConcurrency = "maxConcurrency"
+            case timeoutInSeconds = "timeoutInSeconds"
         }
     }
 
     public struct CancelDeploymentJobRequest: AWSEncodableShape {
+
         /// The deployment job ARN to cancel.
         public let job: String
 
@@ -327,15 +333,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct CancelDeploymentJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CancelSimulationJobBatchRequest: AWSEncodableShape {
+
         /// The id of the batch to cancel.
         public let batch: String
 
@@ -350,15 +361,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batch
+            case batch = "batch"
         }
     }
 
     public struct CancelSimulationJobBatchResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CancelSimulationJobRequest: AWSEncodableShape {
+
         /// The simulation job ARN to cancel.
         public let job: String
 
@@ -373,15 +389,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct CancelSimulationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CancelWorldExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world export job to cancel.
         public let job: String
 
@@ -396,15 +417,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct CancelWorldExportJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CancelWorldGenerationJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world generator job to cancel.
         public let job: String
 
@@ -419,16 +445,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct CancelWorldGenerationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Compute: AWSEncodableShape & AWSDecodableShape {
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15.
+
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15. 
         public let simulationUnitLimit: Int?
 
         public init(simulationUnitLimit: Int? = nil) {
@@ -441,12 +472,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simulationUnitLimit
+            case simulationUnitLimit = "simulationUnitLimit"
         }
     }
 
     public struct ComputeResponse: AWSDecodableShape {
-        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15.
+
+        /// The simulation unit limit. Your simulation is allocated CPU and memory proportional to the supplied simulation unit limit. A simulation unit is 1 vcpu and 2GB of memory. You are only billed for the SU utilization you consume up to the maximim value provided. The default is 15. 
         public let simulationUnitLimit: Int?
 
         public init(simulationUnitLimit: Int? = nil) {
@@ -454,11 +486,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case simulationUnitLimit
+            case simulationUnitLimit = "simulationUnitLimit"
         }
     }
 
     public struct CreateDeploymentJobRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
         /// The deployment application configuration.
@@ -502,15 +535,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case fleet
-            case tags
+            case clientRequestToken = "clientRequestToken"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case fleet = "fleet"
+            case tags = "tags"
         }
     }
 
     public struct CreateDeploymentJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -519,7 +553,7 @@ extension RoboMaker {
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// The deployment configuration.
         public let deploymentConfig: DeploymentConfig?
-        /// The failure code of the simulation job if it failed:  BadPermissionError  AWS Greengrass requires a service-level role permission to access other services. The role must include the  AWSGreengrassResourceAccessRolePolicy managed policy.   ExtractingBundleFailure  The robot application could not be extracted from the bundle.  FailureThresholdBreached  The percentage of robots that could not be updated exceeded the percentage set for the deployment.  GreengrassDeploymentFailed  The robot application could not be deployed to the robot.  GreengrassGroupVersionDoesNotExist  The AWS Greengrass group or version associated with a robot is missing.  InternalServerError  An internal error has occurred. Retry your request, but if the problem persists, contact us with details.  MissingRobotApplicationArchitecture  The robot application does not have a source that matches the architecture of the robot.  MissingRobotDeploymentResource  One or more of the resources specified for the robot application are missing. For example, does the robot application have the correct launch package and launch file?  PostLaunchFileFailure  The post-launch script failed.  PreLaunchFileFailure  The pre-launch script failed.  ResourceNotFound  One or more deployment resources are missing. For example, do robot application source bundles still exist?   RobotDeploymentNoResponse  There is no response from the robot. It might not be powered on or connected to the internet.
+        /// The failure code of the simulation job if it failed:  BadPermissionError  AWS Greengrass requires a service-level role permission to access other services. The role must include the  AWSGreengrassResourceAccessRolePolicy managed policy.   ExtractingBundleFailure  The robot application could not be extracted from the bundle.  FailureThresholdBreached  The percentage of robots that could not be updated exceeded the percentage set for the deployment.  GreengrassDeploymentFailed  The robot application could not be deployed to the robot.  GreengrassGroupVersionDoesNotExist  The AWS Greengrass group or version associated with a robot is missing.  InternalServerError  An internal error has occurred. Retry your request, but if the problem persists, contact us with details.  MissingRobotApplicationArchitecture  The robot application does not have a source that matches the architecture of the robot.  MissingRobotDeploymentResource  One or more of the resources specified for the robot application are missing. For example, does the robot application have the correct launch package and launch file?  PostLaunchFileFailure  The post-launch script failed.  PreLaunchFileFailure  The pre-launch script failed.  ResourceNotFound  One or more deployment resources are missing. For example, do robot application source bundles still exist?   RobotDeploymentNoResponse  There is no response from the robot. It might not be powered on or connected to the internet.  
         public let failureCode: DeploymentJobErrorCode?
         /// The failure reason of the deployment job if it failed.
         public let failureReason: String?
@@ -543,19 +577,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct CreateFleetRequest: AWSEncodableShape {
+
         /// The name of the fleet.
         public let name: String
         /// A map that contains tag keys and tag values that are attached to the fleet.
@@ -581,12 +616,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case tags
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateFleetResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -604,14 +640,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case name
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateRobotApplicationRequest: AWSEncodableShape {
+
         /// The name of the robot application.
         public let name: String
         /// The robot software suite (ROS distribuition) used by the robot application.
@@ -646,14 +683,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case robotSoftwareSuite
-            case sources
-            case tags
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
         }
     }
 
     public struct CreateRobotApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -683,18 +721,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct CreateRobotApplicationVersionRequest: AWSEncodableShape {
+
         /// The application information for the robot application.
         public let application: String
         /// The current revision id for the robot application. If you provide a value and it matches the latest revision ID, a new version will be created.
@@ -715,12 +754,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
         }
     }
 
     public struct CreateRobotApplicationVersionResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -747,17 +787,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
     public struct CreateRobotRequest: AWSEncodableShape {
+
         /// The target architecture of the robot.
         public let architecture: Architecture
         /// The Greengrass group id.
@@ -792,14 +833,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case greengrassGroupId
-            case name
-            case tags
+            case architecture = "architecture"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateRobotResponse: AWSDecodableShape {
+
         /// The target architecture of the robot.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -823,16 +865,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case greengrassGroupId
-            case name
-            case tags
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case greengrassGroupId = "greengrassGroupId"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct CreateSimulationApplicationRequest: AWSEncodableShape {
+
         /// The name of the simulation application.
         public let name: String
         /// The rendering engine for the simulation application.
@@ -875,16 +918,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case renderingEngine
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
         }
     }
 
     public struct CreateSimulationApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -920,20 +964,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct CreateSimulationApplicationVersionRequest: AWSEncodableShape {
+
         /// The application information for the simulation application.
         public let application: String
         /// The current revision id for the simulation application. If you provide a value and it matches the latest revision ID, a new version will be created.
@@ -954,12 +999,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
         }
     }
 
     public struct CreateSimulationApplicationVersionResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -992,28 +1038,29 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
     public struct CreateSimulationJobRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// Compute information for the simulation job.
         public let compute: Compute?
-        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
+        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
-        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
         public let failureBehavior: FailureBehavior?
-        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job.
+        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
         public let iamRole: String
         /// The logging configuration.
         public let loggingConfig: LoggingConfig?
@@ -1027,7 +1074,7 @@ extension RoboMaker {
         public let simulationApplications: [SimulationApplicationConfig]?
         /// A map that contains tag keys and tag values that are attached to the simulation job.
         public let tags: [String: String]?
-        /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID.
+        /// If your simulation job accesses resources in a VPC, you provide this parameter identifying the list of security group IDs and subnet IDs. These must belong to the same VPC. You must provide at least one security group and one subnet ID. 
         public let vpcConfig: VPCConfig?
 
         public init(clientRequestToken: String? = CreateSimulationJobRequest.idempotencyToken(), compute: Compute? = nil, dataSources: [DataSourceConfig]? = nil, failureBehavior: FailureBehavior? = nil, iamRole: String, loggingConfig: LoggingConfig? = nil, maxJobDurationInSeconds: Int64, outputLocation: OutputLocation? = nil, robotApplications: [RobotApplicationConfig]? = nil, simulationApplications: [SimulationApplicationConfig]? = nil, tags: [String: String]? = nil, vpcConfig: VPCConfig? = nil) {
@@ -1081,22 +1128,23 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case iamRole
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case tags
-            case vpcConfig
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct CreateSimulationJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1107,7 +1155,7 @@ extension RoboMaker {
         public let dataSources: [DataSource]?
         /// the failure behavior for the simulation job.
         public let failureBehavior: FailureBehavior?
-        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.
+        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: SimulationJobErrorCode?
         /// The IAM role that allows the simulation job to call the AWS APIs that are specified in its associated policies on your behalf.
         public let iamRole: String?
@@ -1117,7 +1165,7 @@ extension RoboMaker {
         public let lastUpdatedAt: Date?
         /// The logging configuration.
         public let loggingConfig: LoggingConfig?
-        /// The maximum simulation job duration in seconds.
+        /// The maximum simulation job duration in seconds. 
         public let maxJobDurationInSeconds: Int64?
         /// Simulation job output files location.
         public let outputLocation: OutputLocation?
@@ -1156,28 +1204,29 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct CreateWorldExportJobRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
@@ -1222,27 +1271,28 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case iamRole
-            case outputLocation
-            case tags
-            case worlds
+            case clientRequestToken = "clientRequestToken"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case tags = "tags"
+            case worlds = "worlds"
         }
     }
 
     public struct CreateWorldExportJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world export job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
-        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
         public let failureCode: WorldExportJobErrorCode?
-        /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
+        /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export. 
         public let iamRole: String?
         public let outputLocation: OutputLocation?
-        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
         public let status: WorldExportJobStatus?
         /// A map that contains tag keys and tag values that are attached to the world export job.
         public let tags: [String: String]?
@@ -1259,18 +1309,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case iamRole
-            case outputLocation
-            case status
-            case tags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct CreateWorldGenerationJobRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// A map that contains tag keys and tag values that are attached to the world generator job.
@@ -1305,29 +1356,30 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case tags
-            case template
-            case worldCount
+            case clientRequestToken = "clientRequestToken"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
         }
     }
 
     public struct CreateWorldGenerationJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world generator job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
         public let createdAt: Date?
-        /// The failure code of the world generator job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+        /// The failure code of the world generator job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
         public let failureCode: WorldGenerationJobErrorCode?
-        /// The status of the world generator job.  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.
+        /// The status of the world generator job.  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.  
         public let status: WorldGenerationJobStatus?
         /// A map that contains tag keys and tag values that are attached to the world generator job.
         public let tags: [String: String]?
         /// The Amazon Resource Name (arn) of the world template.
         public let template: String?
-        /// Information about the world count.
+        /// Information about the world count. 
         public let worldCount: WorldCount?
 
         public init(arn: String? = nil, clientRequestToken: String? = nil, createdAt: Date? = nil, failureCode: WorldGenerationJobErrorCode? = nil, status: WorldGenerationJobStatus? = nil, tags: [String: String]? = nil, template: String? = nil, worldCount: WorldCount? = nil) {
@@ -1342,18 +1394,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case status
-            case tags
-            case template
-            case worldCount
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
         }
     }
 
     public struct CreateWorldTemplateRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The name of the world template.
@@ -1388,22 +1441,23 @@ extension RoboMaker {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "[a-zA-Z0-9 _.\\-\\/+=:]*")
             }
-            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\S\\s]+")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case name
-            case tags
-            case templateBody
-            case templateLocation
+            case clientRequestToken = "clientRequestToken"
+            case name = "name"
+            case tags = "tags"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
         }
     }
 
     public struct CreateWorldTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world template.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1424,15 +1478,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case name
-            case tags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct DataSource: AWSDecodableShape {
+
         /// The name of the data source.
         public let name: String?
         /// The S3 bucket where the data files are located.
@@ -1447,13 +1502,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case s3Bucket
-            case s3Keys
+            case name = "name"
+            case s3Bucket = "s3Bucket"
+            case s3Keys = "s3Keys"
         }
     }
 
     public struct DataSourceConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the data source.
         public let name: String
         /// The S3 bucket where the data files are located.
@@ -1484,13 +1540,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case s3Bucket
-            case s3Keys
+            case name = "name"
+            case s3Bucket = "s3Bucket"
+            case s3Keys = "s3Keys"
         }
     }
 
     public struct DeleteFleetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
 
@@ -1505,15 +1562,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
+            case fleet = "fleet"
         }
     }
 
     public struct DeleteFleetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRobotApplicationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the the robot application.
         public let application: String
         /// The version of the robot application to delete.
@@ -1534,16 +1596,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
     public struct DeleteRobotApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRobotRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot.
         public let robot: String
 
@@ -1558,15 +1625,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot
+            case robot = "robot"
         }
     }
 
     public struct DeleteRobotResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSimulationApplicationRequest: AWSEncodableShape {
+
         /// The application information for the simulation application to delete.
         public let application: String
         /// The version of the simulation application to delete.
@@ -1587,16 +1659,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
     public struct DeleteSimulationApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteWorldTemplateRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world template you want to delete.
         public let template: String
 
@@ -1611,15 +1688,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case template
+            case template = "template"
         }
     }
 
     public struct DeleteWorldTemplateResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeploymentApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
         /// The version of the application.
@@ -1644,13 +1726,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
         }
     }
 
     public struct DeploymentConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The percentage of robots receiving the deployment at the same time.
         public let concurrentDeploymentPercentage: Int?
         /// The download condition file.
@@ -1676,14 +1759,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case concurrentDeploymentPercentage
-            case downloadConditionFile
-            case failureThresholdPercentage
-            case robotDeploymentTimeoutInSeconds
+            case concurrentDeploymentPercentage = "concurrentDeploymentPercentage"
+            case downloadConditionFile = "downloadConditionFile"
+            case failureThresholdPercentage = "failureThresholdPercentage"
+            case robotDeploymentTimeoutInSeconds = "robotDeploymentTimeoutInSeconds"
         }
     }
 
     public struct DeploymentJob: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -1713,18 +1797,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
         }
     }
 
     public struct DeploymentLaunchConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// An array of key/value pairs specifying environment variables for the robot application
         public let environmentVariables: [String: String]?
         /// The launch file name.
@@ -1768,15 +1853,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentVariables
-            case launchFile
-            case packageName
-            case postLaunchFile
-            case preLaunchFile
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
+            case postLaunchFile = "postLaunchFile"
+            case preLaunchFile = "preLaunchFile"
         }
     }
 
     public struct DeregisterRobotRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
@@ -1797,12 +1883,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
     public struct DeregisterRobotResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -1814,12 +1901,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
     public struct DescribeDeploymentJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let job: String
 
@@ -1834,11 +1922,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct DescribeDeploymentJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the deployment job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment job was created.
@@ -1874,20 +1963,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case robotDeploymentSummary
-            case status
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case robotDeploymentSummary = "robotDeploymentSummary"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct DescribeFleetRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
 
@@ -1902,11 +1992,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
+            case fleet = "fleet"
         }
     }
 
     public struct DescribeFleetResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -1936,18 +2027,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastDeploymentJob
-            case lastDeploymentStatus
-            case lastDeploymentTime
-            case name
-            case robots
-            case tags
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case robots = "robots"
+            case tags = "tags"
         }
     }
 
     public struct DescribeRobotApplicationRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let application: String
         /// The version of the robot application to describe.
@@ -1968,12 +2060,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
     public struct DescribeRobotApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -2003,18 +2096,19 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct DescribeRobotRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot to be described.
         public let robot: String
 
@@ -2029,11 +2123,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case robot
+            case robot = "robot"
         }
     }
 
     public struct DescribeRobotResponse: AWSDecodableShape {
+
         /// The target architecture of the robot application.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -2069,20 +2164,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case fleetArn
-            case greengrassGroupId
-            case lastDeploymentJob
-            case lastDeploymentTime
-            case name
-            case status
-            case tags
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleetArn = "fleetArn"
+            case greengrassGroupId = "greengrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct DescribeSimulationApplicationRequest: AWSEncodableShape {
+
         /// The application information for the simulation application.
         public let application: String
         /// The version of the simulation application to describe.
@@ -2103,12 +2199,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
+            case application = "application"
+            case applicationVersion = "applicationVersion"
         }
     }
 
     public struct DescribeSimulationApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -2144,20 +2241,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case tags
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case tags = "tags"
+            case version = "version"
         }
     }
 
     public struct DescribeSimulationJobBatchRequest: AWSEncodableShape {
+
         /// The id of the batch to describe.
         public let batch: String
 
@@ -2172,11 +2270,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batch
+            case batch = "batch"
         }
     }
 
     public struct DescribeSimulationJobBatchResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the batch.
         public let arn: String?
         /// The batch policy.
@@ -2187,7 +2286,7 @@ extension RoboMaker {
         public let createdAt: Date?
         /// A list of created simulation job summaries.
         public let createdRequests: [SimulationJobSummary]?
-        /// A list of failed create simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
+        /// A list of failed create simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID. 
         public let failedRequests: [FailedCreateSimulationJobRequest]?
         /// The failure code of the simulation job batch.
         public let failureCode: SimulationJobBatchErrorCode?
@@ -2197,7 +2296,7 @@ extension RoboMaker {
         public let lastUpdatedAt: Date?
         /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
         public let pendingRequests: [SimulationJobRequest]?
-        /// The status of the batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.
+        /// The status of the batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
         public let status: SimulationJobBatchStatus?
         /// A map that contains tag keys and tag values that are attached to the simulation job batch.
         public let tags: [String: String]?
@@ -2218,22 +2317,23 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case batchPolicy
-            case clientRequestToken
-            case createdAt
-            case createdRequests
-            case failedRequests
-            case failureCode
-            case failureReason
-            case lastUpdatedAt
-            case pendingRequests
-            case status
-            case tags
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct DescribeSimulationJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job to be described.
         public let job: String
 
@@ -2248,11 +2348,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct DescribeSimulationJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2263,7 +2364,7 @@ extension RoboMaker {
         public let dataSources: [DataSource]?
         /// The failure behavior for the simulation job.
         public let failureBehavior: FailureBehavior?
-        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.
+        /// The failure code of the simulation job if it failed:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: SimulationJobErrorCode?
         /// Details about why the simulation job failed. For more information about troubleshooting, see Troubleshooting.
         public let failureReason: String?
@@ -2321,31 +2422,32 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case failureReason
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case name
-            case networkInterface
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case networkInterface = "networkInterface"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct DescribeWorldExportJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world export job to describe.
         public let job: String
 
@@ -2360,25 +2462,26 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct DescribeWorldExportJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world export job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
-        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
         public let failureCode: WorldExportJobErrorCode?
         /// The reason why the world export job failed.
         public let failureReason: String?
         /// The IAM role that the world export process uses to access the Amazon S3 bucket and put the export.
         public let iamRole: String?
         public let outputLocation: OutputLocation?
-        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode and failureReason for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode and failureReason for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
         public let status: WorldExportJobStatus?
         /// A map that contains tag keys and tag values that are attached to the world export job.
         public let tags: [String: String]?
@@ -2399,20 +2502,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case failureReason
-            case iamRole
-            case outputLocation
-            case status
-            case tags
-            case worlds
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case outputLocation = "outputLocation"
+            case status = "status"
+            case tags = "tags"
+            case worlds = "worlds"
         }
     }
 
     public struct DescribeWorldGenerationJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world generation job to describe.
         public let job: String
 
@@ -2427,24 +2531,25 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct DescribeWorldGenerationJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world generation job.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String?
         /// The time, in milliseconds since the epoch, when the world generation job was created.
         public let createdAt: Date?
-        /// The failure code of the world generation job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+        /// The failure code of the world generation job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
         public let failureCode: WorldGenerationJobErrorCode?
         /// The reason why the world generation job failed.
         public let failureReason: String?
         /// Summary information about finished worlds.
         public let finishedWorldsSummary: FinishedWorldsSummary?
-        /// The status of the world generation job:  Pending  The world generation job request is pending.  Running  The world generation job is running.   Completed  The world generation job completed.   Failed  The world generation job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generation job was cancelled.  Canceling  The world generation job is being cancelled.
+        /// The status of the world generation job:  Pending  The world generation job request is pending.  Running  The world generation job is running.   Completed  The world generation job completed.   Failed  The world generation job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generation job was cancelled.  Canceling  The world generation job is being cancelled.  
         public let status: WorldGenerationJobStatus?
         /// A map that contains tag keys and tag values that are attached to the world generation job.
         public let tags: [String: String]?
@@ -2467,20 +2572,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case failureCode
-            case failureReason
-            case finishedWorldsSummary
-            case status
-            case tags
-            case template
-            case worldCount
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case finishedWorldsSummary = "finishedWorldsSummary"
+            case status = "status"
+            case tags = "tags"
+            case template = "template"
+            case worldCount = "worldCount"
         }
     }
 
     public struct DescribeWorldRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world you want to describe.
         public let world: String
 
@@ -2495,11 +2601,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case world
+            case world = "world"
         }
     }
 
     public struct DescribeWorldResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (arn) of the world.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world was created.
@@ -2520,15 +2627,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case generationJob
-            case tags
-            case template
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case tags = "tags"
+            case template = "template"
         }
     }
 
     public struct DescribeWorldTemplateRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world template you want to describe.
         public let template: String
 
@@ -2543,11 +2651,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case template
+            case template = "template"
         }
     }
 
     public struct DescribeWorldTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world template.
         public let arn: String?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -2571,16 +2680,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case createdAt
-            case lastUpdatedAt
-            case name
-            case tags
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case tags = "tags"
         }
     }
 
     public struct FailedCreateSimulationJobRequest: AWSDecodableShape {
+
         /// The time, in milliseconds since the epoch, when the simulation job batch failed.
         public let failedAt: Date?
         /// The failure code.
@@ -2598,14 +2708,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedAt
-            case failureCode
-            case failureReason
-            case request
+            case failedAt = "failedAt"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case request = "request"
         }
     }
 
     public struct FailureSummary: AWSDecodableShape {
+
         /// The worlds that failed.
         public let failures: [WorldFailure]?
         /// The total number of failures.
@@ -2617,12 +2728,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failures
-            case totalFailureCount
+            case failures = "failures"
+            case totalFailureCount = "totalFailureCount"
         }
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// The name of the filter.
         public let name: String?
         /// A list of values.
@@ -2647,12 +2759,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct FinishedWorldsSummary: AWSDecodableShape {
+
         /// Information about worlds that failed.
         public let failureSummary: FailureSummary?
         /// The total number of finished worlds.
@@ -2667,13 +2780,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureSummary
-            case finishedCount
-            case succeededWorlds
+            case failureSummary = "failureSummary"
+            case finishedCount = "finishedCount"
+            case succeededWorlds = "succeededWorlds"
         }
     }
 
     public struct Fleet: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -2697,16 +2811,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastDeploymentJob
-            case lastDeploymentStatus
-            case lastDeploymentTime
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentStatus = "lastDeploymentStatus"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
         }
     }
 
     public struct GetWorldTemplateBodyRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (arn) of the world generator job.
         public let generationJob: String?
         /// The Amazon Resource Name (arn) of the world template.
@@ -2727,12 +2842,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case generationJob
-            case template
+            case generationJob = "generationJob"
+            case template = "template"
         }
     }
 
     public struct GetWorldTemplateBodyResponse: AWSDecodableShape {
+
         /// The world template body.
         public let templateBody: String?
 
@@ -2741,11 +2857,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case templateBody
+            case templateBody = "templateBody"
         }
     }
 
     public struct LaunchConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The environment variables for the application launch.
         public let environmentVariables: [String: String]?
         /// The launch file name.
@@ -2754,7 +2871,7 @@ extension RoboMaker {
         public let packageName: String
         /// The port forwarding configuration.
         public let portForwardingConfig: PortForwardingConfig?
-        /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and luanch the component. It must have a graphical user interface.
+        /// Boolean indicating whether a streaming session will be configured for the application. If True, AWS RoboMaker will configure a connection so you can interact with your application as it is running in the simulation. You must configure and luanch the component. It must have a graphical user interface. 
         public let streamUI: Bool?
 
         public init(environmentVariables: [String: String]? = nil, launchFile: String, packageName: String, portForwardingConfig: PortForwardingConfig? = nil, streamUI: Bool? = nil) {
@@ -2784,20 +2901,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case environmentVariables
-            case launchFile
-            case packageName
-            case portForwardingConfig
-            case streamUI
+            case environmentVariables = "environmentVariables"
+            case launchFile = "launchFile"
+            case packageName = "packageName"
+            case portForwardingConfig = "portForwardingConfig"
+            case streamUI = "streamUI"
         }
     }
 
     public struct ListDeploymentJobsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status InProgress or the status Pending.
         public let filters: [Filter]?
-        /// When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable.
+        /// When this parameter is used, ListDeploymentJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListDeploymentJobs request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListDeploymentJobs returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2818,16 +2936,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDeploymentJobsResponse: AWSDecodableShape {
+
         /// A list of deployment jobs that meet the criteria of the request.
         public let deploymentJobs: [DeploymentJob]?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListDeploymentJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(deploymentJobs: [DeploymentJob]? = nil, nextToken: String? = nil) {
@@ -2836,17 +2955,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case deploymentJobs
-            case nextToken
+            case deploymentJobs = "deploymentJobs"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFleetsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable.
+        /// When this parameter is used, ListFleets only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListFleets request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListFleets returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.   This token should be treated as an opaque identifier that is only used to retrieve the next items in a list and not for other programmatic purposes. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2867,16 +2987,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFleetsResponse: AWSDecodableShape {
+
         /// A list of fleet details meeting the request criteria.
         public let fleetDetails: [Fleet]?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListFleets again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(fleetDetails: [Fleet]? = nil, nextToken: String? = nil) {
@@ -2885,17 +3006,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleetDetails
-            case nextToken
+            case fleetDetails = "fleetDetails"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRobotApplicationsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable.
+        /// When this parameter is used, ListRobotApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobotApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListRobotApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// The version qualifier of the robot application.
         public let versionQualifier: String?
@@ -2922,15 +3044,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case versionQualifier
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
         }
     }
 
     public struct ListRobotApplicationsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobotApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of robot application summaries that meet the criteria of the request.
         public let robotApplicationSummaries: [RobotApplicationSummary]?
@@ -2941,17 +3064,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case robotApplicationSummaries
+            case nextToken = "nextToken"
+            case robotApplicationSummaries = "robotApplicationSummaries"
         }
     }
 
     public struct ListRobotsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. The filter names status and fleetName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Registered or the status Available.
         public let filters: [Filter]?
-        /// When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable.
+        /// When this parameter is used, ListRobots only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListRobots request with the returned nextToken value. This value can be between 1 and 200. If this parameter is not used, then ListRobots returns up to 200 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2972,14 +3096,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListRobotsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListRobots again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of robots that meet the criteria of the request.
         public let robots: [Robot]?
@@ -2990,17 +3115,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case robots
+            case nextToken = "nextToken"
+            case robots = "robots"
         }
     }
 
     public struct ListSimulationApplicationsRequest: AWSEncodableShape {
+
         /// Optional list of filters to limit results. The filter name name is supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters.
         public let filters: [Filter]?
-        /// When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable.
+        /// When this parameter is used, ListSimulationApplications only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationApplications request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListSimulationApplications returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// The version qualifier of the simulation application.
         public let versionQualifier: String?
@@ -3027,15 +3153,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
-            case versionQualifier
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case versionQualifier = "versionQualifier"
         }
     }
 
     public struct ListSimulationApplicationsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationApplications again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation application summaries that meet the criteria of the request.
         public let simulationApplicationSummaries: [SimulationApplicationSummary]?
@@ -3046,17 +3173,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationApplicationSummaries
+            case nextToken = "nextToken"
+            case simulationApplicationSummaries = "simulationApplicationSummaries"
         }
     }
 
     public struct ListSimulationJobBatchesRequest: AWSEncodableShape {
+
         /// Optional filters to limit results.
         public let filters: [Filter]?
-        /// When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value.
+        /// When this parameter is used, ListSimulationJobBatches only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobBatches request with the returned nextToken value. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3077,14 +3205,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSimulationJobBatchesResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobBatches again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation job batch summaries.
         public let simulationJobBatchSummaries: [SimulationJobBatchSummary]?
@@ -3095,17 +3224,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationJobBatchSummaries
+            case nextToken = "nextToken"
+            case simulationJobBatchSummaries = "simulationJobBatchSummaries"
         }
     }
 
     public struct ListSimulationJobsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. The filter names status and simulationApplicationName and robotApplicationName are supported. When filtering, you must use the complete value of the filtered item. You can use up to three filters, but they must be for the same named item. For example, if you are looking for items with the status Preparing or the status Running.
         public let filters: [Filter]?
-        /// When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable.
+        /// When this parameter is used, ListSimulationJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListSimulationJobs request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then ListSimulationJobs returns up to 1000 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3126,14 +3256,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListSimulationJobsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListSimulationJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// A list of simulation job summaries that meet the criteria of the request.
         public let simulationJobSummaries: [SimulationJobSummary]
@@ -3144,8 +3275,8 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case simulationJobSummaries
+            case nextToken = "nextToken"
+            case simulationJobSummaries = "simulationJobSummaries"
         }
     }
 
@@ -3171,6 +3302,7 @@ extension RoboMaker {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The list of all tags added to the specified resource.
         public let tags: [String: String]?
 
@@ -3179,16 +3311,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListWorldExportJobsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. You can use generationJobId and templateId.
         public let filters: [Filter]?
-        /// When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable.
+        /// When this parameter is used, ListWorldExportJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldExportJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldExportJobs returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobs again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3209,14 +3342,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListWorldExportJobsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldExportJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// Summary information for world export jobs.
         public let worldExportJobSummaries: [WorldExportJobSummary]
@@ -3227,17 +3361,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldExportJobSummaries
+            case nextToken = "nextToken"
+            case worldExportJobSummaries = "worldExportJobSummaries"
         }
     }
 
     public struct ListWorldGenerationJobsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. You can use status and templateId.
         public let filters: [Filter]?
-        /// When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable.
+        /// When this parameter is used, ListWorldGeneratorJobs only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldGeneratorJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldGeneratorJobs returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGenerationJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGenerationJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3258,14 +3393,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListWorldGenerationJobsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGeneratorJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldGeneratorJobsRequest again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// Summary information for world generator jobs.
         public let worldGenerationJobSummaries: [WorldGenerationJobSummary]
@@ -3276,15 +3412,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldGenerationJobSummaries
+            case nextToken = "nextToken"
+            case worldGenerationJobSummaries = "worldGenerationJobSummaries"
         }
     }
 
     public struct ListWorldTemplatesRequest: AWSEncodableShape {
-        /// When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable.
+
+        /// When this parameter is used, ListWorldTemplates only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorldTemplates request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorldTemplates returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3299,13 +3436,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListWorldTemplatesResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorldTemplates again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// Summary information for templates.
         public let templateSummaries: [TemplateSummary]?
@@ -3316,17 +3454,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case templateSummaries
+            case nextToken = "nextToken"
+            case templateSummaries = "templateSummaries"
         }
     }
 
     public struct ListWorldsRequest: AWSEncodableShape {
+
         /// Optional filters to limit results. You can use status.
         public let filters: [Filter]?
-        /// When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable.
+        /// When this parameter is used, ListWorlds only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another ListWorlds request with the returned nextToken value. This value can be between 1 and 100. If this parameter is not used, then ListWorlds returns up to 100 results and a nextToken value if applicable. 
         public let maxResults: Int?
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
 
         public init(filters: [Filter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -3347,14 +3486,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListWorldsResponse: AWSDecodableShape {
-        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
+
+        /// If the previous paginated request did not return all of the remaining results, the response object's nextToken parameter value is set to a token. To retrieve the next set of results, call ListWorlds again and assign that token to the request object's nextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null. 
         public let nextToken: String?
         /// Summary information for worlds.
         public let worldSummaries: [WorldSummary]?
@@ -3365,12 +3505,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case worldSummaries
+            case nextToken = "nextToken"
+            case worldSummaries = "worldSummaries"
         }
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A boolean indicating whether to record all ROS topics.
         public let recordAllRosTopics: Bool
 
@@ -3379,11 +3520,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case recordAllRosTopics
+            case recordAllRosTopics = "recordAllRosTopics"
         }
     }
 
     public struct NetworkInterface: AWSDecodableShape {
+
         /// The ID of the network interface.
         public let networkInterfaceId: String?
         /// The IPv4 address of the network interface within the subnet.
@@ -3398,13 +3540,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case networkInterfaceId
-            case privateIpAddress
-            case publicIpAddress
+            case networkInterfaceId = "networkInterfaceId"
+            case privateIpAddress = "privateIpAddress"
+            case publicIpAddress = "publicIpAddress"
         }
     }
 
     public struct OutputLocation: AWSEncodableShape & AWSDecodableShape {
+
         /// The S3 bucket for output.
         public let s3Bucket: String?
         /// The S3 folder in the s3Bucket where output files will be placed.
@@ -3425,12 +3568,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Prefix
+            case s3Bucket = "s3Bucket"
+            case s3Prefix = "s3Prefix"
         }
     }
 
     public struct PortForwardingConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The port mappings for the configuration.
         public let portMappings: [PortMapping]?
 
@@ -3447,16 +3591,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case portMappings
+            case portMappings = "portMappings"
         }
     }
 
     public struct PortMapping: AWSEncodableShape & AWSDecodableShape {
+
         /// The port number on the application.
         public let applicationPort: Int
         /// A Boolean indicating whether to enable this port mapping on public IP.
         public let enableOnPublicIp: Bool?
-        /// The port number on the simulation job instance to use as a remote connection point.
+        /// The port number on the simulation job instance to use as a remote connection point. 
         public let jobPort: Int
 
         public init(applicationPort: Int, enableOnPublicIp: Bool? = nil, jobPort: Int) {
@@ -3473,14 +3618,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationPort
-            case enableOnPublicIp
-            case jobPort
+            case applicationPort = "applicationPort"
+            case enableOnPublicIp = "enableOnPublicIp"
+            case jobPort = "jobPort"
         }
     }
 
     public struct ProgressDetail: AWSDecodableShape {
-        /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.
+
+        /// The current progress status.  Validating  Validating the deployment.  DownloadingExtracting  Downloading and extracting the bundle on the robot.  ExecutingPreLaunch  Executing pre-launch script(s) if provided.  Launching  Launching the robot application.  ExecutingPostLaunch  Executing post-launch script(s) if provided.  Finished  Deployment is complete.  
         public let currentProgress: RobotDeploymentStep?
         /// Estimated amount of time in seconds remaining in the step. This currently only applies to the Downloading/Extracting step of the deployment. It is empty for other steps.
         public let estimatedTimeRemainingSeconds: Int?
@@ -3497,14 +3643,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case currentProgress
-            case estimatedTimeRemainingSeconds
-            case percentDone
-            case targetResource
+            case currentProgress = "currentProgress"
+            case estimatedTimeRemainingSeconds = "estimatedTimeRemainingSeconds"
+            case percentDone = "percentDone"
+            case targetResource = "targetResource"
         }
     }
 
     public struct RegisterRobotRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet.
         public let fleet: String
         /// The Amazon Resource Name (ARN) of the robot.
@@ -3525,12 +3672,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
     public struct RegisterRobotResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the fleet that the robot will join.
         public let fleet: String?
         /// Information about the robot registration.
@@ -3542,12 +3690,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fleet
-            case robot
+            case fleet = "fleet"
+            case robot = "robot"
         }
     }
 
     public struct RenderingEngine: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the rendering engine.
         public let name: RenderingEngineType?
         /// The version of the rendering engine.
@@ -3565,12 +3714,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct RestartSimulationJobRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let job: String
 
@@ -3585,15 +3735,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case job
+            case job = "job"
         }
     }
 
     public struct RestartSimulationJobResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Robot: AWSDecodableShape {
+
         /// The architecture of the robot.
         public let architecture: Architecture?
         /// The Amazon Resource Name (ARN) of the robot.
@@ -3626,19 +3781,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case arn
-            case createdAt
-            case fleetArn
-            case greenGrassGroupId
-            case lastDeploymentJob
-            case lastDeploymentTime
-            case name
-            case status
+            case architecture = "architecture"
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case fleetArn = "fleetArn"
+            case greenGrassGroupId = "greenGrassGroupId"
+            case lastDeploymentJob = "lastDeploymentJob"
+            case lastDeploymentTime = "lastDeploymentTime"
+            case name = "name"
+            case status = "status"
         }
     }
 
     public struct RobotApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The application information for the robot application.
         public let application: String
         /// The version of the robot application.
@@ -3663,13 +3819,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
         }
     }
 
     public struct RobotApplicationSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the robot.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -3690,15 +3847,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case robotSoftwareSuite
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case version = "version"
         }
     }
 
     public struct RobotDeployment: AWSDecodableShape {
+
         /// The robot deployment Amazon Resource Name (ARN).
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the deployment finished.
@@ -3725,17 +3883,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case deploymentFinishTime
-            case deploymentStartTime
-            case failureCode
-            case failureReason
-            case progressDetail
-            case status
+            case arn = "arn"
+            case deploymentFinishTime = "deploymentFinishTime"
+            case deploymentStartTime = "deploymentStartTime"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case progressDetail = "progressDetail"
+            case status = "status"
         }
     }
 
     public struct RobotSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the robot software suite (ROS distribution).
         public let name: RobotSoftwareSuiteType?
         /// The version of the robot software suite (ROS distribution).
@@ -3747,12 +3906,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct S3KeyOutput: AWSDecodableShape {
+
         /// The etag for the object.
         public let etag: String?
         /// The S3 key.
@@ -3764,12 +3924,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case etag
-            case s3Key
+            case etag = "etag"
+            case s3Key = "s3Key"
         }
     }
 
     public struct S3Object: AWSEncodableShape & AWSDecodableShape {
+
         /// The bucket containing the object.
         public let bucket: String
         /// The etag of the object.
@@ -3793,13 +3954,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case bucket
-            case etag
-            case key
+            case bucket = "bucket"
+            case etag = "etag"
+            case key = "key"
         }
     }
 
     public struct SimulationApplicationConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The application information for the simulation application.
         public let application: String
         /// The version of the simulation application.
@@ -3832,14 +3994,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case applicationVersion
-            case launchConfig
-            case worldConfigs
+            case application = "application"
+            case applicationVersion = "applicationVersion"
+            case launchConfig = "launchConfig"
+            case worldConfigs = "worldConfigs"
         }
     }
 
     public struct SimulationApplicationSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -3863,16 +4026,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case version = "version"
         }
     }
 
     public struct SimulationJob: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// A unique identifier for this SimulationJob request.
@@ -3881,13 +4045,13 @@ extension RoboMaker {
         public let compute: ComputeResponse?
         /// The data sources for the simulation job.
         public let dataSources: [DataSource]?
-        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
         public let failureBehavior: FailureBehavior?
         /// The failure code of the simulation job if it failed.
         public let failureCode: SimulationJobErrorCode?
         /// The reason why the simulation job failed.
         public let failureReason: String?
-        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job.
+        /// The IAM role that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
         public let iamRole: String?
         /// The time, in milliseconds since the epoch, when the simulation job was last started.
         public let lastStartedAt: Date?
@@ -3941,31 +4105,32 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case clientRequestToken
-            case compute
-            case dataSources
-            case failureBehavior
-            case failureCode
-            case failureReason
-            case iamRole
-            case lastStartedAt
-            case lastUpdatedAt
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case name
-            case networkInterface
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case simulationTimeMillis
-            case status
-            case tags
-            case vpcConfig
+            case arn = "arn"
+            case clientRequestToken = "clientRequestToken"
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case iamRole = "iamRole"
+            case lastStartedAt = "lastStartedAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case name = "name"
+            case networkInterface = "networkInterface"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case simulationTimeMillis = "simulationTimeMillis"
+            case status = "status"
+            case tags = "tags"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct SimulationJobBatchSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the batch.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation job batch was created.
@@ -3978,7 +4143,7 @@ extension RoboMaker {
         public let lastUpdatedAt: Date?
         /// The number of pending simulation job requests.
         public let pendingRequestCount: Int?
-        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.
+        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
         public let status: SimulationJobBatchStatus?
 
         public init(arn: String? = nil, createdAt: Date? = nil, createdRequestCount: Int? = nil, failedRequestCount: Int? = nil, lastUpdatedAt: Date? = nil, pendingRequestCount: Int? = nil, status: SimulationJobBatchStatus? = nil) {
@@ -3992,24 +4157,25 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case createdRequestCount
-            case failedRequestCount
-            case lastUpdatedAt
-            case pendingRequestCount
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case createdRequestCount = "createdRequestCount"
+            case failedRequestCount = "failedRequestCount"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case pendingRequestCount = "pendingRequestCount"
+            case status = "status"
         }
     }
 
     public struct SimulationJobRequest: AWSEncodableShape & AWSDecodableShape {
+
         /// Compute information for the simulation job
         public let compute: Compute?
-        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.
+        /// Specify data sources to mount read-only files from S3 into your simulation. These files are available under /opt/robomaker/datasources/data_source_name.   There is a limit of 100 files and a combined size of 25GB for all DataSourceConfig objects.  
         public let dataSources: [DataSourceConfig]?
-        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.
+        /// The failure behavior the simulation job.  Continue  Restart the simulation job in the same host instance.  Fail  Stop the simulation job and terminate the instance.  
         public let failureBehavior: FailureBehavior?
-        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job.
+        /// The IAM role name that allows the simulation instance to call the AWS APIs that are specified in its associated policies on your behalf. This is how credentials are passed in to your simulation job. 
         public let iamRole: String?
         public let loggingConfig: LoggingConfig?
         /// The maximum simulation job duration in seconds. The value must be 8 days (691,200 seconds) or less.
@@ -4073,22 +4239,23 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case compute
-            case dataSources
-            case failureBehavior
-            case iamRole
-            case loggingConfig
-            case maxJobDurationInSeconds
-            case outputLocation
-            case robotApplications
-            case simulationApplications
-            case tags
-            case useDefaultApplications
-            case vpcConfig
+            case compute = "compute"
+            case dataSources = "dataSources"
+            case failureBehavior = "failureBehavior"
+            case iamRole = "iamRole"
+            case loggingConfig = "loggingConfig"
+            case maxJobDurationInSeconds = "maxJobDurationInSeconds"
+            case outputLocation = "outputLocation"
+            case robotApplications = "robotApplications"
+            case simulationApplications = "simulationApplications"
+            case tags = "tags"
+            case useDefaultApplications = "useDefaultApplications"
+            case vpcConfig = "vpcConfig"
         }
     }
 
     public struct SimulationJobSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the simulation job.
         public let arn: String?
         /// The names of the data sources.
@@ -4115,17 +4282,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case dataSourceNames
-            case lastUpdatedAt
-            case name
-            case robotApplicationNames
-            case simulationApplicationNames
-            case status
+            case arn = "arn"
+            case dataSourceNames = "dataSourceNames"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case robotApplicationNames = "robotApplicationNames"
+            case simulationApplicationNames = "simulationApplicationNames"
+            case status = "status"
         }
     }
 
     public struct SimulationSoftwareSuite: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the simulation software suite.
         public let name: SimulationSoftwareSuiteType?
         /// The version of the simulation software suite.
@@ -4143,12 +4311,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case version
+            case name = "name"
+            case version = "version"
         }
     }
 
     public struct Source: AWSDecodableShape {
+
         /// The taget processor architecture for the application.
         public let architecture: Architecture?
         /// A hash of the object specified by s3Bucket and s3Key.
@@ -4166,14 +4335,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case etag
-            case s3Bucket
-            case s3Key
+            case architecture = "architecture"
+            case etag = "etag"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
     public struct SourceConfig: AWSEncodableShape {
+
         /// The target processor architecture for the application.
         public let architecture: Architecture?
         /// The Amazon S3 bucket name.
@@ -4197,13 +4367,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case architecture
-            case s3Bucket
-            case s3Key
+            case architecture = "architecture"
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
     public struct StartSimulationJobBatchRequest: AWSEncodableShape {
+
         /// The batch policy.
         public let batchPolicy: BatchPolicy?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -4240,14 +4411,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case batchPolicy
-            case clientRequestToken
-            case createSimulationJobRequests
-            case tags
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createSimulationJobRequests = "createSimulationJobRequests"
+            case tags = "tags"
         }
     }
 
     public struct StartSimulationJobBatchResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (arn) of the batch.
         public let arn: String?
         /// The batch policy.
@@ -4258,7 +4430,7 @@ extension RoboMaker {
         public let createdAt: Date?
         /// A list of created simulation job request summaries.
         public let createdRequests: [SimulationJobSummary]?
-        /// A list of failed simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID.
+        /// A list of failed simulation job requests. The request failed to be created into a simulation job. Failed requests do not have a simulation job ID. 
         public let failedRequests: [FailedCreateSimulationJobRequest]?
         /// The failure code if the simulation job batch failed.
         public let failureCode: SimulationJobBatchErrorCode?
@@ -4266,7 +4438,7 @@ extension RoboMaker {
         public let failureReason: String?
         /// A list of pending simulation job requests. These requests have not yet been created into simulation jobs.
         public let pendingRequests: [SimulationJobRequest]?
-        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.
+        /// The status of the simulation job batch.  Pending  The simulation job batch request is pending.  InProgress  The simulation job batch is in progress.   Failed  The simulation job batch failed. One or more simulation job requests could not be completed due to an internal failure (like InternalServiceError). See failureCode and failureReason for more information.  Completed  The simulation batch job completed. A batch is complete when (1) there are no pending simulation job requests in the batch and none of the failed simulation job requests are due to InternalServiceError and (2) when all created simulation jobs have reached a terminal state (for example, Completed or Failed).   Canceled  The simulation batch job was cancelled.  Canceling  The simulation batch job is being cancelled.  Completing  The simulation batch job is completing.  TimingOut  The simulation job batch is timing out. If a batch timing out, and there are pending requests that were failing due to an internal failure (like InternalServiceError), the batch status will be Failed. If there are no such failing request, the batch status will be TimedOut.   TimedOut  The simulation batch job timed out.  
         public let status: SimulationJobBatchStatus?
         /// A map that contains tag keys and tag values that are attached to the deployment job batch.
         public let tags: [String: String]?
@@ -4286,21 +4458,22 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case batchPolicy
-            case clientRequestToken
-            case createdAt
-            case createdRequests
-            case failedRequests
-            case failureCode
-            case failureReason
-            case pendingRequests
-            case status
-            case tags
+            case arn = "arn"
+            case batchPolicy = "batchPolicy"
+            case clientRequestToken = "clientRequestToken"
+            case createdAt = "createdAt"
+            case createdRequests = "createdRequests"
+            case failedRequests = "failedRequests"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case pendingRequests = "pendingRequests"
+            case status = "status"
+            case tags = "tags"
         }
     }
 
     public struct SyncDeploymentJobRequest: AWSEncodableShape {
+
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientRequestToken: String
         /// The target fleet for the synchronization.
@@ -4321,12 +4494,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case fleet
+            case clientRequestToken = "clientRequestToken"
+            case fleet = "fleet"
         }
     }
 
     public struct SyncDeploymentJobResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the synchronization request.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the fleet was created.
@@ -4335,7 +4509,7 @@ extension RoboMaker {
         public let deploymentApplicationConfigs: [DeploymentApplicationConfig]?
         /// Information about the deployment configuration.
         public let deploymentConfig: DeploymentConfig?
-        /// The failure code if the job fails:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.
+        /// The failure code if the job fails:  InternalServiceError  Internal service error.  RobotApplicationCrash  Robot application exited abnormally.  SimulationApplicationCrash   Simulation application exited abnormally.  BadPermissionsRobotApplication  Robot application bundle could not be downloaded.  BadPermissionsSimulationApplication  Simulation application bundle could not be downloaded.  BadPermissionsS3Output  Unable to publish outputs to customer-provided S3 bucket.  BadPermissionsCloudwatchLogs  Unable to publish logs to customer-provided CloudWatch Logs resource.  SubnetIpLimitExceeded  Subnet IP limit exceeded.  ENILimitExceeded  ENI limit exceeded.  BadPermissionsUserCredentials  Unable to use the Role provided.  InvalidBundleRobotApplication  Robot bundle cannot be extracted (invalid format, bundling error, or other issue).  InvalidBundleSimulationApplication  Simulation bundle cannot be extracted (invalid format, bundling error, or other issue).  RobotApplicationVersionMismatchedEtag  Etag for RobotApplication does not match value during version creation.  SimulationApplicationVersionMismatchedEtag  Etag for SimulationApplication does not match value during version creation.  
         public let failureCode: DeploymentJobErrorCode?
         /// The failure reason if the job fails.
         public let failureReason: String?
@@ -4356,14 +4530,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case deploymentApplicationConfigs
-            case deploymentConfig
-            case failureCode
-            case failureReason
-            case fleet
-            case status
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case deploymentApplicationConfigs = "deploymentApplicationConfigs"
+            case deploymentConfig = "deploymentConfig"
+            case failureCode = "failureCode"
+            case failureReason = "failureReason"
+            case fleet = "fleet"
+            case status = "status"
         }
     }
 
@@ -4397,15 +4571,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TemplateLocation: AWSEncodableShape {
+
         /// The Amazon S3 bucket name.
         public let s3Bucket: String
         /// The list of S3 keys identifying the data source files.
@@ -4426,12 +4605,13 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case s3Bucket
-            case s3Key
+            case s3Bucket = "s3Bucket"
+            case s3Key = "s3Key"
         }
     }
 
     public struct TemplateSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the template.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the template was created.
@@ -4449,16 +4629,16 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
         }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -4487,10 +4667,15 @@ extension RoboMaker {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateRobotApplicationRequest: AWSEncodableShape {
+
         /// The application information for the robot application.
         public let application: String
         /// The revision id for the robot application.
@@ -4520,14 +4705,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case robotSoftwareSuite
-            case sources
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
         }
     }
 
     public struct UpdateRobotApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the updated robot application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the robot application was last updated.
@@ -4554,17 +4740,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case revisionId
-            case robotSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
     public struct UpdateSimulationApplicationRequest: AWSEncodableShape {
+
         /// The application information for the simulation application.
         public let application: String
         /// The revision id for the robot application.
@@ -4602,16 +4789,17 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case application
-            case currentRevisionId
-            case renderingEngine
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
+            case application = "application"
+            case currentRevisionId = "currentRevisionId"
+            case renderingEngine = "renderingEngine"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
         }
     }
 
     public struct UpdateSimulationApplicationResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the updated simulation application.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the simulation application was last updated.
@@ -4644,19 +4832,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case lastUpdatedAt
-            case name
-            case renderingEngine
-            case revisionId
-            case robotSoftwareSuite
-            case simulationSoftwareSuite
-            case sources
-            case version
+            case arn = "arn"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
+            case renderingEngine = "renderingEngine"
+            case revisionId = "revisionId"
+            case robotSoftwareSuite = "robotSoftwareSuite"
+            case simulationSoftwareSuite = "simulationSoftwareSuite"
+            case sources = "sources"
+            case version = "version"
         }
     }
 
     public struct UpdateWorldTemplateRequest: AWSEncodableShape {
+
         /// The name of the template.
         public let name: String?
         /// The Amazon Resource Name (arn) of the world template to update.
@@ -4680,21 +4869,22 @@ extension RoboMaker {
             try self.validate(self.template, name: "template", parent: name, max: 1224)
             try self.validate(self.template, name: "template", parent: name, min: 1)
             try self.validate(self.template, name: "template", parent: name, pattern: "arn:.*")
-            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262_144)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 262144)
             try self.validate(self.templateBody, name: "templateBody", parent: name, min: 1)
             try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\S\\s]+")
             try self.templateLocation?.validate(name: "\(name).templateLocation")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case template
-            case templateBody
-            case templateLocation
+            case name = "name"
+            case template = "template"
+            case templateBody = "templateBody"
+            case templateLocation = "templateLocation"
         }
     }
 
     public struct UpdateWorldTemplateResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (arn) of the world template.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world template was created.
@@ -4712,14 +4902,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastUpdatedAt
-            case name
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastUpdatedAt = "lastUpdatedAt"
+            case name = "name"
         }
     }
 
     public struct VPCConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A boolean indicating whether to assign a public IP address.
         public let assignPublicIp: Bool?
         /// A list of one or more security groups IDs in your VPC.
@@ -4751,13 +4942,14 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
         }
     }
 
     public struct VPCConfigResponse: AWSDecodableShape {
+
         /// A boolean indicating if a public IP was assigned.
         public let assignPublicIp: Bool?
         /// A list of security group IDs associated with the simulation job.
@@ -4775,14 +4967,15 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assignPublicIp
-            case securityGroups
-            case subnets
-            case vpcId
+            case assignPublicIp = "assignPublicIp"
+            case securityGroups = "securityGroups"
+            case subnets = "subnets"
+            case vpcId = "vpcId"
         }
     }
 
     public struct WorldConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The world generated by Simulation WorldForge.
         public let world: String?
 
@@ -4797,11 +4990,12 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case world
+            case world = "world"
         }
     }
 
     public struct WorldCount: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of unique floorplans.
         public let floorplanCount: Int?
         /// The number of unique interiors per floorplan.
@@ -4813,17 +5007,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case floorplanCount
-            case interiorCountPerFloorplan
+            case floorplanCount = "floorplanCount"
+            case interiorCountPerFloorplan = "interiorCountPerFloorplan"
         }
     }
 
     public struct WorldExportJobSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world export job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
-        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
+        /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.  
         public let status: WorldExportJobStatus?
         /// A list of worlds.
         public let worlds: [String]?
@@ -4836,19 +5031,20 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case status
-            case worlds
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case status = "status"
+            case worlds = "worlds"
         }
     }
 
     public struct WorldFailure: AWSDecodableShape {
-        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.
+
+        /// The failure code of the world export job if it failed:  InternalServiceError  Internal service error.  LimitExceeded  The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.   ResourceNotFound  The specified resource could not be found.   RequestThrottled  The request was throttled.  InvalidInput  An input parameter in the request is not valid.  
         public let failureCode: WorldGenerationJobErrorCode?
         /// The number of failed worlds.
         public let failureCount: Int?
-        /// The sample reason why the world failed. World errors are aggregated. A sample is used as the sampleFailureReason.
+        /// The sample reason why the world failed. World errors are aggregated. A sample is used as the sampleFailureReason. 
         public let sampleFailureReason: String?
 
         public init(failureCode: WorldGenerationJobErrorCode? = nil, failureCount: Int? = nil, sampleFailureReason: String? = nil) {
@@ -4858,20 +5054,21 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failureCode
-            case failureCount
-            case sampleFailureReason
+            case failureCode = "failureCode"
+            case failureCount = "failureCount"
+            case sampleFailureReason = "sampleFailureReason"
         }
     }
 
     public struct WorldGenerationJobSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world generator job.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world generator job was created.
         public let createdAt: Date?
         /// The number of worlds that failed.
         public let failedWorldCount: Int?
-        /// The status of the world generator job:  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.
+        /// The status of the world generator job:  Pending  The world generator job request is pending.  Running  The world generator job is running.   Completed  The world generator job completed.   Failed  The world generator job failed. See failureCode for more information.   PartialFailed  Some worlds did not generate.  Canceled  The world generator job was cancelled.  Canceling  The world generator job is being cancelled.  
         public let status: WorldGenerationJobStatus?
         /// The number of worlds that were generated.
         public let succeededWorldCount: Int?
@@ -4891,17 +5088,18 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case failedWorldCount
-            case status
-            case succeededWorldCount
-            case template
-            case worldCount
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case failedWorldCount = "failedWorldCount"
+            case status = "status"
+            case succeededWorldCount = "succeededWorldCount"
+            case template = "template"
+            case worldCount = "worldCount"
         }
     }
 
     public struct WorldSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the world.
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world was created.
@@ -4919,10 +5117,10 @@ extension RoboMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case generationJob
-            case template
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case generationJob = "generationJob"
+            case template = "template"
         }
     }
 }

@@ -72,7 +72,8 @@ extension Budgets {
     // MARK: Shapes
 
     public struct Budget: AWSEncodableShape & AWSDecodableShape {
-        /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100, which is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions.
+
+        /// The total amount of cost, usage, RI utilization, RI coverage, Savings Plans utilization, or Savings Plans coverage that you want to track with your budget.  BudgetLimit is required for cost or usage budgets, but optional for RI or Savings Plans utilization or coverage budgets. RI and Savings Plans utilization or coverage budgets default to 100, which is the only valid value for RI or Savings Plans utilization or coverage budgets. You can't use BudgetLimit with PlannedBudgetLimits for CreateBudget and UpdateBudget actions. 
         public let budgetLimit: Spend?
         /// The name of a budget. The name must be unique within an account. The : and \ characters aren't allowed in BudgetName.
         public let budgetName: String
@@ -80,7 +81,7 @@ extension Budgets {
         public let budgetType: BudgetType
         /// The actual and forecasted cost or usage that the budget tracks.
         public let calculatedSpend: CalculatedSpend?
-        /// The cost filters, such as service or tag, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service
+        /// The cost filters, such as service or tag, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
         public let costFilters: [String: [String]]?
         /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
         public let costTypes: CostTypes?
@@ -113,12 +114,12 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.calculatedSpend?.validate(name: "\(name).calculatedSpend")
             try self.costFilters?.forEach {
-                try validate($0.key, name: "costFilters.key", parent: name, max: 2_147_483_647)
+                try validate($0.key, name: "costFilters.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "costFilters.key", parent: name, min: 0)
                 try validate($0.key, name: "costFilters.key", parent: name, pattern: ".*")
             }
             try self.plannedBudgetLimits?.forEach {
-                try validate($0.key, name: "plannedBudgetLimits.key", parent: name, max: 2_147_483_647)
+                try validate($0.key, name: "plannedBudgetLimits.key", parent: name, max: 2147483647)
                 try validate($0.key, name: "plannedBudgetLimits.key", parent: name, min: 0)
                 try validate($0.key, name: "plannedBudgetLimits.key", parent: name, pattern: ".*")
                 try $0.value.validate(name: "\(name).plannedBudgetLimits[\"\($0.key)\"]")
@@ -140,6 +141,7 @@ extension Budgets {
     }
 
     public struct BudgetPerformanceHistory: AWSDecodableShape {
+
         /// A list of amounts of cost or usage that you created budgets for, compared to your actual costs or usage.
         public let budgetedAndActualAmountsList: [BudgetedAndActualAmounts]?
         public let budgetName: String?
@@ -170,6 +172,7 @@ extension Budgets {
     }
 
     public struct BudgetedAndActualAmounts: AWSDecodableShape {
+
         /// Your actual costs or usage for a budget period.
         public let actualAmount: Spend?
         /// The amount of cost or usage that you created the budget for.
@@ -191,6 +194,7 @@ extension Budgets {
     }
 
     public struct CalculatedSpend: AWSEncodableShape & AWSDecodableShape {
+
         /// The amount of cost, usage, RI units, or Savings Plans units that you have used.
         public let actualSpend: Spend
         /// The amount of cost, usage, RI units, or Savings Plans units that you are forecasted to use.
@@ -213,6 +217,7 @@ extension Budgets {
     }
 
     public struct CostTypes: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether a budget includes credits. The default value is true.
         public let includeCredit: Bool?
         /// Specifies whether a budget includes discounts. The default value is true.
@@ -266,6 +271,7 @@ extension Budgets {
     }
 
     public struct CreateBudgetRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget.
         public let accountId: String
         /// The budget object that you want to create.
@@ -298,10 +304,15 @@ extension Budgets {
     }
 
     public struct CreateBudgetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateNotificationRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget that you want to create a notification for.
         public let accountId: String
         /// The name of the budget that you want AWS to notify you about. Budget names must be unique within an account.
@@ -342,10 +353,15 @@ extension Budgets {
     }
 
     public struct CreateNotificationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CreateSubscriberRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget that you want to create a subscriber for.
         public let accountId: String
         /// The name of the budget that you want to subscribe to. Budget names must be unique within an account.
@@ -382,10 +398,15 @@ extension Budgets {
     }
 
     public struct CreateSubscriberResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteBudgetRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget that you want to delete.
         public let accountId: String
         /// The name of the budget that you want to delete.
@@ -412,10 +433,15 @@ extension Budgets {
     }
 
     public struct DeleteBudgetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteNotificationRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose notification you want to delete.
         public let accountId: String
         /// The name of the budget whose notification you want to delete.
@@ -447,10 +473,15 @@ extension Budgets {
     }
 
     public struct DeleteNotificationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteSubscriberRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose subscriber you want to delete.
         public let accountId: String
         /// The name of the budget whose subscriber you want to delete.
@@ -487,10 +518,15 @@ extension Budgets {
     }
 
     public struct DeleteSubscriberResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeBudgetPerformanceHistoryRequest: AWSEncodableShape {
+
         public let accountId: String
         public let budgetName: String
         public let maxResults: Int?
@@ -515,7 +551,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -530,6 +566,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetPerformanceHistoryResponse: AWSDecodableShape {
+
         /// The history of how often the budget has gone into an ALARM state. For DAILY budgets, the history saves the state of the budget for the last 60 days. For MONTHLY budgets, the history saves the state of the budget for the current month plus the last 12 months. For QUARTERLY budgets, the history saves the state of the budget for the last four quarters.
         public let budgetPerformanceHistory: BudgetPerformanceHistory?
         public let nextToken: String?
@@ -546,6 +583,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget that you want a description of.
         public let accountId: String
         /// The name of the budget that you want a description of.
@@ -572,6 +610,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetResponse: AWSDecodableShape {
+
         /// The description of the budget.
         public let budget: Budget?
 
@@ -585,6 +624,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetsRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budgets that you want descriptions of.
         public let accountId: String
         /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
@@ -604,7 +644,7 @@ extension Budgets {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "\\d{12}")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -617,6 +657,7 @@ extension Budgets {
     }
 
     public struct DescribeBudgetsResponse: AWSDecodableShape {
+
         /// A list of budgets.
         public let budgets: [Budget]?
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
@@ -634,6 +675,7 @@ extension Budgets {
     }
 
     public struct DescribeNotificationsForBudgetRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose notifications you want descriptions of.
         public let accountId: String
         /// The name of the budget whose notifications you want descriptions of.
@@ -659,7 +701,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
@@ -673,6 +715,7 @@ extension Budgets {
     }
 
     public struct DescribeNotificationsForBudgetResponse: AWSDecodableShape {
+
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
         /// A list of notifications that are associated with a budget.
@@ -690,6 +733,7 @@ extension Budgets {
     }
 
     public struct DescribeSubscribersForNotificationRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose subscribers you want descriptions of.
         public let accountId: String
         /// The name of the budget whose subscribers you want descriptions of.
@@ -718,7 +762,7 @@ extension Budgets {
             try self.validate(self.budgetName, name: "budgetName", parent: name, pattern: "[^:\\\\]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2_147_483_647)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2147483647)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
             try self.notification.validate(name: "\(name).notification")
@@ -734,6 +778,7 @@ extension Budgets {
     }
 
     public struct DescribeSubscribersForNotificationResponse: AWSDecodableShape {
+
         /// The pagination token in the service response that indicates the next set of results that you can retrieve.
         public let nextToken: String?
         /// A list of subscribers that are associated with a notification.
@@ -751,6 +796,7 @@ extension Budgets {
     }
 
     public struct Notification: AWSEncodableShape & AWSDecodableShape {
+
         /// The comparison that is used for this notification.
         public let comparisonOperator: ComparisonOperator
         /// Whether this notification is in alarm. If a budget notification is in the ALARM state, you have passed the set threshold for the budget.
@@ -771,7 +817,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.threshold, name: "threshold", parent: name, max: 40_000_000_000)
+            try self.validate(self.threshold, name: "threshold", parent: name, max: 40000000000)
             try self.validate(self.threshold, name: "threshold", parent: name, min: 0)
         }
 
@@ -785,6 +831,7 @@ extension Budgets {
     }
 
     public struct NotificationWithSubscribers: AWSEncodableShape {
+
         /// The notification that is associated with a budget.
         public let notification: Notification
         /// A list of subscribers who are subscribed to this notification.
@@ -811,6 +858,7 @@ extension Budgets {
     }
 
     public struct Spend: AWSEncodableShape & AWSDecodableShape {
+
         /// The cost or usage amount that is associated with a budget forecast, actual spend, or budget threshold.
         public let amount: String
         /// The unit of measurement that is used for the budget forecast, actual spend, or budget threshold, such as dollars or GB.
@@ -822,10 +870,10 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.amount, name: "amount", parent: name, max: 2_147_483_647)
+            try self.validate(self.amount, name: "amount", parent: name, max: 2147483647)
             try self.validate(self.amount, name: "amount", parent: name, min: 1)
             try self.validate(self.amount, name: "amount", parent: name, pattern: "([0-9]*\\.)?[0-9]+")
-            try self.validate(self.unit, name: "unit", parent: name, max: 2_147_483_647)
+            try self.validate(self.unit, name: "unit", parent: name, max: 2147483647)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: ".*")
         }
@@ -837,6 +885,7 @@ extension Budgets {
     }
 
     public struct Subscriber: AWSEncodableShape & AWSDecodableShape {
+
         /// The address that AWS sends budget notifications to, either an SNS topic or an email. When you create a subscriber, the value of Address can't contain line breaks.
         public let address: String
         /// The type of notification that AWS sends to a subscriber.
@@ -848,7 +897,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.address, name: "address", parent: name, max: 2_147_483_647)
+            try self.validate(self.address, name: "address", parent: name, max: 2147483647)
             try self.validate(self.address, name: "address", parent: name, min: 1)
             try self.validate(self.address, name: "address", parent: name, pattern: "(.*[\\n\\r\\t\\f\\ ]?)*")
         }
@@ -860,6 +909,7 @@ extension Budgets {
     }
 
     public struct TimePeriod: AWSEncodableShape & AWSDecodableShape {
+
         /// The end date for a budget. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. After the end date, AWS deletes the budget and all associated notifications and subscribers. You can change your end date with the UpdateBudget operation.
         public let end: Date?
         /// The start date for a budget. If you created your budget and didn't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API. You can change your start date with the UpdateBudget operation.
@@ -877,6 +927,7 @@ extension Budgets {
     }
 
     public struct UpdateBudgetRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget that you want to update.
         public let accountId: String
         /// The budget that you want to update your budget to.
@@ -901,10 +952,15 @@ extension Budgets {
     }
 
     public struct UpdateBudgetResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateNotificationRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose notification you want to update.
         public let accountId: String
         /// The name of the budget whose notification you want to update.
@@ -941,10 +997,15 @@ extension Budgets {
     }
 
     public struct UpdateNotificationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateSubscriberRequest: AWSEncodableShape {
+
         /// The accountId that is associated with the budget whose subscriber you want to update.
         public let accountId: String
         /// The name of the budget whose subscriber you want to update.
@@ -986,6 +1047,10 @@ extension Budgets {
     }
 
     public struct UpdateSubscriberResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

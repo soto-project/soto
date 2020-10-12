@@ -380,7 +380,7 @@ extension Connect {
 
     public struct AssociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -413,6 +413,7 @@ extension Connect {
     }
 
     public struct ChatMessage: AWSEncodableShape {
+
         /// The content of the chat message.
         public let content: String
         /// The type of the content. Supported types are text/plain.
@@ -437,6 +438,7 @@ extension Connect {
     }
 
     public struct ContactFlow: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
         /// The content of the contact flow.
@@ -474,6 +476,7 @@ extension Connect {
     }
 
     public struct ContactFlowSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let arn: String?
         /// The type of contact flow.
@@ -503,9 +506,9 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The content of the contact flow.
+        /// The content of the contact flow. 
         public let content: String
-        /// The description of the contact flow.
+        /// The description of the contact flow. 
         public let description: String?
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -547,6 +550,7 @@ extension Connect {
     }
 
     public struct CreateContactFlowResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the contact flow.
         public let contactFlowArn: String?
         /// The identifier of the contact flow.
@@ -627,6 +631,7 @@ extension Connect {
     }
 
     public struct CreateRoutingProfileResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let routingProfileArn: String?
         /// The identifier of the routing profile.
@@ -714,6 +719,7 @@ extension Connect {
     }
 
     public struct CreateUserResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the user account.
         public let userArn: String?
         /// The identifier of the user account.
@@ -731,6 +737,7 @@ extension Connect {
     }
 
     public struct Credentials: AWSDecodableShape {
+
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
         /// A token generated with an expiration time for the session a user is logged in to Amazon Connect.
@@ -756,6 +763,7 @@ extension Connect {
     }
 
     public struct CurrentMetric: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the metric.
         public let name: CurrentMetricName?
         /// The unit for the metric.
@@ -773,6 +781,7 @@ extension Connect {
     }
 
     public struct CurrentMetricData: AWSDecodableShape {
+
         /// Information about the metric.
         public let metric: CurrentMetric?
         /// The value of the metric.
@@ -790,6 +799,7 @@ extension Connect {
     }
 
     public struct CurrentMetricResult: AWSDecodableShape {
+
         /// The set of metrics.
         public let collections: [CurrentMetricData]?
         /// The dimensions for the metrics.
@@ -808,7 +818,7 @@ extension Connect {
 
     public struct DeleteUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -832,7 +842,7 @@ extension Connect {
 
     public struct DescribeContactFlowRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
@@ -856,6 +866,7 @@ extension Connect {
     }
 
     public struct DescribeContactFlowResponse: AWSDecodableShape {
+
         /// Information about the contact flow.
         public let contactFlow: ContactFlow?
 
@@ -870,7 +881,7 @@ extension Connect {
 
     public struct DescribeRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -893,6 +904,7 @@ extension Connect {
     }
 
     public struct DescribeRoutingProfileResponse: AWSDecodableShape {
+
         /// The routing profile.
         public let routingProfile: RoutingProfile?
 
@@ -907,7 +919,7 @@ extension Connect {
 
     public struct DescribeUserHierarchyGroupRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")),
+            AWSMemberEncoding(label: "hierarchyGroupId", location: .uri(locationName: "HierarchyGroupId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
@@ -930,6 +942,7 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyGroupResponse: AWSDecodableShape {
+
         /// Information about the hierarchy group.
         public let hierarchyGroup: HierarchyGroup?
 
@@ -963,6 +976,7 @@ extension Connect {
     }
 
     public struct DescribeUserHierarchyStructureResponse: AWSDecodableShape {
+
         /// Information about the hierarchy structure.
         public let hierarchyStructure: HierarchyStructure?
 
@@ -977,7 +991,7 @@ extension Connect {
 
     public struct DescribeUserRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -1000,6 +1014,7 @@ extension Connect {
     }
 
     public struct DescribeUserResponse: AWSDecodableShape {
+
         /// Information about the user account and configuration settings.
         public let user: User?
 
@@ -1013,6 +1028,7 @@ extension Connect {
     }
 
     public struct Dimensions: AWSDecodableShape {
+
         /// The channel used for grouping and filters.
         public let channel: Channel?
         /// Information about the queue for which metrics are returned.
@@ -1031,7 +1047,7 @@ extension Connect {
 
     public struct DisassociateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -1059,6 +1075,7 @@ extension Connect {
     }
 
     public struct Filters: AWSEncodableShape {
+
         /// The channel to use to filter the metrics.
         public let channels: [Channel]?
         /// The queues to use to filter the metrics. You can specify up to 100 queues per request.
@@ -1083,7 +1100,7 @@ extension Connect {
 
     public struct GetContactAttributesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "initialContactId", location: .uri(locationName: "InitialContactId")),
+            AWSMemberEncoding(label: "initialContactId", location: .uri(locationName: "InitialContactId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
@@ -1108,6 +1125,7 @@ extension Connect {
     }
 
     public struct GetContactAttributesResponse: AWSDecodableShape {
+
         /// Information about the attributes.
         public let attributes: [String: String]?
 
@@ -1125,7 +1143,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
-        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability
+        /// The metrics to retrieve. Specify the name and unit for each metric. The following metrics are available. For a description of all the metrics, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.  AGENTS_AFTER_CONTACT_WORK  Unit: COUNT Name in real-time metrics report: ACW   AGENTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Available   AGENTS_ERROR  Unit: COUNT Name in real-time metrics report: Error   AGENTS_NON_PRODUCTIVE  Unit: COUNT Name in real-time metrics report: NPT (Non-Productive Time)   AGENTS_ON_CALL  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ON_CONTACT  Unit: COUNT Name in real-time metrics report: On contact   AGENTS_ONLINE  Unit: COUNT Name in real-time metrics report: Online   AGENTS_STAFFED  Unit: COUNT Name in real-time metrics report: Staffed   CONTACTS_IN_QUEUE  Unit: COUNT Name in real-time metrics report: In queue   CONTACTS_SCHEDULED  Unit: COUNT Name in real-time metrics report: Scheduled   OLDEST_CONTACT_AGE  Unit: SECONDS When you use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this:  { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. Name in real-time metrics report: Oldest   SLOTS_ACTIVE  Unit: COUNT Name in real-time metrics report: Active   SLOTS_AVAILABLE  Unit: COUNT Name in real-time metrics report: Availability   
         public let currentMetrics: [CurrentMetric]
         /// The queues, up to 100, or channels, to use to filter the metrics returned. Metric data is retrieved only for the resources associated with the queues or channels included in the filter. You can include both queue IDs and queue ARNs in the same request. Both VOICE and CHAT channels are supported.
         public let filters: Filters
@@ -1166,6 +1184,7 @@ extension Connect {
     }
 
     public struct GetCurrentMetricDataResponse: AWSDecodableShape {
+
         /// The time at which the metrics were retrieved and cached for pagination.
         public let dataSnapshotTime: Date?
         /// Information about the real-time metrics.
@@ -1207,6 +1226,7 @@ extension Connect {
     }
 
     public struct GetFederationTokenResponse: AWSDecodableShape {
+
         /// The credentials to use for federation.
         public let credentials: Credentials?
 
@@ -1230,7 +1250,7 @@ extension Connect {
         public let filters: Filters
         /// The grouping applied to the metrics returned. For example, when results are grouped by queue, the metrics returned are grouped by queue. The values returned apply to the metrics for each queue rather than aggregated for all queues. The only supported grouping is QUEUE. If no grouping is specified, a summary of metrics for all queues is returned.
         public let groupings: [Grouping]?
-        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600
+        /// The metrics to retrieve. Specify the name, unit, and statistic for each metric. The following historical metrics are available. For a description of each metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.  ABANDON_TIME  Unit: SECONDS Statistic: AVG  AFTER_CONTACT_WORK_TIME  Unit: SECONDS Statistic: AVG  API_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CALLBACK_CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_ABANDONED  Unit: COUNT Statistic: SUM  CONTACTS_AGENT_HUNG_UP_FIRST  Unit: COUNT Statistic: SUM  CONTACTS_CONSULTED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_INCOMING  Unit: COUNT Statistic: SUM  CONTACTS_HANDLED_OUTBOUND  Unit: COUNT Statistic: SUM  CONTACTS_HOLD_ABANDONS  Unit: COUNT Statistic: SUM  CONTACTS_MISSED  Unit: COUNT Statistic: SUM  CONTACTS_QUEUED  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_IN_FROM_QUEUE  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT  Unit: COUNT Statistic: SUM  CONTACTS_TRANSFERRED_OUT_FROM_QUEUE  Unit: COUNT Statistic: SUM  HANDLE_TIME  Unit: SECONDS Statistic: AVG  HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_AND_HOLD_TIME  Unit: SECONDS Statistic: AVG  INTERACTION_TIME  Unit: SECONDS Statistic: AVG  OCCUPANCY  Unit: PERCENT Statistic: AVG  QUEUE_ANSWER_TIME  Unit: SECONDS Statistic: AVG  QUEUED_TIME  Unit: SECONDS Statistic: MAX  SERVICE_LEVEL  Unit: PERCENT Statistic: AVG Threshold: Only "Less than" comparisons are supported, with the following service level thresholds: 15, 20, 25, 30, 45, 60, 90, 120, 180, 240, 300, 600  
         public let historicalMetrics: [HistoricalMetric]
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -1273,6 +1293,7 @@ extension Connect {
     }
 
     public struct GetMetricDataResponse: AWSDecodableShape {
+
         /// Information about the historical metrics. If no grouping is specified, a summary of metric data is returned.
         public let metricResults: [HistoricalMetricResult]?
         /// If there are additional results, this is the token for the next set of results. The token expires after 5 minutes from the time it is created. Subsequent requests that use the token must use the same request parameters as the request that generated the token.
@@ -1290,6 +1311,7 @@ extension Connect {
     }
 
     public struct HierarchyGroup: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
         /// Information about the levels in the hierarchy group.
@@ -1319,6 +1341,7 @@ extension Connect {
     }
 
     public struct HierarchyGroupSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
         /// The identifier of the hierarchy group.
@@ -1340,6 +1363,7 @@ extension Connect {
     }
 
     public struct HierarchyLevel: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the hierarchy level.
         public let arn: String?
         /// The identifier of the hierarchy level.
@@ -1361,6 +1385,7 @@ extension Connect {
     }
 
     public struct HierarchyPath: AWSDecodableShape {
+
         /// Information about level five.
         public let levelFive: HierarchyGroupSummary?
         /// Information about level four.
@@ -1390,6 +1415,7 @@ extension Connect {
     }
 
     public struct HierarchyStructure: AWSDecodableShape {
+
         /// Information about level five.
         public let levelFive: HierarchyLevel?
         /// Information about level four.
@@ -1419,6 +1445,7 @@ extension Connect {
     }
 
     public struct HistoricalMetric: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the metric.
         public let name: HistoricalMetricName?
         /// The statistic for the metric.
@@ -1444,6 +1471,7 @@ extension Connect {
     }
 
     public struct HistoricalMetricData: AWSDecodableShape {
+
         /// Information about the metric.
         public let metric: HistoricalMetric?
         /// The value of the metric.
@@ -1461,6 +1489,7 @@ extension Connect {
     }
 
     public struct HistoricalMetricResult: AWSDecodableShape {
+
         /// The set of metrics.
         public let collections: [HistoricalMetricData]?
         /// The dimension for the metrics.
@@ -1478,6 +1507,7 @@ extension Connect {
     }
 
     public struct HoursOfOperationSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the hours of operation.
         public let arn: String?
         /// The identifier of the hours of operation.
@@ -1500,9 +1530,9 @@ extension Connect {
 
     public struct ListContactFlowsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")),
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "contactFlowTypes", location: .querystring(locationName: "contactFlowTypes")), 
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1534,6 +1564,7 @@ extension Connect {
     }
 
     public struct ListContactFlowsResponse: AWSDecodableShape {
+
         /// Information about the contact flows.
         public let contactFlowSummaryList: [ContactFlowSummary]?
         /// If there are additional results, this is the token for the next set of results.
@@ -1552,8 +1583,8 @@ extension Connect {
 
     public struct ListHoursOfOperationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1581,6 +1612,7 @@ extension Connect {
     }
 
     public struct ListHoursOfOperationsResponse: AWSDecodableShape {
+
         /// Information about the hours of operation.
         public let hoursOfOperationSummaryList: [HoursOfOperationSummary]?
         /// If there are additional results, this is the token for the next set of results.
@@ -1599,10 +1631,10 @@ extension Connect {
 
     public struct ListPhoneNumbersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
+            AWSMemberEncoding(label: "phoneNumberCountryCodes", location: .querystring(locationName: "phoneNumberCountryCodes")), 
             AWSMemberEncoding(label: "phoneNumberTypes", location: .querystring(locationName: "phoneNumberTypes"))
         ]
 
@@ -1638,6 +1670,7 @@ extension Connect {
     }
 
     public struct ListPhoneNumbersResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the phone numbers.
@@ -1656,8 +1689,8 @@ extension Connect {
 
     public struct ListPromptsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1685,6 +1718,7 @@ extension Connect {
     }
 
     public struct ListPromptsResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the prompts.
@@ -1703,9 +1737,9 @@ extension Connect {
 
     public struct ListQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "queueTypes", location: .querystring(locationName: "queueTypes"))
         ]
 
@@ -1737,6 +1771,7 @@ extension Connect {
     }
 
     public struct ListQueuesResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the queues.
@@ -1755,9 +1790,9 @@ extension Connect {
 
     public struct ListRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -1788,6 +1823,7 @@ extension Connect {
     }
 
     public struct ListRoutingProfileQueuesResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the routing profiles.
@@ -1806,8 +1842,8 @@ extension Connect {
 
     public struct ListRoutingProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1835,6 +1871,7 @@ extension Connect {
     }
 
     public struct ListRoutingProfilesResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the routing profiles.
@@ -1853,8 +1890,8 @@ extension Connect {
 
     public struct ListSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1882,6 +1919,7 @@ extension Connect {
     }
 
     public struct ListSecurityProfilesResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the security profiles.
@@ -1914,6 +1952,7 @@ extension Connect {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// Information about the tags.
         public let tags: [String: String]?
 
@@ -1922,14 +1961,14 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct ListUserHierarchyGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -1957,6 +1996,7 @@ extension Connect {
     }
 
     public struct ListUserHierarchyGroupsResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the hierarchy groups.
@@ -1975,8 +2015,8 @@ extension Connect {
 
     public struct ListUsersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -2004,6 +2044,7 @@ extension Connect {
     }
 
     public struct ListUsersResponse: AWSDecodableShape {
+
         /// If there are additional results, this is the token for the next set of results.
         public let nextToken: String?
         /// Information about the users.
@@ -2021,6 +2062,7 @@ extension Connect {
     }
 
     public struct MediaConcurrency: AWSEncodableShape & AWSDecodableShape {
+
         /// The channels that agents can handle in the Contact Control Panel (CCP).
         public let channel: Channel
         /// The number of contacts an agent can have on a channel simultaneously.
@@ -2043,6 +2085,7 @@ extension Connect {
     }
 
     public struct ParticipantDetails: AWSEncodableShape {
+
         /// Display name of the participant.
         public let displayName: String
 
@@ -2061,6 +2104,7 @@ extension Connect {
     }
 
     public struct PhoneNumberSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the phone number.
         public let arn: String?
         /// The identifier of the phone number.
@@ -2090,6 +2134,7 @@ extension Connect {
     }
 
     public struct PromptSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the prompt.
         public let arn: String?
         /// The identifier of the prompt.
@@ -2111,6 +2156,7 @@ extension Connect {
     }
 
     public struct QueueReference: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
         /// The identifier of the queue.
@@ -2128,6 +2174,7 @@ extension Connect {
     }
 
     public struct QueueSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the queue.
         public let arn: String?
         /// The identifier of the queue.
@@ -2153,6 +2200,7 @@ extension Connect {
     }
 
     public struct ResumeContactRecordingRequest: AWSEncodableShape {
+
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -2183,10 +2231,15 @@ extension Connect {
     }
 
     public struct ResumeContactRecordingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RoutingProfile: AWSDecodableShape {
+
         /// The identifier of the default outbound queue for this routing profile.
         public let defaultOutboundQueueId: String?
         /// The description of the routing profile.
@@ -2228,6 +2281,7 @@ extension Connect {
     }
 
     public struct RoutingProfileQueueConfig: AWSEncodableShape {
+
         /// The delay, in seconds, a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
         public let delay: Int
         /// The order in which contacts are to be handled for the queue. For more information, see Queues: priority and delay.
@@ -2256,6 +2310,7 @@ extension Connect {
     }
 
     public struct RoutingProfileQueueConfigSummary: AWSDecodableShape {
+
         /// The channels this queue supports.
         public let channel: Channel
         /// The delay, in seconds, that a contact should be in the queue before they are routed to an available agent. For more information, see Queues: priority and delay in the Amazon Connect Administrator Guide.
@@ -2289,6 +2344,7 @@ extension Connect {
     }
 
     public struct RoutingProfileQueueReference: AWSEncodableShape {
+
         /// The channels agents can handle in the Contact Control Panel (CCP) for this routing profile.
         public let channel: Channel
         /// The identifier of the queue.
@@ -2306,6 +2362,7 @@ extension Connect {
     }
 
     public struct RoutingProfileSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the routing profile.
         public let arn: String?
         /// The identifier of the routing profile.
@@ -2327,6 +2384,7 @@ extension Connect {
     }
 
     public struct SecurityProfileSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the security profile.
         public let arn: String?
         /// The identifier of the security profile.
@@ -2348,11 +2406,12 @@ extension Connect {
     }
 
     public struct StartChatContactRequest: AWSEncodableShape {
+
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The identifier of the contact flow for initiating the chat. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the contact flow for initiating the chat. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx 
         public let contactFlowId: String
         /// The initial message to be sent to the newly created chat.
         public let initialMessage: ChatMessage?
@@ -2396,7 +2455,8 @@ extension Connect {
     }
 
     public struct StartChatContactResponse: AWSDecodableShape {
-        /// The identifier of this contact within the Amazon Connect instance.
+
+        /// The identifier of this contact within the Amazon Connect instance. 
         public let contactId: String?
         /// The identifier for a chat participant. The participantId for a chat participant is the same throughout the chat lifecycle.
         public let participantId: String?
@@ -2417,6 +2477,7 @@ extension Connect {
     }
 
     public struct StartContactRecordingRequest: AWSEncodableShape {
+
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -2451,15 +2512,20 @@ extension Connect {
     }
 
     public struct StartContactRecordingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartOutboundVoiceContactRequest: AWSEncodableShape {
+
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in contact flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. The token is valid for 7 days after creation. If a contact is already started, the contact ID is returned. If the contact is disconnected, a new contact is started.
         public let clientToken: String?
-        /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
+        /// The identifier of the contact flow for the outbound call. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx 
         public let contactFlowId: String
         /// The phone number of the customer, in E.164 format.
         public let destinationPhoneNumber: String
@@ -2505,6 +2571,7 @@ extension Connect {
     }
 
     public struct StartOutboundVoiceContactResponse: AWSDecodableShape {
+
         /// The identifier of this contact within the Amazon Connect instance.
         public let contactId: String?
 
@@ -2518,6 +2585,7 @@ extension Connect {
     }
 
     public struct StopContactRecordingRequest: AWSEncodableShape {
+
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -2548,10 +2616,15 @@ extension Connect {
     }
 
     public struct StopContactRecordingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopContactRequest: AWSEncodableShape {
+
         /// The ID of the contact.
         public let contactId: String
         /// The identifier of the Amazon Connect instance.
@@ -2576,10 +2649,15 @@ extension Connect {
     }
 
     public struct StopContactResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SuspendContactRecordingRequest: AWSEncodableShape {
+
         /// The identifier of the contact.
         public let contactId: String
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -2610,7 +2688,11 @@ extension Connect {
     }
 
     public struct SuspendContactRecordingResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
@@ -2638,11 +2720,12 @@ extension Connect {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct Threshold: AWSEncodableShape & AWSDecodableShape {
+
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
         /// The threshold value to compare.
@@ -2661,7 +2744,7 @@ extension Connect {
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -2689,6 +2772,7 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesRequest: AWSEncodableShape {
+
         /// The Amazon Connect attributes. These attributes can be accessed in contact flows just like any other contact attributes. You can have up to 32,768 UTF-8 bytes across all attributes for a contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]
         /// The identifier of the contact. This is the identifier of the contact associated with the first interaction with the contact center.
@@ -2723,18 +2807,22 @@ extension Connect {
     }
 
     public struct UpdateContactAttributesResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateContactFlowContentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
         /// The identifier of the contact flow.
         public let contactFlowId: String
-        /// The JSON string that represents contact flow’s content. For an example, see Example contact flow in Amazon Connect Flow language in the Amazon Connect Administrator Guide.
+        /// The JSON string that represents contact flow’s content. For an example, see Example contact flow in Amazon Connect Flow language in the Amazon Connect Administrator Guide. 
         public let content: String
         /// The identifier of the Amazon Connect instance.
         public let instanceId: String
@@ -2758,7 +2846,7 @@ extension Connect {
 
     public struct UpdateContactFlowNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")),
+            AWSMemberEncoding(label: "contactFlowId", location: .uri(locationName: "ContactFlowId")), 
             AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId"))
         ]
 
@@ -2793,7 +2881,7 @@ extension Connect {
 
     public struct UpdateRoutingProfileConcurrencyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -2825,7 +2913,7 @@ extension Connect {
 
     public struct UpdateRoutingProfileDefaultOutboundQueueRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -2854,7 +2942,7 @@ extension Connect {
 
     public struct UpdateRoutingProfileNameRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -2891,7 +2979,7 @@ extension Connect {
 
     public struct UpdateRoutingProfileQueuesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "routingProfileId", location: .uri(locationName: "RoutingProfileId"))
         ]
 
@@ -2925,7 +3013,7 @@ extension Connect {
 
     public struct UpdateUserHierarchyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -2954,7 +3042,7 @@ extension Connect {
 
     public struct UpdateUserIdentityInfoRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -2984,7 +3072,7 @@ extension Connect {
 
     public struct UpdateUserPhoneConfigRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -3014,7 +3102,7 @@ extension Connect {
 
     public struct UpdateUserRoutingProfileRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -3043,7 +3131,7 @@ extension Connect {
 
     public struct UpdateUserSecurityProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")),
+            AWSMemberEncoding(label: "instanceId", location: .uri(locationName: "InstanceId")), 
             AWSMemberEncoding(label: "userId", location: .uri(locationName: "UserId"))
         ]
 
@@ -3073,6 +3161,7 @@ extension Connect {
     }
 
     public struct User: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
         /// The identifier of the user account in the directory used for identity management.
@@ -3122,6 +3211,7 @@ extension Connect {
     }
 
     public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
+
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
         /// The first name. This is required if you are using Amazon Connect or SAML for identity management.
@@ -3150,6 +3240,7 @@ extension Connect {
     }
 
     public struct UserPhoneConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The After Call Work (ACW) timeout setting, in seconds.
         public let afterContactWorkTimeLimit: Int?
         /// The Auto accept setting.
@@ -3179,6 +3270,7 @@ extension Connect {
     }
 
     public struct UserSummary: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the user account.
         public let arn: String?
         /// The identifier of the user account.
@@ -3200,6 +3292,7 @@ extension Connect {
     }
 
     public struct VoiceRecordingConfiguration: AWSEncodableShape {
+
         /// Identifies which track is being recorded.
         public let voiceRecordingTrack: VoiceRecordingTrack?
 

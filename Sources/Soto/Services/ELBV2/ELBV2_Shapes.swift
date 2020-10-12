@@ -21,51 +21,51 @@ extension ELBV2 {
     // MARK: Enums
 
     public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
-        case forward
+        case forward = "forward"
         case authenticateOidc = "authenticate-oidc"
         case authenticateCognito = "authenticate-cognito"
-        case redirect
+        case redirect = "redirect"
         case fixedResponse = "fixed-response"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny
-        case allow
-        case authenticate
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny
-        case allow
-        case authenticate
+        case deny = "deny"
+        case allow = "allow"
+        case authenticate = "authenticate"
         public var description: String { return self.rawValue }
     }
 
     public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4
-        case dualstack
+        case ipv4 = "ipv4"
+        case dualstack = "dualstack"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
         case internetFacing = "internet-facing"
-        case `internal`
+        case `internal` = "internal"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
-        case active
-        case provisioning
+        case active = "active"
+        case provisioning = "provisioning"
         case activeImpaired = "active_impaired"
-        case failed
+        case failed = "failed"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTypeEnum: String, CustomStringConvertible, Codable {
-        case application
-        case network
+        case application = "application"
+        case network = "network"
         public var description: String { return self.rawValue }
     }
 
@@ -102,25 +102,26 @@ extension ELBV2 {
     }
 
     public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
-        case initial
-        case healthy
-        case unhealthy
-        case unused
-        case draining
-        case unavailable
+        case initial = "initial"
+        case healthy = "healthy"
+        case unhealthy = "unhealthy"
+        case unused = "unused"
+        case draining = "draining"
+        case unavailable = "unavailable"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetTypeEnum: String, CustomStringConvertible, Codable {
-        case instance
-        case ip
-        case lambda
+        case instance = "instance"
+        case ip = "ip"
+        case lambda = "lambda"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
+
         /// [HTTPS listeners] Information for using Amazon Cognito to authenticate users. Specify only when Type is authenticate-cognito.
         public let authenticateCognitoConfig: AuthenticateCognitoActionConfig?
         /// [HTTPS listeners] Information about an identity provider that is compliant with OpenID Connect (OIDC). Specify only when Type is authenticate-oidc.
@@ -169,6 +170,7 @@ extension ELBV2 {
     }
 
     public struct AddListenerCertificatesInput: AWSEncodableShape {
+
         /// The certificate to add. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
         @CustomCoding<StandardArrayCoder>
         public var certificates: [Certificate]
@@ -187,6 +189,7 @@ extension ELBV2 {
     }
 
     public struct AddListenerCertificatesOutput: AWSDecodableShape {
+
         /// Information about the certificates in the certificate list.
         @OptionalCustomCoding<StandardArrayCoder>
         public var certificates: [Certificate]?
@@ -201,6 +204,7 @@ extension ELBV2 {
     }
 
     public struct AddTagsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         @CustomCoding<StandardArrayCoder>
         public var resourceArns: [String]
@@ -227,14 +231,19 @@ extension ELBV2 {
     }
 
     public struct AddTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct AuthenticateCognitoActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var authenticationRequestExtraParams: [String: String]?
-        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
         public let onUnauthenticatedRequest: AuthenticateCognitoActionConditionalBehaviorEnum?
         /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
         public let scope: String?
@@ -273,6 +282,7 @@ extension ELBV2 {
     }
 
     public struct AuthenticateOidcActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The query parameters (up to 10) to include in the redirect request to the authorization endpoint.
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var authenticationRequestExtraParams: [String: String]?
@@ -284,7 +294,7 @@ extension ELBV2 {
         public let clientSecret: String?
         /// The OIDC issuer identifier of the IdP. This must be a full URL, including the HTTPS protocol, the domain, and the path.
         public let issuer: String
-        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.
+        /// The behavior if the user is not authenticated. The following are possible values:   deny - Return an HTTP 401 Unauthorized error.   allow - Allow the request to be forwarded to the target.   authenticate - Redirect the request to the IdP authorization endpoint. This is the default value.  
         public let onUnauthenticatedRequest: AuthenticateOidcActionConditionalBehaviorEnum?
         /// The set of user claims to be requested from the IdP. The default is openid. To verify which scope values your IdP supports and how to separate multiple values, see the documentation for your IdP.
         public let scope: String?
@@ -331,6 +341,7 @@ extension ELBV2 {
     }
 
     public struct AvailabilityZone: AWSDecodableShape {
+
         /// [Network Load Balancers] If you need static IP addresses for your load balancer, you can specify one Elastic IP address per Availability Zone when you create an internal-facing load balancer. For internal load balancers, you can specify a private IP address from the IPv4 range of the subnet.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerAddresses: [LoadBalancerAddress]?
@@ -357,6 +368,7 @@ extension ELBV2 {
     }
 
     public struct Certificate: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String?
         /// Indicates whether the certificate is the default certificate. Do not set this value when specifying a certificate as an input. This value is not included in the output when describing a listener, but is included when describing listener certificates.
@@ -374,6 +386,7 @@ extension ELBV2 {
     }
 
     public struct Cipher: AWSDecodableShape {
+
         /// The name of the cipher.
         public let name: String?
         /// The priority of the cipher.
@@ -391,6 +404,7 @@ extension ELBV2 {
     }
 
     public struct CreateListenerInput: AWSEncodableShape {
+
         /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alpnPolicy: [String]?
@@ -448,6 +462,7 @@ extension ELBV2 {
     }
 
     public struct CreateListenerOutput: AWSDecodableShape {
+
         /// Information about the listener.
         @OptionalCustomCoding<StandardArrayCoder>
         public var listeners: [Listener]?
@@ -462,6 +477,7 @@ extension ELBV2 {
     }
 
     public struct CreateLoadBalancerInput: AWSEncodableShape {
+
         /// [Application Load Balancers on Outposts] The ID of the customer-owned address pool (CoIP pool).
         public let customerOwnedIpv4Pool: String?
         /// [Application Load Balancers] The type of IP addresses used by the subnets for your load balancer. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4.
@@ -520,6 +536,7 @@ extension ELBV2 {
     }
 
     public struct CreateLoadBalancerOutput: AWSDecodableShape {
+
         /// Information about the load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancers: [LoadBalancer]?
@@ -534,6 +551,7 @@ extension ELBV2 {
     }
 
     public struct CreateRuleInput: AWSEncodableShape {
+
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         @CustomCoding<StandardArrayCoder>
         public var actions: [Action]
@@ -581,6 +599,7 @@ extension ELBV2 {
     }
 
     public struct CreateRuleOutput: AWSDecodableShape {
+
         /// Information about the rule.
         @OptionalCustomCoding<StandardArrayCoder>
         public var rules: [Rule]?
@@ -595,6 +614,7 @@ extension ELBV2 {
     }
 
     public struct CreateTargetGroupInput: AWSEncodableShape {
+
         /// Indicates whether health checks are enabled. If the target type is lambda, health checks are disabled by default but can be enabled. If the target type is instance or ip, health checks are always enabled and cannot be disabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target. For HTTP and HTTPS health checks, the range is 5–300 seconds. For TCP health checks, the supported values are 10 and 30 seconds. If the target type is instance or ip, the default is 30 seconds. If the target type is lambda, the default is 35 seconds.
@@ -620,7 +640,7 @@ extension ELBV2 {
         /// The tags to assign to the target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
-        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.
+        /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
         public let targetType: TargetTypeEnum?
         /// The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
         public let unhealthyThresholdCount: Int?
@@ -684,6 +704,7 @@ extension ELBV2 {
     }
 
     public struct CreateTargetGroupOutput: AWSDecodableShape {
+
         /// Information about the target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var targetGroups: [TargetGroup]?
@@ -698,6 +719,7 @@ extension ELBV2 {
     }
 
     public struct DeleteListenerInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
 
@@ -711,10 +733,15 @@ extension ELBV2 {
     }
 
     public struct DeleteListenerOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteLoadBalancerInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
 
@@ -728,10 +755,15 @@ extension ELBV2 {
     }
 
     public struct DeleteLoadBalancerOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteRuleInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the rule.
         public let ruleArn: String
 
@@ -745,10 +777,15 @@ extension ELBV2 {
     }
 
     public struct DeleteRuleOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTargetGroupInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
 
@@ -762,10 +799,15 @@ extension ELBV2 {
     }
 
     public struct DeleteTargetGroupOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeregisterTargetsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets. If you specified a port override when you registered a target, you must specify both the target ID and the port when you deregister it.
@@ -790,10 +832,15 @@ extension ELBV2 {
     }
 
     public struct DeregisterTargetsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAccountLimitsInput: AWSEncodableShape {
+
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The maximum number of results to return with this call.
@@ -816,6 +863,7 @@ extension ELBV2 {
     }
 
     public struct DescribeAccountLimitsOutput: AWSDecodableShape {
+
         /// Information about the limits.
         @OptionalCustomCoding<StandardArrayCoder>
         public var limits: [Limit]?
@@ -834,6 +882,7 @@ extension ELBV2 {
     }
 
     public struct DescribeListenerCertificatesInput: AWSEncodableShape {
+
         /// The Amazon Resource Names (ARN) of the listener.
         public let listenerArn: String
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -860,6 +909,7 @@ extension ELBV2 {
     }
 
     public struct DescribeListenerCertificatesOutput: AWSDecodableShape {
+
         /// Information about the certificates.
         @OptionalCustomCoding<StandardArrayCoder>
         public var certificates: [Certificate]?
@@ -878,6 +928,7 @@ extension ELBV2 {
     }
 
     public struct DescribeListenersInput: AWSEncodableShape {
+
         /// The Amazon Resource Names (ARN) of the listeners.
         @OptionalCustomCoding<StandardArrayCoder>
         public var listenerArns: [String]?
@@ -909,6 +960,7 @@ extension ELBV2 {
     }
 
     public struct DescribeListenersOutput: AWSDecodableShape {
+
         /// Information about the listeners.
         @OptionalCustomCoding<StandardArrayCoder>
         public var listeners: [Listener]?
@@ -927,6 +979,7 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancerAttributesInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
 
@@ -940,6 +993,7 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancerAttributesOutput: AWSDecodableShape {
+
         /// Information about the load balancer attributes.
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributes: [LoadBalancerAttribute]?
@@ -954,6 +1008,7 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancersInput: AWSEncodableShape {
+
         /// The Amazon Resource Names (ARN) of the load balancers. You can specify up to 20 load balancers in a single call.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancerArns: [String]?
@@ -986,6 +1041,7 @@ extension ELBV2 {
     }
 
     public struct DescribeLoadBalancersOutput: AWSDecodableShape {
+
         /// Information about the load balancers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadBalancers: [LoadBalancer]?
@@ -1004,6 +1060,7 @@ extension ELBV2 {
     }
 
     public struct DescribeRulesInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1035,6 +1092,7 @@ extension ELBV2 {
     }
 
     public struct DescribeRulesOutput: AWSDecodableShape {
+
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the rules.
@@ -1053,6 +1111,7 @@ extension ELBV2 {
     }
 
     public struct DescribeSSLPoliciesInput: AWSEncodableShape {
+
         /// The marker for the next set of results. (You received this marker from a previous call.)
         public let marker: String?
         /// The names of the policies.
@@ -1080,6 +1139,7 @@ extension ELBV2 {
     }
 
     public struct DescribeSSLPoliciesOutput: AWSDecodableShape {
+
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the security policies.
@@ -1098,6 +1158,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTagsInput: AWSEncodableShape {
+
         /// The Amazon Resource Names (ARN) of the resources. You can specify up to 20 resources in a single call.
         @CustomCoding<StandardArrayCoder>
         public var resourceArns: [String]
@@ -1112,6 +1173,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTagsOutput: AWSDecodableShape {
+
         /// Information about the tags.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tagDescriptions: [TagDescription]?
@@ -1126,6 +1188,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupAttributesInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
 
@@ -1139,6 +1202,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupAttributesOutput: AWSDecodableShape {
+
         /// Information about the target group attributes
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributes: [TargetGroupAttribute]?
@@ -1153,6 +1217,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String?
         /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -1189,6 +1254,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetGroupsOutput: AWSDecodableShape {
+
         /// If there are additional results, this is the marker for the next set of results. Otherwise, this is null.
         public let nextMarker: String?
         /// Information about the target groups.
@@ -1207,6 +1273,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetHealthInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets.
@@ -1231,6 +1298,7 @@ extension ELBV2 {
     }
 
     public struct DescribeTargetHealthOutput: AWSDecodableShape {
+
         /// Information about the health of the targets.
         @OptionalCustomCoding<StandardArrayCoder>
         public var targetHealthDescriptions: [TargetHealthDescription]?
@@ -1245,6 +1313,7 @@ extension ELBV2 {
     }
 
     public struct FixedResponseActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The content type. Valid Values: text/plain | text/css | text/html | application/javascript | application/json
         public let contentType: String?
         /// The message.
@@ -1274,6 +1343,7 @@ extension ELBV2 {
     }
 
     public struct ForwardActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more target groups. For Network Load Balancers, you can specify a single target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var targetGroups: [TargetGroupTuple]?
@@ -1292,6 +1362,7 @@ extension ELBV2 {
     }
 
     public struct HostHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more host names. The maximum size of each name is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of the strings matches the host name.
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [String]?
@@ -1306,6 +1377,7 @@ extension ELBV2 {
     }
 
     public struct HttpHeaderConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the HTTP header field. The maximum size is 40 characters. The header name is case insensitive. The allowed characters are specified by RFC 7230. Wildcards are not supported. You can't use an HTTP header condition to specify the host header. Use HostHeaderConditionConfig to specify a host header condition.
         public let httpHeaderName: String?
         /// One or more strings to compare against the value of the HTTP header. The maximum size of each string is 128 characters. The comparison strings are case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If the same header appears multiple times in the request, we search them in order until a match is found. If you specify multiple strings, the condition is satisfied if one of the strings matches the value of the HTTP header. To require that all of the strings are a match, create one condition per string.
@@ -1324,6 +1396,7 @@ extension ELBV2 {
     }
 
     public struct HttpRequestMethodConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The name of the request method. The maximum size is 40 characters. The allowed characters are A-Z, hyphen (-), and underscore (_). The comparison is case sensitive. Wildcards are not supported; therefore, the method name must be an exact match. If you specify multiple strings, the condition is satisfied if one of the strings matches the HTTP request method. We recommend that you route GET and HEAD requests in the same way, because the response to a HEAD request may be cached.
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [String]?
@@ -1338,9 +1411,10 @@ extension ELBV2 {
     }
 
     public struct Limit: AWSDecodableShape {
+
         /// The maximum value of the limit.
         public let max: String?
-        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   target-groups-per-action-on-application-load-balancer   target-groups-per-action-on-network-load-balancer   target-groups-per-application-load-balancer   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer
+        /// The name of the limit. The possible values are:   application-load-balancers   listeners-per-application-load-balancer   listeners-per-network-load-balancer   network-load-balancers   rules-per-application-load-balancer   target-groups   target-groups-per-action-on-application-load-balancer   target-groups-per-action-on-network-load-balancer   target-groups-per-application-load-balancer   targets-per-application-load-balancer   targets-per-availability-zone-per-network-load-balancer   targets-per-network-load-balancer  
         public let name: String?
 
         public init(max: String? = nil, name: String? = nil) {
@@ -1355,6 +1429,7 @@ extension ELBV2 {
     }
 
     public struct Listener: AWSDecodableShape {
+
         /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN) policy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alpnPolicy: [String]?
@@ -1399,6 +1474,7 @@ extension ELBV2 {
     }
 
     public struct LoadBalancer: AWSDecodableShape {
+
         /// The subnets for the load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var availabilityZones: [AvailabilityZone]?
@@ -1462,6 +1538,7 @@ extension ELBV2 {
     }
 
     public struct LoadBalancerAddress: AWSDecodableShape {
+
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internal-facing load balancer.
         public let allocationId: String?
         /// The static IP address.
@@ -1483,7 +1560,8 @@ extension ELBV2 {
     }
 
     public struct LoadBalancerAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.
+
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    access_logs.s3.enabled - Indicates whether access logs are enabled. The value is true or false. The default is false.    access_logs.s3.bucket - The name of the S3 bucket for the access logs. This attribute is required if access logs are enabled. The bucket must exist in the same region as the load balancer and have a bucket policy that grants Elastic Load Balancing permissions to write to the bucket.    access_logs.s3.prefix - The prefix for the location in the S3 bucket for the access logs.    deletion_protection.enabled - Indicates whether deletion protection is enabled. The value is true or false. The default is false.   The following attributes are supported by only Application Load Balancers:    idle_timeout.timeout_seconds - The idle timeout value, in seconds. The valid range is 1-4000 seconds. The default is 60 seconds.    routing.http.desync_mitigation_mode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.    routing.http.drop_invalid_header_fields.enabled - Indicates whether HTTP headers with invalid header fields are removed by the load balancer (true) or routed to targets (false). The default is false.    routing.http2.enabled - Indicates whether HTTP/2 is enabled. The value is true or false. The default is true. Elastic Load Balancing requires that message header names contain only alphanumeric characters and hyphens.   The following attributes are supported by only Network Load Balancers:    load_balancing.cross_zone.enabled - Indicates whether cross-zone load balancing is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -1506,6 +1584,7 @@ extension ELBV2 {
     }
 
     public struct LoadBalancerState: AWSDecodableShape {
+
         /// The state code. The initial state of the load balancer is provisioning. After the load balancer is fully set up and ready to route traffic, its state is active. If the load balancer could not be set up, its state is failed.
         public let code: LoadBalancerStateEnum?
         /// A description of the state.
@@ -1523,6 +1602,7 @@ extension ELBV2 {
     }
 
     public struct Matcher: AWSEncodableShape & AWSDecodableShape {
+
         /// The HTTP codes. For Application Load Balancers, you can specify values between 200 and 499, and the default value is 200. You can specify multiple values (for example, "200,202") or a range of values (for example, "200-299"). For Network Load Balancers, this is 200–399.
         public let httpCode: String
 
@@ -1536,6 +1616,7 @@ extension ELBV2 {
     }
 
     public struct ModifyListenerInput: AWSEncodableShape {
+
         /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var alpnPolicy: [String]?
@@ -1584,6 +1665,7 @@ extension ELBV2 {
     }
 
     public struct ModifyListenerOutput: AWSDecodableShape {
+
         /// Information about the modified listener.
         @OptionalCustomCoding<StandardArrayCoder>
         public var listeners: [Listener]?
@@ -1598,6 +1680,7 @@ extension ELBV2 {
     }
 
     public struct ModifyLoadBalancerAttributesInput: AWSEncodableShape {
+
         /// The load balancer attributes.
         @CustomCoding<StandardArrayCoder>
         public var attributes: [LoadBalancerAttribute]
@@ -1623,6 +1706,7 @@ extension ELBV2 {
     }
 
     public struct ModifyLoadBalancerAttributesOutput: AWSDecodableShape {
+
         /// Information about the load balancer attributes.
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributes: [LoadBalancerAttribute]?
@@ -1637,6 +1721,7 @@ extension ELBV2 {
     }
 
     public struct ModifyRuleInput: AWSEncodableShape {
+
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
         @OptionalCustomCoding<StandardArrayCoder>
         public var actions: [Action]?
@@ -1669,6 +1754,7 @@ extension ELBV2 {
     }
 
     public struct ModifyRuleOutput: AWSDecodableShape {
+
         /// Information about the modified rule.
         @OptionalCustomCoding<StandardArrayCoder>
         public var rules: [Rule]?
@@ -1683,6 +1769,7 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupAttributesInput: AWSEncodableShape {
+
         /// The attributes.
         @CustomCoding<StandardArrayCoder>
         public var attributes: [TargetGroupAttribute]
@@ -1707,6 +1794,7 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupAttributesOutput: AWSDecodableShape {
+
         /// Information about the attributes.
         @OptionalCustomCoding<StandardArrayCoder>
         public var attributes: [TargetGroupAttribute]?
@@ -1721,6 +1809,7 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupInput: AWSEncodableShape {
+
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target. For Application Load Balancers, the range is 5 to 300 seconds. For Network Load Balancers, the supported values are 10 or 30 seconds. With Network Load Balancers, you can't modify this setting.
@@ -1783,6 +1872,7 @@ extension ELBV2 {
     }
 
     public struct ModifyTargetGroupOutput: AWSDecodableShape {
+
         /// Information about the modified target group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var targetGroups: [TargetGroup]?
@@ -1797,6 +1887,7 @@ extension ELBV2 {
     }
 
     public struct PathPatternConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more path patterns to compare against the request URL. The maximum size of each string is 128 characters. The comparison is case sensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). If you specify multiple strings, the condition is satisfied if one of them matches the request URL. The path pattern is compared only to the path of the URL, not to its query string. To compare against the query string, use QueryStringConditionConfig.
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [String]?
@@ -1811,6 +1902,7 @@ extension ELBV2 {
     }
 
     public struct QueryStringConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more key/value pairs or values to find in the query string. The maximum size of each string is 128 characters. The comparison is case insensitive. The following wildcard characters are supported: * (matches 0 or more characters) and ? (matches exactly 1 character). To search for a literal '*' or '?' character in a query string, you must escape these characters in Values using a '\' character. If you specify multiple key/value pairs or values, the condition is satisfied if one of them is found in the query string.
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [QueryStringKeyValuePair]?
@@ -1825,6 +1917,7 @@ extension ELBV2 {
     }
 
     public struct QueryStringKeyValuePair: AWSEncodableShape & AWSDecodableShape {
+
         /// The key. You can omit the key.
         public let key: String?
         /// The value.
@@ -1842,6 +1935,7 @@ extension ELBV2 {
     }
 
     public struct RedirectActionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The hostname. This component is not percent-encoded. The hostname can contain #{host}.
         public let host: String?
         /// The absolute path, starting with the leading "/". This component is not percent-encoded. The path can contain #{host}, #{path}, and #{port}.
@@ -1885,6 +1979,7 @@ extension ELBV2 {
     }
 
     public struct RegisterTargetsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String
         /// The targets. To register a target by instance ID, specify the instance ID. To register a target by IP address, specify the IP address. To register a Lambda function, specify the ARN of the Lambda function.
@@ -1909,10 +2004,15 @@ extension ELBV2 {
     }
 
     public struct RegisterTargetsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveListenerCertificatesInput: AWSEncodableShape {
+
         /// The certificate to remove. You can specify one certificate per call. Set CertificateArn to the certificate ARN but do not set IsDefault.
         @CustomCoding<StandardArrayCoder>
         public var certificates: [Certificate]
@@ -1931,10 +2031,15 @@ extension ELBV2 {
     }
 
     public struct RemoveListenerCertificatesOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct RemoveTagsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         @CustomCoding<StandardArrayCoder>
         public var resourceArns: [String]
@@ -1962,10 +2067,15 @@ extension ELBV2 {
     }
 
     public struct RemoveTagsOutput: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Rule: AWSDecodableShape {
+
         /// The actions. Each rule must include exactly one of the following types of actions: forward, redirect, or fixed-response, and it must be the last action to be performed.
         @OptionalCustomCoding<StandardArrayCoder>
         public var actions: [Action]?
@@ -1997,7 +2107,8 @@ extension ELBV2 {
     }
 
     public struct RuleCondition: AWSEncodableShape & AWSDecodableShape {
-        /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip
+
+        /// The field in the HTTP request. The following are the possible values:    http-header     http-request-method     host-header     path-pattern     query-string     source-ip   
         public let field: String?
         /// Information for a host header condition. Specify only when Field is host-header.
         public let hostHeaderConfig: HostHeaderConditionConfig?
@@ -2011,7 +2122,7 @@ extension ELBV2 {
         public let queryStringConfig: QueryStringConditionConfig?
         /// Information for a source IP condition. Specify only when Field is source-ip.
         public let sourceIpConfig: SourceIpConditionConfig?
-        /// The condition value. Specify only when Field is host-header or path-pattern. Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig. If Field is host-header and you are not using HostHeaderConfig, you can specify a single host name (for example, my.example.com) in Values. A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern and you are not using PathPatternConfig, you can specify a single path pattern (for example, /img/*) in Values. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)
+        /// The condition value. Specify only when Field is host-header or path-pattern. Alternatively, to specify multiple host names or multiple path patterns, use HostHeaderConfig or PathPatternConfig. If Field is host-header and you are not using HostHeaderConfig, you can specify a single host name (for example, my.example.com) in Values. A host name is case insensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   - .   * (matches 0 or more characters)   ? (matches exactly 1 character)   If Field is path-pattern and you are not using PathPatternConfig, you can specify a single path pattern (for example, /img/*) in Values. A path pattern is case-sensitive, can be up to 128 characters in length, and can contain any of the following characters.   A-Z, a-z, 0-9   _ - . $ / ~ " ' @ : +   &amp; (using &amp;amp;)   * (matches 0 or more characters)   ? (matches exactly 1 character)  
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [String]?
 
@@ -2043,6 +2154,7 @@ extension ELBV2 {
     }
 
     public struct RulePriorityPair: AWSEncodableShape {
+
         /// The rule priority.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the rule.
@@ -2065,6 +2177,7 @@ extension ELBV2 {
     }
 
     public struct SetIpAddressTypeInput: AWSEncodableShape {
+
         /// The IP address type. The possible values are ipv4 (for IPv4 addresses) and dualstack (for IPv4 and IPv6 addresses). Internal load balancers must use ipv4. Network Load Balancers must use ipv4.
         public let ipAddressType: IpAddressType
         /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2082,6 +2195,7 @@ extension ELBV2 {
     }
 
     public struct SetIpAddressTypeOutput: AWSDecodableShape {
+
         /// The IP address type.
         public let ipAddressType: IpAddressType?
 
@@ -2095,6 +2209,7 @@ extension ELBV2 {
     }
 
     public struct SetRulePrioritiesInput: AWSEncodableShape {
+
         /// The rule priorities.
         @CustomCoding<StandardArrayCoder>
         public var rulePriorities: [RulePriorityPair]
@@ -2115,6 +2230,7 @@ extension ELBV2 {
     }
 
     public struct SetRulePrioritiesOutput: AWSDecodableShape {
+
         /// Information about the rules.
         @OptionalCustomCoding<StandardArrayCoder>
         public var rules: [Rule]?
@@ -2129,6 +2245,7 @@ extension ELBV2 {
     }
 
     public struct SetSecurityGroupsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the security groups.
@@ -2147,6 +2264,7 @@ extension ELBV2 {
     }
 
     public struct SetSecurityGroupsOutput: AWSDecodableShape {
+
         /// The IDs of the security groups associated with the load balancer.
         @OptionalCustomCoding<StandardArrayCoder>
         public var securityGroupIds: [String]?
@@ -2161,6 +2279,7 @@ extension ELBV2 {
     }
 
     public struct SetSubnetsInput: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) of the load balancer.
         public let loadBalancerArn: String
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. You cannot specify Elastic IP addresses for your subnets. [Network Load Balancers] You can specify subnets from one or more Availability Zones. If you need static IP addresses for your internet-facing load balancer, you can specify one Elastic IP address per subnet. For internal load balancers, you can specify one private IP address per subnet from the IPv4 range of the subnet.
@@ -2184,6 +2303,7 @@ extension ELBV2 {
     }
 
     public struct SetSubnetsOutput: AWSDecodableShape {
+
         /// Information about the subnets.
         @OptionalCustomCoding<StandardArrayCoder>
         public var availabilityZones: [AvailabilityZone]?
@@ -2198,6 +2318,7 @@ extension ELBV2 {
     }
 
     public struct SourceIpConditionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// One or more source IP addresses, in CIDR format. You can use both IPv4 and IPv6 addresses. Wildcards are not supported. If you specify multiple addresses, the condition is satisfied if the source IP address of the request matches one of the CIDR blocks. This condition is not satisfied by the addresses in the X-Forwarded-For header. To search for addresses in the X-Forwarded-For header, use HttpHeaderConditionConfig.
         @OptionalCustomCoding<StandardArrayCoder>
         public var values: [String]?
@@ -2212,6 +2333,7 @@ extension ELBV2 {
     }
 
     public struct SslPolicy: AWSDecodableShape {
+
         /// The ciphers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var ciphers: [Cipher]?
@@ -2235,6 +2357,7 @@ extension ELBV2 {
     }
 
     public struct SubnetMapping: AWSEncodableShape {
+
         /// [Network Load Balancers] The allocation ID of the Elastic IP address for an internet-facing load balancer.
         public let allocationId: String?
         /// [Network Load Balancers] The private IPv4 address for an internal load balancer.
@@ -2256,6 +2379,7 @@ extension ELBV2 {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// The key of the tag.
         public let key: String
         /// The value of the tag.
@@ -2282,6 +2406,7 @@ extension ELBV2 {
     }
 
     public struct TagDescription: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
         /// Information about the tags.
@@ -2300,6 +2425,7 @@ extension ELBV2 {
     }
 
     public struct TargetDescription: AWSEncodableShape & AWSDecodableShape {
+
         /// An Availability Zone or all. This determines whether the target receives traffic from the load balancer nodes in the specified Availability Zone or from all enabled Availability Zones for the load balancer. This parameter is not supported if the target type of the target group is instance. If the target type is ip and the IP address is in a subnet of the VPC for the target group, the Availability Zone is automatically detected and this parameter is optional. If the IP address is outside the VPC, this parameter is required. With an Application Load Balancer, if the target type is ip and the IP address is outside the VPC for the target group, the only supported value is all. If the target type is lambda, this parameter is optional and the only supported value is all.
         public let availabilityZone: String?
         /// The ID of the target. If the target type of the target group is instance, specify an instance ID. If the target type is ip, specify an IP address. If the target type is lambda, specify the ARN of the Lambda function.
@@ -2326,6 +2452,7 @@ extension ELBV2 {
     }
 
     public struct TargetGroup: AWSDecodableShape {
+
         /// Indicates whether health checks are enabled.
         public let healthCheckEnabled: Bool?
         /// The approximate amount of time, in seconds, between health checks of an individual target.
@@ -2400,7 +2527,8 @@ extension ELBV2 {
     }
 
     public struct TargetGroupAttribute: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
+
+        /// The name of the attribute. The following attributes are supported by both Application Load Balancers and Network Load Balancers:    deregistration_delay.timeout_seconds - The amount of time, in seconds, for Elastic Load Balancing to wait before changing the state of a deregistering target from draining to unused. The range is 0-3600 seconds. The default value is 300 seconds. If the target is a Lambda function, this attribute is not supported.    stickiness.enabled - Indicates whether sticky sessions are enabled. The value is true or false. The default is false.    stickiness.type - The type of sticky sessions. The possible values are lb_cookie for Application Load Balancers or source_ip for Network Load Balancers.   The following attributes are supported only if the load balancer is an Application Load Balancer and the target is an instance or an IP address:    load_balancing.algorithm.type - The load balancing algorithm determines how the load balancer selects targets when routing requests. The value is round_robin or least_outstanding_requests. The default is round_robin.    slow_start.duration_seconds - The time period, in seconds, during which a newly registered target receives an increasing share of the traffic to the target group. After this time period ends, the target receives its full share of traffic. The range is 30-900 seconds (15 minutes). The default is 0 seconds (disabled).    stickiness.lb_cookie.duration_seconds - The time period, in seconds, during which requests from a client should be routed to the same target. After this time period expires, the load balancer-generated cookie is considered stale. The range is 1 second to 1 week (604800 seconds). The default value is 1 day (86400 seconds).   The following attribute is supported only if the load balancer is an Application Load Balancer and the target is a Lambda function:    lambda.multi_value_headers.enabled - Indicates whether the request and response headers that are exchanged between the load balancer and the Lambda function include arrays of values or strings. The value is true or false. The default is false. If the value is false and the request contains a duplicate header field name or query parameter key, the load balancer uses the last value sent by the client.   The following attribute is supported only by Network Load Balancers:    proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.  
         public let key: String?
         /// The value of the attribute.
         public let value: String?
@@ -2422,6 +2550,7 @@ extension ELBV2 {
     }
 
     public struct TargetGroupStickinessConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The time period, in seconds, during which requests from a client should be routed to the same target group. The range is 1-604800 seconds (7 days).
         public let durationSeconds: Int?
         /// Indicates whether target group stickiness is enabled.
@@ -2439,6 +2568,7 @@ extension ELBV2 {
     }
 
     public struct TargetGroupTuple: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the target group.
         public let targetGroupArn: String?
         /// The weight. The range is 0 to 999.
@@ -2456,9 +2586,10 @@ extension ELBV2 {
     }
 
     public struct TargetHealth: AWSDecodableShape {
+
         /// A description of the target health that provides additional details. If the state is healthy, a description is not provided.
         public let description: String?
-        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code. Applies only to Application Load Balancers.    Target.Timeout - The health check requests timed out. Applies only to Application Load Balancers.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error. Applies only to Application Load Balancers.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group. Applies only to Application Load Balancers.    Elb.InternalError - Target health is unavailable due to an internal error. Applies only to Network Load Balancers.
+        /// The reason code. If the target state is healthy, a reason code is not provided. If the target state is initial, the reason code can be one of the following values:    Elb.RegistrationInProgress - The target is in the process of being registered with the load balancer.    Elb.InitialHealthChecking - The load balancer is still sending the target the minimum number of health checks required to determine its health status.   If the target state is unhealthy, the reason code can be one of the following values:    Target.ResponseCodeMismatch - The health checks did not return an expected HTTP code. Applies only to Application Load Balancers.    Target.Timeout - The health check requests timed out. Applies only to Application Load Balancers.    Target.FailedHealthChecks - The load balancer received an error while establishing a connection to the target or the target response was malformed.    Elb.InternalError - The health checks failed due to an internal error. Applies only to Application Load Balancers.   If the target state is unused, the reason code can be one of the following values:    Target.NotRegistered - The target is not registered with the target group.    Target.NotInUse - The target group is not used by any load balancer or the target is in an Availability Zone that is not enabled for its load balancer.    Target.InvalidState - The target is in the stopped or terminated state.    Target.IpUnusable - The target IP address is reserved for use by a load balancer.   If the target state is draining, the reason code can be the following value:    Target.DeregistrationInProgress - The target is in the process of being deregistered and the deregistration delay period has not expired.   If the target state is unavailable, the reason code can be the following value:    Target.HealthCheckDisabled - Health checks are disabled for the target group. Applies only to Application Load Balancers.    Elb.InternalError - Target health is unavailable due to an internal error. Applies only to Network Load Balancers.  
         public let reason: TargetHealthReasonEnum?
         /// The state of the target.
         public let state: TargetHealthStateEnum?
@@ -2477,6 +2608,7 @@ extension ELBV2 {
     }
 
     public struct TargetHealthDescription: AWSDecodableShape {
+
         /// The port to use to connect with the target.
         public let healthCheckPort: String?
         /// The description of the target.

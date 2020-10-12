@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS Polly service.
+Client object for interacting with AWS Polly service.
 
- Amazon Polly is a web service that makes it easy to synthesize speech from text. The Amazon Polly service provides API operations for synthesizing high-quality speech from plain text and Speech Synthesis Markup Language (SSML), along with managing pronunciations lexicons that enable you to get the best results for your application domain.
- */
+Amazon Polly is a web service that makes it easy to synthesize speech from text. The Amazon Polly service provides API operations for synthesizing high-quality speech from plain text and Speech Synthesis Markup Language (SSML), along with managing pronunciations lexicons that enable you to get the best results for your application domain.
+*/
 public struct Polly: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct Polly: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Deletes the specified pronunciation lexicon stored in an AWS Region. A lexicon which has been deleted is not available for speech synthesis, nor is it possible to retrieve it using either the GetLexicon or ListLexicon APIs. For more information, see Managing Lexicons.
@@ -110,7 +111,7 @@ public struct Polly: AWSService {
     // MARK: Streaming API Calls
 
     ///  Synthesizes UTF-8 input, plain text or SSML, to a stream of bytes. SSML input must be valid, well-formed SSML. Some alphabets might not be available with all the voices (for example, Cyrillic might not be read at all by English voices) unless phoneme mapping is used. For more information, see How it Works.
-    public func synthesizeSpeechStreaming(_ input: SynthesizeSpeechInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop) -> EventLoopFuture<Void>) -> EventLoopFuture<SynthesizeSpeechOutput> {
+    public func synthesizeSpeechStreaming(_ input: SynthesizeSpeechInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled, _ stream: @escaping (ByteBuffer, EventLoop)->EventLoopFuture<Void>) -> EventLoopFuture<SynthesizeSpeechOutput> {
         return self.client.execute(operation: "SynthesizeSpeech", path: "/v1/speech", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger, stream: stream)
     }
 }

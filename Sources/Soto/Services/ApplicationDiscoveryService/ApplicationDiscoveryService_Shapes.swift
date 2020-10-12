@@ -105,11 +105,12 @@ extension ApplicationDiscoveryService {
     // MARK: Shapes
 
     public struct AgentConfigurationStatus: AWSDecodableShape {
+
         /// The agent/connector ID.
         public let agentId: String?
         /// A description of the operation performed.
         public let description: String?
-        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command.
+        /// Information about the status of the StartDataCollection and StopDataCollection operations. The system has recorded the data collection operation. The agent/connector receives this command the next time it polls for a new command. 
         public let operationSucceeded: Bool?
 
         public init(agentId: String? = nil, description: String? = nil, operationSucceeded: Bool? = nil) {
@@ -119,13 +120,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentId
-            case description
-            case operationSucceeded
+            case agentId = "agentId"
+            case description = "description"
+            case operationSucceeded = "operationSucceeded"
         }
     }
 
     public struct AgentInfo: AWSDecodableShape {
+
         /// The agent or connector ID.
         public let agentId: String?
         /// Network details about the host where the agent or connector resides.
@@ -161,20 +163,21 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentId
-            case agentNetworkInfoList
-            case agentType
-            case collectionStatus
-            case connectorId
-            case health
-            case hostName
-            case lastHealthPingTime
-            case registeredTime
-            case version
+            case agentId = "agentId"
+            case agentNetworkInfoList = "agentNetworkInfoList"
+            case agentType = "agentType"
+            case collectionStatus = "collectionStatus"
+            case connectorId = "connectorId"
+            case health = "health"
+            case hostName = "hostName"
+            case lastHealthPingTime = "lastHealthPingTime"
+            case registeredTime = "registeredTime"
+            case version = "version"
         }
     }
 
     public struct AgentNetworkInfo: AWSDecodableShape {
+
         /// The IP address for the host where the agent/connector resides.
         public let ipAddress: String?
         /// The MAC address for the host where the agent/connector resides.
@@ -186,12 +189,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case ipAddress
-            case macAddress
+            case ipAddress = "ipAddress"
+            case macAddress = "macAddress"
         }
     }
 
     public struct AssociateConfigurationItemsToApplicationRequest: AWSEncodableShape {
+
         /// The configuration ID of an application with which items are to be associated.
         public let applicationConfigurationId: String
         /// The ID of each configuration item to be associated with an application.
@@ -203,16 +207,21 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId
-            case configurationIds
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct AssociateConfigurationItemsToApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct BatchDeleteImportDataError: AWSDecodableShape {
+
         /// The type of error that occurred for a specific import task.
         public let errorCode: BatchDeleteImportDataErrorCode?
         /// The description of the error that occurred for a specific import task.
@@ -227,13 +236,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorDescription
-            case importTaskId
+            case errorCode = "errorCode"
+            case errorDescription = "errorDescription"
+            case importTaskId = "importTaskId"
         }
     }
 
     public struct BatchDeleteImportDataRequest: AWSEncodableShape {
+
         /// The IDs for the import tasks that you want to delete.
         public let importTaskIds: [String]
 
@@ -247,11 +257,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case importTaskIds
+            case importTaskIds = "importTaskIds"
         }
     }
 
     public struct BatchDeleteImportDataResponse: AWSDecodableShape {
+
         /// Error messages returned for each import task that you deleted as a response for this command.
         public let errors: [BatchDeleteImportDataError]?
 
@@ -260,11 +271,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errors
+            case errors = "errors"
         }
     }
 
     public struct ConfigurationTag: AWSDecodableShape {
+
         /// The configuration ID for the item to tag. You can specify a list of keys and values.
         public let configurationId: String?
         /// A type of IT asset to tag.
@@ -285,28 +297,29 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case configurationType
-            case key
-            case timeOfCreation
-            case value
+            case configurationId = "configurationId"
+            case configurationType = "configurationType"
+            case key = "key"
+            case timeOfCreation = "timeOfCreation"
+            case value = "value"
         }
     }
 
     public struct ContinuousExportDescription: AWSDecodableShape {
+
         /// The type of data collector used to gather this data (currently only offered for AGENT).
         public let dataSource: DataSource?
         /// The unique ID assigned to this export.
         public let exportId: String?
         /// The name of the s3 bucket where the export data parquet files are stored.
         public let s3Bucket: String?
-        /// An object which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.
+        /// An object which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
         public let schemaStorageConfig: [String: String]?
         /// The timestamp representing when the continuous export was started.
         public let startTime: Date?
-        /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.
+        /// Describes the status of the export. Can be one of the following values:   START_IN_PROGRESS - setting up resources to start continuous export.   START_FAILED - an error occurred setting up continuous export. To recover, call start-continuous-export again.   ACTIVE - data is being exported to the customer bucket.   ERROR - an error occurred during export. To fix the issue, call stop-continuous-export and start-continuous-export.   STOP_IN_PROGRESS - stopping the export.   STOP_FAILED - an error occurred stopping the export. To recover, call stop-continuous-export again.   INACTIVE - the continuous export has been stopped. Data is no longer being exported to the customer bucket.  
         public let status: ContinuousExportStatus?
-        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your AWS administrator for help. For more information, see Setting Up AWS Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact AWS Support.   S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of Amazon S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.
+        /// Contains information about any errors that have occurred. This data type can have the following values:   ACCESS_DENIED - You don’t have permission to start Data Exploration in Amazon Athena. Contact your AWS administrator for help. For more information, see Setting Up AWS Application Discovery Service in the Application Discovery Service User Guide.   DELIVERY_STREAM_LIMIT_FAILURE - You reached the limit for Amazon Kinesis Data Firehose delivery streams. Reduce the number of streams or request a limit increase and try again. For more information, see Kinesis Data Streams Limits in the Amazon Kinesis Data Streams Developer Guide.   FIREHOSE_ROLE_MISSING - The Data Exploration feature is in an error state because your IAM User is missing the AWSApplicationDiscoveryServiceFirehose role. Turn on Data Exploration in Amazon Athena and try again. For more information, see Step 3: Provide Application Discovery Service Access to Non-Administrator Users by Attaching Policies in the Application Discovery Service User Guide.   FIREHOSE_STREAM_DOES_NOT_EXIST - The Data Exploration feature is in an error state because your IAM User is missing one or more of the Kinesis data delivery streams.   INTERNAL_FAILURE - The Data Exploration feature is in an error state because of an internal failure. Try again later. If this problem persists, contact AWS Support.   S3_BUCKET_LIMIT_FAILURE - You reached the limit for Amazon S3 buckets. Reduce the number of Amazon S3 buckets or request a limit increase and try again. For more information, see Bucket Restrictions and Limitations in the Amazon Simple Storage Service Developer Guide.   S3_NOT_SIGNED_UP - Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3.  
         public let statusDetail: String?
         /// The timestamp that represents when this continuous export was stopped.
         public let stopTime: Date?
@@ -323,18 +336,19 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case exportId
-            case s3Bucket
-            case schemaStorageConfig
-            case startTime
-            case status
-            case statusDetail
-            case stopTime
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
+            case status = "status"
+            case statusDetail = "statusDetail"
+            case stopTime = "stopTime"
         }
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+
         /// Description of the application to be created.
         public let description: String?
         /// Name of the application to be created.
@@ -346,12 +360,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case name
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct CreateApplicationResponse: AWSDecodableShape {
+
         /// Configuration ID of an application to be created.
         public let configurationId: String?
 
@@ -360,14 +375,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
+            case configurationId = "configurationId"
         }
     }
 
     public struct CreateTagsRequest: AWSEncodableShape {
+
         /// A list of configuration items that you want to tag.
         public let configurationIds: [String]
-        /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"}
+        /// Tags that you want to associate with one or more configuration items. Specify the tags that you want to create in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public let tags: [Tag]
 
         public init(configurationIds: [String], tags: [Tag]) {
@@ -376,16 +392,21 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
-            case tags
+            case configurationIds = "configurationIds"
+            case tags = "tags"
         }
     }
 
     public struct CreateTagsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CustomerAgentInfo: AWSDecodableShape {
+
         /// Number of active discovery agents.
         public let activeAgents: Int
         /// Number of blacklisted discovery agents.
@@ -412,17 +433,18 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeAgents
-            case blackListedAgents
-            case healthyAgents
-            case shutdownAgents
-            case totalAgents
-            case unhealthyAgents
-            case unknownAgents
+            case activeAgents = "activeAgents"
+            case blackListedAgents = "blackListedAgents"
+            case healthyAgents = "healthyAgents"
+            case shutdownAgents = "shutdownAgents"
+            case totalAgents = "totalAgents"
+            case unhealthyAgents = "unhealthyAgents"
+            case unknownAgents = "unknownAgents"
         }
     }
 
     public struct CustomerConnectorInfo: AWSDecodableShape {
+
         /// Number of active discovery connectors.
         public let activeConnectors: Int
         /// Number of blacklisted discovery connectors.
@@ -449,17 +471,18 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case activeConnectors
-            case blackListedConnectors
-            case healthyConnectors
-            case shutdownConnectors
-            case totalConnectors
-            case unhealthyConnectors
-            case unknownConnectors
+            case activeConnectors = "activeConnectors"
+            case blackListedConnectors = "blackListedConnectors"
+            case healthyConnectors = "healthyConnectors"
+            case shutdownConnectors = "shutdownConnectors"
+            case totalConnectors = "totalConnectors"
+            case unhealthyConnectors = "unhealthyConnectors"
+            case unknownConnectors = "unknownConnectors"
         }
     }
 
     public struct DeleteApplicationsRequest: AWSEncodableShape {
+
         /// Configuration ID of an application to be deleted.
         public let configurationIds: [String]
 
@@ -468,18 +491,23 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DeleteApplicationsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteTagsRequest: AWSEncodableShape {
+
         /// A list of configuration items with tags that you want to delete.
         public let configurationIds: [String]
-        /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"}
+        /// Tags that you want to delete from one or more configuration items. Specify the tags that you want to delete in a key-value format. For example:  {"key": "serverType", "value": "webServer"} 
         public let tags: [Tag]?
 
         public init(configurationIds: [String], tags: [Tag]? = nil) {
@@ -488,19 +516,24 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
-            case tags
+            case configurationIds = "configurationIds"
+            case tags = "tags"
         }
     }
 
     public struct DeleteTagsResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeAgentsRequest: AWSEncodableShape {
+
         /// The agent or the Connector IDs for which you want information. If you specify no IDs, the system returns information about all agents/Connectors associated with your AWS user account.
         public let agentIds: [String]?
-        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"}
+        /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "collectionStatus", "value": "STARTED"} 
         public let filters: [Filter]?
         /// The total number of agents/Connectors to return in a single page of output. The maximum value is 100.
         public let maxResults: Int?
@@ -515,14 +548,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
-            case filters
-            case maxResults
-            case nextToken
+            case agentIds = "agentIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeAgentsResponse: AWSDecodableShape {
+
         /// Lists agents or the Connector by ID or lists all agents/Connectors associated with your user account if you did not specify an agent/Connector ID. The output includes agent/Connector IDs, IP addresses, media access control (MAC) addresses, agent/Connector health, host name where the agent/Connector resides, and the version number of each agent/Connector.
         public let agentsInfo: [AgentInfo]?
         /// Token to retrieve the next set of results. For example, if you specified 100 IDs for DescribeAgentsRequest$agentIds but set DescribeAgentsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -534,12 +568,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsInfo
-            case nextToken
+            case agentsInfo = "agentsInfo"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeConfigurationsRequest: AWSEncodableShape {
+
         /// One or more configuration IDs.
         public let configurationIds: [String]
 
@@ -548,11 +583,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationIds
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DescribeConfigurationsResponse: AWSDecodableShape {
+
         /// A key in the response map. The value is an array of data.
         public let configurations: [[String: String]]?
 
@@ -561,11 +597,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
+            case configurations = "configurations"
         }
     }
 
     public struct DescribeContinuousExportsRequest: AWSEncodableShape {
+
         /// The unique IDs assigned to the exports.
         public let exportIds: [String]?
         /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
@@ -585,13 +622,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeContinuousExportsResponse: AWSDecodableShape {
+
         /// A list of continuous export descriptions.
         public let descriptions: [ContinuousExportDescription]?
         /// The token from the previous call to DescribeExportTasks.
@@ -603,12 +641,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case descriptions
-            case nextToken
+            case descriptions = "descriptions"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeExportConfigurationsRequest: AWSEncodableShape {
+
         /// A list of continuous export IDs to search for.
         public let exportIds: [String]?
         /// A number between 1 and 100 specifying the maximum number of continuous export descriptions returned.
@@ -623,13 +662,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeExportConfigurationsResponse: AWSDecodableShape {
+
         public let exportsInfo: [ExportInfo]?
         /// The token from the previous call to describe-export-tasks.
         public let nextToken: String?
@@ -640,15 +680,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportsInfo
-            case nextToken
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeExportTasksRequest: AWSEncodableShape {
+
         /// One or more unique identifiers used to query the status of an export request.
         public let exportIds: [String]?
-        /// One or more filters.    AgentId - ID of the agent whose collected data will be exported
+        /// One or more filters.    AgentId - ID of the agent whose collected data will be exported  
         public let filters: [ExportFilter]?
         /// The maximum number of volume results returned by DescribeExportTasks in paginated output. When this parameter is used, DescribeExportTasks only returns maxResults results in a single page along with a nextToken response element.
         public let maxResults: Int?
@@ -663,14 +704,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportIds
-            case filters
-            case maxResults
-            case nextToken
+            case exportIds = "exportIds"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeExportTasksResponse: AWSDecodableShape {
+
         /// Contains one or more sets of export request details. When the status of a request is SUCCEEDED, the response includes a URL for an Amazon S3 bucket where you can view the data in a CSV file.
         public let exportsInfo: [ExportInfo]?
         /// The nextToken value to include in a future DescribeExportTasks request. When the results of a DescribeExportTasks request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
@@ -682,12 +724,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportsInfo
-            case nextToken
+            case exportsInfo = "exportsInfo"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeImportTasksRequest: AWSEncodableShape {
+
         /// An array of name-value pairs that you provide to filter the results for the DescribeImportTask request to a specific subset of results. Currently, wildcard values aren't supported for filters.
         public let filters: [ImportTaskFilter]?
         /// The maximum number of results that you want this request to return, up to 100.
@@ -710,13 +753,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeImportTasksResponse: AWSDecodableShape {
+
         /// The token to request the next page of results.
         public let nextToken: String?
         /// A returned array of import tasks that match any applied filters, up to the specified number of maximum results.
@@ -728,13 +772,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tasks
+            case nextToken = "nextToken"
+            case tasks = "tasks"
         }
     }
 
     public struct DescribeTagsRequest: AWSEncodableShape {
-        /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId.
+
+        /// You can filter the list using a key-value format. You can separate these items by using logical operators. Allowed filters include tagKey, tagValue, and configurationId. 
         public let filters: [TagFilter]?
         /// The total number of items to return in a single page of output. The maximum value is 100.
         public let maxResults: Int?
@@ -748,13 +793,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filters
-            case maxResults
-            case nextToken
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct DescribeTagsResponse: AWSDecodableShape {
+
         /// The call returns a token. Use this token to get the next set of results.
         public let nextToken: String?
         /// Depending on the input, this is a list of configuration items tagged with a specific tag, or a list of tags for a specific configuration item.
@@ -766,12 +812,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case tags
+            case nextToken = "nextToken"
+            case tags = "tags"
         }
     }
 
     public struct DisassociateConfigurationItemsFromApplicationRequest: AWSEncodableShape {
+
         /// Configuration ID of an application from which each item is disassociated.
         public let applicationConfigurationId: String
         /// Configuration ID of each item to be disassociated from an application.
@@ -783,16 +830,21 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationConfigurationId
-            case configurationIds
+            case applicationConfigurationId = "applicationConfigurationId"
+            case configurationIds = "configurationIds"
         }
     }
 
     public struct DisassociateConfigurationItemsFromApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ExportConfigurationsResponse: AWSDecodableShape {
+
         /// A unique identifier that you can use to query the export status.
         public let exportId: String?
 
@@ -801,12 +853,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
     public struct ExportFilter: AWSEncodableShape {
-        /// Supported condition: EQUALS
+
+        /// Supported condition: EQUALS 
         public let condition: String
         /// A single ExportFilter name. Supported filters: agentId.
         public let name: String
@@ -820,13 +873,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case values
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct ExportInfo: AWSDecodableShape {
+
         /// A URL for an Amazon S3 bucket where you can review the exported data. The URL is displayed only if the export succeeded.
         public let configurationsDownloadUrl: String?
         /// A unique identifier used to query an export.
@@ -856,18 +910,19 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationsDownloadUrl
-            case exportId
-            case exportRequestTime
-            case exportStatus
-            case isTruncated
-            case requestedEndTime
-            case requestedStartTime
-            case statusMessage
+            case configurationsDownloadUrl = "configurationsDownloadUrl"
+            case exportId = "exportId"
+            case exportRequestTime = "exportRequestTime"
+            case exportStatus = "exportStatus"
+            case isTruncated = "isTruncated"
+            case requestedEndTime = "requestedEndTime"
+            case requestedStartTime = "requestedStartTime"
+            case statusMessage = "statusMessage"
         }
     }
 
     public struct Filter: AWSEncodableShape {
+
         /// A conditional operator. The following operators are valid: EQUALS, NOT_EQUALS, CONTAINS, NOT_CONTAINS. If you specify multiple filters, the system utilizes all filters as though concatenated by AND. If you specify multiple values for a particular filter, the system differentiates the values using OR. Calling either DescribeConfigurations or ListConfigurations returns attributes of matching configuration items.
         public let condition: String
         /// The name of the filter.
@@ -882,17 +937,22 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case condition
-            case name
-            case values
+            case condition = "condition"
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct GetDiscoverySummaryRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct GetDiscoverySummaryResponse: AWSDecodableShape {
+
         /// Details about discovered agents, including agent status and health.
         public let agentSummary: CustomerAgentInfo?
         /// The number of applications discovered.
@@ -916,16 +976,17 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentSummary
-            case applications
-            case connectorSummary
-            case servers
-            case serversMappedToApplications
-            case serversMappedtoTags
+            case agentSummary = "agentSummary"
+            case applications = "applications"
+            case connectorSummary = "connectorSummary"
+            case servers = "servers"
+            case serversMappedToApplications = "serversMappedToApplications"
+            case serversMappedtoTags = "serversMappedtoTags"
         }
     }
 
     public struct ImportTask: AWSDecodableShape {
+
         /// The total number of application records in the import file that failed to be imported.
         public let applicationImportFailure: Int?
         /// The total number of application records in the import file that were successfully imported.
@@ -970,23 +1031,24 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case applicationImportFailure
-            case applicationImportSuccess
-            case clientRequestToken
-            case errorsAndFailedEntriesZip
-            case importCompletionTime
-            case importDeletedTime
-            case importRequestTime
-            case importTaskId
-            case importUrl
-            case name
-            case serverImportFailure
-            case serverImportSuccess
-            case status
+            case applicationImportFailure = "applicationImportFailure"
+            case applicationImportSuccess = "applicationImportSuccess"
+            case clientRequestToken = "clientRequestToken"
+            case errorsAndFailedEntriesZip = "errorsAndFailedEntriesZip"
+            case importCompletionTime = "importCompletionTime"
+            case importDeletedTime = "importDeletedTime"
+            case importRequestTime = "importRequestTime"
+            case importTaskId = "importTaskId"
+            case importUrl = "importUrl"
+            case name = "name"
+            case serverImportFailure = "serverImportFailure"
+            case serverImportSuccess = "serverImportSuccess"
+            case status = "status"
         }
     }
 
     public struct ImportTaskFilter: AWSEncodableShape {
+
         /// The name, status, or import task ID for a specific import task.
         public let name: ImportTaskFilterName?
         /// An array of strings that you can provide to match against a specific name, status, or import task ID to filter the results for your import task queries.
@@ -1007,13 +1069,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct ListConfigurationsRequest: AWSEncodableShape {
-        /// A valid configuration identified by Application Discovery Service.
+
+        /// A valid configuration identified by Application Discovery Service. 
         public let configurationType: ConfigurationItemType
         /// You can filter the request using various logical operators and a key-value format. For example:   {"key": "serverType", "value": "webServer"}  For a complete list of filter options and guidance about using them with this action, see Using the ListConfigurations Action in the AWS Application Discovery Service User Guide.
         public let filters: [Filter]?
@@ -1033,15 +1096,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationType
-            case filters
-            case maxResults
-            case nextToken
-            case orderBy
+            case configurationType = "configurationType"
+            case filters = "filters"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case orderBy = "orderBy"
         }
     }
 
     public struct ListConfigurationsResponse: AWSDecodableShape {
+
         /// Returns configuration details, including the configuration ID, attribute names, and attribute values.
         public let configurations: [[String: String]]?
         /// Token to retrieve the next set of results. For example, if your call to ListConfigurations returned 100 items, but you set ListConfigurationsRequest$maxResults to 10, you received a set of 10 results along with this token. Use this token in the next query to retrieve the next set of 10.
@@ -1053,12 +1117,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurations
-            case nextToken
+            case configurations = "configurations"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListServerNeighborsRequest: AWSEncodableShape {
+
         /// Configuration ID of the server for which neighbors are being listed.
         public let configurationId: String
         /// Maximum number of results to return in a single page of output.
@@ -1079,15 +1144,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case maxResults
-            case neighborConfigurationIds
-            case nextToken
-            case portInformationNeeded
+            case configurationId = "configurationId"
+            case maxResults = "maxResults"
+            case neighborConfigurationIds = "neighborConfigurationIds"
+            case nextToken = "nextToken"
+            case portInformationNeeded = "portInformationNeeded"
         }
     }
 
     public struct ListServerNeighborsResponse: AWSDecodableShape {
+
         /// Count of distinct servers that are one hop away from the given server.
         public let knownDependencyCount: Int64?
         /// List of distinct servers that are one hop away from the given server.
@@ -1102,13 +1168,14 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case knownDependencyCount
-            case neighbors
-            case nextToken
+            case knownDependencyCount = "knownDependencyCount"
+            case neighbors = "neighbors"
+            case nextToken = "nextToken"
         }
     }
 
     public struct NeighborConnectionDetail: AWSDecodableShape {
+
         /// The number of open network connections with the neighboring server.
         public let connectionsCount: Int64
         /// The destination network port for the connection.
@@ -1129,15 +1196,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case connectionsCount
-            case destinationPort
-            case destinationServerId
-            case sourceServerId
-            case transportProtocol
+            case connectionsCount = "connectionsCount"
+            case destinationPort = "destinationPort"
+            case destinationServerId = "destinationServerId"
+            case sourceServerId = "sourceServerId"
+            case transportProtocol = "transportProtocol"
         }
     }
 
     public struct OrderByElement: AWSEncodableShape {
+
         /// The field on which to order.
         public let fieldName: String
         /// Ordering direction.
@@ -1149,23 +1217,28 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case fieldName
-            case sortOrder
+            case fieldName = "fieldName"
+            case sortOrder = "sortOrder"
         }
     }
 
     public struct StartContinuousExportRequest: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StartContinuousExportResponse: AWSDecodableShape {
+
         /// The type of data collector used to gather this data (currently only offered for AGENT).
         public let dataSource: DataSource?
         /// The unique ID assigned to this export.
         public let exportId: String?
         /// The name of the s3 bucket where the export data parquet files are stored.
         public let s3Bucket: String?
-        /// A dictionary which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.
+        /// A dictionary which describes how the data is stored.    databaseName - the name of the Glue database used to store the schema.  
         public let schemaStorageConfig: [String: String]?
         /// The timestamp representing when the continuous export was started.
         public let startTime: Date?
@@ -1179,15 +1252,16 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dataSource
-            case exportId
-            case s3Bucket
-            case schemaStorageConfig
-            case startTime
+            case dataSource = "dataSource"
+            case exportId = "exportId"
+            case s3Bucket = "s3Bucket"
+            case schemaStorageConfig = "schemaStorageConfig"
+            case startTime = "startTime"
         }
     }
 
     public struct StartDataCollectionByAgentIdsRequest: AWSEncodableShape {
+
         /// The IDs of the agents or connectors from which to start collecting data. If you send a request to an agent/connector ID that you do not have permission to contact, according to your AWS account, the service does not throw an exception. Instead, it returns the error in the Description field. If you send a request to multiple agents/connectors and you do not have permission to contact some of those agents/connectors, the system does not throw an exception. Instead, the system shows Failed in the Description field.
         public let agentIds: [String]
 
@@ -1196,11 +1270,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
+            case agentIds = "agentIds"
         }
     }
 
     public struct StartDataCollectionByAgentIdsResponse: AWSDecodableShape {
+
         /// Information about agents or the connector that were instructed to start collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
@@ -1209,16 +1284,17 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
     public struct StartExportTaskRequest: AWSEncodableShape {
+
         /// The end timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, exported data includes the most recent data collected by the agent.
         public let endTime: Date?
-        /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated.
+        /// The file format for the returned export data. Default value is CSV. Note: The GRAPHML option has been deprecated. 
         public let exportDataFormat: [ExportDataFormat]?
-        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents.
+        /// If a filter is present, it selects the single agentId of the Application Discovery Agent for which data is exported. The agentId can be found in the results of the DescribeAgents API or CLI. If no filter is present, startTime and endTime are ignored and exported data includes both Agentless Discovery Connector data and summary data from Application Discovery agents. 
         public let filters: [ExportFilter]?
         /// The start timestamp for exported data from the single Application Discovery Agent selected in the filters. If no value is specified, data is exported starting from the first data collected by the agent.
         public let startTime: Date?
@@ -1231,14 +1307,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case endTime
-            case exportDataFormat
-            case filters
-            case startTime
+            case endTime = "endTime"
+            case exportDataFormat = "exportDataFormat"
+            case filters = "filters"
+            case startTime = "startTime"
         }
     }
 
     public struct StartExportTaskResponse: AWSDecodableShape {
+
         /// A unique identifier used to query the status of an export request.
         public let exportId: String?
 
@@ -1247,14 +1324,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
     public struct StartImportTaskRequest: AWSEncodableShape {
+
         /// Optional. A unique token that you can provide to prevent the same import request from occurring more than once. If you don't provide a token, a token is automatically generated. Sending more than one StartImportTask request with the same client request token will return information about the original import task with that client request token.
         public let clientRequestToken: String?
-        /// The URL for your import file that you've uploaded to Amazon S3.  If you're using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV
+        /// The URL for your import file that you've uploaded to Amazon S3.  If you're using the AWS CLI, this URL is structured as follows: s3://BucketName/ImportFileName.CSV  
         public let importUrl: String
         /// A descriptive name for this request. You can use this name to filter future requests related to this import task, such as identifying applications and servers that were included in this import task. We recommend that you use a meaningful name for each import task.
         public let name: String
@@ -1275,14 +1353,15 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientRequestToken
-            case importUrl
-            case name
+            case clientRequestToken = "clientRequestToken"
+            case importUrl = "importUrl"
+            case name = "name"
         }
     }
 
     public struct StartImportTaskResponse: AWSDecodableShape {
-        /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more.
+
+        /// An array of information related to the import task request including status information, times, IDs, the Amazon S3 Object URL for the import file, and more. 
         public let task: ImportTask?
 
         public init(task: ImportTask? = nil) {
@@ -1290,11 +1369,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case task
+            case task = "task"
         }
     }
 
     public struct StopContinuousExportRequest: AWSEncodableShape {
+
         /// The unique ID assigned to this export.
         public let exportId: String
 
@@ -1303,11 +1383,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case exportId
+            case exportId = "exportId"
         }
     }
 
     public struct StopContinuousExportResponse: AWSDecodableShape {
+
         /// Timestamp that represents when this continuous export started collecting data.
         public let startTime: Date?
         /// Timestamp that represents when this continuous export was stopped.
@@ -1319,12 +1400,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case startTime
-            case stopTime
+            case startTime = "startTime"
+            case stopTime = "stopTime"
         }
     }
 
     public struct StopDataCollectionByAgentIdsRequest: AWSEncodableShape {
+
         /// The IDs of the agents or connectors from which to stop collecting data.
         public let agentIds: [String]
 
@@ -1333,11 +1415,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentIds
+            case agentIds = "agentIds"
         }
     }
 
     public struct StopDataCollectionByAgentIdsResponse: AWSDecodableShape {
+
         /// Information about the agents or connector that were instructed to stop collecting data. Information includes the agent/connector ID, a description of the operation performed, and whether the agent/connector configuration was updated.
         public let agentsConfigurationStatus: [AgentConfigurationStatus]?
 
@@ -1346,11 +1429,12 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case agentsConfigurationStatus
+            case agentsConfigurationStatus = "agentsConfigurationStatus"
         }
     }
 
     public struct Tag: AWSEncodableShape {
+
         /// The type of tag on which to filter.
         public let key: String
         /// A value for a tag key on which to filter.
@@ -1362,12 +1446,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case key
-            case value
+            case key = "key"
+            case value = "value"
         }
     }
 
     public struct TagFilter: AWSEncodableShape {
+
         /// A name of the tag filter.
         public let name: String
         /// Values for the tag filter.
@@ -1379,12 +1464,13 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case values
+            case name = "name"
+            case values = "values"
         }
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+
         /// Configuration ID of the application to be updated.
         public let configurationId: String
         /// New description of the application to be updated.
@@ -1399,13 +1485,17 @@ extension ApplicationDiscoveryService {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case configurationId
-            case description
-            case name
+            case configurationId = "configurationId"
+            case description = "description"
+            case name = "name"
         }
     }
 
     public struct UpdateApplicationResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 }

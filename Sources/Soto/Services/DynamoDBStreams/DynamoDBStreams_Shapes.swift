@@ -60,25 +60,26 @@ extension DynamoDBStreams {
     // MARK: Shapes
 
     public class AttributeValue: AWSDecodableShape {
-        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
+
+        /// An attribute of type Binary. For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk" 
         public let b: Data?
-        /// An attribute of type Boolean. For example:  "BOOL": true
+        /// An attribute of type Boolean. For example:  "BOOL": true 
         public let bool: Bool?
-        /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
+        /// An attribute of type Binary Set. For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="] 
         public let bs: [Data]?
-        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]
+        /// An attribute of type List. For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}] 
         public let l: [AttributeValue]?
-        /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
+        /// An attribute of type Map. For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}} 
         public let m: [String: AttributeValue]?
         /// An attribute of type Number. For example:  "N": "123.45"  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let n: String?
         /// An attribute of type Number Set. For example:  "NS": ["42.2", "-19", "7.5", "3.14"]  Numbers are sent across the network to DynamoDB as strings, to maximize compatibility across languages and libraries. However, DynamoDB treats them as number type attributes for mathematical operations.
         public let ns: [String]?
-        /// An attribute of type Null. For example:  "NULL": true
+        /// An attribute of type Null. For example:  "NULL": true 
         public let null: Bool?
-        /// An attribute of type String. For example:  "S": "Hello"
+        /// An attribute of type String. For example:  "S": "Hello" 
         public let s: String?
-        /// An attribute of type String Set. For example:  "SS": ["Giraffe", "Hippo" ,"Zebra"]
+        /// An attribute of type String Set. For example:  "SS": ["Giraffe", "Hippo" ,"Zebra"] 
         public let ss: [String]?
 
         public init(b: Data? = nil, bool: Bool? = nil, bs: [Data]? = nil, l: [AttributeValue]? = nil, m: [String: AttributeValue]? = nil, n: String? = nil, ns: [String]? = nil, null: Bool? = nil, s: String? = nil, ss: [String]? = nil) {
@@ -109,7 +110,8 @@ extension DynamoDBStreams {
     }
 
     public struct DescribeStreamInput: AWSEncodableShape {
-        /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation.
+
+        /// The shard ID of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedShardId in the previous operation. 
         public let exclusiveStartShardId: String?
         /// The maximum number of shard objects to return. The upper limit is 100.
         public let limit: Int?
@@ -138,6 +140,7 @@ extension DynamoDBStreams {
     }
 
     public struct DescribeStreamOutput: AWSDecodableShape {
+
         /// A complete description of the stream, including its creation date and time, the DynamoDB table associated with the stream, the shard IDs within the stream, and the beginning and ending sequence numbers of stream records within the shards.
         public let streamDescription: StreamDescription?
 
@@ -151,6 +154,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetRecordsInput: AWSEncodableShape {
+
         /// The maximum number of records to return from the shard. The upper limit is 1000.
         public let limit: Int?
         /// A shard iterator that was retrieved from a previous GetShardIterator operation. This iterator can be used to access the stream records in this shard.
@@ -174,6 +178,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetRecordsOutput: AWSDecodableShape {
+
         /// The next position in the shard from which to start sequentially reading stream records. If set to null, the shard has been closed and the requested iterator will not return any more data.
         public let nextShardIterator: String?
         /// The stream records from the shard, which were retrieved using the shard iterator.
@@ -191,11 +196,12 @@ extension DynamoDBStreams {
     }
 
     public struct GetShardIteratorInput: AWSEncodableShape {
+
         /// The sequence number of a stream record in the shard from which to start reading.
         public let sequenceNumber: String?
         /// The identifier of the shard. The iterator will be returned for this shard ID.
         public let shardId: String
-        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.
+        /// Determines how the shard iterator is used to start reading stream records from the shard:    AT_SEQUENCE_NUMBER - Start reading exactly from the position denoted by a specific sequence number.    AFTER_SEQUENCE_NUMBER - Start reading right after the position denoted by a specific sequence number.    TRIM_HORIZON - Start reading at the last (untrimmed) stream record, which is the oldest record in the shard. In DynamoDB Streams, there is a 24 hour limit on data retention. Stream records whose age exceeds this limit are subject to removal (trimming) from the stream.    LATEST - Start reading just after the most recent stream record in the shard, so that you always read the most recent data in the shard.  
         public let shardIteratorType: ShardIteratorType
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String
@@ -225,6 +231,7 @@ extension DynamoDBStreams {
     }
 
     public struct GetShardIteratorOutput: AWSDecodableShape {
+
         /// The position in the shard from which to start reading stream records sequentially. A shard iterator specifies this position using the sequence number of a stream record in a shard.
         public let shardIterator: String?
 
@@ -238,6 +245,7 @@ extension DynamoDBStreams {
     }
 
     public struct Identity: AWSDecodableShape {
+
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public let principalId: String?
         /// The type of the identity. For Time To Live, the type is "Service".
@@ -255,9 +263,10 @@ extension DynamoDBStreams {
     }
 
     public struct KeySchemaElement: AWSDecodableShape {
+
         /// The name of a key attribute.
         public let attributeName: String
-        /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value.
+        /// The role that this key attribute will assume:    HASH - partition key    RANGE - sort key    The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from DynamoDB's usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. 
         public let keyType: KeyType
 
         public init(attributeName: String, keyType: KeyType) {
@@ -272,7 +281,8 @@ extension DynamoDBStreams {
     }
 
     public struct ListStreamsInput: AWSEncodableShape {
-        /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation.
+
+        /// The ARN (Amazon Resource Name) of the first item that this operation will evaluate. Use the value that was returned for LastEvaluatedStreamArn in the previous operation. 
         public let exclusiveStartStreamArn: String?
         /// The maximum number of streams to return. The upper limit is 100.
         public let limit: Int?
@@ -302,6 +312,7 @@ extension DynamoDBStreams {
     }
 
     public struct ListStreamsOutput: AWSDecodableShape {
+
         /// The stream ARN of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedStreamArn is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedStreamArn is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedStreamArn is empty.
         public let lastEvaluatedStreamArn: String?
         /// A list of stream descriptors associated with the current account and endpoint.
@@ -319,19 +330,20 @@ extension DynamoDBStreams {
     }
 
     public struct Record: AWSDecodableShape {
+
         /// The region in which the GetRecords request was received.
         public let awsRegion: String?
         /// The main body of the stream record, containing all of the DynamoDB-specific fields.
         public let dynamodb: StreamRecord?
         /// A globally unique identifier for the event that was recorded in this stream record.
         public let eventID: String?
-        /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table
+        /// The type of data modification that was performed on the DynamoDB table:    INSERT - a new item was added to the table.    MODIFY - one or more of an existing item's attributes were modified.    REMOVE - the item was deleted from the table  
         public let eventName: OperationType?
         /// The AWS service from which the stream record originated. For DynamoDB Streams, this is aws:dynamodb.
         public let eventSource: String?
         /// The version number of the stream record format. This number is updated whenever the structure of Record is modified. Client applications must not assume that eventVersion will remain at a particular value, as this number is subject to change at any time. In general, eventVersion will only increase as the low-level DynamoDB Streams API evolves.
         public let eventVersion: String?
-        /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"
+        /// Items that are deleted by the Time to Live process after expiration have the following fields:    Records[].userIdentity.type "Service"   Records[].userIdentity.principalId "dynamodb.amazonaws.com"  
         public let userIdentity: Identity?
 
         public init(awsRegion: String? = nil, dynamodb: StreamRecord? = nil, eventID: String? = nil, eventName: OperationType? = nil, eventSource: String? = nil, eventVersion: String? = nil, userIdentity: Identity? = nil) {
@@ -345,17 +357,18 @@ extension DynamoDBStreams {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case awsRegion
-            case dynamodb
-            case eventID
-            case eventName
-            case eventSource
-            case eventVersion
-            case userIdentity
+            case awsRegion = "awsRegion"
+            case dynamodb = "dynamodb"
+            case eventID = "eventID"
+            case eventName = "eventName"
+            case eventSource = "eventSource"
+            case eventVersion = "eventVersion"
+            case userIdentity = "userIdentity"
         }
     }
 
     public struct SequenceNumberRange: AWSDecodableShape {
+
         /// The last sequence number for the stream records contained within a shard. String contains numeric characters only.
         public let endingSequenceNumber: String?
         /// The first sequence number for the stream records contained within a shard. String contains numeric characters only.
@@ -373,6 +386,7 @@ extension DynamoDBStreams {
     }
 
     public struct Shard: AWSDecodableShape {
+
         /// The shard ID of the current shard's parent.
         public let parentShardId: String?
         /// The range of possible sequence numbers for the shard.
@@ -394,9 +408,10 @@ extension DynamoDBStreams {
     }
 
     public struct Stream: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
         public let streamLabel: String?
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
@@ -415,6 +430,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamDescription: AWSDecodableShape {
+
         /// The date and time when the request to create this stream was issued.
         public let creationRequestDateTime: Date?
         /// The key attribute(s) of the stream's DynamoDB table.
@@ -425,11 +441,11 @@ extension DynamoDBStreams {
         public let shards: [Shard]?
         /// The Amazon Resource Name (ARN) for the stream.
         public let streamArn: String?
-        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel
+        /// A timestamp, in ISO 8601 format, for this stream. Note that LatestStreamLabel is not a unique identifier for the stream, because it is possible that a stream from another table might have the same timestamp. However, the combination of the following three elements is guaranteed to be unique:   the AWS customer ID.   the table name   the StreamLabel   
         public let streamLabel: String?
-        /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.
+        /// Indicates the current status of the stream:    ENABLING - Streams is currently being enabled on the DynamoDB table.    ENABLED - the stream is enabled.    DISABLING - Streams is currently being disabled on the DynamoDB table.    DISABLED - the stream is disabled.  
         public let streamStatus: StreamStatus?
-        /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.
+        /// Indicates the format of the records within this stream:    KEYS_ONLY - only the key attributes of items that were modified in the DynamoDB table.    NEW_IMAGE - entire items from the table, as they appeared after they were modified.    OLD_IMAGE - entire items from the table, as they appeared before they were modified.    NEW_AND_OLD_IMAGES - both the new and the old images of the items from the table.  
         public let streamViewType: StreamViewType?
         /// The DynamoDB table with which the stream is associated.
         public let tableName: String?
@@ -460,6 +476,7 @@ extension DynamoDBStreams {
     }
 
     public struct StreamRecord: AWSDecodableShape {
+
         /// The approximate date and time when the stream record was created, in UNIX epoch time format.
         public let approximateCreationDateTime: Date?
         /// The primary key attribute(s) for the DynamoDB item that was modified.
@@ -472,7 +489,7 @@ extension DynamoDBStreams {
         public let sequenceNumber: String?
         /// The size of the stream record, in bytes.
         public let sizeBytes: Int64?
-        /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.
+        /// The type of data from the modified DynamoDB item that was captured in this stream record:    KEYS_ONLY - only the key attributes of the modified item.    NEW_IMAGE - the entire item, as it appeared after it was modified.    OLD_IMAGE - the entire item, as it appeared before it was modified.    NEW_AND_OLD_IMAGES - both the new and the old item images of the item.  
         public let streamViewType: StreamViewType?
 
         public init(approximateCreationDateTime: Date? = nil, keys: [String: AttributeValue]? = nil, newImage: [String: AttributeValue]? = nil, oldImage: [String: AttributeValue]? = nil, sequenceNumber: String? = nil, sizeBytes: Int64? = nil, streamViewType: StreamViewType? = nil) {

@@ -40,9 +40,9 @@ extension CodeArtifact {
     }
 
     public enum PackageFormat: String, CustomStringConvertible, Codable {
-        case npm
-        case pypi
-        case maven
+        case npm = "npm"
+        case pypi = "pypi"
+        case maven = "maven"
         public var description: String { return self.rawValue }
     }
 
@@ -74,11 +74,12 @@ extension CodeArtifact {
     // MARK: Shapes
 
     public struct AssetSummary: AWSDecodableShape {
-        ///  The hashes of the asset.
+
+        ///  The hashes of the asset. 
         public let hashes: [HashAlgorithm: String]?
-        ///  The name of the asset.
+        ///  The name of the asset. 
         public let name: String
-        ///  The size of the asset.
+        ///  The size of the asset. 
         public let size: Int64?
 
         public init(hashes: [HashAlgorithm: String]? = nil, name: String, size: Int64? = nil) {
@@ -88,27 +89,27 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case hashes
-            case name
-            case size
+            case hashes = "hashes"
+            case name = "name"
+            case size = "size"
         }
     }
 
     public struct AssociateExternalConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
         /// The name of the domain that contains the repository.
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.
+        ///  The name of the external connection to add to the repository. The following values are supported:     public:npmjs - for the npm public repository.     public:pypi - for the Python Package Index.     public:maven-central - for Maven Central.     public:maven-googleandroid - for the Google Android repository.     public:maven-gradleplugins - for the Gradle plugins repository.     public:maven-commonsware - for the CommonsWare Android repository.   
         public let externalConnection: String
-        ///  The name of the repository to which the external connection is added.
+        ///  The name of the repository to which the external connection is added. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, externalConnection: String, repository: String) {
@@ -135,7 +136,8 @@ extension CodeArtifact {
     }
 
     public struct AssociateExternalConnectionResult: AWSDecodableShape {
-        ///  Information about the connected repository after processing the request.
+
+        ///  Information about the connected repository after processing the request. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -143,42 +145,42 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct CopyPackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "destinationRepository", location: .querystring(locationName: "destination-repository")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
+            AWSMemberEncoding(label: "destinationRepository", location: .querystring(locationName: "destination-repository")), 
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
             AWSMemberEncoding(label: "sourceRepository", location: .querystring(locationName: "source-repository"))
         ]
 
-        ///  Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an ALREADY_EXISTS error code.
+        ///  Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an ALREADY_EXISTS error code. 
         public let allowOverwrite: Bool?
-        ///  The name of the repository into which package versions are copied.
+        ///  The name of the repository into which package versions are copied. 
         public let destinationRepository: String
-        ///  The name of the domain that contains the source and destination repositories.
+        ///  The name of the domain that contains the source and destination repositories. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The format of the package that is copied. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the package that is copied. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat
-        ///  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories.
+        ///  Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see Working with upstream repositories. 
         public let includeFromUpstream: Bool?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package that is copied.
+        ///  The name of the package that is copied. 
         public let package: String
-        ///  The name of the repository that contains the package versions to copy.
+        ///  The name of the repository that contains the package versions to copy. 
         public let sourceRepository: String
-        ///  A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision.    You must specify versions or versionRevisions. You cannot specify both.
+        ///  A list of key-value pairs. The keys are package versions and the values are package version revisions. A CopyPackageVersion operation succeeds if the specified versions in the source repository match the specified package version revision.    You must specify versions or versionRevisions. You cannot specify both.  
         public let versionRevisions: [String: String]?
-        ///  The versions of the package to copy.    You must specify versions or versionRevisions. You cannot specify both.
+        ///  The versions of the package to copy.    You must specify versions or versionRevisions. You cannot specify both.  
         public let versions: [String]?
 
         public init(allowOverwrite: Bool? = nil, destinationRepository: String, domain: String, domainOwner: String? = nil, format: PackageFormat, includeFromUpstream: Bool? = nil, namespace: String? = nil, package: String, sourceRepository: String, versionRevisions: [String: String]? = nil, versions: [String]? = nil) {
@@ -230,17 +232,18 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case allowOverwrite
-            case includeFromUpstream
-            case versionRevisions
-            case versions
+            case allowOverwrite = "allowOverwrite"
+            case includeFromUpstream = "includeFromUpstream"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
     public struct CopyPackageVersionsResult: AWSDecodableShape {
-        ///  A map of package versions that failed to copy and their error codes. The possible error codes are in the PackageVersionError data type. They are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED
+
+        ///  A map of package versions that failed to copy and their error codes. The possible error codes are in the PackageVersionError data type. They are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED   
         public let failedVersions: [String: PackageVersionError]?
-        ///  A list of the package versions that were successfully copied to your repository.
+        ///  A list of the package versions that were successfully copied to your repository. 
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
@@ -249,8 +252,8 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
@@ -259,9 +262,9 @@ extension CodeArtifact {
             AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain"))
         ]
 
-        ///  The name of the domain to create. All domain names in an AWS Region that are in the same AWS account must be unique. The domain name is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name because it is publicly discoverable.
+        ///  The name of the domain to create. All domain names in an AWS Region that are in the same AWS account must be unique. The domain name is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name because it is publicly discoverable. 
         public let domain: String
-        ///  The encryption key for the domain. This is used to encrypt content stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For more information, see DescribeKey in the AWS Key Management Service API Reference and AWS KMS API Permissions Reference in the AWS Key Management Service Developer Guide.    CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your domain. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide.
+        ///  The encryption key for the domain. This is used to encrypt content stored in a domain. An encryption key can be a key ID, a key Amazon Resource Name (ARN), a key alias, or a key alias ARN. To specify an encryptionKey, your IAM role must have kms:DescribeKey and kms:CreateGrant permissions on the encryption key that is used. For more information, see DescribeKey in the AWS Key Management Service API Reference and AWS KMS API Permissions Reference in the AWS Key Management Service Developer Guide.    CodeArtifact supports only symmetric CMKs. Do not associate an asymmetric CMK with your domain. For more information, see Using symmetric and asymmetric keys in the AWS Key Management Service Developer Guide.  
         public let encryptionKey: String?
 
         public init(domain: String, encryptionKey: String? = nil) {
@@ -279,12 +282,13 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case encryptionKey
+            case encryptionKey = "encryptionKey"
         }
     }
 
     public struct CreateDomainResult: AWSDecodableShape {
-        ///  Contains information about the created domain after processing the request.
+
+        ///  Contains information about the created domain after processing the request. 
         public let domain: DomainDescription?
 
         public init(domain: DomainDescription? = nil) {
@@ -292,26 +296,26 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
     public struct CreateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  A description of the created repository.
+        ///  A description of the created repository. 
         public let description: String?
-        ///  The domain that contains the created repository.
+        ///  The domain that contains the created repository. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the repository to create.
+        ///  The name of the repository to create. 
         public let repository: String
-        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories.
+        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories. 
         public let upstreams: [UpstreamRepository]?
 
         public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, upstreams: [UpstreamRepository]? = nil) {
@@ -340,13 +344,14 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case upstreams
+            case description = "description"
+            case upstreams = "upstreams"
         }
     }
 
     public struct CreateRepositoryResult: AWSDecodableShape {
-        ///  Information about the created repository after processing the request.
+
+        ///  Information about the created repository after processing the request. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -354,22 +359,22 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct DeleteDomainPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "policyRevision", location: .querystring(locationName: "policy-revision"))
         ]
 
-        ///  The name of the domain associated with the resource policy to be deleted.
+        ///  The name of the domain associated with the resource policy to be deleted. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The current revision of the resource policy to be deleted. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy.
+        ///  The current revision of the resource policy to be deleted. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy. 
         public let policyRevision: String?
 
         public init(domain: String, domainOwner: String? = nil, policyRevision: String? = nil) {
@@ -394,7 +399,8 @@ extension CodeArtifact {
     }
 
     public struct DeleteDomainPermissionsPolicyResult: AWSDecodableShape {
-        ///  Information about the deleted resource policy after processing the request.
+
+        ///  Information about the deleted resource policy after processing the request. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -402,19 +408,19 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct DeleteDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
             AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
         ]
 
-        ///  The name of the domain to delete.
+        ///  The name of the domain to delete. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
 
         public init(domain: String, domainOwner: String? = nil) {
@@ -435,7 +441,8 @@ extension CodeArtifact {
     }
 
     public struct DeleteDomainResult: AWSDecodableShape {
-        ///  Contains information about the deleted domain after processing the request.
+
+        ///  Contains information about the deleted domain after processing the request. 
         public let domain: DomainDescription?
 
         public init(domain: DomainDescription? = nil) {
@@ -443,35 +450,35 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
     public struct DeletePackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the package to delete.
+        ///  The name of the domain that contains the package to delete. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The expected status of the package version to delete. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  The expected status of the package version to delete. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let expectedStatus: PackageVersionStatus?
-        ///  The format of the package versions to delete. The valid values are:     npm     pypi     maven
+        ///  The format of the package versions to delete. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package with the versions to delete.
+        ///  The name of the package with the versions to delete. 
         public let package: String
-        ///  The name of the repository that contains the package versions to delete.
+        ///  The name of the repository that contains the package versions to delete. 
         public let repository: String
-        ///  An array of strings that specify the versions of the package to delete.
+        ///  An array of strings that specify the versions of the package to delete. 
         public let versions: [String]
 
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, versions: [String]) {
@@ -509,15 +516,16 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case versions
+            case expectedStatus = "expectedStatus"
+            case versions = "versions"
         }
     }
 
     public struct DeletePackageVersionsResult: AWSDecodableShape {
-        ///  A PackageVersionError object that contains a map of errors codes for the deleted package that failed. The possible error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED
+
+        ///  A PackageVersionError object that contains a map of errors codes for the deleted package that failed. The possible error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED   
         public let failedVersions: [String: PackageVersionError]?
-        ///  A list of the package versions that were successfully deleted.
+        ///  A list of the package versions that were successfully deleted. 
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
@@ -526,26 +534,26 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
     public struct DeleteRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "policyRevision", location: .querystring(locationName: "policy-revision")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "policyRevision", location: .querystring(locationName: "policy-revision")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository associated with the resource policy to be deleted.
+        ///  The name of the domain that contains the repository associated with the resource policy to be deleted. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The revision of the repository's resource policy to be deleted. This revision is used for optimistic locking, which prevents others from accidentally overwriting your changes to the repository's resource policy.
+        ///  The revision of the repository's resource policy to be deleted. This revision is used for optimistic locking, which prevents others from accidentally overwriting your changes to the repository's resource policy. 
         public let policyRevision: String?
-        ///  The name of the repository that is associated with the resource policy to be deleted
+        ///  The name of the repository that is associated with the resource policy to be deleted 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, policyRevision: String? = nil, repository: String) {
@@ -574,7 +582,8 @@ extension CodeArtifact {
     }
 
     public struct DeleteRepositoryPermissionsPolicyResult: AWSDecodableShape {
-        ///  Information about the deleted policy after processing the request.
+
+        ///  Information about the deleted policy after processing the request. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -582,22 +591,22 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct DeleteRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository to delete.
+        ///  The name of the domain that contains the repository to delete. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the repository to delete.
+        ///  The name of the repository to delete. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, repository: String) {
@@ -622,7 +631,8 @@ extension CodeArtifact {
     }
 
     public struct DeleteRepositoryResult: AWSDecodableShape {
-        ///  Information about the deleted repository after processing the request.
+
+        ///  Information about the deleted repository after processing the request. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -630,19 +640,19 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct DescribeDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
             AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
         ]
 
-        ///  A string that specifies the name of the requested domain.
+        ///  A string that specifies the name of the requested domain. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
 
         public init(domain: String, domainOwner: String? = nil) {
@@ -663,6 +673,7 @@ extension CodeArtifact {
     }
 
     public struct DescribeDomainResult: AWSDecodableShape {
+
         public let domain: DomainDescription?
 
         public init(domain: DomainDescription? = nil) {
@@ -670,34 +681,34 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
+            case domain = "domain"
         }
     }
 
     public struct DescribePackageVersionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository that contains the package version.
+        ///  The name of the domain that contains the repository that contains the package version. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A format that specifies the type of the requested package version. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of the requested package version. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the requested package version.
+        ///  The name of the requested package version. 
         public let package: String
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String
-        ///  The name of the repository that contains the package version.
+        ///  The name of the repository that contains the package version. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String) {
@@ -735,7 +746,8 @@ extension CodeArtifact {
     }
 
     public struct DescribePackageVersionResult: AWSDecodableShape {
-        ///  A  PackageVersionDescription  object that contains information about the requested package version.
+
+        ///  A  PackageVersionDescription  object that contains information about the requested package version. 
         public let packageVersion: PackageVersionDescription
 
         public init(packageVersion: PackageVersionDescription) {
@@ -743,22 +755,22 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case packageVersion
+            case packageVersion = "packageVersion"
         }
     }
 
     public struct DescribeRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository to describe.
+        ///  The name of the domain that contains the repository to describe. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A string that specifies the name of the requested repository.
+        ///  A string that specifies the name of the requested repository. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, repository: String) {
@@ -783,7 +795,8 @@ extension CodeArtifact {
     }
 
     public struct DescribeRepositoryResult: AWSDecodableShape {
-        ///  A RepositoryDescription object that contains the requested repository information.
+
+        ///  A RepositoryDescription object that contains the requested repository information. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -791,25 +804,25 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct DisassociateExternalConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "externalConnection", location: .querystring(locationName: "external-connection")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        /// The name of the domain that contains the repository from which to remove the external repository.
+        /// The name of the domain that contains the repository from which to remove the external repository. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        /// The name of the external connection to be removed from the repository.
+        /// The name of the external connection to be removed from the repository. 
         public let externalConnection: String
-        /// The name of the repository from which the external connection will be removed.
+        /// The name of the repository from which the external connection will be removed. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, externalConnection: String, repository: String) {
@@ -836,7 +849,8 @@ extension CodeArtifact {
     }
 
     public struct DisassociateExternalConnectionResult: AWSDecodableShape {
-        ///  The repository associated with the removed external connection.
+
+        ///  The repository associated with the removed external connection. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -844,37 +858,37 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct DisposePackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository you want to dispose.
+        ///  The name of the domain that contains the repository you want to dispose. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The expected status of the package version to dispose. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  The expected status of the package version to dispose. Valid values are:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let expectedStatus: PackageVersionStatus?
-        ///  A format that specifies the type of package versions you want to dispose. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of package versions you want to dispose. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package with the versions you want to dispose.
+        ///  The name of the package with the versions you want to dispose. 
         public let package: String
-        ///  The name of the repository that contains the package versions you want to dispose.
+        ///  The name of the repository that contains the package versions you want to dispose. 
         public let repository: String
-        ///  The revisions of the package versions you want to dispose.
+        ///  The revisions of the package versions you want to dispose. 
         public let versionRevisions: [String: String]?
-        ///  The versions of the package you want to dispose.
+        ///  The versions of the package you want to dispose. 
         public let versions: [String]
 
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, versionRevisions: [String: String]? = nil, versions: [String]) {
@@ -921,16 +935,17 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case versionRevisions
-            case versions
+            case expectedStatus = "expectedStatus"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
     public struct DisposePackageVersionsResult: AWSDecodableShape {
-        ///  A PackageVersionError object that contains a map of errors codes for the disposed package versions that failed. The possible error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED
+
+        ///  A PackageVersionError object that contains a map of errors codes for the disposed package versions that failed. The possible error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED   
         public let failedVersions: [String: PackageVersionError]?
-        ///  A list of the package versions that were successfully disposed.
+        ///  A list of the package versions that were successfully disposed. 
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
@@ -939,27 +954,28 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
     public struct DomainDescription: AWSDecodableShape {
-        ///  The Amazon Resource Name (ARN) of the domain.
+
+        ///  The Amazon Resource Name (ARN) of the domain. 
         public let arn: String?
-        ///  The total size of all assets in the domain.
+        ///  The total size of all assets in the domain. 
         public let assetSizeBytes: Int64?
-        ///  A timestamp that represents the date and time the domain was created.
+        ///  A timestamp that represents the date and time the domain was created. 
         public let createdTime: Date?
-        ///  The ARN of an AWS Key Management Service (AWS KMS) key associated with a domain.
+        ///  The ARN of an AWS Key Management Service (AWS KMS) key associated with a domain. 
         public let encryptionKey: String?
-        ///  The name of the domain.
+        ///  The name of the domain. 
         public let name: String?
-        ///  The AWS account ID that owns the domain.
+        ///  The AWS account ID that owns the domain. 
         public let owner: String?
-        ///  The number of repositories in the domain.
+        ///  The number of repositories in the domain. 
         public let repositoryCount: Int?
-        ///  The current status of a domain. The valid values are     Active     Deleted
+        ///  The current status of a domain. The valid values are     Active     Deleted   
         public let status: DomainStatus?
 
         public init(arn: String? = nil, assetSizeBytes: Int64? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, repositoryCount: Int? = nil, status: DomainStatus? = nil) {
@@ -974,29 +990,30 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case assetSizeBytes
-            case createdTime
-            case encryptionKey
-            case name
-            case owner
-            case repositoryCount
-            case status
+            case arn = "arn"
+            case assetSizeBytes = "assetSizeBytes"
+            case createdTime = "createdTime"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case owner = "owner"
+            case repositoryCount = "repositoryCount"
+            case status = "status"
         }
     }
 
     public struct DomainSummary: AWSDecodableShape {
-        ///  The ARN of the domain.
+
+        ///  The ARN of the domain. 
         public let arn: String?
-        ///  A timestamp that contains the date and time the domain was created.
+        ///  A timestamp that contains the date and time the domain was created. 
         public let createdTime: Date?
-        ///  The key used to encrypt the domain.
+        ///  The key used to encrypt the domain. 
         public let encryptionKey: String?
-        ///  The name of the domain.
+        ///  The name of the domain. 
         public let name: String?
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let owner: String?
-        ///  A string that contains the status of the domain. The valid values are:     Active     Deleted
+        ///  A string that contains the status of the domain. The valid values are:     Active     Deleted   
         public let status: DomainStatus?
 
         public init(arn: String? = nil, createdTime: Date? = nil, encryptionKey: String? = nil, name: String? = nil, owner: String? = nil, status: DomainStatus? = nil) {
@@ -1009,25 +1026,25 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdTime
-            case encryptionKey
-            case name
-            case owner
-            case status
+            case arn = "arn"
+            case createdTime = "createdTime"
+            case encryptionKey = "encryptionKey"
+            case name = "name"
+            case owner = "owner"
+            case status = "status"
         }
     }
 
     public struct GetAuthorizationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "durationSeconds", location: .querystring(locationName: "duration"))
         ]
 
-        ///  The name of the domain that is in scope for the generated authorization token.
+        ///  The name of the domain that is in scope for the generated authorization token. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
         /// The time, in seconds, that the generated authorization token is valid.
         public let durationSeconds: Int64?
@@ -1053,9 +1070,10 @@ extension CodeArtifact {
     }
 
     public struct GetAuthorizationTokenResult: AWSDecodableShape {
-        ///  The returned authentication token.
+
+        ///  The returned authentication token. 
         public let authorizationToken: String?
-        ///  A timestamp that specifies the date and time the authorization token expires.
+        ///  A timestamp that specifies the date and time the authorization token expires. 
         public let expiration: Date?
 
         public init(authorizationToken: String? = nil, expiration: Date? = nil) {
@@ -1064,20 +1082,20 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case authorizationToken
-            case expiration
+            case authorizationToken = "authorizationToken"
+            case expiration = "expiration"
         }
     }
 
     public struct GetDomainPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
             AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner"))
         ]
 
-        ///  The name of the domain to which the resource policy is attached.
+        ///  The name of the domain to which the resource policy is attached. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
 
         public init(domain: String, domainOwner: String? = nil) {
@@ -1098,7 +1116,8 @@ extension CodeArtifact {
     }
 
     public struct GetDomainPermissionsPolicyResult: AWSDecodableShape {
-        ///  The returned resource policy.
+
+        ///  The returned resource policy. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -1106,40 +1125,40 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct GetPackageVersionAssetRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "asset", location: .querystring(locationName: "asset")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
-            AWSMemberEncoding(label: "packageVersionRevision", location: .querystring(locationName: "revision")),
+            AWSMemberEncoding(label: "asset", location: .querystring(locationName: "asset")), 
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")), 
+            AWSMemberEncoding(label: "packageVersionRevision", location: .querystring(locationName: "revision")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the requested asset.
+        ///  The name of the requested asset. 
         public let asset: String
-        ///  The domain that contains the repository that contains the package version with the requested asset.
+        ///  The domain that contains the repository that contains the package version with the requested asset. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A format that specifies the type of the package version with the requested asset file. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of the package version with the requested asset file. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package that contains the requested asset.
+        ///  The name of the package that contains the requested asset. 
         public let package: String
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String
-        ///  The name of the package version revision that contains the requested asset.
+        ///  The name of the package version revision that contains the requested asset. 
         public let packageVersionRevision: String?
-        ///  The repository that contains the package version with the requested asset.
+        ///  The repository that contains the package version with the requested asset. 
         public let repository: String
 
         public init(asset: String, domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, packageVersionRevision: String? = nil, repository: String) {
@@ -1189,18 +1208,18 @@ extension CodeArtifact {
         public static let _payloadPath: String = "asset"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "assetName", location: .header(locationName: "X-AssetName")),
-            AWSMemberEncoding(label: "packageVersion", location: .header(locationName: "X-PackageVersion")),
+            AWSMemberEncoding(label: "assetName", location: .header(locationName: "X-AssetName")), 
+            AWSMemberEncoding(label: "packageVersion", location: .header(locationName: "X-PackageVersion")), 
             AWSMemberEncoding(label: "packageVersionRevision", location: .header(locationName: "X-PackageVersionRevision"))
         ]
 
         ///  The binary file, or asset, that is downloaded.
         public let asset: AWSPayload?
-        ///  The name of the asset that is downloaded.
+        ///  The name of the asset that is downloaded. 
         public let assetName: String?
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String?
-        ///  The name of the package version revision that contains the downloaded asset.
+        ///  The name of the package version revision that contains the downloaded asset. 
         public let packageVersionRevision: String?
 
         public init(asset: AWSPayload? = nil, assetName: String? = nil, packageVersion: String? = nil, packageVersionRevision: String? = nil) {
@@ -1211,7 +1230,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case asset
+            case asset = "asset"
             case assetName = "X-AssetName"
             case packageVersion = "X-PackageVersion"
             case packageVersionRevision = "X-PackageVersionRevision"
@@ -1220,28 +1239,28 @@ extension CodeArtifact {
 
     public struct GetPackageVersionReadmeRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository that contains the package version with the requested readme file.
+        ///  The name of the domain that contains the repository that contains the package version with the requested readme file. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A format that specifies the type of the package version with the requested readme file. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of the package version with the requested readme file. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package version that contains the requested readme file.
+        ///  The name of the package version that contains the requested readme file. 
         public let package: String
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String
-        ///  The repository that contains the package with the requested readme file.
+        ///  The repository that contains the package with the requested readme file. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, package: String, packageVersion: String, repository: String) {
@@ -1279,17 +1298,18 @@ extension CodeArtifact {
     }
 
     public struct GetPackageVersionReadmeResult: AWSDecodableShape {
-        ///  The format of the package with the requested readme file. Valid format types are:     npm     pypi     maven
+
+        ///  The format of the package with the requested readme file. Valid format types are:     npm     pypi     maven   
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package that contains the returned readme file.
+        ///  The name of the package that contains the returned readme file. 
         public let package: String?
-        ///  The text of the returned readme file.
+        ///  The text of the returned readme file. 
         public let readme: String?
-        ///  The version of the package with the requested readme file.
+        ///  The version of the package with the requested readme file. 
         public let version: String?
-        ///  The current revision associated with the package version.
+        ///  The current revision associated with the package version. 
         public let versionRevision: String?
 
         public init(format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil, readme: String? = nil, version: String? = nil, versionRevision: String? = nil) {
@@ -1302,30 +1322,30 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case namespace
-            case package
-            case readme
-            case version
-            case versionRevision
+            case format = "format"
+            case namespace = "namespace"
+            case package = "package"
+            case readme = "readme"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
     public struct GetRepositoryEndpointRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository.
+        ///  The name of the domain that contains the repository. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain that contains the repository. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain that contains the repository. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  Returns which endpoint of a repository to return. A repository has one endpoint for each package format:     npm     pypi     maven
+        ///  Returns which endpoint of a repository to return. A repository has one endpoint for each package format:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The name of the repository.
+        ///  The name of the repository. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, repository: String) {
@@ -1351,7 +1371,8 @@ extension CodeArtifact {
     }
 
     public struct GetRepositoryEndpointResult: AWSDecodableShape {
-        ///  A string that specifies the URL of the returned endpoint.
+
+        ///  A string that specifies the URL of the returned endpoint. 
         public let repositoryEndpoint: String?
 
         public init(repositoryEndpoint: String? = nil) {
@@ -1359,22 +1380,22 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryEndpoint
+            case repositoryEndpoint = "repositoryEndpoint"
         }
     }
 
     public struct GetRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain containing the repository whose associated resource policy is to be retrieved.
+        ///  The name of the domain containing the repository whose associated resource policy is to be retrieved. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the repository whose associated resource policy is to be retrieved.
+        ///  The name of the repository whose associated resource policy is to be retrieved. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, repository: String) {
@@ -1399,7 +1420,8 @@ extension CodeArtifact {
     }
 
     public struct GetRepositoryPermissionsPolicyResult: AWSDecodableShape {
-        ///  The returned resource policy.
+
+        ///  The returned resource policy. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -1407,14 +1429,15 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct LicenseInfo: AWSDecodableShape {
-        ///  Name of the license.
+
+        ///  Name of the license. 
         public let name: String?
-        ///  The URL for license data.
+        ///  The URL for license data. 
         public let url: String?
 
         public init(name: String? = nil, url: String? = nil) {
@@ -1423,15 +1446,16 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case name
-            case url
+            case name = "name"
+            case url = "url"
         }
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        ///  The maximum number of results to return per page.
+
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1448,15 +1472,16 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case maxResults
-            case nextToken
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListDomainsResult: AWSDecodableShape {
-        ///  The returned list of  DomainSummary  objects.
+
+        ///  The returned list of  DomainSummary  objects. 
         public let domains: [DomainSummary]?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
 
         public init(domains: [DomainSummary]? = nil, nextToken: String? = nil) {
@@ -1465,41 +1490,41 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domains
-            case nextToken
+            case domains = "domains"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListPackageVersionAssetsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain that contains the repository associated with the package version assets.
+        ///  The name of the domain that contains the repository associated with the package version assets. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The format of the package that contains the returned package version assets. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the package that contains the returned package version assets. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat
-        ///  The maximum number of results to return per page.
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  The name of the package that contains the returned package version assets.
+        ///  The name of the package that contains the returned package version assets. 
         public let package: String
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String
-        ///  The name of the repository that contains the package that contains the returned package version assets.
+        ///  The name of the repository that contains the package that contains the returned package version assets. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, package: String, packageVersion: String, repository: String) {
@@ -1544,19 +1569,20 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionAssetsResult: AWSDecodableShape {
-        ///  The returned list of  AssetSummary  objects.
+
+        ///  The returned list of  AssetSummary  objects. 
         public let assets: [AssetSummary]?
-        ///  The format of the package that contains the returned package version assets.
+        ///  The format of the package that contains the returned package version assets. 
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  If there are additional results, this is the token for the next set of results.
+        ///  If there are additional results, this is the token for the next set of results. 
         public let nextToken: String?
-        ///  The name of the package that contains the returned package version assets.
+        ///  The name of the package that contains the returned package version assets. 
         public let package: String?
-        ///  The version of the package associated with the returned assets.
+        ///  The version of the package associated with the returned assets. 
         public let version: String?
-        ///  The current revision associated with the package version.
+        ///  The current revision associated with the package version. 
         public let versionRevision: String?
 
         public init(assets: [AssetSummary]? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, version: String? = nil, versionRevision: String? = nil) {
@@ -1570,43 +1596,43 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case assets
-            case format
-            case namespace
-            case nextToken
-            case package
-            case version
-            case versionRevision
+            case assets = "assets"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
     public struct ListPackageVersionDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "packageVersion", location: .querystring(locationName: "version")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The domain that contains the repository that contains the requested package version dependencies.
+        ///  The domain that contains the repository that contains the requested package version dependencies. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The format of the package with the requested dependencies. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the package with the requested dependencies. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  The name of the package versions' package.
+        ///  The name of the package versions' package. 
         public let package: String
-        ///  A string that contains the package version (for example, 3.5.2).
+        ///  A string that contains the package version (for example, 3.5.2). 
         public let packageVersion: String
-        ///  The name of the repository that contains the requested package version.
+        ///  The name of the repository that contains the requested package version. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, namespace: String? = nil, nextToken: String? = nil, package: String, packageVersion: String, repository: String) {
@@ -1648,19 +1674,20 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionDependenciesResult: AWSDecodableShape {
-        ///  The returned list of  PackageDependency  objects.
+
+        ///  The returned list of  PackageDependency  objects. 
         public let dependencies: [PackageDependency]?
-        ///  A format that specifies the type of the package that contains the returned dependencies. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of the package that contains the returned dependencies. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  The name of the package that contains the returned package versions dependencies.
+        ///  The name of the package that contains the returned package versions dependencies. 
         public let package: String?
-        ///  The version of the package that is specified in the request.
+        ///  The version of the package that is specified in the request. 
         public let version: String?
-        ///  The current revision associated with the package version.
+        ///  The current revision associated with the package version. 
         public let versionRevision: String?
 
         public init(dependencies: [PackageDependency]? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, version: String? = nil, versionRevision: String? = nil) {
@@ -1674,49 +1701,49 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencies
-            case format
-            case namespace
-            case nextToken
-            case package
-            case version
-            case versionRevision
+            case dependencies = "dependencies"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case version = "version"
+            case versionRevision = "versionRevision"
         }
     }
 
     public struct ListPackageVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
-            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository")),
-            AWSMemberEncoding(label: "sortBy", location: .querystring(locationName: "sortBy")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
+            AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository")), 
+            AWSMemberEncoding(label: "sortBy", location: .querystring(locationName: "sortBy")), 
             AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
-        ///  The name of the domain that contains the repository that contains the returned package versions.
+        ///  The name of the domain that contains the repository that contains the returned package versions. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The format of the returned packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the returned packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat
-        ///  The maximum number of results to return per page.
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  The name of the package for which you want to return a list of package versions.
+        ///  The name of the package for which you want to return a list of package versions. 
         public let package: String
-        ///  The name of the repository that contains the package.
+        ///  The name of the repository that contains the package. 
         public let repository: String
-        ///  How to sort the returned list of package versions.
+        ///  How to sort the returned list of package versions. 
         public let sortBy: PackageVersionSortType?
-        ///  A string that specifies the status of the package versions to include in the returned list. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  A string that specifies the status of the package versions to include in the returned list. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let status: PackageVersionStatus?
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, package: String, repository: String, sortBy: PackageVersionSortType? = nil, status: PackageVersionStatus? = nil) {
@@ -1759,17 +1786,18 @@ extension CodeArtifact {
     }
 
     public struct ListPackageVersionsResult: AWSDecodableShape {
-        ///  The default package version to display. This depends on the package format:     For Maven and PyPI packages, it's the most recently published package version.     For npm packages, it's the version referenced by the latest tag. If the latest tag is not set, it's the most recently published package version.
+
+        ///  The default package version to display. This depends on the package format:     For Maven and PyPI packages, it's the most recently published package version.     For npm packages, it's the version referenced by the latest tag. If the latest tag is not set, it's the most recently published package version.   
         public let defaultDisplayVersion: String?
-        ///  A format of the package. Valid package format values are:     npm     pypi     maven
+        ///  A format of the package. Valid package format values are:     npm     pypi     maven   
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  If there are additional results, this is the token for the next set of results.
+        ///  If there are additional results, this is the token for the next set of results. 
         public let nextToken: String?
-        ///  The name of the package.
+        ///  The name of the package. 
         public let package: String?
-        ///  The returned list of  PackageVersionSummary  objects.
+        ///  The returned list of  PackageVersionSummary  objects. 
         public let versions: [PackageVersionSummary]?
 
         public init(defaultDisplayVersion: String? = nil, format: PackageFormat? = nil, namespace: String? = nil, nextToken: String? = nil, package: String? = nil, versions: [PackageVersionSummary]? = nil) {
@@ -1782,42 +1810,42 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case defaultDisplayVersion
-            case format
-            case namespace
-            case nextToken
-            case package
-            case versions
+            case defaultDisplayVersion = "defaultDisplayVersion"
+            case format = "format"
+            case namespace = "namespace"
+            case nextToken = "nextToken"
+            case package = "package"
+            case versions = "versions"
         }
     }
 
     public struct ListPackagesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
-            AWSMemberEncoding(label: "packagePrefix", location: .querystring(locationName: "package-prefix")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
+            AWSMemberEncoding(label: "packagePrefix", location: .querystring(locationName: "package-prefix")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The domain that contains the repository that contains the requested list of packages.
+        ///  The domain that contains the repository that contains the requested list of packages. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The format of the packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the packages. The valid package types are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat?
-        ///  The maximum number of results to return per page.
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned.
+        ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned. 
         public let packagePrefix: String?
-        ///  The name of the repository from which packages are to be listed.
+        ///  The name of the repository from which packages are to be listed. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, format: PackageFormat? = nil, maxResults: Int? = nil, namespace: String? = nil, nextToken: String? = nil, packagePrefix: String? = nil, repository: String) {
@@ -1858,9 +1886,10 @@ extension CodeArtifact {
     }
 
     public struct ListPackagesResult: AWSDecodableShape {
-        ///  If there are additional results, this is the token for the next set of results.
+
+        ///  If there are additional results, this is the token for the next set of results. 
         public let nextToken: String?
-        ///  The list of returned  PackageSummary  objects.
+        ///  The list of returned  PackageSummary  objects. 
         public let packages: [PackageSummary]?
 
         public init(nextToken: String? = nil, packages: [PackageSummary]? = nil) {
@@ -1869,32 +1898,32 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case packages
+            case nextToken = "nextToken"
+            case packages = "packages"
         }
     }
 
     public struct ListRepositoriesInDomainRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "administratorAccount", location: .querystring(locationName: "administrator-account")),
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "administratorAccount", location: .querystring(locationName: "administrator-account")), 
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "repositoryPrefix", location: .querystring(locationName: "repository-prefix"))
         ]
 
-        ///  Filter the list of repositories to only include those that are managed by the AWS account ID.
+        ///  Filter the list of repositories to only include those that are managed by the AWS account ID. 
         public let administratorAccount: String?
-        ///  The name of the domain that contains the returned list of repositories.
+        ///  The name of the domain that contains the returned list of repositories. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The maximum number of results to return per page.
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
-        ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned.
+        ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned. 
         public let repositoryPrefix: String?
 
         public init(administratorAccount: String? = nil, domain: String, domainOwner: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, repositoryPrefix: String? = nil) {
@@ -1930,9 +1959,10 @@ extension CodeArtifact {
     }
 
     public struct ListRepositoriesInDomainResult: AWSDecodableShape {
-        ///  If there are additional results, this is the token for the next set of results.
+
+        ///  If there are additional results, this is the token for the next set of results. 
         public let nextToken: String?
-        ///  The returned list of repositories.
+        ///  The returned list of repositories. 
         public let repositories: [RepositorySummary]?
 
         public init(nextToken: String? = nil, repositories: [RepositorySummary]? = nil) {
@@ -1941,21 +1971,21 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
     public struct ListRepositoriesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "max-results")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "next-token")), 
             AWSMemberEncoding(label: "repositoryPrefix", location: .querystring(locationName: "repository-prefix"))
         ]
 
-        ///  The maximum number of results to return per page.
+        ///  The maximum number of results to return per page. 
         public let maxResults: Int?
-        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+        ///  The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. 
         public let nextToken: String?
         ///  A prefix used to filter returned repositories. Only repositories with names that start with repositoryPrefix are returned.
         public let repositoryPrefix: String?
@@ -1981,9 +2011,10 @@ extension CodeArtifact {
     }
 
     public struct ListRepositoriesResult: AWSDecodableShape {
-        ///  If there are additional results, this is the token for the next set of results.
+
+        ///  If there are additional results, this is the token for the next set of results. 
         public let nextToken: String?
-        ///  The returned list of  RepositorySummary  objects.
+        ///  The returned list of  RepositorySummary  objects. 
         public let repositories: [RepositorySummary]?
 
         public init(nextToken: String? = nil, repositories: [RepositorySummary]? = nil) {
@@ -1992,19 +2023,20 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nextToken
-            case repositories
+            case nextToken = "nextToken"
+            case repositories = "repositories"
         }
     }
 
     public struct PackageDependency: AWSDecodableShape {
-        ///  The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages.
+
+        ///  The type of a package dependency. The possible values depend on the package type. Example types are compile, runtime, and test for Maven packages, and dev, prod, and optional for npm packages. 
         public let dependencyType: String?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package that this package depends on.
+        ///  The name of the package that this package depends on. 
         public let package: String?
-        ///  The required version, or version range, of the package that this package depends on. The version format is specific to the package type. For example, the following are possible valid required versions: 1.2.3, ^2.3.4, or 4.x.
+        ///  The required version, or version range, of the package that this package depends on. The version format is specific to the package type. For example, the following are possible valid required versions: 1.2.3, ^2.3.4, or 4.x. 
         public let versionRequirement: String?
 
         public init(dependencyType: String? = nil, namespace: String? = nil, package: String? = nil, versionRequirement: String? = nil) {
@@ -2015,19 +2047,20 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dependencyType
-            case namespace
-            case package
-            case versionRequirement
+            case dependencyType = "dependencyType"
+            case namespace = "namespace"
+            case package = "package"
+            case versionRequirement = "versionRequirement"
         }
     }
 
     public struct PackageSummary: AWSDecodableShape {
-        ///  The format of the package. Valid values are:     npm     pypi     maven
+
+        ///  The format of the package. Valid values are:     npm     pypi     maven   
         public let format: PackageFormat?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package.
+        ///  The name of the package. 
         public let package: String?
 
         public init(format: PackageFormat? = nil, namespace: String? = nil, package: String? = nil) {
@@ -2037,36 +2070,37 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case format
-            case namespace
-            case package
+            case format = "format"
+            case namespace = "namespace"
+            case package = "package"
         }
     }
 
     public struct PackageVersionDescription: AWSDecodableShape {
-        ///  The name of the package that is displayed. The displayName varies depending on the package version's format. For example, if an npm package is named ui, is in the namespace vue, and has the format npm, then the displayName is @vue/ui.
+
+        ///  The name of the package that is displayed. The displayName varies depending on the package version's format. For example, if an npm package is named ui, is in the namespace vue, and has the format npm, then the displayName is @vue/ui. 
         public let displayName: String?
-        ///  The format of the package version. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The format of the package version. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let format: PackageFormat?
-        ///  The homepage associated with the package.
+        ///  The homepage associated with the package. 
         public let homePage: String?
-        ///  Information about licenses associated with the package version.
+        ///  Information about licenses associated with the package version. 
         public let licenses: [LicenseInfo]?
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the requested package.
+        ///  The name of the requested package. 
         public let packageName: String?
-        ///  A timestamp that contains the date and time the package version was published.
+        ///  A timestamp that contains the date and time the package version was published. 
         public let publishedTime: Date?
-        ///  The revision of the package version.
+        ///  The revision of the package version. 
         public let revision: String?
-        ///  The repository for the source code in the package version, or the source code used to build it.
+        ///  The repository for the source code in the package version, or the source code used to build it. 
         public let sourceCodeRepository: String?
-        ///  A string that contains the status of the package version. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  A string that contains the status of the package version. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let status: PackageVersionStatus?
-        ///  A summary of the package version. The summary is extracted from the package. The information in and detail level of the summary depends on the package version's format.
+        ///  A summary of the package version. The summary is extracted from the package. The information in and detail level of the summary depends on the package version's format. 
         public let summary: String?
-        ///  The version of the package.
+        ///  The version of the package. 
         public let version: String?
 
         public init(displayName: String? = nil, format: PackageFormat? = nil, homePage: String? = nil, licenses: [LicenseInfo]? = nil, namespace: String? = nil, packageName: String? = nil, publishedTime: Date? = nil, revision: String? = nil, sourceCodeRepository: String? = nil, status: PackageVersionStatus? = nil, summary: String? = nil, version: String? = nil) {
@@ -2085,25 +2119,26 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case displayName
-            case format
-            case homePage
-            case licenses
-            case namespace
-            case packageName
-            case publishedTime
-            case revision
-            case sourceCodeRepository
-            case status
-            case summary
-            case version
+            case displayName = "displayName"
+            case format = "format"
+            case homePage = "homePage"
+            case licenses = "licenses"
+            case namespace = "namespace"
+            case packageName = "packageName"
+            case publishedTime = "publishedTime"
+            case revision = "revision"
+            case sourceCodeRepository = "sourceCodeRepository"
+            case status = "status"
+            case summary = "summary"
+            case version = "version"
         }
     }
 
     public struct PackageVersionError: AWSDecodableShape {
-        ///  The error code associated with the error. Valid error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED
+
+        ///  The error code associated with the error. Valid error codes are:     ALREADY_EXISTS     MISMATCHED_REVISION     MISMATCHED_STATUS     NOT_ALLOWED     NOT_FOUND     SKIPPED   
         public let errorCode: PackageVersionErrorCode?
-        ///  The error message associated with the error.
+        ///  The error message associated with the error. 
         public let errorMessage: String?
 
         public init(errorCode: PackageVersionErrorCode? = nil, errorMessage: String? = nil) {
@@ -2112,17 +2147,18 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case errorCode
-            case errorMessage
+            case errorCode = "errorCode"
+            case errorMessage = "errorMessage"
         }
     }
 
     public struct PackageVersionSummary: AWSDecodableShape {
-        ///  The revision associated with a package version.
+
+        ///  The revision associated with a package version. 
         public let revision: String?
-        ///  A string that contains the status of the package version. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  A string that contains the status of the package version. It can be one of the following:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let status: PackageVersionStatus
-        ///  Information about a package version.
+        ///  Information about a package version. 
         public let version: String
 
         public init(revision: String? = nil, status: PackageVersionStatus, version: String) {
@@ -2132,20 +2168,21 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revision
-            case status
-            case version
+            case revision = "revision"
+            case status = "status"
+            case version = "version"
         }
     }
 
     public struct PutDomainPermissionsPolicyRequest: AWSEncodableShape {
-        ///  The name of the domain on which to set the resource policy.
+
+        ///  The name of the domain on which to set the resource policy. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain.
+        ///  A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided domain. 
         public let policyDocument: String
-        ///  The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy.
+        ///  The current revision of the resource policy to be set. This revision is used for optimistic locking, which prevents others from overwriting your changes to the domain's resource policy. 
         public let policyRevision: String?
 
         public init(domain: String, domainOwner: String? = nil, policyDocument: String, policyRevision: String? = nil) {
@@ -2170,15 +2207,16 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case domain
-            case domainOwner
-            case policyDocument
-            case policyRevision
+            case domain = "domain"
+            case domainOwner = "domainOwner"
+            case policyDocument = "policyDocument"
+            case policyRevision = "policyRevision"
         }
     }
 
     public struct PutDomainPermissionsPolicyResult: AWSDecodableShape {
-        ///  The resource policy that was set after processing the request.
+
+        ///  The resource policy that was set after processing the request. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -2186,26 +2224,26 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct PutRepositoryPermissionsPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The name of the domain containing the repository to set the resource policy on.
+        ///  The name of the domain containing the repository to set the resource policy on. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided repository.
+        ///  A valid displayable JSON Aspen policy string to be set as the access control resource policy on the provided repository. 
         public let policyDocument: String
-        ///  Sets the revision of the resource policy that specifies permissions to access the repository. This revision is used for optimistic locking, which prevents others from overwriting your changes to the repository's resource policy.
+        ///  Sets the revision of the resource policy that specifies permissions to access the repository. This revision is used for optimistic locking, which prevents others from overwriting your changes to the repository's resource policy. 
         public let policyRevision: String?
-        ///  The name of the repository to set the resource policy on.
+        ///  The name of the repository to set the resource policy on. 
         public let repository: String
 
         public init(domain: String, domainOwner: String? = nil, policyDocument: String, policyRevision: String? = nil, repository: String) {
@@ -2234,13 +2272,14 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policyDocument
-            case policyRevision
+            case policyDocument = "policyDocument"
+            case policyRevision = "policyRevision"
         }
     }
 
     public struct PutRepositoryPermissionsPolicyResult: AWSDecodableShape {
-        ///  The resource policy that was set after processing the request.
+
+        ///  The resource policy that was set after processing the request. 
         public let policy: ResourcePolicy?
 
         public init(policy: ResourcePolicy? = nil) {
@@ -2248,26 +2287,27 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case policy
+            case policy = "policy"
         }
     }
 
     public struct RepositoryDescription: AWSDecodableShape {
-        ///  The 12-digit account number of the AWS account that manages the repository.
+
+        ///  The 12-digit account number of the AWS account that manages the repository. 
         public let administratorAccount: String?
-        ///  The Amazon Resource Name (ARN) of the repository.
+        ///  The Amazon Resource Name (ARN) of the repository. 
         public let arn: String?
-        ///  A text description of the repository.
+        ///  A text description of the repository. 
         public let description: String?
-        ///  The name of the domain that contains the repository.
+        ///  The name of the domain that contains the repository. 
         public let domainName: String?
-        ///  The 12-digit account number of the AWS account that owns the domain that contains the repository. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain that contains the repository. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  An array of external connections associated with the repository.
+        ///  An array of external connections associated with the repository. 
         public let externalConnections: [RepositoryExternalConnectionInfo]?
-        ///  The name of the repository.
+        ///  The name of the repository. 
         public let name: String?
-        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories.
+        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories. 
         public let upstreams: [UpstreamRepositoryInfo]?
 
         public init(administratorAccount: String? = nil, arn: String? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, externalConnections: [RepositoryExternalConnectionInfo]? = nil, name: String? = nil, upstreams: [UpstreamRepositoryInfo]? = nil) {
@@ -2282,23 +2322,24 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccount
-            case arn
-            case description
-            case domainName
-            case domainOwner
-            case externalConnections
-            case name
-            case upstreams
+            case administratorAccount = "administratorAccount"
+            case arn = "arn"
+            case description = "description"
+            case domainName = "domainName"
+            case domainOwner = "domainOwner"
+            case externalConnections = "externalConnections"
+            case name = "name"
+            case upstreams = "upstreams"
         }
     }
 
     public struct RepositoryExternalConnectionInfo: AWSDecodableShape {
-        ///  The name of the external connection associated with a repository.
+
+        ///  The name of the external connection associated with a repository. 
         public let externalConnectionName: String?
-        ///  The package format associated with a repository's external connection. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.
+        ///  The package format associated with a repository's external connection. The valid package formats are:     npm: A Node Package Manager (npm) package.     pypi: A Python Package Index (PyPI) package.     maven: A Maven package that contains compiled code in a distributable format, such as a JAR file.   
         public let packageFormat: PackageFormat?
-        ///  The status of the external connection of a repository. There is one valid value, Available.
+        ///  The status of the external connection of a repository. There is one valid value, Available. 
         public let status: ExternalConnectionStatus?
 
         public init(externalConnectionName: String? = nil, packageFormat: PackageFormat? = nil, status: ExternalConnectionStatus? = nil) {
@@ -2308,24 +2349,25 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case externalConnectionName
-            case packageFormat
-            case status
+            case externalConnectionName = "externalConnectionName"
+            case packageFormat = "packageFormat"
+            case status = "status"
         }
     }
 
     public struct RepositorySummary: AWSDecodableShape {
-        ///  The AWS account ID that manages the repository.
+
+        ///  The AWS account ID that manages the repository. 
         public let administratorAccount: String?
-        ///  The ARN of the repository.
+        ///  The ARN of the repository. 
         public let arn: String?
-        ///  The description of the repository.
+        ///  The description of the repository. 
         public let description: String?
-        ///  The name of the domain that contains the repository.
+        ///  The name of the domain that contains the repository. 
         public let domainName: String?
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the repository.
+        ///  The name of the repository. 
         public let name: String?
 
         public init(administratorAccount: String? = nil, arn: String? = nil, description: String? = nil, domainName: String? = nil, domainOwner: String? = nil, name: String? = nil) {
@@ -2338,21 +2380,22 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case administratorAccount
-            case arn
-            case description
-            case domainName
-            case domainOwner
-            case name
+            case administratorAccount = "administratorAccount"
+            case arn = "arn"
+            case description = "description"
+            case domainName = "domainName"
+            case domainOwner = "domainOwner"
+            case name = "name"
         }
     }
 
     public struct ResourcePolicy: AWSDecodableShape {
-        ///  The resource policy formatted in JSON.
+
+        ///  The resource policy formatted in JSON. 
         public let document: String?
-        ///  The ARN of the resource associated with the resource policy
+        ///  The ARN of the resource associated with the resource policy 
         public let resourceArn: String?
-        ///  The current revision of the resource policy.
+        ///  The current revision of the resource policy. 
         public let revision: String?
 
         public init(document: String? = nil, resourceArn: String? = nil, revision: String? = nil) {
@@ -2362,16 +2405,17 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case document
-            case resourceArn
-            case revision
+            case document = "document"
+            case resourceArn = "resourceArn"
+            case revision = "revision"
         }
     }
 
     public struct SuccessfulPackageVersionInfo: AWSDecodableShape {
-        ///  The revision of a package version.
+
+        ///  The revision of a package version. 
         public let revision: String?
-        ///  The status of a package version. Valid statuses are:     Published     Unfinished     Unlisted     Archived     Disposed
+        ///  The status of a package version. Valid statuses are:     Published     Unfinished     Unlisted     Archived     Disposed   
         public let status: PackageVersionStatus?
 
         public init(revision: String? = nil, status: PackageVersionStatus? = nil) {
@@ -2380,40 +2424,40 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case revision
-            case status
+            case revision = "revision"
+            case status = "status"
         }
     }
 
     public struct UpdatePackageVersionsStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
-            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")),
-            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")),
-            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
+            AWSMemberEncoding(label: "format", location: .querystring(locationName: "format")), 
+            AWSMemberEncoding(label: "namespace", location: .querystring(locationName: "namespace")), 
+            AWSMemberEncoding(label: "package", location: .querystring(locationName: "package")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  The domain that contains the repository that contains the package versions with a status to be updated.
+        ///  The domain that contains the repository that contains the package versions with a status to be updated. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The package version’s expected status before it is updated. If expectedStatus is provided, the package version's status is updated only if its status at the time UpdatePackageVersionsStatus is called matches expectedStatus.
+        ///  The package version’s expected status before it is updated. If expectedStatus is provided, the package version's status is updated only if its status at the time UpdatePackageVersionsStatus is called matches expectedStatus. 
         public let expectedStatus: PackageVersionStatus?
-        ///  A format that specifies the type of the package with the statuses to update. The valid values are:     npm     pypi     maven
+        ///  A format that specifies the type of the package with the statuses to update. The valid values are:     npm     pypi     maven   
         public let format: PackageFormat
-        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.
+        ///  The namespace of the package. The package component that specifies its namespace depends on its type. For example:     The namespace of a Maven package is its groupId.     The namespace of an npm package is its scope.     A Python package does not contain a corresponding component, so Python packages do not have a namespace.   
         public let namespace: String?
-        ///  The name of the package with the version statuses to update.
+        ///  The name of the package with the version statuses to update. 
         public let package: String
-        ///  The repository that contains the package versions with the status you want to update.
+        ///  The repository that contains the package versions with the status you want to update. 
         public let repository: String
-        ///  The status you want to change the package version status to.
+        ///  The status you want to change the package version status to. 
         public let targetStatus: PackageVersionStatus
-        ///  A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2), and the map value is the package version revision.
+        ///  A map of package versions and package version revisions. The map key is the package version (for example, 3.5.2), and the map value is the package version revision. 
         public let versionRevisions: [String: String]?
-        ///  An array of strings that specify the versions of the package with the statuses to update.
+        ///  An array of strings that specify the versions of the package with the statuses to update. 
         public let versions: [String]
 
         public init(domain: String, domainOwner: String? = nil, expectedStatus: PackageVersionStatus? = nil, format: PackageFormat, namespace: String? = nil, package: String, repository: String, targetStatus: PackageVersionStatus, versionRevisions: [String: String]? = nil, versions: [String]) {
@@ -2461,17 +2505,18 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case expectedStatus
-            case targetStatus
-            case versionRevisions
-            case versions
+            case expectedStatus = "expectedStatus"
+            case targetStatus = "targetStatus"
+            case versionRevisions = "versionRevisions"
+            case versions = "versions"
         }
     }
 
     public struct UpdatePackageVersionsStatusResult: AWSDecodableShape {
-        ///  A list of SuccessfulPackageVersionInfo objects, one for each package version with a status that successfully updated.
+
+        ///  A list of SuccessfulPackageVersionInfo objects, one for each package version with a status that successfully updated. 
         public let failedVersions: [String: PackageVersionError]?
-        ///  A list of PackageVersionError objects, one for each package version with a status that failed to update.
+        ///  A list of PackageVersionError objects, one for each package version with a status that failed to update. 
         public let successfulVersions: [String: SuccessfulPackageVersionInfo]?
 
         public init(failedVersions: [String: PackageVersionError]? = nil, successfulVersions: [String: SuccessfulPackageVersionInfo]? = nil) {
@@ -2480,27 +2525,27 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case failedVersions
-            case successfulVersions
+            case failedVersions = "failedVersions"
+            case successfulVersions = "successfulVersions"
         }
     }
 
     public struct UpdateRepositoryRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")),
-            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")),
+            AWSMemberEncoding(label: "domain", location: .querystring(locationName: "domain")), 
+            AWSMemberEncoding(label: "domainOwner", location: .querystring(locationName: "domain-owner")), 
             AWSMemberEncoding(label: "repository", location: .querystring(locationName: "repository"))
         ]
 
-        ///  An updated repository description.
+        ///  An updated repository description. 
         public let description: String?
-        ///  The name of the domain associated with the repository to update.
+        ///  The name of the domain associated with the repository to update. 
         public let domain: String
-        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces.
+        ///  The 12-digit account number of the AWS account that owns the domain. It does not include dashes or spaces. 
         public let domainOwner: String?
-        ///  The name of the repository to update.
+        ///  The name of the repository to update. 
         public let repository: String
-        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories.
+        ///  A list of upstream repositories to associate with the repository. The order of the upstream repositories in the list determines their priority order when AWS CodeArtifact looks for a requested package version. For more information, see Working with upstream repositories. 
         public let upstreams: [UpstreamRepository]?
 
         public init(description: String? = nil, domain: String, domainOwner: String? = nil, repository: String, upstreams: [UpstreamRepository]? = nil) {
@@ -2529,13 +2574,14 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case description
-            case upstreams
+            case description = "description"
+            case upstreams = "upstreams"
         }
     }
 
     public struct UpdateRepositoryResult: AWSDecodableShape {
-        ///  The updated repository.
+
+        ///  The updated repository. 
         public let repository: RepositoryDescription?
 
         public init(repository: RepositoryDescription? = nil) {
@@ -2543,12 +2589,13 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repository
+            case repository = "repository"
         }
     }
 
     public struct UpstreamRepository: AWSEncodableShape {
-        ///  The name of an upstream repository.
+
+        ///  The name of an upstream repository. 
         public let repositoryName: String
 
         public init(repositoryName: String) {
@@ -2562,12 +2609,13 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 
     public struct UpstreamRepositoryInfo: AWSDecodableShape {
-        ///  The name of an upstream repository.
+
+        ///  The name of an upstream repository. 
         public let repositoryName: String?
 
         public init(repositoryName: String? = nil) {
@@ -2575,7 +2623,7 @@ extension CodeArtifact {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case repositoryName
+            case repositoryName = "repositoryName"
         }
     }
 }

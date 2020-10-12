@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS QLDB service.
+Client object for interacting with AWS QLDB service.
 
- The control plane for Amazon QLDB
- */
+The control plane for Amazon QLDB
+*/
 public struct QLDB: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct QLDB: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Ends a given Amazon QLDB journal stream. Before a stream can be canceled, its current status must be ACTIVE. You can't restart a stream after you cancel it. Canceled QLDB stream resources are subject to a 7-day retention period, so they are automatically deleted after this limit expires.

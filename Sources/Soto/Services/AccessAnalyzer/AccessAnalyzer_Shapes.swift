@@ -81,6 +81,7 @@ extension AccessAnalyzer {
     // MARK: Shapes
 
     public struct AnalyzedResource: AWSDecodableShape {
+
         /// The actions that an external principal is granted permission to use by the policy that generated the finding.
         public let actions: [String]?
         /// The time at which the resource was analyzed.
@@ -122,21 +123,22 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case actions
-            case analyzedAt
-            case createdAt
-            case error
-            case isPublic
-            case resourceArn
-            case resourceOwnerAccount
-            case resourceType
-            case sharedVia
-            case status
-            case updatedAt
+            case actions = "actions"
+            case analyzedAt = "analyzedAt"
+            case createdAt = "createdAt"
+            case error = "error"
+            case isPublic = "isPublic"
+            case resourceArn = "resourceArn"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sharedVia = "sharedVia"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct AnalyzedResourceSummary: AWSDecodableShape {
+
         /// The ARN of the analyzed resource.
         public let resourceArn: String
         /// The AWS account ID that owns the resource.
@@ -151,13 +153,14 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resourceArn
-            case resourceOwnerAccount
-            case resourceType
+            case resourceArn = "resourceArn"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
         }
     }
 
     public struct AnalyzerSummary: AWSDecodableShape {
+
         /// The ARN of the analyzer.
         public let arn: String
         /// A timestamp for the time at which the analyzer was created.
@@ -170,7 +173,7 @@ extension AccessAnalyzer {
         public var lastResourceAnalyzedAt: Date?
         /// The name of the analyzer.
         public let name: String
-        /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed.
+        /// The status of the analyzer. An Active analyzer successfully monitors supported resources and generates new findings. The analyzer is Disabled when a user action, such as removing trusted access for IAM Access Analyzer from AWS Organizations, causes the analyzer to stop generating new findings. The status is Creating when the analyzer creation is in progress and Failed when the analyzer creation has failed. 
         public let status: AnalyzerStatus
         /// The statusReason provides more details about the current status of the analyzer. For example, if the creation for the analyzer fails, a Failed status is displayed. For an analyzer with organization as the type, this failure can be due to an issue with creating the service-linked roles required in the member accounts of the AWS organization.
         public let statusReason: StatusReason?
@@ -192,19 +195,20 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
-            case createdAt
-            case lastResourceAnalyzed
-            case lastResourceAnalyzedAt
-            case name
-            case status
-            case statusReason
-            case tags
-            case `type`
+            case arn = "arn"
+            case createdAt = "createdAt"
+            case lastResourceAnalyzed = "lastResourceAnalyzed"
+            case lastResourceAnalyzedAt = "lastResourceAnalyzedAt"
+            case name = "name"
+            case status = "status"
+            case statusReason = "statusReason"
+            case tags = "tags"
+            case `type` = "type"
         }
     }
 
     public struct ArchiveRuleSummary: AWSDecodableShape {
+
         /// The time at which the archive rule was created.
         @CustomCoding<ISO8601DateCoder>
         public var createdAt: Date
@@ -224,14 +228,15 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case createdAt
-            case filter
-            case ruleName
-            case updatedAt
+            case createdAt = "createdAt"
+            case filter = "filter"
+            case ruleName = "ruleName"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct CreateAnalyzerRequest: AWSEncodableShape {
+
         /// The name of the analyzer to create.
         public let analyzerName: String
         /// Specifies the archive rules to add for the analyzer. Archive rules automatically archive findings that meet the criteria you define for the rule.
@@ -261,15 +266,16 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerName
-            case archiveRules
-            case clientToken
-            case tags
-            case `type`
+            case analyzerName = "analyzerName"
+            case archiveRules = "archiveRules"
+            case clientToken = "clientToken"
+            case tags = "tags"
+            case `type` = "type"
         }
     }
 
     public struct CreateAnalyzerResponse: AWSDecodableShape {
+
         /// The ARN of the analyzer that was created by the request.
         public let arn: String?
 
@@ -278,7 +284,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case arn
+            case arn = "arn"
         }
     }
 
@@ -316,18 +322,19 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case filter
-            case ruleName
+            case clientToken = "clientToken"
+            case filter = "filter"
+            case ruleName = "ruleName"
         }
     }
 
     public struct Criterion: AWSEncodableShape & AWSDecodableShape {
+
         /// A "contains" operator to match for the filter used to create the rule.
         public let contains: [String]?
         /// An "equals" operator to match for the filter used to create the rule.
         public let eq: [String]?
-        /// An "exists" operator to match for the filter used to create the rule.
+        /// An "exists" operator to match for the filter used to create the rule. 
         public let exists: Bool?
         /// A "not equals" operator to match for the filter used to create the rule.
         public let neq: [String]?
@@ -349,16 +356,16 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case contains
-            case eq
-            case exists
-            case neq
+            case contains = "contains"
+            case eq = "eq"
+            case exists = "exists"
+            case neq = "neq"
         }
     }
 
     public struct DeleteAnalyzerRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken"))
         ]
 
@@ -383,8 +390,8 @@ extension AccessAnalyzer {
 
     public struct DeleteArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")),
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "clientToken", location: .querystring(locationName: "clientToken")), 
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
@@ -414,6 +421,7 @@ extension AccessAnalyzer {
     }
 
     public struct Finding: AWSDecodableShape {
+
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
         /// The time at which the resource was analyzed.
@@ -464,24 +472,25 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case analyzedAt
-            case condition
-            case createdAt
-            case error
-            case id
-            case isPublic
-            case principal
-            case resource
-            case resourceOwnerAccount
-            case resourceType
-            case sources
-            case status
-            case updatedAt
+            case action = "action"
+            case analyzedAt = "analyzedAt"
+            case condition = "condition"
+            case createdAt = "createdAt"
+            case error = "error"
+            case id = "id"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sources = "sources"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct FindingSource: AWSDecodableShape {
+
         /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
         public let detail: FindingSourceDetail?
         /// Indicates the type of access that generated the finding.
@@ -493,12 +502,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case detail
-            case `type`
+            case detail = "detail"
+            case `type` = "type"
         }
     }
 
     public struct FindingSourceDetail: AWSDecodableShape {
+
         /// The ARN of the access point that generated the finding.
         public let accessPointArn: String?
 
@@ -507,11 +517,12 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case accessPointArn
+            case accessPointArn = "accessPointArn"
         }
     }
 
     public struct FindingSummary: AWSDecodableShape {
+
         /// The action in the analyzed policy statement that an external principal has permission to use.
         public let action: [String]?
         /// The time at which the resource-based policy that generated the finding was analyzed.
@@ -562,26 +573,26 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case action
-            case analyzedAt
-            case condition
-            case createdAt
-            case error
-            case id
-            case isPublic
-            case principal
-            case resource
-            case resourceOwnerAccount
-            case resourceType
-            case sources
-            case status
-            case updatedAt
+            case action = "action"
+            case analyzedAt = "analyzedAt"
+            case condition = "condition"
+            case createdAt = "createdAt"
+            case error = "error"
+            case id = "id"
+            case isPublic = "isPublic"
+            case principal = "principal"
+            case resource = "resource"
+            case resourceOwnerAccount = "resourceOwnerAccount"
+            case resourceType = "resourceType"
+            case sources = "sources"
+            case status = "status"
+            case updatedAt = "updatedAt"
         }
     }
 
     public struct GetAnalyzedResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
             AWSMemberEncoding(label: "resourceArn", location: .querystring(locationName: "resourceArn"))
         ]
 
@@ -604,6 +615,7 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzedResourceResponse: AWSDecodableShape {
+
         /// An AnalyedResource object that contains information that Access Analyzer found when it analyzed the resource.
         public let resource: AnalyzedResource?
 
@@ -612,7 +624,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case resource
+            case resource = "resource"
         }
     }
 
@@ -638,6 +650,7 @@ extension AccessAnalyzer {
     }
 
     public struct GetAnalyzerResponse: AWSDecodableShape {
+
         /// An AnalyzerSummary object that contains information about the analyzer.
         public let analyzer: AnalyzerSummary
 
@@ -646,13 +659,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzer
+            case analyzer = "analyzer"
         }
     }
 
     public struct GetArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
@@ -679,6 +692,7 @@ extension AccessAnalyzer {
     }
 
     public struct GetArchiveRuleResponse: AWSDecodableShape {
+
         public let archiveRule: ArchiveRuleSummary
 
         public init(archiveRule: ArchiveRuleSummary) {
@@ -686,13 +700,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveRule
+            case archiveRule = "archiveRule"
         }
     }
 
     public struct GetFindingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")),
+            AWSMemberEncoding(label: "analyzerArn", location: .querystring(locationName: "analyzerArn")), 
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
         ]
 
@@ -714,6 +728,7 @@ extension AccessAnalyzer {
     }
 
     public struct GetFindingResponse: AWSDecodableShape {
+
         /// A finding object that contains finding details.
         public let finding: Finding?
 
@@ -722,11 +737,12 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case finding
+            case finding = "finding"
         }
     }
 
     public struct InlineArchiveRule: AWSEncodableShape {
+
         /// The condition and values for a criterion.
         public let filter: [String: Criterion]
         /// The name of the rule.
@@ -747,12 +763,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case filter
-            case ruleName
+            case filter = "filter"
+            case ruleName = "ruleName"
         }
     }
 
     public struct ListAnalyzedResourcesRequest: AWSEncodableShape {
+
         /// The ARN of the analyzer to retrieve a list of analyzed resources from.
         public let analyzerArn: String
         /// The maximum number of results to return in the response.
@@ -774,14 +791,15 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case maxResults
-            case nextToken
-            case resourceType
+            case analyzerArn = "analyzerArn"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case resourceType = "resourceType"
         }
     }
 
     public struct ListAnalyzedResourcesResponse: AWSDecodableShape {
+
         /// A list of resources that were analyzed.
         public let analyzedResources: [AnalyzedResourceSummary]
         /// A token used for pagination of results returned.
@@ -793,15 +811,15 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzedResources
-            case nextToken
+            case analyzedResources = "analyzedResources"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListAnalyzersRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")), 
             AWSMemberEncoding(label: "type", location: .querystring(locationName: "type"))
         ]
 
@@ -822,6 +840,7 @@ extension AccessAnalyzer {
     }
 
     public struct ListAnalyzersResponse: AWSDecodableShape {
+
         /// The analyzers retrieved.
         public let analyzers: [AnalyzerSummary]
         /// A token used for pagination of results returned.
@@ -833,15 +852,15 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzers
-            case nextToken
+            case analyzers = "analyzers"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListArchiveRulesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
-            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")), 
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
 
@@ -868,6 +887,7 @@ extension AccessAnalyzer {
     }
 
     public struct ListArchiveRulesResponse: AWSDecodableShape {
+
         /// A list of archive rules created for the specified analyzer.
         public let archiveRules: [ArchiveRuleSummary]
         /// A token used for pagination of results returned.
@@ -879,12 +899,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case archiveRules
-            case nextToken
+            case archiveRules = "archiveRules"
+            case nextToken = "nextToken"
         }
     }
 
     public struct ListFindingsRequest: AWSEncodableShape {
+
         /// The ARN of the analyzer to retrieve findings from.
         public let analyzerArn: String
         /// A filter to match for the findings to return.
@@ -912,15 +933,16 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case filter
-            case maxResults
-            case nextToken
-            case sort
+            case analyzerArn = "analyzerArn"
+            case filter = "filter"
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+            case sort = "sort"
         }
     }
 
     public struct ListFindingsResponse: AWSDecodableShape {
+
         /// A list of findings retrieved from the analyzer that match the filter criteria specified, if any.
         public let findings: [FindingSummary]
         /// A token used for pagination of results returned.
@@ -932,8 +954,8 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case findings
-            case nextToken
+            case findings = "findings"
+            case nextToken = "nextToken"
         }
     }
 
@@ -953,6 +975,7 @@ extension AccessAnalyzer {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The tags that are applied to the specified resource.
         public let tags: [String: String]?
 
@@ -961,11 +984,12 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct SortCriteria: AWSEncodableShape {
+
         /// The name of the attribute to sort on.
         public let attributeName: String?
         /// The sort order, ascending or descending.
@@ -977,12 +1001,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case attributeName
-            case orderBy
+            case attributeName = "attributeName"
+            case orderBy = "orderBy"
         }
     }
 
     public struct StartResourceScanRequest: AWSEncodableShape {
+
         /// The ARN of the analyzer to use to scan the policies applied to the specified resource.
         public let analyzerArn: String
         /// The ARN of the resource to scan.
@@ -999,12 +1024,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case resourceArn
+            case analyzerArn = "analyzerArn"
+            case resourceArn = "resourceArn"
         }
     }
 
     public struct StatusReason: AWSDecodableShape {
+
         /// The reason code for the current status of the analyzer.
         public let code: ReasonCode
 
@@ -1013,7 +1039,7 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
+            case code = "code"
         }
     }
 
@@ -1033,17 +1059,21 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case tags
+            case tags = "tags"
         }
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")), 
             AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
         ]
 
@@ -1061,12 +1091,16 @@ extension AccessAnalyzer {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateArchiveRuleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")),
+            AWSMemberEncoding(label: "analyzerName", location: .uri(locationName: "analyzerName")), 
             AWSMemberEncoding(label: "ruleName", location: .uri(locationName: "ruleName"))
         ]
 
@@ -1099,12 +1133,13 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case clientToken
-            case filter
+            case clientToken = "clientToken"
+            case filter = "filter"
         }
     }
 
     public struct UpdateFindingsRequest: AWSEncodableShape {
+
         /// The ARN of the analyzer that generated the findings to update.
         public let analyzerArn: String
         /// A client token.
@@ -1130,11 +1165,11 @@ extension AccessAnalyzer {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case analyzerArn
-            case clientToken
-            case ids
-            case resourceArn
-            case status
+            case analyzerArn = "analyzerArn"
+            case clientToken = "clientToken"
+            case ids = "ids"
+            case resourceArn = "resourceArn"
+            case status = "status"
         }
     }
 }

@@ -29,6 +29,7 @@ extension ImportExport {
     // MARK: Shapes
 
     public struct Artifact: AWSDecodableShape {
+
         public let description: String?
         public let url: String?
 
@@ -44,6 +45,7 @@ extension ImportExport {
     }
 
     public struct CancelJobInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let jobId: String
 
@@ -59,6 +61,7 @@ extension ImportExport {
     }
 
     public struct CancelJobOutput: AWSDecodableShape {
+
         public let success: Bool?
 
         public init(success: Bool? = nil) {
@@ -71,6 +74,7 @@ extension ImportExport {
     }
 
     public struct CreateJobInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let jobType: JobType
         public let manifest: String
@@ -95,6 +99,7 @@ extension ImportExport {
     }
 
     public struct CreateJobOutput: AWSDecodableShape {
+
         @OptionalCustomCoding<StandardArrayCoder>
         public var artifactList: [Artifact]?
         public let jobId: String?
@@ -123,6 +128,7 @@ extension ImportExport {
     }
 
     public struct GetShippingLabelInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let city: String?
         public let company: String?
@@ -154,21 +160,22 @@ extension ImportExport {
 
         private enum CodingKeys: String, CodingKey {
             case aPIVersion = "APIVersion"
-            case city
-            case company
-            case country
-            case jobIds
-            case name
-            case phoneNumber
-            case postalCode
-            case stateOrProvince
-            case street1
-            case street2
-            case street3
+            case city = "city"
+            case company = "company"
+            case country = "country"
+            case jobIds = "jobIds"
+            case name = "name"
+            case phoneNumber = "phoneNumber"
+            case postalCode = "postalCode"
+            case stateOrProvince = "stateOrProvince"
+            case street1 = "street1"
+            case street2 = "street2"
+            case street3 = "street3"
         }
     }
 
     public struct GetShippingLabelOutput: AWSDecodableShape {
+
         public let shippingLabelURL: String?
         public let warning: String?
 
@@ -184,6 +191,7 @@ extension ImportExport {
     }
 
     public struct GetStatusInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let jobId: String
 
@@ -199,6 +207,7 @@ extension ImportExport {
     }
 
     public struct GetStatusOutput: AWSDecodableShape {
+
         @OptionalCustomCoding<StandardArrayCoder>
         public var artifactList: [Artifact]?
         public let carrier: String?
@@ -257,6 +266,7 @@ extension ImportExport {
     }
 
     public struct Job: AWSDecodableShape {
+
         public let creationDate: Date?
         public let isCanceled: Bool?
         public let jobId: String?
@@ -278,6 +288,7 @@ extension ImportExport {
     }
 
     public struct ListJobsInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let marker: String?
         public let maxJobs: Int?
@@ -296,6 +307,7 @@ extension ImportExport {
     }
 
     public struct ListJobsOutput: AWSDecodableShape {
+
         public let isTruncated: Bool?
         @OptionalCustomCoding<StandardArrayCoder>
         public var jobs: [Job]?
@@ -312,6 +324,7 @@ extension ImportExport {
     }
 
     public struct UpdateJobInput: AWSEncodableShape {
+
         public let aPIVersion: String?
         public let jobId: String
         public let jobType: JobType
@@ -336,6 +349,7 @@ extension ImportExport {
     }
 
     public struct UpdateJobOutput: AWSDecodableShape {
+
         @OptionalCustomCoding<StandardArrayCoder>
         public var artifactList: [Artifact]?
         public let success: Bool?

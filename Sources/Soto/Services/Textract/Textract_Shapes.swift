@@ -73,9 +73,10 @@ extension Textract {
     // MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
-        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
+
+        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
-        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes). 
         public let featureTypes: [FeatureType]
         /// Sets the configuration for the human in the loop workflow for analyzing documents.
         public let humanLoopConfig: HumanLoopConfig?
@@ -99,6 +100,7 @@ extension Textract {
     }
 
     public struct AnalyzeDocumentResponse: AWSDecodableShape {
+
         /// The version of the model used to analyze the document.
         public let analyzeDocumentModelVersion: String?
         /// The items that are detected and analyzed by AnalyzeDocument.
@@ -124,31 +126,32 @@ extension Textract {
     }
 
     public struct Block: AWSDecodableShape {
-        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.
+
+        /// The type of text item that's recognized. In operations for text detection, the following types are returned:    PAGE - Contains a list of the LINE Block objects that are detected on a document page.    WORD - A word detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.   In text analysis operations, the following types are returned:    PAGE - Contains a list of child Block objects that are detected on a document page.    KEY_VALUE_SET - Stores the KEY and VALUE Block objects for linked text that's detected on a document page. Use the EntityType field to determine if a KEY_VALUE_SET object is a KEY Block object or a VALUE Block object.     WORD - A word that's detected on a document page. A word is one or more ISO basic Latin script characters that aren't separated by spaces.    LINE - A string of tab-delimited, contiguous words that are detected on a document page.    TABLE - A table that's detected on a document page. A table is grid-based information with two or more rows or columns, with a cell span of one row and one column each.     CELL - A cell within a detected table. The cell is the parent of the block that contains the text in the cell.    SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.  
         public let blockType: BlockType?
         /// The column in which a table cell appears. The first column position is 1. ColumnIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let columnIndex: Int?
-        /// The number of columns that a table cell spans. Currently this value is always 1, even if the number of columns spanned is greater than 1. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
+        /// The number of columns that a table cell spans. Currently this value is always 1, even if the number of columns spanned is greater than 1. ColumnSpan isn't returned by DetectDocumentText and GetDocumentTextDetection. 
         public let columnSpan: Int?
         /// The confidence score that Amazon Textract has in the accuracy of the recognized text and the accuracy of the geometry points around the recognized text.
         public let confidence: Float?
         /// The type of entity. The following can be returned:    KEY - An identifier for a field on the document.    VALUE - The field text.    EntityTypes isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let entityTypes: [EntityType]?
-        /// The location of the recognized text on the image. It includes an axis-aligned, coarse bounding box that surrounds the text, and a finer-grain polygon for more accurate spatial information.
+        /// The location of the recognized text on the image. It includes an axis-aligned, coarse bounding box that surrounds the text, and a finer-grain polygon for more accurate spatial information. 
         public let geometry: Geometry?
-        /// The identifier for the recognized text. The identifier is only unique for a single operation.
+        /// The identifier for the recognized text. The identifier is only unique for a single operation. 
         public let id: String?
         /// The page on which a block was detected. Page is returned by asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF format. A scanned image (JPEG/PNG), even if it contains multiple document pages, is considered to be a single-page document. The value of Page is always 1. Synchronous operations don't return Page because every input document is considered to be a single-page document.
         public let page: Int?
-        /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks. The list size can be the following:   0 - The block has no child blocks.   1 - The block has child blocks.
+        /// A list of child blocks of the current block. For example, a LINE object has child blocks for each WORD block that's part of the line of text. There aren't Relationship objects in the list for relationships that don't exist, such as when the current block has no child blocks. The list size can be the following:   0 - The block has no child blocks.   1 - The block has child blocks.  
         public let relationships: [Relationship]?
         /// The row in which a table cell is located. The first row position is 1. RowIndex isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let rowIndex: Int?
         /// The number of rows that a table cell spans. Currently this value is always 1, even if the number of rows spanned is greater than 1. RowSpan isn't returned by DetectDocumentText and GetDocumentTextDetection.
         public let rowSpan: Int?
-        /// The selection status of a selection element, such as an option button or check box.
+        /// The selection status of a selection element, such as an option button or check box. 
         public let selectionStatus: SelectionStatus?
-        /// The word or line of text that's recognized by Amazon Textract.
+        /// The word or line of text that's recognized by Amazon Textract. 
         public let text: String?
 
         public init(blockType: BlockType? = nil, columnIndex: Int? = nil, columnSpan: Int? = nil, confidence: Float? = nil, entityTypes: [EntityType]? = nil, geometry: Geometry? = nil, id: String? = nil, page: Int? = nil, relationships: [Relationship]? = nil, rowIndex: Int? = nil, rowSpan: Int? = nil, selectionStatus: SelectionStatus? = nil, text: String? = nil) {
@@ -185,6 +188,7 @@ extension Textract {
     }
 
     public struct BoundingBox: AWSDecodableShape {
+
         /// The height of the bounding box as a ratio of the overall document page height.
         public let height: Float?
         /// The left coordinate of the bounding box as a ratio of overall document page width.
@@ -210,7 +214,8 @@ extension Textract {
     }
 
     public struct DetectDocumentTextRequest: AWSEncodableShape {
-        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
+
+        /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field. 
         public let document: Document
 
         public init(document: Document) {
@@ -227,6 +232,7 @@ extension Textract {
     }
 
     public struct DetectDocumentTextResponse: AWSDecodableShape {
+
         /// An array of Block objects that contain the text that's detected in the document.
         public let blocks: [Block]?
         public let detectDocumentTextModelVersion: String?
@@ -247,7 +253,8 @@ extension Textract {
     }
 
     public struct Document: AWSEncodableShape {
-        /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field.
+
+        /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field. 
         public let bytes: Data?
         /// Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB.
         public let s3Object: S3Object?
@@ -258,7 +265,7 @@ extension Textract {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.bytes, name: "bytes", parent: name, max: 10_485_760)
+            try self.validate(self.bytes, name: "bytes", parent: name, max: 10485760)
             try self.validate(self.bytes, name: "bytes", parent: name, min: 1)
             try self.s3Object?.validate(name: "\(name).s3Object")
         }
@@ -270,6 +277,7 @@ extension Textract {
     }
 
     public struct DocumentLocation: AWSEncodableShape {
+
         /// The Amazon S3 bucket that contains the input document.
         public let s3Object: S3Object?
 
@@ -287,6 +295,7 @@ extension Textract {
     }
 
     public struct DocumentMetadata: AWSDecodableShape {
+
         /// The number of pages that are detected in the document.
         public let pages: Int?
 
@@ -300,6 +309,7 @@ extension Textract {
     }
 
     public struct Geometry: AWSDecodableShape {
+
         /// An axis-aligned coarse representation of the location of the recognized item on the document page.
         public let boundingBox: BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
@@ -317,6 +327,7 @@ extension Textract {
     }
 
     public struct GetDocumentAnalysisRequest: AWSEncodableShape {
+
         /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String
         /// The maximum number of results to return per paginated call. The largest value that you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The default value is 1,000.
@@ -348,6 +359,7 @@ extension Textract {
     }
 
     public struct GetDocumentAnalysisResponse: AWSDecodableShape {
+
         public let analyzeDocumentModelVersion: String?
         /// The results of the text-analysis operation.
         public let blocks: [Block]?
@@ -384,6 +396,7 @@ extension Textract {
     }
 
     public struct GetDocumentTextDetectionRequest: AWSEncodableShape {
+
         /// A unique identifier for the text detection job. The JobId is returned from StartDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String
         /// The maximum number of results to return per paginated call. The largest value you can specify is 1,000. If you specify a value greater than 1,000, a maximum of 1,000 results is returned. The default value is 1,000.
@@ -415,6 +428,7 @@ extension Textract {
     }
 
     public struct GetDocumentTextDetectionResponse: AWSDecodableShape {
+
         /// The results of the text-detection operation.
         public let blocks: [Block]?
         public let detectDocumentTextModelVersion: String?
@@ -424,7 +438,7 @@ extension Textract {
         public let jobStatus: JobStatus?
         /// If the response is truncated, Amazon Textract returns this token. You can use this token in the subsequent request to retrieve the next set of text-detection results.
         public let nextToken: String?
-        /// Returns if the detection job could not be completed. Contains explanation for what error occured.
+        /// Returns if the detection job could not be completed. Contains explanation for what error occured. 
         public let statusMessage: String?
         /// A list of warnings that occurred during the text-detection operation for the document.
         public let warnings: [Warning]?
@@ -451,6 +465,7 @@ extension Textract {
     }
 
     public struct HumanLoopActivationOutput: AWSDecodableShape {
+
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public let humanLoopActivationConditionsEvaluationResults: String?
         /// Shows if and why human review was needed.
@@ -472,6 +487,7 @@ extension Textract {
     }
 
     public struct HumanLoopConfig: AWSEncodableShape {
+
         /// Sets attributes of the input data.
         public let dataAttributes: HumanLoopDataAttributes?
         /// The Amazon Resource Name (ARN) of the flow definition.
@@ -501,6 +517,7 @@ extension Textract {
     }
 
     public struct HumanLoopDataAttributes: AWSEncodableShape {
+
         /// Sets whether the input image is free of personally identifiable information or adult content.
         public let contentClassifiers: [ContentClassifier]?
 
@@ -518,7 +535,8 @@ extension Textract {
     }
 
     public struct NotificationChannel: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic.
+
+        /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic. 
         public let roleArn: String
         /// The Amazon SNS topic that Amazon Textract posts the completion status to.
         public let sNSTopicArn: String
@@ -544,6 +562,7 @@ extension Textract {
     }
 
     public struct OutputConfig: AWSEncodableShape {
+
         /// The name of the bucket your output will go to.
         public let s3Bucket: String
         /// The prefix of the object key that the output will be saved to. When not enabled, the prefix will be “textract_output".
@@ -570,6 +589,7 @@ extension Textract {
     }
 
     public struct Point: AWSDecodableShape {
+
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
@@ -587,6 +607,7 @@ extension Textract {
     }
 
     public struct Relationship: AWSDecodableShape {
+
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public let ids: [String]?
         /// The type of relationship that the blocks in the IDs array have with the current block. The relationship can be VALUE or CHILD. A relationship of type VALUE is a list that contains the ID of the VALUE block that's associated with the KEY of a key-value pair. A relationship of type CHILD is a list of IDs that identify WORD blocks in the case of lines Cell blocks in the case of Tables, and WORD blocks in the case of Selection Elements.
@@ -604,11 +625,12 @@ extension Textract {
     }
 
     public struct S3Object: AWSEncodableShape {
+
         /// The name of the S3 bucket.
         public let bucket: String?
         /// The file name of the input document. Synchronous operations can use image files that are in JPEG or PNG format. Asynchronous operations also support PDF format files.
         public let name: String?
-        /// If the bucket has versioning enabled, you can specify the object version.
+        /// If the bucket has versioning enabled, you can specify the object version. 
         public let version: String?
 
         public init(bucket: String? = nil, name: String? = nil, version: String? = nil) {
@@ -637,15 +659,16 @@ extension Textract {
     }
 
     public struct StartDocumentAnalysisRequest: AWSEncodableShape {
+
         /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
         /// The location of the document to be processed.
         public let documentLocation: DocumentLocation
-        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+        /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. To perform both types of analysis, add TABLES and FORMS to FeatureTypes. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes). 
         public let featureTypes: [FeatureType]
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
-        /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
+        /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
         public let outputConfig: OutputConfig?
@@ -682,6 +705,7 @@ extension Textract {
     }
 
     public struct StartDocumentAnalysisResponse: AWSDecodableShape {
+
         /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis. A JobId value is only valid for 7 days.
         public let jobId: String?
 
@@ -695,13 +719,14 @@ extension Textract {
     }
 
     public struct StartDocumentTextDetectionRequest: AWSEncodableShape {
+
         /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see Calling Amazon Textract Asynchronous Operations.
         public let clientRequestToken: String?
         /// The location of the document to be processed.
         public let documentLocation: DocumentLocation
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
-        /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
+        /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to. 
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
         public let outputConfig: OutputConfig?
@@ -736,6 +761,7 @@ extension Textract {
     }
 
     public struct StartDocumentTextDetectionResponse: AWSDecodableShape {
+
         /// The identifier of the text detection job for the document. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection. A JobId value is only valid for 7 days.
         public let jobId: String?
 
@@ -749,6 +775,7 @@ extension Textract {
     }
 
     public struct Warning: AWSDecodableShape {
+
         /// The error code for the warning.
         public let errorCode: String?
         /// A list of the pages that the warning applies to.

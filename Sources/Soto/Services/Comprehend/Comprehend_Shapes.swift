@@ -77,17 +77,17 @@ extension Comprehend {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case en
-        case es
-        case fr
-        case de
-        case it
-        case pt
-        case ar
-        case hi
-        case ja
-        case ko
-        case zh
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
+        case ar = "ar"
+        case hi = "hi"
+        case ja = "ja"
+        case ko = "ko"
+        case zh = "zh"
         case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
@@ -173,18 +173,19 @@ extension Comprehend {
     }
 
     public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
-        case en
-        case es
-        case fr
-        case de
-        case it
-        case pt
+        case en = "en"
+        case es = "es"
+        case fr = "fr"
+        case de = "de"
+        case it = "it"
+        case pt = "pt"
         public var description: String { return self.rawValue }
     }
 
     // MARK: Shapes
 
     public struct AugmentedManifestsListItem: AWSEncodableShape & AWSDecodableShape {
+
         /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
         public let attributeNames: [String]
         /// The Amazon S3 location of the augmented manifest file.
@@ -212,6 +213,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectDominantLanguageItemResult: AWSDecodableShape {
+
         /// The zero-based index of the document in the input list.
         public let index: Int?
         /// One or more DominantLanguage objects describing the dominant languages in the document.
@@ -229,6 +231,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectDominantLanguageRequest: AWSEncodableShape {
+
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document should contain at least 20 characters and must contain fewer than 5,000 bytes of UTF-8 encoded characters.
         public let textList: [String]
 
@@ -248,6 +251,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectDominantLanguageResponse: AWSDecodableShape {
+
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
@@ -265,6 +269,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectEntitiesItemResult: AWSDecodableShape {
+
         /// One or more Entity objects, one for each entity detected in the document.
         public let entities: [Entity]?
         /// The zero-based index of the document in the input list.
@@ -282,6 +287,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectEntitiesRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer than 5,000 bytes of UTF-8 encoded characters.
@@ -305,6 +311,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectEntitiesResponse: AWSDecodableShape {
+
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
@@ -322,6 +329,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectKeyPhrasesItemResult: AWSDecodableShape {
+
         /// The zero-based index of the document in the input list.
         public let index: Int?
         /// One or more KeyPhrase objects, one for each key phrase detected in the document.
@@ -339,6 +347,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectKeyPhrasesRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -362,6 +371,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectKeyPhrasesResponse: AWSDecodableShape {
+
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
@@ -379,6 +389,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSentimentItemResult: AWSDecodableShape {
+
         /// The zero-based index of the document in the input list.
         public let index: Int?
         /// The sentiment detected in the document.
@@ -400,6 +411,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSentimentRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -423,6 +435,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSentimentResponse: AWSDecodableShape {
+
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
@@ -440,6 +453,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSyntaxItemResult: AWSDecodableShape {
+
         /// The zero-based index of the document in the input list.
         public let index: Int?
         /// The syntax tokens for the words in the document, one token for each word.
@@ -457,6 +471,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSyntaxRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: SyntaxLanguageCode
         /// A list containing the text of the input documents. The list can contain a maximum of 25 documents. Each document must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -480,6 +495,7 @@ extension Comprehend {
     }
 
     public struct BatchDetectSyntaxResponse: AWSDecodableShape {
+
         /// A list containing one object for each document that contained an error. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If there are no errors in the batch, the ErrorList is empty.
         public let errorList: [BatchItemError]
         /// A list of objects containing the results of the operation. The results are sorted in ascending order by the Index field and match the order of the documents in the input list. If all of the documents contain an error, the ResultList is empty.
@@ -497,6 +513,7 @@ extension Comprehend {
     }
 
     public struct BatchItemError: AWSDecodableShape {
+
         /// The numeric error code of the error.
         public let errorCode: String?
         /// A text description of the error.
@@ -518,9 +535,10 @@ extension Comprehend {
     }
 
     public struct ClassifierEvaluationMetrics: AWSDecodableShape {
+
         /// The fraction of the labels that were correct recognized. It is computed by dividing the number of labels in the test documents that were correctly recognized by the total number of labels in the test documents.
         public let accuracy: Double?
-        /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
+        /// A measure of how accurate the classifier results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
         /// Indicates the fraction of labels that are incorrectly predicted. Also seen as the fraction of wrong labels compared to the total number of labels. Scores closer to zero are better.
         public let hammingLoss: Double?
@@ -532,7 +550,7 @@ extension Comprehend {
         public let microRecall: Double?
         /// A measure of the usefulness of the classifier results in the test data. High precision means that the classifier returned substantially more relevant results than irrelevant ones.
         public let precision: Double?
-        /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results.
+        /// A measure of how complete the classifier results are for the test data. High recall means that the classifier returned most of the relevant results. 
         public let recall: Double?
 
         public init(accuracy: Double? = nil, f1Score: Double? = nil, hammingLoss: Double? = nil, microF1Score: Double? = nil, microPrecision: Double? = nil, microRecall: Double? = nil, precision: Double? = nil, recall: Double? = nil) {
@@ -559,9 +577,10 @@ extension Comprehend {
     }
 
     public struct ClassifierMetadata: AWSDecodableShape {
+
         ///  Describes the result metrics for the test data associated with an documentation classifier.
         public let evaluationMetrics: ClassifierEvaluationMetrics?
-        /// The number of labels in the input data.
+        /// The number of labels in the input data. 
         public let numberOfLabels: Int?
         /// The number of documents in the input data that were used to test the classifier. Typically this is 10 to 20 percent of the input documents, up to 10,000 documents.
         public let numberOfTestDocuments: Int?
@@ -584,6 +603,7 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentRequest: AWSEncodableShape {
+
         /// The Amazon Resource Number (ARN) of the endpoint.
         public let endpointArn: String
         /// The document text to be analyzed.
@@ -607,9 +627,10 @@ extension Comprehend {
     }
 
     public struct ClassifyDocumentResponse: AWSDecodableShape {
-        /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time.
+
+        /// The classes used by the document being analyzed. These are used for multi-class trained models. Individual classes are mutually exclusive and each document is expected to have only a single class assigned to it. For example, an animal can be a dog or a cat, but not both at the same time. 
         public let classes: [DocumentClass]?
-        /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not multually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time.
+        /// The labels used the document being analyzed. These are used for multi-label trained models. Individual labels represent different categories that are related in some manner and are not multually exclusive. For example, a movie can be just an action movie, or it can be an action movie, a science fiction movie, and a comedy, all at the same time. 
         public let labels: [DocumentLabel]?
 
         public init(classes: [DocumentClass]? = nil, labels: [DocumentLabel]? = nil) {
@@ -624,6 +645,7 @@ extension Comprehend {
     }
 
     public struct CreateDocumentClassifierRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
@@ -638,11 +660,11 @@ extension Comprehend {
         public let mode: DocumentClassifierMode?
         /// Enables the addition of output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
-        /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
         public let tags: [Tag]?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -691,6 +713,7 @@ extension Comprehend {
     }
 
     public struct CreateDocumentClassifierResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the document classifier.
         public let documentClassifierArn: String?
 
@@ -704,15 +727,16 @@ extension Comprehend {
     }
 
     public struct CreateEndpointRequest: AWSEncodableShape {
-        /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException.
+
+        /// An idempotency token provided by the customer. If this token matches a previous endpoint creation request, Amazon Comprehend will not return a ResourceInUseException. 
         public let clientRequestToken: String?
         ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
         public let desiredInferenceUnits: Int
-        /// This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource.
+        /// This is the descriptive suffix that becomes part of the EndpointArn used for all subsequent requests to this resource. 
         public let endpointName: String
         /// The Amazon Resource Number (ARN) of the model to which the endpoint will be attached.
         public let modelArn: String
-        /// Tags associated with the endpoint being created. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department.
+        /// Tags associated with the endpoint being created. A tag is a key-value pair that adds metadata to the endpoint. For example, a tag with "Sales" as the key might be added to an endpoint to indicate its use by the sales department. 
         public let tags: [Tag]?
 
         public init(clientRequestToken: String? = CreateEndpointRequest.idempotencyToken(), desiredInferenceUnits: Int, endpointName: String, modelArn: String, tags: [Tag]? = nil) {
@@ -747,6 +771,7 @@ extension Comprehend {
     }
 
     public struct CreateEndpointResponse: AWSDecodableShape {
+
         /// The Amazon Resource Number (ARN) of the endpoint being created.
         public let endpointArn: String?
 
@@ -760,21 +785,22 @@ extension Comprehend {
     }
 
     public struct CreateEntityRecognizerRequest: AWSEncodableShape {
+
         ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created.
+        /// Specifies the format and location of the input data. The S3 bucket containing the input data must be located in the same region as the entity recognizer being created. 
         public let inputDataConfig: EntityRecognizerInputDataConfig
         ///  You can specify any of the following languages supported by Amazon Comprehend: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), German ("de"), or Portuguese ("pt"). All documents must be in the same language.
         public let languageCode: LanguageCode
         /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
         public let recognizerName: String
-        /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
         public let tags: [Tag]?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, recognizerName: String, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -818,6 +844,7 @@ extension Comprehend {
     }
 
     public struct CreateEntityRecognizerResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String?
 
@@ -831,7 +858,8 @@ extension Comprehend {
     }
 
     public struct DeleteDocumentClassifierRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the document classifier.
+
+        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
         public let documentClassifierArn: String
 
         public init(documentClassifierArn: String) {
@@ -849,10 +877,15 @@ extension Comprehend {
     }
 
     public struct DeleteDocumentClassifierResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteEndpointRequest: AWSEncodableShape {
+
         /// The Amazon Resource Number (ARN) of the endpoint being deleted.
         public let endpointArn: String
 
@@ -871,10 +904,15 @@ extension Comprehend {
     }
 
     public struct DeleteEndpointResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteEntityRecognizerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
 
@@ -893,10 +931,15 @@ extension Comprehend {
     }
 
     public struct DeleteEntityRecognizerResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeDocumentClassificationJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -916,6 +959,7 @@ extension Comprehend {
     }
 
     public struct DescribeDocumentClassificationJobResponse: AWSDecodableShape {
+
         /// An object that describes the properties associated with the document classification job.
         public let documentClassificationJobProperties: DocumentClassificationJobProperties?
 
@@ -929,6 +973,7 @@ extension Comprehend {
     }
 
     public struct DescribeDocumentClassifierRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the document classifier. The operation returns this identifier in its response.
         public let documentClassifierArn: String
 
@@ -947,6 +992,7 @@ extension Comprehend {
     }
 
     public struct DescribeDocumentClassifierResponse: AWSDecodableShape {
+
         /// An object that contains the properties associated with a document classifier.
         public let documentClassifierProperties: DocumentClassifierProperties?
 
@@ -960,6 +1006,7 @@ extension Comprehend {
     }
 
     public struct DescribeDominantLanguageDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -979,6 +1026,7 @@ extension Comprehend {
     }
 
     public struct DescribeDominantLanguageDetectionJobResponse: AWSDecodableShape {
+
         /// An object that contains the properties associated with a dominant language detection job.
         public let dominantLanguageDetectionJobProperties: DominantLanguageDetectionJobProperties?
 
@@ -992,6 +1040,7 @@ extension Comprehend {
     }
 
     public struct DescribeEndpointRequest: AWSEncodableShape {
+
         /// The Amazon Resource Number (ARN) of the endpoint being described.
         public let endpointArn: String
 
@@ -1010,6 +1059,7 @@ extension Comprehend {
     }
 
     public struct DescribeEndpointResponse: AWSDecodableShape {
+
         /// Describes information associated with the specific endpoint.
         public let endpointProperties: EndpointProperties?
 
@@ -1023,6 +1073,7 @@ extension Comprehend {
     }
 
     public struct DescribeEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -1042,6 +1093,7 @@ extension Comprehend {
     }
 
     public struct DescribeEntitiesDetectionJobResponse: AWSDecodableShape {
+
         /// An object that contains the properties associated with an entities detection job.
         public let entitiesDetectionJobProperties: EntitiesDetectionJobProperties?
 
@@ -1055,6 +1107,7 @@ extension Comprehend {
     }
 
     public struct DescribeEntityRecognizerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
         public let entityRecognizerArn: String
 
@@ -1073,6 +1126,7 @@ extension Comprehend {
     }
 
     public struct DescribeEntityRecognizerResponse: AWSDecodableShape {
+
         /// Describes information associated with an entity recognizer.
         public let entityRecognizerProperties: EntityRecognizerProperties?
 
@@ -1086,6 +1140,7 @@ extension Comprehend {
     }
 
     public struct DescribeKeyPhrasesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -1105,7 +1160,8 @@ extension Comprehend {
     }
 
     public struct DescribeKeyPhrasesDetectionJobResponse: AWSDecodableShape {
-        /// An object that contains the properties associated with a key phrases detection job.
+
+        /// An object that contains the properties associated with a key phrases detection job. 
         public let keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties?
 
         public init(keyPhrasesDetectionJobProperties: KeyPhrasesDetectionJobProperties? = nil) {
@@ -1118,6 +1174,7 @@ extension Comprehend {
     }
 
     public struct DescribePiiEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -1137,6 +1194,7 @@ extension Comprehend {
     }
 
     public struct DescribePiiEntitiesDetectionJobResponse: AWSDecodableShape {
+
         public let piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties?
 
         public init(piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties? = nil) {
@@ -1149,6 +1207,7 @@ extension Comprehend {
     }
 
     public struct DescribeSentimentDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
         public let jobId: String
 
@@ -1168,6 +1227,7 @@ extension Comprehend {
     }
 
     public struct DescribeSentimentDetectionJobResponse: AWSDecodableShape {
+
         /// An object that contains the properties associated with a sentiment detection job.
         public let sentimentDetectionJobProperties: SentimentDetectionJobProperties?
 
@@ -1181,6 +1241,7 @@ extension Comprehend {
     }
 
     public struct DescribeTopicsDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier assigned by the user to the detection job.
         public let jobId: String
 
@@ -1200,6 +1261,7 @@ extension Comprehend {
     }
 
     public struct DescribeTopicsDetectionJobResponse: AWSDecodableShape {
+
         /// The list of properties for the requested job.
         public let topicsDetectionJobProperties: TopicsDetectionJobProperties?
 
@@ -1213,6 +1275,7 @@ extension Comprehend {
     }
 
     public struct DetectDominantLanguageRequest: AWSEncodableShape {
+
         /// A UTF-8 text string. Each string should contain at least 20 characters and must contain fewer that 5,000 bytes of UTF-8 encoded characters.
         public let text: String
 
@@ -1230,6 +1293,7 @@ extension Comprehend {
     }
 
     public struct DetectDominantLanguageResponse: AWSDecodableShape {
+
         /// The languages that Amazon Comprehend detected in the input text. For each language, the response returns the RFC 5646 language code and the level of confidence that Amazon Comprehend has in the accuracy of its inference. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
         public let languages: [DominantLanguage]?
 
@@ -1243,6 +1307,7 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name of an endpoint that is associated with a custom entity recognition model. Provide an endpoint if you want to detect entities by using your own custom model instead of the default model that is used by Amazon Comprehend. If you specify an endpoint, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you provide in your request.
         public let endpointArn: String?
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language. If your request includes the endpoint for a custom entity recognition model, Amazon Comprehend uses the language of your custom model, and it ignores any language code that you specify here.
@@ -1270,6 +1335,7 @@ extension Comprehend {
     }
 
     public struct DetectEntitiesResponse: AWSDecodableShape {
+
         /// A collection of entities identified in the input text. For each entity, the response provides the entity text, entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.  If your request uses a custom entity recognition model, Amazon Comprehend detects the entities that the model is trained to recognize. Otherwise, it detects the default entity types. For a list of default entity types, see how-entities.
         public let entities: [Entity]?
 
@@ -1283,6 +1349,7 @@ extension Comprehend {
     }
 
     public struct DetectKeyPhrasesRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -1304,7 +1371,8 @@ extension Comprehend {
     }
 
     public struct DetectKeyPhrasesResponse: AWSDecodableShape {
-        /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection.
+
+        /// A collection of key phrases that Amazon Comprehend identified in the input text. For each key phrase, the response provides the text of the key phrase, where the key phrase begins and ends, and the level of confidence that Amazon Comprehend has in the accuracy of the detection. 
         public let keyPhrases: [KeyPhrase]?
 
         public init(keyPhrases: [KeyPhrase]? = nil) {
@@ -1317,6 +1385,7 @@ extension Comprehend {
     }
 
     public struct DetectPiiEntitiesRequest: AWSEncodableShape {
+
         /// The language of the input documents.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -1338,6 +1407,7 @@ extension Comprehend {
     }
 
     public struct DetectPiiEntitiesResponse: AWSDecodableShape {
+
         /// A collection of PII entities identified in the input text. For each entity, the response provides the entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.
         public let entities: [PiiEntity]?
 
@@ -1351,6 +1421,7 @@ extension Comprehend {
     }
 
     public struct DetectSentimentRequest: AWSEncodableShape {
+
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
@@ -1372,6 +1443,7 @@ extension Comprehend {
     }
 
     public struct DetectSentimentResponse: AWSDecodableShape {
+
         /// The inferred sentiment that Amazon Comprehend has the highest level of confidence in.
         public let sentiment: SentimentType?
         /// An object that lists the sentiments, and their corresponding confidence levels.
@@ -1389,6 +1461,7 @@ extension Comprehend {
     }
 
     public struct DetectSyntaxRequest: AWSEncodableShape {
+
         /// The language code of the input documents. You can specify any of the following languages supported by Amazon Comprehend: German ("de"), English ("en"), Spanish ("es"), French ("fr"), Italian ("it"), or Portuguese ("pt").
         public let languageCode: SyntaxLanguageCode
         /// A UTF-8 string. Each string must contain fewer that 5,000 bytes of UTF encoded characters.
@@ -1410,6 +1483,7 @@ extension Comprehend {
     }
 
     public struct DetectSyntaxResponse: AWSDecodableShape {
+
         /// A collection of syntax tokens describing the text. For each token, the response provides the text, the token type, where the text begins and ends, and the level of confidence that Amazon Comprehend has that the token is correct. For a list of token types, see how-syntax.
         public let syntaxTokens: [SyntaxToken]?
 
@@ -1423,6 +1497,7 @@ extension Comprehend {
     }
 
     public struct DocumentClass: AWSDecodableShape {
+
         /// The name of the class.
         public let name: String?
         /// The confidence score that Amazon Comprehend has this class correctly attributed.
@@ -1440,6 +1515,7 @@ extension Comprehend {
     }
 
     public struct DocumentClassificationJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list based on job status. Returns only jobs with the specified status.
@@ -1471,9 +1547,10 @@ extension Comprehend {
     }
 
     public struct DocumentClassificationJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the AWS identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
-        /// The Amazon Resource Name (ARN) that identifies the document classifier.
+        /// The Amazon Resource Name (ARN) that identifies the document classifier. 
         public let documentClassifierArn: String?
         /// The time that the document classification job completed.
         public let endTime: Date?
@@ -1491,9 +1568,9 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the document classification job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1528,6 +1605,7 @@ extension Comprehend {
     }
 
     public struct DocumentClassifierFilter: AWSEncodableShape {
+
         /// Filters the list of classifiers based on status.
         public let status: ModelStatus?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
@@ -1549,6 +1627,7 @@ extension Comprehend {
     }
 
     public struct DocumentClassifierInputDataConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
         public let augmentedManifests: [AugmentedManifestsListItem]?
         /// The format of your training data:    COMPREHEND_CSV: A two-column CSV file, where labels are provided in the first column, and documents are provided in the second. If you use this value, you must provide the S3Uri parameter in your request.    AUGMENTED_MANIFEST: A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line is a complete JSON object that contains a training document and its associated labels.  If you use this value, you must provide the AugmentedManifests parameter in your request.   If you don't specify a value, Amazon Comprehend uses COMPREHEND_CSV as the default.
@@ -1585,7 +1664,8 @@ extension Comprehend {
     }
 
     public struct DocumentClassifierOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
+
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
         public let kmsKeyId: String?
         /// When you use the OutputDataConfig object while creating a custom classifier, you specify the Amazon S3 location where you want to write the confusion matrix. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of this output file. When the custom classifier job is finished, the service creates the output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the confusion matrix.
         public let s3Uri: String?
@@ -1608,6 +1688,7 @@ extension Comprehend {
     }
 
     public struct DocumentClassifierProperties: AWSDecodableShape {
+
         /// Information about the document classifier, including the number of documents used for training the classifier, the number of documents used for test the classifier, and an accuracy rating.
         public let classifierMetadata: ClassifierMetadata?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
@@ -1632,11 +1713,11 @@ extension Comprehend {
         public let submitTime: Date?
         /// The time that training of the document classifier was completed. Indicates the time when the training completes on documentation classifiers. You are billed for the time interval between this time and the value of TrainingStartTime.
         public let trainingEndTime: Date?
-        /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime.
+        /// Indicates the time when the training starts on documentation classifiers. You are billed for the time interval between this time and the value of TrainingEndTime. 
         public let trainingStartTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1677,6 +1758,7 @@ extension Comprehend {
     }
 
     public struct DocumentLabel: AWSDecodableShape {
+
         /// The name of the label.
         public let name: String?
         /// The confidence score that Amazon Comprehend has this label correctly attributed.
@@ -1694,6 +1776,7 @@ extension Comprehend {
     }
 
     public struct DominantLanguage: AWSDecodableShape {
+
         /// The RFC 5646 language code for the dominant language. For more information about RFC 5646, see Tags for Identifying Languages on the IETF Tools web site.
         public let languageCode: String?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
@@ -1711,6 +1794,7 @@ extension Comprehend {
     }
 
     public struct DominantLanguageDetectionJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -1742,6 +1826,7 @@ extension Comprehend {
     }
 
     public struct DominantLanguageDetectionJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the dominant language detection job completed.
@@ -1760,9 +1845,9 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the dominant language detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1795,6 +1880,7 @@ extension Comprehend {
     }
 
     public struct EndpointFilter: AWSEncodableShape {
+
         /// Specifies a date after which the returned endpoint or endpoints were created.
         public let creationTimeAfter: Date?
         /// Specifies a date before which the returned endpoint or endpoints were created.
@@ -1825,6 +1911,7 @@ extension Comprehend {
     }
 
     public struct EndpointProperties: AWSDecodableShape {
+
         /// The creation date and time of the endpoint.
         public let creationTime: Date?
         /// The number of inference units currently used by the model using this endpoint.
@@ -1866,6 +1953,7 @@ extension Comprehend {
     }
 
     public struct EntitiesDetectionJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -1897,6 +1985,7 @@ extension Comprehend {
     }
 
     public struct EntitiesDetectionJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the entities detection job completed
@@ -1915,13 +2004,13 @@ extension Comprehend {
         public let languageCode: LanguageCode?
         /// A description of the status of a job.
         public let message: String?
-        /// The output data configuration that you supplied when you created the entities detection job.
+        /// The output data configuration that you supplied when you created the entities detection job. 
         public let outputDataConfig: OutputDataConfig?
         /// The time that the entities detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -1958,9 +2047,10 @@ extension Comprehend {
     }
 
     public struct Entity: AWSDecodableShape {
+
         /// A character offset in the input text that shows where the entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
         public let beginOffset: Int?
-        /// A character offset in the input text that shows where the entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        /// A character offset in the input text that shows where the entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point. 
         public let endOffset: Int?
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
@@ -1987,6 +2077,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerAnnotations: AWSEncodableShape & AWSDecodableShape {
+
         ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
 
@@ -2005,6 +2096,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerDocuments: AWSEncodableShape & AWSDecodableShape {
+
         ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
 
@@ -2023,6 +2115,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerEntityList: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the Amazon S3 location where the entity list is located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
 
@@ -2041,9 +2134,10 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerEvaluationMetrics: AWSDecodableShape {
-        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
+
+        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
-        /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
+        /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. 
         public let precision: Double?
         /// A measure of how complete the recognizer results are for the test data. High recall means that the recognizer returned most of the relevant results.
         public let recall: Double?
@@ -2062,6 +2156,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerFilter: AWSEncodableShape {
+
         /// The status of an entity recognizer.
         public let status: ModelStatus?
         /// Filters the list of entities based on the time that the list was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in ascending order, oldest to newest.
@@ -2083,6 +2178,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerInputDataConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// The S3 location of the CSV file that annotates your training documents.
         public let annotations: EntityRecognizerAnnotations?
         /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
@@ -2093,7 +2189,7 @@ extension Comprehend {
         public let documents: EntityRecognizerDocuments?
         /// The S3 location of the CSV file that has the entity list for your custom entity recognizer.
         public let entityList: EntityRecognizerEntityList?
-        /// The entity types in the labeled training data that Amazon Comprehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break), \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
+        /// The entity types in the labeled training data that Amazon Comprehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break), \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma). 
         public let entityTypes: [EntityTypesListItem]
 
         public init(annotations: EntityRecognizerAnnotations? = nil, augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: EntityRecognizerDataFormat? = nil, documents: EntityRecognizerDocuments? = nil, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
@@ -2128,6 +2224,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerMetadata: AWSDecodableShape {
+
         /// Entity types from the metadata of an entity recognizer.
         public let entityTypes: [EntityRecognizerMetadataEntityTypesListItem]?
         /// Detailed information about the accuracy of an entity recognizer.
@@ -2153,11 +2250,12 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerMetadataEntityTypesListItem: AWSDecodableShape {
-        /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types.
+
+        /// Detailed information about the accuracy of the entity recognizer for a specific item on the list of entity types. 
         public let evaluationMetrics: EntityTypesEvaluationMetrics?
-        /// Indicates the number of times the given entity type was seen in the training data.
+        /// Indicates the number of times the given entity type was seen in the training data. 
         public let numberOfTrainMentions: Int?
-        /// Type of entity from the list of entity types in the metadata of an entity recognizer.
+        /// Type of entity from the list of entity types in the metadata of an entity recognizer. 
         public let `type`: String?
 
         public init(evaluationMetrics: EntityTypesEvaluationMetrics? = nil, numberOfTrainMentions: Int? = nil, type: String? = nil) {
@@ -2174,6 +2272,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerProperties: AWSDecodableShape {
+
         ///  The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the recognizer creation completed.
@@ -2196,9 +2295,9 @@ extension Comprehend {
         public let trainingEndTime: Date?
         /// The time that training of the entity recognizer started.
         public let trainingStartTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -2235,9 +2334,10 @@ extension Comprehend {
     }
 
     public struct EntityTypesEvaluationMetrics: AWSDecodableShape {
-        /// A measure of how accurate the recognizer results are for for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
+
+        /// A measure of how accurate the recognizer results are for for a specific entity type in the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0. 
         public let f1Score: Double?
-        /// A measure of the usefulness of the recognizer results for a specific entity type in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
+        /// A measure of the usefulness of the recognizer results for a specific entity type in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones. 
         public let precision: Double?
         /// A measure of how complete the recognizer results are for a specific entity type in the test data. High recall means that the recognizer returned most of the relevant results.
         public let recall: Double?
@@ -2256,6 +2356,7 @@ extension Comprehend {
     }
 
     public struct EntityTypesListItem: AWSEncodableShape & AWSDecodableShape {
+
         /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
         public let `type`: String
 
@@ -2274,7 +2375,8 @@ extension Comprehend {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
+
+        /// Specifies how the text in an input file should be processed:    ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.    ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.  
         public let inputFormat: InputFormat?
         /// The Amazon S3 URI for the input data. The URI must be in same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of data files.  For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
         public let s3Uri: String
@@ -2296,6 +2398,7 @@ extension Comprehend {
     }
 
     public struct KeyPhrase: AWSDecodableShape {
+
         /// A character offset in the input text that shows where the key phrase begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
         public let beginOffset: Int?
         /// A character offset in the input text where the key phrase ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
@@ -2321,6 +2424,7 @@ extension Comprehend {
     }
 
     public struct KeyPhrasesDetectionJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -2352,6 +2456,7 @@ extension Comprehend {
     }
 
     public struct KeyPhrasesDetectionJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the key phrases detection job completed.
@@ -2372,9 +2477,9 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the key phrases detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -2409,6 +2514,7 @@ extension Comprehend {
     }
 
     public struct ListDocumentClassificationJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DocumentClassificationJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2437,6 +2543,7 @@ extension Comprehend {
     }
 
     public struct ListDocumentClassificationJobsResponse: AWSDecodableShape {
+
         /// A list containing the properties of each job returned.
         public let documentClassificationJobPropertiesList: [DocumentClassificationJobProperties]?
         /// Identifies the next page of results to return.
@@ -2454,6 +2561,7 @@ extension Comprehend {
     }
 
     public struct ListDocumentClassifiersRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DocumentClassifierFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2481,6 +2589,7 @@ extension Comprehend {
     }
 
     public struct ListDocumentClassifiersResponse: AWSDecodableShape {
+
         /// A list containing the properties of each job returned.
         public let documentClassifierPropertiesList: [DocumentClassifierProperties]?
         /// Identifies the next page of results to return.
@@ -2498,6 +2607,7 @@ extension Comprehend {
     }
 
     public struct ListDominantLanguageDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters that jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: DominantLanguageDetectionJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2526,6 +2636,7 @@ extension Comprehend {
     }
 
     public struct ListDominantLanguageDetectionJobsResponse: AWSDecodableShape {
+
         /// A list containing the properties of each job that is returned.
         public let dominantLanguageDetectionJobPropertiesList: [DominantLanguageDetectionJobProperties]?
         /// Identifies the next page of results to return.
@@ -2543,7 +2654,8 @@ extension Comprehend {
     }
 
     public struct ListEndpointsRequest: AWSEncodableShape {
-        /// Filters the endpoints that are returned. You can filter endpoints on their name, model, status, or the date and time that they were created. You can only set one filter at a time.
+
+        /// Filters the endpoints that are returned. You can filter endpoints on their name, model, status, or the date and time that they were created. You can only set one filter at a time. 
         public let filter: EndpointFilter?
         /// The maximum number of results to return in each page. The default is 100.
         public let maxResults: Int?
@@ -2571,6 +2683,7 @@ extension Comprehend {
     }
 
     public struct ListEndpointsResponse: AWSDecodableShape {
+
         /// Displays a list of endpoint properties being retrieved by the service in response to the request.
         public let endpointPropertiesList: [EndpointProperties]?
         /// Identifies the next page of results to return.
@@ -2588,6 +2701,7 @@ extension Comprehend {
     }
 
     public struct ListEntitiesDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: EntitiesDetectionJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2616,6 +2730,7 @@ extension Comprehend {
     }
 
     public struct ListEntitiesDetectionJobsResponse: AWSDecodableShape {
+
         /// A list containing the properties of each job that is returned.
         public let entitiesDetectionJobPropertiesList: [EntitiesDetectionJobProperties]?
         /// Identifies the next page of results to return.
@@ -2633,6 +2748,7 @@ extension Comprehend {
     }
 
     public struct ListEntityRecognizersRequest: AWSEncodableShape {
+
         /// Filters the list of entities returned. You can filter on Status, SubmitTimeBefore, or SubmitTimeAfter. You can only set one filter at a time.
         public let filter: EntityRecognizerFilter?
         ///  The maximum number of results to return on each page. The default is 100.
@@ -2660,6 +2776,7 @@ extension Comprehend {
     }
 
     public struct ListEntityRecognizersResponse: AWSDecodableShape {
+
         /// The list of properties of an entity recognizer.
         public let entityRecognizerPropertiesList: [EntityRecognizerProperties]?
         /// Identifies the next page of results to return.
@@ -2677,6 +2794,7 @@ extension Comprehend {
     }
 
     public struct ListKeyPhrasesDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: KeyPhrasesDetectionJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2705,6 +2823,7 @@ extension Comprehend {
     }
 
     public struct ListKeyPhrasesDetectionJobsResponse: AWSDecodableShape {
+
         /// A list containing the properties of each job that is returned.
         public let keyPhrasesDetectionJobPropertiesList: [KeyPhrasesDetectionJobProperties]?
         /// Identifies the next page of results to return.
@@ -2722,6 +2841,7 @@ extension Comprehend {
     }
 
     public struct ListPiiEntitiesDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: PiiEntitiesDetectionJobFilter?
         /// The maximum number of results to return in each page.
@@ -2750,6 +2870,7 @@ extension Comprehend {
     }
 
     public struct ListPiiEntitiesDetectionJobsResponse: AWSDecodableShape {
+
         /// Identifies the next page of results to return.
         public let nextToken: String?
         /// A list containing the properties of each job that is returned.
@@ -2767,6 +2888,7 @@ extension Comprehend {
     }
 
     public struct ListSentimentDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
         public let filter: SentimentDetectionJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2795,6 +2917,7 @@ extension Comprehend {
     }
 
     public struct ListSentimentDetectionJobsResponse: AWSDecodableShape {
+
         /// Identifies the next page of results to return.
         public let nextToken: String?
         /// A list containing the properties of each job that is returned.
@@ -2812,7 +2935,8 @@ extension Comprehend {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
+
+        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying. 
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -2830,9 +2954,10 @@ extension Comprehend {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource you are querying.
         public let resourceArn: String?
-        /// Tags associated with the Amazon Comprehend resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        /// Tags associated with the Amazon Comprehend resource being queried. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. 
         public let tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
@@ -2847,6 +2972,7 @@ extension Comprehend {
     }
 
     public struct ListTopicsDetectionJobsRequest: AWSEncodableShape {
+
         /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
         public let filter: TopicsDetectionJobFilter?
         /// The maximum number of results to return in each page. The default is 100.
@@ -2875,6 +3001,7 @@ extension Comprehend {
     }
 
     public struct ListTopicsDetectionJobsResponse: AWSDecodableShape {
+
         /// Identifies the next page of results to return.
         public let nextToken: String?
         /// A list containing the properties of each job that is returned.
@@ -2892,7 +3019,8 @@ extension Comprehend {
     }
 
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
+
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"   
         public let kmsKeyId: String?
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.
         public let s3Uri: String
@@ -2915,6 +3043,7 @@ extension Comprehend {
     }
 
     public struct PartOfSpeechTag: AWSDecodableShape {
+
         /// The confidence that Amazon Comprehend has that the part of speech was correctly identified.
         public let score: Float?
         /// Identifies the part of speech that the token represents.
@@ -2932,6 +3061,7 @@ extension Comprehend {
     }
 
     public struct PiiEntitiesDetectionJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -2963,6 +3093,7 @@ extension Comprehend {
     }
 
     public struct PiiEntitiesDetectionJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the PII entities detection job completed.
@@ -3020,6 +3151,7 @@ extension Comprehend {
     }
 
     public struct PiiEntity: AWSDecodableShape {
+
         /// A character offset in the input text that shows where the PII entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
         public let beginOffset: Int?
         /// A character offset in the input text that shows where the PII entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
@@ -3045,9 +3177,10 @@ extension Comprehend {
     }
 
     public struct PiiOutputDataConfig: AWSDecodableShape {
+
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
         public let kmsKeyId: String?
-        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.
+        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. 
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -3062,6 +3195,7 @@ extension Comprehend {
     }
 
     public struct RedactionConfig: AWSEncodableShape & AWSDecodableShape {
+
         /// A character that replaces each character in the redacted PII entity.
         public let maskCharacter: String?
         /// Specifies whether the PII entity is redacted with the mask character or the entity type.
@@ -3089,6 +3223,7 @@ extension Comprehend {
     }
 
     public struct SentimentDetectionJobFilter: AWSEncodableShape {
+
         /// Filters on the name of the job.
         public let jobName: String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -3120,6 +3255,7 @@ extension Comprehend {
     }
 
     public struct SentimentDetectionJobProperties: AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the sentiment detection job ended.
@@ -3140,9 +3276,9 @@ extension Comprehend {
         public let outputDataConfig: OutputDataConfig?
         /// The time that the sentiment detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
+        ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3177,6 +3313,7 @@ extension Comprehend {
     }
 
     public struct SentimentScore: AWSDecodableShape {
+
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the MIXED sentiment.
         public let mixed: Float?
         /// The level of confidence that Amazon Comprehend has in the accuracy of its detection of the NEGATIVE sentiment.
@@ -3202,6 +3339,7 @@ extension Comprehend {
     }
 
     public struct StartDocumentClassificationJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
@@ -3214,9 +3352,9 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your document classification job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartDocumentClassificationJobRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3261,9 +3399,10 @@ extension Comprehend {
     }
 
     public struct StartDocumentClassificationJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of the job, use this identifier with the operation.
         public let jobId: String?
-        /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
+        /// The status of the job:   SUBMITTED - The job has been received and queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. For details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3278,6 +3417,7 @@ extension Comprehend {
     }
 
     public struct StartDominantLanguageDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
@@ -3288,9 +3428,9 @@ extension Comprehend {
         public let jobName: String?
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your dominant language detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartDominantLanguageDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3331,9 +3471,10 @@ extension Comprehend {
     }
 
     public struct StartDominantLanguageDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3348,6 +3489,7 @@ extension Comprehend {
     }
 
     public struct StartEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
@@ -3362,9 +3504,9 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your entity detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, entityRecognizerArn: String? = nil, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3411,9 +3553,10 @@ extension Comprehend {
     }
 
     public struct StartEntitiesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of job, use this identifier with the operation.
         public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.   STOP_REQUESTED - Amazon Comprehend has received a stop request for the job and is processing the request.   STOPPED - The job was successfully stopped without completing.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3428,6 +3571,7 @@ extension Comprehend {
     }
 
     public struct StartKeyPhrasesDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
@@ -3440,9 +3584,9 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC.
+        ///  Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your key phrases detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartKeyPhrasesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3485,9 +3629,10 @@ extension Comprehend {
     }
 
     public struct StartKeyPhrasesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3502,6 +3647,7 @@ extension Comprehend {
     }
 
     public struct StartPiiEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
@@ -3558,6 +3704,7 @@ extension Comprehend {
     }
 
     public struct StartPiiEntitiesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job.
         public let jobId: String?
         /// The status of the job.
@@ -3575,6 +3722,7 @@ extension Comprehend {
     }
 
     public struct StartSentimentDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
@@ -3585,11 +3733,11 @@ extension Comprehend {
         public let jobName: String?
         /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
         public let languageCode: LanguageCode
-        /// Specifies where to send the output files.
+        /// Specifies where to send the output files. 
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your sentiment detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3632,9 +3780,10 @@ extension Comprehend {
     }
 
     public struct StartSentimentDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of a job, use this identifier with the operation.
         public let jobId: String?
-        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the operation.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3649,6 +3798,7 @@ extension Comprehend {
     }
 
     public struct StartTopicsDetectionJobRequest: AWSEncodableShape {
+
         /// A unique identifier for the request. If you do not set the client request token, Amazon Comprehend generates one.
         public let clientRequestToken: String?
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions.html#auth-role-permissions.
@@ -3661,9 +3811,9 @@ extension Comprehend {
         public let numberOfTopics: Int?
         /// Specifies where to send the output files. The output is a compressed archive with two files, topic-terms.csv that lists the terms associated with each topic, and doc-topics.csv that lists the documents associated with each topic
         public let outputDataConfig: OutputDataConfig
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
+        /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(clientRequestToken: String? = StartTopicsDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -3708,9 +3858,10 @@ extension Comprehend {
     }
 
     public struct StartTopicsDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier generated for the job. To get the status of the job, use this identifier with the DescribeTopicDetectionJob operation.
         public let jobId: String?
-        /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.
+        /// The status of the job:    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the DescribeTopicDetectionJob operation.  
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
@@ -3725,6 +3876,7 @@ extension Comprehend {
     }
 
     public struct StopDominantLanguageDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier of the dominant language detection job to stop.
         public let jobId: String
 
@@ -3744,6 +3896,7 @@ extension Comprehend {
     }
 
     public struct StopDominantLanguageDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier of the dominant language detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopDominantLanguageDetectionJob operation.
@@ -3761,6 +3914,7 @@ extension Comprehend {
     }
 
     public struct StopEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier of the entities detection job to stop.
         public let jobId: String
 
@@ -3780,6 +3934,7 @@ extension Comprehend {
     }
 
     public struct StopEntitiesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier of the entities detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopEntitiesDetectionJob operation.
@@ -3797,6 +3952,7 @@ extension Comprehend {
     }
 
     public struct StopKeyPhrasesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String
 
@@ -3816,6 +3972,7 @@ extension Comprehend {
     }
 
     public struct StopKeyPhrasesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
@@ -3833,6 +3990,7 @@ extension Comprehend {
     }
 
     public struct StopPiiEntitiesDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier of the PII entities detection job to stop.
         public let jobId: String
 
@@ -3852,6 +4010,7 @@ extension Comprehend {
     }
 
     public struct StopPiiEntitiesDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier of the PII entities detection job to stop.
         public let jobId: String?
         /// The status of the PII entities detection job.
@@ -3869,6 +4028,7 @@ extension Comprehend {
     }
 
     public struct StopSentimentDetectionJobRequest: AWSEncodableShape {
+
         /// The identifier of the sentiment detection job to stop.
         public let jobId: String
 
@@ -3888,6 +4048,7 @@ extension Comprehend {
     }
 
     public struct StopSentimentDetectionJobResponse: AWSDecodableShape {
+
         /// The identifier of the sentiment detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
@@ -3905,6 +4066,7 @@ extension Comprehend {
     }
 
     public struct StopTrainingDocumentClassifierRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
         public let documentClassifierArn: String
 
@@ -3923,10 +4085,15 @@ extension Comprehend {
     }
 
     public struct StopTrainingDocumentClassifierResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct StopTrainingEntityRecognizerRequest: AWSEncodableShape {
+
         /// The Amazon Resource Name (ARN) that identifies the entity recognizer currently being trained.
         public let entityRecognizerArn: String
 
@@ -3945,10 +4112,15 @@ extension Comprehend {
     }
 
     public struct StopTrainingEntityRecognizerResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct SyntaxToken: AWSDecodableShape {
+
         /// The zero-based offset from the beginning of the source text to the first character in the word.
         public let beginOffset: Int?
         /// The zero-based offset from the beginning of the source text to the last character in the word.
@@ -3978,9 +4150,10 @@ extension Comprehend {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the key portion of the pair, with multiple possible values such as “sales,” “legal,” and “administration.”
+
+        /// The initial part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the key portion of the pair, with multiple possible values such as “sales,” “legal,” and “administration.” 
         public let key: String
-        ///  The second part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the initial (key) portion of the pair, with a value of “sales” to indicate the sales department.
+        ///  The second part of a key-value pair that forms a tag associated with a given resource. For instance, if you want to show which resources are used by which departments, you might use “Department” as the initial (key) portion of the pair, with a value of “sales” to indicate the sales department. 
         public let value: String?
 
         public init(key: String, value: String? = nil) {
@@ -4002,9 +4175,10 @@ extension Comprehend {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to which you want to associate the tags.
+
+        /// The Amazon Resource Name (ARN) of the given Amazon Comprehend resource to which you want to associate the tags. 
         public let resourceArn: String
-        /// Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource.
+        /// Tags being associated with a specific Amazon Comprehend resource. There can be a maximum of 50 tags (both existing and pending) associated with a specific resource. 
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -4027,10 +4201,15 @@ extension Comprehend {
     }
 
     public struct TagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct TopicsDetectionJobFilter: AWSEncodableShape {
+
         public let jobName: String?
         /// Filters the list of topic detection jobs based on job status. Returns only jobs with the specified status.
         public let jobStatus: JobStatus?
@@ -4061,7 +4240,8 @@ extension Comprehend {
     }
 
     public struct TopicsDetectionJobProperties: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data.
+
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that grants Amazon Comprehend read access to your job data. 
         public let dataAccessRoleArn: String?
         /// The time that the topic detection job was completed.
         public let endTime: Date?
@@ -4075,15 +4255,15 @@ extension Comprehend {
         public let jobStatus: JobStatus?
         /// A description for the status of a job.
         public let message: String?
-        /// The number of topics to detect supplied when you created the topic detection job. The default is 10.
+        /// The number of topics to detect supplied when you created the topic detection job. The default is 10. 
         public let numberOfTopics: Int?
         /// The output data configuration supplied when you created the topic detection job.
         public let outputDataConfig: OutputDataConfig?
         /// The time that the topic detection job was submitted for processing.
         public let submitTime: Date?
-        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"   
         public let volumeKmsKeyId: String?
-        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC.
+        /// Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your topic detection job. For more information, see Amazon VPC. 
         public let vpcConfig: VpcConfig?
 
         public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, numberOfTopics: Int? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
@@ -4118,9 +4298,10 @@ extension Comprehend {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from which you want to remove the tags.
+
+        ///  The Amazon Resource Name (ARN) of the given Amazon Comprehend resource from which you want to remove the tags. 
         public let resourceArn: String
-        /// The initial part of a key-value pair that forms a tag being removed from a given resource. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. Keys must be unique and cannot be duplicated for a particular resource.
+        /// The initial part of a key-value pair that forms a tag being removed from a given resource. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department. Keys must be unique and cannot be duplicated for a particular resource. 
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -4144,10 +4325,15 @@ extension Comprehend {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateEndpointRequest: AWSEncodableShape {
+
         ///  The desired number of inference units to be used by the model using this endpoint. Each inference unit represents of a throughput of 100 characters per second.
         public let desiredInferenceUnits: Int
         /// The Amazon Resource Number (ARN) of the endpoint being updated.
@@ -4171,13 +4357,18 @@ extension Comprehend {
     }
 
     public struct UpdateEndpointResponse: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC.
+
+        /// The ID number for a security group on an instance of your private VPC. Security groups on your VPC function serve as a virtual firewall to control inbound and outbound traffic and provides security for the resources that you’ll be accessing on the VPC. This ID number is preceded by "sg-", for instance: "sg-03b388029b0a285ea". For more information, see Security Groups for your VPC. 
         public let securityGroupIds: [String]
-        /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets.
+        /// The ID for each subnet being used in your private VPC. This subnet is a subset of the a range of IPv4 addresses used by the VPC and is specific to a given availability zone in the VPC’s region. This ID number is preceded by "subnet-", for instance: "subnet-04ccf456919e69055". For more information, see VPCs and Subnets. 
         public let subnets: [String]
 
         public init(securityGroupIds: [String], subnets: [String]) {

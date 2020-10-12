@@ -32,7 +32,7 @@ extension S3 {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable {
-        case `private`
+        case `private` = "private"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         case authenticatedRead = "authenticated-read"
@@ -96,7 +96,7 @@ extension S3 {
     }
 
     public enum EncodingType: String, CustomStringConvertible, Codable {
-        case url
+        case url = "url"
         public var description: String { return self.rawValue }
     }
 
@@ -146,8 +146,8 @@ extension S3 {
     }
 
     public enum FilterRuleName: String, CustomStringConvertible, Codable {
-        case prefix
-        case suffix
+        case prefix = "prefix"
+        case suffix = "suffix"
         public var description: String { return self.rawValue }
     }
 
@@ -216,7 +216,7 @@ extension S3 {
     }
 
     public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
-        case `private`
+        case `private` = "private"
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
         case authenticatedRead = "authenticated-read"
@@ -293,8 +293,8 @@ extension S3 {
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case http
-        case https
+        case http = "http"
+        case https = "https"
         public var description: String { return self.rawValue }
     }
 
@@ -325,12 +325,12 @@ extension S3 {
     }
 
     public enum RequestCharged: String, CustomStringConvertible, Codable {
-        case requester
+        case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
     public enum RequestPayer: String, CustomStringConvertible, Codable {
-        case requester
+        case requester = "requester"
         public var description: String { return self.rawValue }
     }
 
@@ -400,6 +400,7 @@ extension S3 {
     // MARK: Shapes
 
     public struct AbortIncompleteMultipartUpload: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days after which Amazon S3 aborts an incomplete multipart upload.
         public let daysAfterInitiation: Int?
 
@@ -430,10 +431,10 @@ extension S3 {
 
     public struct AbortMultipartUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
@@ -479,7 +480,7 @@ extension S3 {
 
     public struct AccessControlPolicy: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
         @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
@@ -499,6 +500,7 @@ extension S3 {
     }
 
     public struct AccessControlTranslation: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the replica ownership. For default and valid values, see PUT bucket replication in the Amazon Simple Storage Service API Reference.
         public let owner: OwnerOverride
 
@@ -512,6 +514,7 @@ extension S3 {
     }
 
     public struct AnalyticsAndOperator: AWSEncodableShape & AWSDecodableShape {
+
         /// The prefix to use when evaluating an AND predicate: The prefix that an object must have to be included in the metrics results.
         public let prefix: String?
         /// The list of tags to use when evaluating an AND predicate.
@@ -541,7 +544,7 @@ extension S3 {
         public let filter: AnalyticsFilter?
         /// The ID that identifies the analytics configuration.
         public let id: String
-        ///  Contains data related to access patterns to be collected and made available to analyze the tradeoffs between different storage classes.
+        ///  Contains data related to access patterns to be collected and made available to analyze the tradeoffs between different storage classes. 
         public let storageClassAnalysis: StorageClassAnalysis
 
         public init(filter: AnalyticsFilter? = nil, id: String, storageClassAnalysis: StorageClassAnalysis) {
@@ -562,6 +565,7 @@ extension S3 {
     }
 
     public struct AnalyticsExportDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// A destination signifying output to an S3 bucket.
         public let s3BucketDestination: AnalyticsS3BucketDestination
 
@@ -575,6 +579,7 @@ extension S3 {
     }
 
     public struct AnalyticsFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// A conjunction (logical AND) of predicates, which is used in evaluating an analytics filter. The operator must have at least two predicates.
         public let and: AnalyticsAndOperator?
         /// The prefix to use when evaluating an analytics filter.
@@ -601,9 +606,10 @@ extension S3 {
     }
 
     public struct AnalyticsS3BucketDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon Resource Name (ARN) of the bucket to which data is exported.
         public let bucket: String
-        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.   Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.
+        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.   Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.  
         public let bucketAccountId: String?
         /// Specifies the file format used when exporting data to Amazon S3.
         public let format: AnalyticsS3ExportFileFormat
@@ -626,6 +632,7 @@ extension S3 {
     }
 
     public struct Bucket: AWSDecodableShape {
+
         /// Date the bucket was created.
         public let creationDate: Date?
         /// The name of the bucket.
@@ -693,6 +700,7 @@ extension S3 {
     }
 
     public struct CORSRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Headers that are specified in the Access-Control-Request-Headers header. These headers are allowed in a preflight OPTIONS request. In response to any preflight OPTIONS request, Amazon S3 returns any requested headers that are allowed.
         public let allowedHeaders: [String]?
         /// An HTTP method that you allow the origin to execute. Valid values are GET, PUT, HEAD, POST, and DELETE.
@@ -722,15 +730,16 @@ extension S3 {
     }
 
     public struct CSVInput: AWSEncodableShape {
+
         /// Specifies that CSV field values may contain quoted record delimiters and such records should be allowed. Default value is FALSE. Setting this value to TRUE may lower performance.
         public let allowQuotedRecordDelimiter: Bool?
         /// A single character used to indicate that a row should be ignored when the character is present at the start of that row. You can specify any character to indicate a comment line.
         public let comments: String?
         /// A single character used to separate individual fields in a record. You can specify an arbitrary delimiter.
         public let fieldDelimiter: String?
-        /// Describes the first line of input. Valid values are:    NONE: First line is not a header.    IGNORE: First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, …) to indicate the column (SELECT s._1 FROM OBJECT s).    Use: First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT).
+        /// Describes the first line of input. Valid values are:    NONE: First line is not a header.    IGNORE: First line is a header, but you can't use the header values to indicate the column in an expression. You can use column position (such as _1, _2, …) to indicate the column (SELECT s._1 FROM OBJECT s).    Use: First line is a header, and you can use the header value to identify a column in an expression (SELECT "name" FROM OBJECT).   
         public let fileHeaderInfo: FileHeaderInfo?
-        /// A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b, Amazon S3 wraps this field value in quotation marks, as follows: " a , b ". Type: String Default: "  Ancestors: CSV
+        /// A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b, Amazon S3 wraps this field value in quotation marks, as follows: " a , b ". Type: String Default: "  Ancestors: CSV 
         public let quoteCharacter: String?
         /// A single character used for escaping the quotation mark character inside an already escaped value. For example, the value """ a , b """ is parsed as " a , b ".
         public let quoteEscapeCharacter: String?
@@ -759,13 +768,14 @@ extension S3 {
     }
 
     public struct CSVOutput: AWSEncodableShape {
+
         /// The value used to separate individual fields in a record. You can specify an arbitrary delimiter.
         public let fieldDelimiter: String?
         /// A single character used for escaping when the field delimiter is part of the value. For example, if the value is a, b, Amazon S3 wraps this field value in quotation marks, as follows: " a , b ".
         public let quoteCharacter: String?
         /// The single character used for escaping the quote character inside an already escaped value.
         public let quoteEscapeCharacter: String?
-        /// Indicates whether to use quotation marks around output fields.     ALWAYS: Always use quotation marks for output fields.    ASNEEDED: Use quotation marks for output fields when needed.
+        /// Indicates whether to use quotation marks around output fields.     ALWAYS: Always use quotation marks for output fields.    ASNEEDED: Use quotation marks for output fields when needed.  
         public let quoteFields: QuoteFields?
         /// A single character used to separate individual records in the output. Instead of the default value, you can specify an arbitrary delimiter.
         public let recordDelimiter: String?
@@ -788,6 +798,7 @@ extension S3 {
     }
 
     public struct CloudFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Lambda cloud function ARN that Amazon S3 can invoke when it detects events of the specified type.
         public let cloudFunction: String?
         /// Bucket events for which to send notifications.
@@ -812,6 +823,7 @@ extension S3 {
     }
 
     public struct CommonPrefix: AWSDecodableShape {
+
         /// Container for the specified common prefix.
         public let prefix: String?
 
@@ -826,10 +838,10 @@ extension S3 {
 
     public struct CompleteMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
+            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
@@ -880,11 +892,11 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "multipartUpload"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "multipartUpload", location: .body(locationName: "CompleteMultipartUpload")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "multipartUpload", location: .body(locationName: "CompleteMultipartUpload")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
@@ -934,6 +946,7 @@ extension S3 {
     }
 
     public struct CompletedPart: AWSEncodableShape {
+
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Part number that identifies the part. This is a positive integer between 1 and 10,000.
@@ -951,6 +964,7 @@ extension S3 {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
+
         /// The HTTP error code when the redirect is applied. In the event of an error, if the error code equals this value, then the specified redirect is applied. Required when parent element Condition is specified and sibling KeyPrefixEquals is not specified. If both are specified, then both must be true for the redirect to be applied.
         public let httpErrorCodeReturnedEquals: String?
         /// The object key name prefix when the redirect is applied. For example, to redirect requests for ExamplePage.html, the key prefix will be ExamplePage.html. To redirect request for all pages with the prefix docs/, the key prefix will be /docs, which identifies all objects in the docs/ folder. Required when the parent element Condition is specified and sibling HttpErrorCodeReturnedEquals is not specified. If both conditions are specified, both must be true for the redirect to be applied.
@@ -968,22 +982,26 @@ extension S3 {
     }
 
     public struct ContinuationEvent: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct CopyObjectOutput: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "copyObjectResult"
         public static var _encoding = [
-            AWSMemberEncoding(label: "copyObjectResult", location: .body(locationName: "CopyObjectResult")),
-            AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")),
-            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
+            AWSMemberEncoding(label: "copyObjectResult", location: .body(locationName: "CopyObjectResult")), 
+            AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
+            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
@@ -1036,44 +1054,44 @@ extension S3 {
 
     public struct CopyObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "copySource", location: .header(locationName: "x-amz-copy-source")),
-            AWSMemberEncoding(label: "copySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match")),
-            AWSMemberEncoding(label: "copySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since")),
-            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match")),
-            AWSMemberEncoding(label: "copySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since")),
-            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")),
-            AWSMemberEncoding(label: "metadataDirective", location: .header(locationName: "x-amz-metadata-directive")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")),
-            AWSMemberEncoding(label: "taggingDirective", location: .header(locationName: "x-amz-tagging-directive")),
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "copySource", location: .header(locationName: "x-amz-copy-source")), 
+            AWSMemberEncoding(label: "copySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match")), 
+            AWSMemberEncoding(label: "copySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since")), 
+            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match")), 
+            AWSMemberEncoding(label: "copySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
+            AWSMemberEncoding(label: "metadataDirective", location: .header(locationName: "x-amz-metadata-directive")), 
+            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
+            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
+            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")), 
+            AWSMemberEncoding(label: "taggingDirective", location: .header(locationName: "x-amz-tagging-directive")), 
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
@@ -1206,6 +1224,7 @@ extension S3 {
     }
 
     public struct CopyObjectResult: AWSDecodableShape {
+
         /// Returns the ETag of the new object. The ETag reflects only changes to the contents of an object, not its metadata. The source and destination ETag is identical for a successfully copied object.
         public let eTag: String?
         /// Returns the date that the object was last modified.
@@ -1223,6 +1242,7 @@ extension S3 {
     }
 
     public struct CopyPartResult: AWSDecodableShape {
+
         /// Entity tag of the object.
         public let eTag: String?
         /// Date and time at which the object was uploaded.
@@ -1275,14 +1295,14 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "createBucketConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "createBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "createBucketConfiguration", location: .body(locationName: "CreateBucketConfiguration")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")), 
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
             AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header(locationName: "x-amz-bucket-object-lock-enabled"))
         ]
 
@@ -1324,13 +1344,13 @@ extension S3 {
 
     public struct CreateMultipartUploadOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")),
-            AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
+            AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
+            AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
             AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
@@ -1387,33 +1407,33 @@ extension S3 {
 
     public struct CreateMultipartUploadRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")),
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
+            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
+            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
+            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")), 
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
@@ -1512,6 +1532,7 @@ extension S3 {
     }
 
     public struct DefaultRetention: AWSEncodableShape & AWSDecodableShape {
+
         /// The number of days that you want to specify for the default retention period.
         public let days: Int?
         /// The default Object Lock retention mode you want to apply to new objects placed in the specified bucket.
@@ -1559,8 +1580,8 @@ extension S3 {
 
     public struct DeleteBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -1582,7 +1603,7 @@ extension S3 {
 
     public struct DeleteBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1601,7 +1622,7 @@ extension S3 {
 
     public struct DeleteBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1620,8 +1641,8 @@ extension S3 {
 
     public struct DeleteBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -1643,7 +1664,7 @@ extension S3 {
 
     public struct DeleteBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1662,8 +1683,8 @@ extension S3 {
 
     public struct DeleteBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -1685,11 +1706,11 @@ extension S3 {
 
     public struct DeleteBucketOwnershipControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The Amazon S3 bucket whose OwnershipControls you want to delete.
+        /// The Amazon S3 bucket whose OwnershipControls you want to delete. 
         public let bucket: String
         public let expectedBucketOwner: String?
 
@@ -1703,7 +1724,7 @@ extension S3 {
 
     public struct DeleteBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1722,11 +1743,11 @@ extension S3 {
 
     public struct DeleteBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        ///  The bucket name.
+        ///  The bucket name. 
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -1741,7 +1762,7 @@ extension S3 {
 
     public struct DeleteBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1760,7 +1781,7 @@ extension S3 {
 
     public struct DeleteBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -1779,11 +1800,11 @@ extension S3 {
 
     public struct DeleteBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The bucket name for which you want to remove the website configuration.
+        /// The bucket name for which you want to remove the website configuration. 
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -1797,6 +1818,7 @@ extension S3 {
     }
 
     public struct DeleteMarkerEntry: AWSDecodableShape {
+
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
         public let isLatest: Bool?
         /// The object key.
@@ -1826,7 +1848,8 @@ extension S3 {
     }
 
     public struct DeleteMarkerReplication: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether to replicate delete markers.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.
+
+        /// Indicates whether to replicate delete markers.   In the current implementation, Amazon S3 doesn't replicate the delete markers. The status must be Disabled.  
         public let status: DeleteMarkerReplicationStatus?
 
         public init(status: DeleteMarkerReplicationStatus? = nil) {
@@ -1840,8 +1863,8 @@ extension S3 {
 
     public struct DeleteObjectOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
+            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
@@ -1866,12 +1889,12 @@ extension S3 {
 
     public struct DeleteObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -1925,9 +1948,9 @@ extension S3 {
 
     public struct DeleteObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -1982,11 +2005,11 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "delete"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "delete", location: .body(locationName: "Delete")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
+            AWSMemberEncoding(label: "delete", location: .body(locationName: "Delete")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
@@ -2022,11 +2045,11 @@ extension S3 {
 
     public struct DeletePublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete.
+        /// The Amazon S3 bucket whose PublicAccessBlock configuration you want to delete. 
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -2040,6 +2063,7 @@ extension S3 {
     }
 
     public struct DeletedObject: AWSDecodableShape {
+
         /// Specifies whether the versioned object that was permanently deleted was (true) or was not (false) a delete marker. In a simple DELETE, this header indicates whether (true) or not (false) a delete marker was created.
         public let deleteMarker: Bool?
         /// The version ID of the delete marker created as a result of the DELETE operation. If you delete a specific object version, the value returned by this header is the version ID of the object version deleted.
@@ -2065,6 +2089,7 @@ extension S3 {
     }
 
     public struct Destination: AWSEncodableShape & AWSDecodableShape {
+
         /// Specify this only in a cross-account scenario (where source and destination bucket owners are not the same), and you want to change replica ownership to the AWS account that owns the destination bucket. If this is not specified in the replication configuration, the replicas are owned by same AWS account that owns the source object.
         public let accessControlTranslation: AccessControlTranslation?
         /// Destination bucket owner account ID. In a cross-account scenario, if you direct Amazon S3 to change replica ownership to the AWS account that owns the destination bucket by specifying the AccessControlTranslation property, this is the account ID of the destination bucket owner. For more information, see Replication Additional Configuration: Changing the Replica Owner in the Amazon Simple Storage Service Developer Guide.
@@ -2073,9 +2098,9 @@ extension S3 {
         public let bucket: String
         /// A container that provides information about encryption. If SourceSelectionCriteria is specified, you must specify this element.
         public let encryptionConfiguration: EncryptionConfiguration?
-        ///  A container specifying replication metrics-related settings enabling metrics and Amazon S3 events for S3 Replication Time Control (S3 RTC). Must be specified together with a ReplicationTime block.
+        ///  A container specifying replication metrics-related settings enabling metrics and Amazon S3 events for S3 Replication Time Control (S3 RTC). Must be specified together with a ReplicationTime block. 
         public let metrics: Metrics?
-        ///  A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block.
+        ///  A container specifying S3 Replication Time Control (S3 RTC), including whether S3 RTC is enabled and the time when all objects and operations on objects must be replicated. Must be specified together with a Metrics block. 
         public let replicationTime: ReplicationTime?
         ///  The storage class to use when replicating objects, such as S3 Standard or reduced redundancy. By default, Amazon S3 uses the storage class of the source object to create the object replica.  For valid values, see the StorageClass element of the PUT Bucket replication action in the Amazon Simple Storage Service API Reference.
         public let storageClass: StorageClass?
@@ -2102,6 +2127,7 @@ extension S3 {
     }
 
     public struct Encryption: AWSEncodableShape {
+
         /// The server-side encryption algorithm used when storing job results in Amazon S3 (for example, AES256, aws:kms).
         public let encryptionType: ServerSideEncryption
         /// If the encryption type is aws:kms, this optional value can be used to specify the encryption context for the restore results.
@@ -2123,6 +2149,7 @@ extension S3 {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the ID (Key ARN or Alias ARN) of the customer managed customer master key (CMK) stored in AWS Key Management Service (KMS) for the destination bucket. Amazon S3 uses this key to encrypt replica objects. Amazon S3 only supports symmetric customer managed CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide.
         public let replicaKmsKeyID: String?
 
@@ -2136,11 +2163,16 @@ extension S3 {
     }
 
     public struct EndEvent: AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Error: AWSDecodableShape {
-        /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.   Amazon S3 error codes       Code: AccessDenied     Description: Access Denied    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AccountProblem    Description: There is a problem with your AWS account that prevents the operation from completing successfully. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AllAccessDisabled    Description: All access to this Amazon S3 resource has been disabled. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AmbiguousGrantByEmailAddress    Description: The email address you provided is associated with more than one account.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: AuthorizationHeaderMalformed    Description: The authorization header you provided is invalid.    HTTP Status Code: 400 Bad Request    HTTP Status Code: N/A        Code: BadDigest    Description: The Content-MD5 you specified did not match what we received.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: BucketAlreadyExists    Description: The requested bucket name is not available. The bucket namespace is shared by all users of the system. Please select a different name and try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: BucketAlreadyOwnedByYou    Description: The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).    Code: 409 Conflict (in all Regions except the North Virginia Region)     SOAP Fault Code Prefix: Client        Code: BucketNotEmpty    Description: The bucket you tried to delete is not empty.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: CredentialsNotSupported    Description: This request does not support credentials.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: CrossLocationLoggingProhibited    Description: Cross-location logging not allowed. Buckets in one geographic location cannot log information to a bucket in another location.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: EntityTooLarge    Description: Your proposed upload exceeds the maximum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: ExpiredToken    Description: The provided token has expired.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IllegalVersioningConfigurationException     Description: Indicates that the versioning configuration specified in the request is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncompleteBody    Description: You did not provide the number of bytes specified by the Content-Length HTTP header    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncorrectNumberOfFilesInPostRequest    Description: POST requires exactly one file upload per request.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InlineDataTooLarge    Description: Inline data exceeds the maximum allowed size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InternalError    Description: We encountered an internal error. Please try again.    HTTP Status Code: 500 Internal Server Error    SOAP Fault Code Prefix: Server        Code: InvalidAccessKeyId    Description: The AWS access key ID you provided does not exist in our records.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidAddressingHeader    Description: You must specify the Anonymous role.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: InvalidArgument    Description: Invalid Argument    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketName    Description: The specified bucket is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketState    Description: The request is not valid with the current state of the bucket.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: InvalidDigest    Description: The Content-MD5 you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidEncryptionAlgorithmError    Description: The encryption request you specified is not valid. The valid value is AES256.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidLocationConstraint    Description: The specified location constraint is not valid. For more information about Regions, see How to Select a Region for Your Buckets.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidObjectState    Description: The operation is not valid for the current state of the object.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPart    Description: One or more of the specified parts could not be found. The part might not have been uploaded, or the specified entity tag might not have matched the part's entity tag.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPartOrder    Description: The list of parts was not in ascending order. Parts list must be specified in order by part number.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPayer    Description: All access to this object has been disabled. Please contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPolicyDocument    Description: The content of the form does not meet the conditions specified in the policy document.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRange    Description: The requested range cannot be satisfied.    HTTP Status Code: 416 Requested Range Not Satisfiable    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Please use AWS4-HMAC-SHA256.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: SOAP requests must be made over an HTTPS connection.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with non-DNS compliant names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with periods (.) in their names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate endpoint only supports virtual style requests.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is not configured on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is disabled on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration cannot be enabled on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidSecurity    Description: The provided security credentials are not valid.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidSOAPRequest    Description: The SOAP request body is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidStorageClass    Description: The storage class you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidTargetBucketForLogging    Description: The target bucket for logging does not exist, is not owned by you, or does not have the appropriate grants for the log-delivery group.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidToken    Description: The provided token is malformed or otherwise invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidURI    Description: Couldn't parse the specified URI.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: KeyTooLongError    Description: Your key is too long.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedACLError    Description: The XML you provided was not well-formed or did not validate against our published schema.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedPOSTRequest     Description: The body of your POST request is not well-formed multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedXML    Description: This happens when the user sends malformed XML (XML that doesn't conform to the published XSD) for the configuration. The error message is, "The XML you provided was not well-formed or did not validate against our published schema."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxMessageLengthExceeded    Description: Your request was too big.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxPostPreDataLengthExceededError    Description: Your POST request fields preceding the upload file were too large.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MetadataTooLarge    Description: Your metadata headers exceed the maximum allowed metadata size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MethodNotAllowed    Description: The specified method is not allowed against this resource.    HTTP Status Code: 405 Method Not Allowed    SOAP Fault Code Prefix: Client        Code: MissingAttachment    Description: A SOAP attachment was expected, but none were found.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: MissingContentLength    Description: You must provide the Content-Length HTTP header.    HTTP Status Code: 411 Length Required    SOAP Fault Code Prefix: Client        Code: MissingRequestBodyError    Description: This happens when the user sends an empty XML document as a request. The error message is, "Request body is empty."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityElement    Description: The SOAP 1.1 request is missing a security element.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityHeader    Description: Your request is missing a required header.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoLoggingStatusForKey    Description: There is no such thing as a logging status subresource for a key.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoSuchBucket    Description: The specified bucket does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchBucketPolicy    Description: The specified bucket does not have a bucket policy.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchKey    Description: The specified key does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.     HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchVersion     Description: Indicates that the version ID specified in the request does not match an existing version.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NotImplemented    Description: A header you provided implies functionality that is not implemented.    HTTP Status Code: 501 Not Implemented    SOAP Fault Code Prefix: Server        Code: NotSignedUp    Description: Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: OperationAborted    Description: A conflicting conditional operation is currently in progress against this resource. Try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: PermanentRedirect    Description: The bucket you are attempting to access must be addressed using the specified endpoint. Send all future requests to this endpoint.    HTTP Status Code: 301 Moved Permanently    SOAP Fault Code Prefix: Client        Code: PreconditionFailed    Description: At least one of the preconditions you specified did not hold.    HTTP Status Code: 412 Precondition Failed    SOAP Fault Code Prefix: Client        Code: Redirect    Description: Temporary redirect.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: RestoreAlreadyInProgress    Description: Object restore is already in progress.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: RequestIsNotMultiPartContent    Description: Bucket POST must be of the enclosure-type multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeout    Description: Your socket connection to the server was not read from or written to within the timeout period.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeTooSkewed    Description: The difference between the request time and the server's time is too large.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: RequestTorrentOfBucketError    Description: Requesting the torrent file of a bucket is not permitted.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: SignatureDoesNotMatch    Description: The request signature we calculated does not match the signature you provided. Check your AWS secret access key and signing method. For more information, see REST Authentication and SOAP Authentication for details.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: ServiceUnavailable    Description: Reduce your request rate.    HTTP Status Code: 503 Service Unavailable    SOAP Fault Code Prefix: Server        Code: SlowDown    Description: Reduce your request rate.    HTTP Status Code: 503 Slow Down    SOAP Fault Code Prefix: Server        Code: TemporaryRedirect    Description: You are being redirected to the bucket while DNS updates.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: TokenRefreshRequired    Description: The provided token must be refreshed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: TooManyBuckets    Description: You have attempted to create more buckets than allowed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnexpectedContent    Description: This request does not support content.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnresolvableGrantByEmailAddress    Description: The email address you provided does not match any account on record.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UserKeyMustBeSpecified    Description: The bucket POST must contain the specified field name. If it is specified, check the order of the fields.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client
+
+        /// The error code is a string that uniquely identifies an error condition. It is meant to be read and understood by programs that detect and handle errors by type.   Amazon S3 error codes       Code: AccessDenied     Description: Access Denied    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AccountProblem    Description: There is a problem with your AWS account that prevents the operation from completing successfully. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AllAccessDisabled    Description: All access to this Amazon S3 resource has been disabled. Contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: AmbiguousGrantByEmailAddress    Description: The email address you provided is associated with more than one account.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: AuthorizationHeaderMalformed    Description: The authorization header you provided is invalid.    HTTP Status Code: 400 Bad Request    HTTP Status Code: N/A        Code: BadDigest    Description: The Content-MD5 you specified did not match what we received.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: BucketAlreadyExists    Description: The requested bucket name is not available. The bucket namespace is shared by all users of the system. Please select a different name and try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: BucketAlreadyOwnedByYou    Description: The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).    Code: 409 Conflict (in all Regions except the North Virginia Region)     SOAP Fault Code Prefix: Client        Code: BucketNotEmpty    Description: The bucket you tried to delete is not empty.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: CredentialsNotSupported    Description: This request does not support credentials.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: CrossLocationLoggingProhibited    Description: Cross-location logging not allowed. Buckets in one geographic location cannot log information to a bucket in another location.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: EntityTooSmall    Description: Your proposed upload is smaller than the minimum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: EntityTooLarge    Description: Your proposed upload exceeds the maximum allowed object size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: ExpiredToken    Description: The provided token has expired.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IllegalVersioningConfigurationException     Description: Indicates that the versioning configuration specified in the request is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncompleteBody    Description: You did not provide the number of bytes specified by the Content-Length HTTP header    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: IncorrectNumberOfFilesInPostRequest    Description: POST requires exactly one file upload per request.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InlineDataTooLarge    Description: Inline data exceeds the maximum allowed size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InternalError    Description: We encountered an internal error. Please try again.    HTTP Status Code: 500 Internal Server Error    SOAP Fault Code Prefix: Server        Code: InvalidAccessKeyId    Description: The AWS access key ID you provided does not exist in our records.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidAddressingHeader    Description: You must specify the Anonymous role.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: InvalidArgument    Description: Invalid Argument    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketName    Description: The specified bucket is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidBucketState    Description: The request is not valid with the current state of the bucket.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: InvalidDigest    Description: The Content-MD5 you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidEncryptionAlgorithmError    Description: The encryption request you specified is not valid. The valid value is AES256.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidLocationConstraint    Description: The specified location constraint is not valid. For more information about Regions, see How to Select a Region for Your Buckets.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidObjectState    Description: The operation is not valid for the current state of the object.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPart    Description: One or more of the specified parts could not be found. The part might not have been uploaded, or the specified entity tag might not have matched the part's entity tag.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPartOrder    Description: The list of parts was not in ascending order. Parts list must be specified in order by part number.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidPayer    Description: All access to this object has been disabled. Please contact AWS Support for further assistance.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidPolicyDocument    Description: The content of the form does not meet the conditions specified in the policy document.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRange    Description: The requested range cannot be satisfied.    HTTP Status Code: 416 Requested Range Not Satisfiable    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Please use AWS4-HMAC-SHA256.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: SOAP requests must be made over an HTTPS connection.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with non-DNS compliant names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported for buckets with periods (.) in their names.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate endpoint only supports virtual style requests.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is not configured on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Accelerate is disabled on this bucket.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration is not supported on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidRequest    Description: Amazon S3 Transfer Acceleration cannot be enabled on this bucket. Contact AWS Support for more information.    HTTP Status Code: 400 Bad Request    Code: N/A        Code: InvalidSecurity    Description: The provided security credentials are not valid.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: InvalidSOAPRequest    Description: The SOAP request body is invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidStorageClass    Description: The storage class you specified is not valid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidTargetBucketForLogging    Description: The target bucket for logging does not exist, is not owned by you, or does not have the appropriate grants for the log-delivery group.     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidToken    Description: The provided token is malformed or otherwise invalid.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: InvalidURI    Description: Couldn't parse the specified URI.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: KeyTooLongError    Description: Your key is too long.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedACLError    Description: The XML you provided was not well-formed or did not validate against our published schema.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedPOSTRequest     Description: The body of your POST request is not well-formed multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MalformedXML    Description: This happens when the user sends malformed XML (XML that doesn't conform to the published XSD) for the configuration. The error message is, "The XML you provided was not well-formed or did not validate against our published schema."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxMessageLengthExceeded    Description: Your request was too big.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MaxPostPreDataLengthExceededError    Description: Your POST request fields preceding the upload file were too large.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MetadataTooLarge    Description: Your metadata headers exceed the maximum allowed metadata size.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MethodNotAllowed    Description: The specified method is not allowed against this resource.    HTTP Status Code: 405 Method Not Allowed    SOAP Fault Code Prefix: Client        Code: MissingAttachment    Description: A SOAP attachment was expected, but none were found.    HTTP Status Code: N/A    SOAP Fault Code Prefix: Client        Code: MissingContentLength    Description: You must provide the Content-Length HTTP header.    HTTP Status Code: 411 Length Required    SOAP Fault Code Prefix: Client        Code: MissingRequestBodyError    Description: This happens when the user sends an empty XML document as a request. The error message is, "Request body is empty."     HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityElement    Description: The SOAP 1.1 request is missing a security element.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: MissingSecurityHeader    Description: Your request is missing a required header.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoLoggingStatusForKey    Description: There is no such thing as a logging status subresource for a key.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: NoSuchBucket    Description: The specified bucket does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchBucketPolicy    Description: The specified bucket does not have a bucket policy.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchKey    Description: The specified key does not exist.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchLifecycleConfiguration    Description: The lifecycle configuration does not exist.     HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchUpload    Description: The specified multipart upload does not exist. The upload ID might be invalid, or the multipart upload might have been aborted or completed.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NoSuchVersion     Description: Indicates that the version ID specified in the request does not match an existing version.    HTTP Status Code: 404 Not Found    SOAP Fault Code Prefix: Client        Code: NotImplemented    Description: A header you provided implies functionality that is not implemented.    HTTP Status Code: 501 Not Implemented    SOAP Fault Code Prefix: Server        Code: NotSignedUp    Description: Your account is not signed up for the Amazon S3 service. You must sign up before you can use Amazon S3. You can sign up at the following URL: https://aws.amazon.com/s3    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: OperationAborted    Description: A conflicting conditional operation is currently in progress against this resource. Try again.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: PermanentRedirect    Description: The bucket you are attempting to access must be addressed using the specified endpoint. Send all future requests to this endpoint.    HTTP Status Code: 301 Moved Permanently    SOAP Fault Code Prefix: Client        Code: PreconditionFailed    Description: At least one of the preconditions you specified did not hold.    HTTP Status Code: 412 Precondition Failed    SOAP Fault Code Prefix: Client        Code: Redirect    Description: Temporary redirect.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: RestoreAlreadyInProgress    Description: Object restore is already in progress.    HTTP Status Code: 409 Conflict    SOAP Fault Code Prefix: Client        Code: RequestIsNotMultiPartContent    Description: Bucket POST must be of the enclosure-type multipart/form-data.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeout    Description: Your socket connection to the server was not read from or written to within the timeout period.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: RequestTimeTooSkewed    Description: The difference between the request time and the server's time is too large.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: RequestTorrentOfBucketError    Description: Requesting the torrent file of a bucket is not permitted.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: SignatureDoesNotMatch    Description: The request signature we calculated does not match the signature you provided. Check your AWS secret access key and signing method. For more information, see REST Authentication and SOAP Authentication for details.    HTTP Status Code: 403 Forbidden    SOAP Fault Code Prefix: Client        Code: ServiceUnavailable    Description: Reduce your request rate.    HTTP Status Code: 503 Service Unavailable    SOAP Fault Code Prefix: Server        Code: SlowDown    Description: Reduce your request rate.    HTTP Status Code: 503 Slow Down    SOAP Fault Code Prefix: Server        Code: TemporaryRedirect    Description: You are being redirected to the bucket while DNS updates.    HTTP Status Code: 307 Moved Temporarily    SOAP Fault Code Prefix: Client        Code: TokenRefreshRequired    Description: The provided token must be refreshed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: TooManyBuckets    Description: You have attempted to create more buckets than allowed.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnexpectedContent    Description: This request does not support content.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UnresolvableGrantByEmailAddress    Description: The email address you provided does not match any account on record.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client        Code: UserKeyMustBeSpecified    Description: The bucket POST must contain the specified field name. If it is specified, check the order of the fields.    HTTP Status Code: 400 Bad Request    SOAP Fault Code Prefix: Client     
         public let code: String?
         /// The error key.
         public let key: String?
@@ -2165,6 +2197,7 @@ extension S3 {
     }
 
     public struct ErrorDocument: AWSEncodableShape & AWSDecodableShape {
+
         /// The object key name to use when a 4XX class error occurs.
         public let key: String
 
@@ -2182,6 +2215,7 @@ extension S3 {
     }
 
     public struct ExistingObjectReplication: AWSEncodableShape & AWSDecodableShape {
+
         public let status: ExistingObjectReplicationStatus
 
         public init(status: ExistingObjectReplicationStatus) {
@@ -2194,6 +2228,7 @@ extension S3 {
     }
 
     public struct FilterRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The object key name prefix or suffix identifying one or more objects to which the filtering rule applies. The maximum length is 1,024 characters. Overlapping prefixes and suffixes are not supported. For more information, see Configuring Event Notifications in the Amazon Simple Storage Service Developer Guide.
         public let name: FilterRuleName?
         /// The value that the filter searches for in object key names.
@@ -2211,6 +2246,7 @@ extension S3 {
     }
 
     public struct GetBucketAccelerateConfigurationOutput: AWSDecodableShape {
+
         /// The accelerate configuration of the bucket.
         public let status: BucketAccelerateStatus?
 
@@ -2225,7 +2261,7 @@ extension S3 {
 
     public struct GetBucketAccelerateConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2243,7 +2279,7 @@ extension S3 {
     }
 
     public struct GetBucketAclOutput: AWSDecodableShape {
-        public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
         @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
@@ -2264,7 +2300,7 @@ extension S3 {
 
     public struct GetBucketAclRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2302,8 +2338,8 @@ extension S3 {
 
     public struct GetBucketAnalyticsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -2324,6 +2360,7 @@ extension S3 {
     }
 
     public struct GetBucketCorsOutput: AWSDecodableShape {
+
         /// A set of origins and methods (cross-origin access that you want to allow). You can add up to 100 rules to the configuration.
         public let cORSRules: [CORSRule]?
 
@@ -2338,7 +2375,7 @@ extension S3 {
 
     public struct GetBucketCorsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2375,7 +2412,7 @@ extension S3 {
 
     public struct GetBucketEncryptionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2413,8 +2450,8 @@ extension S3 {
 
     public struct GetBucketInventoryConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -2435,6 +2472,7 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleConfigurationOutput: AWSDecodableShape {
+
         /// Container for a lifecycle rule.
         public let rules: [LifecycleRule]?
 
@@ -2449,7 +2487,7 @@ extension S3 {
 
     public struct GetBucketLifecycleConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2467,6 +2505,7 @@ extension S3 {
     }
 
     public struct GetBucketLifecycleOutput: AWSDecodableShape {
+
         /// Container for a lifecycle rule.
         public let rules: [Rule]?
 
@@ -2481,7 +2520,7 @@ extension S3 {
 
     public struct GetBucketLifecycleRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2499,6 +2538,7 @@ extension S3 {
     }
 
     public struct GetBucketLocationOutput: AWSDecodableShape {
+
         /// Specifies the Region where the bucket resides. For a list of all the Amazon S3 supported location constraints by Region, see Regions and Endpoints. Buckets in Region us-east-1 have a LocationConstraint of null.
         public let locationConstraint: BucketLocationConstraint?
 
@@ -2513,7 +2553,7 @@ extension S3 {
 
     public struct GetBucketLocationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2531,6 +2571,7 @@ extension S3 {
     }
 
     public struct GetBucketLoggingOutput: AWSDecodableShape {
+
         public let loggingEnabled: LoggingEnabled?
 
         public init(loggingEnabled: LoggingEnabled? = nil) {
@@ -2544,7 +2585,7 @@ extension S3 {
 
     public struct GetBucketLoggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2582,8 +2623,8 @@ extension S3 {
 
     public struct GetBucketMetricsConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -2605,7 +2646,7 @@ extension S3 {
 
     public struct GetBucketNotificationConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2643,11 +2684,11 @@ extension S3 {
 
     public struct GetBucketOwnershipControlsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve.
+        /// The name of the Amazon S3 bucket whose OwnershipControls you want to retrieve. 
         public let bucket: String
         public let expectedBucketOwner: String?
 
@@ -2680,7 +2721,7 @@ extension S3 {
 
     public struct GetBucketPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2718,7 +2759,7 @@ extension S3 {
 
     public struct GetBucketPolicyStatusRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2755,7 +2796,7 @@ extension S3 {
 
     public struct GetBucketReplicationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2773,6 +2814,7 @@ extension S3 {
     }
 
     public struct GetBucketRequestPaymentOutput: AWSDecodableShape {
+
         /// Specifies who pays for the download and request fees.
         public let payer: Payer?
 
@@ -2787,7 +2829,7 @@ extension S3 {
 
     public struct GetBucketRequestPaymentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2805,7 +2847,7 @@ extension S3 {
     }
 
     public struct GetBucketTaggingOutput: AWSDecodableShape {
-        public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Contains the tag set.
         @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
@@ -2822,7 +2864,7 @@ extension S3 {
 
     public struct GetBucketTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2840,6 +2882,7 @@ extension S3 {
     }
 
     public struct GetBucketVersioningOutput: AWSDecodableShape {
+
         /// Specifies whether MFA delete is enabled in the bucket versioning configuration. This element is only returned if the bucket has been configured with MFA delete. If the bucket has never been so configured, this element is not returned.
         public let mFADelete: MFADeleteStatus?
         /// The versioning state of the bucket.
@@ -2858,7 +2901,7 @@ extension S3 {
 
     public struct GetBucketVersioningRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2876,7 +2919,7 @@ extension S3 {
     }
 
     public struct GetBucketWebsiteOutput: AWSDecodableShape {
-        public struct _RoutingRulesEncoding: ArrayCoderProperties { public static let member = "RoutingRule" }
+        public struct _RoutingRulesEncoding: ArrayCoderProperties { static public let member = "RoutingRule" }
 
         /// The object key name of the website error document to use for 4XX class errors.
         public let errorDocument: ErrorDocument?
@@ -2905,7 +2948,7 @@ extension S3 {
 
     public struct GetBucketWebsiteRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -2926,7 +2969,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
-        public struct _GrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
+        public struct _GrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// A list of grants.
         @OptionalCustomCoding<ArrayCoder<_GrantsEncoding, Grant>>
@@ -2950,10 +2993,10 @@ extension S3 {
 
     public struct GetObjectAclRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3003,10 +3046,10 @@ extension S3 {
 
     public struct GetObjectLegalHoldRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3056,7 +3099,7 @@ extension S3 {
 
     public struct GetObjectLockConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -3078,36 +3121,36 @@ extension S3 {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")),
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")),
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
-            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")),
-            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")),
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")),
-            AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "partsCount", location: .header(locationName: "x-amz-mp-parts-count")),
-            AWSMemberEncoding(label: "replicationStatus", location: .header(locationName: "x-amz-replication-status")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "restore", location: .header(locationName: "x-amz-restore")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagCount", location: .header(locationName: "x-amz-tagging-count")),
-            AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id")),
+            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentRange", location: .header(locationName: "Content-Range")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
+            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
+            AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")), 
+            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
+            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
+            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
+            AWSMemberEncoding(label: "partsCount", location: .header(locationName: "x-amz-mp-parts-count")), 
+            AWSMemberEncoding(label: "replicationStatus", location: .header(locationName: "x-amz-replication-status")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "restore", location: .header(locationName: "x-amz-restore")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "tagCount", location: .header(locationName: "x-amz-tagging-count")), 
+            AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id")), 
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
@@ -3143,7 +3186,7 @@ extension S3 {
         public let metadata: [String: String]?
         /// This is set to the number of metadata entries not returned in x-amz-meta headers. This can happen if you create metadata using an API like SOAP that supports more flexible metadata than the REST API. For example, using SOAP, you can create metadata whose values are not legal HTTP headers.
         public let missingMeta: Int?
-        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status.
+        /// Indicates whether this object has an active legal hold. This field is only returned if you have permission to view an object's legal hold status. 
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
         /// The Object Lock mode currently in place for this object.
         public let objectLockMode: ObjectLockMode?
@@ -3244,25 +3287,25 @@ extension S3 {
 
     public struct GetObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
-            AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")),
-            AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")),
-            AWSMemberEncoding(label: "ifUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")),
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "responseCacheControl", location: .querystring(locationName: "response-cache-control")),
-            AWSMemberEncoding(label: "responseContentDisposition", location: .querystring(locationName: "response-content-disposition")),
-            AWSMemberEncoding(label: "responseContentEncoding", location: .querystring(locationName: "response-content-encoding")),
-            AWSMemberEncoding(label: "responseContentLanguage", location: .querystring(locationName: "response-content-language")),
-            AWSMemberEncoding(label: "responseContentType", location: .querystring(locationName: "response-content-type")),
-            AWSMemberEncoding(label: "responseExpires", location: .querystring(locationName: "response-expires")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
+            AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")), 
+            AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")), 
+            AWSMemberEncoding(label: "ifUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
+            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "responseCacheControl", location: .querystring(locationName: "response-cache-control")), 
+            AWSMemberEncoding(label: "responseContentDisposition", location: .querystring(locationName: "response-content-disposition")), 
+            AWSMemberEncoding(label: "responseContentEncoding", location: .querystring(locationName: "response-content-encoding")), 
+            AWSMemberEncoding(label: "responseContentLanguage", location: .querystring(locationName: "response-content-language")), 
+            AWSMemberEncoding(label: "responseContentType", location: .querystring(locationName: "response-content-type")), 
+            AWSMemberEncoding(label: "responseExpires", location: .querystring(locationName: "response-expires")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3282,7 +3325,7 @@ extension S3 {
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' GET request for the part specified. Useful for downloading just a part of an object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request. 
         public let range: String?
         public let requestPayer: RequestPayer?
         /// Sets the Cache-Control header of the response.
@@ -3357,10 +3400,10 @@ extension S3 {
 
     public struct GetObjectRetentionRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3393,7 +3436,7 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
-        public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// Contains the tag set.
         @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
@@ -3414,9 +3457,9 @@ extension S3 {
 
     public struct GetObjectTaggingRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3448,7 +3491,7 @@ extension S3 {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
 
@@ -3469,9 +3512,9 @@ extension S3 {
 
     public struct GetObjectTorrentRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
@@ -3518,11 +3561,11 @@ extension S3 {
 
     public struct GetPublicAccessBlockRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
-        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve.
+        /// The name of the Amazon S3 bucket whose PublicAccessBlock configuration you want to retrieve. 
         public let bucket: String
         /// The account id of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
@@ -3536,6 +3579,7 @@ extension S3 {
     }
 
     public struct GlacierJobParameters: AWSEncodableShape {
+
         /// S3 Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier
 
@@ -3549,6 +3593,7 @@ extension S3 {
     }
 
     public struct Grant: AWSEncodableShape & AWSDecodableShape {
+
         /// The person being granted permissions.
         public let grantee: Grantee?
         /// Specifies the permission given to the grantee.
@@ -3570,7 +3615,7 @@ extension S3 {
 
         /// Screen name of the grantee.
         public let displayName: String?
-        /// Email address of the grantee.  Using email addresses to specify a grantee is only supported in the following AWS Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the AWS General Reference.
+        /// Email address of the grantee.  Using email addresses to specify a grantee is only supported in the following AWS Regions:    US East (N. Virginia)   US West (N. California)    US West (Oregon)    Asia Pacific (Singapore)   Asia Pacific (Sydney)   Asia Pacific (Tokyo)   Europe (Ireland)   South America (São Paulo)   For a list of all the Amazon S3 supported Regions and endpoints, see Regions and Endpoints in the AWS General Reference. 
         public let emailAddress: String?
         /// The canonical user ID of the grantee.
         public let id: String?
@@ -3598,7 +3643,7 @@ extension S3 {
 
     public struct HeadBucketRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -3617,33 +3662,33 @@ extension S3 {
 
     public struct HeadObjectOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")),
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
-            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")),
-            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")),
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")),
-            AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "partsCount", location: .header(locationName: "x-amz-mp-parts-count")),
-            AWSMemberEncoding(label: "replicationStatus", location: .header(locationName: "x-amz-replication-status")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "restore", location: .header(locationName: "x-amz-restore")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
-            AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id")),
+            AWSMemberEncoding(label: "acceptRanges", location: .header(locationName: "accept-ranges")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "deleteMarker", location: .header(locationName: "x-amz-delete-marker")), 
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
+            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
+            AWSMemberEncoding(label: "lastModified", location: .header(locationName: "Last-Modified")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
+            AWSMemberEncoding(label: "missingMeta", location: .header(locationName: "x-amz-missing-meta")), 
+            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
+            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
+            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
+            AWSMemberEncoding(label: "partsCount", location: .header(locationName: "x-amz-mp-parts-count")), 
+            AWSMemberEncoding(label: "replicationStatus", location: .header(locationName: "x-amz-replication-status")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "restore", location: .header(locationName: "x-amz-restore")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id")), 
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
@@ -3677,7 +3722,7 @@ extension S3 {
         public let missingMeta: Int?
         /// Specifies whether a legal hold is in effect for this object. This header is only returned if the requester has the s3:GetObjectLegalHold permission. This header is not returned if the specified version of this object has never had a legal hold applied. For more information about S3 Object Lock, see Object Lock.
         public let objectLockLegalHoldStatus: ObjectLockLegalHoldStatus?
-        /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock.
+        /// The Object Lock mode, if any, that's in effect for this object. This header is only returned if the requester has the s3:GetObjectRetention permission. For more information about S3 Object Lock, see Object Lock. 
         public let objectLockMode: ObjectLockMode?
         /// The date and time when the Object Lock retention period expires. This header is only returned if the requester has the s3:GetObjectRetention permission.
         public let objectLockRetainUntilDate: Date?
@@ -3768,19 +3813,19 @@ extension S3 {
 
     public struct HeadObjectRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")),
-            AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")),
-            AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")),
-            AWSMemberEncoding(label: "ifUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")),
-            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "ifMatch", location: .header(locationName: "If-Match")), 
+            AWSMemberEncoding(label: "ifModifiedSince", location: .header(locationName: "If-Modified-Since")), 
+            AWSMemberEncoding(label: "ifNoneMatch", location: .header(locationName: "If-None-Match")), 
+            AWSMemberEncoding(label: "ifUnmodifiedSince", location: .header(locationName: "If-Unmodified-Since")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
+            AWSMemberEncoding(label: "range", location: .header(locationName: "Range")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -3800,7 +3845,7 @@ extension S3 {
         public let key: String
         /// Part number of the object being read. This is a positive integer between 1 and 10,000. Effectively performs a 'ranged' HEAD request for the part specified. Useful querying about the size of the part and the number of parts in this object.
         public let partNumber: Int?
-        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
+        /// Downloads the specified range bytes of an object. For more information about the HTTP Range header, see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35.  Amazon S3 doesn't support retrieving multiple ranges of data per GET request. 
         public let range: String?
         public let requestPayer: RequestPayer?
         /// Specifies the algorithm to use to when encrypting the object (for example, AES256).
@@ -3837,6 +3882,7 @@ extension S3 {
     }
 
     public struct IndexDocument: AWSEncodableShape & AWSDecodableShape {
+
         /// A suffix that is appended to a request that is for a directory on the website endpoint (for example,if the suffix is index.html and you make a request to samplebucket/images/ the data that is returned will be for the object with the key name images/index.html) The suffix must not be empty and must not include a slash character.
         public let suffix: String
 
@@ -3850,6 +3896,7 @@ extension S3 {
     }
 
     public struct Initiator: AWSDecodableShape {
+
         /// Name of the Principal.
         public let displayName: String?
         /// If the principal is an AWS account, it provides the Canonical User ID. If the principal is an IAM User, it provides a user ARN value.
@@ -3867,6 +3914,7 @@ extension S3 {
     }
 
     public struct InputSerialization: AWSEncodableShape {
+
         /// Specifies object's compression format. Valid values: NONE, GZIP, BZIP2. Default Value: NONE.
         public let compressionType: CompressionType?
         /// Describes the serialization of a CSV-encoded object.
@@ -3893,7 +3941,7 @@ extension S3 {
 
     public struct InventoryConfiguration: AWSEncodableShape & AWSDecodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public struct _OptionalFieldsEncoding: ArrayCoderProperties { public static let member = "Field" }
+        public struct _OptionalFieldsEncoding: ArrayCoderProperties { static public let member = "Field" }
 
         /// Contains information about where to publish the inventory results.
         public let destination: InventoryDestination
@@ -3933,6 +3981,7 @@ extension S3 {
     }
 
     public struct InventoryDestination: AWSEncodableShape & AWSDecodableShape {
+
         /// Contains the bucket name, file format, bucket owner (optional), and prefix (optional) where inventory results are published.
         public let s3BucketDestination: InventoryS3BucketDestination
 
@@ -3946,6 +3995,7 @@ extension S3 {
     }
 
     public struct InventoryEncryption: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the use of SSE-KMS to encrypt delivered inventory reports.
         public let ssekms: SSEKMS?
         /// Specifies the use of SSE-S3 to encrypt delivered inventory reports.
@@ -3963,6 +4013,7 @@ extension S3 {
     }
 
     public struct InventoryFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// The prefix that an object must have to be included in the inventory results.
         public let prefix: String
 
@@ -3976,7 +4027,8 @@ extension S3 {
     }
 
     public struct InventoryS3BucketDestination: AWSEncodableShape & AWSDecodableShape {
-        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.    Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.
+
+        /// The account ID that owns the destination S3 bucket. If no account ID is provided, the owner is not validated before exporting data.    Although this value is optional, we strongly recommend that you set it to help prevent problems if the destination bucket ownership changes.  
         public let accountId: String?
         /// The Amazon Resource Name (ARN) of the bucket where inventory results will be published.
         public let bucket: String
@@ -4005,6 +4057,7 @@ extension S3 {
     }
 
     public struct InventorySchedule: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies how frequently inventory results are produced.
         public let frequency: InventoryFrequency
 
@@ -4018,6 +4071,7 @@ extension S3 {
     }
 
     public struct JSONInput: AWSEncodableShape {
+
         /// The type of JSON. Valid values: Document, Lines.
         public let `type`: JSONType?
 
@@ -4031,6 +4085,7 @@ extension S3 {
     }
 
     public struct JSONOutput: AWSEncodableShape {
+
         /// The value used to separate individual records in the output. If no value is specified, Amazon S3 uses a newline character ('\n').
         public let recordDelimiter: String?
 
@@ -4044,6 +4099,7 @@ extension S3 {
     }
 
     public struct LambdaFunctionConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket event for which to invoke the AWS Lambda function. For more information, see Supported Event Types in the Amazon Simple Storage Service Developer Guide.
         public let events: [Event]
         public let filter: NotificationConfigurationFilter?
@@ -4069,7 +4125,7 @@ extension S3 {
     public struct LifecycleConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
 
-        /// Specifies lifecycle configuration rules for an Amazon S3 bucket.
+        /// Specifies lifecycle configuration rules for an Amazon S3 bucket. 
         public let rules: [Rule]
 
         public init(rules: [Rule]) {
@@ -4082,6 +4138,7 @@ extension S3 {
     }
 
     public struct LifecycleExpiration: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates at what date the object is to be moved or deleted. Should be in GMT ISO 8601 Format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var date: Date?
@@ -4104,6 +4161,7 @@ extension S3 {
     }
 
     public struct LifecycleRule: AWSEncodableShape & AWSDecodableShape {
+
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object in the form of date, days and, whether the object has a delete marker.
         public let expiration: LifecycleExpiration?
@@ -4111,7 +4169,7 @@ extension S3 {
         /// Unique identifier for the rule. The value cannot be longer than 255 characters.
         public let id: String?
         public let noncurrentVersionExpiration: NoncurrentVersionExpiration?
-        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime.
+        ///  Specifies the transition rule for the lifecycle rule that describes when noncurrent objects transition to a specific storage class. If your bucket is versioning-enabled (or versioning is suspended), you can set this action to request that Amazon S3 transition noncurrent object versions to a specific storage class at a set period in the object's lifetime. 
         public let noncurrentVersionTransitions: [NoncurrentVersionTransition]?
         /// If 'Enabled', the rule is currently being applied. If 'Disabled', the rule is not currently being applied.
         public let status: ExpirationStatus
@@ -4146,6 +4204,7 @@ extension S3 {
     }
 
     public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
+
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
@@ -4169,6 +4228,7 @@ extension S3 {
     }
 
     public struct LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
+
         public let and: LifecycleRuleAndOperator?
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
@@ -4194,6 +4254,7 @@ extension S3 {
     }
 
     public struct ListBucketAnalyticsConfigurationsOutput: AWSDecodableShape {
+
         /// The list of analytics configurations for a bucket.
         public let analyticsConfigurationList: [AnalyticsConfiguration]?
         /// The marker that is used as a starting point for this analytics configuration list response. This value is present if it was sent in the request.
@@ -4220,8 +4281,8 @@ extension S3 {
 
     public struct ListBucketAnalyticsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -4242,6 +4303,7 @@ extension S3 {
     }
 
     public struct ListBucketInventoryConfigurationsOutput: AWSDecodableShape {
+
         /// If sent in the request, the marker that is used as a starting point for this inventory configuration list response.
         public let continuationToken: String?
         /// The list of inventory configurations for a bucket.
@@ -4268,8 +4330,8 @@ extension S3 {
 
     public struct ListBucketInventoryConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -4290,6 +4352,7 @@ extension S3 {
     }
 
     public struct ListBucketMetricsConfigurationsOutput: AWSDecodableShape {
+
         /// The marker that is used as a starting point for this metrics configuration list response. This value is present if it was sent in the request.
         public let continuationToken: String?
         /// Indicates whether the returned list of metrics configurations is complete. A value of true indicates that the list is not complete and the NextContinuationToken will be provided for a subsequent request.
@@ -4316,8 +4379,8 @@ extension S3 {
 
     public struct ListBucketMetricsConfigurationsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -4338,7 +4401,7 @@ extension S3 {
     }
 
     public struct ListBucketsOutput: AWSDecodableShape {
-        public struct _BucketsEncoding: ArrayCoderProperties { public static let member = "Bucket" }
+        public struct _BucketsEncoding: ArrayCoderProperties { static public let member = "Bucket" }
 
         /// The list of buckets owned by the requestor.
         @OptionalCustomCoding<ArrayCoder<_BucketsEncoding, Bucket>>
@@ -4358,6 +4421,7 @@ extension S3 {
     }
 
     public struct ListMultipartUploadsOutput: AWSDecodableShape {
+
         /// The name of the bucket to which the multipart upload was initiated.
         public let bucket: String?
         /// If you specify a delimiter in the request, then the result returns each distinct key prefix containing the delimiter in a CommonPrefixes element. The distinct key prefixes are returned in the Prefix child element.
@@ -4416,13 +4480,13 @@ extension S3 {
 
     public struct ListMultipartUploadsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")),
-            AWSMemberEncoding(label: "maxUploads", location: .querystring(locationName: "max-uploads")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
+            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")), 
+            AWSMemberEncoding(label: "maxUploads", location: .querystring(locationName: "max-uploads")), 
+            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
             AWSMemberEncoding(label: "uploadIdMarker", location: .querystring(locationName: "upload-id-marker"))
         ]
 
@@ -4457,6 +4521,7 @@ extension S3 {
     }
 
     public struct ListObjectVersionsOutput: AWSDecodableShape {
+
         /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Container for an object that is a delete marker.
@@ -4519,17 +4584,17 @@ extension S3 {
 
     public struct ListObjectVersionsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
+            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "keyMarker", location: .querystring(locationName: "key-marker")), 
+            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
+            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
             AWSMemberEncoding(label: "versionIdMarker", location: .querystring(locationName: "version-id-marker"))
         ]
 
-        /// The bucket name that contains the objects.
+        /// The bucket name that contains the objects. 
         public let bucket: String
         /// A delimiter is a character that you specify to group keys. All keys that contain the same string between the prefix and the first occurrence of the delimiter are grouped under a single result element in CommonPrefixes. These groups are counted as one result against the max-keys limitation. These keys are not returned elsewhere in the response.
         public let delimiter: String?
@@ -4540,7 +4605,7 @@ extension S3 {
         public let keyMarker: String?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. If additional keys satisfy the search criteria, but were not returned because max-keys was exceeded, the response contains &lt;isTruncated&gt;true&lt;/isTruncated&gt;. To return the additional keys, see key-marker and version-id-marker.
         public let maxKeys: Int?
-        /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
+        /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes. 
         public let prefix: String?
         /// Specifies the object version you want to start listing from.
         public let versionIdMarker: String?
@@ -4560,6 +4625,7 @@ extension S3 {
     }
 
     public struct ListObjectsOutput: AWSDecodableShape {
+
         /// All of the keys rolled up in a common prefix count as a single return when calculating the number of returns.  A response can contain CommonPrefixes only if you specify a delimiter. CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by the delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
@@ -4610,13 +4676,13 @@ extension S3 {
 
     public struct ListObjectsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
+            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "marker")), 
+            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
+            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
             AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer"))
         ]
 
@@ -4629,7 +4695,7 @@ extension S3 {
         public let expectedBucketOwner: String?
         /// Specifies the key to start with when listing objects in a bucket.
         public let marker: String?
-        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
+        /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more. 
         public let maxKeys: Int?
         /// Limits the response to keys that begin with the specified prefix.
         public let prefix: String?
@@ -4651,7 +4717,8 @@ extension S3 {
     }
 
     public struct ListObjectsV2Output: AWSDecodableShape {
-        /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns.
+
+        /// All of the keys rolled up into a common prefix count as a single return when calculating the number of returns. A response can contain CommonPrefixes only if you specify a delimiter.  CommonPrefixes contains all (if there are any) keys between Prefix and the next occurrence of the string specified by a delimiter.  CommonPrefixes lists keys that act like subdirectories in the directory specified by Prefix. For example, if the prefix is notes/ and the delimiter is a slash (/) as in notes/summer/july, the common prefix is notes/summer/. All of the keys that roll up into a common prefix count as a single return when calculating the number of returns. 
         public let commonPrefixes: [CommonPrefix]?
         /// Metadata about each object returned.
         public let contents: [Object]?
@@ -4663,7 +4730,7 @@ extension S3 {
         public let encodingType: EncodingType?
         /// Set to false if all of the results were returned. Set to true if more keys are available to return. If the number of results exceeds that specified by MaxKeys, all of the results might not be returned.
         public let isTruncated: Bool?
-        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys
+        /// KeyCount is the number of keys returned with this request. KeyCount will always be less than equals to MaxKeys field. Say you ask for 50 keys, your result will include less than equals 50 keys 
         public let keyCount: Int?
         /// Sets the maximum number of keys returned in the response. By default the API returns up to 1,000 key names. The response might contain fewer keys but will never contain more.
         public let maxKeys: Int?
@@ -4709,15 +4776,15 @@ extension S3 {
 
     public struct ListObjectsV2Request: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")),
-            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")),
-            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "fetchOwner", location: .querystring(locationName: "fetch-owner")),
-            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")),
-            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "continuationToken", location: .querystring(locationName: "continuation-token")), 
+            AWSMemberEncoding(label: "delimiter", location: .querystring(locationName: "delimiter")), 
+            AWSMemberEncoding(label: "encodingType", location: .querystring(locationName: "encoding-type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "fetchOwner", location: .querystring(locationName: "fetch-owner")), 
+            AWSMemberEncoding(label: "maxKeys", location: .querystring(locationName: "max-keys")), 
+            AWSMemberEncoding(label: "prefix", location: .querystring(locationName: "prefix")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "startAfter", location: .querystring(locationName: "start-after"))
         ]
 
@@ -4760,8 +4827,8 @@ extension S3 {
 
     public struct ListPartsOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")),
-            AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")),
+            AWSMemberEncoding(label: "abortDate", location: .header(locationName: "x-amz-abort-date")), 
+            AWSMemberEncoding(label: "abortRuleId", location: .header(locationName: "x-amz-abort-rule-id")), 
             AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged"))
         ]
 
@@ -4830,12 +4897,12 @@ extension S3 {
 
     public struct ListPartsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "maxParts", location: .querystring(locationName: "max-parts")),
-            AWSMemberEncoding(label: "partNumberMarker", location: .querystring(locationName: "part-number-marker")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "maxParts", location: .querystring(locationName: "max-parts")), 
+            AWSMemberEncoding(label: "partNumberMarker", location: .querystring(locationName: "part-number-marker")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
@@ -4871,7 +4938,7 @@ extension S3 {
     }
 
     public struct LoggingEnabled: AWSEncodableShape & AWSDecodableShape {
-        public struct _TargetGrantsEncoding: ArrayCoderProperties { public static let member = "Grant" }
+        public struct _TargetGrantsEncoding: ArrayCoderProperties { static public let member = "Grant" }
 
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
@@ -4895,6 +4962,7 @@ extension S3 {
     }
 
     public struct MetadataEntry: AWSEncodableShape {
+
         /// Name of the Object.
         public let name: String?
         /// Value of the Object.
@@ -4912,9 +4980,10 @@ extension S3 {
     }
 
     public struct Metrics: AWSEncodableShape & AWSDecodableShape {
-        ///  A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event.
+
+        ///  A container specifying the time threshold for emitting the s3:Replication:OperationMissedThreshold event. 
         public let eventThreshold: ReplicationTimeValue
-        ///  Specifies whether the replication metrics are enabled.
+        ///  Specifies whether the replication metrics are enabled. 
         public let status: MetricsStatus
 
         public init(eventThreshold: ReplicationTimeValue, status: MetricsStatus) {
@@ -4929,6 +4998,7 @@ extension S3 {
     }
 
     public struct MetricsAndOperator: AWSEncodableShape & AWSDecodableShape {
+
         /// The prefix used when evaluating an AND predicate.
         public let prefix: String?
         /// The list of tags used when evaluating an AND predicate.
@@ -4975,6 +5045,7 @@ extension S3 {
     }
 
     public struct MetricsFilter: AWSEncodableShape & AWSDecodableShape {
+
         /// A conjunction (logical AND) of predicates, which is used in evaluating a metrics filter. The operator must have at least two predicates, and an object must match all of the predicates in order for the filter to apply.
         public let and: MetricsAndOperator?
         /// The prefix used when evaluating a metrics filter.
@@ -5001,13 +5072,14 @@ extension S3 {
     }
 
     public struct MultipartUpload: AWSDecodableShape {
+
         /// Date and time at which the multipart upload was initiated.
         public let initiated: Date?
         /// Identifies who initiated the multipart upload.
         public let initiator: Initiator?
         /// Key of the object for which the multipart upload was initiated.
         public let key: String?
-        /// Specifies the owner of the object that is part of the multipart upload.
+        /// Specifies the owner of the object that is part of the multipart upload. 
         public let owner: Owner?
         /// The class of storage used to store the object.
         public let storageClass: StorageClass?
@@ -5034,6 +5106,7 @@ extension S3 {
     }
 
     public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int?
 
@@ -5047,6 +5120,7 @@ extension S3 {
     }
 
     public struct NoncurrentVersionTransition: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon Simple Storage Service Developer Guide.
         public let noncurrentDays: Int?
         /// The class of storage used to store the object.
@@ -5091,9 +5165,9 @@ extension S3 {
 
         /// Container for specifying the AWS Lambda notification configuration.
         public let cloudFunctionConfiguration: CloudFunctionConfiguration?
-        /// This data type is deprecated. This data type specifies the configuration for publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue when Amazon S3 detects specified events.
+        /// This data type is deprecated. This data type specifies the configuration for publishing messages to an Amazon Simple Queue Service (Amazon SQS) queue when Amazon S3 detects specified events. 
         public let queueConfiguration: QueueConfigurationDeprecated?
-        /// This data type is deprecated. A container for specifying the configuration for publication of messages to an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3 detects specified events.
+        /// This data type is deprecated. A container for specifying the configuration for publication of messages to an Amazon Simple Notification Service (Amazon SNS) topic when Amazon S3 detects specified events. 
         public let topicConfiguration: TopicConfigurationDeprecated?
 
         public init(cloudFunctionConfiguration: CloudFunctionConfiguration? = nil, queueConfiguration: QueueConfigurationDeprecated? = nil, topicConfiguration: TopicConfigurationDeprecated? = nil) {
@@ -5110,6 +5184,7 @@ extension S3 {
     }
 
     public struct NotificationConfigurationFilter: AWSEncodableShape & AWSDecodableShape {
+
         public let key: S3KeyFilter?
 
         public init(key: S3KeyFilter? = nil) {
@@ -5122,7 +5197,8 @@ extension S3 {
     }
 
     public struct Object: AWSDecodableShape {
-        /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.   If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption.
+
+        /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata. The ETag may or may not be an MD5 digest of the object data. Whether or not it is depends on how the object was created and how it is encrypted as described below:   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-S3 or plaintext, have ETags that are an MD5 digest of their object data.   Objects created by the PUT Object, POST Object, or Copy operation, or through the AWS Management Console, and are encrypted by SSE-C or SSE-KMS, have ETags that are not an MD5 digest of their object data.   If an object is created by either the Multipart Upload or Part Copy operation, the ETag is not an MD5 digest, regardless of the method of encryption.  
         public let eTag: String?
         /// The name that you assign to an object. You use the object key to retrieve the object.
         public let key: String?
@@ -5155,6 +5231,7 @@ extension S3 {
     }
 
     public struct ObjectIdentifier: AWSEncodableShape {
+
         /// Key name of the object to delete.
         public let key: String
         /// VersionId for the specific version of the object to delete.
@@ -5230,6 +5307,7 @@ extension S3 {
     }
 
     public struct ObjectLockRule: AWSEncodableShape & AWSDecodableShape {
+
         /// The default retention period that you want to apply to new objects placed in the specified bucket.
         public let defaultRetention: DefaultRetention?
 
@@ -5243,6 +5321,7 @@ extension S3 {
     }
 
     public struct ObjectVersion: AWSDecodableShape {
+
         /// The entity tag is an MD5 hash of that version of the object.
         public let eTag: String?
         /// Specifies whether the object is (true) or is not (false) the latest version of an object.
@@ -5284,6 +5363,7 @@ extension S3 {
     }
 
     public struct OutputLocation: AWSEncodableShape {
+
         /// Describes an S3 location that will receive the results of the restore request.
         public let s3: S3Location?
 
@@ -5301,6 +5381,7 @@ extension S3 {
     }
 
     public struct OutputSerialization: AWSEncodableShape {
+
         /// Describes the serialization of CSV-encoded Select results.
         public let csv: CSVOutput?
         /// Specifies JSON as request's output serialization format.
@@ -5318,6 +5399,7 @@ extension S3 {
     }
 
     public struct Owner: AWSEncodableShape & AWSDecodableShape {
+
         /// Container for the display name of the owner.
         public let displayName: String?
         /// Container for the ID of the owner.
@@ -5350,6 +5432,7 @@ extension S3 {
     }
 
     public struct OwnershipControlsRule: AWSEncodableShape & AWSDecodableShape {
+
         public let objectOwnership: ObjectOwnership
 
         public init(objectOwnership: ObjectOwnership) {
@@ -5362,10 +5445,15 @@ extension S3 {
     }
 
     public struct ParquetInput: AWSEncodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct Part: AWSDecodableShape {
+
         /// Entity tag returned when the part was uploaded.
         public let eTag: String?
         /// Date and time at which the part was uploaded.
@@ -5391,6 +5479,7 @@ extension S3 {
     }
 
     public struct PolicyStatus: AWSDecodableShape {
+
         /// The policy status for this bucket. TRUE indicates that this bucket is public. FALSE indicates that the bucket is not public.
         public let isPublic: Bool?
 
@@ -5404,6 +5493,7 @@ extension S3 {
     }
 
     public struct Progress: AWSDecodableShape {
+
         /// The current number of uncompressed object bytes processed.
         public let bytesProcessed: Int64?
         /// The current number of bytes of records payload data returned.
@@ -5425,6 +5515,7 @@ extension S3 {
     }
 
     public struct ProgressEvent: AWSDecodableShape {
+
         /// The Progress event details.
         public let details: Progress?
 
@@ -5468,8 +5559,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "accelerateConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accelerateConfiguration", location: .body(locationName: "AccelerateConfiguration")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
+            AWSMemberEncoding(label: "accelerateConfiguration", location: .body(locationName: "AccelerateConfiguration")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -5495,14 +5586,14 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "accessControlPolicy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")),
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")),
+            AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")), 
             AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp"))
         ]
 
@@ -5546,9 +5637,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "analyticsConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "analyticsConfiguration", location: .body(locationName: "AnalyticsConfiguration")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "id", location: .querystring(locationName: "id"))
         ]
 
@@ -5581,8 +5672,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "cORSConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "cORSConfiguration", location: .body(locationName: "CORSConfiguration")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "cORSConfiguration", location: .body(locationName: "CORSConfiguration")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -5608,8 +5699,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "serverSideEncryptionConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "serverSideEncryptionConfiguration", location: .body(locationName: "ServerSideEncryptionConfiguration"))
         ]
 
@@ -5634,9 +5725,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "inventoryConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
             AWSMemberEncoding(label: "inventoryConfiguration", location: .body(locationName: "InventoryConfiguration"))
         ]
 
@@ -5665,8 +5756,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
@@ -5696,8 +5787,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "lifecycleConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "lifecycleConfiguration", location: .body(locationName: "LifecycleConfiguration"))
         ]
 
@@ -5721,8 +5812,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "bucketLoggingStatus"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "bucketLoggingStatus", location: .body(locationName: "BucketLoggingStatus")), 
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner"))
         ]
 
@@ -5748,9 +5839,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "metricsConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "id", location: .querystring(locationName: "id")), 
             AWSMemberEncoding(label: "metricsConfiguration", location: .body(locationName: "MetricsConfiguration"))
         ]
 
@@ -5783,8 +5874,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
         ]
 
@@ -5809,8 +5900,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "notificationConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "notificationConfiguration", location: .body(locationName: "NotificationConfiguration"))
         ]
 
@@ -5836,15 +5927,15 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "ownershipControls"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "ownershipControls", location: .body(locationName: "OwnershipControls"))
         ]
 
         /// The name of the Amazon S3 bucket whose OwnershipControls you want to set.
         public let bucket: String
-        /// The MD5 hash of the OwnershipControls request body.
+        /// The MD5 hash of the OwnershipControls request body. 
         public let contentMD5: String?
         public let expectedBucketOwner: String?
         /// The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that you want to apply to this Amazon S3 bucket.
@@ -5866,9 +5957,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "confirmRemoveSelfBucketAccess", location: .header(locationName: "x-amz-confirm-remove-self-bucket-access")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "policy", location: .body(locationName: "Policy"))
         ]
 
@@ -5897,9 +5988,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "replicationConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "replicationConfiguration", location: .body(locationName: "ReplicationConfiguration")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
         ]
 
@@ -5930,8 +6021,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "requestPaymentConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "requestPaymentConfiguration", location: .body(locationName: "RequestPaymentConfiguration"))
         ]
 
@@ -5957,8 +6048,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging"))
         ]
 
@@ -5988,9 +6079,9 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "versioningConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "mfa", location: .header(locationName: "x-amz-mfa")), 
             AWSMemberEncoding(label: "versioningConfiguration", location: .body(locationName: "VersioningConfiguration"))
         ]
 
@@ -6019,8 +6110,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "websiteConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "websiteConfiguration", location: .body(locationName: "WebsiteConfiguration"))
         ]
 
@@ -6066,17 +6157,17 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "accessControlPolicy"
         public static var _encoding = [
-            AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")),
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "accessControlPolicy", location: .body(locationName: "AccessControlPolicy")), 
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWrite", location: .header(locationName: "x-amz-grant-write")), 
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -6148,11 +6239,11 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "legalHold"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "legalHold", location: .body(locationName: "LegalHold")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -6206,10 +6297,10 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "objectLockConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "objectLockConfiguration", location: .body(locationName: "ObjectLockConfiguration")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
             AWSMemberEncoding(label: "token", location: .header(locationName: "x-amz-bucket-object-lock-token"))
         ]
 
@@ -6238,14 +6329,14 @@ extension S3 {
 
     public struct PutObjectOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
-            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "expiration", location: .header(locationName: "x-amz-expiration")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
             AWSMemberEncoding(label: "versionId", location: .header(locationName: "x-amz-version-id"))
         ]
 
@@ -6262,7 +6353,7 @@ extension S3 {
         public let sSECustomerKeyMD5: String?
         /// If present, specifies the AWS KMS Encryption Context to use for object encryption. The value of this header is a base64-encoded UTF-8 string holding JSON with the encryption context key-value pairs.
         public let sSEKMSEncryptionContext: String?
-        /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object.
+        /// If x-amz-server-side-encryption is present and has the value of aws:kms, this header specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) that was used for the object. 
         public let sSEKMSKeyId: String?
         /// Version of the object.
         public let versionId: String?
@@ -6297,36 +6388,36 @@ extension S3 {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")),
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")),
-            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")),
-            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")),
-            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")),
-            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")),
-            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")),
-            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")),
-            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")),
-            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")),
-            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")),
-            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")),
-            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")),
-            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")),
-            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")),
-            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")),
+            AWSMemberEncoding(label: "acl", location: .header(locationName: "x-amz-acl")), 
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "cacheControl", location: .header(locationName: "Cache-Control")), 
+            AWSMemberEncoding(label: "contentDisposition", location: .header(locationName: "Content-Disposition")), 
+            AWSMemberEncoding(label: "contentEncoding", location: .header(locationName: "Content-Encoding")), 
+            AWSMemberEncoding(label: "contentLanguage", location: .header(locationName: "Content-Language")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
+            AWSMemberEncoding(label: "contentType", location: .header(locationName: "Content-Type")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expires", location: .header(locationName: "Expires")), 
+            AWSMemberEncoding(label: "grantFullControl", location: .header(locationName: "x-amz-grant-full-control")), 
+            AWSMemberEncoding(label: "grantRead", location: .header(locationName: "x-amz-grant-read")), 
+            AWSMemberEncoding(label: "grantReadACP", location: .header(locationName: "x-amz-grant-read-acp")), 
+            AWSMemberEncoding(label: "grantWriteACP", location: .header(locationName: "x-amz-grant-write-acp")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "metadata", location: .header(locationName: "x-amz-meta-")), 
+            AWSMemberEncoding(label: "objectLockLegalHoldStatus", location: .header(locationName: "x-amz-object-lock-legal-hold")), 
+            AWSMemberEncoding(label: "objectLockMode", location: .header(locationName: "x-amz-object-lock-mode")), 
+            AWSMemberEncoding(label: "objectLockRetainUntilDate", location: .header(locationName: "x-amz-object-lock-retain-until-date")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "sSEKMSEncryptionContext", location: .header(locationName: "x-amz-server-side-encryption-context")), 
+            AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id")), 
+            AWSMemberEncoding(label: "storageClass", location: .header(locationName: "x-amz-storage-class")), 
+            AWSMemberEncoding(label: "tagging", location: .header(locationName: "x-amz-tagging")), 
             AWSMemberEncoding(label: "websiteRedirectLocation", location: .header(locationName: "x-amz-website-redirect-location"))
         ]
 
@@ -6389,7 +6480,7 @@ extension S3 {
         public let storageClass: StorageClass?
         /// The tag-set for the object. The tag-set must be encoded as URL Query parameters. (For example, "Key1=Value1")
         public let tagging: String?
-        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects.
+        /// If the bucket is configured as a website, redirects requests for this object to another object in the same bucket or to an external URL. Amazon S3 stores the value of this header in the object metadata. For information about object metadata, see Object Key and Metadata. In the following example, the request header sets the redirect to an object (anotherPage.html) in the same bucket:  x-amz-website-redirect-location: /anotherPage.html  In the following example, the request header sets the object redirect to another website:  x-amz-website-redirect-location: http://www.example.com/  For more information about website hosting in Amazon S3, see Hosting Websites on Amazon S3 and How to Configure Website Page Redirects. 
         public let websiteRedirectLocation: String?
 
         public init(acl: ObjectCannedACL? = nil, body: AWSPayload? = nil, bucket: String, cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, expectedBucketOwner: String? = nil, expires: Date? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWriteACP: String? = nil, key: String, metadata: [String: String]? = nil, objectLockLegalHoldStatus: ObjectLockLegalHoldStatus? = nil, objectLockMode: ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, requestPayer: RequestPayer? = nil, serverSideEncryption: ServerSideEncryption? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil, sSEKMSEncryptionContext: String? = nil, sSEKMSKeyId: String? = nil, storageClass: StorageClass? = nil, tagging: String? = nil, websiteRedirectLocation: String? = nil) {
@@ -6453,12 +6544,12 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "retention"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header(locationName: "x-amz-bypass-governance-retention")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "retention", location: .body(locationName: "Retention")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -6516,10 +6607,10 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "tagging"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "tagging", location: .body(locationName: "Tagging")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -6556,8 +6647,8 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
             AWSMemberEncoding(label: "publicAccessBlockConfiguration", location: .body(locationName: "PublicAccessBlockConfiguration"))
         ]
 
@@ -6580,6 +6671,7 @@ extension S3 {
     }
 
     public struct QueueConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// A collection of bucket events for which to send notifications
         public let events: [Event]
         public let filter: NotificationConfigurationFilter?
@@ -6603,10 +6695,11 @@ extension S3 {
     }
 
     public struct QueueConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
+
         /// A collection of bucket events for which to send notifications
         public let events: [Event]?
         public let id: String?
-        /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 publishes a message when it detects events of the specified type.
+        /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3 publishes a message when it detects events of the specified type. 
         public let queue: String?
 
         public init(events: [Event]? = nil, id: String? = nil, queue: String? = nil) {
@@ -6623,6 +6716,7 @@ extension S3 {
     }
 
     public struct RecordsEvent: AWSDecodableShape {
+
         /// The byte array of partial, one or more result records.
         public let payload: Data?
 
@@ -6636,6 +6730,7 @@ extension S3 {
     }
 
     public struct Redirect: AWSEncodableShape & AWSDecodableShape {
+
         /// The host name to use in the redirect request.
         public let hostName: String?
         /// The HTTP redirect code to use on the response. Not required if one of the siblings is present.
@@ -6665,6 +6760,7 @@ extension S3 {
     }
 
     public struct RedirectAllRequestsTo: AWSEncodableShape & AWSDecodableShape {
+
         /// Name of the host where requests are redirected.
         public let hostName: String
         /// Protocol to use when redirecting requests. The default is the protocol that is used in the original request.
@@ -6686,7 +6782,7 @@ extension S3 {
 
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that Amazon S3 assumes when replicating objects. For more information, see How to Set Up Replication in the Amazon Simple Storage Service Developer Guide.
         public let role: String
-        /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules.
+        /// A container for one or more replication rules. A replication configuration must have at least one rule and can contain a maximum of 1,000 rules. 
         public let rules: [ReplicationRule]
 
         public init(role: String, rules: [ReplicationRule]) {
@@ -6707,6 +6803,7 @@ extension S3 {
     }
 
     public struct ReplicationRule: AWSEncodableShape & AWSDecodableShape {
+
         public let deleteMarkerReplication: DeleteMarkerReplication?
         /// A container for information about the replication destination and its configurations including enabling the S3 Replication Time Control (S3 RTC).
         public let destination: Destination
@@ -6749,6 +6846,7 @@ extension S3 {
     }
 
     public struct ReplicationRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
+
         /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public let prefix: String?
         /// An array of tags containing key and value pairs.
@@ -6772,7 +6870,8 @@ extension S3 {
     }
 
     public struct ReplicationRuleFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.
+
+        /// A container for specifying rule filters. The filters determine the subset of objects to which the rule applies. This element is required only if you specify more than one filter. For example:    If you specify both a Prefix and a Tag filter, wrap these filters in an And tag.   If you specify a filter based on multiple tags, wrap the Tag elements in an And tag.  
         public let and: ReplicationRuleAndOperator?
         /// An object key name prefix that identifies the subset of objects to which the rule applies.
         public let prefix: String?
@@ -6798,9 +6897,10 @@ extension S3 {
     }
 
     public struct ReplicationTime: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies whether the replication time is enabled.
+
+        ///  Specifies whether the replication time is enabled. 
         public let status: ReplicationTimeStatus
-        ///  A container specifying the time by which replication should be complete for all objects and operations on objects.
+        ///  A container specifying the time by which replication should be complete for all objects and operations on objects. 
         public let time: ReplicationTimeValue
 
         public init(status: ReplicationTimeStatus, time: ReplicationTimeValue) {
@@ -6815,7 +6915,8 @@ extension S3 {
     }
 
     public struct ReplicationTimeValue: AWSEncodableShape & AWSDecodableShape {
-        ///  Contains an integer specifying time in minutes.   Valid values: 15 minutes.
+
+        ///  Contains an integer specifying time in minutes.   Valid values: 15 minutes. 
         public let minutes: Int?
 
         public init(minutes: Int? = nil) {
@@ -6843,6 +6944,7 @@ extension S3 {
     }
 
     public struct RequestProgress: AWSEncodableShape {
+
         /// Specifies whether periodic QueryProgress frames should be sent. Valid values: TRUE, FALSE. Default value: FALSE.
         public let enabled: Bool?
 
@@ -6857,7 +6959,7 @@ extension S3 {
 
     public struct RestoreObjectOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
             AWSMemberEncoding(label: "restoreOutputPath", location: .header(locationName: "x-amz-restore-output-path"))
         ]
 
@@ -6880,11 +6982,11 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "restoreRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "restoreRequest", location: .body(locationName: "RestoreRequest")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "restoreRequest", location: .body(locationName: "RestoreRequest")), 
             AWSMemberEncoding(label: "versionId", location: .querystring(locationName: "versionId"))
         ]
 
@@ -6962,6 +7064,7 @@ extension S3 {
     }
 
     public struct RoutingRule: AWSEncodableShape & AWSDecodableShape {
+
         /// A container for describing a condition that must be met for the specified redirect to apply. For example, 1. If request is for pages in the /docs folder, redirect to the /documents folder. 2. If request results in HTTP error 4xx, redirect request to another host where you might process the error.
         public let condition: Condition?
         /// Container for redirect information. You can redirect requests to another host, to another page, or with another protocol. In the event of an error, you can specify a different error code to return.
@@ -6979,6 +7082,7 @@ extension S3 {
     }
 
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
+
         public let abortIncompleteMultipartUpload: AbortIncompleteMultipartUpload?
         /// Specifies the expiration for the lifecycle of the object.
         public let expiration: LifecycleExpiration?
@@ -7017,6 +7121,7 @@ extension S3 {
     }
 
     public struct S3KeyFilter: AWSEncodableShape & AWSDecodableShape {
+
         public let filterRules: [FilterRule]?
 
         public init(filterRules: [FilterRule]? = nil) {
@@ -7029,8 +7134,8 @@ extension S3 {
     }
 
     public struct S3Location: AWSEncodableShape {
-        public struct _AccessControlListEncoding: ArrayCoderProperties { public static let member = "Grant" }
-        public struct _UserMetadataEncoding: ArrayCoderProperties { public static let member = "MetadataEntry" }
+        public struct _AccessControlListEncoding: ArrayCoderProperties { static public let member = "Grant" }
+        public struct _UserMetadataEncoding: ArrayCoderProperties { static public let member = "MetadataEntry" }
 
         /// A list of grants that control access to the staged results.
         @OptionalCustomCoding<ArrayCoder<_AccessControlListEncoding, Grant>>
@@ -7078,6 +7183,7 @@ extension S3 {
     }
 
     public struct SSEKMS: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the ID of the AWS Key Management Service (AWS KMS) symmetric customer managed customer master key (CMK) to use for encrypting inventory reports.
         public let keyId: String
 
@@ -7091,10 +7197,15 @@ extension S3 {
     }
 
     public struct SSES3: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+
+
+        public init() {
+        }
+
     }
 
     public struct ScanRange: AWSEncodableShape {
+
         /// Specifies the end of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is one less than the size of the object being queried. If only the End parameter is supplied, it is interpreted to mean scan the last N bytes of the file. For example, &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; means scan the last 50 bytes.
         public let end: Int64?
         /// Specifies the start of the byte range. This parameter is optional. Valid values: non-negative integers. The default value is 0. If only start is supplied, it means scan from that point to the end of the file.For example; &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; means scan from byte 50 until the end of the file.
@@ -7112,6 +7223,7 @@ extension S3 {
     }
 
     public struct SelectObjectContentEventStream: AWSDecodableShape {
+
         /// The Continuation Event.
         public let cont: ContinuationEvent?
         /// The End Event.
@@ -7162,11 +7274,11 @@ extension S3 {
     public struct SelectObjectContentRequest: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
             AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5"))
         ]
 
@@ -7186,13 +7298,13 @@ extension S3 {
         public let outputSerialization: OutputSerialization
         /// Specifies if periodic request progress information should be enabled.
         public let requestProgress: RequestProgress?
-        /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.  ScanRangemay be used in the following ways:    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt; - process only the records starting between the bytes 50 and 100 (inclusive, counting from zero)    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; - process only the records starting after the byte 50    &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records within the last 50 bytes of the file.
+        /// Specifies the byte range of the object to get the records from. A record is processed when its first byte is contained by the range. This parameter is optional, but when specified, it must not be empty. See RFC 2616, Section 14.35.1 about how to specify the start and end of the range.  ScanRangemay be used in the following ways:    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;end&gt;100&lt;/end&gt;&lt;/scanrange&gt; - process only the records starting between the bytes 50 and 100 (inclusive, counting from zero)    &lt;scanrange&gt;&lt;start&gt;50&lt;/start&gt;&lt;/scanrange&gt; - process only the records starting after the byte 50    &lt;scanrange&gt;&lt;end&gt;50&lt;/end&gt;&lt;/scanrange&gt; - process only the records within the last 50 bytes of the file.  
         public let scanRange: ScanRange?
-        /// The SSE Algorithm used to encrypt the object. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
+        /// The SSE Algorithm used to encrypt the object. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerAlgorithm: String?
-        /// The SSE Customer Key. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
+        /// The SSE Customer Key. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKey: String?
-        /// The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys.
+        /// The SSE Customer Key MD5. For more information, see Server-Side Encryption (Using Customer-Provided Encryption Keys. 
         public let sSECustomerKeyMD5: String?
 
         public init(bucket: String, expectedBucketOwner: String? = nil, expression: String, expressionType: ExpressionType, inputSerialization: InputSerialization, key: String, outputSerialization: OutputSerialization, requestProgress: RequestProgress? = nil, scanRange: ScanRange? = nil, sSECustomerAlgorithm: String? = nil, sSECustomerKey: String? = nil, sSECustomerKeyMD5: String? = nil) {
@@ -7225,6 +7337,7 @@ extension S3 {
     }
 
     public struct SelectParameters: AWSEncodableShape {
+
         /// The expression that is used to query the object.
         public let expression: String
         /// The type of the provided expression (for example, SQL).
@@ -7250,7 +7363,8 @@ extension S3 {
     }
 
     public struct ServerSideEncryptionByDefault: AWSEncodableShape & AWSDecodableShape {
-        /// AWS Key Management Service (KMS) customer master key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms. You can specify the key ID or the Amazon Resource Name (ARN) of the CMK. However, if you are using encryption with cross-account operations, you must use a fully qualified CMK ARN. For more information, see Using encryption for cross-account operations.   For example:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab     Amazon S3 only supports symmetric CMKs and not asymmetric CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide.
+
+        /// AWS Key Management Service (KMS) customer master key ID to use for the default encryption. This parameter is allowed if and only if SSEAlgorithm is set to aws:kms. You can specify the key ID or the Amazon Resource Name (ARN) of the CMK. However, if you are using encryption with cross-account operations, you must use a fully qualified CMK ARN. For more information, see Using encryption for cross-account operations.   For example:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab     Amazon S3 only supports symmetric CMKs and not asymmetric CMKs. For more information, see Using Symmetric and Asymmetric Keys in the AWS Key Management Service Developer Guide. 
         public let kMSMasterKeyID: String?
         /// Server-side encryption algorithm to use for the default encryption.
         public let sSEAlgorithm: ServerSideEncryption
@@ -7282,6 +7396,7 @@ extension S3 {
     }
 
     public struct ServerSideEncryptionRule: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies the default server-side encryption to apply to new objects in the bucket. If a PUT Object request doesn't specify any server-side encryption, this default encryption will be applied.
         public let applyServerSideEncryptionByDefault: ServerSideEncryptionByDefault?
 
@@ -7295,7 +7410,8 @@ extension S3 {
     }
 
     public struct SourceSelectionCriteria: AWSEncodableShape & AWSDecodableShape {
-        ///  A container for filter information for the selection of Amazon S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required.
+
+        ///  A container for filter information for the selection of Amazon S3 objects encrypted with AWS KMS. If you include SourceSelectionCriteria in the replication configuration, this element is required. 
         public let sseKmsEncryptedObjects: SseKmsEncryptedObjects?
 
         public init(sseKmsEncryptedObjects: SseKmsEncryptedObjects? = nil) {
@@ -7308,6 +7424,7 @@ extension S3 {
     }
 
     public struct SseKmsEncryptedObjects: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies whether Amazon S3 replicates objects created with server-side encryption using a customer master key (CMK) stored in AWS Key Management Service.
         public let status: SseKmsEncryptedObjectsStatus
 
@@ -7321,6 +7438,7 @@ extension S3 {
     }
 
     public struct Stats: AWSDecodableShape {
+
         /// The total number of uncompressed object bytes processed.
         public let bytesProcessed: Int64?
         /// The total number of bytes of records payload data returned.
@@ -7342,6 +7460,7 @@ extension S3 {
     }
 
     public struct StatsEvent: AWSDecodableShape {
+
         /// The Stats event details.
         public let details: Stats?
 
@@ -7355,6 +7474,7 @@ extension S3 {
     }
 
     public struct StorageClassAnalysis: AWSEncodableShape & AWSDecodableShape {
+
         /// Specifies how data related to the storage class analysis for an Amazon S3 bucket should be exported.
         public let dataExport: StorageClassAnalysisDataExport?
 
@@ -7368,6 +7488,7 @@ extension S3 {
     }
 
     public struct StorageClassAnalysisDataExport: AWSEncodableShape & AWSDecodableShape {
+
         /// The place to store the data for an analysis.
         public let destination: AnalyticsExportDestination
         /// The version of the output schema to use when exporting data. Must be V_1.
@@ -7385,6 +7506,7 @@ extension S3 {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
+
         /// Name of the object key.
         public let key: String
         /// Value of the tag.
@@ -7407,7 +7529,7 @@ extension S3 {
 
     public struct Tagging: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public struct _TagSetEncoding: ArrayCoderProperties { public static let member = "Tag" }
+        public struct _TagSetEncoding: ArrayCoderProperties { static public let member = "Tag" }
 
         /// A collection for a set of tags
         @CustomCoding<ArrayCoder<_TagSetEncoding, Tag>>
@@ -7429,6 +7551,7 @@ extension S3 {
     }
 
     public struct TargetGrant: AWSEncodableShape & AWSDecodableShape {
+
         /// Container for the person being granted permissions.
         public let grantee: Grantee?
         /// Logging permissions assigned to the grantee for the bucket.
@@ -7446,6 +7569,7 @@ extension S3 {
     }
 
     public struct TopicConfiguration: AWSEncodableShape & AWSDecodableShape {
+
         /// The Amazon S3 bucket event about which to send notifications. For more information, see Supported Event Types in the Amazon Simple Storage Service Developer Guide.
         public let events: [Event]
         public let filter: NotificationConfigurationFilter?
@@ -7469,6 +7593,7 @@ extension S3 {
     }
 
     public struct TopicConfigurationDeprecated: AWSEncodableShape & AWSDecodableShape {
+
         /// A collection of events related to objects
         public let events: [Event]?
         public let id: String?
@@ -7489,6 +7614,7 @@ extension S3 {
     }
 
     public struct Transition: AWSEncodableShape & AWSDecodableShape {
+
         /// Indicates when objects are transitioned to the specified storage class. The date value must be in ISO 8601 format. The time is always midnight UTC.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var date: Date?
@@ -7514,12 +7640,12 @@ extension S3 {
         /// The key for the payload
         public static let _payloadPath: String = "copyPartResult"
         public static var _encoding = [
-            AWSMemberEncoding(label: "copyPartResult", location: .body(locationName: "CopyPartResult")),
-            AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "copyPartResult", location: .body(locationName: "CopyPartResult")), 
+            AWSMemberEncoding(label: "copySourceVersionId", location: .header(locationName: "x-amz-copy-source-version-id")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
@@ -7560,24 +7686,24 @@ extension S3 {
 
     public struct UploadPartCopyRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "copySource", location: .header(locationName: "x-amz-copy-source")),
-            AWSMemberEncoding(label: "copySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match")),
-            AWSMemberEncoding(label: "copySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since")),
-            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match")),
-            AWSMemberEncoding(label: "copySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since")),
-            AWSMemberEncoding(label: "copySourceRange", location: .header(locationName: "x-amz-copy-source-range")),
-            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "copySource", location: .header(locationName: "x-amz-copy-source")), 
+            AWSMemberEncoding(label: "copySourceIfMatch", location: .header(locationName: "x-amz-copy-source-if-match")), 
+            AWSMemberEncoding(label: "copySourceIfModifiedSince", location: .header(locationName: "x-amz-copy-source-if-modified-since")), 
+            AWSMemberEncoding(label: "copySourceIfNoneMatch", location: .header(locationName: "x-amz-copy-source-if-none-match")), 
+            AWSMemberEncoding(label: "copySourceIfUnmodifiedSince", location: .header(locationName: "x-amz-copy-source-if-unmodified-since")), 
+            AWSMemberEncoding(label: "copySourceRange", location: .header(locationName: "x-amz-copy-source-range")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerAlgorithm", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerKey", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "copySourceSSECustomerKeyMD5", location: .header(locationName: "x-amz-copy-source-server-side-encryption-customer-key-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "expectedSourceBucketOwner", location: .header(locationName: "x-amz-source-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
@@ -7651,11 +7777,11 @@ extension S3 {
 
     public struct UploadPartOutput: AWSDecodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")),
-            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")),
-            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "eTag", location: .header(locationName: "ETag")), 
+            AWSMemberEncoding(label: "requestCharged", location: .header(locationName: "x-amz-request-charged")), 
+            AWSMemberEncoding(label: "serverSideEncryption", location: .header(locationName: "x-amz-server-side-encryption")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "sSEKMSKeyId", location: .header(locationName: "x-amz-server-side-encryption-aws-kms-key-id"))
         ]
 
@@ -7695,17 +7821,17 @@ extension S3 {
         public static let _payloadPath: String = "body"
         public static let _payloadOptions: AWSShapePayloadOptions = [.raw, .allowStreaming]
         public static var _encoding = [
-            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
-            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")),
-            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")),
-            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")),
-            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")),
-            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")),
-            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")),
-            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")),
-            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")),
-            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")), 
+            AWSMemberEncoding(label: "bucket", location: .uri(locationName: "Bucket")), 
+            AWSMemberEncoding(label: "contentLength", location: .header(locationName: "Content-Length")), 
+            AWSMemberEncoding(label: "contentMD5", location: .header(locationName: "Content-MD5")), 
+            AWSMemberEncoding(label: "expectedBucketOwner", location: .header(locationName: "x-amz-expected-bucket-owner")), 
+            AWSMemberEncoding(label: "key", location: .uri(locationName: "Key")), 
+            AWSMemberEncoding(label: "partNumber", location: .querystring(locationName: "partNumber")), 
+            AWSMemberEncoding(label: "requestPayer", location: .header(locationName: "x-amz-request-payer")), 
+            AWSMemberEncoding(label: "sSECustomerAlgorithm", location: .header(locationName: "x-amz-server-side-encryption-customer-algorithm")), 
+            AWSMemberEncoding(label: "sSECustomerKey", location: .header(locationName: "x-amz-server-side-encryption-customer-key")), 
+            AWSMemberEncoding(label: "sSECustomerKeyMD5", location: .header(locationName: "x-amz-server-side-encryption-customer-key-MD5")), 
             AWSMemberEncoding(label: "uploadId", location: .querystring(locationName: "uploadId"))
         ]
 
@@ -7776,13 +7902,13 @@ extension S3 {
 
     public struct WebsiteConfiguration: AWSEncodableShape {
         public static let _xmlNamespace: String? = "http://s3.amazonaws.com/doc/2006-03-01/"
-        public struct _RoutingRulesEncoding: ArrayCoderProperties { public static let member = "RoutingRule" }
+        public struct _RoutingRulesEncoding: ArrayCoderProperties { static public let member = "RoutingRule" }
 
         /// The name of the error document for the website.
         public let errorDocument: ErrorDocument?
         /// The name of the index document for the website.
         public let indexDocument: IndexDocument?
-        /// The redirect behavior for every request to this bucket's website endpoint.  If you specify this property, you can't specify any other property.
+        /// The redirect behavior for every request to this bucket's website endpoint.  If you specify this property, you can't specify any other property. 
         public let redirectAllRequestsTo: RedirectAllRequestsTo?
         /// Rules that define when a redirect is applied and the redirect behavior.
         @OptionalCustomCoding<ArrayCoder<_RoutingRulesEncoding, RoutingRule>>

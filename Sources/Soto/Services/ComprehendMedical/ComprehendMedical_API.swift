@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS ComprehendMedical service.
+Client object for interacting with AWS ComprehendMedical service.
 
-  Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents.
- */
+ Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents. 
+*/
 public struct ComprehendMedical: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -60,7 +61,7 @@ public struct ComprehendMedical: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Gets the properties associated with a medical entities detection job. Use this operation to get the status of a detection job.
@@ -84,12 +85,12 @@ public struct ComprehendMedical: AWSService {
     }
 
     ///  The DetectEntities operation is deprecated. You should use the DetectEntitiesV2 operation instead.  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
-    @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
+    @available(*, deprecated, message:"This operation is deprecated, use DetectEntitiesV2 instead.")
     public func detectEntities(_ input: DetectEntitiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectEntitiesResponse> {
         return self.client.execute(operation: "DetectEntities", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }
 
-    ///  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types.
+    ///  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information. Amazon Comprehend Medical only detects medical entities in English language texts. The DetectEntitiesV2 operation replaces the DetectEntities operation. This new action uses a different model for determining the entities in your medical text and changes the way that some entities are returned in the output. You should use the DetectEntitiesV2 operation in all new applications. The DetectEntitiesV2 operation returns the Acuity and Direction entities as attributes instead of types. 
     public func detectEntitiesV2(_ input: DetectEntitiesV2Request, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DetectEntitiesV2Response> {
         return self.client.execute(operation: "DetectEntitiesV2", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
     }

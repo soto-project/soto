@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS DataExchange service.
+Client object for interacting with AWS DataExchange service.
 
- This is the API reference for AWS Data Exchange.
- */
+This is the API reference for AWS Data Exchange.
+*/
 public struct DataExchange: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct DataExchange: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.

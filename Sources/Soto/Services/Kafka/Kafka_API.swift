@@ -17,11 +17,12 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS Kafka service.
+Client object for interacting with AWS Kafka service.
 
- The operations for managing an Amazon MSK cluster.
- */
+The operations for managing an Amazon MSK cluster.
+*/
 public struct Kafka: AWSService {
+
     // MARK: Member variables
 
     public let client: AWSClient
@@ -59,7 +60,7 @@ public struct Kafka: AWSService {
             options: options
         )
     }
-
+    
     // MARK: API Calls
 
     ///  Associates one or more Scram Secrets with an Amazon MSK cluster.
