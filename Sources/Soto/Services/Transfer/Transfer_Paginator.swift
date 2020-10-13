@@ -22,6 +22,7 @@ extension Transfer {
     ///  Lists the security policies that are attached to your file transfer protocol-enabled servers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -72,6 +73,7 @@ extension Transfer {
     ///  Lists the file transfer protocol-enabled servers that are associated with your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -122,6 +124,7 @@ extension Transfer {
     ///  Lists all of the tags associated with the Amazon Resource Number (ARN) you specify. The resource can be a user, server, or role.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -172,6 +175,7 @@ extension Transfer {
     ///  Lists the users for a file transfer protocol-enabled server that you specify by passing the ServerId parameter.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

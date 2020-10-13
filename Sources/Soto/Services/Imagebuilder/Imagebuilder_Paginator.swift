@@ -22,6 +22,7 @@ extension Imagebuilder {
     ///   Returns the list of component build versions for the specified semantic version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -72,6 +73,7 @@ extension Imagebuilder {
     ///  Returns the list of component build versions for the specified semantic version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -122,6 +124,7 @@ extension Imagebuilder {
     ///   Returns a list of distribution configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -172,6 +175,7 @@ extension Imagebuilder {
     ///   Returns a list of image build versions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -222,6 +226,7 @@ extension Imagebuilder {
     ///   Returns a list of images created by the specified pipeline.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -272,6 +277,7 @@ extension Imagebuilder {
     ///  Returns a list of image pipelines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -322,6 +328,7 @@ extension Imagebuilder {
     ///   Returns a list of image recipes.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -372,6 +379,7 @@ extension Imagebuilder {
     ///   Returns the list of images that you have access to.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -422,6 +430,7 @@ extension Imagebuilder {
     ///   Returns a list of infrastructure configurations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

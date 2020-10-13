@@ -22,6 +22,7 @@ extension RDS {
     ///  Lists the set of CA certificates provided by Amazon RDS for this AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -72,6 +73,7 @@ extension RDS {
     ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -122,6 +124,7 @@ extension RDS {
     ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -172,6 +175,7 @@ extension RDS {
     ///  Returns information about endpoints for an Amazon Aurora DB cluster.  This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -222,6 +226,7 @@ extension RDS {
     ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -272,6 +277,7 @@ extension RDS {
     ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -322,6 +328,7 @@ extension RDS {
     ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -372,6 +379,7 @@ extension RDS {
     ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -422,6 +430,7 @@ extension RDS {
     ///  Returns a list of the available DB engines.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -472,6 +481,7 @@ extension RDS {
     ///  Displays backups for both current and deleted instances. For example, use this operation to find details about automated backups for previously deleted instances. Current instances with retention periods greater than zero (0) are returned for both the DescribeDBInstanceAutomatedBackups and DescribeDBInstances operations. All parameters are optional.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -522,6 +532,7 @@ extension RDS {
     ///  Returns information about provisioned RDS instances. This API supports pagination.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -572,6 +583,7 @@ extension RDS {
     ///  Returns a list of DB log files for the DB instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -622,6 +634,7 @@ extension RDS {
     ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -672,6 +685,7 @@ extension RDS {
     ///  Returns the detailed parameter list for a particular DB parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -722,6 +736,7 @@ extension RDS {
     ///  Returns information about DB proxies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -772,6 +787,7 @@ extension RDS {
     ///  Returns information about DB proxy target groups, represented by DBProxyTargetGroup data structures.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -822,6 +838,7 @@ extension RDS {
     ///  Returns information about DBProxyTarget objects. This API supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -872,6 +889,7 @@ extension RDS {
     ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -922,6 +940,7 @@ extension RDS {
     ///  Returns information about DB snapshots. This API action supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -972,6 +991,7 @@ extension RDS {
     ///  Returns a list of DBSubnetGroup descriptions. If a DBSubnetGroupName is specified, the list will contain only the descriptions of the specified DBSubnetGroup. For an overview of CIDR ranges, go to the Wikipedia Tutorial.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1022,6 +1042,7 @@ extension RDS {
     ///  Returns the default engine and system parameter information for the specified database engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1072,6 +1093,7 @@ extension RDS {
     ///  Lists all the subscription descriptions for a customer account. The description for a subscription includes SubscriptionName, SNSTopicARN, CustomerID, SourceType, SourceID, CreationTime, and Status. If you specify a SubscriptionName, lists the description for that subscription.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1122,6 +1144,7 @@ extension RDS {
     ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter.  By default, the past hour of events are returned.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1172,6 +1195,7 @@ extension RDS {
     ///  Returns information about a snapshot export to Amazon S3. This API operation supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1222,6 +1246,7 @@ extension RDS {
     ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1272,6 +1297,7 @@ extension RDS {
     ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1322,6 +1348,7 @@ extension RDS {
     ///  Describes all available options.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1372,6 +1399,7 @@ extension RDS {
     ///  Describes the available option groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1422,6 +1450,7 @@ extension RDS {
     ///  Returns a list of orderable DB instance options for the specified engine.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1472,6 +1501,7 @@ extension RDS {
     ///  Returns a list of resources (for example, DB instances) that have at least one pending maintenance action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1522,6 +1552,7 @@ extension RDS {
     ///  Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1572,6 +1603,7 @@ extension RDS {
     ///  Lists available reserved DB instance offerings.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1622,6 +1654,7 @@ extension RDS {
     ///  Returns a list of the source AWS Regions where the current AWS Region can create a read replica or copy a DB snapshot from. This API action supports pagination.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -1672,6 +1705,7 @@ extension RDS {
     ///  Downloads all or a portion of the specified log file, up to 1 MB in size.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

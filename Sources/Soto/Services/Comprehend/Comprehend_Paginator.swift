@@ -22,6 +22,7 @@ extension Comprehend {
     ///  Gets a list of the documentation classification jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -72,6 +73,7 @@ extension Comprehend {
     ///  Gets a list of the document classifiers that you have created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -122,6 +124,7 @@ extension Comprehend {
     ///  Gets a list of the dominant language detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -172,6 +175,7 @@ extension Comprehend {
     ///  Gets a list of the entity detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -222,6 +226,7 @@ extension Comprehend {
     ///  Gets a list of the properties of all entity recognizers that you created, including recognizers currently in training. Allows you to filter the list of recognizers based on criteria such as status and submission time. This call returns up to 500 entity recognizers in the list, with a default number of 100 recognizers in the list. The results of this list are not in any particular order. Please get the list and sort locally if needed.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -272,6 +277,7 @@ extension Comprehend {
     ///  Get a list of key phrase detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -322,6 +328,7 @@ extension Comprehend {
     ///  Gets a list of sentiment detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -372,6 +379,7 @@ extension Comprehend {
     ///  Gets a list of the topic detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

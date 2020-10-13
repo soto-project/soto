@@ -22,6 +22,7 @@ extension MediaStoreData {
     ///  Provides a list of metadata entries about folders and objects in the specified folder.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

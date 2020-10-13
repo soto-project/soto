@@ -22,6 +22,7 @@ extension CodeGuruProfiler {
     ///   Returns a list of  FindingsReportSummary  objects that contain analysis results for all profiling groups in your AWS account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -72,6 +73,7 @@ extension CodeGuruProfiler {
     ///  List the available reports for a given profiling group and time range.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -122,6 +124,7 @@ extension CodeGuruProfiler {
     ///  Lists the start times of the available aggregated profiles of a profiling group for an aggregation period within the specified time range.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
@@ -172,6 +175,7 @@ extension CodeGuruProfiler {
     ///   Returns a list of profiling groups. The profiling groups are returned as  ProfilingGroupDescription  objects.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request

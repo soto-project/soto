@@ -22,6 +22,7 @@ extension AugmentedAIRuntime {
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
     ///
     /// Parameters:
     ///   - input: Input for request
