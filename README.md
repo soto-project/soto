@@ -1,5 +1,3 @@
-Soto is the new name for AWS SDK Swift. Amazon have asked that we don't use the name AWS SDK Swift. They are protecting their trademark and want to avoid confusing their customers who might think we are affiliated or are being sponsored by them, which we aren't.
-
 # Soto for AWS
 
 [<img src="http://img.shields.io/badge/swift-5.1-brightgreen.svg" alt="Swift 5.1" />](https://swift.org)
@@ -11,6 +9,10 @@ The library consists of three parts
 1. [soto-core](https://github.com/soto-project/soto-core) which does all the core request encoding and signing, response decoding and error handling.
 2. The service [api files](https://github.com/soto-project/soto/tree/main/Sources/Soto/Services) which define the individual AWS services and their commands with their input and output structures.
 3. The [CodeGenerator](https://github.com/soto-project/soto/tree/main/CodeGenerator) which builds the service api files from the [JSON model](https://github.com/soto-project/soto/tree/main/models/apis) files supplied by Amazon.
+
+## Version 5 documentation
+
+If you are looking for documentation for the version 5 beta of Soto. You will find it [here](https://github.com/soto-project/soto/tree/5.x.x-docs).
 
 ## Installation
 
