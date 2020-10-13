@@ -256,7 +256,7 @@ let package = Package(
         .library(name: "SotoXRay", targets: ["SotoXRay"])
     ],
     dependencies: [
-        .package(url: "https://github.com/soto-project/soto-core.git", .branch("paginate-reduce"))
+        .package(url: "https://github.com/soto-project/soto-core.git", .branch("main"))
     ],
     targets: [
         .target(name: "SotoACM", dependencies: ["SotoCore"], path: "./Sources/Soto/Services/ACM"),
