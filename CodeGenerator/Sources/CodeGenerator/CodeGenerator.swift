@@ -19,9 +19,6 @@ import Stencil
 import SwiftFormat
 
 struct CodeGenerator {
-    let fsLoader: FileSystemLoader
-    let environment: Environment
-    let command: CodeGeneratorCommand
     static let sfDisabledRules = FormatRules.disabledByDefault + ["redundantReturn", "redundantBackticks", "trailingCommas"]
     static let sfRuleNames = Set(FormatRules.byName.keys).subtracting(sfDisabledRules)
     static let sfRules: [FormatRule] = sfRuleNames.map { FormatRules.byName[$0]! }
@@ -35,6 +32,10 @@ struct CodeGenerator {
         explicitSelf: .insert,
         noSpaceOperators: ["...", "..<"]
     )
+
+    let fsLoader: FileSystemLoader
+    let environment: Environment
+    let command: CodeGeneratorCommand
 
     init(command: CodeGeneratorCommand) {
         self.fsLoader = FileSystemLoader(paths: [Path("\(CodeGeneratorCommand.rootPath)/CodeGenerator/Templates/")])

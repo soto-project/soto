@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/kylef/Spectre.git",
         "state": {
           "branch": null,
-          "revision": "f14ff47f45642aa5703900980b014c2e9394b6e5",
-          "version": "0.9.0"
+          "revision": "f717bbce0e19f0129fc001b2b6bed43b70fd8b87",
+          "version": "0.9.1"
         }
       },
       {
@@ -35,6 +35,15 @@
           "branch": null,
           "revision": "92646c0cdbaca076c8d3d0207891785b3379cbff",
           "version": "0.3.1"
+        }
+      },
+      {
+        "package": "SwiftFormat",
+        "repositoryURL": "https://github.com/nicklockwood/SwiftFormat.git",
+        "state": {
+          "branch": null,
+          "revision": "337d787cae2ac7c53f3574c107d12c557002a883",
+          "version": "0.46.3"
         }
       }
     ]
