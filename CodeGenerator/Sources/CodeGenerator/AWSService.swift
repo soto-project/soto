@@ -245,7 +245,7 @@ extension AWSService {
     }
 
     /// generate operations context
-    func generateOperationContext(_ operation: Operation, name: String) -> OperationContext {
+    func generateOperationContext(_ operation: Operation, name: String, streaming: Bool) -> OperationContext {
         return OperationContext(
             comment: self.docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
             funcName: name.toSwiftVariableCase(),
@@ -255,23 +255,7 @@ extension AWSService {
             path: operation.http.requestUri,
             httpMethod: operation.http.method,
             deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
-            streaming: nil,
-            documentationUrl: operation.documentationUrl
-        )
-    }
-
-    /// generate operations context for streaming version of function
-    func generateStreamingOperationContext(_ operation: Operation, name: String) -> OperationContext {
-        return OperationContext(
-            comment: self.docs.operations[name]?.tagStriped().split(separator: "\n") ?? [],
-            funcName: name.toSwiftVariableCase() + "Streaming",
-            inputShape: operation.input?.shapeName,
-            outputShape: operation.output?.shapeName,
-            name: operation.name,
-            path: operation.http.requestUri,
-            httpMethod: operation.http.method,
-            deprecated: operation.deprecatedMessage ?? (operation.deprecated == true ? "\(name) is deprecated." : nil),
-            streaming: "ByteBuffer",
+            streaming: streaming ? "ByteBuffer" : nil,
             documentationUrl: operation.documentationUrl
         )
     }
@@ -321,10 +305,10 @@ extension AWSService {
         var streamingOperationContexts: [OperationContext] = []
         for operation in self.api.operations {
             if operation.value.eventStream != true {
-                operationContexts.append(self.generateOperationContext(operation.value, name: operation.key))
+                operationContexts.append(self.generateOperationContext(operation.value, name: operation.key, streaming: false))
             }
             if operation.value.streaming == true {
-                streamingOperationContexts.append(self.generateStreamingOperationContext(operation.value, name: operation.key))
+                streamingOperationContexts.append(self.generateOperationContext(operation.value, name: operation.key, streaming: true))
             }
         }
         context["operations"] = operationContexts.sorted { $0.funcName < $1.funcName }
@@ -432,7 +416,7 @@ extension AWSService {
             let initParamsArray = initParams.map { "\($0.key): \($0.value)" }.sorted { $0.lowercased() < $1.lowercased() }
             paginatorContexts.append(
                 PaginatorContext(
-                    operation: self.generateOperationContext(operation, name: paginator.key),
+                    operation: self.generateOperationContext(operation, name: paginator.key, streaming: false),
                     output: processedOutputTokens[0],
                     moreResults: moreResultsKey,
                     initParams: initParamsArray,
