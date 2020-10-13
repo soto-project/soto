@@ -12,7 +12,7 @@ The library consists of three parts
 
 ## Version 5 documentation
 
-If you are looking for documentation for the version 5 beta of Soto. You will find it [here](https://github.com/soto-project/soto/tree/5.x.x-docs).
+If you are looking for documentation for the version 5 beta of Soto. You will find it [here](https://github.com/soto-project/soto/blob/5.x.x-docs/README.md).
 
 ## Installation
 
