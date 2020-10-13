@@ -102,7 +102,7 @@ struct CodeGenerator {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
             }
         }
-        if command.verbose {
+        if self.command.verbose {
             print("Succesfully Generated \(service.api.serviceName)")
         }
     }
