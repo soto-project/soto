@@ -81,7 +81,11 @@ struct CodeGenerator {
     }
 
     func format(_ string: String) throws -> String {
-        return try SwiftFormat.format(string, rules: Self.sfRules, options: Self.sfFormtOptions)
+        if command.swiftFormat {
+            return try SwiftFormat.format(string, rules: Self.sfRules, options: Self.sfFormtOptions)
+        } else {
+            return string
+        }
     }
 
     /// Generate service files from AWSService
