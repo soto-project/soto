@@ -241,16 +241,16 @@ extension DynamoDBStreams {
         /// A unique identifier for the entity that made the call. For Time To Live, the principalId is "dynamodb.amazonaws.com".
         public let principalId: String?
         /// The type of the identity. For Time To Live, the type is "Service".
-        public let `type`: String?
+        public let type: String?
 
         public init(principalId: String? = nil, type: String? = nil) {
             self.principalId = principalId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case principalId = "PrincipalId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -400,14 +400,14 @@ extension Mobile {
         public let attributes: [String: String]?
         public let feature: String?
         public let name: String?
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, attributes: [String: String]? = nil, feature: String? = nil, name: String? = nil, type: String? = nil) {
             self.arn = arn
             self.attributes = attributes
             self.feature = feature
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -415,7 +415,7 @@ extension Mobile {
             case attributes
             case feature
             case name
-            case `type`
+            case type
         }
     }
 

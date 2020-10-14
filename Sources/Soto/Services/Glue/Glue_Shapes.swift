@@ -1395,13 +1395,13 @@ extension Glue {
         /// These key-value pairs define properties associated with the column.
         public let parameters: [String: String]?
         /// The data type of the Column.
-        public let `type`: String?
+        public let type: String?
 
         public init(comment: String? = nil, name: String, parameters: [String: String]? = nil, type: String? = nil) {
             self.comment = comment
             self.name = name
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1417,16 +1417,16 @@ extension Glue {
                 try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
                 try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 512_000)
             }
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 131_072)
-            try self.validate(self.`type`, name: "`type`", parent: name, min: 0)
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case name = "Name"
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1498,7 +1498,7 @@ extension Glue {
         /// String Column Statistics Data.
         public let stringColumnStatisticsData: StringColumnStatisticsData?
         /// The name of the column.
-        public let `type`: ColumnStatisticsType
+        public let type: ColumnStatisticsType
 
         public init(binaryColumnStatisticsData: BinaryColumnStatisticsData? = nil, booleanColumnStatisticsData: BooleanColumnStatisticsData? = nil, dateColumnStatisticsData: DateColumnStatisticsData? = nil, decimalColumnStatisticsData: DecimalColumnStatisticsData? = nil, doubleColumnStatisticsData: DoubleColumnStatisticsData? = nil, longColumnStatisticsData: LongColumnStatisticsData? = nil, stringColumnStatisticsData: StringColumnStatisticsData? = nil, type: ColumnStatisticsType) {
             self.binaryColumnStatisticsData = binaryColumnStatisticsData
@@ -1508,7 +1508,7 @@ extension Glue {
             self.doubleColumnStatisticsData = doubleColumnStatisticsData
             self.longColumnStatisticsData = longColumnStatisticsData
             self.stringColumnStatisticsData = stringColumnStatisticsData
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1529,7 +1529,7 @@ extension Glue {
             case doubleColumnStatisticsData = "DoubleColumnStatisticsData"
             case longColumnStatisticsData = "LongColumnStatisticsData"
             case stringColumnStatisticsData = "StringColumnStatisticsData"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2811,7 +2811,7 @@ extension Glue {
         /// The tags to use with this trigger. You may use tags to limit access to the trigger. For more information about tags in AWS Glue, see AWS Tags in AWS Glue in the developer guide.
         public let tags: [String: String]?
         /// The type of the new trigger.
-        public let `type`: TriggerType
+        public let type: TriggerType
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
 
@@ -2823,7 +2823,7 @@ extension Glue {
             self.schedule = schedule
             self.startOnCreation = startOnCreation
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.workflowName = workflowName
         }
 
@@ -2857,7 +2857,7 @@ extension Glue {
             case schedule = "Schedule"
             case startOnCreation = "StartOnCreation"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
             case workflowName = "WorkflowName"
         }
     }
@@ -6991,16 +6991,16 @@ extension Glue {
         /// The name of a partition key.
         public let name: String
         /// The type of a partition key.
-        public let `type`: String
+        public let type: String
 
         public init(name: String, type: String) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -7555,7 +7555,7 @@ extension Glue {
         /// Details of the Trigger when the node represents a Trigger.
         public let triggerDetails: TriggerNodeDetails?
         /// The type of AWS Glue component represented by the node.
-        public let `type`: NodeType?
+        public let type: NodeType?
         /// The unique Id assigned to the node within the workflow.
         public let uniqueId: String?
 
@@ -7564,7 +7564,7 @@ extension Glue {
             self.jobDetails = jobDetails
             self.name = name
             self.triggerDetails = triggerDetails
-            self.`type` = `type`
+            self.type = type
             self.uniqueId = uniqueId
         }
 
@@ -7573,7 +7573,7 @@ extension Glue {
             case jobDetails = "JobDetails"
             case name = "Name"
             case triggerDetails = "TriggerDetails"
-            case `type` = "Type"
+            case type = "Type"
             case uniqueId = "UniqueId"
         }
     }
@@ -9522,7 +9522,7 @@ extension Glue {
         /// The current state of the trigger.
         public let state: TriggerState?
         /// The type of trigger that this is.
-        public let `type`: TriggerType?
+        public let type: TriggerType?
         /// The name of the workflow associated with the trigger.
         public let workflowName: String?
 
@@ -9534,7 +9534,7 @@ extension Glue {
             self.predicate = predicate
             self.schedule = schedule
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.workflowName = workflowName
         }
 
@@ -9546,7 +9546,7 @@ extension Glue {
             case predicate = "Predicate"
             case schedule = "Schedule"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case workflowName = "WorkflowName"
         }
     }

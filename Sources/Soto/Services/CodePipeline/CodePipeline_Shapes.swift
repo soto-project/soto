@@ -275,7 +275,7 @@ extension CodePipeline {
         /// Whether the configuration property is secret. Secrets are hidden from all calls except for GetJobDetails, GetThirdPartyJobDetails, PollForJobs, and PollForThirdPartyJobs. When updating a pipeline, passing * * * * * without changing any other values of the action preserves the previous value of the secret.
         public let secret: Bool
         /// The type of the configuration property.
-        public let `type`: ActionConfigurationPropertyType?
+        public let type: ActionConfigurationPropertyType?
 
         public init(description: String? = nil, key: Bool, name: String, queryable: Bool? = nil, required: Bool, secret: Bool, type: ActionConfigurationPropertyType? = nil) {
             self.description = description
@@ -284,7 +284,7 @@ extension CodePipeline {
             self.queryable = queryable
             self.required = required
             self.secret = secret
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -301,7 +301,7 @@ extension CodePipeline {
             case queryable
             case required
             case secret
-            case `type`
+            case type
         }
     }
 
@@ -828,16 +828,16 @@ extension CodePipeline {
         /// The S3 bucket that contains the artifact.
         public let s3Location: S3ArtifactLocation?
         /// The type of artifact in the location.
-        public let `type`: ArtifactLocationType?
+        public let type: ArtifactLocationType?
 
         public init(s3Location: S3ArtifactLocation? = nil, type: ArtifactLocationType? = nil) {
             self.s3Location = s3Location
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3Location
-            case `type`
+            case type
         }
     }
 
@@ -880,12 +880,12 @@ extension CodePipeline {
         /// The S3 bucket used for storing the artifacts for a pipeline. You can specify the name of an S3 bucket but not a folder in the bucket. A folder to contain the pipeline artifacts is created for you based on the name of the pipeline. You can use any S3 bucket in the same AWS Region as the pipeline to store your pipeline artifacts.
         public let location: String
         /// The type of the artifact store, such as S3.
-        public let `type`: ArtifactStoreType
+        public let type: ArtifactStoreType
 
         public init(encryptionKey: EncryptionKey? = nil, location: String, type: ArtifactStoreType) {
             self.encryptionKey = encryptionKey
             self.location = location
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -898,7 +898,7 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case encryptionKey
             case location
-            case `type`
+            case type
         }
     }
 
@@ -906,11 +906,11 @@ extension CodePipeline {
         /// Reserved for future use.
         public let name: String
         /// Reserved for future use.
-        public let `type`: BlockerType
+        public let type: BlockerType
 
         public init(name: String, type: BlockerType) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -920,7 +920,7 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case name
-            case `type`
+            case type
         }
     }
 
@@ -1242,11 +1242,11 @@ extension CodePipeline {
         /// The ID used to identify the key. For an AWS KMS key, you can use the key ID, the key ARN, or the alias ARN.  Aliases are recognized only in the account that created the customer master key (CMK). For cross-account actions, you can only use the key ID or key ARN to identify the key.
         public let id: String
         /// The type of encryption key, such as an AWS Key Management Service (AWS KMS) key. When creating or updating a pipeline, the value must be set to 'KMS'.
-        public let `type`: EncryptionKeyType
+        public let type: EncryptionKeyType
 
         public init(id: String, type: EncryptionKeyType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1256,7 +1256,7 @@ extension CodePipeline {
 
         private enum CodingKeys: String, CodingKey {
             case id
-            case `type`
+            case type
         }
     }
 
@@ -1330,12 +1330,12 @@ extension CodePipeline {
         /// The message about the failure.
         public let message: String
         /// The type of the failure.
-        public let `type`: FailureType
+        public let type: FailureType
 
         public init(externalExecutionId: String? = nil, message: String, type: FailureType) {
             self.externalExecutionId = externalExecutionId
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1348,7 +1348,7 @@ extension CodePipeline {
         private enum CodingKeys: String, CodingKey {
             case externalExecutionId
             case message
-            case `type`
+            case type
         }
     }
 

@@ -591,7 +591,7 @@ extension ServiceCatalog {
         /// The identifier of the product the constraint applies to. Note that a constraint applies to a specific instance of a product within a certain portfolio.
         public let productId: String?
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
-        public let `type`: String?
+        public let type: String?
 
         public init(constraintId: String? = nil, description: String? = nil, owner: String? = nil, portfolioId: String? = nil, productId: String? = nil, type: String? = nil) {
             self.constraintId = constraintId
@@ -599,7 +599,7 @@ extension ServiceCatalog {
             self.owner = owner
             self.portfolioId = portfolioId
             self.productId = productId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -608,7 +608,7 @@ extension ServiceCatalog {
             case owner = "Owner"
             case portfolioId = "PortfolioId"
             case productId = "ProductId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -616,16 +616,16 @@ extension ServiceCatalog {
         /// The description of the constraint.
         public let description: String?
         /// The type of constraint.    LAUNCH     NOTIFICATION    STACKSET    TEMPLATE
-        public let `type`: String?
+        public let type: String?
 
         public init(description: String? = nil, type: String? = nil) {
             self.description = description
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -707,7 +707,7 @@ extension ServiceCatalog {
         /// The product identifier.
         public let productId: String
         /// The type of constraint.    LAUNCH     NOTIFICATION     RESOURCE_UPDATE     STACKSET     TEMPLATE
-        public let `type`: String
+        public let type: String
 
         public init(acceptLanguage: String? = nil, description: String? = nil, idempotencyToken: String = CreateConstraintInput.idempotencyToken(), parameters: String, portfolioId: String, productId: String, type: String) {
             self.acceptLanguage = acceptLanguage
@@ -716,7 +716,7 @@ extension ServiceCatalog {
             self.parameters = parameters
             self.portfolioId = portfolioId
             self.productId = productId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -731,8 +731,8 @@ extension ServiceCatalog {
             try self.validate(self.productId, name: "productId", parent: name, max: 100)
             try self.validate(self.productId, name: "productId", parent: name, min: 1)
             try self.validate(self.productId, name: "productId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 1024)
-            try self.validate(self.`type`, name: "`type`", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, max: 1024)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -742,7 +742,7 @@ extension ServiceCatalog {
             case parameters = "Parameters"
             case portfolioId = "PortfolioId"
             case productId = "ProductId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2556,18 +2556,18 @@ extension ServiceCatalog {
         /// The name of the execution parameter.
         public let name: String?
         /// The execution parameter type.
-        public let `type`: String?
+        public let type: String?
 
         public init(defaultValues: [String]? = nil, name: String? = nil, type: String? = nil) {
             self.defaultValues = defaultValues
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultValues = "DefaultValues"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3654,12 +3654,12 @@ extension ServiceCatalog {
 
     public struct OrganizationNode: AWSEncodableShape & AWSDecodableShape {
         /// The organization node type.
-        public let `type`: OrganizationNodeType?
+        public let type: OrganizationNodeType?
         /// The identifier of the organization node.
         public let value: String?
 
         public init(type: OrganizationNodeType? = nil, value: String? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -3668,7 +3668,7 @@ extension ServiceCatalog {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3800,7 +3800,7 @@ extension ServiceCatalog {
         /// The URL information to obtain support for this Product.
         public let supportUrl: String?
         /// The product type. Contact the product administrator for the significance of this value. If this value is MARKETPLACE, the product was created by AWS Marketplace.
-        public let `type`: ProductType?
+        public let type: ProductType?
 
         public init(distributor: String? = nil, hasDefaultPath: Bool? = nil, id: String? = nil, name: String? = nil, owner: String? = nil, productId: String? = nil, shortDescription: String? = nil, supportDescription: String? = nil, supportEmail: String? = nil, supportUrl: String? = nil, type: ProductType? = nil) {
             self.distributor = distributor
@@ -3813,7 +3813,7 @@ extension ServiceCatalog {
             self.supportDescription = supportDescription
             self.supportEmail = supportEmail
             self.supportUrl = supportUrl
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3827,7 +3827,7 @@ extension ServiceCatalog {
             case supportDescription = "SupportDescription"
             case supportEmail = "SupportEmail"
             case supportUrl = "SupportUrl"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3976,7 +3976,7 @@ extension ServiceCatalog {
         /// One or more tags.
         public let tags: [Tag]?
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
-        public let `type`: String?
+        public let type: String?
         /// The Amazon Resource Name (ARN) of the IAM user.
         public let userArn: String?
         /// The ARN of the IAM user in the session. This ARN might contain a session ID.
@@ -3999,7 +3999,7 @@ extension ServiceCatalog {
             self.status = status
             self.statusMessage = statusMessage
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.userArn = userArn
             self.userArnSession = userArnSession
         }
@@ -4021,7 +4021,7 @@ extension ServiceCatalog {
             case status = "Status"
             case statusMessage = "StatusMessage"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
             case userArn = "UserArn"
             case userArnSession = "UserArnSession"
         }
@@ -4053,7 +4053,7 @@ extension ServiceCatalog {
         /// The current status message of the provisioned product.
         public let statusMessage: String?
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, createdTime: Date? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
@@ -4068,7 +4068,7 @@ extension ServiceCatalog {
             self.provisioningArtifactId = provisioningArtifactId
             self.status = status
             self.statusMessage = statusMessage
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4084,7 +4084,7 @@ extension ServiceCatalog {
             case provisioningArtifactId = "ProvisioningArtifactId"
             case status = "Status"
             case statusMessage = "StatusMessage"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4233,7 +4233,7 @@ extension ServiceCatalog {
         /// The name of the provisioning artifact.
         public let name: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
-        public let `type`: ProvisioningArtifactType?
+        public let type: ProvisioningArtifactType?
 
         public init(active: Bool? = nil, createdTime: Date? = nil, description: String? = nil, guidance: ProvisioningArtifactGuidance? = nil, id: String? = nil, name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.active = active
@@ -4242,7 +4242,7 @@ extension ServiceCatalog {
             self.guidance = guidance
             self.id = id
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4252,7 +4252,7 @@ extension ServiceCatalog {
             case guidance = "Guidance"
             case id = "Id"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4333,14 +4333,14 @@ extension ServiceCatalog {
         /// The name of the provisioning artifact (for example, v1 v2beta). No spaces are allowed.
         public let name: String?
         /// The type of provisioning artifact.    CLOUD_FORMATION_TEMPLATE - AWS CloudFormation template    MARKETPLACE_AMI - AWS Marketplace AMI    MARKETPLACE_CAR - AWS Marketplace Clusters and AWS Resources
-        public let `type`: ProvisioningArtifactType?
+        public let type: ProvisioningArtifactType?
 
         public init(description: String? = nil, disableTemplateValidation: Bool? = nil, info: [String: String], name: String? = nil, type: ProvisioningArtifactType? = nil) {
             self.description = description
             self.disableTemplateValidation = disableTemplateValidation
             self.info = info
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -4353,7 +4353,7 @@ extension ServiceCatalog {
             case disableTemplateValidation = "DisableTemplateValidation"
             case info = "Info"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -5872,17 +5872,17 @@ extension ServiceCatalog {
 
     public struct UsageInstruction: AWSDecodableShape {
         /// The usage instruction type for the value.
-        public let `type`: String?
+        public let type: String?
         /// The usage instruction value for this type.
         public let value: String?
 
         public init(type: String? = nil, value: String? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }

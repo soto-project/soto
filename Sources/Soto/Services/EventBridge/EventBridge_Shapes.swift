@@ -142,19 +142,19 @@ extension EventBridge {
         /// Specifies the key for the condition. Currently the only supported key is aws:PrincipalOrgID.
         public let key: String
         /// Specifies the type of condition. Currently the only supported value is StringEquals.
-        public let `type`: String
+        public let type: String
         /// Specifies the value for the key. Currently, this must be the ID of the organization.
         public let value: String
 
         public init(key: String, type: String, value: String) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }

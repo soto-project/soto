@@ -299,7 +299,7 @@ extension OpsWorks {
         /// The app stack ID.
         public let stackId: String?
         /// The app type.
-        public let `type`: AppType?
+        public let type: AppType?
 
         public init(appId: String? = nil, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, createdAt: String? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String? = nil, type: AppType? = nil) {
             self.appId = appId
@@ -315,7 +315,7 @@ extension OpsWorks {
             self.shortname = shortname
             self.sslConfiguration = sslConfiguration
             self.stackId = stackId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -332,7 +332,7 @@ extension OpsWorks {
             case shortname = "Shortname"
             case sslConfiguration = "SslConfiguration"
             case stackId = "StackId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -690,7 +690,7 @@ extension OpsWorks {
         /// The command status:   failed   successful   skipped   pending
         public let status: String?
         /// The command type:    configure     deploy     execute_recipes     install_dependencies     restart     rollback     setup     start     stop     undeploy     update_custom_cookbooks     update_dependencies
-        public let `type`: String?
+        public let type: String?
 
         public init(acknowledgedAt: String? = nil, commandId: String? = nil, completedAt: String? = nil, createdAt: String? = nil, deploymentId: String? = nil, exitCode: Int? = nil, instanceId: String? = nil, logUrl: String? = nil, status: String? = nil, type: String? = nil) {
             self.acknowledgedAt = acknowledgedAt
@@ -702,7 +702,7 @@ extension OpsWorks {
             self.instanceId = instanceId
             self.logUrl = logUrl
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -715,7 +715,7 @@ extension OpsWorks {
             case instanceId = "InstanceId"
             case logUrl = "LogUrl"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -743,7 +743,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String
         /// The app type. Each supported type is associated with a particular layer. For example, PHP applications are associated with a PHP layer. AWS OpsWorks Stacks deploys an application to those instances that are members of the corresponding layer. If your app isn't one of the standard types, or you prefer to implement your own Deploy recipes, specify other.
-        public let `type`: AppType
+        public let type: AppType
 
         public init(appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String, shortname: String? = nil, sslConfiguration: SslConfiguration? = nil, stackId: String, type: AppType) {
             self.appSource = appSource
@@ -757,7 +757,7 @@ extension OpsWorks {
             self.shortname = shortname
             self.sslConfiguration = sslConfiguration
             self.stackId = stackId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -772,7 +772,7 @@ extension OpsWorks {
             case shortname = "Shortname"
             case sslConfiguration = "SslConfiguration"
             case stackId = "StackId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -965,7 +965,7 @@ extension OpsWorks {
         /// The layer stack ID.
         public let stackId: String
         /// The layer type. A stack cannot have more than one built-in layer of the same type. It can have any number of custom layers. Built-in layers are not available in Chef 12 stacks.
-        public let `type`: LayerType
+        public let type: LayerType
         /// Whether to use Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
@@ -987,7 +987,7 @@ extension OpsWorks {
             self.packages = packages
             self.shortname = shortname
             self.stackId = stackId
-            self.`type` = `type`
+            self.type = type
             self.useEbsOptimizedInstances = useEbsOptimizedInstances
             self.volumeConfigurations = volumeConfigurations
         }
@@ -1008,7 +1008,7 @@ extension OpsWorks {
             case packages = "Packages"
             case shortname = "Shortname"
             case stackId = "StackId"
-            case `type` = "Type"
+            case type = "Type"
             case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
             case volumeConfigurations = "VolumeConfigurations"
         }
@@ -1169,18 +1169,18 @@ extension OpsWorks {
         /// The database name.
         public let databaseName: String?
         /// The data source's type, AutoSelectOpsworksMysqlInstance, OpsworksMysqlInstance, RdsDbInstance, or None.
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, databaseName: String? = nil, type: String? = nil) {
             self.arn = arn
             self.databaseName = databaseName
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case databaseName = "DatabaseName"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2611,7 +2611,7 @@ extension OpsWorks {
         /// The layer stack ID.
         public let stackId: String?
         /// The layer type.
-        public let `type`: LayerType?
+        public let type: LayerType?
         /// Whether the layer uses Amazon EBS-optimized instances.
         public let useEbsOptimizedInstances: Bool?
         /// A VolumeConfigurations object that describes the layer's Amazon EBS volumes.
@@ -2638,7 +2638,7 @@ extension OpsWorks {
             self.packages = packages
             self.shortname = shortname
             self.stackId = stackId
-            self.`type` = `type`
+            self.type = type
             self.useEbsOptimizedInstances = useEbsOptimizedInstances
             self.volumeConfigurations = volumeConfigurations
         }
@@ -2664,7 +2664,7 @@ extension OpsWorks {
             case packages = "Packages"
             case shortname = "Shortname"
             case stackId = "StackId"
-            case `type` = "Type"
+            case type = "Type"
             case useEbsOptimizedInstances = "UseEbsOptimizedInstances"
             case volumeConfigurations = "VolumeConfigurations"
         }
@@ -2760,7 +2760,7 @@ extension OpsWorks {
         /// Indicates that an operating system is not supported for new instances.
         public let supported: Bool?
         /// The type of a supported operating system, either Linux or Windows.
-        public let `type`: String?
+        public let type: String?
 
         public init(configurationManagers: [OperatingSystemConfigurationManager]? = nil, id: String? = nil, name: String? = nil, reportedName: String? = nil, reportedVersion: String? = nil, supported: Bool? = nil, type: String? = nil) {
             self.configurationManagers = configurationManagers
@@ -2769,7 +2769,7 @@ extension OpsWorks {
             self.reportedName = reportedName
             self.reportedVersion = reportedVersion
             self.supported = supported
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2779,7 +2779,7 @@ extension OpsWorks {
             case reportedName = "ReportedName"
             case reportedVersion = "ReportedVersion"
             case supported = "Supported"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3200,7 +3200,7 @@ extension OpsWorks {
         /// The stack ID.
         public let stackId: String?
         /// The error type.
-        public let `type`: String?
+        public let type: String?
 
         public init(createdAt: String? = nil, instanceId: String? = nil, message: String? = nil, serviceErrorId: String? = nil, stackId: String? = nil, type: String? = nil) {
             self.createdAt = createdAt
@@ -3208,7 +3208,7 @@ extension OpsWorks {
             self.message = message
             self.serviceErrorId = serviceErrorId
             self.stackId = stackId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3217,7 +3217,7 @@ extension OpsWorks {
             case message = "Message"
             case serviceErrorId = "ServiceErrorId"
             case stackId = "StackId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3322,7 +3322,7 @@ extension OpsWorks {
         /// In requests, the repository's SSH key. In responses, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value.
         public let sshKey: String?
         /// The repository type.
-        public let `type`: SourceType?
+        public let type: SourceType?
         /// The source URL. The following is an example of an Amazon S3 source URL: https://s3.amazonaws.com/opsworks-demo-bucket/opsworks_cookbook_demo.tar.gz.
         public let url: String?
         /// This parameter depends on the repository type.   For Amazon S3 bundles, set Username to the appropriate IAM access key ID.   For HTTP bundles, Git repositories, and Subversion repositories, set Username to the user name.
@@ -3332,7 +3332,7 @@ extension OpsWorks {
             self.password = password
             self.revision = revision
             self.sshKey = sshKey
-            self.`type` = `type`
+            self.type = type
             self.url = url
             self.username = username
         }
@@ -3341,7 +3341,7 @@ extension OpsWorks {
             case password = "Password"
             case revision = "Revision"
             case sshKey = "SshKey"
-            case `type` = "Type"
+            case type = "Type"
             case url = "Url"
             case username = "Username"
         }
@@ -3695,7 +3695,7 @@ extension OpsWorks {
         /// An SslConfiguration object with the SSL configuration.
         public let sslConfiguration: SslConfiguration?
         /// The app type.
-        public let `type`: AppType?
+        public let type: AppType?
 
         public init(appId: String, appSource: Source? = nil, attributes: [AppAttributesKeys: String]? = nil, dataSources: [DataSource]? = nil, description: String? = nil, domains: [String]? = nil, enableSsl: Bool? = nil, environment: [EnvironmentVariable]? = nil, name: String? = nil, sslConfiguration: SslConfiguration? = nil, type: AppType? = nil) {
             self.appId = appId
@@ -3708,7 +3708,7 @@ extension OpsWorks {
             self.environment = environment
             self.name = name
             self.sslConfiguration = sslConfiguration
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3722,7 +3722,7 @@ extension OpsWorks {
             case environment = "Environment"
             case name = "Name"
             case sslConfiguration = "SslConfiguration"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

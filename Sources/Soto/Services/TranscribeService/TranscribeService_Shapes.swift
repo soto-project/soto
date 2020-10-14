@@ -1247,7 +1247,7 @@ extension TranscribeService {
         /// The completion status of a medical transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
         /// The type of speech in the transcription job. CONVERSATION is generally used for patient-physician dialogues. DICTATION is the setting for physicians speaking their notes after seeing a patient. For more information, see how-it-works-med
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
@@ -1263,7 +1263,7 @@ extension TranscribeService {
             self.startTime = startTime
             self.transcript = transcript
             self.transcriptionJobStatus = transcriptionJobStatus
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1280,7 +1280,7 @@ extension TranscribeService {
             case startTime = "StartTime"
             case transcript = "Transcript"
             case transcriptionJobStatus = "TranscriptionJobStatus"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1304,7 +1304,7 @@ extension TranscribeService {
         /// The status of the medical transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
         /// The speech of the clinician in the input audio.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
             self.completionTime = completionTime
@@ -1316,7 +1316,7 @@ extension TranscribeService {
             self.specialty = specialty
             self.startTime = startTime
             self.transcriptionJobStatus = transcriptionJobStatus
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1329,7 +1329,7 @@ extension TranscribeService {
             case specialty = "Specialty"
             case startTime = "StartTime"
             case transcriptionJobStatus = "TranscriptionJobStatus"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1470,7 +1470,7 @@ extension TranscribeService {
         /// The medical specialty of any clinician speaking in the input media.
         public let specialty: Specialty
         /// The type of speech in the input audio. CONVERSATION refers to conversations between two or more speakers, e.g., a conversations between doctors and patients. DICTATION refers to single-speaker dictated speech, e.g., for clinical notes.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
             self.languageCode = languageCode
@@ -1483,7 +1483,7 @@ extension TranscribeService {
             self.outputKey = outputKey
             self.settings = settings
             self.specialty = specialty
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1515,7 +1515,7 @@ extension TranscribeService {
             case outputKey = "OutputKey"
             case settings = "Settings"
             case specialty = "Specialty"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

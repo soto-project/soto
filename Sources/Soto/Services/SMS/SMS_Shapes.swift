@@ -1332,7 +1332,7 @@ extension SMS {
         /// The description of the current status of the replication job.
         public let statusMessage: String?
         /// The type of replication run.
-        public let `type`: ReplicationRunType?
+        public let type: ReplicationRunType?
 
         public init(amiId: String? = nil, completedTime: Date? = nil, description: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, replicationRunId: String? = nil, scheduledStartTime: Date? = nil, stageDetails: ReplicationRunStageDetails? = nil, state: ReplicationRunState? = nil, statusMessage: String? = nil, type: ReplicationRunType? = nil) {
             self.amiId = amiId
@@ -1345,7 +1345,7 @@ extension SMS {
             self.stageDetails = stageDetails
             self.state = state
             self.statusMessage = statusMessage
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1359,7 +1359,7 @@ extension SMS {
             case stageDetails
             case state
             case statusMessage
-            case `type`
+            case type
         }
     }
 

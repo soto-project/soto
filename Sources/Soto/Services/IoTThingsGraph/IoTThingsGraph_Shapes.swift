@@ -580,14 +580,14 @@ extension IoTThingsGraph {
         /// The entity ID.
         public let id: String?
         /// The entity type.
-        public let `type`: EntityType?
+        public let type: EntityType?
 
         public init(arn: String? = nil, createdAt: Date? = nil, definition: DefinitionDocument? = nil, id: String? = nil, type: EntityType? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.definition = definition
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -595,7 +595,7 @@ extension IoTThingsGraph {
             case createdAt
             case definition
             case id
-            case `type`
+            case type
         }
     }
 

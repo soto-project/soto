@@ -538,18 +538,18 @@ extension CodeGuruProfiler {
         /// List of application runtime thread states used to get the counts for a frame a derive a metric value.
         public let threadStates: [String]
         ///  A type of aggregation that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurrences of all frames in a profile.
-        public let `type`: MetricType
+        public let type: MetricType
 
         public init(frameName: String, threadStates: [String], type: MetricType) {
             self.frameName = frameName
             self.threadStates = threadStates
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case frameName
             case threadStates
-            case `type`
+            case type
         }
     }
 
@@ -1064,18 +1064,18 @@ extension CodeGuruProfiler {
         ///  The list of application runtime thread states that is used to calculate the metric value for the frame.
         public let threadStates: [String]
         ///  A type that specifies how a metric for a frame is analyzed. The supported value AggregatedRelativeTotalTime is an aggregation of the metric value for one frame that is calculated across the occurences of all frames in a profile.
-        public let `type`: MetricType
+        public let type: MetricType
 
         public init(frameName: String, threadStates: [String], type: MetricType) {
             self.frameName = frameName
             self.threadStates = threadStates
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case frameName
             case threadStates
-            case `type`
+            case type
         }
     }
 
@@ -1439,13 +1439,13 @@ extension CodeGuruProfiler {
         /// The name of the profiling group that is associated with the analysis data.
         public let profilingGroupName: String
         ///  The feedback tpye. Thee are two valid values, Positive and Negative.
-        public let `type`: FeedbackType
+        public let type: FeedbackType
 
         public init(anomalyInstanceId: String, comment: String? = nil, profilingGroupName: String, type: FeedbackType) {
             self.anomalyInstanceId = anomalyInstanceId
             self.comment = comment
             self.profilingGroupName = profilingGroupName
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1457,7 +1457,7 @@ extension CodeGuruProfiler {
 
         private enum CodingKeys: String, CodingKey {
             case comment
-            case `type`
+            case type
         }
     }
 
@@ -1570,14 +1570,14 @@ extension CodeGuruProfiler {
 
     public struct UserFeedback: AWSDecodableShape {
         /// Optional Positive or Negative feedback submitted by the user about whether the recommendation is useful or not.
-        public let `type`: FeedbackType
+        public let type: FeedbackType
 
         public init(type: FeedbackType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 }

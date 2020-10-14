@@ -647,7 +647,7 @@ extension Kendra {
         /// A list of key-value pairs that identify the data source. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
         /// The type of repository that contains the data source.
-        public let `type`: DataSourceType
+        public let type: DataSourceType
 
         public init(configuration: DataSourceConfiguration, description: String? = nil, indexId: String, name: String, roleArn: String, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
             self.configuration = configuration
@@ -657,7 +657,7 @@ extension Kendra {
             self.roleArn = roleArn
             self.schedule = schedule
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -689,7 +689,7 @@ extension Kendra {
             case roleArn = "RoleArn"
             case schedule = "Schedule"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -899,7 +899,7 @@ extension Kendra {
         /// The status of the data source. When the status is ATIVE the data source is ready to use.
         public let status: DataSourceStatus?
         /// The type of the data source.
-        public let `type`: DataSourceType?
+        public let type: DataSourceType?
         /// The UNIX datetime that the data source was lasted updated.
         public let updatedAt: Date?
 
@@ -908,7 +908,7 @@ extension Kendra {
             self.id = id
             self.name = name
             self.status = status
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -917,7 +917,7 @@ extension Kendra {
             case id = "Id"
             case name = "Name"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -1243,7 +1243,7 @@ extension Kendra {
         /// The current status of the data source. When the status is ACTIVE the data source is ready to use. When the status is FAILED, the ErrorMessage field contains the reason that the data source failed.
         public let status: DataSourceStatus?
         /// The type of the data source.
-        public let `type`: DataSourceType?
+        public let type: DataSourceType?
         /// The Unix timestamp of when the data source was last updated.
         public let updatedAt: Date?
 
@@ -1258,7 +1258,7 @@ extension Kendra {
             self.roleArn = roleArn
             self.schedule = schedule
             self.status = status
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -1273,7 +1273,7 @@ extension Kendra {
             case roleArn = "RoleArn"
             case schedule = "Schedule"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -1567,13 +1567,13 @@ extension Kendra {
         /// Provides information about how the field is used during a search.
         public let search: Search?
         /// The data type of the index field.
-        public let `type`: DocumentAttributeValueType
+        public let type: DocumentAttributeValueType
 
         public init(name: String, relevance: Relevance? = nil, search: Search? = nil, type: DocumentAttributeValueType) {
             self.name = name
             self.relevance = relevance
             self.search = search
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1586,7 +1586,7 @@ extension Kendra {
             case name = "Name"
             case relevance = "Relevance"
             case search = "Search"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2090,12 +2090,12 @@ extension Kendra {
         /// The name of the user or group.
         public let name: String
         /// The type of principal.
-        public let `type`: PrincipalType
+        public let type: PrincipalType
 
         public init(access: ReadAccessType, name: String, type: PrincipalType) {
             self.access = access
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2107,7 +2107,7 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case access = "Access"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2220,7 +2220,7 @@ extension Kendra {
         /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
         public let scoreAttributes: ScoreAttributes?
         /// The type of document.
-        public let `type`: QueryResultType?
+        public let type: QueryResultType?
 
         public init(additionalAttributes: [AdditionalResultAttribute]? = nil, documentAttributes: [DocumentAttribute]? = nil, documentExcerpt: TextWithHighlights? = nil, documentId: String? = nil, documentTitle: TextWithHighlights? = nil, documentURI: String? = nil, id: String? = nil, scoreAttributes: ScoreAttributes? = nil, type: QueryResultType? = nil) {
             self.additionalAttributes = additionalAttributes
@@ -2231,7 +2231,7 @@ extension Kendra {
             self.documentURI = documentURI
             self.id = id
             self.scoreAttributes = scoreAttributes
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2243,7 +2243,7 @@ extension Kendra {
             case documentURI = "DocumentURI"
             case id = "Id"
             case scoreAttributes = "ScoreAttributes"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

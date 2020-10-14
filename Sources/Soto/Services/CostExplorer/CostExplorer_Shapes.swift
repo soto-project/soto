@@ -2310,11 +2310,11 @@ extension CostExplorer {
         /// The string that represents a key for a specified group.
         public let key: String?
         /// The string that represents the type of group.
-        public let `type`: GroupDefinitionType?
+        public let type: GroupDefinitionType?
 
         public init(key: String? = nil, type: GroupDefinitionType? = nil) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2325,7 +2325,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3401,12 +3401,12 @@ extension CostExplorer {
         ///  Indicates if the subscriber accepts the notifications.
         public let status: SubscriberStatus?
         ///  The notification delivery channel.
-        public let `type`: SubscriberType?
+        public let type: SubscriberType?
 
         public init(address: String? = nil, status: SubscriberStatus? = nil, type: SubscriberType? = nil) {
             self.address = address
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3418,7 +3418,7 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

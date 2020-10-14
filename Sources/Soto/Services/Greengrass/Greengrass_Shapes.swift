@@ -3661,14 +3661,14 @@ extension Greengrass {
         /// The amount of file space, in KB, to use if the local file system is used for logging purposes.
         public let space: Int?
         /// The type of log output which will be used.
-        public let `type`: LoggerType
+        public let type: LoggerType
 
         public init(component: LoggerComponent, id: String, level: LoggerLevel, space: Int? = nil, type: LoggerType) {
             self.component = component
             self.id = id
             self.level = level
             self.space = space
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3676,7 +3676,7 @@ extension Greengrass {
             case id = "Id"
             case level = "Level"
             case space = "Space"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

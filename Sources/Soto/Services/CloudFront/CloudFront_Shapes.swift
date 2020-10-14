@@ -471,16 +471,16 @@ extension CloudFront {
         /// The cache policy.
         public let cachePolicy: CachePolicy
         /// The type of cache policy, either managed (created by AWS) or custom (created in this AWS account).
-        public let `type`: CachePolicyType
+        public let type: CachePolicyType
 
         public init(cachePolicy: CachePolicy, type: CachePolicyType) {
             self.cachePolicy = cachePolicy
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case cachePolicy = "CachePolicy"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3214,12 +3214,12 @@ extension CloudFront {
         /// The maximum number of cache policies that you want in the response.
         public let maxItems: String?
         /// A filter to return only the specified kinds of cache policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.
-        public let `type`: CachePolicyType?
+        public let type: CachePolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: CachePolicyType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}
@@ -3621,12 +3621,12 @@ extension CloudFront {
         /// The maximum number of origin request policies that you want in the response.
         public let maxItems: String?
         /// A filter to return only the specified kinds of origin request policies. Valid values are:    managed – Returns only the managed policies created by AWS.    custom – Returns only the custom policies created in your AWS account.
-        public let `type`: OriginRequestPolicyType?
+        public let type: OriginRequestPolicyType?
 
         public init(marker: String? = nil, maxItems: String? = nil, type: OriginRequestPolicyType? = nil) {
             self.marker = marker
             self.maxItems = maxItems
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}
@@ -4141,16 +4141,16 @@ extension CloudFront {
         /// The origin request policy.
         public let originRequestPolicy: OriginRequestPolicy
         /// The type of origin request policy, either managed (created by AWS) or custom (created in this AWS account).
-        public let `type`: OriginRequestPolicyType
+        public let type: OriginRequestPolicyType
 
         public init(originRequestPolicy: OriginRequestPolicy, type: OriginRequestPolicyType) {
             self.originRequestPolicy = originRequestPolicy
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case originRequestPolicy = "OriginRequestPolicy"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

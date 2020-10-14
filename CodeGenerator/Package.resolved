@@ -21,7 +21,7 @@
       },
       {
         "package": "Stencil",
-        "repositoryURL": "https://github.com/swift-aws/Stencil.git",
+        "repositoryURL": "https://github.com/soto-project/Stencil.git",
         "state": {
           "branch": null,
           "revision": "3fff29f0140dcbabae6b5966ba99322dd169fe95",

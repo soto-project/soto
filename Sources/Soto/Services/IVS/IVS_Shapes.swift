@@ -161,7 +161,7 @@ extension IVS {
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
-        public let `type`: ChannelType?
+        public let type: ChannelType?
 
         public init(arn: String? = nil, authorized: Bool? = nil, ingestEndpoint: String? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, playbackUrl: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.arn = arn
@@ -171,7 +171,7 @@ extension IVS {
             self.name = name
             self.playbackUrl = playbackUrl
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -182,7 +182,7 @@ extension IVS {
             case name
             case playbackUrl
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -225,14 +225,14 @@ extension IVS {
         /// See Channel$tags.
         public let tags: [String: String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
-        public let `type`: ChannelType?
+        public let type: ChannelType?
 
         public init(authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, tags: [String: String]? = nil, type: ChannelType? = nil) {
             self.authorized = authorized
             self.latencyMode = latencyMode
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -251,7 +251,7 @@ extension IVS {
             case latencyMode
             case name
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -1046,14 +1046,14 @@ extension IVS {
         /// Channel name.
         public let name: String?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable resolution or bitrate, the stream probably will disconnect immediately. Valid values:    STANDARD: Multiple qualities are generated from the original input, to automatically give viewers the best experience for their devices and network conditions. Vertical resolution can be up to 1080 and bitrate can be up to 8.5 Mbps.    BASIC: Amazon IVS delivers the original input to viewers. The viewer’s video-quality choice is limited to the original input. Vertical resolution can be up to 480 and bitrate can be up to 1.5 Mbps.   Default: STANDARD.
-        public let `type`: ChannelType?
+        public let type: ChannelType?
 
         public init(arn: String, authorized: Bool? = nil, latencyMode: ChannelLatencyMode? = nil, name: String? = nil, type: ChannelType? = nil) {
             self.arn = arn
             self.authorized = authorized
             self.latencyMode = latencyMode
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1070,7 +1070,7 @@ extension IVS {
             case authorized
             case latencyMode
             case name
-            case `type`
+            case type
         }
     }
 

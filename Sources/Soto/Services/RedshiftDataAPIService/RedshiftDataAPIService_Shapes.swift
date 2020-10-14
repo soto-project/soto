@@ -668,18 +668,18 @@ extension RedshiftDataAPIService {
         /// The schema containing the table.
         public let schema: String?
         /// The type of the table. Possible values include TABLE, VIEW, SYSTEM TABLE, GLOBAL TEMPORARY, LOCAL TEMPORARY, ALIAS, and SYNONYM.
-        public let `type`: String?
+        public let type: String?
 
         public init(name: String? = nil, schema: String? = nil, type: String? = nil) {
             self.name = name
             self.schema = schema
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
             case schema
-            case `type`
+            case type
         }
     }
 }

@@ -1016,7 +1016,7 @@ extension RAM {
         /// A message about the status of the resource.
         public let statusMessage: String?
         /// The resource type.
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceGroupArn: String? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
@@ -1026,7 +1026,7 @@ extension RAM {
             self.resourceShareArn = resourceShareArn
             self.status = status
             self.statusMessage = statusMessage
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1037,7 +1037,7 @@ extension RAM {
             case resourceShareArn
             case status
             case statusMessage
-            case `type`
+            case type
         }
     }
 

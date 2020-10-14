@@ -236,7 +236,7 @@ extension FSx {
         /// Tags associated with a particular file system.
         public let tags: [Tag]?
         /// The type of the file system backup.
-        public let `type`: BackupType
+        public let type: BackupType
 
         public init(backupId: String, creationTime: Date, directoryInformation: ActiveDirectoryBackupAttributes? = nil, failureDetails: BackupFailureDetails? = nil, fileSystem: FileSystem, kmsKeyId: String? = nil, lifecycle: BackupLifecycle, progressPercent: Int? = nil, resourceARN: String? = nil, tags: [Tag]? = nil, type: BackupType) {
             self.backupId = backupId
@@ -249,7 +249,7 @@ extension FSx {
             self.progressPercent = progressPercent
             self.resourceARN = resourceARN
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -263,7 +263,7 @@ extension FSx {
             case progressPercent = "ProgressPercent"
             case resourceARN = "ResourceARN"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -404,7 +404,7 @@ extension FSx {
         public let report: CompletionReport
         public let tags: [Tag]?
         /// Specifies the type of data repository task to create.
-        public let `type`: DataRepositoryTaskType
+        public let type: DataRepositoryTaskType
 
         public init(clientRequestToken: String? = CreateDataRepositoryTaskRequest.idempotencyToken(), fileSystemId: String, paths: [String]? = nil, report: CompletionReport, tags: [Tag]? = nil, type: DataRepositoryTaskType) {
             self.clientRequestToken = clientRequestToken
@@ -412,7 +412,7 @@ extension FSx {
             self.paths = paths
             self.report = report
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -442,7 +442,7 @@ extension FSx {
             case paths = "Paths"
             case report = "Report"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -830,7 +830,7 @@ extension FSx {
         /// The system-generated, unique 17-digit ID of the data repository task.
         public let taskId: String
         /// The type of data repository task; EXPORT_TO_REPOSITORY is the only type currently supported.
-        public let `type`: DataRepositoryTaskType
+        public let type: DataRepositoryTaskType
 
         public init(creationTime: Date, endTime: Date? = nil, failureDetails: DataRepositoryTaskFailureDetails? = nil, fileSystemId: String, lifecycle: DataRepositoryTaskLifecycle, paths: [String]? = nil, report: CompletionReport? = nil, resourceARN: String? = nil, startTime: Date? = nil, status: DataRepositoryTaskStatus? = nil, tags: [Tag]? = nil, taskId: String, type: DataRepositoryTaskType) {
             self.creationTime = creationTime
@@ -845,7 +845,7 @@ extension FSx {
             self.status = status
             self.tags = tags
             self.taskId = taskId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -861,7 +861,7 @@ extension FSx {
             case status = "Status"
             case tags = "Tags"
             case taskId = "TaskId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -3627,7 +3627,7 @@ extension GameLift {
         /// Current status of the instance. Possible statuses include the following:    PENDING -- The instance is in the process of being created and launching server processes as defined in the fleet's run-time configuration.     ACTIVE -- The instance has been successfully created and at least one server process has successfully launched and reported back to Amazon GameLift that it is ready to host a game session. The instance is now considered ready to host game sessions.     TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public let status: InstanceStatus?
         /// EC2 instance type that defines the computing resources of this instance.
-        public let `type`: EC2InstanceType?
+        public let type: EC2InstanceType?
 
         public init(creationTime: Date? = nil, dnsName: String? = nil, fleetId: String? = nil, instanceId: String? = nil, ipAddress: String? = nil, operatingSystem: OperatingSystem? = nil, status: InstanceStatus? = nil, type: EC2InstanceType? = nil) {
             self.creationTime = creationTime
@@ -3637,7 +3637,7 @@ extension GameLift {
             self.ipAddress = ipAddress
             self.operatingSystem = operatingSystem
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3648,7 +3648,7 @@ extension GameLift {
             case ipAddress = "IpAddress"
             case operatingSystem = "OperatingSystem"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4685,12 +4685,12 @@ extension GameLift {
         /// The message text to be used with a terminal routing strategy.
         public let message: String?
         /// The type of routing strategy for the alias. Possible routing types include the following:    SIMPLE - The alias resolves to one specific fleet. Use this type when routing to active fleets.    TERMINAL - The alias does not resolve to a fleet but instead can be used to display a message to the user. A terminal alias throws a TerminalRoutingStrategyException with the RoutingStrategy message embedded.
-        public let `type`: RoutingStrategyType?
+        public let type: RoutingStrategyType?
 
         public init(fleetId: String? = nil, message: String? = nil, type: RoutingStrategyType? = nil) {
             self.fleetId = fleetId
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -4700,7 +4700,7 @@ extension GameLift {
         private enum CodingKeys: String, CodingKey {
             case fleetId = "FleetId"
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -2487,14 +2487,14 @@ extension IoT {
         /// Metadata that can be used to manage the dimension.
         public let tags: [Tag]?
         /// Specifies the type of dimension. Supported types: TOPIC_FILTER.
-        public let `type`: DimensionType
+        public let type: DimensionType
 
         public init(clientRequestToken: String = CreateDimensionRequest.idempotencyToken(), name: String, stringValues: [String], tags: [Tag]? = nil, type: DimensionType) {
             self.clientRequestToken = clientRequestToken
             self.name = name
             self.stringValues = stringValues
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2519,7 +2519,7 @@ extension IoT {
             case clientRequestToken
             case stringValues
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -5003,7 +5003,7 @@ extension IoT {
         /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
         public let stringValues: [String]?
         /// The type of the dimension.
-        public let `type`: DimensionType?
+        public let type: DimensionType?
 
         public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
@@ -5011,7 +5011,7 @@ extension IoT {
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.stringValues = stringValues
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5020,7 +5020,7 @@ extension IoT {
             case lastModifiedDate
             case name
             case stringValues
-            case `type`
+            case type
         }
     }
 
@@ -6160,14 +6160,14 @@ extension IoT {
         /// The IAM role ARN that has access to Elasticsearch.
         public let roleArn: String
         /// The type of document you are storing.
-        public let `type`: String
+        public let type: String
 
         public init(endpoint: String, id: String, index: String, roleArn: String, type: String) {
             self.endpoint = endpoint
             self.id = id
             self.index = index
             self.roleArn = roleArn
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -6179,7 +6179,7 @@ extension IoT {
             case id
             case index
             case roleArn
-            case `type`
+            case type
         }
     }
 
@@ -6289,16 +6289,16 @@ extension IoT {
         /// The name of the field.
         public let name: String?
         /// The datatype of the field.
-        public let `type`: FieldType?
+        public let type: FieldType?
 
         public init(name: String? = nil, type: FieldType? = nil) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
-            case `type`
+            case type
         }
     }
 
@@ -13131,7 +13131,7 @@ extension IoT {
         /// The value or list of values used to scope the dimension. For example, for topic filters, this is the pattern used to match the MQTT topic name.
         public let stringValues: [String]?
         /// The type of the dimension.
-        public let `type`: DimensionType?
+        public let type: DimensionType?
 
         public init(arn: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, name: String? = nil, stringValues: [String]? = nil, type: DimensionType? = nil) {
             self.arn = arn
@@ -13139,7 +13139,7 @@ extension IoT {
             self.lastModifiedDate = lastModifiedDate
             self.name = name
             self.stringValues = stringValues
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13148,7 +13148,7 @@ extension IoT {
             case lastModifiedDate
             case name
             case stringValues
-            case `type`
+            case type
         }
     }
 

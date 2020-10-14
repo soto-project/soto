@@ -362,20 +362,20 @@ extension ECS {
         ///  The status of the attachment. Valid values are PRECREATED, CREATED, ATTACHING, ATTACHED, DETACHING, DETACHED, and DELETED.
         public let status: String?
         /// The type of the attachment, such as ElasticNetworkInterface.
-        public let `type`: String?
+        public let type: String?
 
         public init(details: [KeyValuePair]? = nil, id: String? = nil, status: String? = nil, type: String? = nil) {
             self.details = details
             self.id = id
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case details
             case id
             case status
-            case `type`
+            case type
         }
     }
 
@@ -1577,14 +1577,14 @@ extension ECS {
 
     public struct DeploymentController: AWSEncodableShape & AWSDecodableShape {
         /// The deployment controller type to use. There are three deployment controller types available:  ECS  The rolling update (ECS) deployment type involves replacing the current running version of the container with the latest version. The number of containers Amazon ECS adds or removes from the service during a rolling update is controlled by adjusting the minimum and maximum number of healthy tasks allowed during a service deployment, as specified in the DeploymentConfiguration.  CODE_DEPLOY  The blue/green (CODE_DEPLOY) deployment type uses the blue/green deployment model powered by AWS CodeDeploy, which allows you to verify a new deployment of a service before sending production traffic to it.  EXTERNAL  The external (EXTERNAL) deployment type enables you to use any third-party deployment controller for full control over the deployment process for an Amazon ECS service.
-        public let `type`: DeploymentControllerType
+        public let type: DeploymentControllerType
 
         public init(type: DeploymentControllerType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 
@@ -2050,17 +2050,17 @@ extension ECS {
 
     public struct EnvironmentFile: AWSEncodableShape & AWSDecodableShape {
         /// The file type to use. The only supported value is s3.
-        public let `type`: EnvironmentFileType
+        public let type: EnvironmentFileType
         /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the environment variable file.
         public let value: String
 
         public init(type: EnvironmentFileType, value: String) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
             case value
         }
     }
@@ -2090,16 +2090,16 @@ extension ECS {
         /// The options to use when configuring the log router. This field is optional and can be used to specify a custom configuration file or to add additional metadata, such as the task, task definition, cluster, and container instance details to the log event. If specified, the syntax to use is "options":{"enable-ecs-log-metadata":"true|false","config-file-type:"s3|file","config-file-value":"arn:aws:s3:::mybucket/fluent.conf|filepath"}. For more information, see Creating a Task Definition that Uses a FireLens Configuration in the Amazon Elastic Container Service Developer Guide.
         public let options: [String: String]?
         /// The log router to use. The valid values are fluentd or fluentbit.
-        public let `type`: FirelensConfigurationType
+        public let type: FirelensConfigurationType
 
         public init(options: [String: String]? = nil, type: FirelensConfigurationType) {
             self.options = options
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case options
-            case `type`
+            case type
         }
     }
 
@@ -2833,16 +2833,16 @@ extension ECS {
         /// A cluster query language expression to apply to the constraint. You cannot specify an expression if the constraint type is distinctInstance. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. Use distinctInstance to ensure that each task in a particular group is running on a different container instance. Use memberOf to restrict the selection to a group of valid candidates.
-        public let `type`: PlacementConstraintType?
+        public let type: PlacementConstraintType?
 
         public init(expression: String? = nil, type: PlacementConstraintType? = nil) {
             self.expression = expression
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case expression
-            case `type`
+            case type
         }
     }
 
@@ -2850,16 +2850,16 @@ extension ECS {
         /// The field to apply the placement strategy against. For the spread placement strategy, valid values are instanceId (or host, which has the same effect), or any platform or custom attribute that is applied to a container instance, such as attribute:ecs.availability-zone. For the binpack placement strategy, valid values are cpu and memory. For the random placement strategy, this field is not used.
         public let field: String?
         /// The type of placement strategy. The random placement strategy randomly places tasks on available candidates. The spread placement strategy spreads placement across available candidates evenly based on the field parameter. The binpack strategy places tasks on available candidates that have the least available amount of the resource that is specified with the field parameter. For example, if you binpack on memory, a task is placed on the instance with the least amount of remaining memory (but still enough to run the task).
-        public let `type`: PlacementStrategyType?
+        public let type: PlacementStrategyType?
 
         public init(field: String? = nil, type: PlacementStrategyType? = nil) {
             self.field = field
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case field
-            case `type`
+            case type
         }
     }
 
@@ -2867,16 +2867,16 @@ extension ECS {
         /// The ID for the GPU(s) on the container instance. The available GPU IDs can also be obtained on the container instance in the /var/lib/ecs/gpu/nvidia_gpu_info.json file.
         public let id: String
         /// The type of device that is available on the container instance. The only supported value is GPU.
-        public let `type`: PlatformDeviceType
+        public let type: PlatformDeviceType
 
         public init(id: String, type: PlatformDeviceType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
-            case `type`
+            case type
         }
     }
 
@@ -2907,18 +2907,18 @@ extension ECS {
         /// The set of network configuration parameters to provide the Container Network Interface (CNI) plugin, specified as key-value pairs.    IgnoredUID - (Required) The user ID (UID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredGID is specified, this field can be empty.    IgnoredGID - (Required) The group ID (GID) of the proxy container as defined by the user parameter in a container definition. This is used to ensure the proxy ignores its own traffic. If IgnoredUID is specified, this field can be empty.    AppPorts - (Required) The list of ports that the application uses. Network traffic to these ports is forwarded to the ProxyIngressPort and ProxyEgressPort.    ProxyIngressPort - (Required) Specifies the port that incoming traffic to the AppPorts is directed to.    ProxyEgressPort - (Required) Specifies the port that outgoing traffic from the AppPorts is directed to.    EgressIgnoredPorts - (Required) The egress traffic going to the specified ports is ignored and not redirected to the ProxyEgressPort. It can be an empty list.    EgressIgnoredIPs - (Required) The egress traffic going to the specified IP addresses is ignored and not redirected to the ProxyEgressPort. It can be an empty list.
         public let properties: [KeyValuePair]?
         /// The proxy type. The only supported value is APPMESH.
-        public let `type`: ProxyConfigurationType?
+        public let type: ProxyConfigurationType?
 
         public init(containerName: String, properties: [KeyValuePair]? = nil, type: ProxyConfigurationType? = nil) {
             self.containerName = containerName
             self.properties = properties
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case containerName
             case properties
-            case `type`
+            case type
         }
     }
 
@@ -3238,7 +3238,7 @@ extension ECS {
         /// When the stringSetValue type is set, the value of the resource must be a string type.
         public let stringSetValue: [String]?
         /// The type of the resource, such as INTEGER, DOUBLE, LONG, or STRINGSET.
-        public let `type`: String?
+        public let type: String?
 
         public init(doubleValue: Double? = nil, integerValue: Int? = nil, longValue: Int64? = nil, name: String? = nil, stringSetValue: [String]? = nil, type: String? = nil) {
             self.doubleValue = doubleValue
@@ -3246,7 +3246,7 @@ extension ECS {
             self.longValue = longValue
             self.name = name
             self.stringSetValue = stringSetValue
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3255,23 +3255,23 @@ extension ECS {
             case longValue
             case name
             case stringSetValue
-            case `type`
+            case type
         }
     }
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container. The supported values are GPU or InferenceAccelerator.
-        public let `type`: ResourceType
+        public let type: ResourceType
         /// The value for the specified resource type. If the GPU type is used, the value is the number of physical GPUs the Amazon ECS container agent will reserve for the container. The number of GPUs reserved for all containers in a task should not exceed the number of available GPUs on the container instance the task is launched on. If the InferenceAccelerator type is used, the value should match the deviceName for an InferenceAccelerator specified in a task definition.
         public let value: String
 
         public init(type: ResourceType, value: String) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
             case value
         }
     }
@@ -4159,16 +4159,16 @@ extension ECS {
         /// A cluster query language expression to apply to the constraint. For more information, see Cluster Query Language in the Amazon Elastic Container Service Developer Guide.
         public let expression: String?
         /// The type of constraint. The MemberOf constraint restricts selection to be from a group of valid candidates.
-        public let `type`: TaskDefinitionPlacementConstraintType?
+        public let type: TaskDefinitionPlacementConstraintType?
 
         public init(expression: String? = nil, type: TaskDefinitionPlacementConstraintType? = nil) {
             self.expression = expression
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case expression
-            case `type`
+            case type
         }
     }
 

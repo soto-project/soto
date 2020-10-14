@@ -336,12 +336,12 @@ extension WorkMail {
         /// The identifier associated with the organization for which the resource is created.
         public let organizationId: String
         /// The type of the new resource. The available types are equipment and room.
-        public let `type`: ResourceType
+        public let type: ResourceType
 
         public init(name: String, organizationId: String, type: ResourceType) {
             self.name = name
             self.organizationId = organizationId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -354,7 +354,7 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case organizationId = "OrganizationId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -423,16 +423,16 @@ extension WorkMail {
         /// The identifier for the user or group associated as the resource's delegate.
         public let id: String
         /// The type of the delegate: user or group.
-        public let `type`: MemberType
+        public let type: MemberType
 
         public init(id: String, type: MemberType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -903,7 +903,7 @@ extension WorkMail {
         /// The state of the resource: enabled (registered to Amazon WorkMail), disabled (deregistered or never registered to WorkMail), or deleted.
         public let state: EntityState?
         /// The type of the described resource.
-        public let `type`: ResourceType?
+        public let type: ResourceType?
 
         public init(bookingOptions: BookingOptions? = nil, disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, name: String? = nil, resourceId: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.bookingOptions = bookingOptions
@@ -913,7 +913,7 @@ extension WorkMail {
             self.name = name
             self.resourceId = resourceId
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -924,7 +924,7 @@ extension WorkMail {
             case name = "Name"
             case resourceId = "ResourceId"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1803,7 +1803,7 @@ extension WorkMail {
         /// The state of the member, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
         /// A member can be a user or group.
-        public let `type`: MemberType?
+        public let type: MemberType?
 
         public init(disabledDate: Date? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: MemberType? = nil) {
             self.disabledDate = disabledDate
@@ -1811,7 +1811,7 @@ extension WorkMail {
             self.id = id
             self.name = name
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1820,7 +1820,7 @@ extension WorkMail {
             case id = "Id"
             case name = "Name"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2139,7 +2139,7 @@ extension WorkMail {
         /// The state of the resource, which can be ENABLED, DISABLED, or DELETED.
         public let state: EntityState?
         /// The type of the resource: equipment or room.
-        public let `type`: ResourceType?
+        public let type: ResourceType?
 
         public init(disabledDate: Date? = nil, email: String? = nil, enabledDate: Date? = nil, id: String? = nil, name: String? = nil, state: EntityState? = nil, type: ResourceType? = nil) {
             self.disabledDate = disabledDate
@@ -2148,7 +2148,7 @@ extension WorkMail {
             self.id = id
             self.name = name
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2158,7 +2158,7 @@ extension WorkMail {
             case id = "Id"
             case name = "Name"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

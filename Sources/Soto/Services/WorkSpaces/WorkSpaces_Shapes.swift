@@ -1889,14 +1889,14 @@ extension WorkSpaces {
 
     public struct OperatingSystem: AWSDecodableShape {
         /// The operating system.
-        public let `type`: OperatingSystemType?
+        public let type: OperatingSystemType?
 
         public init(type: OperatingSystemType? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

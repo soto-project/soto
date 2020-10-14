@@ -215,7 +215,7 @@ extension MediaStoreData {
         /// The name of the item.
         public let name: String?
         /// The item type (folder or object).
-        public let `type`: ItemType?
+        public let type: ItemType?
 
         public init(contentLength: Int64? = nil, contentType: String? = nil, eTag: String? = nil, lastModified: Date? = nil, name: String? = nil, type: ItemType? = nil) {
             self.contentLength = contentLength
@@ -223,7 +223,7 @@ extension MediaStoreData {
             self.eTag = eTag
             self.lastModified = lastModified
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -232,7 +232,7 @@ extension MediaStoreData {
             case eTag = "ETag"
             case lastModified = "LastModified"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

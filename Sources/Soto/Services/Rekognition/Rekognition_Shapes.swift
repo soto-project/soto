@@ -1373,16 +1373,16 @@ extension Rekognition {
         /// Level of confidence in the determination.
         public let confidence: Float?
         /// Type of emotion detected.
-        public let `type`: EmotionName?
+        public let type: EmotionName?
 
         public init(confidence: Float? = nil, type: EmotionName? = nil) {
             self.confidence = confidence
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2469,20 +2469,20 @@ extension Rekognition {
 
     public struct Landmark: AWSDecodableShape {
         /// Type of landmark.
-        public let `type`: LandmarkType?
+        public let type: LandmarkType?
         /// The x-coordinate from the top left of the landmark expressed as the ratio of the width of the image. For example, if the image is 700 x 200 and the x-coordinate of the landmark is at 350 pixels, this value is 0.5.
         public let x: Float?
         /// The y-coordinate from the top left of the landmark expressed as the ratio of the height of the image. For example, if the image is 700 x 200 and the y-coordinate of the landmark is at 100 pixels, this value is 0.5.
         public let y: Float?
 
         public init(type: LandmarkType? = nil, x: Float? = nil, y: Float? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.x = x
             self.y = y
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case x = "X"
             case y = "Y"
         }
@@ -3129,7 +3129,7 @@ extension Rekognition {
         /// If the segment is a technical cue, contains information about the technical cue.
         public let technicalCueSegment: TechnicalCueSegment?
         /// The type of the segment. Valid values are TECHNICAL_CUE and SHOT.
-        public let `type`: SegmentType?
+        public let type: SegmentType?
 
         public init(durationMillis: Int64? = nil, durationSMPTE: String? = nil, endTimecodeSMPTE: String? = nil, endTimestampMillis: Int64? = nil, shotSegment: ShotSegment? = nil, startTimecodeSMPTE: String? = nil, startTimestampMillis: Int64? = nil, technicalCueSegment: TechnicalCueSegment? = nil, type: SegmentType? = nil) {
             self.durationMillis = durationMillis
@@ -3140,7 +3140,7 @@ extension Rekognition {
             self.startTimecodeSMPTE = startTimecodeSMPTE
             self.startTimestampMillis = startTimestampMillis
             self.technicalCueSegment = technicalCueSegment
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3152,7 +3152,7 @@ extension Rekognition {
             case startTimecodeSMPTE = "StartTimecodeSMPTE"
             case startTimestampMillis = "StartTimestampMillis"
             case technicalCueSegment = "TechnicalCueSegment"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3160,16 +3160,16 @@ extension Rekognition {
         /// The version of the model used to detect segments.
         public let modelVersion: String?
         /// The type of a segment (technical cue or shot detection).
-        public let `type`: SegmentType?
+        public let type: SegmentType?
 
         public init(modelVersion: String? = nil, type: SegmentType? = nil) {
             self.modelVersion = modelVersion
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case modelVersion = "ModelVersion"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3937,16 +3937,16 @@ extension Rekognition {
         /// The confidence that Amazon Rekognition Video has in the accuracy of the detected segment.
         public let confidence: Float?
         /// The type of the technical cue.
-        public let `type`: TechnicalCueType?
+        public let type: TechnicalCueType?
 
         public init(confidence: Float? = nil, type: TechnicalCueType? = nil) {
             self.confidence = confidence
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case confidence = "Confidence"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4002,7 +4002,7 @@ extension Rekognition {
         /// The Parent identifier for the detected text identified by the value of ID. If the type of detected text is LINE, the value of ParentId is Null.
         public let parentId: Int?
         /// The type of text that was detected.
-        public let `type`: TextTypes?
+        public let type: TextTypes?
 
         public init(confidence: Float? = nil, detectedText: String? = nil, geometry: Geometry? = nil, id: Int? = nil, parentId: Int? = nil, type: TextTypes? = nil) {
             self.confidence = confidence
@@ -4010,7 +4010,7 @@ extension Rekognition {
             self.geometry = geometry
             self.id = id
             self.parentId = parentId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4019,7 +4019,7 @@ extension Rekognition {
             case geometry = "Geometry"
             case id = "Id"
             case parentId = "ParentId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

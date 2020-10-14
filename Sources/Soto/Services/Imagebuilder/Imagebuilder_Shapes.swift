@@ -240,7 +240,7 @@ extension Imagebuilder {
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
-        public let `type`: ComponentType?
+        public let type: ComponentType?
         /// The version of the component.
         public let version: String?
 
@@ -257,7 +257,7 @@ extension Imagebuilder {
             self.platform = platform
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -274,7 +274,7 @@ extension Imagebuilder {
             case platform
             case supportedOsVersions
             case tags
-            case `type`
+            case type
             case version
         }
     }
@@ -316,7 +316,7 @@ extension Imagebuilder {
         /// The tags associated with the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
-        public let `type`: ComponentType?
+        public let type: ComponentType?
         /// The version of the component.
         public let version: String?
 
@@ -330,7 +330,7 @@ extension Imagebuilder {
             self.platform = platform
             self.supportedOsVersions = supportedOsVersions
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -344,7 +344,7 @@ extension Imagebuilder {
             case platform
             case supportedOsVersions
             case tags
-            case `type`
+            case type
             case version
         }
     }
@@ -365,7 +365,7 @@ extension Imagebuilder {
         ///  The operating system (OS) version supported by the component. If the OS information is available, a prefix match is performed against the parent image OS version during image recipe creation.
         public let supportedOsVersions: [String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
-        public let `type`: ComponentType?
+        public let type: ComponentType?
         /// The semantic version of the component.
         public let version: String?
 
@@ -377,7 +377,7 @@ extension Imagebuilder {
             self.owner = owner
             self.platform = platform
             self.supportedOsVersions = supportedOsVersions
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -389,7 +389,7 @@ extension Imagebuilder {
             case owner
             case platform
             case supportedOsVersions
-            case `type`
+            case type
             case version
         }
     }
@@ -2040,7 +2040,7 @@ extension Imagebuilder {
         /// The tags of the component.
         public let tags: [String: String]?
         /// The type of the component denotes whether the component is used to build the image or only to test it.
-        public let `type`: ComponentType
+        public let type: ComponentType
         /// The uri of the component. Must be an S3 URL and the requester must have permission to access the S3 bucket. If you use S3, you can specify component content up to your service quota. Either data or uri can be used to specify the data within the component.
         public let uri: String?
 
@@ -2055,7 +2055,7 @@ extension Imagebuilder {
             self.platform = platform
             self.semanticVersion = semanticVersion
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -2091,7 +2091,7 @@ extension Imagebuilder {
             case platform
             case semanticVersion
             case tags
-            case `type`
+            case type
             case uri
         }
     }

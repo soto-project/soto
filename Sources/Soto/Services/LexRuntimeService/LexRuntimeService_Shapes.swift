@@ -153,7 +153,7 @@ extension LexRuntimeService {
         /// The name of the slot that should be elicited from the user.
         public let slotToElicit: String?
         /// The next action that the bot should take in its interaction with the user. The possible values are:    ConfirmIntent - The next action is asking the user if the intent is complete and ready to be fulfilled. This is a yes/no question such as "Place the order?"    Close - Indicates that the there will not be a response from the user. For example, the statement "Your order has been placed" does not require a response.    Delegate - The next action is determined by Amazon Lex.    ElicitIntent - The next action is to determine the intent that the user wants to fulfill.    ElicitSlot - The next action is to elicit a slot value from the user.
-        public let `type`: DialogActionType
+        public let type: DialogActionType
 
         public init(fulfillmentState: FulfillmentState? = nil, intentName: String? = nil, message: String? = nil, messageFormat: MessageFormatType? = nil, slots: [String: String]? = nil, slotToElicit: String? = nil, type: DialogActionType) {
             self.fulfillmentState = fulfillmentState
@@ -162,7 +162,7 @@ extension LexRuntimeService {
             self.messageFormat = messageFormat
             self.slots = slots
             self.slotToElicit = slotToElicit
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -177,7 +177,7 @@ extension LexRuntimeService {
             case messageFormat
             case slots
             case slotToElicit
-            case `type`
+            case type
         }
     }
 

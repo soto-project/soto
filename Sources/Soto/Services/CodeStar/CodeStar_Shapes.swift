@@ -555,7 +555,7 @@ extension CodeStar {
         /// The GitHub user's personal access token for the GitHub repository.
         public let token: String
         /// The type of GitHub repository to be created in AWS CodeStar. Valid values are User or Organization.
-        public let `type`: String
+        public let type: String
 
         public init(description: String? = nil, issuesEnabled: Bool, name: String, owner: String, privateRepository: Bool, token: String, type: String) {
             self.description = description
@@ -564,7 +564,7 @@ extension CodeStar {
             self.owner = owner
             self.privateRepository = privateRepository
             self.token = token
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -578,7 +578,7 @@ extension CodeStar {
             try self.validate(self.owner, name: "owner", parent: name, min: 1)
             try self.validate(self.owner, name: "owner", parent: name, pattern: "^\\S(.*\\S)?$")
             try self.validate(self.token, name: "token", parent: name, min: 1)
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: "^(user|organization|User|Organization)$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^(user|organization|User|Organization)$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -588,7 +588,7 @@ extension CodeStar {
             case owner
             case privateRepository
             case token
-            case `type`
+            case type
         }
     }
 

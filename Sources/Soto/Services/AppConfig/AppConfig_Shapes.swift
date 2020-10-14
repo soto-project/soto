@@ -1764,11 +1764,11 @@ extension AppConfig {
         /// Either the JSON Schema content or the Amazon Resource Name (ARN) of an AWS Lambda function.
         public let content: String
         /// AppConfig supports validators of type JSON_SCHEMA and LAMBDA
-        public let `type`: ValidatorType
+        public let type: ValidatorType
 
         public init(content: String, type: ValidatorType) {
             self.content = content
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1778,7 +1778,7 @@ extension AppConfig {
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 }

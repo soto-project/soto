@@ -724,7 +724,7 @@ extension ServerlessApplicationRepository {
         ///  you use the parameter elsewhere in your template (for example, by using the Ref intrinsic function), the parameter value becomes a list of strings.For example, users might specify "80,20", and then Ref results in ["80","20"].
         ///  CommaDelimitedList: An array of literal strings that are separated by commas. The total number of strings should be one more than the total number of commas.
         ///  Also, each member string is space-trimmed.For example, users might specify "test,dev,prod", and then Ref results in ["test","dev","prod"].
-        public let `type`: String?
+        public let type: String?
 
         public init(allowedPattern: String? = nil, allowedValues: [String]? = nil, constraintDescription: String? = nil, defaultValue: String? = nil, description: String? = nil, maxLength: Int? = nil, maxValue: Int? = nil, minLength: Int? = nil, minValue: Int? = nil, name: String, noEcho: Bool? = nil, referencedByResources: [String], type: String? = nil) {
             self.allowedPattern = allowedPattern
@@ -739,7 +739,7 @@ extension ServerlessApplicationRepository {
             self.name = name
             self.noEcho = noEcho
             self.referencedByResources = referencedByResources
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -755,7 +755,7 @@ extension ServerlessApplicationRepository {
             case name
             case noEcho
             case referencedByResources
-            case `type`
+            case type
         }
     }
 
@@ -832,16 +832,16 @@ extension ServerlessApplicationRepository {
         public let arn: String
         /// This property corresponds to the content of the same name for the AWS CloudFormation RollbackTrigger
         ///   Data Type.
-        public let `type`: String
+        public let type: String
 
         public init(arn: String, type: String) {
             self.arn = arn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
-            case `type`
+            case type
         }
     }
 

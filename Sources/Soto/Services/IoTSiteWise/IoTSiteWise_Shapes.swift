@@ -366,7 +366,7 @@ extension IoTSiteWise {
         /// The name of the asset model property.
         public let name: String
         /// The property type (see PropertyType).
-        public let `type`: PropertyType
+        public let type: PropertyType
         /// The unit of the asset model property, such as Newtons or RPM.
         public let unit: String?
 
@@ -374,7 +374,7 @@ extension IoTSiteWise {
             self.dataType = dataType
             self.id = id
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.unit = unit
         }
 
@@ -385,7 +385,7 @@ extension IoTSiteWise {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
-            try self.`type`.validate(name: "\(name).`type`")
+            try self.type.validate(name: "\(name).type")
             try self.validate(self.unit, name: "unit", parent: name, max: 256)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -395,7 +395,7 @@ extension IoTSiteWise {
             case dataType
             case id
             case name
-            case `type`
+            case type
             case unit
         }
     }
@@ -406,14 +406,14 @@ extension IoTSiteWise {
         /// The name of the property definition.
         public let name: String
         /// The property definition type (see PropertyType). You can only specify one type in a property definition.
-        public let `type`: PropertyType
+        public let type: PropertyType
         /// The unit of the property definition, such as Newtons or RPM.
         public let unit: String?
 
         public init(dataType: PropertyDataType, name: String, type: PropertyType, unit: String? = nil) {
             self.dataType = dataType
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.unit = unit
         }
 
@@ -421,7 +421,7 @@ extension IoTSiteWise {
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
-            try self.`type`.validate(name: "\(name).`type`")
+            try self.type.validate(name: "\(name).type")
             try self.validate(self.unit, name: "unit", parent: name, max: 256)
             try self.validate(self.unit, name: "unit", parent: name, min: 1)
             try self.validate(self.unit, name: "unit", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
@@ -430,7 +430,7 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case dataType
             case name
-            case `type`
+            case type
             case unit
         }
     }
@@ -2740,11 +2740,11 @@ extension IoTSiteWise {
         /// The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB.
         public let data: Data
         /// The file type of the image.
-        public let `type`: ImageFileType
+        public let type: ImageFileType
 
         public init(data: Data, type: ImageFileType) {
             self.data = data
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2754,7 +2754,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case data
-            case `type`
+            case type
         }
     }
 
@@ -3501,7 +3501,7 @@ extension IoTSiteWise {
         /// The asset property's notification topic and state. For more information, see UpdateAssetProperty.
         public let notification: PropertyNotification?
         /// The property type (see PropertyType). A property contains one type.
-        public let `type`: PropertyType?
+        public let type: PropertyType?
         /// The unit (such as Newtons or RPM) of the asset property.
         public let unit: String?
 
@@ -3511,7 +3511,7 @@ extension IoTSiteWise {
             self.id = id
             self.name = name
             self.notification = notification
-            self.`type` = `type`
+            self.type = type
             self.unit = unit
         }
 
@@ -3521,7 +3521,7 @@ extension IoTSiteWise {
             case id
             case name
             case notification
-            case `type`
+            case type
             case unit
         }
     }

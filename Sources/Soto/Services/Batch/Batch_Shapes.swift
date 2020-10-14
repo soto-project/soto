@@ -269,7 +269,7 @@ extension Batch {
         /// The tags applied to the compute environment.
         public let tags: [String: String]?
         /// The type of the compute environment.
-        public let `type`: CEType?
+        public let type: CEType?
 
         public init(computeEnvironmentArn: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil, ecsClusterArn: String, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
@@ -281,7 +281,7 @@ extension Batch {
             self.status = status
             self.statusReason = statusReason
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -294,7 +294,7 @@ extension Batch {
             case status
             case statusReason
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -347,7 +347,7 @@ extension Batch {
         /// Key-value pair tags to be applied to resources that are launched in the compute environment. For AWS Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value—for example, { "Name": "AWS Batch Instance - C4OnDemand" }. These tags can not be updated or removed after the compute environment has been created; any changes require creating a new compute environment and removing the old compute environment. These tags are not seen when using the AWS Batch ListTagsForResource API operation.
         public let tags: [String: String]?
         /// The type of compute environment: EC2 or SPOT.
-        public let `type`: CRType
+        public let type: CRType
 
         public init(allocationStrategy: CRAllocationStrategy? = nil, bidPercentage: Int? = nil, desiredvCpus: Int? = nil, ec2KeyPair: String? = nil, imageId: String? = nil, instanceRole: String, instanceTypes: [String], launchTemplate: LaunchTemplateSpecification? = nil, maxvCpus: Int, minvCpus: Int, placementGroup: String? = nil, securityGroupIds: [String]? = nil, spotIamFleetRole: String? = nil, subnets: [String], tags: [String: String]? = nil, type: CRType) {
             self.allocationStrategy = allocationStrategy
@@ -365,7 +365,7 @@ extension Batch {
             self.spotIamFleetRole = spotIamFleetRole
             self.subnets = subnets
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -384,7 +384,7 @@ extension Batch {
             case spotIamFleetRole
             case subnets
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -657,7 +657,7 @@ extension Batch {
         /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags do not propagate to the underlying compute resources.
         public let tags: [String: String]?
         /// The type of the compute environment. For more information, see Compute Environments in the AWS Batch User Guide.
-        public let `type`: CEType
+        public let type: CEType
 
         public init(computeEnvironmentName: String, computeResources: ComputeResource? = nil, serviceRole: String, state: CEState? = nil, tags: [String: String]? = nil, type: CEType) {
             self.computeEnvironmentName = computeEnvironmentName
@@ -665,7 +665,7 @@ extension Batch {
             self.serviceRole = serviceRole
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -682,7 +682,7 @@ extension Batch {
             case serviceRole
             case state
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -1012,7 +1012,7 @@ extension Batch {
         /// The timeout configuration for jobs that are submitted with this job definition. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished.
         public let timeout: JobTimeout?
         /// The type of job definition.
-        public let `type`: String
+        public let type: String
 
         public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String) {
             self.containerProperties = containerProperties
@@ -1025,7 +1025,7 @@ extension Batch {
             self.status = status
             self.tags = tags
             self.timeout = timeout
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1039,7 +1039,7 @@ extension Batch {
             case status
             case tags
             case timeout
-            case `type`
+            case type
         }
     }
 
@@ -1047,16 +1047,16 @@ extension Batch {
         /// The job ID of the AWS Batch job associated with this dependency.
         public let jobId: String?
         /// The type of the job dependency.
-        public let `type`: ArrayJobDependency?
+        public let type: ArrayJobDependency?
 
         public init(jobId: String? = nil, type: ArrayJobDependency? = nil) {
             self.jobId = jobId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case jobId
-            case `type`
+            case type
         }
     }
 
@@ -1594,7 +1594,7 @@ extension Batch {
         /// The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
         public let timeout: JobTimeout?
         /// The type of job definition.
-        public let `type`: JobDefinitionType
+        public let type: JobDefinitionType
 
         public init(containerProperties: ContainerProperties? = nil, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType) {
             self.containerProperties = containerProperties
@@ -1604,7 +1604,7 @@ extension Batch {
             self.retryStrategy = retryStrategy
             self.tags = tags
             self.timeout = timeout
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1623,7 +1623,7 @@ extension Batch {
             case retryStrategy
             case tags
             case timeout
-            case `type`
+            case type
         }
     }
 
@@ -1650,17 +1650,17 @@ extension Batch {
 
     public struct ResourceRequirement: AWSEncodableShape & AWSDecodableShape {
         /// The type of resource to assign to a container. Currently, the only supported resource type is GPU.
-        public let `type`: ResourceType
+        public let type: ResourceType
         /// The number of physical GPUs to reserve for the container. The number of GPUs reserved for all containers in a job should not exceed the number of available GPUs on the compute resource that the job is launched on.
         public let value: String
 
         public init(type: ResourceType, value: String) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
             case value
         }
     }

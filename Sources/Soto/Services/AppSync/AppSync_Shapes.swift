@@ -172,7 +172,7 @@ extension AppSync {
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
-        public let `type`: ApiCacheType?
+        public let type: ApiCacheType?
 
         public init(apiCachingBehavior: ApiCachingBehavior? = nil, atRestEncryptionEnabled: Bool? = nil, status: ApiCacheStatus? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64? = nil, type: ApiCacheType? = nil) {
             self.apiCachingBehavior = apiCachingBehavior
@@ -180,7 +180,7 @@ extension AppSync {
             self.status = status
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.ttl = ttl
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -189,7 +189,7 @@ extension AppSync {
             case status
             case transitEncryptionEnabled
             case ttl
-            case `type`
+            case type
         }
     }
 
@@ -306,7 +306,7 @@ extension AppSync {
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
-        public let `type`: ApiCacheType
+        public let type: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
             self.apiCachingBehavior = apiCachingBehavior
@@ -314,7 +314,7 @@ extension AppSync {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.ttl = ttl
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -322,7 +322,7 @@ extension AppSync {
             case atRestEncryptionEnabled
             case transitEncryptionEnabled
             case ttl
-            case `type`
+            case type
         }
     }
 
@@ -400,7 +400,7 @@ extension AppSync {
         /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
         /// The type of the DataSource.
-        public let `type`: DataSourceType
+        public let type: DataSourceType
 
         public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
@@ -412,7 +412,7 @@ extension AppSync {
             self.name = name
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -430,7 +430,7 @@ extension AppSync {
             case name
             case relationalDatabaseConfig
             case serviceRoleArn
-            case `type`
+            case type
         }
     }
 
@@ -683,14 +683,14 @@ extension AppSync {
 
     public struct CreateTypeResponse: AWSDecodableShape {
         /// The Type object.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(type: `Type`? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 
@@ -714,7 +714,7 @@ extension AppSync {
         /// The AWS IAM service role ARN for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
         /// The type of the data source.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon Elasticsearch Service domain.    AWS_LAMBDA: The data source is an AWS Lambda function.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
-        public let `type`: DataSourceType?
+        public let type: DataSourceType?
 
         public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
             self.dataSourceArn = dataSourceArn
@@ -726,7 +726,7 @@ extension AppSync {
             self.name = name
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -739,7 +739,7 @@ extension AppSync {
             case name
             case relationalDatabaseConfig
             case serviceRoleArn
-            case `type`
+            case type
         }
     }
 
@@ -1334,14 +1334,14 @@ extension AppSync {
 
     public struct GetTypeResponse: AWSDecodableShape {
         /// The Type object.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(type: `Type`? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 
@@ -2144,19 +2144,19 @@ extension AppSync {
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
-        public let `type`: ApiCacheType
+        public let type: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {
             self.apiCachingBehavior = apiCachingBehavior
             self.apiId = apiId
             self.ttl = ttl
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case apiCachingBehavior
             case ttl
-            case `type`
+            case type
         }
     }
 
@@ -2239,7 +2239,7 @@ extension AppSync {
         /// The new service role ARN for the data source.
         public let serviceRoleArn: String?
         /// The new data source type.
-        public let `type`: DataSourceType
+        public let type: DataSourceType
 
         public init(apiId: String, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType) {
             self.apiId = apiId
@@ -2251,7 +2251,7 @@ extension AppSync {
             self.name = name
             self.relationalDatabaseConfig = relationalDatabaseConfig
             self.serviceRoleArn = serviceRoleArn
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2268,7 +2268,7 @@ extension AppSync {
             case lambdaConfig
             case relationalDatabaseConfig
             case serviceRoleArn
-            case `type`
+            case type
         }
     }
 
@@ -2532,14 +2532,14 @@ extension AppSync {
 
     public struct UpdateTypeResponse: AWSDecodableShape {
         /// The updated Type object.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(type: `Type`? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 

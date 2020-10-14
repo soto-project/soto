@@ -906,12 +906,12 @@ extension MigrationHub {
 
     public struct ResourceAttribute: AWSEncodableShape & AWSDecodableShape {
         /// Type of resource.
-        public let `type`: ResourceAttributeType
+        public let type: ResourceAttributeType
         /// Value of the resource type.
         public let value: String
 
         public init(type: ResourceAttributeType, value: String) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -922,7 +922,7 @@ extension MigrationHub {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }

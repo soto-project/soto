@@ -638,16 +638,16 @@ extension Shield {
         /// The maximum number of protections that can be created for the specified Type.
         public let max: Int64?
         /// The type of protection.
-        public let `type`: String?
+        public let type: String?
 
         public init(max: Int64? = nil, type: String? = nil) {
             self.max = max
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case max = "Max"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -798,20 +798,20 @@ extension Shield {
         /// The unique identifier (ID) of the SubResource.
         public let id: String?
         /// The SubResource type.
-        public let `type`: SubResourceType?
+        public let type: SubResourceType?
 
         public init(attackVectors: [SummarizedAttackVector]? = nil, counters: [SummarizedCounter]? = nil, id: String? = nil, type: SubResourceType? = nil) {
             self.attackVectors = attackVectors
             self.counters = counters
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case attackVectors = "AttackVectors"
             case counters = "Counters"
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

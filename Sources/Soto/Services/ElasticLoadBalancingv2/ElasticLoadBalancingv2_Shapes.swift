@@ -136,7 +136,7 @@ extension ElasticLoadBalancingv2 {
         /// The Amazon Resource Name (ARN) of the target group. Specify only when Type is forward and you want to route to a single target group. To route to one or more target groups, use ForwardConfig instead.
         public let targetGroupArn: String?
         /// The type of action.
-        public let `type`: ActionTypeEnum
+        public let type: ActionTypeEnum
 
         public init(authenticateCognitoConfig: AuthenticateCognitoActionConfig? = nil, authenticateOidcConfig: AuthenticateOidcActionConfig? = nil, fixedResponseConfig: FixedResponseActionConfig? = nil, forwardConfig: ForwardActionConfig? = nil, order: Int? = nil, redirectConfig: RedirectActionConfig? = nil, targetGroupArn: String? = nil, type: ActionTypeEnum) {
             self.authenticateCognitoConfig = authenticateCognitoConfig
@@ -146,7 +146,7 @@ extension ElasticLoadBalancingv2 {
             self.order = order
             self.redirectConfig = redirectConfig
             self.targetGroupArn = targetGroupArn
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -164,7 +164,7 @@ extension ElasticLoadBalancingv2 {
             case order = "Order"
             case redirectConfig = "RedirectConfig"
             case targetGroupArn = "TargetGroupArn"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -483,7 +483,7 @@ extension ElasticLoadBalancingv2 {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
         /// The type of load balancer. The default is application.
-        public let `type`: LoadBalancerTypeEnum?
+        public let type: LoadBalancerTypeEnum?
 
         public init(customerOwnedIpv4Pool: String? = nil, ipAddressType: IpAddressType? = nil, name: String, scheme: LoadBalancerSchemeEnum? = nil, securityGroups: [String]? = nil, subnetMappings: [SubnetMapping]? = nil, subnets: [String]? = nil, tags: [Tag]? = nil, type: LoadBalancerTypeEnum? = nil) {
             self.customerOwnedIpv4Pool = customerOwnedIpv4Pool
@@ -494,7 +494,7 @@ extension ElasticLoadBalancingv2 {
             self.subnetMappings = subnetMappings
             self.subnets = subnets
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -515,7 +515,7 @@ extension ElasticLoadBalancingv2 {
             case subnetMappings = "SubnetMappings"
             case subnets = "Subnets"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1424,7 +1424,7 @@ extension ElasticLoadBalancingv2 {
         /// The state of the load balancer.
         public let state: LoadBalancerState?
         /// The type of load balancer.
-        public let `type`: LoadBalancerTypeEnum?
+        public let type: LoadBalancerTypeEnum?
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
@@ -1440,7 +1440,7 @@ extension ElasticLoadBalancingv2 {
             self.scheme = scheme
             self.securityGroups = securityGroups
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.vpcId = vpcId
         }
 
@@ -1456,7 +1456,7 @@ extension ElasticLoadBalancingv2 {
             case scheme = "Scheme"
             case securityGroups = "SecurityGroups"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case vpcId = "VpcId"
         }
     }

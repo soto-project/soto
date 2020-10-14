@@ -3319,7 +3319,7 @@ extension MediaConvert {
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
         /// Specify whether your DRM encryption key is static or from a key provider that follows the SPEKE standard. For more information about SPEKE, see https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
-        public let `type`: CmafKeyProviderType?
+        public let type: CmafKeyProviderType?
 
         public init(constantInitializationVector: String? = nil, encryptionMethod: CmafEncryptionType? = nil, initializationVectorInManifest: CmafInitializationVectorInManifest? = nil, spekeKeyProvider: SpekeKeyProviderCmaf? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: CmafKeyProviderType? = nil) {
             self.constantInitializationVector = constantInitializationVector
@@ -3327,7 +3327,7 @@ extension MediaConvert {
             self.initializationVectorInManifest = initializationVectorInManifest
             self.spekeKeyProvider = spekeKeyProvider
             self.staticKeyProvider = staticKeyProvider
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3344,7 +3344,7 @@ extension MediaConvert {
             case initializationVectorInManifest
             case spekeKeyProvider
             case staticKeyProvider
-            case `type`
+            case type
         }
     }
 
@@ -5467,7 +5467,7 @@ extension MediaConvert {
         /// Use these settings to set up encryption with a static key provider.
         public let staticKeyProvider: StaticKeyProvider?
         /// Specify whether your DRM encryption key is static or from a key provider that follows the SPEKE standard. For more information about SPEKE, see https://docs.aws.amazon.com/speke/latest/documentation/what-is-speke.html.
-        public let `type`: HlsKeyProviderType?
+        public let type: HlsKeyProviderType?
 
         public init(constantInitializationVector: String? = nil, encryptionMethod: HlsEncryptionType? = nil, initializationVectorInManifest: HlsInitializationVectorInManifest? = nil, offlineEncrypted: HlsOfflineEncrypted? = nil, spekeKeyProvider: SpekeKeyProvider? = nil, staticKeyProvider: StaticKeyProvider? = nil, type: HlsKeyProviderType? = nil) {
             self.constantInitializationVector = constantInitializationVector
@@ -5476,7 +5476,7 @@ extension MediaConvert {
             self.offlineEncrypted = offlineEncrypted
             self.spekeKeyProvider = spekeKeyProvider
             self.staticKeyProvider = staticKeyProvider
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -5494,7 +5494,7 @@ extension MediaConvert {
             case offlineEncrypted
             case spekeKeyProvider
             case staticKeyProvider
-            case `type`
+            case type
         }
     }
 
@@ -6329,7 +6329,7 @@ extension MediaConvert {
         /// Specify how often MediaConvert sends STATUS_UPDATE events to Amazon CloudWatch Events. Set the interval, in seconds, between status updates. MediaConvert sends an update at this interval from the time the service begins processing your job to the time it completes the transcode or encounters an error.
         public let statusUpdateInterval: StatusUpdateInterval?
         /// A job template can be of two types: system or custom. System or built-in job templates can't be modified or deleted by the user.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(accelerationSettings: AccelerationSettings? = nil, arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, hopDestinations: [HopDestination]? = nil, lastUpdated: Date? = nil, name: String, priority: Int? = nil, queue: String? = nil, settings: JobTemplateSettings, statusUpdateInterval: StatusUpdateInterval? = nil, type: `Type`? = nil) {
             self.accelerationSettings = accelerationSettings
@@ -6344,7 +6344,7 @@ extension MediaConvert {
             self.queue = queue
             self.settings = settings
             self.statusUpdateInterval = statusUpdateInterval
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6360,7 +6360,7 @@ extension MediaConvert {
             case queue
             case settings
             case statusUpdateInterval
-            case `type`
+            case type
         }
     }
 
@@ -7912,7 +7912,7 @@ extension MediaConvert {
         /// Required when you set (Type) under (OutputGroups)>(OutputGroupSettings) to MS_SMOOTH_GROUP_SETTINGS.
         public let msSmoothGroupSettings: MsSmoothGroupSettings?
         /// Type of output group (File group, Apple HLS, DASH ISO, Microsoft Smooth Streaming, CMAF)
-        public let `type`: OutputGroupType?
+        public let type: OutputGroupType?
 
         public init(cmafGroupSettings: CmafGroupSettings? = nil, dashIsoGroupSettings: DashIsoGroupSettings? = nil, fileGroupSettings: FileGroupSettings? = nil, hlsGroupSettings: HlsGroupSettings? = nil, msSmoothGroupSettings: MsSmoothGroupSettings? = nil, type: OutputGroupType? = nil) {
             self.cmafGroupSettings = cmafGroupSettings
@@ -7920,7 +7920,7 @@ extension MediaConvert {
             self.fileGroupSettings = fileGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.msSmoothGroupSettings = msSmoothGroupSettings
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -7937,7 +7937,7 @@ extension MediaConvert {
             case fileGroupSettings
             case hlsGroupSettings
             case msSmoothGroupSettings
-            case `type`
+            case type
         }
     }
 
@@ -7989,7 +7989,7 @@ extension MediaConvert {
         /// Settings for preset
         public let settings: PresetSettings
         /// A preset can be of two types: system or custom. System or built-in preset can't be modified or deleted by the user.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(arn: String? = nil, category: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, settings: PresetSettings, type: `Type`? = nil) {
             self.arn = arn
@@ -7999,7 +7999,7 @@ extension MediaConvert {
             self.lastUpdated = lastUpdated
             self.name = name
             self.settings = settings
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8010,7 +8010,7 @@ extension MediaConvert {
             case lastUpdated
             case name
             case settings
-            case `type`
+            case type
         }
     }
 
@@ -8138,7 +8138,7 @@ extension MediaConvert {
         /// The estimated number of jobs with a SUBMITTED status.
         public let submittedJobsCount: Int?
         /// Specifies whether this on-demand queue is system or custom. System queues are built in. You can't modify or delete system queues. You can create and modify custom queues.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(arn: String? = nil, createdAt: Date? = nil, description: String? = nil, lastUpdated: Date? = nil, name: String, pricingPlan: PricingPlan? = nil, progressingJobsCount: Int? = nil, reservationPlan: ReservationPlan? = nil, status: QueueStatus? = nil, submittedJobsCount: Int? = nil, type: `Type`? = nil) {
             self.arn = arn
@@ -8151,7 +8151,7 @@ extension MediaConvert {
             self.reservationPlan = reservationPlan
             self.status = status
             self.submittedJobsCount = submittedJobsCount
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8165,7 +8165,7 @@ extension MediaConvert {
             case reservationPlan
             case status
             case submittedJobsCount
-            case `type`
+            case type
         }
     }
 

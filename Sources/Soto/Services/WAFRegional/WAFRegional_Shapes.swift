@@ -393,7 +393,7 @@ extension WAFRegional {
         /// The RuleId for a Rule. You use RuleId to get more information about a Rule (see GetRule), update a Rule (see UpdateRule), insert a Rule into a WebACL or delete a one from a WebACL (see UpdateWebACL), or delete a Rule from AWS WAF (see DeleteRule).  RuleId is returned by CreateRule and by ListRules.
         public let ruleId: String
         /// The rule type, either REGULAR, as defined by Rule, RATE_BASED, as defined by RateBasedRule, or GROUP, as defined by RuleGroup. The default is REGULAR. Although this field is optional, be aware that if you try to add a RATE_BASED rule to a web ACL without setting the type, the UpdateWebACL request will fail because the request tries to add a REGULAR rule with the specified ID, which does not exist.
-        public let `type`: WafRuleType?
+        public let type: WafRuleType?
 
         public init(action: WafAction? = nil, excludedRules: [ExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int, ruleId: String, type: WafRuleType? = nil) {
             self.action = action
@@ -401,7 +401,7 @@ extension WAFRegional {
             self.overrideAction = overrideAction
             self.priority = priority
             self.ruleId = ruleId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -419,7 +419,7 @@ extension WAFRegional {
             case overrideAction = "OverrideAction"
             case priority = "Priority"
             case ruleId = "RuleId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1730,11 +1730,11 @@ extension WAFRegional {
         /// When the value of Type is HEADER, enter the name of the header that you want AWS WAF to search, for example, User-Agent or Referer. The name of the header is not case sensitive. When the value of Type is SINGLE_QUERY_ARG, enter the name of the parameter that you want AWS WAF to search, for example, UserName or SalesRegion. The parameter name is not case sensitive. If the value of Type is any other value, omit Data.
         public let data: String?
         /// The part of the web request that you want AWS WAF to search for a specified string. Parts of a request that you can search include the following:    HEADER: A specified request header, for example, the value of the User-Agent or Referer header. If you choose HEADER for the type, specify the name of the header in Data.    METHOD: The HTTP method, which indicated the type of operation that the request is asking the origin to perform. Amazon CloudFront supports the following methods: DELETE, GET, HEAD, OPTIONS, PATCH, POST, and PUT.    QUERY_STRING: A query string, which is the part of a URL that appears after a ? character, if any.    URI: The part of a web request that identifies a resource, for example, /images/daily-ad.jpg.    BODY: The part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. The request body immediately follows the request headers. Note that only the first 8192 bytes of the request body are forwarded to AWS WAF for inspection. To allow or block requests based on the length of the body, you can create a size constraint set. For more information, see CreateSizeConstraintSet.     SINGLE_QUERY_ARG: The parameter in the query string that you will inspect, such as UserName or SalesRegion. The maximum length for SINGLE_QUERY_ARG is 30 characters.    ALL_QUERY_ARGS: Similar to SINGLE_QUERY_ARG, but rather than inspecting a single parameter, AWS WAF will inspect all parameters within the query for the value or regex pattern that you specify in TargetString.
-        public let `type`: MatchFieldType
+        public let type: MatchFieldType
 
         public init(data: String? = nil, type: MatchFieldType) {
             self.data = data
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1745,23 +1745,23 @@ extension WAFRegional {
 
         private enum CodingKeys: String, CodingKey {
             case data = "Data"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
     public struct GeoMatchConstraint: AWSEncodableShape & AWSDecodableShape {
         /// The type of geographical area you want AWS WAF to search for. Currently Country is the only valid value.
-        public let `type`: GeoMatchConstraintType
+        public let type: GeoMatchConstraintType
         /// The country that you want AWS WAF to search for.
         public let value: GeoMatchConstraintValue
 
         public init(type: GeoMatchConstraintType, value: GeoMatchConstraintValue) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -2523,12 +2523,12 @@ extension WAFRegional {
 
     public struct IPSetDescriptor: AWSEncodableShape & AWSDecodableShape {
         /// Specify IPV4 or IPV6.
-        public let `type`: IPSetDescriptorType
+        public let type: IPSetDescriptorType
         /// Specify an IPv4 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing. Specify an IPv6 address by using CIDR notation. For example:   To configure AWS WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure AWS WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.
         public let value: String
 
         public init(type: IPSetDescriptorType, value: String) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -2539,7 +2539,7 @@ extension WAFRegional {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3342,12 +3342,12 @@ extension WAFRegional {
         /// Set Negated to False if you want AWS WAF to allow, block, or count requests based on the settings in the specified ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow or block requests based on that IP address. Set Negated to True if you want AWS WAF to allow or block a request based on the negation of the settings in the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, or SizeConstraintSet. For example, if an IPSet includes the IP address 192.0.2.44, AWS WAF will allow, block, or count requests based on all IP addresses except 192.0.2.44.
         public let negated: Bool
         /// The type of predicate in a Rule, such as ByteMatch or IPSet.
-        public let `type`: PredicateType
+        public let type: PredicateType
 
         public init(dataId: String, negated: Bool, type: PredicateType) {
             self.dataId = dataId
             self.negated = negated
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3359,7 +3359,7 @@ extension WAFRegional {
         private enum CodingKeys: String, CodingKey {
             case dataId = "DataId"
             case negated = "Negated"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4632,27 +4632,27 @@ extension WAFRegional {
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a Rule. Valid settings include the following:    ALLOW: AWS WAF allows requests    BLOCK: AWS WAF blocks requests    COUNT: AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.
-        public let `type`: WafActionType
+        public let type: WafActionType
 
         public init(type: WafActionType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
     public struct WafOverrideAction: AWSEncodableShape & AWSDecodableShape {
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action will take place.
-        public let `type`: WafOverrideActionType
+        public let type: WafOverrideActionType
 
         public init(type: WafOverrideActionType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

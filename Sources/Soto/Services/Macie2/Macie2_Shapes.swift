@@ -109,7 +109,7 @@ extension Macie2 {
 
     public enum GroupBy: String, CustomStringConvertible, Codable {
         case resourcesaffectedS3BucketName = "resourcesAffected.s3Bucket.name"
-        case `type`
+        case type
         case classificationdetailsJobid = "classificationDetails.jobId"
         case severityDescription = "severity.description"
         public var description: String { return self.rawValue }
@@ -1141,16 +1141,16 @@ extension Macie2 {
 
     public struct DefaultDetection: AWSDecodableShape {
         public let count: Int64?
-        public let `type`: String?
+        public let type: String?
 
         public init(count: Int64? = nil, type: String? = nil) {
             self.count = count
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case count
-            case `type`
+            case type
         }
     }
 
@@ -1507,7 +1507,7 @@ extension Macie2 {
         public let schemaVersion: String?
         public let severity: Severity?
         public let title: String?
-        public let `type`: FindingType?
+        public let type: FindingType?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -1528,7 +1528,7 @@ extension Macie2 {
             self.schemaVersion = schemaVersion
             self.severity = severity
             self.title = title
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -1549,7 +1549,7 @@ extension Macie2 {
             case schemaVersion
             case severity
             case title
-            case `type`
+            case type
             case updatedAt
         }
     }
@@ -2998,14 +2998,14 @@ extension Macie2 {
         public let accountId: String?
         public let arn: String?
         public let principalId: String?
-        public let `type`: String?
+        public let type: String?
         public let userName: String?
 
         public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil, type: String? = nil, userName: String? = nil) {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
-            self.`type` = `type`
+            self.type = type
             self.userName = userName
         }
 
@@ -3013,7 +3013,7 @@ extension Macie2 {
             case accountId
             case arn
             case principalId
-            case `type`
+            case type
             case userName
         }
     }
@@ -3342,20 +3342,20 @@ extension Macie2 {
         public let currency: Currency?
         public let estimatedCost: String?
         public let serviceLimit: ServiceLimit?
-        public let `type`: UsageType?
+        public let type: UsageType?
 
         public init(currency: Currency? = nil, estimatedCost: String? = nil, serviceLimit: ServiceLimit? = nil, type: UsageType? = nil) {
             self.currency = currency
             self.estimatedCost = estimatedCost
             self.serviceLimit = serviceLimit
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case currency
             case estimatedCost
             case serviceLimit
-            case `type`
+            case type
         }
     }
 
@@ -3414,18 +3414,18 @@ extension Macie2 {
     public struct UsageTotal: AWSDecodableShape {
         public let currency: Currency?
         public let estimatedCost: String?
-        public let `type`: UsageType?
+        public let type: UsageType?
 
         public init(currency: Currency? = nil, estimatedCost: String? = nil, type: UsageType? = nil) {
             self.currency = currency
             self.estimatedCost = estimatedCost
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case currency
             case estimatedCost
-            case `type`
+            case type
         }
     }
 
@@ -3436,7 +3436,7 @@ extension Macie2 {
         public let federatedUser: FederatedUser?
         public let iamUser: IamUser?
         public let root: UserIdentityRoot?
-        public let `type`: UserIdentityType?
+        public let type: UserIdentityType?
 
         public init(assumedRole: AssumedRole? = nil, awsAccount: AwsAccount? = nil, awsService: AwsService? = nil, federatedUser: FederatedUser? = nil, iamUser: IamUser? = nil, root: UserIdentityRoot? = nil, type: UserIdentityType? = nil) {
             self.assumedRole = assumedRole
@@ -3445,7 +3445,7 @@ extension Macie2 {
             self.federatedUser = federatedUser
             self.iamUser = iamUser
             self.root = root
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3455,7 +3455,7 @@ extension Macie2 {
             case federatedUser
             case iamUser
             case root
-            case `type`
+            case type
         }
     }
 

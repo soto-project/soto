@@ -52,18 +52,18 @@ extension XRay {
         /// A list of names for the alias, including the canonical name.
         public let names: [String]?
         /// The type of the alias.
-        public let `type`: String?
+        public let type: String?
 
         public init(name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.name = name
             self.names = names
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case names = "Names"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -386,18 +386,18 @@ extension XRay {
         /// The encryption status. While the status is UPDATING, X-Ray may encrypt data with a combination of the new and old settings.
         public let status: EncryptionStatus?
         /// The type of encryption. Set to KMS for encryption with CMKs. Set to NONE for default encryption.
-        public let `type`: EncryptionType?
+        public let type: EncryptionType?
 
         public init(keyId: String? = nil, status: EncryptionStatus? = nil, type: EncryptionType? = nil) {
             self.keyId = keyId
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case keyId = "KeyId"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -451,7 +451,7 @@ extension XRay {
         /// A collection of associated service names.
         public let names: [String]?
         /// The type associated to the service.
-        public let `type`: String?
+        public let type: String?
 
         public init(accountId: String? = nil, entityPath: [ErrorRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
@@ -459,7 +459,7 @@ extension XRay {
             self.inferred = inferred
             self.name = name
             self.names = names
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -468,7 +468,7 @@ extension XRay {
             case inferred = "Inferred"
             case name = "Name"
             case names = "Names"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -543,7 +543,7 @@ extension XRay {
         /// A collection of associated service names.
         public let names: [String]?
         /// The type associated to the service.
-        public let `type`: String?
+        public let type: String?
 
         public init(accountId: String? = nil, entityPath: [FaultRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
@@ -551,7 +551,7 @@ extension XRay {
             self.inferred = inferred
             self.name = name
             self.names = names
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -560,7 +560,7 @@ extension XRay {
             case inferred = "Inferred"
             case name = "Name"
             case names = "Names"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1171,11 +1171,11 @@ extension XRay {
         /// An AWS KMS customer master key (CMK) in one of the following formats:    Alias - The name of the key. For example, alias/MyKey.    Key ID - The KMS key ID of the key. For example, ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. AWS X-Ray does not support asymmetric CMKs.    ARN - The full Amazon Resource Name of the key ID or alias. For example, arn:aws:kms:us-east-2:123456789012:key/ae4aa6d49-a4d8-9df9-a475-4ff6d7898456. Use this format to specify a key in a different account.   Omit this key if you set Type to NONE.
         public let keyId: String?
         /// The type of encryption. Set to KMS to use your own key for encryption. Set to NONE for default encryption.
-        public let `type`: EncryptionType
+        public let type: EncryptionType
 
         public init(keyId: String? = nil, type: EncryptionType) {
             self.keyId = keyId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1185,7 +1185,7 @@ extension XRay {
 
         private enum CodingKeys: String, CodingKey {
             case keyId = "KeyId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1322,7 +1322,7 @@ extension XRay {
         /// A collection of associated service names.
         public let names: [String]?
         /// The type associated to the service.
-        public let `type`: String?
+        public let type: String?
 
         public init(accountId: String? = nil, entityPath: [ResponseTimeRootCauseEntity]? = nil, inferred: Bool? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
@@ -1330,7 +1330,7 @@ extension XRay {
             self.inferred = inferred
             self.name = name
             self.names = names
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1339,7 +1339,7 @@ extension XRay {
             case inferred = "Inferred"
             case name = "Name"
             case names = "Names"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1700,7 +1700,7 @@ extension XRay {
         /// Aggregated statistics for the service.
         public let summaryStatistics: ServiceStatistics?
         /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.
-        public let `type`: String?
+        public let type: String?
 
         public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: Date? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: Date? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
             self.accountId = accountId
@@ -1715,7 +1715,7 @@ extension XRay {
             self.startTime = startTime
             self.state = state
             self.summaryStatistics = summaryStatistics
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1731,7 +1731,7 @@ extension XRay {
             case startTime = "StartTime"
             case state = "State"
             case summaryStatistics = "SummaryStatistics"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1739,20 +1739,20 @@ extension XRay {
         public let accountId: String?
         public let name: String?
         public let names: [String]?
-        public let `type`: String?
+        public let type: String?
 
         public init(accountId: String? = nil, name: String? = nil, names: [String]? = nil, type: String? = nil) {
             self.accountId = accountId
             self.name = name
             self.names = names
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case name = "Name"
             case names = "Names"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

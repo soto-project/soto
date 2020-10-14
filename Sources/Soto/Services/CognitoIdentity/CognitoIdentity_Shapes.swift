@@ -932,12 +932,12 @@ extension CognitoIdentity {
         /// The rules to be used for mapping users to roles. If you specify Rules as the role mapping type, RulesConfiguration is required.
         public let rulesConfiguration: RulesConfigurationType?
         /// The role mapping type. Token will use cognito:roles and cognito:preferred_role claims from the Cognito identity provider token to map groups to roles. Rules will attempt to match claims from the token to map to a role.
-        public let `type`: RoleMappingType
+        public let type: RoleMappingType
 
         public init(ambiguousRoleResolution: AmbiguousRoleResolutionType? = nil, rulesConfiguration: RulesConfigurationType? = nil, type: RoleMappingType) {
             self.ambiguousRoleResolution = ambiguousRoleResolution
             self.rulesConfiguration = rulesConfiguration
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -947,7 +947,7 @@ extension CognitoIdentity {
         private enum CodingKeys: String, CodingKey {
             case ambiguousRoleResolution = "AmbiguousRoleResolution"
             case rulesConfiguration = "RulesConfiguration"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

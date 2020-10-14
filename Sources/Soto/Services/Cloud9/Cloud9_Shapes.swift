@@ -367,7 +367,7 @@ extension Cloud9 {
         /// The Amazon Resource Name (ARN) of the environment owner.
         public let ownerArn: String?
         /// The type of environment. Valid values include the following:    ec2: An Amazon Elastic Compute Cloud (Amazon EC2) instance connects to the environment.    ssh: Your own server connects to the environment.
-        public let `type`: EnvironmentType?
+        public let type: EnvironmentType?
 
         public init(arn: String? = nil, connectionType: ConnectionType? = nil, description: String? = nil, id: String? = nil, lifecycle: EnvironmentLifecycle? = nil, name: String? = nil, ownerArn: String? = nil, type: EnvironmentType? = nil) {
             self.arn = arn
@@ -377,7 +377,7 @@ extension Cloud9 {
             self.lifecycle = lifecycle
             self.name = name
             self.ownerArn = ownerArn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -388,7 +388,7 @@ extension Cloud9 {
             case lifecycle
             case name
             case ownerArn
-            case `type`
+            case type
         }
     }
 
