@@ -16,8 +16,23 @@ import Dispatch
 import Foundation
 import PathKit
 import Stencil
+import SwiftFormat
 
 struct CodeGenerator {
+    static let sfDisabledRules = FormatRules.disabledByDefault + ["redundantReturn", "redundantBackticks", "trailingCommas"]
+    static let sfRuleNames = Set(FormatRules.byName.keys).subtracting(sfDisabledRules)
+    static let sfRules: [FormatRule] = sfRuleNames.map { FormatRules.byName[$0]! }
+    static let sfFormtOptions = FormatOptions(
+        ifdefIndent: .noIndent,
+        wrapArguments: .beforeFirst,
+        wrapParameters: .beforeFirst,
+        wrapCollections: .beforeFirst,
+        hoistPatternLet: false,
+        stripUnusedArguments: .unnamedOnly,
+        explicitSelf: .insert,
+        noSpaceOperators: ["...", "..<"]
+    )
+
     let fsLoader: FileSystemLoader
     let environment: Environment
     let command: CodeGeneratorCommand
@@ -65,6 +80,14 @@ struct CodeGenerator {
         }
     }
 
+    func format(_ string: String) throws -> String {
+        if self.command.swiftFormat {
+            return try SwiftFormat.format(string, rules: Self.sfRules, options: Self.sfFormtOptions)
+        } else {
+            return string
+        }
+    }
+
     /// Generate service files from AWSService
     /// - Parameter codeGenerator: service generated from JSON
     func generateFiles(with service: AWSService) throws {
@@ -72,14 +95,14 @@ struct CodeGenerator {
         try FileManager.default.createDirectory(atPath: basePath, withIntermediateDirectories: true)
 
         let apiContext = service.generateServiceContext()
-        if try self.environment.renderTemplate(name: "api.stencil", context: apiContext).writeIfChanged(
+        if try self.format(self.environment.renderTemplate(name: "api.stencil", context: apiContext)).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_API.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_API.swift")
         }
 
         let shapesContext = service.generateShapesContext()
-        if try self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext).writeIfChanged(
+        if try self.format(self.environment.renderTemplate(name: "shapes.stencil", context: shapesContext)).writeIfChanged(
             toFile: "\(basePath)/\(service.api.serviceName)_Shapes.swift"
         ) {
             print("Wrote: \(service.api.serviceName)_Shapes.swift")
@@ -87,7 +110,7 @@ struct CodeGenerator {
 
         let errorContext = service.generateErrorContext()
         if errorContext["errors"] != nil {
-            if try self.environment.renderTemplate(name: "error.stencil", context: errorContext).writeIfChanged(
+            if try self.format(self.environment.renderTemplate(name: "error.stencil", context: errorContext)).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Error.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Error.swift")
@@ -96,7 +119,7 @@ struct CodeGenerator {
 
         let paginatorContext = try service.generatePaginatorContext()
         if paginatorContext["paginators"] != nil {
-            if try self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext).writeIfChanged(
+            if try self.format(self.environment.renderTemplate(name: "paginator.stencil", context: paginatorContext)).writeIfChanged(
                 toFile: "\(basePath)/\(service.api.serviceName)_Paginator.swift"
             ) {
                 print("Wrote: \(service.api.serviceName)_Paginator.swift")
