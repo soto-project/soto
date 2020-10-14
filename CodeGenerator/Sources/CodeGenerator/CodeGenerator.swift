@@ -81,7 +81,7 @@ struct CodeGenerator {
     }
 
     func format(_ string: String) throws -> String {
-        if command.swiftFormat {
+        if self.command.swiftFormat {
             return try SwiftFormat.format(string, rules: Self.sfRules, options: Self.sfFormtOptions)
         } else {
             return string
