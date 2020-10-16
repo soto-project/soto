@@ -47,11 +47,7 @@ extension API {
             AddPatch(PatchKeyPath3(\.shapes["PropagateTags"], \.type.enum, \.cases), value: "NONE"),
         ],
         "ElasticLoadBalancing": [
-            ReplacePatch(PatchKeyPath1(\.serviceName), value: "ELB", originalValue: "ElasticLoadBalancing"),
             ReplacePatch(PatchKeyPath2(\.shapes["SecurityGroupOwnerAlias"], \.type), value: .integer(), originalValue: .string(Shape.ShapeType.StringType())),
-        ],
-        "ElasticLoadBalancingv2": [
-            ReplacePatch(PatchKeyPath1(\.serviceName), value: "ELBV2", originalValue: "ElasticLoadBalancingv2"),
         ],
         "IAM": [
             AddPatch(PatchKeyPath3(\.shapes["PolicySourceType"], \.type.enum, \.cases), value: "IAM Policy"),

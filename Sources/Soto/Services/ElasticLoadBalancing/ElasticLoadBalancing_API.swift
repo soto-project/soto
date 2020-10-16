@@ -17,11 +17,11 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS ELB service.
+ Client object for interacting with AWS ElasticLoadBalancing service.
 
  Elastic Load Balancing A load balancer can distribute incoming traffic across your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered instances and ensures that it routes traffic only to healthy instances. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer and a protocol and port number for connections from the load balancer to the instances. Elastic Load Balancing supports three types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. You can select a load balancer based on your application needs. For more information, see the Elastic Load Balancing User Guide. This reference covers the 2012-06-01 API, which supports Classic Load Balancers. The 2015-12-01 API supports Application Load Balancers and Network Load Balancers. To get started, create a load balancer with one or more listeners using CreateLoadBalancer. Register your instances with the load balancer using RegisterInstancesWithLoadBalancer. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds with a 200 OK response code.
  */
-public struct ELB: AWSService {
+public struct ElasticLoadBalancing: AWSService {
     // MARK: Member variables
 
     public let client: AWSClient
@@ -29,7 +29,7 @@ public struct ELB: AWSService {
 
     // MARK: Initialization
 
-    /// Initialize the ELB client
+    /// Initialize the ElasticLoadBalancing client
     /// - parameters:
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
@@ -53,7 +53,7 @@ public struct ELB: AWSService {
             serviceProtocol: .query,
             apiVersion: "2012-06-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ELBErrorType.self],
+            possibleErrorTypes: [ElasticLoadBalancingErrorType.self],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
@@ -208,10 +208,10 @@ public struct ELB: AWSService {
     }
 }
 
-extension ELB {
+extension ElasticLoadBalancing {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ELB, patch: AWSServiceConfig.Patch) {
+    public init(from: ElasticLoadBalancing, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

@@ -18,7 +18,7 @@ import SotoCore
 
 // MARK: Paginators
 
-extension ELBV2 {
+extension ElasticLoadBalancingv2 {
     ///  Describes the specified listeners or the listeners for the specified Application Load Balancer or Network Load Balancer. You must specify either a load balancer or one or more listeners. For an HTTPS or TLS listener, the output includes the default certificate for the listener. To describe the certificate list for the listener, use DescribeListenerCertificates.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -173,8 +173,8 @@ extension ELBV2 {
     }
 }
 
-extension ELBV2.DescribeListenersInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeListenersInput {
+extension ElasticLoadBalancingv2.DescribeListenersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingv2.DescribeListenersInput {
         return .init(
             listenerArns: self.listenerArns,
             loadBalancerArn: self.loadBalancerArn,
@@ -184,8 +184,8 @@ extension ELBV2.DescribeListenersInput: AWSPaginateToken {
     }
 }
 
-extension ELBV2.DescribeLoadBalancersInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeLoadBalancersInput {
+extension ElasticLoadBalancingv2.DescribeLoadBalancersInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingv2.DescribeLoadBalancersInput {
         return .init(
             loadBalancerArns: self.loadBalancerArns,
             marker: token,
@@ -195,8 +195,8 @@ extension ELBV2.DescribeLoadBalancersInput: AWSPaginateToken {
     }
 }
 
-extension ELBV2.DescribeTargetGroupsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ELBV2.DescribeTargetGroupsInput {
+extension ElasticLoadBalancingv2.DescribeTargetGroupsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancingv2.DescribeTargetGroupsInput {
         return .init(
             loadBalancerArn: self.loadBalancerArn,
             marker: token,

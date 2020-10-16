@@ -17,11 +17,11 @@
 @_exported import SotoCore
 
 /*
- Client object for interacting with AWS ELBV2 service.
+ Client object for interacting with AWS ElasticLoadBalancingv2 service.
 
  Elastic Load Balancing A load balancer distributes incoming traffic across targets, such as your EC2 instances. This enables you to increase the availability of your application. The load balancer also monitors the health of its registered targets and ensures that it routes traffic only to healthy targets. You configure your load balancer to accept incoming traffic by specifying one or more listeners, which are configured with a protocol and port number for connections from clients to the load balancer. You configure a target group with a protocol and port number for connections from the load balancer to the targets, and with health check settings to be used when checking the health status of the targets. Elastic Load Balancing supports the following types of load balancers: Application Load Balancers, Network Load Balancers, and Classic Load Balancers. This reference covers Application Load Balancers and Network Load Balancers. An Application Load Balancer makes routing and load balancing decisions at the application layer (HTTP/HTTPS). A Network Load Balancer makes routing and load balancing decisions at the transport layer (TCP/TLS). Both Application Load Balancers and Network Load Balancers can route requests to one or more ports on each EC2 instance or container instance in your virtual private cloud (VPC). For more information, see the Elastic Load Balancing User Guide. All Elastic Load Balancing operations are idempotent, which means that they complete at most one time. If you repeat an operation, it succeeds.
  */
-public struct ELBV2: AWSService {
+public struct ElasticLoadBalancingv2: AWSService {
     // MARK: Member variables
 
     public let client: AWSClient
@@ -29,7 +29,7 @@ public struct ELBV2: AWSService {
 
     // MARK: Initialization
 
-    /// Initialize the ELBV2 client
+    /// Initialize the ElasticLoadBalancingv2 client
     /// - parameters:
     ///     - client: AWSClient used to process requests
     ///     - region: Region of server you want to communicate with. This will override the partition parameter.
@@ -53,7 +53,7 @@ public struct ELBV2: AWSService {
             serviceProtocol: .query,
             apiVersion: "2015-12-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ELBV2ErrorType.self],
+            possibleErrorTypes: [ElasticLoadBalancingv2ErrorType.self],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
@@ -233,10 +233,10 @@ public struct ELBV2: AWSService {
     }
 }
 
-extension ELBV2 {
+extension ElasticLoadBalancingv2 {
     /// Initializer required by `AWSService.with(middlewares:timeout:byteBufferAllocator:options)`. You are not able to use this initializer directly as there are no public
     /// initializers for `AWSServiceConfig.Patch`. Please use `AWSService.with(middlewares:timeout:byteBufferAllocator:options)` instead.
-    public init(from: ELBV2, patch: AWSServiceConfig.Patch) {
+    public init(from: ElasticLoadBalancingv2, patch: AWSServiceConfig.Patch) {
         self.client = from.client
         self.config = from.config.with(patch: patch)
     }

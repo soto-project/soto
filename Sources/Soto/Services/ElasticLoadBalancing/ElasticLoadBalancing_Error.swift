@@ -16,8 +16,8 @@
 
 import SotoCore
 
-/// Error enum for ELB
-public enum ELBErrorType: AWSErrorType {
+/// Error enum for ElasticLoadBalancing
+public enum ElasticLoadBalancingErrorType: AWSErrorType {
     case accessPointNotFoundException(message: String?)
     case certificateNotFoundException(message: String?)
     case dependencyThrottleException(message: String?)
@@ -42,7 +42,7 @@ public enum ELBErrorType: AWSErrorType {
     case unsupportedProtocolException(message: String?)
 }
 
-extension ELBErrorType {
+extension ElasticLoadBalancingErrorType {
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
@@ -99,7 +99,7 @@ extension ELBErrorType {
     }
 }
 
-extension ELBErrorType: CustomStringConvertible {
+extension ElasticLoadBalancingErrorType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .accessPointNotFoundException(let message):
