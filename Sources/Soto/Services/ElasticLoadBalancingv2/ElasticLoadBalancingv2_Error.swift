@@ -16,8 +16,8 @@
 
 import SotoCore
 
-/// Error enum for ELBV2
-public enum ELBV2ErrorType: AWSErrorType {
+/// Error enum for ElasticLoadBalancingv2
+public enum ElasticLoadBalancingv2ErrorType: AWSErrorType {
     case aLPNPolicyNotSupportedException(message: String?)
     case allocationIdNotFoundException(message: String?)
     case availabilityZoneNotSupportedException(message: String?)
@@ -57,7 +57,7 @@ public enum ELBV2ErrorType: AWSErrorType {
     case unsupportedProtocolException(message: String?)
 }
 
-extension ELBV2ErrorType {
+extension ElasticLoadBalancingv2ErrorType {
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
@@ -144,7 +144,7 @@ extension ELBV2ErrorType {
     }
 }
 
-extension ELBV2ErrorType: CustomStringConvertible {
+extension ElasticLoadBalancingv2ErrorType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .aLPNPolicyNotSupportedException(let message):

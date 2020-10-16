@@ -17,7 +17,7 @@
 import Foundation
 import SotoCore
 
-extension ELBV2 {
+extension ElasticLoadBalancingv2 {
     // MARK: Enums
 
     public enum ActionTypeEnum: String, CustomStringConvertible, Codable {

@@ -18,7 +18,7 @@ import SotoCore
 
 // MARK: Paginators
 
-extension ELB {
+extension ElasticLoadBalancing {
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -71,8 +71,8 @@ extension ELB {
     }
 }
 
-extension ELB.DescribeAccessPointsInput: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> ELB.DescribeAccessPointsInput {
+extension ElasticLoadBalancing.DescribeAccessPointsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> ElasticLoadBalancing.DescribeAccessPointsInput {
         return .init(
             loadBalancerNames: self.loadBalancerNames,
             marker: token,

@@ -17,7 +17,7 @@
 import Foundation
 import SotoCore
 
-extension ELB {
+extension ElasticLoadBalancing {
     // MARK: Enums
 
     // MARK: Shapes
