@@ -99,7 +99,7 @@ final class DynamoDBCodableTests: XCTestCase {
                 return Self.dynamoDB.putItem(request)
             }
             .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemCodableOutput<TestObject>> in
-                let request = DynamoDB.GetItemInput(key: ["id": .s(id)], tableName: tableName)
+                let request = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
                 return Self.dynamoDB.getItem(request, type: TestObject.self)
             }
             .map { response -> Void in
@@ -141,7 +141,7 @@ final class DynamoDBCodableTests: XCTestCase {
                 return Self.dynamoDB.updateItem(request)
             }
             .flatMap { _ -> EventLoopFuture<DynamoDB.GetItemCodableOutput<TestObject>> in
-                let request = DynamoDB.GetItemInput(key: ["id": .s(id)], tableName: tableName)
+                let request = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
                 return Self.dynamoDB.getItem(request, type: TestObject.self)
             }
             .map { response -> Void in
@@ -180,6 +180,7 @@ final class DynamoDBCodableTests: XCTestCase {
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.QueryCodableOutput<TestObject>> in
             let request = DynamoDB.QueryInput(
+                consistentRead: true,
                 expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
                 keyConditionExpression: "id = :id and version >= :version",
                 tableName: tableName
@@ -222,6 +223,7 @@ final class DynamoDBCodableTests: XCTestCase {
         }
         .flatMap { _ -> EventLoopFuture<Void> in
             let request = DynamoDB.QueryInput(
+                consistentRead: true,
                 expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
                 keyConditionExpression: "id = :id and version >= :version",
                 limit: 3,
@@ -266,7 +268,7 @@ final class DynamoDBCodableTests: XCTestCase {
             return EventLoopFuture.whenAllSucceed(futureResults, on: Self.dynamoDB.client.eventLoopGroup.next()).map { _ in }
         }
         .flatMap { _ -> EventLoopFuture<DynamoDB.ScanCodableOutput<TestObject>> in
-            let request = DynamoDB.ScanInput(expressionAttributeValues: [":message": .s("Message 2")], filterExpression: "message = :message", tableName: tableName)
+            let request = DynamoDB.ScanInput(consistentRead: true, expressionAttributeValues: [":message": .s("Message 2")], filterExpression: "message = :message", tableName: tableName)
             return Self.dynamoDB.scan(request, type: TestObject.self)
         }
         .map { response in
