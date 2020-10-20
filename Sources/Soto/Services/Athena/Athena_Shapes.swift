@@ -141,18 +141,18 @@ extension Athena {
         /// The name of the column.
         public let name: String
         /// The data type of the column.
-        public let `type`: String?
+        public let type: String?
 
         public init(comment: String? = nil, name: String, type: String? = nil) {
             self.comment = comment
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case comment = "Comment"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -176,7 +176,7 @@ extension Athena {
         /// The table name for the query results.
         public let tableName: String?
         /// The data type of the column.
-        public let `type`: String
+        public let type: String
 
         public init(caseSensitive: Bool? = nil, catalogName: String? = nil, label: String? = nil, name: String, nullable: ColumnNullable? = nil, precision: Int? = nil, scale: Int? = nil, schemaName: String? = nil, tableName: String? = nil, type: String) {
             self.caseSensitive = caseSensitive
@@ -188,7 +188,7 @@ extension Athena {
             self.scale = scale
             self.schemaName = schemaName
             self.tableName = tableName
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,7 +201,7 @@ extension Athena {
             case scale = "Scale"
             case schemaName = "SchemaName"
             case tableName = "TableName"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -215,14 +215,14 @@ extension Athena {
         /// A list of comma separated tags to add to the data catalog that is created.
         public let tags: [Tag]?
         /// The type of data catalog to create: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
-        public let `type`: DataCatalogType
+        public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, tags: [Tag]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
             self.parameters = parameters
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -247,7 +247,7 @@ extension Athena {
             case name = "Name"
             case parameters = "Parameters"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -362,20 +362,20 @@ extension Athena {
         /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.
         public let parameters: [String: String]?
         /// The type of data catalog: LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
-        public let `type`: DataCatalogType
+        public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -383,16 +383,16 @@ extension Athena {
         /// The name of the data catalog.
         public let catalogName: String?
         /// The data catalog type.
-        public let `type`: DataCatalogType?
+        public let type: DataCatalogType?
 
         public init(catalogName: String? = nil, type: DataCatalogType? = nil) {
             self.catalogName = catalogName
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogName = "CatalogName"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1569,13 +1569,13 @@ extension Athena {
         /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type has no parameters.
         public let parameters: [String: String]?
         /// Specifies the type of data catalog to update. Specify LAMBDA for a federated catalog, GLUE for AWS Glue Catalog, or HIVE for an external hive metastore.
-        public let `type`: DataCatalogType
+        public let type: DataCatalogType
 
         public init(description: String? = nil, name: String, parameters: [String: String]? = nil, type: DataCatalogType) {
             self.description = description
             self.name = name
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1596,7 +1596,7 @@ extension Athena {
             case description = "Description"
             case name = "Name"
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

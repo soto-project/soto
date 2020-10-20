@@ -271,16 +271,16 @@ extension Organizations {
         /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let id: String?
         /// The type of this child entity.
-        public let `type`: ChildType?
+        public let type: ChildType?
 
         public init(id: String? = nil, type: ChildType? = nil) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -517,14 +517,14 @@ extension Organizations {
         /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created.
         public let tags: [Tag]?
         /// The type of policy to create. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY
-        public let `type`: PolicyType
+        public let type: PolicyType
 
         public init(content: String, description: String, name: String, tags: [Tag]? = nil, type: PolicyType) {
             self.content = content
             self.description = description
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -546,7 +546,7 @@ extension Organizations {
             case description = "Description"
             case name = "Name"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1174,11 +1174,11 @@ extension Organizations {
         /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
         public let id: String
         /// The type of party.
-        public let `type`: HandshakePartyType
+        public let type: HandshakePartyType
 
         public init(id: String, type: HandshakePartyType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1189,7 +1189,7 @@ extension Organizations {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1197,19 +1197,19 @@ extension Organizations {
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
         /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.
-        public let `type`: HandshakeResourceType?
+        public let type: HandshakeResourceType?
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
         public let value: String?
 
         public init(resources: [HandshakeResource]? = nil, type: HandshakeResourceType? = nil, value: String? = nil) {
             self.resources = resources
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case resources = "Resources"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -2080,16 +2080,16 @@ extension Organizations {
         /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let id: String?
         /// The type of the parent entity.
-        public let `type`: ParentType?
+        public let type: ParentType?
 
         public init(id: String? = nil, type: ParentType? = nil) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2122,7 +2122,7 @@ extension Organizations {
         /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
         /// The type of policy.
-        public let `type`: PolicyType?
+        public let type: PolicyType?
 
         public init(arn: String? = nil, awsManaged: Bool? = nil, description: String? = nil, id: String? = nil, name: String? = nil, type: PolicyType? = nil) {
             self.arn = arn
@@ -2130,7 +2130,7 @@ extension Organizations {
             self.description = description
             self.id = id
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2139,7 +2139,7 @@ extension Organizations {
             case description = "Description"
             case id = "Id"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2151,20 +2151,20 @@ extension Organizations {
         /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
         public let targetId: String?
         /// The type of the policy target.
-        public let `type`: TargetType?
+        public let type: TargetType?
 
         public init(arn: String? = nil, name: String? = nil, targetId: String? = nil, type: TargetType? = nil) {
             self.arn = arn
             self.name = name
             self.targetId = targetId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case name = "Name"
             case targetId = "TargetId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2172,16 +2172,16 @@ extension Organizations {
         /// The status of the policy type as it relates to the associated root. To attach a policy of the specified type to a root or to an OU or account in that root, it must be available in the organization and enabled for that root.
         public let status: PolicyTypeStatus?
         /// The name of the policy type.
-        public let `type`: PolicyType?
+        public let type: PolicyType?
 
         public init(status: PolicyTypeStatus? = nil, type: PolicyType? = nil) {
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

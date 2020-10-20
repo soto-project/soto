@@ -55,7 +55,7 @@ extension ServiceDiscovery {
     }
 
     public enum NamespaceFilterName: String, CustomStringConvertible, Codable {
-        case `type` = "TYPE"
+        case type = "TYPE"
         public var description: String { return self.rawValue }
     }
 
@@ -70,7 +70,7 @@ extension ServiceDiscovery {
         case namespaceId = "NAMESPACE_ID"
         case serviceId = "SERVICE_ID"
         case status = "STATUS"
-        case `type` = "TYPE"
+        case type = "TYPE"
         case updateDate = "UPDATE_DATE"
         public var description: String { return self.rawValue }
     }
@@ -551,11 +551,11 @@ extension ServiceDiscovery {
         /// The amount of time, in seconds, that you want DNS resolvers to cache the settings for this record.  Alias records don't include a TTL because Route 53 uses the TTL for the AWS resource that an alias record routes traffic to. If you include the AWS_ALIAS_DNS_NAME attribute when you submit a RegisterInstance request, the TTL value is ignored. Always specify a TTL for the service; you can use a service to register instances that create either alias or non-alias records.
         public let ttl: Int64
         /// The type of the resource, which indicates the type of value that Route 53 returns in response to DNS queries. You can specify values for Type in the following combinations:    A     AAAA     A and AAAA     SRV     CNAME    If you want AWS Cloud Map to create a Route 53 alias record when you register an instance, specify A or AAAA for Type. You specify other settings, such as the IP address for A and AAAA records, when you register an instance. For more information, see RegisterInstance. The following values are supported:  A     Route 53 returns the IP address of the resource in IPv4 format, such as 192.0.2.44.  AAAA     Route 53 returns the IP address of the resource in IPv6 format, such as 2001:0db8:85a3:0000:0000:abcd:0001:2345.  CNAME     Route 53 returns the domain name of the resource, such as www.example.com. Note the following:   You specify the domain name that you want to route traffic to when you register an instance. For more information, see Attributes in the topic RegisterInstance.   You must specify WEIGHTED for the value of RoutingPolicy.   You can't specify both CNAME for Type and settings for HealthCheckConfig. If you do, the request will fail with an InvalidInput error.    SRV  Route 53 returns the value for an SRV record. The value for an SRV record uses the following values:  priority weight port service-hostname  Note the following about the values:   The values of priority and weight are both set to 1 and can't be changed.    The value of port comes from the value that you specify for the AWS_INSTANCE_PORT attribute when you submit a RegisterInstance request.    The value of service-hostname is a concatenation of the following values:   The value that you specify for InstanceId when you register an instance.   The name of the service.   The name of the namespace.    For example, if the value of InstanceId is test, the name of the service is backend, and the name of the namespace is example.com, the value of service-hostname is:  test.backend.example.com    If you specify settings for an SRV record, note the following:   If you specify values for AWS_INSTANCE_IPV4, AWS_INSTANCE_IPV6, or both in the RegisterInstance request, AWS Cloud Map automatically creates A and/or AAAA records that have the same name as the value of service-hostname in the SRV record. You can ignore these records.   If you're using a system that requires a specific SRV format, such as HAProxy, see the Name element in the documentation about CreateService for information about how to specify the correct name format.
-        public let `type`: RecordType
+        public let type: RecordType
 
         public init(ttl: Int64, type: RecordType) {
             self.ttl = ttl
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -565,7 +565,7 @@ extension ServiceDiscovery {
 
         private enum CodingKeys: String, CodingKey {
             case ttl = "TTL"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -753,12 +753,12 @@ extension ServiceDiscovery {
         /// The path that you want Route 53 to request when performing health checks. The path can be any value for which your endpoint will return an HTTP status code of 2xx or 3xx when the endpoint is healthy, such as the file /docs/route53-health-check.html. Route 53 automatically adds the DNS name for the service. If you don't specify a value for ResourcePath, the default value is /. If you specify TCP for Type, you must not specify a value for ResourcePath.
         public let resourcePath: String?
         /// The type of health check that you want to create, which indicates how Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     TCP: Route 53 tries to establish a TCP connection. If you specify TCP for Type, don't specify a value for ResourcePath.   For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Route 53 Developer Guide.
-        public let `type`: HealthCheckType
+        public let type: HealthCheckType
 
         public init(failureThreshold: Int? = nil, resourcePath: String? = nil, type: HealthCheckType) {
             self.failureThreshold = failureThreshold
             self.resourcePath = resourcePath
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -770,7 +770,7 @@ extension ServiceDiscovery {
         private enum CodingKeys: String, CodingKey {
             case failureThreshold = "FailureThreshold"
             case resourcePath = "ResourcePath"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1107,7 +1107,7 @@ extension ServiceDiscovery {
         /// The number of services that are associated with the namespace.
         public let serviceCount: Int?
         /// The type of the namespace. The methods for discovering instances depends on the value that you specify:    HTTP: Instances can be discovered only programmatically, using the AWS Cloud Map DiscoverInstances API.    DNS_PUBLIC: Instances can be discovered using public DNS queries and using the DiscoverInstances API.    DNS_PRIVATE: Instances can be discovered using DNS queries in VPCs and using the DiscoverInstances API.
-        public let `type`: NamespaceType?
+        public let type: NamespaceType?
 
         public init(arn: String? = nil, createDate: Date? = nil, creatorRequestId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
@@ -1118,7 +1118,7 @@ extension ServiceDiscovery {
             self.name = name
             self.properties = properties
             self.serviceCount = serviceCount
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1130,7 +1130,7 @@ extension ServiceDiscovery {
             case name = "Name"
             case properties = "Properties"
             case serviceCount = "ServiceCount"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1194,7 +1194,7 @@ extension ServiceDiscovery {
         /// The number of services that were created using the namespace.
         public let serviceCount: Int?
         /// The type of the namespace, either public or private.
-        public let `type`: NamespaceType?
+        public let type: NamespaceType?
 
         public init(arn: String? = nil, createDate: Date? = nil, description: String? = nil, id: String? = nil, name: String? = nil, properties: NamespaceProperties? = nil, serviceCount: Int? = nil, type: NamespaceType? = nil) {
             self.arn = arn
@@ -1204,7 +1204,7 @@ extension ServiceDiscovery {
             self.name = name
             self.properties = properties
             self.serviceCount = serviceCount
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1215,7 +1215,7 @@ extension ServiceDiscovery {
             case name = "Name"
             case properties = "Properties"
             case serviceCount = "ServiceCount"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1233,7 +1233,7 @@ extension ServiceDiscovery {
         /// The name of the target entity that is associated with the operation:    NAMESPACE: The namespace ID is returned in the ResourceId property.    SERVICE: The service ID is returned in the ResourceId property.    INSTANCE: The instance ID is returned in the ResourceId property.
         public let targets: [OperationTargetType: String]?
         /// The name of the operation that is associated with the specified ID.
-        public let `type`: OperationType?
+        public let type: OperationType?
         /// The date and time that the value of Status changed to the current value, in Unix date/time format and Coordinated Universal Time (UTC). The value of UpdateDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let updateDate: Date?
 
@@ -1244,7 +1244,7 @@ extension ServiceDiscovery {
             self.id = id
             self.status = status
             self.targets = targets
-            self.`type` = `type`
+            self.type = type
             self.updateDate = updateDate
         }
 
@@ -1255,7 +1255,7 @@ extension ServiceDiscovery {
             case id = "Id"
             case status = "Status"
             case targets = "Targets"
-            case `type` = "Type"
+            case type = "Type"
             case updateDate = "UpdateDate"
         }
     }

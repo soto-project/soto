@@ -881,7 +881,7 @@ extension Glacier {
         /// The canonical user ID of the grantee.
         public let id: String?
         /// Type of grantee
-        public let `type`: `Type`
+        public let type: `Type`
         /// URI of the grantee group.
         public let uri: String?
 
@@ -889,7 +889,7 @@ extension Glacier {
             self.displayName = displayName
             self.emailAddress = emailAddress
             self.id = id
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -897,7 +897,7 @@ extension Glacier {
             case displayName = "DisplayName"
             case emailAddress = "EmailAddress"
             case id = "ID"
-            case `type` = "Type"
+            case type = "Type"
             case uri = "URI"
         }
     }
@@ -1134,7 +1134,7 @@ extension Glacier {
         /// The tier to use for a select or an archive retrieval job. Valid values are Expedited, Standard, or Bulk. Standard is the default.
         public let tier: String?
         /// The job type. You can initiate a job to perform a select query on an archive, retrieve an archive, or get an inventory of a vault. Valid values are "select", "archive-retrieval" and "inventory-retrieval".
-        public let `type`: String?
+        public let type: String?
 
         public init(archiveId: String? = nil, description: String? = nil, format: String? = nil, inventoryRetrievalParameters: InventoryRetrievalJobInput? = nil, outputLocation: OutputLocation? = nil, retrievalByteRange: String? = nil, selectParameters: SelectParameters? = nil, sNSTopic: String? = nil, tier: String? = nil, type: String? = nil) {
             self.archiveId = archiveId
@@ -1146,7 +1146,7 @@ extension Glacier {
             self.selectParameters = selectParameters
             self.sNSTopic = sNSTopic
             self.tier = tier
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1159,7 +1159,7 @@ extension Glacier {
             case selectParameters = "SelectParameters"
             case sNSTopic = "SNSTopic"
             case tier = "Tier"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

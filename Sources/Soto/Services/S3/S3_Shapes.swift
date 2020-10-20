@@ -3575,7 +3575,7 @@ extension S3 {
         /// The canonical user ID of the grantee.
         public let id: String?
         /// Type of grantee
-        public let `type`: `Type`
+        public let type: `Type`
         /// URI of the grantee group.
         public let uri: String?
 
@@ -3583,7 +3583,7 @@ extension S3 {
             self.displayName = displayName
             self.emailAddress = emailAddress
             self.id = id
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -3591,7 +3591,7 @@ extension S3 {
             case displayName = "DisplayName"
             case emailAddress = "EmailAddress"
             case id = "ID"
-            case `type` = "xsi:type"
+            case type = "xsi:type"
             case uri = "URI"
         }
     }
@@ -4019,14 +4019,14 @@ extension S3 {
 
     public struct JSONInput: AWSEncodableShape {
         /// The type of JSON. Valid values: Document, Lines.
-        public let `type`: JSONType?
+        public let type: JSONType?
 
         public init(type: JSONType? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -6934,7 +6934,7 @@ extension S3 {
         /// S3 Glacier retrieval tier at which the restore will be processed.
         public let tier: Tier?
         /// Type of restore request.
-        public let `type`: RestoreRequestType?
+        public let type: RestoreRequestType?
 
         public init(days: Int? = nil, description: String? = nil, glacierJobParameters: GlacierJobParameters? = nil, outputLocation: OutputLocation? = nil, selectParameters: SelectParameters? = nil, tier: Tier? = nil, type: RestoreRequestType? = nil) {
             self.days = days
@@ -6943,7 +6943,7 @@ extension S3 {
             self.outputLocation = outputLocation
             self.selectParameters = selectParameters
             self.tier = tier
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -6957,7 +6957,7 @@ extension S3 {
             case outputLocation = "OutputLocation"
             case selectParameters = "SelectParameters"
             case tier = "Tier"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

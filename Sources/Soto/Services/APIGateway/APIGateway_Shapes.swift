@@ -355,7 +355,7 @@ extension APIGateway {
         /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
         public let providerARNs: [String]?
         /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
-        public let `type`: AuthorizerType?
+        public let type: AuthorizerType?
 
         public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, authType: String? = nil, id: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String? = nil, providerARNs: [String]? = nil, type: AuthorizerType? = nil) {
             self.authorizerCredentials = authorizerCredentials
@@ -367,7 +367,7 @@ extension APIGateway {
             self.identityValidationExpression = identityValidationExpression
             self.name = name
             self.providerARNs = providerARNs
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -380,7 +380,7 @@ extension APIGateway {
             case identityValidationExpression
             case name
             case providerARNs
-            case `type`
+            case type
         }
     }
 
@@ -576,7 +576,7 @@ extension APIGateway {
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
-        public let `type`: AuthorizerType
+        public let type: AuthorizerType
 
         public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, authType: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String, providerARNs: [String]? = nil, restApiId: String, type: AuthorizerType) {
             self.authorizerCredentials = authorizerCredentials
@@ -588,7 +588,7 @@ extension APIGateway {
             self.name = name
             self.providerARNs = providerARNs
             self.restApiId = restApiId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -600,7 +600,7 @@ extension APIGateway {
             case identityValidationExpression
             case name
             case providerARNs
-            case `type`
+            case type
         }
     }
 
@@ -1580,14 +1580,14 @@ extension APIGateway {
         /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
         public let statusCode: String?
         /// [Required] The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER, REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD, MODEL, REQUEST_BODY, or RESOURCE type.
-        public let `type`: DocumentationPartType
+        public let type: DocumentationPartType
 
         public init(method: String? = nil, name: String? = nil, path: String? = nil, statusCode: String? = nil, type: DocumentationPartType) {
             self.method = method
             self.name = name
             self.path = path
             self.statusCode = statusCode
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1599,7 +1599,7 @@ extension APIGateway {
             case name
             case path
             case statusCode
-            case `type`
+            case type
         }
     }
 
@@ -2152,7 +2152,7 @@ extension APIGateway {
         /// [Required] The string identifier of the associated RestApi.
         public let restApiId: String
         /// The type of API entities of the to-be-retrieved documentation parts.
-        public let `type`: DocumentationPartType?
+        public let type: DocumentationPartType?
 
         public init(limit: Int? = nil, locationStatus: LocationStatusType? = nil, nameQuery: String? = nil, path: String? = nil, position: String? = nil, restApiId: String, type: DocumentationPartType? = nil) {
             self.limit = limit
@@ -2161,7 +2161,7 @@ extension APIGateway {
             self.path = path
             self.position = position
             self.restApiId = restApiId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2997,7 +2997,7 @@ extension APIGateway {
         /// Specifies the TLS configuration for an integration.
         public let tlsConfig: TlsConfig?
         /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
-        public let `type`: IntegrationType?
+        public let type: IntegrationType?
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
         public let uri: String?
 
@@ -3015,7 +3015,7 @@ extension APIGateway {
             self.requestTemplates = requestTemplates
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -3033,7 +3033,7 @@ extension APIGateway {
             case requestTemplates
             case timeoutInMillis
             case tlsConfig
-            case `type`
+            case type
             case uri
         }
     }
@@ -3388,7 +3388,7 @@ extension APIGateway {
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
         /// [Required] Specifies a put integration input's type.
-        public let `type`: IntegrationType
+        public let type: IntegrationType
         /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.   For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.    For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&amp;{p1}={v1}&amp;p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&amp;Bucket={bucket}&amp;Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
         public let uri: String?
 
@@ -3408,7 +3408,7 @@ extension APIGateway {
             self.restApiId = restApiId
             self.timeoutInMillis = timeoutInMillis
             self.tlsConfig = tlsConfig
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -3425,7 +3425,7 @@ extension APIGateway {
             case requestTemplates
             case timeoutInMillis
             case tlsConfig
-            case `type`
+            case type
             case uri
         }
     }
@@ -4849,21 +4849,21 @@ extension APIGateway {
         /// The name of a usage plan key.
         public let name: String?
         /// The type of a usage plan key. Currently, the valid key type is API_KEY.
-        public let `type`: String?
+        public let type: String?
         /// The value of a usage plan key.
         public let value: String?
 
         public init(id: String? = nil, name: String? = nil, type: String? = nil, value: String? = nil) {
             self.id = id
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
             case name
-            case `type`
+            case type
             case value
         }
     }

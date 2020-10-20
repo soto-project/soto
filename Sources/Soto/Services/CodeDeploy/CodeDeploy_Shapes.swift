@@ -1511,19 +1511,19 @@ extension CodeDeploy {
         /// The tag filter key.
         public let key: String?
         /// The tag filter type:    KEY_ONLY: Key only.    VALUE_ONLY: Value only.    KEY_AND_VALUE: Key and value.
-        public let `type`: EC2TagFilterType?
+        public let type: EC2TagFilterType?
         /// The tag filter value.
         public let value: String?
 
         public init(key: String? = nil, type: EC2TagFilterType? = nil, value: String? = nil) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -2635,17 +2635,17 @@ extension CodeDeploy {
 
     public struct MinimumHealthyHosts: AWSEncodableShape & AWSDecodableShape {
         /// The minimum healthy instance type:    HOST_COUNT: The minimum number of healthy instances as an absolute value.    FLEET_PERCENT: The minimum number of healthy instances as a percentage of the total number of instances in the deployment.   In an example of nine instances, if a HOST_COUNT of six is specified, deploy to up to three instances at a time. The deployment is successful if six or more instances are deployed to successfully. Otherwise, the deployment fails. If a FLEET_PERCENT of 40 is specified, deploy to up to five instances at a time. The deployment is successful if four or more instances are deployed to successfully. Otherwise, the deployment fails.  In a call to the GetDeploymentConfig, CodeDeployDefault.OneAtATime returns a minimum healthy instance type of MOST_CONCURRENCY and a value of 1. This means a deployment to only one instance at a time. (You cannot set the type to MOST_CONCURRENCY, only to HOST_COUNT or FLEET_PERCENT.) In addition, with CodeDeployDefault.OneAtATime, AWS CodeDeploy attempts to ensure that all instances but one are kept in a healthy state during the deployment. Although this allows one instance at a time to be taken offline for a new deployment, it also means that if the deployment to the last instance fails, the overall deployment is still successful.  For more information, see AWS CodeDeploy Instance Health in the AWS CodeDeploy User Guide.
-        public let `type`: MinimumHealthyHostsType?
+        public let type: MinimumHealthyHostsType?
         /// The minimum healthy instance value.
         public let value: Int?
 
         public init(type: MinimumHealthyHostsType? = nil, value: Int? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
             case value
         }
     }
@@ -2942,19 +2942,19 @@ extension CodeDeploy {
         /// The on-premises instance tag filter key.
         public let key: String?
         /// The on-premises instance tag filter type:   KEY_ONLY: Key only.   VALUE_ONLY: Value only.   KEY_AND_VALUE: Key and value.
-        public let `type`: TagFilterType?
+        public let type: TagFilterType?
         /// The on-premises instance tag filter value.
         public let value: String?
 
         public init(key: String? = nil, type: TagFilterType? = nil, value: String? = nil) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3110,18 +3110,18 @@ extension CodeDeploy {
         /// A configuration that shifts traffic from one version of a Lambda function or ECS task set to another in equal increments, with an equal number of minutes between each increment. The original and target Lambda function versions or ECS task sets are specified in the deployment's AppSpec file.
         public let timeBasedLinear: TimeBasedLinear?
         /// The type of traffic shifting (TimeBasedCanary or TimeBasedLinear) used by a deployment configuration.
-        public let `type`: TrafficRoutingType?
+        public let type: TrafficRoutingType?
 
         public init(timeBasedCanary: TimeBasedCanary? = nil, timeBasedLinear: TimeBasedLinear? = nil, type: TrafficRoutingType? = nil) {
             self.timeBasedCanary = timeBasedCanary
             self.timeBasedLinear = timeBasedLinear
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case timeBasedCanary
             case timeBasedLinear
-            case `type`
+            case type
         }
     }
 

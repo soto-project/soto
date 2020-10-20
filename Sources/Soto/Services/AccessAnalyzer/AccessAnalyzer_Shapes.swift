@@ -177,7 +177,7 @@ extension AccessAnalyzer {
         /// The tags added to the analyzer.
         public let tags: [String: String]?
         /// The type of analyzer, which corresponds to the zone of trust chosen for the analyzer.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(arn: String, createdAt: Date, lastResourceAnalyzed: String? = nil, lastResourceAnalyzedAt: Date? = nil, name: String, status: AnalyzerStatus, statusReason: StatusReason? = nil, tags: [String: String]? = nil, type: `Type`) {
             self.arn = arn
@@ -188,7 +188,7 @@ extension AccessAnalyzer {
             self.status = status
             self.statusReason = statusReason
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -200,7 +200,7 @@ extension AccessAnalyzer {
             case status
             case statusReason
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -241,14 +241,14 @@ extension AccessAnalyzer {
         /// The tags to apply to the analyzer.
         public let tags: [String: String]?
         /// The type of analyzer to create. Only ACCOUNT analyzers are supported. You can create only one analyzer per account per Region.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(analyzerName: String, archiveRules: [InlineArchiveRule]? = nil, clientToken: String? = CreateAnalyzerRequest.idempotencyToken(), tags: [String: String]? = nil, type: `Type`) {
             self.analyzerName = analyzerName
             self.archiveRules = archiveRules
             self.clientToken = clientToken
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -265,7 +265,7 @@ extension AccessAnalyzer {
             case archiveRules
             case clientToken
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -485,16 +485,16 @@ extension AccessAnalyzer {
         /// Includes details about how the access that generated the finding is granted. This is populated for Amazon S3 bucket findings.
         public let detail: FindingSourceDetail?
         /// Indicates the type of access that generated the finding.
-        public let `type`: FindingSourceType
+        public let type: FindingSourceType
 
         public init(detail: FindingSourceDetail? = nil, type: FindingSourceType) {
             self.detail = detail
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case detail
-            case `type`
+            case type
         }
     }
 
@@ -810,12 +810,12 @@ extension AccessAnalyzer {
         /// A token used for pagination of results returned.
         public let nextToken: String?
         /// The type of analyzer.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, type: `Type`? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}

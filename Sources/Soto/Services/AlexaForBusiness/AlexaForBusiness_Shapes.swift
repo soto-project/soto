@@ -635,7 +635,7 @@ extension AlexaForBusiness {
         /// The information for PSTN conferencing.
         public let pSTNDialIn: PSTNDialIn?
         /// The type of conference providers.
-        public let `type`: ConferenceProviderType?
+        public let type: ConferenceProviderType?
 
         public init(arn: String? = nil, iPDialIn: IPDialIn? = nil, meetingSetting: MeetingSetting? = nil, name: String? = nil, pSTNDialIn: PSTNDialIn? = nil, type: ConferenceProviderType? = nil) {
             self.arn = arn
@@ -643,7 +643,7 @@ extension AlexaForBusiness {
             self.meetingSetting = meetingSetting
             self.name = name
             self.pSTNDialIn = pSTNDialIn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -652,7 +652,7 @@ extension AlexaForBusiness {
             case meetingSetting = "MeetingSetting"
             case name = "Name"
             case pSTNDialIn = "PSTNDialIn"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1975,19 +1975,19 @@ extension AlexaForBusiness {
         /// The time (in epoch) when the event occurred.
         public let timestamp: Date?
         /// The type of device event.
-        public let `type`: DeviceEventType?
+        public let type: DeviceEventType?
         /// The value of the event.
         public let value: String?
 
         public init(timestamp: Date? = nil, type: DeviceEventType? = nil, value: String? = nil) {
             self.timestamp = timestamp
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case timestamp = "Timestamp"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3375,11 +3375,11 @@ extension AlexaForBusiness {
         /// The raw value of the phone number.
         public let number: String
         /// The type of the phone number.
-        public let `type`: PhoneNumberType
+        public let type: PhoneNumberType
 
         public init(number: String, type: PhoneNumberType) {
             self.number = number
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3390,7 +3390,7 @@ extension AlexaForBusiness {
 
         private enum CodingKeys: String, CodingKey {
             case number = "Number"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4441,12 +4441,12 @@ extension AlexaForBusiness {
 
     public struct SipAddress: AWSEncodableShape & AWSDecodableShape {
         /// The type of the SIP address.
-        public let `type`: SipType
+        public let type: SipType
         /// The URI for the SIP address.
         public let uri: String
 
         public init(type: SipType, uri: String) {
-            self.`type` = `type`
+            self.type = type
             self.uri = uri
         }
 
@@ -4457,7 +4457,7 @@ extension AlexaForBusiness {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case uri = "Uri"
         }
     }

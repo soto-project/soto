@@ -150,7 +150,7 @@ extension Schemas {
         public let registryName: String
         public let schemaName: String
         public let tags: [String: String]?
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(content: String, description: String? = nil, registryName: String, schemaName: String, tags: [String: String]? = nil, type: `Type`) {
             self.content = content
@@ -158,7 +158,7 @@ extension Schemas {
             self.registryName = registryName
             self.schemaName = schemaName
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -172,7 +172,7 @@ extension Schemas {
             case content = "Content"
             case description = "Description"
             case tags
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -184,7 +184,7 @@ extension Schemas {
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
-        public let `type`: String?
+        public let type: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
@@ -195,7 +195,7 @@ extension Schemas {
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.versionCreatedDate = versionCreatedDate
         }
 
@@ -206,7 +206,7 @@ extension Schemas {
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
             case tags
-            case `type` = "Type"
+            case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
     }
@@ -441,7 +441,7 @@ extension Schemas {
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
-        public let `type`: String?
+        public let type: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
@@ -453,7 +453,7 @@ extension Schemas {
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.versionCreatedDate = versionCreatedDate
         }
 
@@ -465,7 +465,7 @@ extension Schemas {
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
             case tags
-            case `type` = "Type"
+            case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
     }
@@ -510,13 +510,13 @@ extension Schemas {
         public let registryName: String
         public let schemaName: String
         public let schemaVersion: String?
-        public let `type`: String
+        public let type: String
 
         public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String) {
             self.registryName = registryName
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}
@@ -527,14 +527,14 @@ extension Schemas {
         public let schemaArn: String?
         public let schemaName: String?
         public let schemaVersion: String?
-        public let `type`: String?
+        public let type: String?
 
         public init(content: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.content = content
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -542,7 +542,7 @@ extension Schemas {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -590,11 +590,11 @@ extension Schemas {
 
     public struct GetDiscoveredSchemaRequest: AWSEncodableShape {
         public let events: [String]
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(events: [String], type: `Type`) {
             self.events = events
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -608,7 +608,7 @@ extension Schemas {
 
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -971,20 +971,20 @@ extension Schemas {
         public let schemaName: String?
         /// The version number of the schema.
         public let schemaVersion: String?
-        public let `type`: String?
+        public let type: String?
 
         public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1019,18 +1019,18 @@ extension Schemas {
         public var createdDate: Date?
         /// The version number of the schema
         public let schemaVersion: String?
-        public let `type`: String?
+        public let type: String?
 
         public init(createdDate: Date? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case schemaVersion = "SchemaVersion"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1270,7 +1270,7 @@ extension Schemas {
         public let description: String?
         public let registryName: String
         public let schemaName: String
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(clientTokenId: String? = UpdateSchemaRequest.idempotencyToken(), content: String? = nil, description: String? = nil, registryName: String, schemaName: String, type: `Type`? = nil) {
             self.clientTokenId = clientTokenId
@@ -1278,7 +1278,7 @@ extension Schemas {
             self.description = description
             self.registryName = registryName
             self.schemaName = schemaName
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1294,7 +1294,7 @@ extension Schemas {
             case clientTokenId = "ClientTokenId"
             case content = "Content"
             case description = "Description"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1306,7 +1306,7 @@ extension Schemas {
         public let schemaName: String?
         public let schemaVersion: String?
         public let tags: [String: String]?
-        public let `type`: String?
+        public let type: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var versionCreatedDate: Date?
 
@@ -1317,7 +1317,7 @@ extension Schemas {
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.versionCreatedDate = versionCreatedDate
         }
 
@@ -1328,7 +1328,7 @@ extension Schemas {
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
             case tags
-            case `type` = "Type"
+            case type = "Type"
             case versionCreatedDate = "VersionCreatedDate"
         }
     }

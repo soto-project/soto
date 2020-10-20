@@ -453,7 +453,7 @@ extension SSM {
 
     public enum ParametersFilterKey: String, CustomStringConvertible, Codable {
         case name = "Name"
-        case `type` = "Type"
+        case type = "Type"
         case keyid = "KeyId"
         public var description: String { return self.rawValue }
     }
@@ -910,13 +910,13 @@ extension SSM {
         /// The key value used in the request.
         public let key: AssociationExecutionFilterKey
         /// The filter type specified in the request.
-        public let `type`: AssociationFilterOperatorType
+        public let type: AssociationFilterOperatorType
         /// The value specified for the key.
         public let value: String
 
         public init(key: AssociationExecutionFilterKey, type: AssociationFilterOperatorType, value: String) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -926,7 +926,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -1899,13 +1899,13 @@ extension SSM {
         /// The name of the filter.
         public let key: String?
         /// The type of comparison that should be performed for the value: Equal, NotEqual, BeginWith, LessThan, or GreaterThan.
-        public let `type`: ComplianceQueryOperatorType?
+        public let type: ComplianceQueryOperatorType?
         /// The value for which to search.
         public let values: [String]?
 
         public init(key: String? = nil, type: ComplianceQueryOperatorType? = nil, values: [String]? = nil) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.values = values
         }
 
@@ -1918,7 +1918,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case values = "Values"
         }
     }
@@ -4968,20 +4968,20 @@ extension SSM {
         /// The name of the parameter.
         public let name: String?
         /// The type of parameter. The type can be either String or StringList.
-        public let `type`: DocumentParameterType?
+        public let type: DocumentParameterType?
 
         public init(defaultValue: String? = nil, description: String? = nil, name: String? = nil, type: DocumentParameterType? = nil) {
             self.defaultValue = defaultValue
             self.description = description
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case defaultValue = "DefaultValue"
             case description = "Description"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -5786,7 +5786,7 @@ extension SSM {
         /// The parameters passed to the task when it was run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.  The map has the following format: Key: string, between 1 and 255 characters Value: an array of strings, each string is between 1 and 255 characters
         public let taskParameters: [[String: MaintenanceWindowTaskParameterValueExpression]]?
         /// The type of task that was run.
-        public let `type`: MaintenanceWindowTaskType?
+        public let type: MaintenanceWindowTaskType?
         /// The ID of the maintenance window execution that includes the task.
         public let windowExecutionId: String?
 
@@ -5802,7 +5802,7 @@ extension SSM {
             self.taskArn = taskArn
             self.taskExecutionId = taskExecutionId
             self.taskParameters = taskParameters
-            self.`type` = `type`
+            self.type = type
             self.windowExecutionId = windowExecutionId
         }
 
@@ -5818,7 +5818,7 @@ extension SSM {
             case taskArn = "TaskArn"
             case taskExecutionId = "TaskExecutionId"
             case taskParameters = "TaskParameters"
-            case `type` = "Type"
+            case type = "Type"
             case windowExecutionId = "WindowExecutionId"
         }
     }
@@ -6807,13 +6807,13 @@ extension SSM {
         /// The key for the filter. Supported values are FailedCount, InstalledCount, InstalledOtherCount, MissingCount and NotApplicableCount.
         public let key: String
         /// The type of comparison that should be performed for the value: Equal, NotEqual, LessThan or GreaterThan.
-        public let `type`: InstancePatchStateOperatorType
+        public let type: InstancePatchStateOperatorType
         /// The value for the filter, must be an integer greater than or equal to 0.
         public let values: [String]
 
         public init(key: String, type: InstancePatchStateOperatorType, values: [String]) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.values = values
         }
 
@@ -6826,7 +6826,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case values = "Values"
         }
     }
@@ -6950,13 +6950,13 @@ extension SSM {
         /// The name of the filter key.
         public let key: String
         /// The type of filter.  The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the AWS Systems Manager User Guide.
-        public let `type`: InventoryQueryOperatorType?
+        public let type: InventoryQueryOperatorType?
         /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal
         public let values: [String]
 
         public init(key: String, type: InventoryQueryOperatorType? = nil, values: [String]) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.values = values
         }
 
@@ -6969,7 +6969,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case values = "Values"
         }
     }
@@ -8270,7 +8270,7 @@ extension SSM {
         /// The parameters that should be passed to the task when it is run.   TaskParameters has been deprecated. To specify parameters to pass to a task when it runs, instead use the Parameters option in the TaskInvocationParameters structure. For information about how Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let taskParameters: [String: MaintenanceWindowTaskParameterValueExpression]?
         /// The type of task. The type can be one of the following: RUN_COMMAND, AUTOMATION, LAMBDA, or STEP_FUNCTIONS.
-        public let `type`: MaintenanceWindowTaskType?
+        public let type: MaintenanceWindowTaskType?
         /// The ID of the maintenance window where the task is registered.
         public let windowId: String?
         /// The task ID.
@@ -8287,7 +8287,7 @@ extension SSM {
             self.targets = targets
             self.taskArn = taskArn
             self.taskParameters = taskParameters
-            self.`type` = `type`
+            self.type = type
             self.windowId = windowId
             self.windowTaskId = windowTaskId
         }
@@ -8303,7 +8303,7 @@ extension SSM {
             case targets = "Targets"
             case taskArn = "TaskArn"
             case taskParameters = "TaskParameters"
-            case `type` = "Type"
+            case type = "Type"
             case windowId = "WindowId"
             case windowTaskId = "WindowTaskId"
         }
@@ -8544,13 +8544,13 @@ extension SSM {
         /// The name of the filter.
         public let key: String
         /// The type of filter.
-        public let `type`: OpsFilterOperatorType?
+        public let type: OpsFilterOperatorType?
         /// The filter value.
         public let values: [String]
 
         public init(key: String, type: OpsFilterOperatorType? = nil, values: [String]) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.values = values
         }
 
@@ -8567,7 +8567,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case values = "Values"
         }
     }
@@ -8647,17 +8647,17 @@ extension SSM {
 
     public struct OpsItemDataValue: AWSEncodableShape & AWSDecodableShape {
         /// The type of key-value pair. Valid types include SearchableString and String.
-        public let `type`: OpsItemDataType?
+        public let type: OpsItemDataType?
         /// The value of the OperationalData key.
         public let value: String?
 
         public init(type: OpsItemDataType? = nil, value: String? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -8803,7 +8803,7 @@ extension SSM {
         /// Applies to parameters that reference information in other AWS services. SourceResult is the raw result or response from the source.
         public let sourceResult: String?
         /// The type of parameter. Valid values include the following: String, StringList, and SecureString.
-        public let `type`: ParameterType?
+        public let type: ParameterType?
         /// The parameter value.
         public let value: String?
         /// The parameter version.
@@ -8816,7 +8816,7 @@ extension SSM {
             self.name = name
             self.selector = selector
             self.sourceResult = sourceResult
-            self.`type` = `type`
+            self.type = type
             self.value = value
             self.version = version
         }
@@ -8828,7 +8828,7 @@ extension SSM {
             case name = "Name"
             case selector = "Selector"
             case sourceResult = "SourceResult"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
             case version = "Version"
         }
@@ -8856,7 +8856,7 @@ extension SSM {
         /// The parameter tier.
         public let tier: ParameterTier?
         /// The type of parameter used.
-        public let `type`: ParameterType?
+        public let type: ParameterType?
         /// The parameter value.
         public let value: String?
         /// The parameter version.
@@ -8873,7 +8873,7 @@ extension SSM {
             self.name = name
             self.policies = policies
             self.tier = tier
-            self.`type` = `type`
+            self.type = type
             self.value = value
             self.version = version
         }
@@ -8889,7 +8889,7 @@ extension SSM {
             case name = "Name"
             case policies = "Policies"
             case tier = "Tier"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
             case version = "Version"
         }
@@ -8936,7 +8936,7 @@ extension SSM {
         /// The parameter tier.
         public let tier: ParameterTier?
         /// The type of parameter. Valid parameter types include the following: String, StringList, and SecureString.
-        public let `type`: ParameterType?
+        public let type: ParameterType?
         /// The parameter version.
         public let version: Int64?
 
@@ -8950,7 +8950,7 @@ extension SSM {
             self.name = name
             self.policies = policies
             self.tier = tier
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -8964,7 +8964,7 @@ extension SSM {
             case name = "Name"
             case policies = "Policies"
             case tier = "Tier"
-            case `type` = "Type"
+            case type = "Type"
             case version = "Version"
         }
     }
@@ -9501,7 +9501,7 @@ extension SSM {
         /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
         /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter.
-        public let `type`: ParameterType?
+        public let type: ParameterType?
         /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value.
         public let value: String
 
@@ -9515,7 +9515,7 @@ extension SSM {
             self.policies = policies
             self.tags = tags
             self.tier = tier
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -9549,7 +9549,7 @@ extension SSM {
             case policies = "Policies"
             case tags = "Tags"
             case tier = "Tier"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -10926,11 +10926,11 @@ extension SSM {
         /// The execution ID of the Automation to stop.
         public let automationExecutionId: String
         /// The stop request type. Valid types include the following: Cancel and Complete. The default type is Cancel.
-        public let `type`: StopType?
+        public let type: StopType?
 
         public init(automationExecutionId: String, type: StopType? = nil) {
             self.automationExecutionId = automationExecutionId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -10940,7 +10940,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case automationExecutionId = "AutomationExecutionId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

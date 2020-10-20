@@ -3889,7 +3889,7 @@ extension Chime {
         /// The phone number status.
         public let status: PhoneNumberStatus?
         /// The phone number type.
-        public let `type`: PhoneNumberType?
+        public let type: PhoneNumberType?
         /// The updated phone number timestamp, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedTimestamp: Date?
@@ -3905,7 +3905,7 @@ extension Chime {
             self.phoneNumberId = phoneNumberId
             self.productType = productType
             self.status = status
-            self.`type` = `type`
+            self.type = type
             self.updatedTimestamp = updatedTimestamp
         }
 
@@ -3920,7 +3920,7 @@ extension Chime {
             case phoneNumberId = "PhoneNumberId"
             case productType = "ProductType"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
             case updatedTimestamp = "UpdatedTimestamp"
         }
     }

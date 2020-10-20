@@ -1539,14 +1539,14 @@ extension AppMesh {
         ///          traffic to *.amazonaws.com for AWS API calls). You can set the egress filter
         ///          type to ALLOW_ALL to allow egress to any endpoint inside or outside of the
         ///          service mesh.
-        public let `type`: EgressFilterType
+        public let type: EgressFilterType
 
         public init(type: EgressFilterType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 

@@ -47,7 +47,6 @@ let swiftReservedWords: Set<String> = [
     "switch",
     "true",
     "try",
-    "type",
     "where",
 ]
 

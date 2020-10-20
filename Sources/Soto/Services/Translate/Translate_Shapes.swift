@@ -121,11 +121,11 @@ extension Translate {
         /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
         public let id: String
         /// The type of encryption key used by Amazon Translate to encrypt custom terminologies.
-        public let `type`: EncryptionKeyType
+        public let type: EncryptionKeyType
 
         public init(id: String, type: EncryptionKeyType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -136,7 +136,7 @@ extension Translate {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

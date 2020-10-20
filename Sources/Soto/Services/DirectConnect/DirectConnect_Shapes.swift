@@ -400,20 +400,20 @@ extension DirectConnect {
         /// The Region where the associated gateway is located.
         public let region: String?
         /// The type of associated gateway.
-        public let `type`: GatewayType?
+        public let type: GatewayType?
 
         public init(id: String? = nil, ownerAccount: String? = nil, region: String? = nil, type: GatewayType? = nil) {
             self.id = id
             self.ownerAccount = ownerAccount
             self.region = region
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id
             case ownerAccount
             case region
-            case `type`
+            case type
         }
     }
 

@@ -1391,14 +1391,14 @@ extension AppStream {
         /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         /// The type of image (public, private, or shared) to describe.
-        public let `type`: VisibilityType?
+        public let type: VisibilityType?
 
         public init(arns: [String]? = nil, maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil, type: VisibilityType? = nil) {
             self.arns = arns
             self.maxResults = maxResults
             self.names = names
             self.nextToken = nextToken
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1418,7 +1418,7 @@ extension AppStream {
             case maxResults = "MaxResults"
             case names = "Names"
             case nextToken = "NextToken"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

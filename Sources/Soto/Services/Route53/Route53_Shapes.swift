@@ -228,17 +228,17 @@ extension Route53 {
 
     public struct AccountLimit: AWSDecodableShape {
         /// The limit that you requested. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
-        public let `type`: AccountLimitType
+        public let type: AccountLimitType
         /// The current value for the limit that is specified by Type.
         public let value: Int64
 
         public init(type: AccountLimitType, value: Int64) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -1299,10 +1299,10 @@ extension Route53 {
         ]
 
         /// The limit that you want to get. Valid values include the following:    MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.    MAX_HOSTED_ZONES_BY_OWNER: The maximum number of hosted zones that you can create using the current account.    MAX_REUSABLE_DELEGATION_SETS_BY_OWNER: The maximum number of reusable delegation sets that you can create using the current account.    MAX_TRAFFIC_POLICIES_BY_OWNER: The maximum number of traffic policies that you can create using the current account.    MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER: The maximum number of traffic policy instances that you can create using the current account. (Traffic policy instances are referred to as traffic flow policy records in the Amazon Route 53 console.)
-        public let `type`: AccountLimitType
+        public let type: AccountLimitType
 
         public init(type: AccountLimitType) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1565,11 +1565,11 @@ extension Route53 {
         /// The ID of the hosted zone that you want to get a limit for.
         public let hostedZoneId: String
         /// The limit that you want to get. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.
-        public let `type`: HostedZoneLimitType
+        public let type: HostedZoneLimitType
 
         public init(hostedZoneId: String, type: HostedZoneLimitType) {
             self.hostedZoneId = hostedZoneId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1681,11 +1681,11 @@ extension Route53 {
         /// The ID of the delegation set that you want to get the limit for.
         public let delegationSetId: String
         /// Specify MAX_ZONES_BY_REUSABLE_DELEGATION_SET to get the maximum number of hosted zones that you can associate with the specified reusable delegation set.
-        public let `type`: ReusableDelegationSetLimitType
+        public let type: ReusableDelegationSetLimitType
 
         public init(delegationSetId: String, type: ReusableDelegationSetLimitType) {
             self.delegationSetId = delegationSetId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1905,7 +1905,7 @@ extension Route53 {
         /// If the value of Type is HTTP_STR_MATCH or HTTPS_STR_MATCH, the string that you want Amazon Route 53 to search for in the response body from the specified resource. If the string appears in the response body, Route 53 considers the resource healthy. Route 53 considers case when searching for SearchString in the response body.
         public let searchString: String?
         /// The type of health check that you want to create, which indicates how Amazon Route 53 determines whether an endpoint is healthy.  You can't change the value of Type after you create a health check.  You can create the following types of health checks:    HTTP: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and waits for an HTTP status code of 200 or greater and less than 400.    HTTPS: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and waits for an HTTP status code of 200 or greater and less than 400.  If you specify HTTPS for the value of Type, the endpoint must support TLS v1.0 or later.     HTTP_STR_MATCH: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTP request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    HTTPS_STR_MATCH: Route 53 tries to establish a TCP connection. If successful, Route 53 submits an HTTPS request and searches the first 5,120 bytes of the response body for the string that you specify in SearchString.    TCP: Route 53 tries to establish a TCP connection.    CLOUDWATCH_METRIC: The health check is associated with a CloudWatch alarm. If the state of the alarm is OK, the health check is considered healthy. If the state is ALARM, the health check is considered unhealthy. If CloudWatch doesn't have sufficient data to determine whether the state is OK or ALARM, the health check status depends on the setting for InsufficientDataHealthStatus: Healthy, Unhealthy, or LastKnownStatus.     CALCULATED: For health checks that monitor the status of other health checks, Route 53 adds up the number of health checks that Route 53 health checkers consider to be healthy and compares that number with the value of HealthThreshold.    For more information, see How Route 53 Determines Whether an Endpoint Is Healthy in the Amazon Route 53 Developer Guide.
-        public let `type`: HealthCheckType
+        public let type: HealthCheckType
 
         public init(alarmIdentifier: AlarmIdentifier? = nil, childHealthChecks: [String]? = nil, disabled: Bool? = nil, enableSNI: Bool? = nil, failureThreshold: Int? = nil, fullyQualifiedDomainName: String? = nil, healthThreshold: Int? = nil, insufficientDataHealthStatus: InsufficientDataHealthStatus? = nil, inverted: Bool? = nil, iPAddress: String? = nil, measureLatency: Bool? = nil, port: Int? = nil, regions: [HealthCheckRegion]? = nil, requestInterval: Int? = nil, resourcePath: String? = nil, searchString: String? = nil, type: HealthCheckType) {
             self.alarmIdentifier = alarmIdentifier
@@ -1924,7 +1924,7 @@ extension Route53 {
             self.requestInterval = requestInterval
             self.resourcePath = resourcePath
             self.searchString = searchString
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1967,7 +1967,7 @@ extension Route53 {
             case requestInterval = "RequestInterval"
             case resourcePath = "ResourcePath"
             case searchString = "SearchString"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2048,17 +2048,17 @@ extension Route53 {
 
     public struct HostedZoneLimit: AWSDecodableShape {
         /// The limit that you requested. Valid values include the following:    MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.    MAX_VPCS_ASSOCIATED_BY_ZONE: The maximum number of Amazon VPCs that you can associate with the specified private hosted zone.
-        public let `type`: HostedZoneLimitType
+        public let type: HostedZoneLimitType
         /// The current value for the limit that is specified by Type.
         public let value: Int64
 
         public init(type: HostedZoneLimitType, value: Int64) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3127,7 +3127,7 @@ extension Route53 {
         /// The resource record cache time to live (TTL), in seconds. Note the following:   If you're creating or updating an alias resource record set, omit TTL. Amazon Route 53 uses the value of TTL for the alias target.    If you're associating this resource record set with a health check (if you're adding a HealthCheckId element), we recommend that you specify a TTL of 60 seconds or less so clients respond quickly to changes in health status.   All of the resource record sets in a group of weighted resource record sets must have the same value for TTL.   If a group of weighted resource record sets includes one or more weighted alias resource record sets for which the alias target is an ELB load balancer, we recommend that you specify a TTL of 60 seconds for all of the non-alias weighted resource record sets that have the same name and type. Values other than 60 seconds (the TTL for load balancers) will change the effect of the values that you specify for Weight.
         public let ttl: Int64?
         /// The DNS record type. For information about different record types and how data is encoded for them, see Supported DNS Resource Record Types in the Amazon Route 53 Developer Guide. Valid values for basic resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | NS | PTR | SOA | SPF | SRV | TXT  Values for weighted, latency, geolocation, and failover resource record sets: A | AAAA | CAA | CNAME | MX | NAPTR | PTR | SPF | SRV | TXT. When creating a group of weighted, latency, geolocation, or failover resource record sets, specify the same value for all of the resource record sets in the group. Valid values for multivalue answer resource record sets: A | AAAA | MX | NAPTR | PTR | SPF | SRV | TXT   SPF records were formerly used to verify the identity of the sender of email messages. However, we no longer recommend that you create resource record sets for which the value of Type is SPF. RFC 7208, Sender Policy Framework (SPF) for Authorizing Use of Domains in Email, Version 1, has been updated to say, "...[I]ts existence and mechanism defined in [RFC4408] have led to some interoperability issues. Accordingly, its use is no longer appropriate for SPF version 1; implementations are not to use it." In RFC 7208, see section 14.1, The SPF DNS Record Type.  Values for alias resource record sets:    Amazon API Gateway custom regional APIs and edge-optimized APIs: A     CloudFront distributions: A  If IPv6 is enabled for the distribution, create two resource record sets to route traffic to your distribution, one with a value of A and one with a value of AAAA.     Amazon API Gateway environment that has a regionalized subdomain: A     ELB load balancers: A | AAAA     Amazon S3 buckets: A     Amazon Virtual Private Cloud interface VPC endpoints A     Another resource record set in this hosted zone: Specify the type of the resource record set that you're creating the alias for. All values are supported except NS and SOA.  If you're creating an alias record that has the same name as the hosted zone (known as the zone apex), you can't route traffic to a record for which the value of Type is CNAME. This is because the alias record must have the same type as the record you're routing traffic to, and creating a CNAME record for the zone apex isn't supported even for an alias record.
-        public let `type`: RRType
+        public let type: RRType
         ///  Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource's weight to the total. Note the following:   You must specify a value for the Weight element for every weighted resource record set.   You can only specify one ResourceRecord per weighted resource record set.   You can't create latency, failover, or geolocation resource record sets that have the same values for the Name and Type elements as weighted resource record sets.   You can create a maximum of 100 weighted resource record sets that have the same values for the Name and Type elements.   For weighted (but not weighted alias) resource record sets, if you set Weight to 0 for a resource record set, Route 53 never responds to queries with the applicable value for that resource record set. However, if you set Weight to 0 for all resource record sets that have the same combination of DNS name and type, traffic is routed to all resources with equal probability. The effect of setting Weight to 0 is different when you associate health checks with weighted resource record sets. For more information, see Options for Configuring Route 53 Active-Active and Active-Passive Failover in the Amazon Route 53 Developer Guide.
         public let weight: Int64?
 
@@ -3143,7 +3143,7 @@ extension Route53 {
             self.setIdentifier = setIdentifier
             self.trafficPolicyInstanceId = trafficPolicyInstanceId
             self.ttl = ttl
-            self.`type` = `type`
+            self.type = type
             self.weight = weight
         }
 
@@ -3178,7 +3178,7 @@ extension Route53 {
             case setIdentifier = "SetIdentifier"
             case trafficPolicyInstanceId = "TrafficPolicyInstanceId"
             case ttl = "TTL"
-            case `type` = "Type"
+            case type = "Type"
             case weight = "Weight"
         }
     }
@@ -3209,17 +3209,17 @@ extension Route53 {
 
     public struct ReusableDelegationSetLimit: AWSDecodableShape {
         /// The limit that you requested: MAX_ZONES_BY_REUSABLE_DELEGATION_SET, the maximum number of hosted zones that you can associate with the specified reusable delegation set.
-        public let `type`: ReusableDelegationSetLimitType
+        public let type: ReusableDelegationSetLimitType
         /// The current value for the MAX_ZONES_BY_REUSABLE_DELEGATION_SET limit.
         public let value: Int64
 
         public init(type: ReusableDelegationSetLimitType, value: Int64) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -3355,7 +3355,7 @@ extension Route53 {
         /// The name that you specified when you created the traffic policy.
         public let name: String
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
-        public let `type`: RRType
+        public let type: RRType
         /// The version number that Amazon Route 53 assigns to a traffic policy. For a new traffic policy, the value of Version is always 1.
         public let version: Int
 
@@ -3364,7 +3364,7 @@ extension Route53 {
             self.document = document
             self.id = id
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -3373,7 +3373,7 @@ extension Route53 {
             case document = "Document"
             case id = "Id"
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
             case version = "Version"
         }
     }
@@ -3433,14 +3433,14 @@ extension Route53 {
         /// The number of traffic policies that are associated with the current AWS account.
         public let trafficPolicyCount: Int
         /// The DNS type of the resource record sets that Amazon Route 53 creates when you use a traffic policy to create a traffic policy instance.
-        public let `type`: RRType
+        public let type: RRType
 
         public init(id: String, latestVersion: Int, name: String, trafficPolicyCount: Int, type: RRType) {
             self.id = id
             self.latestVersion = latestVersion
             self.name = name
             self.trafficPolicyCount = trafficPolicyCount
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3448,7 +3448,7 @@ extension Route53 {
             case latestVersion = "LatestVersion"
             case name = "Name"
             case trafficPolicyCount = "TrafficPolicyCount"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

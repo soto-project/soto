@@ -1388,14 +1388,14 @@ extension ECR {
 
     public struct LifecyclePolicyRuleAction: AWSDecodableShape {
         /// The type of action to be taken.
-        public let `type`: ImageActionType?
+        public let type: ImageActionType?
 
         public init(type: ImageActionType? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 

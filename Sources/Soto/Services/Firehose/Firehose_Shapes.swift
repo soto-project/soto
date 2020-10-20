@@ -1113,16 +1113,16 @@ extension Firehose {
         /// A message providing details about the error that caused the failure.
         public let details: String
         /// The type of error that caused the failure.
-        public let `type`: DeliveryStreamFailureType
+        public let type: DeliveryStreamFailureType
 
         public init(details: String, type: DeliveryStreamFailureType) {
             self.details = details
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1801,11 +1801,11 @@ extension Firehose {
         /// The processor parameters.
         public let parameters: [ProcessorParameter]?
         /// The type of processor.
-        public let `type`: ProcessorType
+        public let type: ProcessorType
 
         public init(parameters: [ProcessorParameter]? = nil, type: ProcessorType) {
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1816,7 +1816,7 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

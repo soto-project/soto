@@ -472,16 +472,16 @@ extension QuickSight {
         /// The message associated with the analysis error.
         public let message: String?
         /// The type of the analysis error.
-        public let `type`: AnalysisErrorType?
+        public let type: AnalysisErrorType?
 
         public init(message: String? = nil, type: AnalysisErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1350,7 +1350,7 @@ extension QuickSight {
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the data source.
         public let tags: [Tag]?
         /// The type of the data source. Currently, the supported types for this operation are: ATHENA, AURORA, AURORA_POSTGRESQL, MARIADB, MYSQL, POSTGRESQL, PRESTO, REDSHIFT, S3, SNOWFLAKE, SPARK, SQLSERVER, TERADATA. Use ListDataSources to return a list of all data sources.
-        public let `type`: DataSourceType
+        public let type: DataSourceType
         /// Use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
@@ -1363,7 +1363,7 @@ extension QuickSight {
             self.permissions = permissions
             self.sslProperties = sslProperties
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.vpcConnectionProperties = vpcConnectionProperties
         }
 
@@ -1395,7 +1395,7 @@ extension QuickSight {
             case permissions = "Permissions"
             case sslProperties = "SslProperties"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
             case vpcConnectionProperties = "VpcConnectionProperties"
         }
     }
@@ -2250,16 +2250,16 @@ extension QuickSight {
         /// Message.
         public let message: String?
         /// Type.
-        public let `type`: DashboardErrorType?
+        public let type: DashboardErrorType?
 
         public init(message: String? = nil, type: DashboardErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2669,7 +2669,7 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: ResourceStatus?
         /// The type of the data source. This type indicates which database engine the data source connects to.
-        public let `type`: DataSourceType?
+        public let type: DataSourceType?
         /// The VPC connection information. You need to use this parameter only when you want QuickSight to use a VPC connection when connecting to your underlying source.
         public let vpcConnectionProperties: VpcConnectionProperties?
 
@@ -2684,7 +2684,7 @@ extension QuickSight {
             self.name = name
             self.sslProperties = sslProperties
             self.status = status
-            self.`type` = `type`
+            self.type = type
             self.vpcConnectionProperties = vpcConnectionProperties
         }
 
@@ -2699,7 +2699,7 @@ extension QuickSight {
             case name = "Name"
             case sslProperties = "SslProperties"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
             case vpcConnectionProperties = "VpcConnectionProperties"
         }
     }
@@ -2730,16 +2730,16 @@ extension QuickSight {
         /// Error message.
         public let message: String?
         /// Error type.
-        public let `type`: DataSourceErrorInfoType?
+        public let type: DataSourceErrorInfoType?
 
         public init(message: String? = nil, type: DataSourceErrorInfoType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4995,16 +4995,16 @@ extension QuickSight {
         /// Error message.
         public let message: String?
         /// Error type.
-        public let `type`: IngestionErrorType?
+        public let type: IngestionErrorType?
 
         public init(message: String? = nil, type: IngestionErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -5368,11 +5368,11 @@ extension QuickSight {
         /// The name of this column in the underlying data source.
         public let name: String
         /// The data type of the column.
-        public let `type`: InputColumnDataType
+        public let type: InputColumnDataType
 
         public init(name: String, type: InputColumnDataType) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -5382,7 +5382,7 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -5433,13 +5433,13 @@ extension QuickSight {
         /// Right operand.
         public let rightOperand: String
         /// Type.
-        public let `type`: JoinType
+        public let type: JoinType
 
         public init(leftOperand: String, onClause: String, rightOperand: String, type: JoinType) {
             self.leftOperand = leftOperand
             self.onClause = onClause
             self.rightOperand = rightOperand
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -5457,7 +5457,7 @@ extension QuickSight {
             case leftOperand = "LeftOperand"
             case onClause = "OnClause"
             case rightOperand = "RightOperand"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -6556,13 +6556,13 @@ extension QuickSight {
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The type of themes that you want to list. Valid options include the following:    ALL (default)- Display all existing themes.    CUSTOM - Display only the themes created by people using Amazon QuickSight.    QUICKSIGHT - Display only the starting themes defined by QuickSight.
-        public let `type`: ThemeType?
+        public let type: ThemeType?
 
         public init(awsAccountId: String, maxResults: Int? = nil, nextToken: String? = nil, type: ThemeType? = nil) {
             self.awsAccountId = awsAccountId
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -6900,16 +6900,16 @@ extension QuickSight {
         /// The message for the error.
         public let message: String?
         /// The error type.
-        public let `type`: NamespaceErrorType?
+        public let type: NamespaceErrorType?
 
         public init(message: String? = nil, type: NamespaceErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -6950,16 +6950,16 @@ extension QuickSight {
         /// A display name for the dataset.
         public let name: String?
         /// Type.
-        public let `type`: ColumnDataType?
+        public let type: ColumnDataType?
 
         public init(name: String? = nil, type: ColumnDataType? = nil) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -7981,16 +7981,16 @@ extension QuickSight {
         /// Description of the error type.
         public let message: String?
         /// Type of error.
-        public let `type`: TemplateErrorType?
+        public let type: TemplateErrorType?
 
         public init(message: String? = nil, type: TemplateErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -8201,7 +8201,7 @@ extension QuickSight {
         /// The identifier that the user gives to the theme.
         public let themeId: String?
         /// The type of theme, based on how it was created. Valid values include: QUICKSIGHT and CUSTOM.
-        public let `type`: ThemeType?
+        public let type: ThemeType?
         public let version: ThemeVersion?
 
         public init(arn: String? = nil, createdTime: Date? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, themeId: String? = nil, type: ThemeType? = nil, version: ThemeVersion? = nil) {
@@ -8210,7 +8210,7 @@ extension QuickSight {
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
             self.themeId = themeId
-            self.`type` = `type`
+            self.type = type
             self.version = version
         }
 
@@ -8220,7 +8220,7 @@ extension QuickSight {
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
             case themeId = "ThemeId"
-            case `type` = "Type"
+            case type = "Type"
             case version = "Version"
         }
     }
@@ -8276,16 +8276,16 @@ extension QuickSight {
         /// The error message.
         public let message: String?
         /// The type of error.
-        public let `type`: ThemeErrorType?
+        public let type: ThemeErrorType?
 
         public init(message: String? = nil, type: ThemeErrorType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

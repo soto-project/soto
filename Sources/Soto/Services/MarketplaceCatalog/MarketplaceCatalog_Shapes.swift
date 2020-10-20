@@ -305,25 +305,25 @@ extension MarketplaceCatalog {
         /// The identifier for the entity.
         public let identifier: String?
         /// The type of entity.
-        public let `type`: String
+        public let type: String
 
         public init(identifier: String? = nil, type: String) {
             self.identifier = identifier
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.identifier, name: "identifier", parent: name, max: 255)
             try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^[\\w\\-@]+$")
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 255)
-            try self.validate(self.`type`, name: "`type`", parent: name, min: 1)
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: "^[a-zA-Z]+$")
+            try self.validate(self.type, name: "type", parent: name, max: 255)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[a-zA-Z]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case identifier = "Identifier"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

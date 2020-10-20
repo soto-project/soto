@@ -79,21 +79,21 @@ extension ConnectParticipant {
         /// Participant Token as obtained from StartChatContact API response.
         public let participantToken: String
         /// Type of connection information required.
-        public let `type`: [ConnectionType]
+        public let type: [ConnectionType]
 
         public init(participantToken: String, type: [ConnectionType]) {
             self.participantToken = participantToken
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.participantToken, name: "participantToken", parent: name, max: 1000)
             try self.validate(self.participantToken, name: "participantToken", parent: name, min: 1)
-            try self.validate(self.`type`, name: "`type`", parent: name, min: 1)
+            try self.validate(self.type, name: "type", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -233,7 +233,7 @@ extension ConnectParticipant {
         /// The role of the sender. For example, is it a customer, agent, or system.
         public let participantRole: ParticipantRole?
         /// Type of the item: message or event.
-        public let `type`: ChatItemType?
+        public let type: ChatItemType?
 
         public init(absoluteTime: String? = nil, content: String? = nil, contentType: String? = nil, displayName: String? = nil, id: String? = nil, participantId: String? = nil, participantRole: ParticipantRole? = nil, type: ChatItemType? = nil) {
             self.absoluteTime = absoluteTime
@@ -243,7 +243,7 @@ extension ConnectParticipant {
             self.id = id
             self.participantId = participantId
             self.participantRole = participantRole
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -254,7 +254,7 @@ extension ConnectParticipant {
             case id = "Id"
             case participantId = "ParticipantId"
             case participantRole = "ParticipantRole"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

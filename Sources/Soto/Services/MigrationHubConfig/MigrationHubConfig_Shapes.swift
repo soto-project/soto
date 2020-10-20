@@ -175,11 +175,11 @@ extension MigrationHubConfig {
         /// The TargetID is a 12-character identifier of the ACCOUNT for which the control was created. (This must be the current account.)
         public let id: String?
         /// The target type is always an ACCOUNT.
-        public let `type`: TargetType
+        public let type: TargetType
 
         public init(id: String? = nil, type: TargetType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -190,7 +190,7 @@ extension MigrationHubConfig {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 }

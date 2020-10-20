@@ -2123,24 +2123,24 @@ extension Personalize {
         /// A regular expression for finding the metric in the training job logs.
         public let metricRegex: String?
         /// The type of the metric. Valid values are Maximize and Minimize.
-        public let `type`: String?
+        public let type: String?
 
         public init(metricName: String? = nil, metricRegex: String? = nil, type: String? = nil) {
             self.metricName = metricName
             self.metricRegex = metricRegex
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.metricName, name: "metricName", parent: name, max: 256)
             try self.validate(self.metricRegex, name: "metricRegex", parent: name, max: 256)
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricName
             case metricRegex
-            case `type`
+            case type
         }
     }
 

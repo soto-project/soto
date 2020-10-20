@@ -234,7 +234,7 @@ extension ACM {
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
         public let subjectAlternativeNames: [String]?
         /// The source of the certificate. For certificates provided by ACM, this value is AMAZON_ISSUED. For certificates that you imported with ImportCertificate, this value is IMPORTED. ACM does not provide managed renewal for imported certificates. For more information about the differences between certificates that you import and those that ACM provides, see Importing Certificates in the AWS Certificate Manager User Guide.
-        public let `type`: CertificateType?
+        public let type: CertificateType?
 
         public init(certificateArn: String? = nil, certificateAuthorityArn: String? = nil, createdAt: Date? = nil, domainName: String? = nil, domainValidationOptions: [DomainValidation]? = nil, extendedKeyUsages: [ExtendedKeyUsage]? = nil, failureReason: FailureReason? = nil, importedAt: Date? = nil, inUseBy: [String]? = nil, issuedAt: Date? = nil, issuer: String? = nil, keyAlgorithm: KeyAlgorithm? = nil, keyUsages: [KeyUsage]? = nil, notAfter: Date? = nil, notBefore: Date? = nil, options: CertificateOptions? = nil, renewalEligibility: RenewalEligibility? = nil, renewalSummary: RenewalSummary? = nil, revocationReason: RevocationReason? = nil, revokedAt: Date? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: CertificateStatus? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: CertificateType? = nil) {
             self.certificateArn = certificateArn
@@ -262,7 +262,7 @@ extension ACM {
             self.status = status
             self.subject = subject
             self.subjectAlternativeNames = subjectAlternativeNames
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -291,7 +291,7 @@ extension ACM {
             case status = "Status"
             case subject = "Subject"
             case subjectAlternativeNames = "SubjectAlternativeNames"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -901,19 +901,19 @@ extension ACM {
         /// The name of the DNS record to create in your domain. This is supplied by ACM.
         public let name: String
         /// The type of DNS record. Currently this can be CNAME.
-        public let `type`: RecordType
+        public let type: RecordType
         /// The value of the CNAME record to add to your DNS database. This is supplied by ACM.
         public let value: String
 
         public init(name: String, type: RecordType, value: String) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }

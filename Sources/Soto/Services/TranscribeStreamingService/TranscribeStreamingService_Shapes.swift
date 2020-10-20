@@ -139,7 +139,7 @@ extension TranscribeStreamingService {
         /// The offset from the beginning of the audio stream to the beginning of the audio that resulted in the item.
         public let startTime: Double?
         /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
-        public let `type`: ItemType?
+        public let type: ItemType?
         /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
         public let vocabularyFilterMatch: Bool?
 
@@ -148,7 +148,7 @@ extension TranscribeStreamingService {
             self.endTime = endTime
             self.speaker = speaker
             self.startTime = startTime
-            self.`type` = `type`
+            self.type = type
             self.vocabularyFilterMatch = vocabularyFilterMatch
         }
 
@@ -157,7 +157,7 @@ extension TranscribeStreamingService {
             case endTime = "EndTime"
             case speaker = "Speaker"
             case startTime = "StartTime"
-            case `type` = "Type"
+            case type = "Type"
             case vocabularyFilterMatch = "VocabularyFilterMatch"
         }
     }

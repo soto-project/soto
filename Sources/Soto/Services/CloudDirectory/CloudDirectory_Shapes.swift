@@ -1430,16 +1430,16 @@ extension CloudDirectory {
         /// An exception message that is associated with the failure.
         public let message: String?
         /// A type of exception, such as InvalidArnException.
-        public let `type`: BatchReadExceptionType?
+        public let type: BatchReadExceptionType?
 
         public init(message: String? = nil, type: BatchReadExceptionType? = nil) {
             self.message = message
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2606,13 +2606,13 @@ extension CloudDirectory {
         /// Validation rules attached to the attribute definition.
         public let rules: [String: Rule]?
         /// The type of the attribute.
-        public let `type`: FacetAttributeType
+        public let type: FacetAttributeType
 
         public init(defaultValue: TypedAttributeValue? = nil, isImmutable: Bool? = nil, rules: [String: Rule]? = nil, type: FacetAttributeType) {
             self.defaultValue = defaultValue
             self.isImmutable = isImmutable
             self.rules = rules
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2627,7 +2627,7 @@ extension CloudDirectory {
             case defaultValue = "DefaultValue"
             case isImmutable = "IsImmutable"
             case rules = "Rules"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4369,16 +4369,16 @@ extension CloudDirectory {
         /// The minimum and maximum parameters that are associated with the rule.
         public let parameters: [String: String]?
         /// The type of attribute validation rule.
-        public let `type`: RuleType?
+        public let type: RuleType?
 
         public init(parameters: [String: String]? = nil, type: RuleType? = nil) {
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4509,7 +4509,7 @@ extension CloudDirectory {
         /// Validation rules that are attached to the attribute definition.
         public let rules: [String: Rule]?
         /// The type of the attribute.
-        public let `type`: FacetAttributeType
+        public let type: FacetAttributeType
 
         public init(defaultValue: TypedAttributeValue? = nil, isImmutable: Bool? = nil, name: String, requiredBehavior: RequiredAttributeBehavior, rules: [String: Rule]? = nil, type: FacetAttributeType) {
             self.defaultValue = defaultValue
@@ -4517,7 +4517,7 @@ extension CloudDirectory {
             self.name = name
             self.requiredBehavior = requiredBehavior
             self.rules = rules
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -4537,7 +4537,7 @@ extension CloudDirectory {
             case name = "Name"
             case requiredBehavior = "RequiredBehavior"
             case rules = "Rules"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

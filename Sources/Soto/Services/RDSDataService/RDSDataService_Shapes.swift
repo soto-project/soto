@@ -205,7 +205,7 @@ extension RDSDataService {
         /// The name of the table that includes the column.
         public let tableName: String?
         /// The type of the column.
-        public let `type`: Int?
+        public let type: Int?
         /// The database-specific data type of the column.
         public let typeName: String?
 
@@ -222,7 +222,7 @@ extension RDSDataService {
             self.scale = scale
             self.schemaName = schemaName
             self.tableName = tableName
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
         }
 
@@ -239,7 +239,7 @@ extension RDSDataService {
             case scale
             case schemaName
             case tableName
-            case `type`
+            case type
             case typeName
         }
     }

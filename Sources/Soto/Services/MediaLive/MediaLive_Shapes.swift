@@ -2856,7 +2856,7 @@ extension MediaLive {
         public let roleArn: String?
         public let sources: [InputSourceRequest]?
         public let tags: [String: String]?
-        public let `type`: InputType?
+        public let type: InputType?
         public let vpc: InputVpcRequest?
 
         public init(destinations: [InputDestinationRequest]? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSecurityGroups: [String]? = nil, mediaConnectFlows: [MediaConnectFlowRequest]? = nil, name: String? = nil, requestId: String? = CreateInputRequest.idempotencyToken(), roleArn: String? = nil, sources: [InputSourceRequest]? = nil, tags: [String: String]? = nil, type: InputType? = nil, vpc: InputVpcRequest? = nil) {
@@ -2869,7 +2869,7 @@ extension MediaLive {
             self.roleArn = roleArn
             self.sources = sources
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.vpc = vpc
         }
 
@@ -2883,7 +2883,7 @@ extension MediaLive {
             case roleArn
             case sources
             case tags
-            case `type`
+            case type
             case vpc
         }
     }
@@ -3424,7 +3424,7 @@ extension MediaLive {
         public let name: String?
         public let networkSettings: InputDeviceNetworkSettings?
         public let serialNumber: String?
-        public let `type`: InputDeviceType?
+        public let type: InputDeviceType?
 
         public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
@@ -3436,7 +3436,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3449,7 +3449,7 @@ extension MediaLive {
             case name
             case networkSettings
             case serialNumber
-            case `type`
+            case type
         }
     }
 
@@ -3533,7 +3533,7 @@ extension MediaLive {
         public let sources: [InputSource]?
         public let state: InputState?
         public let tags: [String: String]?
-        public let `type`: InputType?
+        public let type: InputType?
 
         public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
@@ -3550,7 +3550,7 @@ extension MediaLive {
             self.sources = sources
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3568,7 +3568,7 @@ extension MediaLive {
             case sources
             case state
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -5492,7 +5492,7 @@ extension MediaLive {
         public let state: InputState?
         /// A collection of key-value pairs.
         public let tags: [String: String]?
-        public let `type`: InputType?
+        public let type: InputType?
 
         public init(arn: String? = nil, attachedChannels: [String]? = nil, destinations: [InputDestination]? = nil, id: String? = nil, inputClass: InputClass? = nil, inputDevices: [InputDeviceSettings]? = nil, inputSourceType: InputSourceType? = nil, mediaConnectFlows: [MediaConnectFlow]? = nil, name: String? = nil, roleArn: String? = nil, securityGroups: [String]? = nil, sources: [InputSource]? = nil, state: InputState? = nil, tags: [String: String]? = nil, type: InputType? = nil) {
             self.arn = arn
@@ -5509,7 +5509,7 @@ extension MediaLive {
             self.sources = sources
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5527,7 +5527,7 @@ extension MediaLive {
             case sources
             case state
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -5795,7 +5795,7 @@ extension MediaLive {
         /// The unique serial number of the input device.
         public let serialNumber: String?
         /// The type of the input device.
-        public let `type`: InputDeviceType?
+        public let type: InputDeviceType?
 
         public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
@@ -5807,7 +5807,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5820,7 +5820,7 @@ extension MediaLive {
             case name
             case networkSettings
             case serialNumber
-            case `type`
+            case type
         }
     }
 
@@ -9158,7 +9158,7 @@ extension MediaLive {
         public let name: String?
         public let networkSettings: InputDeviceNetworkSettings?
         public let serialNumber: String?
-        public let `type`: InputDeviceType?
+        public let type: InputDeviceType?
 
         public init(arn: String? = nil, connectionState: InputDeviceConnectionState? = nil, deviceSettingsSyncState: DeviceSettingsSyncState? = nil, hdDeviceSettings: InputDeviceHdSettings? = nil, id: String? = nil, macAddress: String? = nil, name: String? = nil, networkSettings: InputDeviceNetworkSettings? = nil, serialNumber: String? = nil, type: InputDeviceType? = nil) {
             self.arn = arn
@@ -9170,7 +9170,7 @@ extension MediaLive {
             self.name = name
             self.networkSettings = networkSettings
             self.serialNumber = serialNumber
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9183,7 +9183,7 @@ extension MediaLive {
             case name
             case networkSettings
             case serialNumber
-            case `type`
+            case type
         }
     }
 

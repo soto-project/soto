@@ -4241,20 +4241,20 @@ extension EC2 {
         /// Information about the authentication certificates, if applicable.
         public let mutualAuthentication: CertificateAuthentication?
         /// The authentication type used.
-        public let `type`: ClientVpnAuthenticationType?
+        public let type: ClientVpnAuthenticationType?
 
         public init(activeDirectory: DirectoryServiceAuthentication? = nil, federatedAuthentication: FederatedAuthentication? = nil, mutualAuthentication: CertificateAuthentication? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
             self.mutualAuthentication = mutualAuthentication
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectory
             case federatedAuthentication
             case mutualAuthentication
-            case `type`
+            case type
         }
     }
 
@@ -4266,20 +4266,20 @@ extension EC2 {
         /// Information about the authentication certificates to be used, if applicable. You must provide this information if Type is certificate-authentication.
         public let mutualAuthentication: CertificateAuthenticationRequest?
         /// The type of client authentication to be used.
-        public let `type`: ClientVpnAuthenticationType?
+        public let type: ClientVpnAuthenticationType?
 
         public init(activeDirectory: DirectoryServiceAuthenticationRequest? = nil, federatedAuthentication: FederatedAuthenticationRequest? = nil, mutualAuthentication: CertificateAuthenticationRequest? = nil, type: ClientVpnAuthenticationType? = nil) {
             self.activeDirectory = activeDirectory
             self.federatedAuthentication = federatedAuthentication
             self.mutualAuthentication = mutualAuthentication
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case activeDirectory = "ActiveDirectory"
             case federatedAuthentication = "FederatedAuthentication"
             case mutualAuthentication = "MutualAuthentication"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -4499,7 +4499,7 @@ extension EC2 {
         /// The ID of the subnet through which traffic is routed.
         public let targetSubnet: String?
         /// The route type.
-        public let `type`: String?
+        public let type: String?
 
         public init(clientVpnEndpointId: String? = nil, description: String? = nil, destinationCidr: String? = nil, origin: String? = nil, status: ClientVpnRouteStatus? = nil, targetSubnet: String? = nil, type: String? = nil) {
             self.clientVpnEndpointId = clientVpnEndpointId
@@ -4508,7 +4508,7 @@ extension EC2 {
             self.origin = origin
             self.status = status
             self.targetSubnet = targetSubnet
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4518,7 +4518,7 @@ extension EC2 {
             case origin
             case status
             case targetSubnet
-            case `type`
+            case type
         }
     }
 
@@ -5239,7 +5239,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The type of VPN connection that this customer gateway supports (ipsec.1).
-        public let `type`: GatewayType
+        public let type: GatewayType
 
         public init(bgpAsn: Int, certificateArn: String? = nil, deviceName: String? = nil, dryRun: Bool? = nil, publicIp: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
             self.bgpAsn = bgpAsn
@@ -5248,7 +5248,7 @@ extension EC2 {
             self.dryRun = dryRun
             self.publicIp = publicIp
             self.tagSpecifications = tagSpecifications
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5258,7 +5258,7 @@ extension EC2 {
             case dryRun
             case publicIp = "IpAddress"
             case tagSpecifications = "TagSpecification"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -5499,7 +5499,7 @@ extension EC2 {
         /// Indicates whether running instances should be terminated when the EC2 Fleet expires.
         public let terminateInstancesWithExpiration: Bool?
         /// The type of the request. By default, the EC2 Fleet places an asynchronous request for your desired capacity, and maintains it by replenishing interrupted Spot Instances (maintain). A value of instant places a synchronous one-time request, and returns errors for any instances that could not be launched. A value of request places an asynchronous one-time request without maintaining capacity or submitting requests in alternative capacity pools if capacity is unavailable. For more information, see EC2 Fleet Request Types in the Amazon Elastic Compute Cloud User Guide.
-        public let `type`: FleetType?
+        public let type: FleetType?
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
         public let validFrom: Date?
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new EC2 Fleet requests are placed or able to fulfill the request. If no value is specified, the request remains until you cancel it.
@@ -5516,7 +5516,7 @@ extension EC2 {
             self.tagSpecifications = tagSpecifications
             self.targetCapacitySpecification = targetCapacitySpecification
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
-            self.`type` = `type`
+            self.type = type
             self.validFrom = validFrom
             self.validUntil = validUntil
         }
@@ -5539,7 +5539,7 @@ extension EC2 {
             case tagSpecifications = "TagSpecification"
             case targetCapacitySpecification = "TargetCapacitySpecification"
             case terminateInstancesWithExpiration = "TerminateInstancesWithExpiration"
-            case `type` = "Type"
+            case type = "Type"
             case validFrom = "ValidFrom"
             case validUntil = "ValidUntil"
         }
@@ -7787,7 +7787,7 @@ extension EC2 {
         /// The ID of the transit gateway. If you specify a transit gateway, you cannot specify a virtual private gateway.
         public let transitGatewayId: String?
         /// The type of VPN connection (ipsec.1).
-        public let `type`: String
+        public let type: String
         /// The ID of the virtual private gateway. If you specify a virtual private gateway, you cannot specify a transit gateway.
         public let vpnGatewayId: String?
 
@@ -7797,7 +7797,7 @@ extension EC2 {
             self.options = options
             self.tagSpecifications = tagSpecifications
             self.transitGatewayId = transitGatewayId
-            self.`type` = `type`
+            self.type = type
             self.vpnGatewayId = vpnGatewayId
         }
 
@@ -7807,7 +7807,7 @@ extension EC2 {
             case options
             case tagSpecifications = "TagSpecification"
             case transitGatewayId = "TransitGatewayId"
-            case `type` = "Type"
+            case type = "Type"
             case vpnGatewayId = "VpnGatewayId"
         }
     }
@@ -7855,14 +7855,14 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The type of VPN connection this virtual private gateway supports.
-        public let `type`: GatewayType
+        public let type: GatewayType
 
         public init(amazonSideAsn: Int64? = nil, availabilityZone: String? = nil, dryRun: Bool? = nil, tagSpecifications: [TagSpecification]? = nil, type: GatewayType) {
             self.amazonSideAsn = amazonSideAsn
             self.availabilityZone = availabilityZone
             self.dryRun = dryRun
             self.tagSpecifications = tagSpecifications
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7870,7 +7870,7 @@ extension EC2 {
             case availabilityZone = "AvailabilityZone"
             case dryRun
             case tagSpecifications = "TagSpecification"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -7932,7 +7932,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The type of VPN connection the customer gateway supports (ipsec.1).
-        public let `type`: String?
+        public let type: String?
 
         public init(bgpAsn: String? = nil, certificateArn: String? = nil, customerGatewayId: String? = nil, deviceName: String? = nil, ipAddress: String? = nil, state: String? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.bgpAsn = bgpAsn
@@ -7942,7 +7942,7 @@ extension EC2 {
             self.ipAddress = ipAddress
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7953,7 +7953,7 @@ extension EC2 {
             case ipAddress
             case state
             case tags = "tagSet"
-            case `type`
+            case type
         }
     }
 
@@ -16716,18 +16716,18 @@ extension EC2 {
         /// The size of the disk in GB.
         public let sizeInGB: Int64?
         /// The type of disk.
-        public let `type`: DiskType?
+        public let type: DiskType?
 
         public init(count: Int? = nil, sizeInGB: Int64? = nil, type: DiskType? = nil) {
             self.count = count
             self.sizeInGB = sizeInGB
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case count
             case sizeInGB
-            case `type`
+            case type
         }
     }
 
@@ -16971,27 +16971,27 @@ extension EC2 {
 
     public struct ElasticGpuSpecification: AWSEncodableShape {
         /// The type of Elastic Graphics accelerator. For more information about the values to specify for Type, see Elastic Graphics Basics, specifically the Elastic Graphics accelerator column, in the Amazon Elastic Compute Cloud User Guide for Windows Instances.
-        public let `type`: String
+        public let type: String
 
         public init(type: String) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
     public struct ElasticGpuSpecificationResponse: AWSDecodableShape {
         /// The elastic GPU type.
-        public let `type`: String?
+        public let type: String?
 
         public init(type: String? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
         }
     }
 
@@ -17039,11 +17039,11 @@ extension EC2 {
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, eia1.xlarge, eia2.medium, eia2.large, and eia2.xlarge.
-        public let `type`: String
+        public let type: String
 
         public init(count: Int? = nil, type: String) {
             self.count = count
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -17052,7 +17052,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -17888,7 +17888,7 @@ extension EC2 {
         /// Indicates whether running instances should be terminated when the EC2 Fleet expires.
         public let terminateInstancesWithExpiration: Bool?
         /// The type of request. Indicates whether the EC2 Fleet only requests the target capacity, or also attempts to maintain it. If you request a certain target capacity, EC2 Fleet only places the required requests; it does not attempt to replenish instances if capacity is diminished, and it does not submit requests in alternative capacity pools if capacity is unavailable. To maintain a certain target capacity, EC2 Fleet places the required requests to meet this target capacity. It also automatically replenishes any interrupted Spot Instances. Default: maintain.
-        public let `type`: FleetType?
+        public let type: FleetType?
         /// The start date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The default is to start fulfilling the request immediately.
         public let validFrom: Date?
         /// The end date and time of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). At this point, no new instance requests are placed or able to fulfill the request. The default end date is 7 days from the current date.
@@ -17912,7 +17912,7 @@ extension EC2 {
             self.tags = tags
             self.targetCapacitySpecification = targetCapacitySpecification
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
-            self.`type` = `type`
+            self.type = type
             self.validFrom = validFrom
             self.validUntil = validUntil
         }
@@ -17935,7 +17935,7 @@ extension EC2 {
             case tags = "tagSet"
             case targetCapacitySpecification
             case terminateInstancesWithExpiration
-            case `type`
+            case type
             case validFrom
             case validUntil
         }
@@ -19814,16 +19814,16 @@ extension EC2 {
         /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
         public let code: Int?
         /// The ICMP type. A value of -1 means all types.
-        public let `type`: Int?
+        public let type: Int?
 
         public init(code: Int? = nil, type: Int? = nil) {
             self.code = code
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case code
-            case `type`
+            case type
         }
     }
 
@@ -22550,11 +22550,11 @@ extension EC2 {
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, and eia1.xlarge.
-        public let `type`: String
+        public let type: String
 
         public init(count: Int? = nil, type: String) {
             self.count = count
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -22563,7 +22563,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -22571,16 +22571,16 @@ extension EC2 {
         ///  The number of elastic inference accelerators to attach to the instance.  Default: 1
         public let count: Int?
         ///  The type of elastic inference accelerator. The possible values are eia1.medium, eia1.large, and eia1.xlarge.
-        public let `type`: String?
+        public let type: String?
 
         public init(count: Int? = nil, type: String? = nil) {
             self.count = count
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case count
-            case `type`
+            case type
         }
     }
 
@@ -23345,7 +23345,7 @@ extension EC2 {
         /// The state of the route.
         public let state: LocalGatewayRouteState?
         /// The route type.
-        public let `type`: LocalGatewayRouteType?
+        public let type: LocalGatewayRouteType?
 
         public init(destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
@@ -23354,7 +23354,7 @@ extension EC2 {
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
             self.ownerId = ownerId
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -23364,7 +23364,7 @@ extension EC2 {
             case localGatewayVirtualInterfaceGroupId
             case ownerId
             case state
-            case `type`
+            case type
         }
     }
 
@@ -26935,21 +26935,21 @@ extension EC2 {
         /// The verification state of the VPC endpoint service. &gt;Consumers of the endpoint service can use the private name only when the state is verified.
         public let state: DnsNameState?
         /// The endpoint service verification type, for example TXT.
-        public let `type`: String?
+        public let type: String?
         /// The value the service provider adds to the private DNS name domain record before verification.
         public let value: String?
 
         public init(name: String? = nil, state: DnsNameState? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
             case state
-            case `type`
+            case type
             case value
         }
     }
@@ -28357,7 +28357,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
         /// The Spot Instance request type. Default: one-time
-        public let `type`: SpotInstanceType?
+        public let type: SpotInstanceType?
         /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. The specified start date and time cannot be equal to the current date and time. You must specify a start date and time that occurs after the current date and time.
         public let validFrom: Date?
         /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
@@ -28374,7 +28374,7 @@ extension EC2 {
             self.launchSpecification = launchSpecification
             self.spotPrice = spotPrice
             self.tagSpecifications = tagSpecifications
-            self.`type` = `type`
+            self.type = type
             self.validFrom = validFrom
             self.validUntil = validUntil
         }
@@ -28390,7 +28390,7 @@ extension EC2 {
             case launchSpecification = "LaunchSpecification"
             case spotPrice
             case tagSpecifications = "TagSpecification"
-            case `type`
+            case type
             case validFrom
             case validUntil
         }
@@ -31218,7 +31218,7 @@ extension EC2 {
         /// Indicates whether running Spot Instances are terminated when the Spot Fleet request expires.
         public let terminateInstancesWithExpiration: Bool?
         /// The type of request. Indicates whether the Spot Fleet only requests the target capacity or also attempts to maintain it. When this value is request, the Spot Fleet only places the required requests. It does not attempt to replenish Spot Instances if capacity is diminished, nor does it submit requests in alternative Spot pools if capacity is not available. When this value is maintain, the Spot Fleet maintains the target capacity. The Spot Fleet places the required requests to meet capacity and automatically replenishes any interrupted instances. Default: maintain. instant is listed but is not used by Spot Fleet.
-        public let `type`: FleetType?
+        public let type: FleetType?
         /// The start date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). By default, Amazon EC2 starts fulfilling the request immediately.
         public let validFrom: Date?
         /// The end date and time of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). After the end date and time, no new Spot Instance requests are placed or able to fulfill the request. If no value is specified, the Spot Fleet request remains until you cancel it.
@@ -31245,7 +31245,7 @@ extension EC2 {
             self.tagSpecifications = tagSpecifications
             self.targetCapacity = targetCapacity
             self.terminateInstancesWithExpiration = terminateInstancesWithExpiration
-            self.`type` = `type`
+            self.type = type
             self.validFrom = validFrom
             self.validUntil = validUntil
         }
@@ -31278,7 +31278,7 @@ extension EC2 {
             case tagSpecifications = "TagSpecification"
             case targetCapacity
             case terminateInstancesWithExpiration
-            case `type`
+            case type
             case validFrom
             case validUntil
         }
@@ -31341,7 +31341,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The Spot Instance request type.
-        public let `type`: SpotInstanceType?
+        public let type: SpotInstanceType?
         /// The start date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The request becomes active at this date and time.
         public let validFrom: Date?
         /// The end date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). If this is a one-time request, it remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
@@ -31364,7 +31364,7 @@ extension EC2 {
             self.state = state
             self.status = status
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.validFrom = validFrom
             self.validUntil = validUntil
         }
@@ -31386,7 +31386,7 @@ extension EC2 {
             case state
             case status
             case tags = "tagSet"
-            case `type`
+            case type
             case validFrom
             case validUntil
         }
@@ -32522,7 +32522,7 @@ extension EC2 {
         /// The ID of the Traffic Mirror target.
         public let trafficMirrorTargetId: String?
         /// The type of Traffic Mirror target.
-        public let `type`: TrafficMirrorTargetType?
+        public let type: TrafficMirrorTargetType?
 
         public init(description: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, trafficMirrorTargetId: String? = nil, type: TrafficMirrorTargetType? = nil) {
             self.description = description
@@ -32531,7 +32531,7 @@ extension EC2 {
             self.ownerId = ownerId
             self.tags = tags
             self.trafficMirrorTargetId = trafficMirrorTargetId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -32541,7 +32541,7 @@ extension EC2 {
             case ownerId
             case tags = "tagSet"
             case trafficMirrorTargetId
-            case `type`
+            case type
         }
     }
 
@@ -33156,14 +33156,14 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TransitGatewayAttachmentsEncoding, TransitGatewayRouteAttachment>>
         public var transitGatewayAttachments: [TransitGatewayRouteAttachment]?
         /// The route type.
-        public let `type`: TransitGatewayRouteType?
+        public let type: TransitGatewayRouteType?
 
         public init(destinationCidrBlock: String? = nil, prefixListId: String? = nil, state: TransitGatewayRouteState? = nil, transitGatewayAttachments: [TransitGatewayRouteAttachment]? = nil, type: TransitGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
             self.prefixListId = prefixListId
             self.state = state
             self.transitGatewayAttachments = transitGatewayAttachments
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -33171,7 +33171,7 @@ extension EC2 {
             case prefixListId
             case state
             case transitGatewayAttachments
-            case `type`
+            case type
         }
     }
 
@@ -34652,7 +34652,7 @@ extension EC2 {
         /// The ID of the transit gateway associated with the VPN connection.
         public let transitGatewayId: String?
         /// The type of VPN connection.
-        public let `type`: GatewayType?
+        public let type: GatewayType?
         /// Information about the VPN tunnel.
         @OptionalCustomCoding<ArrayCoder<_VgwTelemetryEncoding, VgwTelemetry>>
         public var vgwTelemetry: [VgwTelemetry]?
@@ -34670,7 +34670,7 @@ extension EC2 {
             self.state = state
             self.tags = tags
             self.transitGatewayId = transitGatewayId
-            self.`type` = `type`
+            self.type = type
             self.vgwTelemetry = vgwTelemetry
             self.vpnConnectionId = vpnConnectionId
             self.vpnGatewayId = vpnGatewayId
@@ -34685,7 +34685,7 @@ extension EC2 {
             case state
             case tags = "tagSet"
             case transitGatewayId
-            case `type`
+            case type
             case vgwTelemetry
             case vpnConnectionId
             case vpnGatewayId
@@ -34792,7 +34792,7 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// The type of VPN connection the virtual private gateway supports.
-        public let `type`: GatewayType?
+        public let type: GatewayType?
         /// Any VPCs attached to the virtual private gateway.
         @OptionalCustomCoding<ArrayCoder<_VpcAttachmentsEncoding, VpcAttachment>>
         public var vpcAttachments: [VpcAttachment]?
@@ -34804,7 +34804,7 @@ extension EC2 {
             self.availabilityZone = availabilityZone
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.vpcAttachments = vpcAttachments
             self.vpnGatewayId = vpnGatewayId
         }
@@ -34814,7 +34814,7 @@ extension EC2 {
             case availabilityZone
             case state
             case tags = "tagSet"
-            case `type`
+            case type
             case vpcAttachments = "attachments"
             case vpnGatewayId
         }

@@ -1802,14 +1802,14 @@ extension IAM {
         /// The path to the entity (user or role). For more information about paths, see IAM Identifiers in the IAM User Guide.
         public let path: String?
         /// The type of entity (user or role).
-        public let `type`: PolicyOwnerEntityType
+        public let type: PolicyOwnerEntityType
 
         public init(arn: String, id: String, name: String, path: String? = nil, type: PolicyOwnerEntityType) {
             self.arn = arn
             self.id = id
             self.name = name
             self.path = path
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1817,7 +1817,7 @@ extension IAM {
             case id = "Id"
             case name = "Name"
             case path = "Path"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

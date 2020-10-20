@@ -976,14 +976,14 @@ extension FraudDetector {
         /// The message title.
         public let title: String?
         /// The message type.
-        public let `type`: String?
+        public let type: String?
 
         public init(content: String? = nil, fieldName: String? = nil, identifier: String? = nil, title: String? = nil, type: String? = nil) {
             self.content = content
             self.fieldName = fieldName
             self.identifier = identifier
             self.title = title
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -991,7 +991,7 @@ extension FraudDetector {
             case fieldName
             case identifier
             case title
-            case `type`
+            case type
         }
     }
 
@@ -1001,18 +1001,18 @@ extension FraudDetector {
         /// The message title.
         public let title: String?
         /// The message type.
-        public let `type`: String?
+        public let type: String?
 
         public init(content: String? = nil, title: String? = nil, type: String? = nil) {
             self.content = content
             self.title = title
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case content
             case title
-            case `type`
+            case type
         }
     }
 

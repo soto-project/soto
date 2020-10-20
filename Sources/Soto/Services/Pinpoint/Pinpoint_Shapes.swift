@@ -4094,7 +4094,7 @@ extension Pinpoint {
         /// The total number of endpoint definitions that were processed by the export job.
         public let totalProcessed: Int?
         /// The job type. This value is EXPORT for export jobs.
-        public let `type`: String
+        public let type: String
 
         public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ExportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
             self.applicationId = applicationId
@@ -4109,7 +4109,7 @@ extension Pinpoint {
             self.totalFailures = totalFailures
             self.totalPieces = totalPieces
             self.totalProcessed = totalProcessed
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4125,7 +4125,7 @@ extension Pinpoint {
             case totalFailures = "TotalFailures"
             case totalPieces = "TotalPieces"
             case totalProcessed = "TotalProcessed"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -6052,7 +6052,7 @@ extension Pinpoint {
         /// The total number of endpoint definitions that were processed by the import job.
         public let totalProcessed: Int?
         /// The job type. This value is IMPORT for import jobs.
-        public let `type`: String
+        public let type: String
 
         public init(applicationId: String, completedPieces: Int? = nil, completionDate: String? = nil, creationDate: String, definition: ImportJobResource, failedPieces: Int? = nil, failures: [String]? = nil, id: String, jobStatus: JobStatus, totalFailures: Int? = nil, totalPieces: Int? = nil, totalProcessed: Int? = nil, type: String) {
             self.applicationId = applicationId
@@ -6067,7 +6067,7 @@ extension Pinpoint {
             self.totalFailures = totalFailures
             self.totalPieces = totalPieces
             self.totalProcessed = totalProcessed
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6083,7 +6083,7 @@ extension Pinpoint {
             case totalFailures = "TotalFailures"
             case totalPieces = "TotalPieces"
             case totalProcessed = "TotalProcessed"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -7434,19 +7434,19 @@ extension Pinpoint {
         /// The friendly name of the metric whose value is specified by the Value property.
         public let key: String
         /// The data type of the value specified by the Value property.
-        public let `type`: String
+        public let type: String
         /// In a Values object, the value for the metric that the query retrieved data for. In a GroupedBys object, the value for the field that was used to group data in a result set that contains multiple results (Values objects).
         public let value: String
 
         public init(key: String, type: String, value: String) {
             self.key = key
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -7821,20 +7821,20 @@ extension Pinpoint {
         /// Specifies how to handle multiple base segments for the segment. For example, if you specify three base segments for the segment, whether the resulting segment is based on all, any, or none of the base segments.
         public let sourceType: SourceType?
         /// Specifies how to handle multiple dimensions for the segment. For example, if you specify three dimensions for the segment, whether the resulting segment includes endpoints that match all, any, or none of the dimensions.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(dimensions: [SegmentDimensions]? = nil, sourceSegments: [SegmentReference]? = nil, sourceType: SourceType? = nil, type: `Type`? = nil) {
             self.dimensions = dimensions
             self.sourceSegments = sourceSegments
             self.sourceType = sourceType
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case dimensions = "Dimensions"
             case sourceSegments = "SourceSegments"
             case sourceType = "SourceType"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -1369,7 +1369,7 @@ extension EKS {
         /// The current status of the update.
         public let status: UpdateStatus?
         /// The type of the update.
-        public let `type`: UpdateType?
+        public let type: UpdateType?
 
         public init(createdAt: Date? = nil, errors: [ErrorDetail]? = nil, id: String? = nil, params: [UpdateParam]? = nil, status: UpdateStatus? = nil, type: UpdateType? = nil) {
             self.createdAt = createdAt
@@ -1377,7 +1377,7 @@ extension EKS {
             self.id = id
             self.params = params
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1386,7 +1386,7 @@ extension EKS {
             case id
             case params
             case status
-            case `type`
+            case type
         }
     }
 
@@ -1595,17 +1595,17 @@ extension EKS {
 
     public struct UpdateParam: AWSDecodableShape {
         /// The keys associated with an update request.
-        public let `type`: UpdateParamType?
+        public let type: UpdateParamType?
         /// The value of the keys submitted as part of an update request.
         public let value: String?
 
         public init(type: UpdateParamType? = nil, value: String? = nil) {
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type`
+            case type
             case value
         }
     }

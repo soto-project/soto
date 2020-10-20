@@ -1314,12 +1314,12 @@ extension Kinesis {
     public struct ShardFilter: AWSEncodableShape {
         public let shardId: String?
         public let timestamp: Date?
-        public let `type`: ShardFilterType
+        public let type: ShardFilterType
 
         public init(shardId: String? = nil, timestamp: Date? = nil, type: ShardFilterType) {
             self.shardId = shardId
             self.timestamp = timestamp
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1331,7 +1331,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case shardId = "ShardId"
             case timestamp = "Timestamp"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1401,12 +1401,12 @@ extension Kinesis {
         /// The time stamp of the data record from which to start reading. To specify a time stamp, set StartingPosition to Type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, records will be streamed from the next (later) record. If the time stamp is older than the current trim horizon, records will be streamed from the oldest untrimmed data record (TRIM_HORIZON).
         public let timestamp: Date?
         /// You can set the starting position to one of the following values:  AT_SEQUENCE_NUMBER: Start streaming from the position denoted by the sequence number specified in the SequenceNumber field.  AFTER_SEQUENCE_NUMBER: Start streaming right after the position denoted by the sequence number specified in the SequenceNumber field.  AT_TIMESTAMP: Start streaming from the position denoted by the time stamp specified in the Timestamp field.  TRIM_HORIZON: Start streaming at the last untrimmed record in the shard, which is the oldest data record in the shard.  LATEST: Start streaming just after the most recent record in the shard, so that you always read the most recent data in the shard.
-        public let `type`: ShardIteratorType
+        public let type: ShardIteratorType
 
         public init(sequenceNumber: String? = nil, timestamp: Date? = nil, type: ShardIteratorType) {
             self.sequenceNumber = sequenceNumber
             self.timestamp = timestamp
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1416,7 +1416,7 @@ extension Kinesis {
         private enum CodingKeys: String, CodingKey {
             case sequenceNumber = "SequenceNumber"
             case timestamp = "Timestamp"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

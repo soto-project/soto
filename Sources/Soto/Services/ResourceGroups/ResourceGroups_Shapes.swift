@@ -364,24 +364,24 @@ extension ResourceGroups {
         /// A collection of parameters for this group configuration item.
         public let parameters: [GroupConfigurationParameter]?
         /// Specifies the type of group configuration item. Each item must have a unique value for type. You can specify the following string values:    AWS::EC2::CapacityReservationPool  For more information about EC2 capacity reservation groups, see Working with capacity reservation groups in the EC2 Users Guide.    AWS::ResourceGroups::Generic - Supports parameters that configure the behavior of resource groups of any type.
-        public let `type`: String
+        public let type: String
 
         public init(parameters: [GroupConfigurationParameter]? = nil, type: String) {
             self.parameters = parameters
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.parameters?.forEach {
                 try $0.validate(name: "\(name).parameters[]")
             }
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 40)
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: "AWS::[a-zA-Z0-9]+::[a-zA-Z0-9]+")
+            try self.validate(self.type, name: "type", parent: name, max: 40)
+            try self.validate(self.type, name: "type", parent: name, pattern: "AWS::[a-zA-Z0-9]+::[a-zA-Z0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case parameters = "Parameters"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -696,11 +696,11 @@ extension ResourceGroups {
         /// The query that defines a group or a search.
         public let query: String
         /// The type of the query. You can use the following values:     CLOUDFORMATION_STACK_1_0: Specifies that the Query contains an ARN for a CloudFormation stack.     TAG_FILTERS_1_0: Specifies that the Query parameter contains a JSON string that represents a collection of simple tag filters for resource types and tags. The JSON string uses a syntax similar to the  GetResources  operation, but uses only the   ResourceTypeFilters  and  TagFilters  fields. If you specify more than one tag key, only resources that match all tag keys, and at least one value of each specified tag key, are returned in your query. If you specify more than one value for a tag key, a resource matches the filter if it has a tag key value that matches any of the specified values. For example, consider the following sample query for resources that have two tags, Stage and Version, with two values each:  [{"Stage":["Test","Deploy"]},{"Version":["1","2"]}]  The results of this query could include the following.   An EC2 instance that has the following two tags: {"Stage":"Deploy"}, and {"Version":"2"}    An S3 bucket that has the following two tags: {"Stage":"Test"}, and {"Version":"1"}    The query would not include the following items in the results, however.    An EC2 instance that has only the following tag: {"Stage":"Deploy"}. The instance does not have all of the tag keys specified in the filter, so it is excluded from the results.   An RDS database that has the following two tags: {"Stage":"Archived"} and {"Version":"4"}  The database has all of the tag keys, but none of those keys has an associated value that matches at least one of the specified values in the filter.
-        public let `type`: QueryType
+        public let type: QueryType
 
         public init(query: String, type: QueryType) {
             self.query = query
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -710,7 +710,7 @@ extension ResourceGroups {
 
         private enum CodingKeys: String, CodingKey {
             case query = "Query"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

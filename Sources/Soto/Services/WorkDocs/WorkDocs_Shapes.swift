@@ -323,7 +323,7 @@ extension WorkDocs {
         /// The timestamp when the action was performed.
         public let timeStamp: Date?
         /// The activity type.
-        public let `type`: ActivityType?
+        public let type: ActivityType?
 
         public init(commentMetadata: CommentMetadata? = nil, initiator: UserMetadata? = nil, isIndirectActivity: Bool? = nil, organizationId: String? = nil, originalParent: ResourceMetadata? = nil, participants: Participants? = nil, resourceMetadata: ResourceMetadata? = nil, timeStamp: Date? = nil, type: ActivityType? = nil) {
             self.commentMetadata = commentMetadata
@@ -334,7 +334,7 @@ extension WorkDocs {
             self.participants = participants
             self.resourceMetadata = resourceMetadata
             self.timeStamp = timeStamp
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,7 +346,7 @@ extension WorkDocs {
             case participants = "Participants"
             case resourceMetadata = "ResourceMetadata"
             case timeStamp = "TimeStamp"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1380,7 +1380,7 @@ extension WorkDocs {
         /// The sorting criteria.
         public let sort: ResourceSortType?
         /// The type of items.
-        public let `type`: FolderContentType?
+        public let type: FolderContentType?
 
         public init(authenticationToken: String? = nil, folderId: String, include: String? = nil, limit: Int? = nil, marker: String? = nil, order: OrderType? = nil, sort: ResourceSortType? = nil, type: FolderContentType? = nil) {
             self.authenticationToken = authenticationToken
@@ -1390,7 +1390,7 @@ extension WorkDocs {
             self.marker = marker
             self.order = order
             self.sort = sort
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2411,16 +2411,16 @@ extension WorkDocs {
         /// The role of the user.
         public let role: RoleType?
         /// The type of permissions.
-        public let `type`: RolePermissionType?
+        public let type: RolePermissionType?
 
         public init(role: RoleType? = nil, type: RolePermissionType? = nil) {
             self.role = role
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case role = "Role"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2430,18 +2430,18 @@ extension WorkDocs {
         /// The permission information for the resource.
         public let roles: [PermissionInfo]?
         /// The type of resource.
-        public let `type`: PrincipalType?
+        public let type: PrincipalType?
 
         public init(id: String? = nil, roles: [PermissionInfo]? = nil, type: PrincipalType? = nil) {
             self.id = id
             self.roles = roles
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case roles = "Roles"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2522,7 +2522,7 @@ extension WorkDocs {
         /// The parent ID of the resource before a rename operation.
         public let parentId: String?
         /// The type of resource.
-        public let `type`: ResourceType?
+        public let type: ResourceType?
         /// The version ID of the resource. This is an optional field and is filled for action on document version.
         public let versionId: String?
 
@@ -2532,7 +2532,7 @@ extension WorkDocs {
             self.originalName = originalName
             self.owner = owner
             self.parentId = parentId
-            self.`type` = `type`
+            self.type = type
             self.versionId = versionId
         }
 
@@ -2542,7 +2542,7 @@ extension WorkDocs {
             case originalName = "OriginalName"
             case owner = "Owner"
             case parentId = "ParentId"
-            case `type` = "Type"
+            case type = "Type"
             case versionId = "VersionId"
         }
     }
@@ -2583,12 +2583,12 @@ extension WorkDocs {
         /// The role of the recipient.
         public let role: RoleType
         /// The type of the recipient.
-        public let `type`: PrincipalType
+        public let type: PrincipalType
 
         public init(id: String, role: RoleType, type: PrincipalType) {
             self.id = id
             self.role = role
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2600,7 +2600,7 @@ extension WorkDocs {
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case role = "Role"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2831,7 +2831,7 @@ extension WorkDocs {
         /// The time zone ID of the user.
         public let timeZoneId: String?
         /// The type of the user.
-        public let `type`: UserType?
+        public let type: UserType?
         /// The ID of the user.
         public let userId: String
 
@@ -2843,7 +2843,7 @@ extension WorkDocs {
             self.storageRule = storageRule
             self.surname = surname
             self.timeZoneId = timeZoneId
-            self.`type` = `type`
+            self.type = type
             self.userId = userId
         }
 
@@ -2869,7 +2869,7 @@ extension WorkDocs {
             case storageRule = "StorageRule"
             case surname = "Surname"
             case timeZoneId = "TimeZoneId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2931,7 +2931,7 @@ extension WorkDocs {
         /// The time zone ID of the user.
         public let timeZoneId: String?
         /// The type of user.
-        public let `type`: UserType?
+        public let type: UserType?
         /// The login name of the user.
         public let username: String?
 
@@ -2949,7 +2949,7 @@ extension WorkDocs {
             self.storage = storage
             self.surname = surname
             self.timeZoneId = timeZoneId
-            self.`type` = `type`
+            self.type = type
             self.username = username
         }
 
@@ -2967,7 +2967,7 @@ extension WorkDocs {
             case storage = "Storage"
             case surname = "Surname"
             case timeZoneId = "TimeZoneId"
-            case `type` = "Type"
+            case type = "Type"
             case username = "Username"
         }
     }

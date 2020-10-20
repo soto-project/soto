@@ -1518,7 +1518,7 @@ extension GuardDuty {
         /// The title of the finding.
         public let title: String?
         /// The type of finding.
-        public let `type`: String
+        public let type: String
         /// The time and date when the finding was last updated.
         public let updatedAt: String
 
@@ -1536,7 +1536,7 @@ extension GuardDuty {
             self.service = service
             self.severity = severity
             self.title = title
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -1554,7 +1554,7 @@ extension GuardDuty {
             case service
             case severity
             case title
-            case `type`
+            case type
             case updatedAt
         }
     }
@@ -3217,7 +3217,7 @@ extension GuardDuty {
         /// All tags attached to the S3 bucket
         public let tags: [Tag]?
         /// Describes whether the bucket is a source or destination bucket.
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, createdAt: Date? = nil, defaultServerSideEncryption: DefaultServerSideEncryption? = nil, name: String? = nil, owner: Owner? = nil, publicAccess: PublicAccess? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.arn = arn
@@ -3227,7 +3227,7 @@ extension GuardDuty {
             self.owner = owner
             self.publicAccess = publicAccess
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3238,7 +3238,7 @@ extension GuardDuty {
             case owner
             case publicAccess
             case tags
-            case `type`
+            case type
         }
     }
 

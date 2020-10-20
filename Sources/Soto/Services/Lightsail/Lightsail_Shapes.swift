@@ -1013,7 +1013,7 @@ extension Lightsail {
         /// The product URL to learn more about the image or blueprint.
         public let productUrl: String?
         /// The type of the blueprint (e.g., os or app).
-        public let `type`: BlueprintType?
+        public let type: BlueprintType?
         /// The version number of the operating system, application, or stack (e.g., 2016.03.0).
         public let version: String?
         /// The version code.
@@ -1029,7 +1029,7 @@ extension Lightsail {
             self.name = name
             self.platform = platform
             self.productUrl = productUrl
-            self.`type` = `type`
+            self.type = type
             self.version = version
             self.versionCode = versionCode
         }
@@ -1044,7 +1044,7 @@ extension Lightsail {
             case name
             case platform
             case productUrl
-            case `type`
+            case type
             case version
             case versionCode
         }
@@ -3400,14 +3400,14 @@ extension Lightsail {
         /// The target AWS name server (e.g., ns-111.awsdns-22.com.). For Lightsail load balancers, the value looks like ab1234c56789c6b86aba6fb203d443bc-123456789.us-east-2.elb.amazonaws.com. Be sure to also set isAlias to true when setting up an A record for a load balancer.
         public let target: String?
         /// The type of domain entry, such as address (A), canonical name (CNAME), mail exchanger (MX), name server (NS), start of authority (SOA), service locator (SRV), or text (TXT). The following domain entry types can be used:    A     CNAME     MX     NS     SOA     SRV     TXT
-        public let `type`: String?
+        public let type: String?
 
         public init(id: String? = nil, isAlias: Bool? = nil, name: String? = nil, target: String? = nil, type: String? = nil) {
             self.id = id
             self.isAlias = isAlias
             self.name = name
             self.target = target
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3419,7 +3419,7 @@ extension Lightsail {
             case isAlias
             case name
             case target
-            case `type`
+            case type
         }
     }
 
@@ -6231,7 +6231,7 @@ extension Lightsail {
         /// A fully qualified domain name in the certificate. For example, example.com.
         public let name: String?
         /// The type of validation record. For example, CNAME for domain validation.
-        public let `type`: String?
+        public let type: String?
         /// The validation status. Valid values are listed below.
         public let validationStatus: LoadBalancerTlsCertificateDomainStatus?
         /// The value for that type.
@@ -6240,7 +6240,7 @@ extension Lightsail {
         public init(domainName: String? = nil, name: String? = nil, type: String? = nil, validationStatus: LoadBalancerTlsCertificateDomainStatus? = nil, value: String? = nil) {
             self.domainName = domainName
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.validationStatus = validationStatus
             self.value = value
         }
@@ -6248,7 +6248,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case domainName
             case name
-            case `type`
+            case type
             case validationStatus
             case value
         }
@@ -7301,19 +7301,19 @@ extension Lightsail {
         /// The name of the record.
         public let name: String?
         /// The DNS record type.
-        public let `type`: String?
+        public let type: String?
         /// The value for the DNS record.
         public let value: String?
 
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case name
-            case `type`
+            case type
             case value
         }
     }

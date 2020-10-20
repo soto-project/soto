@@ -1434,12 +1434,12 @@ extension EMR {
         /// An optional unique ID of an EC2 security group to associate with the master instance of the EMR cluster for this notebook execution. For more information see Specifying EC2 Security Groups for EMR Notebooks in the EMR Management Guide.
         public let masterInstanceSecurityGroupId: String?
         /// The type of execution engine. A value of EMR specifies an EMR cluster.
-        public let `type`: ExecutionEngineType?
+        public let type: ExecutionEngineType?
 
         public init(id: String, masterInstanceSecurityGroupId: String? = nil, type: ExecutionEngineType? = nil) {
             self.id = id
             self.masterInstanceSecurityGroupId = masterInstanceSecurityGroupId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1454,7 +1454,7 @@ extension EMR {
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
             case masterInstanceSecurityGroupId = "MasterInstanceSecurityGroupId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -194,7 +194,7 @@ extension NetworkManager {
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
         /// The type of the device.
-        public let `type`: String?
+        public let type: String?
         /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
@@ -206,7 +206,7 @@ extension NetworkManager {
             self.serialNumber = serialNumber
             self.siteId = siteId
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.vendor = vendor
         }
 
@@ -217,7 +217,7 @@ extension NetworkManager {
             case serialNumber = "SerialNumber"
             case siteId = "SiteId"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
             case vendor = "Vendor"
         }
     }
@@ -283,7 +283,7 @@ extension NetworkManager {
         /// The tags to apply to the resource during creation.
         public let tags: [Tag]?
         /// The type of the link. Constraints: Cannot include the following characters: | \ ^ Length Constraints: Maximum length of 128 characters.
-        public let `type`: String?
+        public let type: String?
 
         public init(bandwidth: Bandwidth, description: String? = nil, globalNetworkId: String, provider: String? = nil, siteId: String, tags: [Tag]? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
@@ -292,7 +292,7 @@ extension NetworkManager {
             self.provider = provider
             self.siteId = siteId
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -301,7 +301,7 @@ extension NetworkManager {
             case provider = "Provider"
             case siteId = "SiteId"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -613,7 +613,7 @@ extension NetworkManager {
         /// The tags for the device.
         public let tags: [Tag]?
         /// The device type.
-        public let `type`: String?
+        public let type: String?
         /// The device vendor.
         public let vendor: String?
 
@@ -629,7 +629,7 @@ extension NetworkManager {
             self.siteId = siteId
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
             self.vendor = vendor
         }
 
@@ -645,7 +645,7 @@ extension NetworkManager {
             case siteId = "SiteId"
             case state = "State"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
             case vendor = "Vendor"
         }
     }
@@ -897,7 +897,7 @@ extension NetworkManager {
         /// The ID of the site.
         public let siteId: String?
         /// The link type.
-        public let `type`: String?
+        public let type: String?
 
         public init(globalNetworkId: String, linkIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, provider: String? = nil, siteId: String? = nil, type: String? = nil) {
             self.globalNetworkId = globalNetworkId
@@ -906,7 +906,7 @@ extension NetworkManager {
             self.nextToken = nextToken
             self.provider = provider
             self.siteId = siteId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1087,7 +1087,7 @@ extension NetworkManager {
         /// The tags for the link.
         public let tags: [Tag]?
         /// The type of the link.
-        public let `type`: String?
+        public let type: String?
 
         public init(bandwidth: Bandwidth? = nil, createdAt: Date? = nil, description: String? = nil, globalNetworkId: String? = nil, linkArn: String? = nil, linkId: String? = nil, provider: String? = nil, siteId: String? = nil, state: LinkState? = nil, tags: [Tag]? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
@@ -1100,7 +1100,7 @@ extension NetworkManager {
             self.siteId = siteId
             self.state = state
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1114,7 +1114,7 @@ extension NetworkManager {
             case siteId = "SiteId"
             case state = "State"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1388,7 +1388,7 @@ extension NetworkManager {
         /// The ID of the site.
         public let siteId: String?
         /// The type of the device.
-        public let `type`: String?
+        public let type: String?
         /// The vendor of the device. Length Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
@@ -1400,7 +1400,7 @@ extension NetworkManager {
             self.model = model
             self.serialNumber = serialNumber
             self.siteId = siteId
-            self.`type` = `type`
+            self.type = type
             self.vendor = vendor
         }
 
@@ -1410,7 +1410,7 @@ extension NetworkManager {
             case model = "Model"
             case serialNumber = "SerialNumber"
             case siteId = "SiteId"
-            case `type` = "Type"
+            case type = "Type"
             case vendor = "Vendor"
         }
     }
@@ -1478,7 +1478,7 @@ extension NetworkManager {
         /// The provider of the link. Length Constraints: Maximum length of 128 characters.
         public let provider: String?
         /// The type of the link. Length Constraints: Maximum length of 128 characters.
-        public let `type`: String?
+        public let type: String?
 
         public init(bandwidth: Bandwidth? = nil, description: String? = nil, globalNetworkId: String, linkId: String, provider: String? = nil, type: String? = nil) {
             self.bandwidth = bandwidth
@@ -1486,14 +1486,14 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
             self.provider = provider
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
             case provider = "Provider"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

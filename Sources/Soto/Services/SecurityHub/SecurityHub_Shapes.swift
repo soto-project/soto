@@ -827,7 +827,7 @@ extension SecurityHub {
         /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
         public let subjectAlternativeNames: [String]?
         /// The source of the certificate. For certificates that AWS Certificate Manager provides, Type is AMAZON_ISSUED. For certificates that are imported with ImportCertificate, Type is IMPORTED. Valid values: IMPORTED | AMAZON_ISSUED | PRIVATE
-        public let `type`: String?
+        public let type: String?
 
         public init(certificateAuthorityArn: String? = nil, createdAt: String? = nil, domainName: String? = nil, domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, extendedKeyUsages: [AwsCertificateManagerCertificateExtendedKeyUsage]? = nil, failureReason: String? = nil, importedAt: String? = nil, inUseBy: [String]? = nil, issuedAt: String? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, keyUsages: [AwsCertificateManagerCertificateKeyUsage]? = nil, notAfter: String? = nil, notBefore: String? = nil, options: AwsCertificateManagerCertificateOptions? = nil, renewalEligibility: String? = nil, renewalSummary: AwsCertificateManagerCertificateRenewalSummary? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: String? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: String? = nil) {
             self.certificateAuthorityArn = certificateAuthorityArn
@@ -852,7 +852,7 @@ extension SecurityHub {
             self.status = status
             self.subject = subject
             self.subjectAlternativeNames = subjectAlternativeNames
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -888,7 +888,7 @@ extension SecurityHub {
             try self.subjectAlternativeNames?.forEach {
                 try validate($0, name: "subjectAlternativeNames[]", parent: name, pattern: ".*\\S.*")
             }
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -914,7 +914,7 @@ extension SecurityHub {
             case status = "Status"
             case subject = "Subject"
             case subjectAlternativeNames = "SubjectAlternativeNames"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1056,25 +1056,25 @@ extension SecurityHub {
         /// The name of the resource.
         public let name: String?
         /// The type of resource.
-        public let `type`: String?
+        public let type: String?
         /// The value of the resource.
         public let value: String?
 
         public init(name: String? = nil, type: String? = nil, value: String? = nil) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
             try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -1484,27 +1484,27 @@ extension SecurityHub {
         /// The credentials for access to a private registry.
         public let registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential?
         /// The type of build environment to use for related builds. The environment type ARM_CONTAINER is available only in Regions US East (N. Virginia), US East (Ohio), US West (Oregon), Europe (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and Europe (Frankfurt). The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). The environment type LINUX_GPU_CONTAINER is available only in Regions US East (N. Virginia), US East (N. Virginia), US West (Oregon), Canada (Central), Europe (Ireland), Europe (London), Europe (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia). Valid values: WINDOWS_CONTAINER | LINUX_CONTAINER | LINUX_GPU_CONTAINER | ARM_CONTAINER
-        public let `type`: String?
+        public let type: String?
 
         public init(certificate: String? = nil, imagePullCredentialsType: String? = nil, registryCredential: AwsCodeBuildProjectEnvironmentRegistryCredential? = nil, type: String? = nil) {
             self.certificate = certificate
             self.imagePullCredentialsType = imagePullCredentialsType
             self.registryCredential = registryCredential
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.certificate, name: "certificate", parent: name, pattern: ".*\\S.*")
             try self.validate(self.imagePullCredentialsType, name: "imagePullCredentialsType", parent: name, pattern: ".*\\S.*")
             try self.registryCredential?.validate(name: "\(name).registryCredential")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
             case imagePullCredentialsType = "ImagePullCredentialsType"
             case registryCredential = "RegistryCredential"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1538,25 +1538,25 @@ extension SecurityHub {
         /// Information about the location of the source code to be built. Valid values include:   For source code settings that are specified in the source action of a pipeline in AWS CodePipeline, location should not be specified. If it is specified, AWS CodePipeline ignores it. This is because AWS CodePipeline uses the settings in a pipeline's source action instead of this value.   For source code in an AWS CodeCommit repository, the HTTPS clone URL to the repository that contains the source code and the build spec file (for example, https://git-codecommit.region-ID.amazonaws.com/v1/repos/repo-name ).   For source code in an S3 input bucket, one of the following.   The path to the ZIP file that contains the source code (for example, bucket-name/path/to/object-name.zip).    The path to the folder that contains the source code (for example, bucket-name/path/to/source-code/folder/).     For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the build spec file.   For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the build spec file.
         public let location: String?
         /// The type of repository that contains the source code to be built. Valid values are:    BITBUCKET - The source code is in a Bitbucket repository.    CODECOMMIT - The source code is in an AWS CodeCommit repository.    CODEPIPELINE - The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB - The source code is in a GitHub repository.    GITHUB_ENTERPRISE - The source code is in a GitHub Enterprise repository.    NO_SOURCE - The project does not have input source code.    S3 - The source code is in an S3 input bucket.
-        public let `type`: String?
+        public let type: String?
 
         public init(gitCloneDepth: Int? = nil, insecureSsl: Bool? = nil, location: String? = nil, type: String? = nil) {
             self.gitCloneDepth = gitCloneDepth
             self.insecureSsl = insecureSsl
             self.location = location
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
             try self.validate(self.location, name: "location", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case gitCloneDepth = "GitCloneDepth"
             case insecureSsl = "InsecureSsl"
             case location = "Location"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2207,7 +2207,7 @@ extension SecurityHub {
         /// The identifier of the subnet that the instance was launched in.
         public let subnetId: String?
         /// The instance type of the instance.
-        public let `type`: String?
+        public let type: String?
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
 
@@ -2219,7 +2219,7 @@ extension SecurityHub {
             self.keyName = keyName
             self.launchedAt = launchedAt
             self.subnetId = subnetId
-            self.`type` = `type`
+            self.type = type
             self.vpcId = vpcId
         }
 
@@ -2235,7 +2235,7 @@ extension SecurityHub {
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: ".*\\S.*")
             try self.validate(self.launchedAt, name: "launchedAt", parent: name, pattern: ".*\\S.*")
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -2247,7 +2247,7 @@ extension SecurityHub {
             case keyName = "KeyName"
             case launchedAt = "LaunchedAt"
             case subnetId = "SubnetId"
-            case `type` = "Type"
+            case type = "Type"
             case vpcId = "VpcId"
         }
     }
@@ -3274,7 +3274,7 @@ extension SecurityHub {
         /// The state of the load balancer.
         public let state: LoadBalancerState?
         /// The type of load balancer.
-        public let `type`: String?
+        public let type: String?
         /// The ID of the VPC for the load balancer.
         public let vpcId: String?
 
@@ -3287,7 +3287,7 @@ extension SecurityHub {
             self.scheme = scheme
             self.securityGroups = securityGroups
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.vpcId = vpcId
         }
 
@@ -3304,7 +3304,7 @@ extension SecurityHub {
                 try validate($0, name: "securityGroups[]", parent: name, pattern: ".*\\S.*")
             }
             try self.state?.validate(name: "\(name).state")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3317,7 +3317,7 @@ extension SecurityHub {
             case scheme = "Scheme"
             case securityGroups = "SecurityGroups"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case vpcId = "VpcId"
         }
     }
@@ -3424,7 +3424,7 @@ extension SecurityHub {
         /// The principal ID of the principal (user, role, or group) that created the session.
         public let principalId: String?
         /// The type of principal (user, role, or group) that created the session.
-        public let `type`: String?
+        public let type: String?
         /// The name of the principal that created the session.
         public let userName: String?
 
@@ -3432,7 +3432,7 @@ extension SecurityHub {
             self.accountId = accountId
             self.arn = arn
             self.principalId = principalId
-            self.`type` = `type`
+            self.type = type
             self.userName = userName
         }
 
@@ -3440,7 +3440,7 @@ extension SecurityHub {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.arn, name: "arn", parent: name, pattern: ".*\\S.*")
             try self.validate(self.principalId, name: "principalId", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
             try self.validate(self.userName, name: "userName", parent: name, pattern: ".*\\S.*")
         }
 
@@ -3448,7 +3448,7 @@ extension SecurityHub {
             case accountId = "AccountId"
             case arn = "Arn"
             case principalId = "PrincipalId"
-            case `type` = "Type"
+            case type = "Type"
             case userName = "UserName"
         }
     }
@@ -6595,7 +6595,7 @@ extension SecurityHub {
         /// A finding's title.
         public let title: [StringFilter]?
         /// A finding type in the format of namespace/category/classifier that classifies a finding.
-        public let `type`: [StringFilter]?
+        public let type: [StringFilter]?
         /// An ISO8601-formatted timestamp that indicates when the security-findings provider last updated the finding record.
         public let updatedAt: [DateFilter]?
         /// A list of name/value string pairs associated with the finding. These are custom, user-defined fields added to a finding.
@@ -6686,7 +6686,7 @@ extension SecurityHub {
             self.threatIntelIndicatorType = threatIntelIndicatorType
             self.threatIntelIndicatorValue = threatIntelIndicatorValue
             self.title = title
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
             self.userDefinedFields = userDefinedFields
             self.verificationState = verificationState
@@ -6905,8 +6905,8 @@ extension SecurityHub {
             try self.title?.forEach {
                 try $0.validate(name: "\(name).title[]")
             }
-            try self.`type`?.forEach {
-                try $0.validate(name: "\(name).`type`[]")
+            try self.type?.forEach {
+                try $0.validate(name: "\(name).type[]")
             }
             try self.updatedAt?.forEach {
                 try $0.validate(name: "\(name).updatedAt[]")
@@ -7004,7 +7004,7 @@ extension SecurityHub {
             case threatIntelIndicatorType = "ThreatIntelIndicatorType"
             case threatIntelIndicatorValue = "ThreatIntelIndicatorValue"
             case title = "Title"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
             case userDefinedFields = "UserDefinedFields"
             case verificationState = "VerificationState"
@@ -7168,7 +7168,7 @@ extension SecurityHub {
         /// The identifier for a rule.
         public let ruleId: String?
         /// The rule type. Valid values: REGULAR | RATE_BASED | GROUP  The default is REGULAR.
-        public let `type`: String?
+        public let type: String?
 
         public init(action: WafAction? = nil, excludedRules: [WafExcludedRule]? = nil, overrideAction: WafOverrideAction? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
             self.action = action
@@ -7176,7 +7176,7 @@ extension SecurityHub {
             self.overrideAction = overrideAction
             self.priority = priority
             self.ruleId = ruleId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -7186,7 +7186,7 @@ extension SecurityHub {
             }
             try self.overrideAction?.validate(name: "\(name).overrideAction")
             try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7195,7 +7195,7 @@ extension SecurityHub {
             case overrideAction = "OverrideAction"
             case priority = "Priority"
             case ruleId = "RuleId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -8820,13 +8820,13 @@ extension SecurityHub {
         /// The state of the malware that was observed.
         public let state: MalwareState?
         /// The type of the malware that was observed.
-        public let `type`: MalwareType?
+        public let type: MalwareType?
 
         public init(name: String, path: String? = nil, state: MalwareState? = nil, type: MalwareType? = nil) {
             self.name = name
             self.path = path
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -8838,7 +8838,7 @@ extension SecurityHub {
             case name = "Name"
             case path = "Path"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -9360,7 +9360,7 @@ extension SecurityHub {
         /// A list of AWS tags associated with a resource at the time the finding was processed.
         public let tags: [String: String]?
         /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other.
-        public let `type`: String
+        public let type: String
 
         public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String) {
             self.details = details
@@ -9369,7 +9369,7 @@ extension SecurityHub {
             self.region = region
             self.resourceRole = resourceRole
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -9381,7 +9381,7 @@ extension SecurityHub {
                 try validate($0.key, name: "tags.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
             }
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -9391,7 +9391,7 @@ extension SecurityHub {
             case region = "Region"
             case resourceRole = "ResourceRole"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -9943,7 +9943,7 @@ extension SecurityHub {
         /// The URL to the page or site where you can get more information about the threat intelligence indicator.
         public let sourceUrl: String?
         /// The type of threat intelligence indicator.
-        public let `type`: ThreatIntelIndicatorType?
+        public let type: ThreatIntelIndicatorType?
         /// The value of a threat intelligence indicator.
         public let value: String?
 
@@ -9952,7 +9952,7 @@ extension SecurityHub {
             self.lastObservedAt = lastObservedAt
             self.source = source
             self.sourceUrl = sourceUrl
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -9968,7 +9968,7 @@ extension SecurityHub {
             case lastObservedAt = "LastObservedAt"
             case source = "Source"
             case sourceUrl = "SourceUrl"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -10249,18 +10249,18 @@ extension SecurityHub {
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {
         /// Specifies how you want AWS WAF to respond to requests that match the settings in a rule. Valid settings include the following:    ALLOW - AWS WAF allows requests    BLOCK - AWS WAF blocks requests    COUNT - AWS WAF increments a counter of the requests that match all of the conditions in the rule. AWS WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.
-        public let `type`: String?
+        public let type: String?
 
         public init(type: String? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -10283,18 +10283,18 @@ extension SecurityHub {
 
     public struct WafOverrideAction: AWSEncodableShape & AWSDecodableShape {
         ///  COUNT overrides the action specified by the individual rule within a RuleGroup . If set to NONE, the rule's action takes place.
-        public let `type`: String?
+        public let type: String?
 
         public init(type: String? = nil) {
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

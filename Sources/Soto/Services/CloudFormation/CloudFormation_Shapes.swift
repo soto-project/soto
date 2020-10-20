@@ -421,16 +421,16 @@ extension CloudFormation {
         /// A ResourceChange structure that describes the resource and action that AWS CloudFormation will perform.
         public let resourceChange: ResourceChange?
         /// The type of entity that AWS CloudFormation changes. Currently, the only entity type is Resource.
-        public let `type`: ChangeType?
+        public let type: ChangeType?
 
         public init(resourceChange: ResourceChange? = nil, type: ChangeType? = nil) {
             self.resourceChange = resourceChange
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case resourceChange = "ResourceChange"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1108,7 +1108,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
         /// The kind of type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
@@ -1116,7 +1116,7 @@ extension CloudFormation {
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
             self.versionId = versionId
         }
@@ -1134,7 +1134,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
             case versionId = "VersionId"
         }
@@ -1649,7 +1649,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
         /// The kind of type.  Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered. If you specify a VersionId, DescribeType returns information about that specific type version. Otherwise, it returns information about the default type version.
@@ -1657,7 +1657,7 @@ extension CloudFormation {
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
             self.versionId = versionId
         }
@@ -1675,7 +1675,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
             case versionId = "VersionId"
         }
@@ -1709,7 +1709,7 @@ extension CloudFormation {
         /// When the specified type version was registered.
         public let timeCreated: Date?
         /// The kind of type.  Currently the only valid value is RESOURCE.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the registered type.
         public let typeName: String?
         /// The scope at which the type is visible and usable in CloudFormation operations. Valid values include:    PRIVATE: The type is only visible and usable within the account in which it is registered. Currently, AWS CloudFormation marks any types you register as PRIVATE.    PUBLIC: The type is publically visible and usable within any Amazon account.
@@ -1729,7 +1729,7 @@ extension CloudFormation {
             self.schema = schema
             self.sourceUrl = sourceUrl
             self.timeCreated = timeCreated
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
             self.visibility = visibility
         }
@@ -1748,7 +1748,7 @@ extension CloudFormation {
             case schema = "Schema"
             case sourceUrl = "SourceUrl"
             case timeCreated = "TimeCreated"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
             case visibility = "Visibility"
         }
@@ -2582,7 +2582,7 @@ extension CloudFormation {
         /// The current status of the type registration request. The default is IN_PROGRESS.
         public let registrationStatusFilter: RegistrationStatus?
         /// The kind of type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The Amazon Resource Name (ARN) of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeArn: String?
         /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
@@ -2592,7 +2592,7 @@ extension CloudFormation {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.registrationStatusFilter = registrationStatusFilter
-            self.`type` = `type`
+            self.type = type
             self.typeArn = typeArn
             self.typeName = typeName
         }
@@ -2613,7 +2613,7 @@ extension CloudFormation {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case registrationStatusFilter = "RegistrationStatusFilter"
-            case `type` = "Type"
+            case type = "Type"
             case typeArn = "TypeArn"
             case typeName = "TypeName"
         }
@@ -2647,7 +2647,7 @@ extension CloudFormation {
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The kind of the type. Currently the only valid value is RESOURCE. Conditional: You must specify either TypeName and Type, or Arn.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
 
@@ -2656,7 +2656,7 @@ extension CloudFormation {
             self.deprecatedStatus = deprecatedStatus
             self.maxResults = maxResults
             self.nextToken = nextToken
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
         }
 
@@ -2677,7 +2677,7 @@ extension CloudFormation {
             case deprecatedStatus = "DeprecatedStatus"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
         }
     }
@@ -2981,7 +2981,7 @@ extension CloudFormation {
         /// A url to the S3 bucket containing the schema handler package that contains the schema, event handlers, and associated files for the type you want to register. For information on generating a schema handler package for the type you want to register, see submit in the CloudFormation CLI User Guide.  As part of registering a resource provider type, CloudFormation must be able to access the S3 bucket which contains the schema handler package for that resource provider. For more information, see IAM Permissions for Registering a Resource Provider in the AWS CloudFormation User Guide.
         public let schemaHandlerPackage: String
         /// The kind of type. Currently, the only valid value is RESOURCE.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type being registered. We recommend that type names adhere to the following pattern: company_or_organization::service::type.  The following organization namespaces are reserved and cannot be used in your resource type names:    Alexa     AMZN     Amazon     AWS     Custom     Dev
         public let typeName: String
 
@@ -2990,7 +2990,7 @@ extension CloudFormation {
             self.executionRoleArn = executionRoleArn
             self.loggingConfig = loggingConfig
             self.schemaHandlerPackage = schemaHandlerPackage
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
         }
 
@@ -3014,7 +3014,7 @@ extension CloudFormation {
             case executionRoleArn = "ExecutionRoleArn"
             case loggingConfig = "LoggingConfig"
             case schemaHandlerPackage = "SchemaHandlerPackage"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
         }
     }
@@ -3201,16 +3201,16 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back.
         public let arn: String
         /// The resource type of the rollback trigger. Currently, AWS::CloudWatch::Alarm is the only supported resource type.
-        public let `type`: String
+        public let type: String
 
         public init(arn: String, type: String) {
             self.arn = arn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3246,7 +3246,7 @@ extension CloudFormation {
         /// The Amazon Resource Name (ARN) of the type for which you want version summary information. Conditional: You must specify either TypeName and Type, or Arn.
         public let arn: String?
         /// The kind of type. Conditional: You must specify either TypeName and Type, or Arn.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type. Conditional: You must specify either TypeName and Type, or Arn.
         public let typeName: String?
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
@@ -3254,7 +3254,7 @@ extension CloudFormation {
 
         public init(arn: String? = nil, type: RegistryType? = nil, typeName: String? = nil, versionId: String? = nil) {
             self.arn = arn
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
             self.versionId = versionId
         }
@@ -3272,7 +3272,7 @@ extension CloudFormation {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
             case versionId = "VersionId"
         }
@@ -4318,7 +4318,7 @@ extension CloudFormation {
         /// When the current default version of the type was registered.
         public let lastUpdated: Date?
         /// The kind of type.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The Amazon Resource Name (ARN) of the type.
         public let typeArn: String?
         /// The name of the type.
@@ -4328,7 +4328,7 @@ extension CloudFormation {
             self.defaultVersionId = defaultVersionId
             self.description = description
             self.lastUpdated = lastUpdated
-            self.`type` = `type`
+            self.type = type
             self.typeArn = typeArn
             self.typeName = typeName
         }
@@ -4337,7 +4337,7 @@ extension CloudFormation {
             case defaultVersionId = "DefaultVersionId"
             case description = "Description"
             case lastUpdated = "LastUpdated"
-            case `type` = "Type"
+            case type = "Type"
             case typeArn = "TypeArn"
             case typeName = "TypeName"
         }
@@ -4353,7 +4353,7 @@ extension CloudFormation {
         /// When the version was registered.
         public let timeCreated: Date?
         /// The kind of type.
-        public let `type`: RegistryType?
+        public let type: RegistryType?
         /// The name of the type.
         public let typeName: String?
         /// The ID of a specific version of the type. The version ID is the value at the end of the Amazon Resource Name (ARN) assigned to the type version when it is registered.
@@ -4364,7 +4364,7 @@ extension CloudFormation {
             self.description = description
             self.isDefaultVersion = isDefaultVersion
             self.timeCreated = timeCreated
-            self.`type` = `type`
+            self.type = type
             self.typeName = typeName
             self.versionId = versionId
         }
@@ -4374,7 +4374,7 @@ extension CloudFormation {
             case description = "Description"
             case isDefaultVersion = "IsDefaultVersion"
             case timeCreated = "TimeCreated"
-            case `type` = "Type"
+            case type = "Type"
             case typeName = "TypeName"
             case versionId = "VersionId"
         }

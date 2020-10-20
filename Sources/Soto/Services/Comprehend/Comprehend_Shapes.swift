@@ -1967,14 +1967,14 @@ extension Comprehend {
         /// The text of the entity.
         public let text: String?
         /// The entity's type.
-        public let `type`: EntityType?
+        public let type: EntityType?
 
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, text: String? = nil, type: EntityType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.score = score
             self.text = text
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1982,7 +1982,7 @@ extension Comprehend {
             case endOffset = "EndOffset"
             case score = "Score"
             case text = "Text"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2158,18 +2158,18 @@ extension Comprehend {
         /// Indicates the number of times the given entity type was seen in the training data.
         public let numberOfTrainMentions: Int?
         /// Type of entity from the list of entity types in the metadata of an entity recognizer.
-        public let `type`: String?
+        public let type: String?
 
         public init(evaluationMetrics: EntityTypesEvaluationMetrics? = nil, numberOfTrainMentions: Int? = nil, type: String? = nil) {
             self.evaluationMetrics = evaluationMetrics
             self.numberOfTrainMentions = numberOfTrainMentions
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case evaluationMetrics = "EvaluationMetrics"
             case numberOfTrainMentions = "NumberOfTrainMentions"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2257,19 +2257,19 @@ extension Comprehend {
 
     public struct EntityTypesListItem: AWSEncodableShape & AWSDecodableShape {
         /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
-        public let `type`: String
+        public let type: String
 
         public init(type: String) {
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.`type`, name: "`type`", parent: name, max: 64)
-            try self.validate(self.`type`, name: "`type`", parent: name, pattern: "^(?:(?!\\\\n+|\\\\t+|\\\\r+|[\\r\\t\\n\\s,]).)+$")
+            try self.validate(self.type, name: "type", parent: name, max: 64)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^(?:(?!\\\\n+|\\\\t+|\\\\r+|[\\r\\t\\n\\s,]).)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3027,20 +3027,20 @@ extension Comprehend {
         /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
         public let score: Float?
         /// The entity's type.
-        public let `type`: PiiEntityType?
+        public let type: PiiEntityType?
 
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, type: PiiEntityType? = nil) {
             self.beginOffset = beginOffset
             self.endOffset = endOffset
             self.score = score
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case beginOffset = "BeginOffset"
             case endOffset = "EndOffset"
             case score = "Score"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

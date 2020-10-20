@@ -7235,19 +7235,19 @@ extension SageMaker {
         /// The name of the metric with the best result. For a description of the possible objective metrics, see AutoMLJobObjective$MetricName.
         public let metricName: AutoMLMetricEnum
         /// The type of metric with the best result.
-        public let `type`: AutoMLJobObjectiveType?
+        public let type: AutoMLJobObjectiveType?
         /// The value of the metric with the best result.
         public let value: Float
 
         public init(metricName: AutoMLMetricEnum, type: AutoMLJobObjectiveType? = nil, value: Float) {
             self.metricName = metricName
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -7256,19 +7256,19 @@ extension SageMaker {
         /// The name of the objective metric.
         public let metricName: String
         /// Whether to minimize or maximize the objective metric. Valid values are Minimize and Maximize.
-        public let `type`: HyperParameterTuningJobObjectiveType?
+        public let type: HyperParameterTuningJobObjectiveType?
         /// The value of the objective metric.
         public let value: Float
 
         public init(metricName: String, type: HyperParameterTuningJobObjectiveType? = nil, value: Float) {
             self.metricName = metricName
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
-            case `type` = "Type"
+            case type = "Type"
             case value = "Value"
         }
     }
@@ -7689,7 +7689,7 @@ extension SageMaker {
         /// The allowed range for this hyperparameter.
         public let range: ParameterRange?
         /// The type of this hyperparameter. The valid types are Integer, Continuous, Categorical, and FreeText.
-        public let `type`: ParameterType
+        public let type: ParameterType
 
         public init(defaultValue: String? = nil, description: String? = nil, isRequired: Bool? = nil, isTunable: Bool? = nil, name: String, range: ParameterRange? = nil, type: ParameterType) {
             self.defaultValue = defaultValue
@@ -7698,7 +7698,7 @@ extension SageMaker {
             self.isTunable = isTunable
             self.name = name
             self.range = range
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -7718,7 +7718,7 @@ extension SageMaker {
             case isTunable = "IsTunable"
             case name = "Name"
             case range = "Range"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -7916,11 +7916,11 @@ extension SageMaker {
         /// The name of the metric to use for the objective metric.
         public let metricName: String
         /// Whether to minimize or maximize the objective metric.
-        public let `type`: HyperParameterTuningJobObjectiveType
+        public let type: HyperParameterTuningJobObjectiveType
 
         public init(metricName: String, type: HyperParameterTuningJobObjectiveType) {
             self.metricName = metricName
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -7931,7 +7931,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case metricName = "MetricName"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

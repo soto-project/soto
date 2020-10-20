@@ -450,7 +450,7 @@ extension Connect {
         /// One or more tags.
         public let tags: [String: String]?
         /// The type of the contact flow. For descriptions of the available types, see Choose a Contact Flow Type in the Amazon Connect Administrator Guide.
-        public let `type`: ContactFlowType?
+        public let type: ContactFlowType?
 
         public init(arn: String? = nil, content: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, tags: [String: String]? = nil, type: ContactFlowType? = nil) {
             self.arn = arn
@@ -459,7 +459,7 @@ extension Connect {
             self.id = id
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -469,7 +469,7 @@ extension Connect {
             case id = "Id"
             case name = "Name"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -514,7 +514,7 @@ extension Connect {
         /// One or more tags.
         public let tags: [String: String]?
         /// The type of the contact flow. For descriptions of the available types, see Choose a Contact Flow Type in the Amazon Connect Administrator Guide.
-        public let `type`: ContactFlowType
+        public let type: ContactFlowType
 
         public init(content: String, description: String? = nil, instanceId: String, name: String, tags: [String: String]? = nil, type: ContactFlowType) {
             self.content = content
@@ -522,7 +522,7 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -542,7 +542,7 @@ extension Connect {
             case description = "Description"
             case name = "Name"
             case tags = "Tags"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

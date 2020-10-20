@@ -328,7 +328,7 @@ extension SFN {
         /// Selects whether AWS X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// Determines whether a Standard or Express state machine is created. The default is STANDARD. You cannot update the type of a state machine once it has been created.
-        public let `type`: StateMachineType?
+        public let type: StateMachineType?
 
         public init(definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, tags: [Tag]? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType? = nil) {
             self.definition = definition
@@ -337,7 +337,7 @@ extension SFN {
             self.roleArn = roleArn
             self.tags = tags
             self.tracingConfiguration = tracingConfiguration
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -360,7 +360,7 @@ extension SFN {
             case roleArn
             case tags
             case tracingConfiguration
-            case `type`
+            case type
         }
     }
 
@@ -622,7 +622,7 @@ extension SFN {
         /// Selects whether AWS X-Ray tracing is enabled.
         public let tracingConfiguration: TracingConfiguration?
         /// The type of the state machine (STANDARD or EXPRESS).
-        public let `type`: StateMachineType
+        public let type: StateMachineType
 
         public init(creationDate: Date, definition: String, loggingConfiguration: LoggingConfiguration? = nil, name: String, roleArn: String, stateMachineArn: String, status: StateMachineStatus? = nil, tracingConfiguration: TracingConfiguration? = nil, type: StateMachineType) {
             self.creationDate = creationDate
@@ -633,7 +633,7 @@ extension SFN {
             self.stateMachineArn = stateMachineArn
             self.status = status
             self.tracingConfiguration = tracingConfiguration
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -645,7 +645,7 @@ extension SFN {
             case stateMachineArn
             case status
             case tracingConfiguration
-            case `type`
+            case type
         }
     }
 
@@ -923,7 +923,7 @@ extension SFN {
         /// The date and time the event occurred.
         public let timestamp: Date
         /// The type of the event.
-        public let `type`: HistoryEventType
+        public let type: HistoryEventType
 
         public init(activityFailedEventDetails: ActivityFailedEventDetails? = nil, activityScheduledEventDetails: ActivityScheduledEventDetails? = nil, activityScheduleFailedEventDetails: ActivityScheduleFailedEventDetails? = nil, activityStartedEventDetails: ActivityStartedEventDetails? = nil, activitySucceededEventDetails: ActivitySucceededEventDetails? = nil, activityTimedOutEventDetails: ActivityTimedOutEventDetails? = nil, executionAbortedEventDetails: ExecutionAbortedEventDetails? = nil, executionFailedEventDetails: ExecutionFailedEventDetails? = nil, executionStartedEventDetails: ExecutionStartedEventDetails? = nil, executionSucceededEventDetails: ExecutionSucceededEventDetails? = nil, executionTimedOutEventDetails: ExecutionTimedOutEventDetails? = nil, id: Int64, lambdaFunctionFailedEventDetails: LambdaFunctionFailedEventDetails? = nil, lambdaFunctionScheduledEventDetails: LambdaFunctionScheduledEventDetails? = nil, lambdaFunctionScheduleFailedEventDetails: LambdaFunctionScheduleFailedEventDetails? = nil, lambdaFunctionStartFailedEventDetails: LambdaFunctionStartFailedEventDetails? = nil, lambdaFunctionSucceededEventDetails: LambdaFunctionSucceededEventDetails? = nil, lambdaFunctionTimedOutEventDetails: LambdaFunctionTimedOutEventDetails? = nil, mapIterationAbortedEventDetails: MapIterationEventDetails? = nil, mapIterationFailedEventDetails: MapIterationEventDetails? = nil, mapIterationStartedEventDetails: MapIterationEventDetails? = nil, mapIterationSucceededEventDetails: MapIterationEventDetails? = nil, mapStateStartedEventDetails: MapStateStartedEventDetails? = nil, previousEventId: Int64? = nil, stateEnteredEventDetails: StateEnteredEventDetails? = nil, stateExitedEventDetails: StateExitedEventDetails? = nil, taskFailedEventDetails: TaskFailedEventDetails? = nil, taskScheduledEventDetails: TaskScheduledEventDetails? = nil, taskStartedEventDetails: TaskStartedEventDetails? = nil, taskStartFailedEventDetails: TaskStartFailedEventDetails? = nil, taskSubmitFailedEventDetails: TaskSubmitFailedEventDetails? = nil, taskSubmittedEventDetails: TaskSubmittedEventDetails? = nil, taskSucceededEventDetails: TaskSucceededEventDetails? = nil, taskTimedOutEventDetails: TaskTimedOutEventDetails? = nil, timestamp: Date, type: HistoryEventType) {
             self.activityFailedEventDetails = activityFailedEventDetails
@@ -961,7 +961,7 @@ extension SFN {
             self.taskSucceededEventDetails = taskSucceededEventDetails
             self.taskTimedOutEventDetails = taskTimedOutEventDetails
             self.timestamp = timestamp
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1000,7 +1000,7 @@ extension SFN {
             case taskSucceededEventDetails
             case taskTimedOutEventDetails
             case timestamp
-            case `type`
+            case type
         }
     }
 
@@ -1549,20 +1549,20 @@ extension SFN {
         public let name: String
         /// The Amazon Resource Name (ARN) that identifies the state machine.
         public let stateMachineArn: String
-        public let `type`: StateMachineType
+        public let type: StateMachineType
 
         public init(creationDate: Date, name: String, stateMachineArn: String, type: StateMachineType) {
             self.creationDate = creationDate
             self.name = name
             self.stateMachineArn = stateMachineArn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case creationDate
             case name
             case stateMachineArn
-            case `type`
+            case type
         }
     }
 

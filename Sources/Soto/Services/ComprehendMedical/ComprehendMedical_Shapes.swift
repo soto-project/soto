@@ -191,7 +191,7 @@ extension ComprehendMedical {
         ///  Contextual information for this attribute.
         public let traits: [Trait]?
         ///  The type of attribute.
-        public let `type`: EntitySubType?
+        public let type: EntitySubType?
 
         public init(beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: RelationshipType? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.beginOffset = beginOffset
@@ -203,7 +203,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -216,7 +216,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -587,7 +587,7 @@ extension ComprehendMedical {
         /// Contextual information for the entity.
         public let traits: [Trait]?
         ///  Describes the specific type of entity with category of entities.
-        public let `type`: EntitySubType?
+        public let type: EntitySubType?
 
         public init(attributes: [Attribute]? = nil, beginOffset: Int? = nil, category: EntityType? = nil, endOffset: Int? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [Trait]? = nil, type: EntitySubType? = nil) {
             self.attributes = attributes
@@ -598,7 +598,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -610,7 +610,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -630,7 +630,7 @@ extension ComprehendMedical {
         /// The contextual information for the attribute. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION.
         public let traits: [ICD10CMTrait]?
         /// The type of attribute. InferICD10CM detects entities of the type DX_NAME.
-        public let `type`: ICD10CMAttributeType?
+        public let type: ICD10CMAttributeType?
 
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMAttributeType? = nil) {
             self.beginOffset = beginOffset
@@ -640,7 +640,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -651,7 +651,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -696,7 +696,7 @@ extension ComprehendMedical {
         /// Provides Contextual information for the entity. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION.
         public let traits: [ICD10CMTrait]?
         /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME.
-        public let `type`: ICD10CMEntityType?
+        public let type: ICD10CMEntityType?
 
         public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, iCD10CMConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {
             self.attributes = attributes
@@ -708,7 +708,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -721,7 +721,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1066,7 +1066,7 @@ extension ComprehendMedical {
         /// Contextual information for the attribute. InferRxNorm recognizes the trait NEGATION for attributes, i.e. that the patient is not taking a specific dose or form of a medication.
         public let traits: [RxNormTrait]?
         /// The type of attribute. The types of attributes recognized by InferRxNorm are BRAND_NAME and GENERIC_NAME.
-        public let `type`: RxNormAttributeType?
+        public let type: RxNormAttributeType?
 
         public init(beginOffset: Int? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormAttributeType? = nil) {
             self.beginOffset = beginOffset
@@ -1076,7 +1076,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1087,7 +1087,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1132,7 +1132,7 @@ extension ComprehendMedical {
         ///  Contextual information for the entity.
         public let traits: [RxNormTrait]?
         ///  Describes the specific type of entity. For InferRxNorm, the recognized entity type is MEDICATION.
-        public let `type`: RxNormEntityType?
+        public let type: RxNormEntityType?
 
         public init(attributes: [RxNormAttribute]? = nil, beginOffset: Int? = nil, category: RxNormEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, rxNormConcepts: [RxNormConcept]? = nil, score: Float? = nil, text: String? = nil, traits: [RxNormTrait]? = nil, type: RxNormEntityType? = nil) {
             self.attributes = attributes
@@ -1144,7 +1144,7 @@ extension ComprehendMedical {
             self.score = score
             self.text = text
             self.traits = traits
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1157,7 +1157,7 @@ extension ComprehendMedical {
             case score = "Score"
             case text = "Text"
             case traits = "Traits"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1595,16 +1595,16 @@ extension ComprehendMedical {
         ///  The specific attribute that has been extracted but not mapped to an entity.
         public let attribute: Attribute?
         ///  The type of the attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
-        public let `type`: EntityType?
+        public let type: EntityType?
 
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {
             self.attribute = attribute
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case attribute = "Attribute"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 }

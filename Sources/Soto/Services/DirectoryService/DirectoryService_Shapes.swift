@@ -1305,13 +1305,13 @@ extension DirectoryService {
         /// The type of next token used for pagination.
         public let nextToken: String?
         /// The type of LDAP security to enable. Currently only the value Client is supported.
-        public let `type`: LDAPSType?
+        public let type: LDAPSType?
 
         public init(directoryId: String, limit: Int? = nil, nextToken: String? = nil, type: LDAPSType? = nil) {
             self.directoryId = directoryId
             self.limit = limit
             self.nextToken = nextToken
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1324,7 +1324,7 @@ extension DirectoryService {
             case directoryId = "DirectoryId"
             case limit = "Limit"
             case nextToken = "NextToken"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1611,7 +1611,7 @@ extension DirectoryService {
         /// Additional information about the directory stage.
         public let stageReason: String?
         /// The directory size.
-        public let `type`: DirectoryType?
+        public let type: DirectoryType?
         /// A DirectoryVpcSettingsDescription object that contains additional information about a directory. This member is only present if the directory is a Simple AD or Managed AD directory.
         public let vpcSettings: DirectoryVpcSettingsDescription?
 
@@ -1638,7 +1638,7 @@ extension DirectoryService {
             self.stage = stage
             self.stageLastUpdatedDateTime = stageLastUpdatedDateTime
             self.stageReason = stageReason
-            self.`type` = `type`
+            self.type = type
             self.vpcSettings = vpcSettings
         }
 
@@ -1665,7 +1665,7 @@ extension DirectoryService {
             case stage = "Stage"
             case stageLastUpdatedDateTime = "StageLastUpdatedDateTime"
             case stageReason = "StageReason"
-            case `type` = "Type"
+            case type = "Type"
             case vpcSettings = "VpcSettings"
         }
     }
@@ -1768,11 +1768,11 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security to enable. Currently only the value Client is supported.
-        public let `type`: LDAPSType
+        public let type: LDAPSType
 
         public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1781,7 +1781,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1896,11 +1896,11 @@ extension DirectoryService {
         /// The identifier of the directory.
         public let directoryId: String
         /// The type of LDAP security to enable. Currently only the value Client is supported.
-        public let `type`: LDAPSType
+        public let type: LDAPSType
 
         public init(directoryId: String, type: LDAPSType) {
             self.directoryId = directoryId
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1909,7 +1909,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2750,11 +2750,11 @@ extension DirectoryService {
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
-        public let `type`: TargetType
+        public let type: TargetType
 
         public init(id: String, type: TargetType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2764,7 +2764,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -2825,7 +2825,7 @@ extension DirectoryService {
         /// The snapshot status.
         public let status: SnapshotStatus?
         /// The snapshot type.
-        public let `type`: SnapshotType?
+        public let type: SnapshotType?
 
         public init(directoryId: String? = nil, name: String? = nil, snapshotId: String? = nil, startTime: Date? = nil, status: SnapshotStatus? = nil, type: SnapshotType? = nil) {
             self.directoryId = directoryId
@@ -2833,7 +2833,7 @@ extension DirectoryService {
             self.snapshotId = snapshotId
             self.startTime = startTime
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2842,7 +2842,7 @@ extension DirectoryService {
             case snapshotId = "SnapshotId"
             case startTime = "StartTime"
             case status = "Status"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -3032,11 +3032,11 @@ extension DirectoryService {
         /// Identifier of the directory consumer account.
         public let id: String
         /// Type of identifier to be used in the Id field.
-        public let `type`: TargetType
+        public let type: TargetType
 
         public init(id: String, type: TargetType) {
             self.id = id
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -3046,7 +3046,7 @@ extension DirectoryService {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

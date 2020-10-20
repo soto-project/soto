@@ -268,11 +268,11 @@ extension DataExchange {
         /// The details for the CreateJob request.
         public let details: RequestDetails
         /// The type of job to be created.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(details: RequestDetails, type: `Type`) {
             self.details = details
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -281,7 +281,7 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case details = "Details"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -293,7 +293,7 @@ extension DataExchange {
         public let errors: [JobError]?
         public let id: String?
         public let state: State?
-        public let `type`: `Type`?
+        public let type: `Type`?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -304,7 +304,7 @@ extension DataExchange {
             self.errors = errors
             self.id = id
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -315,7 +315,7 @@ extension DataExchange {
             case errors = "Errors"
             case id = "Id"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -608,16 +608,16 @@ extension DataExchange {
         /// The Amazon Resource Name (ARN) of the the AWS KMS key you want to use to encrypt the Amazon S3 objects. This parameter is required if you choose aws:kms as an encryption type.
         public let kmsKeyArn: String?
         /// The type of server side encryption used for encrypting the objects in Amazon S3.
-        public let `type`: ServerSideEncryptionTypes
+        public let type: ServerSideEncryptionTypes
 
         public init(kmsKeyArn: String? = nil, type: ServerSideEncryptionTypes) {
             self.kmsKeyArn = kmsKeyArn
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "KmsKeyArn"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -762,7 +762,7 @@ extension DataExchange {
         public let errors: [JobError]?
         public let id: String?
         public let state: State?
-        public let `type`: `Type`?
+        public let type: `Type`?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -773,7 +773,7 @@ extension DataExchange {
             self.errors = errors
             self.id = id
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -784,7 +784,7 @@ extension DataExchange {
             case errors = "Errors"
             case id = "Id"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -978,7 +978,7 @@ extension DataExchange {
         /// The state of the job.
         public let state: State
         /// The job type.
-        public let `type`: `Type`
+        public let type: `Type`
         /// The date and time that the job was last updated, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
@@ -990,7 +990,7 @@ extension DataExchange {
             self.errors = errors
             self.id = id
             self.state = state
-            self.`type` = `type`
+            self.type = type
             self.updatedAt = updatedAt
         }
 
@@ -1001,7 +1001,7 @@ extension DataExchange {
             case errors = "Errors"
             case id = "Id"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
             case updatedAt = "UpdatedAt"
         }
     }

@@ -22,7 +22,7 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-argument-parser.git", .upToNextMinor(from: "0.3.0")),
-        .package(url: "https://github.com/swift-aws/Stencil.git", .upToNextMajor(from: "0.13.2")),
+        .package(url: "https://github.com/soto-project/Stencil.git", .upToNextMajor(from: "0.13.2")),
         .package(url: "https://github.com/nicklockwood/SwiftFormat.git", .upToNextMinor(from: "0.46.0")),
     ],
     targets: [

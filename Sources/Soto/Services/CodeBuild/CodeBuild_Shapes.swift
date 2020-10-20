@@ -1226,13 +1226,13 @@ extension CodeBuild {
         ///  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
         public let tags: [Tag]?
         ///  The type of report group.
-        public let `type`: ReportType
+        public let type: ReportType
 
         public init(exportConfig: ReportExportConfig, name: String, tags: [Tag]? = nil, type: ReportType) {
             self.exportConfig = exportConfig
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1250,7 +1250,7 @@ extension CodeBuild {
             case exportConfig
             case name
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -1677,13 +1677,13 @@ extension CodeBuild {
         /// The name or key of the environment variable.
         public let name: String
         /// The type of environment variable. Valid values include:    PARAMETER_STORE: An environment variable stored in Amazon EC2 Systems Manager Parameter Store. To learn how to specify a parameter store environment variable, see env/parameter-store in the AWS CodeBuild User Guide.    PLAINTEXT: An environment variable in plain text format. This is the default value.    SECRETS_MANAGER: An environment variable stored in AWS Secrets Manager. To learn how to specify a secrets manager environment variable, see env/secrets-manager in the AWS CodeBuild User Guide.
-        public let `type`: EnvironmentVariableType?
+        public let type: EnvironmentVariableType?
         /// The value of the environment variable.  We strongly discourage the use of PLAINTEXT environment variables to store sensitive values, especially AWS secret key IDs and secret access keys. PLAINTEXT environment variables can be displayed in plain text using the AWS CodeBuild console and the AWS Command Line Interface (AWS CLI). For sensitive values, we recommend you use an environment variable of type PARAMETER_STORE or SECRETS_MANAGER.
         public let value: String
 
         public init(name: String, type: EnvironmentVariableType? = nil, value: String) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
             self.value = value
         }
 
@@ -1693,7 +1693,7 @@ extension CodeBuild {
 
         private enum CodingKeys: String, CodingKey {
             case name
-            case `type`
+            case type
             case value
         }
     }
@@ -2532,7 +2532,7 @@ extension CodeBuild {
         /// Along with namespaceType and name, the pattern that AWS CodeBuild uses to name and store the output artifact:   If type is set to CODEPIPELINE, AWS CodePipeline ignores this value if specified. This is because AWS CodePipeline manages its build output names instead of AWS CodeBuild.   If type is set to NO_ARTIFACTS, this value is ignored if specified, because no build output is produced.   If type is set to S3, this is the path to the output artifact. If path is not specified, path is not used.   For example, if path is set to MyArtifacts, namespaceType is set to NONE, and name is set to MyArtifact.zip, the output artifact is stored in the output bucket at MyArtifacts/MyArtifact.zip.
         public let path: String?
         /// The type of build output artifact. Valid values include:    CODEPIPELINE: The build project has build output generated through AWS CodePipeline.   The CODEPIPELINE type is not supported for secondaryArtifacts.     NO_ARTIFACTS: The build project does not produce any build output.    S3: The build project stores build output in Amazon Simple Storage Service (Amazon S3).
-        public let `type`: ArtifactsType
+        public let type: ArtifactsType
 
         public init(artifactIdentifier: String? = nil, encryptionDisabled: Bool? = nil, location: String? = nil, name: String? = nil, namespaceType: ArtifactNamespace? = nil, overrideArtifactName: Bool? = nil, packaging: ArtifactPackaging? = nil, path: String? = nil, type: ArtifactsType) {
             self.artifactIdentifier = artifactIdentifier
@@ -2543,7 +2543,7 @@ extension CodeBuild {
             self.overrideArtifactName = overrideArtifactName
             self.packaging = packaging
             self.path = path
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2555,7 +2555,7 @@ extension CodeBuild {
             case overrideArtifactName
             case packaging
             case path
-            case `type`
+            case type
         }
     }
 
@@ -2612,18 +2612,18 @@ extension CodeBuild {
         ///  If you use a LOCAL cache, the local cache mode. You can use one or more local cache modes at the same time.     LOCAL_SOURCE_CACHE mode caches Git metadata for primary and secondary sources. After the cache is created, subsequent builds pull only the change between commits. This mode is a good choice for projects with a clean working directory and a source that is a large Git repository. If you choose this option and your project does not use a Git repository (GitHub, GitHub Enterprise, or Bitbucket), the option is ignored.     LOCAL_DOCKER_LAYER_CACHE mode caches existing Docker layers. This mode is a good choice for projects that build or pull large Docker images. It can prevent the performance issues caused by pulling large Docker images down from the network.      You can use a Docker layer cache in the Linux environment only.     The privileged flag must be set so that your project has the required Docker permissions.     You should consider the security implications before you use a Docker layer cache.          LOCAL_CUSTOM_CACHE mode caches directories you specify in the buildspec file. This mode is a good choice if your build scenario is not suited to one of the other three local cache modes. If you use a custom cache:     Only directories can be specified for caching. You cannot specify individual files.     Symlinks are used to reference cached directories.     Cached directories are linked to your build before it downloads its project sources. Cached items are overridden if a source item has the same name. Directories are specified using cache paths in the buildspec file.
         public let modes: [CacheMode]?
         /// The type of cache used by the build project. Valid values include:    NO_CACHE: The build project does not use any cache.    S3: The build project reads and writes from and to S3.    LOCAL: The build project stores a cache locally on a build host that is only available to that build host.
-        public let `type`: CacheType
+        public let type: CacheType
 
         public init(location: String? = nil, modes: [CacheMode]? = nil, type: CacheType) {
             self.location = location
             self.modes = modes
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case location
             case modes
-            case `type`
+            case type
         }
     }
 
@@ -2643,7 +2643,7 @@ extension CodeBuild {
         ///  The credentials for access to a private registry.
         public let registryCredential: RegistryCredential?
         /// The type of build environment to use for related builds.   The environment type ARM_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), EU (Ireland), Asia Pacific (Mumbai), Asia Pacific (Tokyo), Asia Pacific (Sydney), and EU (Frankfurt).   The environment type LINUX_CONTAINER with compute type build.general1.2xlarge is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney), China (Beijing), and China (Ningxia).   The environment type LINUX_GPU_CONTAINER is available only in regions US East (N. Virginia), US East (Ohio), US West (Oregon), Canada (Central), EU (Ireland), EU (London), EU (Frankfurt), Asia Pacific (Tokyo), Asia Pacific (Seoul), Asia Pacific (Singapore), Asia Pacific (Sydney) , China (Beijing), and China (Ningxia).
-        public let `type`: EnvironmentType
+        public let type: EnvironmentType
 
         public init(certificate: String? = nil, computeType: ComputeType, environmentVariables: [EnvironmentVariable]? = nil, image: String, imagePullCredentialsType: ImagePullCredentialsType? = nil, privilegedMode: Bool? = nil, registryCredential: RegistryCredential? = nil, type: EnvironmentType) {
             self.certificate = certificate
@@ -2653,7 +2653,7 @@ extension CodeBuild {
             self.imagePullCredentialsType = imagePullCredentialsType
             self.privilegedMode = privilegedMode
             self.registryCredential = registryCredential
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2672,7 +2672,7 @@ extension CodeBuild {
             case imagePullCredentialsType
             case privilegedMode
             case registryCredential
-            case `type`
+            case type
         }
     }
 
@@ -2686,14 +2686,14 @@ extension CodeBuild {
         ///  The location in the container where you mount the file system.
         public let mountPoint: String?
         ///  The type of the file system. The one supported type is EFS.
-        public let `type`: FileSystemType?
+        public let type: FileSystemType?
 
         public init(identifier: String? = nil, location: String? = nil, mountOptions: String? = nil, mountPoint: String? = nil, type: FileSystemType? = nil) {
             self.identifier = identifier
             self.location = location
             self.mountOptions = mountOptions
             self.mountPoint = mountPoint
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2701,7 +2701,7 @@ extension CodeBuild {
             case location
             case mountOptions
             case mountPoint
-            case `type`
+            case type
         }
     }
 
@@ -2725,7 +2725,7 @@ extension CodeBuild {
         ///  An identifier for this project source.
         public let sourceIdentifier: String?
         /// The type of repository that contains the source code to be built. Valid values include:    BITBUCKET: The source code is in a Bitbucket repository.    CODECOMMIT: The source code is in an AWS CodeCommit repository.    CODEPIPELINE: The source code settings are specified in the source action of a pipeline in AWS CodePipeline.    GITHUB: The source code is in a GitHub or GitHub Enterprise Cloud repository.    GITHUB_ENTERPRISE: The source code is in a GitHub Enterprise Server repository.    NO_SOURCE: The project does not have input source code.    S3: The source code is in an Amazon Simple Storage Service (Amazon S3) input bucket.
-        public let `type`: SourceType
+        public let type: SourceType
 
         public init(auth: SourceAuth? = nil, buildspec: String? = nil, buildStatusConfig: BuildStatusConfig? = nil, gitCloneDepth: Int? = nil, gitSubmodulesConfig: GitSubmodulesConfig? = nil, insecureSsl: Bool? = nil, location: String? = nil, reportBuildStatus: Bool? = nil, sourceIdentifier: String? = nil, type: SourceType) {
             self.auth = auth
@@ -2737,7 +2737,7 @@ extension CodeBuild {
             self.location = location
             self.reportBuildStatus = reportBuildStatus
             self.sourceIdentifier = sourceIdentifier
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -2754,7 +2754,7 @@ extension CodeBuild {
             case location
             case reportBuildStatus
             case sourceIdentifier
-            case `type`
+            case type
         }
     }
 
@@ -2855,7 +2855,7 @@ extension CodeBuild {
         ///  A boolean that specifies if this report run is truncated. The list of test cases is truncated after the maximum number of test cases is reached.
         public let truncated: Bool?
         /// The type of the report that was run.  CODE_COVERAGE  A code coverage report.  TEST  A test report.
-        public let `type`: ReportType?
+        public let type: ReportType?
 
         public init(arn: String? = nil, codeCoverageSummary: CodeCoverageReportSummary? = nil, created: Date? = nil, executionId: String? = nil, expired: Date? = nil, exportConfig: ReportExportConfig? = nil, name: String? = nil, reportGroupArn: String? = nil, status: ReportStatusType? = nil, testSummary: TestReportSummary? = nil, truncated: Bool? = nil, type: ReportType? = nil) {
             self.arn = arn
@@ -2869,7 +2869,7 @@ extension CodeBuild {
             self.status = status
             self.testSummary = testSummary
             self.truncated = truncated
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2884,7 +2884,7 @@ extension CodeBuild {
             case status
             case testSummary
             case truncated
-            case `type`
+            case type
         }
     }
 
@@ -2936,7 +2936,7 @@ extension CodeBuild {
         ///  A list of tag key and value pairs associated with this report group.  These tags are available for use by AWS services that support AWS CodeBuild report group tags.
         public let tags: [Tag]?
         ///  The type of the ReportGroup. The one valid value is TEST.
-        public let `type`: ReportType?
+        public let type: ReportType?
 
         public init(arn: String? = nil, created: Date? = nil, exportConfig: ReportExportConfig? = nil, lastModified: Date? = nil, name: String? = nil, tags: [Tag]? = nil, type: ReportType? = nil) {
             self.arn = arn
@@ -2945,7 +2945,7 @@ extension CodeBuild {
             self.lastModified = lastModified
             self.name = name
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2955,7 +2955,7 @@ extension CodeBuild {
             case lastModified
             case name
             case tags
-            case `type`
+            case type
         }
     }
 
@@ -2965,18 +2965,18 @@ extension CodeBuild {
         /// The location of the artifact.
         public let location: String?
         /// Specifies the type of artifact.
-        public let `type`: ArtifactsType?
+        public let type: ArtifactsType?
 
         public init(identifier: String? = nil, location: String? = nil, type: ArtifactsType? = nil) {
             self.identifier = identifier
             self.location = location
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case identifier
             case location
-            case `type`
+            case type
         }
     }
 
@@ -3109,16 +3109,16 @@ extension CodeBuild {
         /// The resource value that applies to the specified authorization type.
         public let resource: String?
         ///   This data type is deprecated and is no longer accurate or used.   The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
-        public let `type`: SourceAuthType
+        public let type: SourceAuthType
 
         public init(resource: String? = nil, type: SourceAuthType) {
             self.resource = resource
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case resource
-            case `type`
+            case type
         }
     }
 
@@ -3945,18 +3945,18 @@ extension CodeBuild {
         ///  For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build.   For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
         public let pattern: String
         ///  The type of webhook filter. There are six webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, and COMMIT_MESSAGE.    EVENT    A webhook event triggers a build when the provided pattern matches one of five event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_REOPENED, and PULL_REQUEST_MERGED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events.    The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only.     ACTOR_ACCOUNT_ID    A webhook event triggers a build when a GitHub, GitHub Enterprise, or Bitbucket account ID matches the regular expression pattern.    HEAD_REF    A webhook event triggers a build when the head reference matches the regular expression pattern. For example, refs/heads/branch-name and refs/tags/tag-name.   Works with GitHub and GitHub Enterprise push, GitHub and GitHub Enterprise pull request, Bitbucket push, and Bitbucket pull request events.    BASE_REF    A webhook event triggers a build when the base reference matches the regular expression pattern. For example, refs/heads/branch-name.    Works with pull request events only.     FILE_PATH    A webhook triggers a build when the path of a changed file matches the regular expression pattern.    Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.    COMMIT_MESSAGE  A webhook triggers a build when the head commit message matches the regular expression pattern.   Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.
-        public let `type`: WebhookFilterType
+        public let type: WebhookFilterType
 
         public init(excludeMatchedPattern: Bool? = nil, pattern: String, type: WebhookFilterType) {
             self.excludeMatchedPattern = excludeMatchedPattern
             self.pattern = pattern
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case excludeMatchedPattern
             case pattern
-            case `type`
+            case type
         }
     }
 }

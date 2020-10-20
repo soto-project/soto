@@ -1012,7 +1012,7 @@ extension Route53Domains {
         /// The date when the request was submitted.
         public let submittedDate: Date?
         /// The type of operation that was requested.
-        public let `type`: OperationType?
+        public let type: OperationType?
 
         public init(domainName: String? = nil, message: String? = nil, operationId: String? = nil, status: OperationStatus? = nil, submittedDate: Date? = nil, type: OperationType? = nil) {
             self.domainName = domainName
@@ -1020,7 +1020,7 @@ extension Route53Domains {
             self.operationId = operationId
             self.status = status
             self.submittedDate = submittedDate
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1029,7 +1029,7 @@ extension Route53Domains {
             case operationId = "OperationId"
             case status = "Status"
             case submittedDate = "SubmittedDate"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -1178,20 +1178,20 @@ extension Route53Domains {
         /// The date when the request was submitted.
         public let submittedDate: Date
         /// Type of the action requested.
-        public let `type`: OperationType
+        public let type: OperationType
 
         public init(operationId: String, status: OperationStatus, submittedDate: Date, type: OperationType) {
             self.operationId = operationId
             self.status = status
             self.submittedDate = submittedDate
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
             case status = "Status"
             case submittedDate = "SubmittedDate"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

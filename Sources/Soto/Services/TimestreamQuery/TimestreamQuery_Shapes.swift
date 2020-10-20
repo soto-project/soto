@@ -73,16 +73,16 @@ extension TimestreamQuery {
         ///  The name of the result set column. The name of the result set is available for columns of all data types except for arrays.
         public let name: String?
         ///  The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, booleans, and others. Complex data types are types such as arrays, rows, and others.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(name: String? = nil, type: `Type`) {
             self.name = name
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 

@@ -1429,7 +1429,7 @@ extension ElasticTranscoder {
         /// A section of the response body that provides information about the thumbnail preset values, if any.
         public let thumbnails: Thumbnails?
         /// Whether the preset is a default preset provided by Elastic Transcoder (System) or a preset that you have defined (Custom).
-        public let `type`: String?
+        public let type: String?
         /// A section of the response body that provides information about the video preset values.
         public let video: VideoParameters?
 
@@ -1441,7 +1441,7 @@ extension ElasticTranscoder {
             self.id = id
             self.name = name
             self.thumbnails = thumbnails
-            self.`type` = `type`
+            self.type = type
             self.video = video
         }
 
@@ -1453,7 +1453,7 @@ extension ElasticTranscoder {
             case id = "Id"
             case name = "Name"
             case thumbnails = "Thumbnails"
-            case `type` = "Type"
+            case type = "Type"
             case video = "Video"
         }
     }

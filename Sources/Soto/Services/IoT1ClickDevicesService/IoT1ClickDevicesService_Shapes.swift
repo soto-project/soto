@@ -91,18 +91,18 @@ extension IoT1ClickDevicesService {
         /// The unique identifier of the device.
         public let deviceId: String?
         /// The device type, such as "button".
-        public let `type`: String?
+        public let type: String?
 
         public init(attributes: Attributes? = nil, deviceId: String? = nil, type: String? = nil) {
             self.attributes = attributes
             self.deviceId = deviceId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes
             case deviceId
-            case `type`
+            case type
         }
     }
 
@@ -121,7 +121,7 @@ extension IoT1ClickDevicesService {
         public let remainingLife: Double?
         public let tags: [String: String]?
         /// The type of the device, such as "button".
-        public let `type`: String?
+        public let type: String?
 
         public init(arn: String? = nil, attributes: [String: String]? = nil, deviceId: String? = nil, enabled: Bool? = nil, remainingLife: Double? = nil, tags: [String: String]? = nil, type: String? = nil) {
             self.arn = arn
@@ -130,7 +130,7 @@ extension IoT1ClickDevicesService {
             self.enabled = enabled
             self.remainingLife = remainingLife
             self.tags = tags
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -140,7 +140,7 @@ extension IoT1ClickDevicesService {
             case enabled
             case remainingLife
             case tags
-            case `type`
+            case type
         }
     }
 

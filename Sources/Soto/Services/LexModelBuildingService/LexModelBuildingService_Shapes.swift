@@ -202,7 +202,7 @@ extension LexModelBuildingService {
         /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.
         public let status: ChannelStatus?
         /// Specifies the type of association by indicating the type of channel being established between the Amazon Lex bot and the external messaging platform.
-        public let `type`: ChannelType?
+        public let type: ChannelType?
 
         public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
@@ -213,7 +213,7 @@ extension LexModelBuildingService {
             self.failureReason = failureReason
             self.name = name
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -225,7 +225,7 @@ extension LexModelBuildingService {
             case failureReason
             case name
             case status
-            case `type`
+            case type
         }
     }
 
@@ -943,11 +943,11 @@ extension LexModelBuildingService {
         ///  A description of the Lambda function that is run to fulfill the intent.
         public let codeHook: CodeHook?
         ///  How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application.
-        public let `type`: FulfillmentActivityType
+        public let type: FulfillmentActivityType
 
         public init(codeHook: CodeHook? = nil, type: FulfillmentActivityType) {
             self.codeHook = codeHook
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -956,7 +956,7 @@ extension LexModelBuildingService {
 
         private enum CodingKeys: String, CodingKey {
             case codeHook
-            case `type`
+            case type
         }
     }
 
@@ -1137,7 +1137,7 @@ extension LexModelBuildingService {
         /// The status of the bot channel.     CREATED - The channel has been created and is ready for use.    IN_PROGRESS - Channel creation is in progress.    FAILED - There was an error creating the channel. For information about the reason for the failure, see the failureReason field.
         public let status: ChannelStatus?
         /// The type of the messaging platform.
-        public let `type`: ChannelType?
+        public let type: ChannelType?
 
         public init(botAlias: String? = nil, botConfiguration: [String: String]? = nil, botName: String? = nil, createdDate: Date? = nil, description: String? = nil, failureReason: String? = nil, name: String? = nil, status: ChannelStatus? = nil, type: ChannelType? = nil) {
             self.botAlias = botAlias
@@ -1148,7 +1148,7 @@ extension LexModelBuildingService {
             self.failureReason = failureReason
             self.name = name
             self.status = status
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1160,7 +1160,7 @@ extension LexModelBuildingService {
             case failureReason
             case name
             case status
-            case `type`
+            case type
         }
     }
 

@@ -140,7 +140,7 @@ extension CodeGuruReviewer {
         ///  The reason for the state of the code review.
         public let stateReason: String?
         ///  The type of code review.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
@@ -155,7 +155,7 @@ extension CodeGuruReviewer {
             self.sourceCodeType = sourceCodeType
             self.state = state
             self.stateReason = stateReason
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -171,7 +171,7 @@ extension CodeGuruReviewer {
             case sourceCodeType = "SourceCodeType"
             case state = "State"
             case stateReason = "StateReason"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -197,7 +197,7 @@ extension CodeGuruReviewer {
         ///  The state of the code review.  The valid code review states are:    Completed: The code review is complete.     Pending: The code review started and has not completed or failed.     Failed: The code review failed.     Deleting: The code review is being deleted.
         public let state: JobState?
         ///  The type of the code review.
-        public let `type`: `Type`?
+        public let type: `Type`?
 
         public init(codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metricsSummary: MetricsSummary? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, state: JobState? = nil, type: `Type`? = nil) {
             self.codeReviewArn = codeReviewArn
@@ -210,7 +210,7 @@ extension CodeGuruReviewer {
             self.pullRequestId = pullRequestId
             self.repositoryName = repositoryName
             self.state = state
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -224,7 +224,7 @@ extension CodeGuruReviewer {
             case pullRequestId = "PullRequestId"
             case repositoryName = "RepositoryName"
             case state = "State"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -270,13 +270,13 @@ extension CodeGuruReviewer {
         ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  object. You can retrieve this ARN by calling ListRepositories.   A code review can only be created on an associated repository. This is the ARN of the associated repository.
         public let repositoryAssociationArn: String
         ///  The type of code review to create. This is specified using a  CodeReviewType  object.
-        public let `type`: CodeReviewType
+        public let type: CodeReviewType
 
         public init(clientRequestToken: String? = CreateCodeReviewRequest.idempotencyToken(), name: String, repositoryAssociationArn: String, type: CodeReviewType) {
             self.clientRequestToken = clientRequestToken
             self.name = name
             self.repositoryAssociationArn = repositoryAssociationArn
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -289,14 +289,14 @@ extension CodeGuruReviewer {
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, max: 1600)
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, min: 1)
             try self.validate(self.repositoryAssociationArn, name: "repositoryAssociationArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.`type`.validate(name: "\(name).`type`")
+            try self.type.validate(name: "\(name).type")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
             case name = "Name"
             case repositoryAssociationArn = "RepositoryAssociationArn"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
@@ -481,7 +481,7 @@ extension CodeGuruReviewer {
         ///  List of states for filtering that needs to be applied before displaying the result. For example, states=[Pending] lists code reviews in the Pending state.  The valid code review states are:    Completed: The code review is complete.     Pending: The code review started and has not completed or failed.     Failed: The code review failed.     Deleting: The code review is being deleted.
         public let states: [JobState]?
         ///  The type of code reviews to list in the response.
-        public let `type`: `Type`
+        public let type: `Type`
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, providerTypes: [ProviderType]? = nil, repositoryNames: [String]? = nil, states: [JobState]? = nil, type: `Type`) {
             self.maxResults = maxResults
@@ -489,7 +489,7 @@ extension CodeGuruReviewer {
             self.providerTypes = providerTypes
             self.repositoryNames = repositoryNames
             self.states = states
-            self.`type` = `type`
+            self.type = type
         }
 
         public func validate(name: String) throws {

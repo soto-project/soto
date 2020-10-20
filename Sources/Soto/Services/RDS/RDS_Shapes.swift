@@ -3317,7 +3317,7 @@ extension RDS {
         /// The DB cluster identifier when the target represents an Aurora DB cluster. This field is blank when the target represents an RDS DB instance.
         public let trackedClusterId: String?
         /// Specifies the kind of database, such as an RDS DB instance or an Aurora DB cluster, that the target represents.
-        public let `type`: TargetType?
+        public let type: TargetType?
 
         public init(endpoint: String? = nil, port: Int? = nil, rdsResourceId: String? = nil, targetArn: String? = nil, targetHealth: TargetHealth? = nil, trackedClusterId: String? = nil, type: TargetType? = nil) {
             self.endpoint = endpoint
@@ -3326,7 +3326,7 @@ extension RDS {
             self.targetArn = targetArn
             self.targetHealth = targetHealth
             self.trackedClusterId = trackedClusterId
-            self.`type` = `type`
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3336,7 +3336,7 @@ extension RDS {
             case targetArn = "TargetArn"
             case targetHealth = "TargetHealth"
             case trackedClusterId = "TrackedClusterId"
-            case `type` = "Type"
+            case type = "Type"
         }
     }
 
