@@ -60,4 +60,15 @@ struct TestEnvironment {
         let prefix = Environment["AWS_TEST_RESOURCE_PREFIX"] ?? ""
         return "soto-" + (prefix + function).filter { $0.isLetter || $0.isNumber }.lowercased()
     }
+
+    public static var logger: Logger = {
+        if let loggingLevel = Environment["AWS_LOG_LEVEL"] {
+            if let logLevel = Logger.Level(rawValue: loggingLevel.lowercased()) {
+                var logger = Logger(label: "soto")
+                logger.logLevel = logLevel
+                return logger
+            }
+        }
+        return AWSClient.loggingDisabled
+    }()
 }
