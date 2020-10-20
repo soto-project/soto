@@ -17,100 +17,68 @@
 import SotoCore
 
 /// Error enum for GlobalAccelerator
-public enum GlobalAcceleratorErrorType: AWSErrorType {
-    case acceleratorNotDisabledException(message: String?)
-    case acceleratorNotFoundException(message: String?)
-    case accessDeniedException(message: String?)
-    case associatedEndpointGroupFoundException(message: String?)
-    case associatedListenerFoundException(message: String?)
-    case byoipCidrNotFoundException(message: String?)
-    case endpointGroupAlreadyExistsException(message: String?)
-    case endpointGroupNotFoundException(message: String?)
-    case incorrectCidrStateException(message: String?)
-    case internalServiceErrorException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidPortRangeException(message: String?)
-    case limitExceededException(message: String?)
-    case listenerNotFoundException(message: String?)
-}
+public struct GlobalAcceleratorErrorType: AWSErrorType {
+    enum Code: String {
+        case acceleratorNotDisabledException = "AcceleratorNotDisabledException"
+        case acceleratorNotFoundException = "AcceleratorNotFoundException"
+        case accessDeniedException = "AccessDeniedException"
+        case associatedEndpointGroupFoundException = "AssociatedEndpointGroupFoundException"
+        case associatedListenerFoundException = "AssociatedListenerFoundException"
+        case byoipCidrNotFoundException = "ByoipCidrNotFoundException"
+        case endpointGroupAlreadyExistsException = "EndpointGroupAlreadyExistsException"
+        case endpointGroupNotFoundException = "EndpointGroupNotFoundException"
+        case incorrectCidrStateException = "IncorrectCidrStateException"
+        case internalServiceErrorException = "InternalServiceErrorException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidPortRangeException = "InvalidPortRangeException"
+        case limitExceededException = "LimitExceededException"
+        case listenerNotFoundException = "ListenerNotFoundException"
+    }
 
-extension GlobalAcceleratorErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AcceleratorNotDisabledException":
-            self = .acceleratorNotDisabledException(message: message)
-        case "AcceleratorNotFoundException":
-            self = .acceleratorNotFoundException(message: message)
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AssociatedEndpointGroupFoundException":
-            self = .associatedEndpointGroupFoundException(message: message)
-        case "AssociatedListenerFoundException":
-            self = .associatedListenerFoundException(message: message)
-        case "ByoipCidrNotFoundException":
-            self = .byoipCidrNotFoundException(message: message)
-        case "EndpointGroupAlreadyExistsException":
-            self = .endpointGroupAlreadyExistsException(message: message)
-        case "EndpointGroupNotFoundException":
-            self = .endpointGroupNotFoundException(message: message)
-        case "IncorrectCidrStateException":
-            self = .incorrectCidrStateException(message: message)
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidPortRangeException":
-            self = .invalidPortRangeException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ListenerNotFoundException":
-            self = .listenerNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var acceleratorNotDisabledException: Self { .init(.acceleratorNotDisabledException) }
+    public static var acceleratorNotFoundException: Self { .init(.acceleratorNotFoundException) }
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var associatedEndpointGroupFoundException: Self { .init(.associatedEndpointGroupFoundException) }
+    public static var associatedListenerFoundException: Self { .init(.associatedListenerFoundException) }
+    public static var byoipCidrNotFoundException: Self { .init(.byoipCidrNotFoundException) }
+    public static var endpointGroupAlreadyExistsException: Self { .init(.endpointGroupAlreadyExistsException) }
+    public static var endpointGroupNotFoundException: Self { .init(.endpointGroupNotFoundException) }
+    public static var incorrectCidrStateException: Self { .init(.incorrectCidrStateException) }
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidPortRangeException: Self { .init(.invalidPortRangeException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
+}
+
+extension GlobalAcceleratorErrorType: Equatable {
+    public static func == (lhs: GlobalAcceleratorErrorType, rhs: GlobalAcceleratorErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GlobalAcceleratorErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .acceleratorNotDisabledException(let message):
-            return "AcceleratorNotDisabledException: \(message ?? "")"
-        case .acceleratorNotFoundException(let message):
-            return "AcceleratorNotFoundException: \(message ?? "")"
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .associatedEndpointGroupFoundException(let message):
-            return "AssociatedEndpointGroupFoundException: \(message ?? "")"
-        case .associatedListenerFoundException(let message):
-            return "AssociatedListenerFoundException: \(message ?? "")"
-        case .byoipCidrNotFoundException(let message):
-            return "ByoipCidrNotFoundException: \(message ?? "")"
-        case .endpointGroupAlreadyExistsException(let message):
-            return "EndpointGroupAlreadyExistsException: \(message ?? "")"
-        case .endpointGroupNotFoundException(let message):
-            return "EndpointGroupNotFoundException: \(message ?? "")"
-        case .incorrectCidrStateException(let message):
-            return "IncorrectCidrStateException: \(message ?? "")"
-        case .internalServiceErrorException(let message):
-            return "InternalServiceErrorException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidPortRangeException(let message):
-            return "InvalidPortRangeException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .listenerNotFoundException(let message):
-            return "ListenerNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for SWF
-public enum SWFErrorType: AWSErrorType {
-    case defaultUndefinedFault(message: String?)
-    case domainAlreadyExistsFault(message: String?)
-    case domainDeprecatedFault(message: String?)
-    case limitExceededFault(message: String?)
-    case operationNotPermittedFault(message: String?)
-    case tooManyTagsFault(message: String?)
-    case typeAlreadyExistsFault(message: String?)
-    case typeDeprecatedFault(message: String?)
-    case unknownResourceFault(message: String?)
-    case workflowExecutionAlreadyStartedFault(message: String?)
-}
+public struct SWFErrorType: AWSErrorType {
+    enum Code: String {
+        case defaultUndefinedFault = "DefaultUndefinedFault"
+        case domainAlreadyExistsFault = "DomainAlreadyExistsFault"
+        case domainDeprecatedFault = "DomainDeprecatedFault"
+        case limitExceededFault = "LimitExceededFault"
+        case operationNotPermittedFault = "OperationNotPermittedFault"
+        case tooManyTagsFault = "TooManyTagsFault"
+        case typeAlreadyExistsFault = "TypeAlreadyExistsFault"
+        case typeDeprecatedFault = "TypeDeprecatedFault"
+        case unknownResourceFault = "UnknownResourceFault"
+        case workflowExecutionAlreadyStartedFault = "WorkflowExecutionAlreadyStartedFault"
+    }
 
-extension SWFErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DefaultUndefinedFault":
-            self = .defaultUndefinedFault(message: message)
-        case "DomainAlreadyExistsFault":
-            self = .domainAlreadyExistsFault(message: message)
-        case "DomainDeprecatedFault":
-            self = .domainDeprecatedFault(message: message)
-        case "LimitExceededFault":
-            self = .limitExceededFault(message: message)
-        case "OperationNotPermittedFault":
-            self = .operationNotPermittedFault(message: message)
-        case "TooManyTagsFault":
-            self = .tooManyTagsFault(message: message)
-        case "TypeAlreadyExistsFault":
-            self = .typeAlreadyExistsFault(message: message)
-        case "TypeDeprecatedFault":
-            self = .typeDeprecatedFault(message: message)
-        case "UnknownResourceFault":
-            self = .unknownResourceFault(message: message)
-        case "WorkflowExecutionAlreadyStartedFault":
-            self = .workflowExecutionAlreadyStartedFault(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var defaultUndefinedFault: Self { .init(.defaultUndefinedFault) }
+    public static var domainAlreadyExistsFault: Self { .init(.domainAlreadyExistsFault) }
+    public static var domainDeprecatedFault: Self { .init(.domainDeprecatedFault) }
+    public static var limitExceededFault: Self { .init(.limitExceededFault) }
+    public static var operationNotPermittedFault: Self { .init(.operationNotPermittedFault) }
+    public static var tooManyTagsFault: Self { .init(.tooManyTagsFault) }
+    public static var typeAlreadyExistsFault: Self { .init(.typeAlreadyExistsFault) }
+    public static var typeDeprecatedFault: Self { .init(.typeDeprecatedFault) }
+    public static var unknownResourceFault: Self { .init(.unknownResourceFault) }
+    public static var workflowExecutionAlreadyStartedFault: Self { .init(.workflowExecutionAlreadyStartedFault) }
+}
+
+extension SWFErrorType: Equatable {
+    public static func == (lhs: SWFErrorType, rhs: SWFErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SWFErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .defaultUndefinedFault(let message):
-            return "DefaultUndefinedFault: \(message ?? "")"
-        case .domainAlreadyExistsFault(let message):
-            return "DomainAlreadyExistsFault: \(message ?? "")"
-        case .domainDeprecatedFault(let message):
-            return "DomainDeprecatedFault: \(message ?? "")"
-        case .limitExceededFault(let message):
-            return "LimitExceededFault: \(message ?? "")"
-        case .operationNotPermittedFault(let message):
-            return "OperationNotPermittedFault: \(message ?? "")"
-        case .tooManyTagsFault(let message):
-            return "TooManyTagsFault: \(message ?? "")"
-        case .typeAlreadyExistsFault(let message):
-            return "TypeAlreadyExistsFault: \(message ?? "")"
-        case .typeDeprecatedFault(let message):
-            return "TypeDeprecatedFault: \(message ?? "")"
-        case .unknownResourceFault(let message):
-            return "UnknownResourceFault: \(message ?? "")"
-        case .workflowExecutionAlreadyStartedFault(let message):
-            return "WorkflowExecutionAlreadyStartedFault: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

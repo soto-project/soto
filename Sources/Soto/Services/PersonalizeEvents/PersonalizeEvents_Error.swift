@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for PersonalizeEvents
-public enum PersonalizeEventsErrorType: AWSErrorType {
-    case invalidInputException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct PersonalizeEventsErrorType: AWSErrorType {
+    enum Code: String {
+        case invalidInputException = "InvalidInputException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension PersonalizeEventsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension PersonalizeEventsErrorType: Equatable {
+    public static func == (lhs: PersonalizeEventsErrorType, rhs: PersonalizeEventsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PersonalizeEventsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

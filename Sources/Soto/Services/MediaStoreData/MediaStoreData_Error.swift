@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for MediaStoreData
-public enum MediaStoreDataErrorType: AWSErrorType {
-    case containerNotFoundException(message: String?)
-    case internalServerError(message: String?)
-    case objectNotFoundException(message: String?)
-    case requestedRangeNotSatisfiableException(message: String?)
-}
+public struct MediaStoreDataErrorType: AWSErrorType {
+    enum Code: String {
+        case containerNotFoundException = "ContainerNotFoundException"
+        case internalServerError = "InternalServerError"
+        case objectNotFoundException = "ObjectNotFoundException"
+        case requestedRangeNotSatisfiableException = "RequestedRangeNotSatisfiableException"
+    }
 
-extension MediaStoreDataErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ContainerNotFoundException":
-            self = .containerNotFoundException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "ObjectNotFoundException":
-            self = .objectNotFoundException(message: message)
-        case "RequestedRangeNotSatisfiableException":
-            self = .requestedRangeNotSatisfiableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var containerNotFoundException: Self { .init(.containerNotFoundException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    public static var requestedRangeNotSatisfiableException: Self { .init(.requestedRangeNotSatisfiableException) }
+}
+
+extension MediaStoreDataErrorType: Equatable {
+    public static func == (lhs: MediaStoreDataErrorType, rhs: MediaStoreDataErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MediaStoreDataErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .containerNotFoundException(let message):
-            return "ContainerNotFoundException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .objectNotFoundException(let message):
-            return "ObjectNotFoundException: \(message ?? "")"
-        case .requestedRangeNotSatisfiableException(let message):
-            return "RequestedRangeNotSatisfiableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

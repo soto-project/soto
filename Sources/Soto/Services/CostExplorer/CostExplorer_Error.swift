@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for CostExplorer
-public enum CostExplorerErrorType: AWSErrorType {
-    case billExpirationException(message: String?)
-    case dataUnavailableException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case limitExceededException(message: String?)
-    case requestChangedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case unknownMonitorException(message: String?)
-    case unknownSubscriptionException(message: String?)
-    case unresolvableUsageUnitException(message: String?)
-}
+public struct CostExplorerErrorType: AWSErrorType {
+    enum Code: String {
+        case billExpirationException = "BillExpirationException"
+        case dataUnavailableException = "DataUnavailableException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case limitExceededException = "LimitExceededException"
+        case requestChangedException = "RequestChangedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case unknownMonitorException = "UnknownMonitorException"
+        case unknownSubscriptionException = "UnknownSubscriptionException"
+        case unresolvableUsageUnitException = "UnresolvableUsageUnitException"
+    }
 
-extension CostExplorerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BillExpirationException":
-            self = .billExpirationException(message: message)
-        case "DataUnavailableException":
-            self = .dataUnavailableException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "RequestChangedException":
-            self = .requestChangedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "UnknownMonitorException":
-            self = .unknownMonitorException(message: message)
-        case "UnknownSubscriptionException":
-            self = .unknownSubscriptionException(message: message)
-        case "UnresolvableUsageUnitException":
-            self = .unresolvableUsageUnitException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var billExpirationException: Self { .init(.billExpirationException) }
+    public static var dataUnavailableException: Self { .init(.dataUnavailableException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var requestChangedException: Self { .init(.requestChangedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var unknownMonitorException: Self { .init(.unknownMonitorException) }
+    public static var unknownSubscriptionException: Self { .init(.unknownSubscriptionException) }
+    public static var unresolvableUsageUnitException: Self { .init(.unresolvableUsageUnitException) }
+}
+
+extension CostExplorerErrorType: Equatable {
+    public static func == (lhs: CostExplorerErrorType, rhs: CostExplorerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CostExplorerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .billExpirationException(let message):
-            return "BillExpirationException: \(message ?? "")"
-        case .dataUnavailableException(let message):
-            return "DataUnavailableException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .requestChangedException(let message):
-            return "RequestChangedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .unknownMonitorException(let message):
-            return "UnknownMonitorException: \(message ?? "")"
-        case .unknownSubscriptionException(let message):
-            return "UnknownSubscriptionException: \(message ?? "")"
-        case .unresolvableUsageUnitException(let message):
-            return "UnresolvableUsageUnitException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

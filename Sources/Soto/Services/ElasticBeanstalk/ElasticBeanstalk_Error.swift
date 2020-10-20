@@ -17,120 +17,76 @@
 import SotoCore
 
 /// Error enum for ElasticBeanstalk
-public enum ElasticBeanstalkErrorType: AWSErrorType {
-    case codeBuildNotInServiceRegionException(message: String?)
-    case elasticBeanstalkServiceException(message: String?)
-    case insufficientPrivilegesException(message: String?)
-    case invalidRequestException(message: String?)
-    case managedActionInvalidStateException(message: String?)
-    case operationInProgressException(message: String?)
-    case platformVersionStillReferencedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceTypeNotSupportedException(message: String?)
-    case s3LocationNotInServiceRegionException(message: String?)
-    case s3SubscriptionRequiredException(message: String?)
-    case sourceBundleDeletionException(message: String?)
-    case tooManyApplicationVersionsException(message: String?)
-    case tooManyApplicationsException(message: String?)
-    case tooManyBucketsException(message: String?)
-    case tooManyConfigurationTemplatesException(message: String?)
-    case tooManyEnvironmentsException(message: String?)
-    case tooManyPlatformsException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct ElasticBeanstalkErrorType: AWSErrorType {
+    enum Code: String {
+        case codeBuildNotInServiceRegionException = "CodeBuildNotInServiceRegionException"
+        case elasticBeanstalkServiceException = "ElasticBeanstalkServiceException"
+        case insufficientPrivilegesException = "InsufficientPrivilegesException"
+        case invalidRequestException = "InvalidRequestException"
+        case managedActionInvalidStateException = "ManagedActionInvalidStateException"
+        case operationInProgressException = "OperationInProgressFailure"
+        case platformVersionStillReferencedException = "PlatformVersionStillReferencedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceTypeNotSupportedException = "ResourceTypeNotSupportedException"
+        case s3LocationNotInServiceRegionException = "S3LocationNotInServiceRegionException"
+        case s3SubscriptionRequiredException = "S3SubscriptionRequiredException"
+        case sourceBundleDeletionException = "SourceBundleDeletionFailure"
+        case tooManyApplicationVersionsException = "TooManyApplicationVersionsException"
+        case tooManyApplicationsException = "TooManyApplicationsException"
+        case tooManyBucketsException = "TooManyBucketsException"
+        case tooManyConfigurationTemplatesException = "TooManyConfigurationTemplatesException"
+        case tooManyEnvironmentsException = "TooManyEnvironmentsException"
+        case tooManyPlatformsException = "TooManyPlatformsException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension ElasticBeanstalkErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CodeBuildNotInServiceRegionException":
-            self = .codeBuildNotInServiceRegionException(message: message)
-        case "ElasticBeanstalkServiceException":
-            self = .elasticBeanstalkServiceException(message: message)
-        case "InsufficientPrivilegesException":
-            self = .insufficientPrivilegesException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ManagedActionInvalidStateException":
-            self = .managedActionInvalidStateException(message: message)
-        case "OperationInProgressFailure":
-            self = .operationInProgressException(message: message)
-        case "PlatformVersionStillReferencedException":
-            self = .platformVersionStillReferencedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceTypeNotSupportedException":
-            self = .resourceTypeNotSupportedException(message: message)
-        case "S3LocationNotInServiceRegionException":
-            self = .s3LocationNotInServiceRegionException(message: message)
-        case "S3SubscriptionRequiredException":
-            self = .s3SubscriptionRequiredException(message: message)
-        case "SourceBundleDeletionFailure":
-            self = .sourceBundleDeletionException(message: message)
-        case "TooManyApplicationVersionsException":
-            self = .tooManyApplicationVersionsException(message: message)
-        case "TooManyApplicationsException":
-            self = .tooManyApplicationsException(message: message)
-        case "TooManyBucketsException":
-            self = .tooManyBucketsException(message: message)
-        case "TooManyConfigurationTemplatesException":
-            self = .tooManyConfigurationTemplatesException(message: message)
-        case "TooManyEnvironmentsException":
-            self = .tooManyEnvironmentsException(message: message)
-        case "TooManyPlatformsException":
-            self = .tooManyPlatformsException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var codeBuildNotInServiceRegionException: Self { .init(.codeBuildNotInServiceRegionException) }
+    public static var elasticBeanstalkServiceException: Self { .init(.elasticBeanstalkServiceException) }
+    public static var insufficientPrivilegesException: Self { .init(.insufficientPrivilegesException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var managedActionInvalidStateException: Self { .init(.managedActionInvalidStateException) }
+    public static var operationInProgressException: Self { .init(.operationInProgressException) }
+    public static var platformVersionStillReferencedException: Self { .init(.platformVersionStillReferencedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceTypeNotSupportedException: Self { .init(.resourceTypeNotSupportedException) }
+    public static var s3LocationNotInServiceRegionException: Self { .init(.s3LocationNotInServiceRegionException) }
+    public static var s3SubscriptionRequiredException: Self { .init(.s3SubscriptionRequiredException) }
+    public static var sourceBundleDeletionException: Self { .init(.sourceBundleDeletionException) }
+    public static var tooManyApplicationVersionsException: Self { .init(.tooManyApplicationVersionsException) }
+    public static var tooManyApplicationsException: Self { .init(.tooManyApplicationsException) }
+    public static var tooManyBucketsException: Self { .init(.tooManyBucketsException) }
+    public static var tooManyConfigurationTemplatesException: Self { .init(.tooManyConfigurationTemplatesException) }
+    public static var tooManyEnvironmentsException: Self { .init(.tooManyEnvironmentsException) }
+    public static var tooManyPlatformsException: Self { .init(.tooManyPlatformsException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ElasticBeanstalkErrorType: Equatable {
+    public static func == (lhs: ElasticBeanstalkErrorType, rhs: ElasticBeanstalkErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElasticBeanstalkErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .codeBuildNotInServiceRegionException(let message):
-            return "CodeBuildNotInServiceRegionException: \(message ?? "")"
-        case .elasticBeanstalkServiceException(let message):
-            return "ElasticBeanstalkServiceException: \(message ?? "")"
-        case .insufficientPrivilegesException(let message):
-            return "InsufficientPrivilegesException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .managedActionInvalidStateException(let message):
-            return "ManagedActionInvalidStateException: \(message ?? "")"
-        case .operationInProgressException(let message):
-            return "OperationInProgressFailure: \(message ?? "")"
-        case .platformVersionStillReferencedException(let message):
-            return "PlatformVersionStillReferencedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceTypeNotSupportedException(let message):
-            return "ResourceTypeNotSupportedException: \(message ?? "")"
-        case .s3LocationNotInServiceRegionException(let message):
-            return "S3LocationNotInServiceRegionException: \(message ?? "")"
-        case .s3SubscriptionRequiredException(let message):
-            return "S3SubscriptionRequiredException: \(message ?? "")"
-        case .sourceBundleDeletionException(let message):
-            return "SourceBundleDeletionFailure: \(message ?? "")"
-        case .tooManyApplicationVersionsException(let message):
-            return "TooManyApplicationVersionsException: \(message ?? "")"
-        case .tooManyApplicationsException(let message):
-            return "TooManyApplicationsException: \(message ?? "")"
-        case .tooManyBucketsException(let message):
-            return "TooManyBucketsException: \(message ?? "")"
-        case .tooManyConfigurationTemplatesException(let message):
-            return "TooManyConfigurationTemplatesException: \(message ?? "")"
-        case .tooManyEnvironmentsException(let message):
-            return "TooManyEnvironmentsException: \(message ?? "")"
-        case .tooManyPlatformsException(let message):
-            return "TooManyPlatformsException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

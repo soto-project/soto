@@ -17,180 +17,100 @@
 import SotoCore
 
 /// Error enum for Lambda
-public enum LambdaErrorType: AWSErrorType {
-    case codeStorageExceededException(message: String?)
-    case eC2AccessDeniedException(message: String?)
-    case eC2ThrottledException(message: String?)
-    case eC2UnexpectedException(message: String?)
-    case eFSIOException(message: String?)
-    case eFSMountConnectivityException(message: String?)
-    case eFSMountFailureException(message: String?)
-    case eFSMountTimeoutException(message: String?)
-    case eNILimitReachedException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidRequestContentException(message: String?)
-    case invalidRuntimeException(message: String?)
-    case invalidSecurityGroupIDException(message: String?)
-    case invalidSubnetIDException(message: String?)
-    case invalidZipFileException(message: String?)
-    case kMSAccessDeniedException(message: String?)
-    case kMSDisabledException(message: String?)
-    case kMSInvalidStateException(message: String?)
-    case kMSNotFoundException(message: String?)
-    case policyLengthExceededException(message: String?)
-    case preconditionFailedException(message: String?)
-    case provisionedConcurrencyConfigNotFoundException(message: String?)
-    case requestTooLargeException(message: String?)
-    case resourceConflictException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceNotReadyException(message: String?)
-    case serviceException(message: String?)
-    case subnetIPAddressLimitReachedException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unsupportedMediaTypeException(message: String?)
-}
+public struct LambdaErrorType: AWSErrorType {
+    enum Code: String {
+        case codeStorageExceededException = "CodeStorageExceededException"
+        case eC2AccessDeniedException = "EC2AccessDeniedException"
+        case eC2ThrottledException = "EC2ThrottledException"
+        case eC2UnexpectedException = "EC2UnexpectedException"
+        case eFSIOException = "EFSIOException"
+        case eFSMountConnectivityException = "EFSMountConnectivityException"
+        case eFSMountFailureException = "EFSMountFailureException"
+        case eFSMountTimeoutException = "EFSMountTimeoutException"
+        case eNILimitReachedException = "ENILimitReachedException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidRequestContentException = "InvalidRequestContentException"
+        case invalidRuntimeException = "InvalidRuntimeException"
+        case invalidSecurityGroupIDException = "InvalidSecurityGroupIDException"
+        case invalidSubnetIDException = "InvalidSubnetIDException"
+        case invalidZipFileException = "InvalidZipFileException"
+        case kMSAccessDeniedException = "KMSAccessDeniedException"
+        case kMSDisabledException = "KMSDisabledException"
+        case kMSInvalidStateException = "KMSInvalidStateException"
+        case kMSNotFoundException = "KMSNotFoundException"
+        case policyLengthExceededException = "PolicyLengthExceededException"
+        case preconditionFailedException = "PreconditionFailedException"
+        case provisionedConcurrencyConfigNotFoundException = "ProvisionedConcurrencyConfigNotFoundException"
+        case requestTooLargeException = "RequestTooLargeException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceNotReadyException = "ResourceNotReadyException"
+        case serviceException = "ServiceException"
+        case subnetIPAddressLimitReachedException = "SubnetIPAddressLimitReachedException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unsupportedMediaTypeException = "UnsupportedMediaTypeException"
+    }
 
-extension LambdaErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CodeStorageExceededException":
-            self = .codeStorageExceededException(message: message)
-        case "EC2AccessDeniedException":
-            self = .eC2AccessDeniedException(message: message)
-        case "EC2ThrottledException":
-            self = .eC2ThrottledException(message: message)
-        case "EC2UnexpectedException":
-            self = .eC2UnexpectedException(message: message)
-        case "EFSIOException":
-            self = .eFSIOException(message: message)
-        case "EFSMountConnectivityException":
-            self = .eFSMountConnectivityException(message: message)
-        case "EFSMountFailureException":
-            self = .eFSMountFailureException(message: message)
-        case "EFSMountTimeoutException":
-            self = .eFSMountTimeoutException(message: message)
-        case "ENILimitReachedException":
-            self = .eNILimitReachedException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidRequestContentException":
-            self = .invalidRequestContentException(message: message)
-        case "InvalidRuntimeException":
-            self = .invalidRuntimeException(message: message)
-        case "InvalidSecurityGroupIDException":
-            self = .invalidSecurityGroupIDException(message: message)
-        case "InvalidSubnetIDException":
-            self = .invalidSubnetIDException(message: message)
-        case "InvalidZipFileException":
-            self = .invalidZipFileException(message: message)
-        case "KMSAccessDeniedException":
-            self = .kMSAccessDeniedException(message: message)
-        case "KMSDisabledException":
-            self = .kMSDisabledException(message: message)
-        case "KMSInvalidStateException":
-            self = .kMSInvalidStateException(message: message)
-        case "KMSNotFoundException":
-            self = .kMSNotFoundException(message: message)
-        case "PolicyLengthExceededException":
-            self = .policyLengthExceededException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
-        case "ProvisionedConcurrencyConfigNotFoundException":
-            self = .provisionedConcurrencyConfigNotFoundException(message: message)
-        case "RequestTooLargeException":
-            self = .requestTooLargeException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceNotReadyException":
-            self = .resourceNotReadyException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "SubnetIPAddressLimitReachedException":
-            self = .subnetIPAddressLimitReachedException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnsupportedMediaTypeException":
-            self = .unsupportedMediaTypeException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var codeStorageExceededException: Self { .init(.codeStorageExceededException) }
+    public static var eC2AccessDeniedException: Self { .init(.eC2AccessDeniedException) }
+    public static var eC2ThrottledException: Self { .init(.eC2ThrottledException) }
+    public static var eC2UnexpectedException: Self { .init(.eC2UnexpectedException) }
+    public static var eFSIOException: Self { .init(.eFSIOException) }
+    public static var eFSMountConnectivityException: Self { .init(.eFSMountConnectivityException) }
+    public static var eFSMountFailureException: Self { .init(.eFSMountFailureException) }
+    public static var eFSMountTimeoutException: Self { .init(.eFSMountTimeoutException) }
+    public static var eNILimitReachedException: Self { .init(.eNILimitReachedException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidRequestContentException: Self { .init(.invalidRequestContentException) }
+    public static var invalidRuntimeException: Self { .init(.invalidRuntimeException) }
+    public static var invalidSecurityGroupIDException: Self { .init(.invalidSecurityGroupIDException) }
+    public static var invalidSubnetIDException: Self { .init(.invalidSubnetIDException) }
+    public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
+    public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
+    public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
+    public static var requestTooLargeException: Self { .init(.requestTooLargeException) }
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unsupportedMediaTypeException: Self { .init(.unsupportedMediaTypeException) }
+}
+
+extension LambdaErrorType: Equatable {
+    public static func == (lhs: LambdaErrorType, rhs: LambdaErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LambdaErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .codeStorageExceededException(let message):
-            return "CodeStorageExceededException: \(message ?? "")"
-        case .eC2AccessDeniedException(let message):
-            return "EC2AccessDeniedException: \(message ?? "")"
-        case .eC2ThrottledException(let message):
-            return "EC2ThrottledException: \(message ?? "")"
-        case .eC2UnexpectedException(let message):
-            return "EC2UnexpectedException: \(message ?? "")"
-        case .eFSIOException(let message):
-            return "EFSIOException: \(message ?? "")"
-        case .eFSMountConnectivityException(let message):
-            return "EFSMountConnectivityException: \(message ?? "")"
-        case .eFSMountFailureException(let message):
-            return "EFSMountFailureException: \(message ?? "")"
-        case .eFSMountTimeoutException(let message):
-            return "EFSMountTimeoutException: \(message ?? "")"
-        case .eNILimitReachedException(let message):
-            return "ENILimitReachedException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .invalidRequestContentException(let message):
-            return "InvalidRequestContentException: \(message ?? "")"
-        case .invalidRuntimeException(let message):
-            return "InvalidRuntimeException: \(message ?? "")"
-        case .invalidSecurityGroupIDException(let message):
-            return "InvalidSecurityGroupIDException: \(message ?? "")"
-        case .invalidSubnetIDException(let message):
-            return "InvalidSubnetIDException: \(message ?? "")"
-        case .invalidZipFileException(let message):
-            return "InvalidZipFileException: \(message ?? "")"
-        case .kMSAccessDeniedException(let message):
-            return "KMSAccessDeniedException: \(message ?? "")"
-        case .kMSDisabledException(let message):
-            return "KMSDisabledException: \(message ?? "")"
-        case .kMSInvalidStateException(let message):
-            return "KMSInvalidStateException: \(message ?? "")"
-        case .kMSNotFoundException(let message):
-            return "KMSNotFoundException: \(message ?? "")"
-        case .policyLengthExceededException(let message):
-            return "PolicyLengthExceededException: \(message ?? "")"
-        case .preconditionFailedException(let message):
-            return "PreconditionFailedException: \(message ?? "")"
-        case .provisionedConcurrencyConfigNotFoundException(let message):
-            return "ProvisionedConcurrencyConfigNotFoundException: \(message ?? "")"
-        case .requestTooLargeException(let message):
-            return "RequestTooLargeException: \(message ?? "")"
-        case .resourceConflictException(let message):
-            return "ResourceConflictException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceNotReadyException(let message):
-            return "ResourceNotReadyException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .subnetIPAddressLimitReachedException(let message):
-            return "SubnetIPAddressLimitReachedException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unsupportedMediaTypeException(let message):
-            return "UnsupportedMediaTypeException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

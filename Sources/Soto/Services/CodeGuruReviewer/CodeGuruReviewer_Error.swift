@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for CodeGuruReviewer
-public enum CodeGuruReviewerErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case conflictException(message: String?)
-    case internalServerException(message: String?)
-    case notFoundException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case throttlingException(message: String?)
-    case validationException(message: String?)
-}
+public struct CodeGuruReviewerErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case notFoundException = "NotFoundException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+    }
 
-extension CodeGuruReviewerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CodeGuruReviewerErrorType: Equatable {
+    public static func == (lhs: CodeGuruReviewerErrorType, rhs: CodeGuruReviewerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeGuruReviewerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

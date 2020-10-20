@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for EKS
-public enum EKSErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case clientException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidRequestException(message: String?)
-    case notFoundException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serverException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case unsupportedAvailabilityZoneException(message: String?)
-}
+public struct EKSErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case clientException = "ClientException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidRequestException = "InvalidRequestException"
+        case notFoundException = "NotFoundException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serverException = "ServerException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case unsupportedAvailabilityZoneException = "UnsupportedAvailabilityZoneException"
+    }
 
-extension EKSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ClientException":
-            self = .clientException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServerException":
-            self = .serverException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "UnsupportedAvailabilityZoneException":
-            self = .unsupportedAvailabilityZoneException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var clientException: Self { .init(.clientException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serverException: Self { .init(.serverException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var unsupportedAvailabilityZoneException: Self { .init(.unsupportedAvailabilityZoneException) }
+}
+
+extension EKSErrorType: Equatable {
+    public static func == (lhs: EKSErrorType, rhs: EKSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension EKSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .clientException(let message):
-            return "ClientException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serverException(let message):
-            return "ServerException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .unsupportedAvailabilityZoneException(let message):
-            return "UnsupportedAvailabilityZoneException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

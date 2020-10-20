@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for LexModelBuildingService
-public enum LexModelBuildingServiceErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case preconditionFailedException(message: String?)
-    case resourceInUseException(message: String?)
-}
+public struct LexModelBuildingServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case internalFailureException = "InternalFailureException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case preconditionFailedException = "PreconditionFailedException"
+        case resourceInUseException = "ResourceInUseException"
+    }
 
-extension LexModelBuildingServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+}
+
+extension LexModelBuildingServiceErrorType: Equatable {
+    public static func == (lhs: LexModelBuildingServiceErrorType, rhs: LexModelBuildingServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LexModelBuildingServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .preconditionFailedException(let message):
-            return "PreconditionFailedException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

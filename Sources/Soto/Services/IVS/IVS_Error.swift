@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for IVS
-public enum IVSErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case channelNotBroadcasting(message: String?)
-    case conflictException(message: String?)
-    case internalServerException(message: String?)
-    case pendingVerification(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case streamUnavailable(message: String?)
-    case throttlingException(message: String?)
-    case validationException(message: String?)
-}
+public struct IVSErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case channelNotBroadcasting = "ChannelNotBroadcasting"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case pendingVerification = "PendingVerification"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case streamUnavailable = "StreamUnavailable"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+    }
 
-extension IVSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ChannelNotBroadcasting":
-            self = .channelNotBroadcasting(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "PendingVerification":
-            self = .pendingVerification(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "StreamUnavailable":
-            self = .streamUnavailable(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var channelNotBroadcasting: Self { .init(.channelNotBroadcasting) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var pendingVerification: Self { .init(.pendingVerification) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var streamUnavailable: Self { .init(.streamUnavailable) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension IVSErrorType: Equatable {
+    public static func == (lhs: IVSErrorType, rhs: IVSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IVSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .channelNotBroadcasting(let message):
-            return "ChannelNotBroadcasting: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .pendingVerification(let message):
-            return "PendingVerification: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .streamUnavailable(let message):
-            return "StreamUnavailable: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

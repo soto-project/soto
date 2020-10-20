@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for CodeBuild
-public enum CodeBuildErrorType: AWSErrorType {
-    case accountLimitExceededException(message: String?)
-    case invalidInputException(message: String?)
-    case oAuthProviderException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct CodeBuildErrorType: AWSErrorType {
+    enum Code: String {
+        case accountLimitExceededException = "AccountLimitExceededException"
+        case invalidInputException = "InvalidInputException"
+        case oAuthProviderException = "OAuthProviderException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension CodeBuildErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccountLimitExceededException":
-            self = .accountLimitExceededException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "OAuthProviderException":
-            self = .oAuthProviderException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accountLimitExceededException: Self { .init(.accountLimitExceededException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var oAuthProviderException: Self { .init(.oAuthProviderException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension CodeBuildErrorType: Equatable {
+    public static func == (lhs: CodeBuildErrorType, rhs: CodeBuildErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeBuildErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accountLimitExceededException(let message):
-            return "AccountLimitExceededException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .oAuthProviderException(let message):
-            return "OAuthProviderException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

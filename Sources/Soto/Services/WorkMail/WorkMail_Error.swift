@@ -17,120 +17,76 @@
 import SotoCore
 
 /// Error enum for WorkMail
-public enum WorkMailErrorType: AWSErrorType {
-    case directoryServiceAuthenticationFailedException(message: String?)
-    case directoryUnavailableException(message: String?)
-    case emailAddressInUseException(message: String?)
-    case entityAlreadyRegisteredException(message: String?)
-    case entityNotFoundException(message: String?)
-    case entityStateException(message: String?)
-    case invalidConfigurationException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidPasswordException(message: String?)
-    case limitExceededException(message: String?)
-    case mailDomainNotFoundException(message: String?)
-    case mailDomainStateException(message: String?)
-    case nameAvailabilityException(message: String?)
-    case organizationNotFoundException(message: String?)
-    case organizationStateException(message: String?)
-    case reservedNameException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyTagsException(message: String?)
-    case unsupportedOperationException(message: String?)
-}
+public struct WorkMailErrorType: AWSErrorType {
+    enum Code: String {
+        case directoryServiceAuthenticationFailedException = "DirectoryServiceAuthenticationFailedException"
+        case directoryUnavailableException = "DirectoryUnavailableException"
+        case emailAddressInUseException = "EmailAddressInUseException"
+        case entityAlreadyRegisteredException = "EntityAlreadyRegisteredException"
+        case entityNotFoundException = "EntityNotFoundException"
+        case entityStateException = "EntityStateException"
+        case invalidConfigurationException = "InvalidConfigurationException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidPasswordException = "InvalidPasswordException"
+        case limitExceededException = "LimitExceededException"
+        case mailDomainNotFoundException = "MailDomainNotFoundException"
+        case mailDomainStateException = "MailDomainStateException"
+        case nameAvailabilityException = "NameAvailabilityException"
+        case organizationNotFoundException = "OrganizationNotFoundException"
+        case organizationStateException = "OrganizationStateException"
+        case reservedNameException = "ReservedNameException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyTagsException = "TooManyTagsException"
+        case unsupportedOperationException = "UnsupportedOperationException"
+    }
 
-extension WorkMailErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DirectoryServiceAuthenticationFailedException":
-            self = .directoryServiceAuthenticationFailedException(message: message)
-        case "DirectoryUnavailableException":
-            self = .directoryUnavailableException(message: message)
-        case "EmailAddressInUseException":
-            self = .emailAddressInUseException(message: message)
-        case "EntityAlreadyRegisteredException":
-            self = .entityAlreadyRegisteredException(message: message)
-        case "EntityNotFoundException":
-            self = .entityNotFoundException(message: message)
-        case "EntityStateException":
-            self = .entityStateException(message: message)
-        case "InvalidConfigurationException":
-            self = .invalidConfigurationException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MailDomainNotFoundException":
-            self = .mailDomainNotFoundException(message: message)
-        case "MailDomainStateException":
-            self = .mailDomainStateException(message: message)
-        case "NameAvailabilityException":
-            self = .nameAvailabilityException(message: message)
-        case "OrganizationNotFoundException":
-            self = .organizationNotFoundException(message: message)
-        case "OrganizationStateException":
-            self = .organizationStateException(message: message)
-        case "ReservedNameException":
-            self = .reservedNameException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var directoryServiceAuthenticationFailedException: Self { .init(.directoryServiceAuthenticationFailedException) }
+    public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
+    public static var emailAddressInUseException: Self { .init(.emailAddressInUseException) }
+    public static var entityAlreadyRegisteredException: Self { .init(.entityAlreadyRegisteredException) }
+    public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    public static var entityStateException: Self { .init(.entityStateException) }
+    public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var mailDomainNotFoundException: Self { .init(.mailDomainNotFoundException) }
+    public static var mailDomainStateException: Self { .init(.mailDomainStateException) }
+    public static var nameAvailabilityException: Self { .init(.nameAvailabilityException) }
+    public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
+    public static var organizationStateException: Self { .init(.organizationStateException) }
+    public static var reservedNameException: Self { .init(.reservedNameException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+}
+
+extension WorkMailErrorType: Equatable {
+    public static func == (lhs: WorkMailErrorType, rhs: WorkMailErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WorkMailErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .directoryServiceAuthenticationFailedException(let message):
-            return "DirectoryServiceAuthenticationFailedException: \(message ?? "")"
-        case .directoryUnavailableException(let message):
-            return "DirectoryUnavailableException: \(message ?? "")"
-        case .emailAddressInUseException(let message):
-            return "EmailAddressInUseException: \(message ?? "")"
-        case .entityAlreadyRegisteredException(let message):
-            return "EntityAlreadyRegisteredException: \(message ?? "")"
-        case .entityNotFoundException(let message):
-            return "EntityNotFoundException: \(message ?? "")"
-        case .entityStateException(let message):
-            return "EntityStateException: \(message ?? "")"
-        case .invalidConfigurationException(let message):
-            return "InvalidConfigurationException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidPasswordException(let message):
-            return "InvalidPasswordException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .mailDomainNotFoundException(let message):
-            return "MailDomainNotFoundException: \(message ?? "")"
-        case .mailDomainStateException(let message):
-            return "MailDomainStateException: \(message ?? "")"
-        case .nameAvailabilityException(let message):
-            return "NameAvailabilityException: \(message ?? "")"
-        case .organizationNotFoundException(let message):
-            return "OrganizationNotFoundException: \(message ?? "")"
-        case .organizationStateException(let message):
-            return "OrganizationStateException: \(message ?? "")"
-        case .reservedNameException(let message):
-            return "ReservedNameException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        case .unsupportedOperationException(let message):
-            return "UnsupportedOperationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for MarketplaceEntitlementService
-public enum MarketplaceEntitlementServiceErrorType: AWSErrorType {
-    case internalServiceErrorException(message: String?)
-    case invalidParameterException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct MarketplaceEntitlementServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServiceErrorException = "InternalServiceErrorException"
+        case invalidParameterException = "InvalidParameterException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension MarketplaceEntitlementServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension MarketplaceEntitlementServiceErrorType: Equatable {
+    public static func == (lhs: MarketplaceEntitlementServiceErrorType, rhs: MarketplaceEntitlementServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MarketplaceEntitlementServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServiceErrorException(let message):
-            return "InternalServiceErrorException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

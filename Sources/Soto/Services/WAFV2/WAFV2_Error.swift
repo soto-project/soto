@@ -17,100 +17,68 @@
 import SotoCore
 
 /// Error enum for WAFV2
-public enum WAFV2ErrorType: AWSErrorType {
-    case wAFAssociatedItemException(message: String?)
-    case wAFDuplicateItemException(message: String?)
-    case wAFInternalErrorException(message: String?)
-    case wAFInvalidOperationException(message: String?)
-    case wAFInvalidParameterException(message: String?)
-    case wAFInvalidPermissionPolicyException(message: String?)
-    case wAFInvalidResourceException(message: String?)
-    case wAFLimitsExceededException(message: String?)
-    case wAFNonexistentItemException(message: String?)
-    case wAFOptimisticLockException(message: String?)
-    case wAFServiceLinkedRoleErrorException(message: String?)
-    case wAFSubscriptionNotFoundException(message: String?)
-    case wAFTagOperationException(message: String?)
-    case wAFTagOperationInternalErrorException(message: String?)
-    case wAFUnavailableEntityException(message: String?)
-}
+public struct WAFV2ErrorType: AWSErrorType {
+    enum Code: String {
+        case wAFAssociatedItemException = "WAFAssociatedItemException"
+        case wAFDuplicateItemException = "WAFDuplicateItemException"
+        case wAFInternalErrorException = "WAFInternalErrorException"
+        case wAFInvalidOperationException = "WAFInvalidOperationException"
+        case wAFInvalidParameterException = "WAFInvalidParameterException"
+        case wAFInvalidPermissionPolicyException = "WAFInvalidPermissionPolicyException"
+        case wAFInvalidResourceException = "WAFInvalidResourceException"
+        case wAFLimitsExceededException = "WAFLimitsExceededException"
+        case wAFNonexistentItemException = "WAFNonexistentItemException"
+        case wAFOptimisticLockException = "WAFOptimisticLockException"
+        case wAFServiceLinkedRoleErrorException = "WAFServiceLinkedRoleErrorException"
+        case wAFSubscriptionNotFoundException = "WAFSubscriptionNotFoundException"
+        case wAFTagOperationException = "WAFTagOperationException"
+        case wAFTagOperationInternalErrorException = "WAFTagOperationInternalErrorException"
+        case wAFUnavailableEntityException = "WAFUnavailableEntityException"
+    }
 
-extension WAFV2ErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "WAFAssociatedItemException":
-            self = .wAFAssociatedItemException(message: message)
-        case "WAFDuplicateItemException":
-            self = .wAFDuplicateItemException(message: message)
-        case "WAFInternalErrorException":
-            self = .wAFInternalErrorException(message: message)
-        case "WAFInvalidOperationException":
-            self = .wAFInvalidOperationException(message: message)
-        case "WAFInvalidParameterException":
-            self = .wAFInvalidParameterException(message: message)
-        case "WAFInvalidPermissionPolicyException":
-            self = .wAFInvalidPermissionPolicyException(message: message)
-        case "WAFInvalidResourceException":
-            self = .wAFInvalidResourceException(message: message)
-        case "WAFLimitsExceededException":
-            self = .wAFLimitsExceededException(message: message)
-        case "WAFNonexistentItemException":
-            self = .wAFNonexistentItemException(message: message)
-        case "WAFOptimisticLockException":
-            self = .wAFOptimisticLockException(message: message)
-        case "WAFServiceLinkedRoleErrorException":
-            self = .wAFServiceLinkedRoleErrorException(message: message)
-        case "WAFSubscriptionNotFoundException":
-            self = .wAFSubscriptionNotFoundException(message: message)
-        case "WAFTagOperationException":
-            self = .wAFTagOperationException(message: message)
-        case "WAFTagOperationInternalErrorException":
-            self = .wAFTagOperationInternalErrorException(message: message)
-        case "WAFUnavailableEntityException":
-            self = .wAFUnavailableEntityException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var wAFAssociatedItemException: Self { .init(.wAFAssociatedItemException) }
+    public static var wAFDuplicateItemException: Self { .init(.wAFDuplicateItemException) }
+    public static var wAFInternalErrorException: Self { .init(.wAFInternalErrorException) }
+    public static var wAFInvalidOperationException: Self { .init(.wAFInvalidOperationException) }
+    public static var wAFInvalidParameterException: Self { .init(.wAFInvalidParameterException) }
+    public static var wAFInvalidPermissionPolicyException: Self { .init(.wAFInvalidPermissionPolicyException) }
+    public static var wAFInvalidResourceException: Self { .init(.wAFInvalidResourceException) }
+    public static var wAFLimitsExceededException: Self { .init(.wAFLimitsExceededException) }
+    public static var wAFNonexistentItemException: Self { .init(.wAFNonexistentItemException) }
+    public static var wAFOptimisticLockException: Self { .init(.wAFOptimisticLockException) }
+    public static var wAFServiceLinkedRoleErrorException: Self { .init(.wAFServiceLinkedRoleErrorException) }
+    public static var wAFSubscriptionNotFoundException: Self { .init(.wAFSubscriptionNotFoundException) }
+    public static var wAFTagOperationException: Self { .init(.wAFTagOperationException) }
+    public static var wAFTagOperationInternalErrorException: Self { .init(.wAFTagOperationInternalErrorException) }
+    public static var wAFUnavailableEntityException: Self { .init(.wAFUnavailableEntityException) }
+}
+
+extension WAFV2ErrorType: Equatable {
+    public static func == (lhs: WAFV2ErrorType, rhs: WAFV2ErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WAFV2ErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .wAFAssociatedItemException(let message):
-            return "WAFAssociatedItemException: \(message ?? "")"
-        case .wAFDuplicateItemException(let message):
-            return "WAFDuplicateItemException: \(message ?? "")"
-        case .wAFInternalErrorException(let message):
-            return "WAFInternalErrorException: \(message ?? "")"
-        case .wAFInvalidOperationException(let message):
-            return "WAFInvalidOperationException: \(message ?? "")"
-        case .wAFInvalidParameterException(let message):
-            return "WAFInvalidParameterException: \(message ?? "")"
-        case .wAFInvalidPermissionPolicyException(let message):
-            return "WAFInvalidPermissionPolicyException: \(message ?? "")"
-        case .wAFInvalidResourceException(let message):
-            return "WAFInvalidResourceException: \(message ?? "")"
-        case .wAFLimitsExceededException(let message):
-            return "WAFLimitsExceededException: \(message ?? "")"
-        case .wAFNonexistentItemException(let message):
-            return "WAFNonexistentItemException: \(message ?? "")"
-        case .wAFOptimisticLockException(let message):
-            return "WAFOptimisticLockException: \(message ?? "")"
-        case .wAFServiceLinkedRoleErrorException(let message):
-            return "WAFServiceLinkedRoleErrorException: \(message ?? "")"
-        case .wAFSubscriptionNotFoundException(let message):
-            return "WAFSubscriptionNotFoundException: \(message ?? "")"
-        case .wAFTagOperationException(let message):
-            return "WAFTagOperationException: \(message ?? "")"
-        case .wAFTagOperationInternalErrorException(let message):
-            return "WAFTagOperationInternalErrorException: \(message ?? "")"
-        case .wAFUnavailableEntityException(let message):
-            return "WAFUnavailableEntityException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

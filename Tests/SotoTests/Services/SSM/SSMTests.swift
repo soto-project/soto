@@ -95,8 +95,8 @@ class SSMTests: XCTestCase {
         let response = Self.ssm.describeDocument(.init(name: "non-existent-document"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case SSMErrorType.invalidDocument(let message):
-                XCTAssertNotNil(message)
+            case let error as SSMErrorType where error == .invalidDocument:
+                XCTAssertNotNil(error.message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

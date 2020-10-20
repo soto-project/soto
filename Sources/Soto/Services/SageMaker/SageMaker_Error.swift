@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for SageMaker
-public enum SageMakerErrorType: AWSErrorType {
-    case conflictException(message: String?)
-    case resourceInUse(message: String?)
-    case resourceLimitExceeded(message: String?)
-    case resourceNotFound(message: String?)
-}
+public struct SageMakerErrorType: AWSErrorType {
+    enum Code: String {
+        case conflictException = "ConflictException"
+        case resourceInUse = "ResourceInUse"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case resourceNotFound = "ResourceNotFound"
+    }
 
-extension SageMakerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ResourceInUse":
-            self = .resourceInUse(message: message)
-        case "ResourceLimitExceeded":
-            self = .resourceLimitExceeded(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var resourceInUse: Self { .init(.resourceInUse) }
+    public static var resourceLimitExceeded: Self { .init(.resourceLimitExceeded) }
+    public static var resourceNotFound: Self { .init(.resourceNotFound) }
+}
+
+extension SageMakerErrorType: Equatable {
+    public static func == (lhs: SageMakerErrorType, rhs: SageMakerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SageMakerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .resourceInUse(let message):
-            return "ResourceInUse: \(message ?? "")"
-        case .resourceLimitExceeded(let message):
-            return "ResourceLimitExceeded: \(message ?? "")"
-        case .resourceNotFound(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

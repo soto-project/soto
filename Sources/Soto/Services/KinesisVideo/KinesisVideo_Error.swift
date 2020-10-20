@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for KinesisVideo
-public enum KinesisVideoErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case accountChannelLimitExceededException(message: String?)
-    case accountStreamLimitExceededException(message: String?)
-    case clientLimitExceededException(message: String?)
-    case deviceStreamLimitExceededException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidDeviceException(message: String?)
-    case invalidResourceFormatException(message: String?)
-    case notAuthorizedException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tagsPerResourceExceededLimitException(message: String?)
-    case versionMismatchException(message: String?)
-}
+public struct KinesisVideoErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case accountChannelLimitExceededException = "AccountChannelLimitExceededException"
+        case accountStreamLimitExceededException = "AccountStreamLimitExceededException"
+        case clientLimitExceededException = "ClientLimitExceededException"
+        case deviceStreamLimitExceededException = "DeviceStreamLimitExceededException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidDeviceException = "InvalidDeviceException"
+        case invalidResourceFormatException = "InvalidResourceFormatException"
+        case notAuthorizedException = "NotAuthorizedException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tagsPerResourceExceededLimitException = "TagsPerResourceExceededLimitException"
+        case versionMismatchException = "VersionMismatchException"
+    }
 
-extension KinesisVideoErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AccountChannelLimitExceededException":
-            self = .accountChannelLimitExceededException(message: message)
-        case "AccountStreamLimitExceededException":
-            self = .accountStreamLimitExceededException(message: message)
-        case "ClientLimitExceededException":
-            self = .clientLimitExceededException(message: message)
-        case "DeviceStreamLimitExceededException":
-            self = .deviceStreamLimitExceededException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidDeviceException":
-            self = .invalidDeviceException(message: message)
-        case "InvalidResourceFormatException":
-            self = .invalidResourceFormatException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TagsPerResourceExceededLimitException":
-            self = .tagsPerResourceExceededLimitException(message: message)
-        case "VersionMismatchException":
-            self = .versionMismatchException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var accountChannelLimitExceededException: Self { .init(.accountChannelLimitExceededException) }
+    public static var accountStreamLimitExceededException: Self { .init(.accountStreamLimitExceededException) }
+    public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    public static var deviceStreamLimitExceededException: Self { .init(.deviceStreamLimitExceededException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidDeviceException: Self { .init(.invalidDeviceException) }
+    public static var invalidResourceFormatException: Self { .init(.invalidResourceFormatException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tagsPerResourceExceededLimitException: Self { .init(.tagsPerResourceExceededLimitException) }
+    public static var versionMismatchException: Self { .init(.versionMismatchException) }
+}
+
+extension KinesisVideoErrorType: Equatable {
+    public static func == (lhs: KinesisVideoErrorType, rhs: KinesisVideoErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension KinesisVideoErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .accountChannelLimitExceededException(let message):
-            return "AccountChannelLimitExceededException: \(message ?? "")"
-        case .accountStreamLimitExceededException(let message):
-            return "AccountStreamLimitExceededException: \(message ?? "")"
-        case .clientLimitExceededException(let message):
-            return "ClientLimitExceededException: \(message ?? "")"
-        case .deviceStreamLimitExceededException(let message):
-            return "DeviceStreamLimitExceededException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidDeviceException(let message):
-            return "InvalidDeviceException: \(message ?? "")"
-        case .invalidResourceFormatException(let message):
-            return "InvalidResourceFormatException: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tagsPerResourceExceededLimitException(let message):
-            return "TagsPerResourceExceededLimitException: \(message ?? "")"
-        case .versionMismatchException(let message):
-            return "VersionMismatchException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

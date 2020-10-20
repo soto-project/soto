@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for SMS
-public enum SMSErrorType: AWSErrorType {
-    case dryRunOperationException(message: String?)
-    case internalError(message: String?)
-    case invalidParameterException(message: String?)
-    case missingRequiredParameterException(message: String?)
-    case noConnectorsAvailableException(message: String?)
-    case operationNotPermittedException(message: String?)
-    case replicationJobAlreadyExistsException(message: String?)
-    case replicationJobNotFoundException(message: String?)
-    case replicationRunLimitExceededException(message: String?)
-    case serverCannotBeReplicatedException(message: String?)
-    case temporarilyUnavailableException(message: String?)
-    case unauthorizedOperationException(message: String?)
-}
+public struct SMSErrorType: AWSErrorType {
+    enum Code: String {
+        case dryRunOperationException = "DryRunOperationException"
+        case internalError = "InternalError"
+        case invalidParameterException = "InvalidParameterException"
+        case missingRequiredParameterException = "MissingRequiredParameterException"
+        case noConnectorsAvailableException = "NoConnectorsAvailableException"
+        case operationNotPermittedException = "OperationNotPermittedException"
+        case replicationJobAlreadyExistsException = "ReplicationJobAlreadyExistsException"
+        case replicationJobNotFoundException = "ReplicationJobNotFoundException"
+        case replicationRunLimitExceededException = "ReplicationRunLimitExceededException"
+        case serverCannotBeReplicatedException = "ServerCannotBeReplicatedException"
+        case temporarilyUnavailableException = "TemporarilyUnavailableException"
+        case unauthorizedOperationException = "UnauthorizedOperationException"
+    }
 
-extension SMSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DryRunOperationException":
-            self = .dryRunOperationException(message: message)
-        case "InternalError":
-            self = .internalError(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "MissingRequiredParameterException":
-            self = .missingRequiredParameterException(message: message)
-        case "NoConnectorsAvailableException":
-            self = .noConnectorsAvailableException(message: message)
-        case "OperationNotPermittedException":
-            self = .operationNotPermittedException(message: message)
-        case "ReplicationJobAlreadyExistsException":
-            self = .replicationJobAlreadyExistsException(message: message)
-        case "ReplicationJobNotFoundException":
-            self = .replicationJobNotFoundException(message: message)
-        case "ReplicationRunLimitExceededException":
-            self = .replicationRunLimitExceededException(message: message)
-        case "ServerCannotBeReplicatedException":
-            self = .serverCannotBeReplicatedException(message: message)
-        case "TemporarilyUnavailableException":
-            self = .temporarilyUnavailableException(message: message)
-        case "UnauthorizedOperationException":
-            self = .unauthorizedOperationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
+    public static var internalError: Self { .init(.internalError) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var missingRequiredParameterException: Self { .init(.missingRequiredParameterException) }
+    public static var noConnectorsAvailableException: Self { .init(.noConnectorsAvailableException) }
+    public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    public static var replicationJobAlreadyExistsException: Self { .init(.replicationJobAlreadyExistsException) }
+    public static var replicationJobNotFoundException: Self { .init(.replicationJobNotFoundException) }
+    public static var replicationRunLimitExceededException: Self { .init(.replicationRunLimitExceededException) }
+    public static var serverCannotBeReplicatedException: Self { .init(.serverCannotBeReplicatedException) }
+    public static var temporarilyUnavailableException: Self { .init(.temporarilyUnavailableException) }
+    public static var unauthorizedOperationException: Self { .init(.unauthorizedOperationException) }
+}
+
+extension SMSErrorType: Equatable {
+    public static func == (lhs: SMSErrorType, rhs: SMSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SMSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .dryRunOperationException(let message):
-            return "DryRunOperationException: \(message ?? "")"
-        case .internalError(let message):
-            return "InternalError: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .missingRequiredParameterException(let message):
-            return "MissingRequiredParameterException: \(message ?? "")"
-        case .noConnectorsAvailableException(let message):
-            return "NoConnectorsAvailableException: \(message ?? "")"
-        case .operationNotPermittedException(let message):
-            return "OperationNotPermittedException: \(message ?? "")"
-        case .replicationJobAlreadyExistsException(let message):
-            return "ReplicationJobAlreadyExistsException: \(message ?? "")"
-        case .replicationJobNotFoundException(let message):
-            return "ReplicationJobNotFoundException: \(message ?? "")"
-        case .replicationRunLimitExceededException(let message):
-            return "ReplicationRunLimitExceededException: \(message ?? "")"
-        case .serverCannotBeReplicatedException(let message):
-            return "ServerCannotBeReplicatedException: \(message ?? "")"
-        case .temporarilyUnavailableException(let message):
-            return "TemporarilyUnavailableException: \(message ?? "")"
-        case .unauthorizedOperationException(let message):
-            return "UnauthorizedOperationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

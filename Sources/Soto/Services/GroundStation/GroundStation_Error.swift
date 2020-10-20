@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for GroundStation
-public enum GroundStationErrorType: AWSErrorType {
-    case dependencyException(message: String?)
-    case invalidParameterException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct GroundStationErrorType: AWSErrorType {
+    enum Code: String {
+        case dependencyException = "DependencyException"
+        case invalidParameterException = "InvalidParameterException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension GroundStationErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DependencyException":
-            self = .dependencyException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var dependencyException: Self { .init(.dependencyException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension GroundStationErrorType: Equatable {
+    public static func == (lhs: GroundStationErrorType, rhs: GroundStationErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GroundStationErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .dependencyException(let message):
-            return "DependencyException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for CognitoSync
-public enum CognitoSyncErrorType: AWSErrorType {
-    case alreadyStreamedException(message: String?)
-    case concurrentModificationException(message: String?)
-    case duplicateRequestException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidConfigurationException(message: String?)
-    case invalidLambdaFunctionOutputException(message: String?)
-    case invalidParameterException(message: String?)
-    case lambdaThrottledException(message: String?)
-    case limitExceededException(message: String?)
-    case notAuthorizedException(message: String?)
-    case resourceConflictException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct CognitoSyncErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyStreamedException = "AlreadyStreamed"
+        case concurrentModificationException = "ConcurrentModification"
+        case duplicateRequestException = "DuplicateRequest"
+        case internalErrorException = "InternalError"
+        case invalidConfigurationException = "InvalidConfiguration"
+        case invalidLambdaFunctionOutputException = "InvalidLambdaFunctionOutput"
+        case invalidParameterException = "InvalidParameter"
+        case lambdaThrottledException = "LambdaThrottled"
+        case limitExceededException = "LimitExceeded"
+        case notAuthorizedException = "NotAuthorizedError"
+        case resourceConflictException = "ResourceConflict"
+        case resourceNotFoundException = "ResourceNotFound"
+        case tooManyRequestsException = "TooManyRequests"
+    }
 
-extension CognitoSyncErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyStreamed":
-            self = .alreadyStreamedException(message: message)
-        case "ConcurrentModification":
-            self = .concurrentModificationException(message: message)
-        case "DuplicateRequest":
-            self = .duplicateRequestException(message: message)
-        case "InternalError":
-            self = .internalErrorException(message: message)
-        case "InvalidConfiguration":
-            self = .invalidConfigurationException(message: message)
-        case "InvalidLambdaFunctionOutput":
-            self = .invalidLambdaFunctionOutputException(message: message)
-        case "InvalidParameter":
-            self = .invalidParameterException(message: message)
-        case "LambdaThrottled":
-            self = .lambdaThrottledException(message: message)
-        case "LimitExceeded":
-            self = .limitExceededException(message: message)
-        case "NotAuthorizedError":
-            self = .notAuthorizedException(message: message)
-        case "ResourceConflict":
-            self = .resourceConflictException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequests":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyStreamedException: Self { .init(.alreadyStreamedException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
+    public static var invalidLambdaFunctionOutputException: Self { .init(.invalidLambdaFunctionOutputException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var lambdaThrottledException: Self { .init(.lambdaThrottledException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension CognitoSyncErrorType: Equatable {
+    public static func == (lhs: CognitoSyncErrorType, rhs: CognitoSyncErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CognitoSyncErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyStreamedException(let message):
-            return "AlreadyStreamed: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModification: \(message ?? "")"
-        case .duplicateRequestException(let message):
-            return "DuplicateRequest: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalError: \(message ?? "")"
-        case .invalidConfigurationException(let message):
-            return "InvalidConfiguration: \(message ?? "")"
-        case .invalidLambdaFunctionOutputException(let message):
-            return "InvalidLambdaFunctionOutput: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameter: \(message ?? "")"
-        case .lambdaThrottledException(let message):
-            return "LambdaThrottled: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceeded: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedError: \(message ?? "")"
-        case .resourceConflictException(let message):
-            return "ResourceConflict: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequests: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

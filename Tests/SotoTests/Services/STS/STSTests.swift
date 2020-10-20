@@ -87,7 +87,7 @@ class STSTests: XCTestCase {
         let sns = SNS(client: client)
         XCTAssertThrowsError(try sns.listTopics(.init()).wait()) { error in
             switch error {
-            case SNSErrorType.authorizationErrorException:
+            case let error as SNSErrorType where error == .authorizationErrorException:
                 break
             default:
                 XCTFail("Wrong error \(error)")
@@ -101,8 +101,8 @@ class STSTests: XCTestCase {
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {
-                case STSErrorType.invalidIdentityTokenException(let message):
-                    XCTAssertNotNil(message)
+                case let error as STSErrorType where error == .invalidIdentityTokenException:
+                    XCTAssertNotNil(error.message)
                 default:
                     throw error
                 }

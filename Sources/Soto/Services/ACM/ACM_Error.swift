@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for ACM
-public enum ACMErrorType: AWSErrorType {
-    case invalidArgsException(message: String?)
-    case invalidArnException(message: String?)
-    case invalidDomainValidationOptionsException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidStateException(message: String?)
-    case invalidTagException(message: String?)
-    case limitExceededException(message: String?)
-    case requestInProgressException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tagPolicyException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct ACMErrorType: AWSErrorType {
+    enum Code: String {
+        case invalidArgsException = "InvalidArgsException"
+        case invalidArnException = "InvalidArnException"
+        case invalidDomainValidationOptionsException = "InvalidDomainValidationOptionsException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidStateException = "InvalidStateException"
+        case invalidTagException = "InvalidTagException"
+        case limitExceededException = "LimitExceededException"
+        case requestInProgressException = "RequestInProgressException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tagPolicyException = "TagPolicyException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension ACMErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InvalidArgsException":
-            self = .invalidArgsException(message: message)
-        case "InvalidArnException":
-            self = .invalidArnException(message: message)
-        case "InvalidDomainValidationOptionsException":
-            self = .invalidDomainValidationOptionsException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "RequestInProgressException":
-            self = .requestInProgressException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TagPolicyException":
-            self = .tagPolicyException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var invalidArgsException: Self { .init(.invalidArgsException) }
+    public static var invalidArnException: Self { .init(.invalidArnException) }
+    public static var invalidDomainValidationOptionsException: Self { .init(.invalidDomainValidationOptionsException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidStateException: Self { .init(.invalidStateException) }
+    public static var invalidTagException: Self { .init(.invalidTagException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var requestInProgressException: Self { .init(.requestInProgressException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ACMErrorType: Equatable {
+    public static func == (lhs: ACMErrorType, rhs: ACMErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ACMErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .invalidArgsException(let message):
-            return "InvalidArgsException: \(message ?? "")"
-        case .invalidArnException(let message):
-            return "InvalidArnException: \(message ?? "")"
-        case .invalidDomainValidationOptionsException(let message):
-            return "InvalidDomainValidationOptionsException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidStateException(let message):
-            return "InvalidStateException: \(message ?? "")"
-        case .invalidTagException(let message):
-            return "InvalidTagException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .requestInProgressException(let message):
-            return "RequestInProgressException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tagPolicyException(let message):
-            return "TagPolicyException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

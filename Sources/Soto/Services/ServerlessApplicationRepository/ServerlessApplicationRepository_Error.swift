@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for ServerlessApplicationRepository
-public enum ServerlessApplicationRepositoryErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case forbiddenException(message: String?)
-    case internalServerErrorException(message: String?)
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct ServerlessApplicationRepositoryErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case notFoundException = "NotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension ServerlessApplicationRepositoryErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension ServerlessApplicationRepositoryErrorType: Equatable {
+    public static func == (lhs: ServerlessApplicationRepositoryErrorType, rhs: ServerlessApplicationRepositoryErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ServerlessApplicationRepositoryErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

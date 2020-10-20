@@ -17,30 +17,40 @@
 import SotoCore
 
 /// Error enum for MarketplaceCommerceAnalytics
-public enum MarketplaceCommerceAnalyticsErrorType: AWSErrorType {
-    case marketplaceCommerceAnalyticsException(message: String?)
-}
+public struct MarketplaceCommerceAnalyticsErrorType: AWSErrorType {
+    enum Code: String {
+        case marketplaceCommerceAnalyticsException = "MarketplaceCommerceAnalyticsException"
+    }
 
-extension MarketplaceCommerceAnalyticsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "MarketplaceCommerceAnalyticsException":
-            self = .marketplaceCommerceAnalyticsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var marketplaceCommerceAnalyticsException: Self { .init(.marketplaceCommerceAnalyticsException) }
+}
+
+extension MarketplaceCommerceAnalyticsErrorType: Equatable {
+    public static func == (lhs: MarketplaceCommerceAnalyticsErrorType, rhs: MarketplaceCommerceAnalyticsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MarketplaceCommerceAnalyticsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .marketplaceCommerceAnalyticsException(let message):
-            return "MarketplaceCommerceAnalyticsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,130 +17,80 @@
 import SotoCore
 
 /// Error enum for RAM
-public enum RAMErrorType: AWSErrorType {
-    case idempotentParameterMismatchException(message: String?)
-    case invalidClientTokenException(message: String?)
-    case invalidMaxResultsException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidResourceTypeException(message: String?)
-    case invalidStateTransitionException(message: String?)
-    case malformedArnException(message: String?)
-    case missingRequiredParameterException(message: String?)
-    case operationNotPermittedException(message: String?)
-    case resourceArnNotFoundException(message: String?)
-    case resourceShareInvitationAlreadyAcceptedException(message: String?)
-    case resourceShareInvitationAlreadyRejectedException(message: String?)
-    case resourceShareInvitationArnNotFoundException(message: String?)
-    case resourceShareInvitationExpiredException(message: String?)
-    case resourceShareLimitExceededException(message: String?)
-    case serverInternalException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tagLimitExceededException(message: String?)
-    case tagPolicyViolationException(message: String?)
-    case unknownResourceException(message: String?)
-}
+public struct RAMErrorType: AWSErrorType {
+    enum Code: String {
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case invalidClientTokenException = "InvalidClientTokenException"
+        case invalidMaxResultsException = "InvalidMaxResultsException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidResourceTypeException = "InvalidResourceTypeException"
+        case invalidStateTransitionException = "InvalidStateTransitionException"
+        case malformedArnException = "MalformedArnException"
+        case missingRequiredParameterException = "MissingRequiredParameterException"
+        case operationNotPermittedException = "OperationNotPermittedException"
+        case resourceArnNotFoundException = "ResourceArnNotFoundException"
+        case resourceShareInvitationAlreadyAcceptedException = "ResourceShareInvitationAlreadyAcceptedException"
+        case resourceShareInvitationAlreadyRejectedException = "ResourceShareInvitationAlreadyRejectedException"
+        case resourceShareInvitationArnNotFoundException = "ResourceShareInvitationArnNotFoundException"
+        case resourceShareInvitationExpiredException = "ResourceShareInvitationExpiredException"
+        case resourceShareLimitExceededException = "ResourceShareLimitExceededException"
+        case serverInternalException = "ServerInternalException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tagLimitExceededException = "TagLimitExceededException"
+        case tagPolicyViolationException = "TagPolicyViolationException"
+        case unknownResourceException = "UnknownResourceException"
+    }
 
-extension RAMErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InvalidClientTokenException":
-            self = .invalidClientTokenException(message: message)
-        case "InvalidMaxResultsException":
-            self = .invalidMaxResultsException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidResourceTypeException":
-            self = .invalidResourceTypeException(message: message)
-        case "InvalidStateTransitionException":
-            self = .invalidStateTransitionException(message: message)
-        case "MalformedArnException":
-            self = .malformedArnException(message: message)
-        case "MissingRequiredParameterException":
-            self = .missingRequiredParameterException(message: message)
-        case "OperationNotPermittedException":
-            self = .operationNotPermittedException(message: message)
-        case "ResourceArnNotFoundException":
-            self = .resourceArnNotFoundException(message: message)
-        case "ResourceShareInvitationAlreadyAcceptedException":
-            self = .resourceShareInvitationAlreadyAcceptedException(message: message)
-        case "ResourceShareInvitationAlreadyRejectedException":
-            self = .resourceShareInvitationAlreadyRejectedException(message: message)
-        case "ResourceShareInvitationArnNotFoundException":
-            self = .resourceShareInvitationArnNotFoundException(message: message)
-        case "ResourceShareInvitationExpiredException":
-            self = .resourceShareInvitationExpiredException(message: message)
-        case "ResourceShareLimitExceededException":
-            self = .resourceShareLimitExceededException(message: message)
-        case "ServerInternalException":
-            self = .serverInternalException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
-        case "TagPolicyViolationException":
-            self = .tagPolicyViolationException(message: message)
-        case "UnknownResourceException":
-            self = .unknownResourceException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var invalidClientTokenException: Self { .init(.invalidClientTokenException) }
+    public static var invalidMaxResultsException: Self { .init(.invalidMaxResultsException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidResourceTypeException: Self { .init(.invalidResourceTypeException) }
+    public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    public static var malformedArnException: Self { .init(.malformedArnException) }
+    public static var missingRequiredParameterException: Self { .init(.missingRequiredParameterException) }
+    public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    public static var resourceArnNotFoundException: Self { .init(.resourceArnNotFoundException) }
+    public static var resourceShareInvitationAlreadyAcceptedException: Self { .init(.resourceShareInvitationAlreadyAcceptedException) }
+    public static var resourceShareInvitationAlreadyRejectedException: Self { .init(.resourceShareInvitationAlreadyRejectedException) }
+    public static var resourceShareInvitationArnNotFoundException: Self { .init(.resourceShareInvitationArnNotFoundException) }
+    public static var resourceShareInvitationExpiredException: Self { .init(.resourceShareInvitationExpiredException) }
+    public static var resourceShareLimitExceededException: Self { .init(.resourceShareLimitExceededException) }
+    public static var serverInternalException: Self { .init(.serverInternalException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
+    public static var tagPolicyViolationException: Self { .init(.tagPolicyViolationException) }
+    public static var unknownResourceException: Self { .init(.unknownResourceException) }
+}
+
+extension RAMErrorType: Equatable {
+    public static func == (lhs: RAMErrorType, rhs: RAMErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension RAMErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .invalidClientTokenException(let message):
-            return "InvalidClientTokenException: \(message ?? "")"
-        case .invalidMaxResultsException(let message):
-            return "InvalidMaxResultsException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidResourceTypeException(let message):
-            return "InvalidResourceTypeException: \(message ?? "")"
-        case .invalidStateTransitionException(let message):
-            return "InvalidStateTransitionException: \(message ?? "")"
-        case .malformedArnException(let message):
-            return "MalformedArnException: \(message ?? "")"
-        case .missingRequiredParameterException(let message):
-            return "MissingRequiredParameterException: \(message ?? "")"
-        case .operationNotPermittedException(let message):
-            return "OperationNotPermittedException: \(message ?? "")"
-        case .resourceArnNotFoundException(let message):
-            return "ResourceArnNotFoundException: \(message ?? "")"
-        case .resourceShareInvitationAlreadyAcceptedException(let message):
-            return "ResourceShareInvitationAlreadyAcceptedException: \(message ?? "")"
-        case .resourceShareInvitationAlreadyRejectedException(let message):
-            return "ResourceShareInvitationAlreadyRejectedException: \(message ?? "")"
-        case .resourceShareInvitationArnNotFoundException(let message):
-            return "ResourceShareInvitationArnNotFoundException: \(message ?? "")"
-        case .resourceShareInvitationExpiredException(let message):
-            return "ResourceShareInvitationExpiredException: \(message ?? "")"
-        case .resourceShareLimitExceededException(let message):
-            return "ResourceShareLimitExceededException: \(message ?? "")"
-        case .serverInternalException(let message):
-            return "ServerInternalException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .tagLimitExceededException(let message):
-            return "TagLimitExceededException: \(message ?? "")"
-        case .tagPolicyViolationException(let message):
-            return "TagPolicyViolationException: \(message ?? "")"
-        case .unknownResourceException(let message):
-            return "UnknownResourceException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

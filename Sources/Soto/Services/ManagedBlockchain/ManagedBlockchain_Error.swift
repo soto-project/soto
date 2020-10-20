@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for ManagedBlockchain
-public enum ManagedBlockchainErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case illegalActionException(message: String?)
-    case internalServiceErrorException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceNotReadyException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct ManagedBlockchainErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case illegalActionException = "IllegalActionException"
+        case internalServiceErrorException = "InternalServiceErrorException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceNotReadyException = "ResourceNotReadyException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension ManagedBlockchainErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "IllegalActionException":
-            self = .illegalActionException(message: message)
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceNotReadyException":
-            self = .resourceNotReadyException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var illegalActionException: Self { .init(.illegalActionException) }
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension ManagedBlockchainErrorType: Equatable {
+    public static func == (lhs: ManagedBlockchainErrorType, rhs: ManagedBlockchainErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ManagedBlockchainErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .illegalActionException(let message):
-            return "IllegalActionException: \(message ?? "")"
-        case .internalServiceErrorException(let message):
-            return "InternalServiceErrorException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceNotReadyException(let message):
-            return "ResourceNotReadyException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for SageMakerRuntime
-public enum SageMakerRuntimeErrorType: AWSErrorType {
-    case internalFailure(message: String?)
-    case modelError(message: String?)
-    case serviceUnavailable(message: String?)
-    case validationError(message: String?)
-}
+public struct SageMakerRuntimeErrorType: AWSErrorType {
+    enum Code: String {
+        case internalFailure = "InternalFailure"
+        case modelError = "ModelError"
+        case serviceUnavailable = "ServiceUnavailable"
+        case validationError = "ValidationError"
+    }
 
-extension SageMakerRuntimeErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalFailure":
-            self = .internalFailure(message: message)
-        case "ModelError":
-            self = .modelError(message: message)
-        case "ServiceUnavailable":
-            self = .serviceUnavailable(message: message)
-        case "ValidationError":
-            self = .validationError(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalFailure: Self { .init(.internalFailure) }
+    public static var modelError: Self { .init(.modelError) }
+    public static var serviceUnavailable: Self { .init(.serviceUnavailable) }
+    public static var validationError: Self { .init(.validationError) }
+}
+
+extension SageMakerRuntimeErrorType: Equatable {
+    public static func == (lhs: SageMakerRuntimeErrorType, rhs: SageMakerRuntimeErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SageMakerRuntimeErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalFailure(let message):
-            return "InternalFailure: \(message ?? "")"
-        case .modelError(let message):
-            return "ModelError: \(message ?? "")"
-        case .serviceUnavailable(let message):
-            return "ServiceUnavailable: \(message ?? "")"
-        case .validationError(let message):
-            return "ValidationError: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

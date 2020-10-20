@@ -59,11 +59,16 @@ class S3Tests: XCTestCase {
             .map { _ in }
             .flatMapErrorThrowing { error in
                 switch error {
-                case S3ErrorType.bucketAlreadyOwnedByYou:
-                    return
-                case S3ErrorType.bucketAlreadyExists:
-                    // local stack returns bucketAlreadyExists instead of bucketAlreadyOwnedByYou
-                    if !TestEnvironment.isUsingLocalstack {
+                case let error as S3ErrorType:
+                    switch error {
+                    case .bucketAlreadyOwnedByYou:
+                        return
+                    case .bucketAlreadyExists:
+                        // local stack returns bucketAlreadyExists instead of bucketAlreadyOwnedByYou
+                        if !TestEnvironment.isUsingLocalstack {
+                            throw error
+                        }
+                    default:
                         throw error
                     }
                 default:
@@ -407,8 +412,8 @@ class S3Tests: XCTestCase {
         let response = Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case S3ErrorType.noSuchBucket(let message):
-                XCTAssertNotNil(message)
+            case let error as S3ErrorType where error == .noSuchBucket:
+                XCTAssertNotNil(error.message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

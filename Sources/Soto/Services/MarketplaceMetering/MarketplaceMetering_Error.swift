@@ -17,100 +17,68 @@
 import SotoCore
 
 /// Error enum for MarketplaceMetering
-public enum MarketplaceMeteringErrorType: AWSErrorType {
-    case customerNotEntitledException(message: String?)
-    case disabledApiException(message: String?)
-    case duplicateRequestException(message: String?)
-    case expiredTokenException(message: String?)
-    case internalServiceErrorException(message: String?)
-    case invalidCustomerIdentifierException(message: String?)
-    case invalidEndpointRegionException(message: String?)
-    case invalidProductCodeException(message: String?)
-    case invalidPublicKeyVersionException(message: String?)
-    case invalidRegionException(message: String?)
-    case invalidTokenException(message: String?)
-    case invalidUsageDimensionException(message: String?)
-    case platformNotSupportedException(message: String?)
-    case throttlingException(message: String?)
-    case timestampOutOfBoundsException(message: String?)
-}
+public struct MarketplaceMeteringErrorType: AWSErrorType {
+    enum Code: String {
+        case customerNotEntitledException = "CustomerNotEntitledException"
+        case disabledApiException = "DisabledApiException"
+        case duplicateRequestException = "DuplicateRequestException"
+        case expiredTokenException = "ExpiredTokenException"
+        case internalServiceErrorException = "InternalServiceErrorException"
+        case invalidCustomerIdentifierException = "InvalidCustomerIdentifierException"
+        case invalidEndpointRegionException = "InvalidEndpointRegionException"
+        case invalidProductCodeException = "InvalidProductCodeException"
+        case invalidPublicKeyVersionException = "InvalidPublicKeyVersionException"
+        case invalidRegionException = "InvalidRegionException"
+        case invalidTokenException = "InvalidTokenException"
+        case invalidUsageDimensionException = "InvalidUsageDimensionException"
+        case platformNotSupportedException = "PlatformNotSupportedException"
+        case throttlingException = "ThrottlingException"
+        case timestampOutOfBoundsException = "TimestampOutOfBoundsException"
+    }
 
-extension MarketplaceMeteringErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CustomerNotEntitledException":
-            self = .customerNotEntitledException(message: message)
-        case "DisabledApiException":
-            self = .disabledApiException(message: message)
-        case "DuplicateRequestException":
-            self = .duplicateRequestException(message: message)
-        case "ExpiredTokenException":
-            self = .expiredTokenException(message: message)
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
-        case "InvalidCustomerIdentifierException":
-            self = .invalidCustomerIdentifierException(message: message)
-        case "InvalidEndpointRegionException":
-            self = .invalidEndpointRegionException(message: message)
-        case "InvalidProductCodeException":
-            self = .invalidProductCodeException(message: message)
-        case "InvalidPublicKeyVersionException":
-            self = .invalidPublicKeyVersionException(message: message)
-        case "InvalidRegionException":
-            self = .invalidRegionException(message: message)
-        case "InvalidTokenException":
-            self = .invalidTokenException(message: message)
-        case "InvalidUsageDimensionException":
-            self = .invalidUsageDimensionException(message: message)
-        case "PlatformNotSupportedException":
-            self = .platformNotSupportedException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "TimestampOutOfBoundsException":
-            self = .timestampOutOfBoundsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var customerNotEntitledException: Self { .init(.customerNotEntitledException) }
+    public static var disabledApiException: Self { .init(.disabledApiException) }
+    public static var duplicateRequestException: Self { .init(.duplicateRequestException) }
+    public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    public static var invalidCustomerIdentifierException: Self { .init(.invalidCustomerIdentifierException) }
+    public static var invalidEndpointRegionException: Self { .init(.invalidEndpointRegionException) }
+    public static var invalidProductCodeException: Self { .init(.invalidProductCodeException) }
+    public static var invalidPublicKeyVersionException: Self { .init(.invalidPublicKeyVersionException) }
+    public static var invalidRegionException: Self { .init(.invalidRegionException) }
+    public static var invalidTokenException: Self { .init(.invalidTokenException) }
+    public static var invalidUsageDimensionException: Self { .init(.invalidUsageDimensionException) }
+    public static var platformNotSupportedException: Self { .init(.platformNotSupportedException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var timestampOutOfBoundsException: Self { .init(.timestampOutOfBoundsException) }
+}
+
+extension MarketplaceMeteringErrorType: Equatable {
+    public static func == (lhs: MarketplaceMeteringErrorType, rhs: MarketplaceMeteringErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MarketplaceMeteringErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .customerNotEntitledException(let message):
-            return "CustomerNotEntitledException: \(message ?? "")"
-        case .disabledApiException(let message):
-            return "DisabledApiException: \(message ?? "")"
-        case .duplicateRequestException(let message):
-            return "DuplicateRequestException: \(message ?? "")"
-        case .expiredTokenException(let message):
-            return "ExpiredTokenException: \(message ?? "")"
-        case .internalServiceErrorException(let message):
-            return "InternalServiceErrorException: \(message ?? "")"
-        case .invalidCustomerIdentifierException(let message):
-            return "InvalidCustomerIdentifierException: \(message ?? "")"
-        case .invalidEndpointRegionException(let message):
-            return "InvalidEndpointRegionException: \(message ?? "")"
-        case .invalidProductCodeException(let message):
-            return "InvalidProductCodeException: \(message ?? "")"
-        case .invalidPublicKeyVersionException(let message):
-            return "InvalidPublicKeyVersionException: \(message ?? "")"
-        case .invalidRegionException(let message):
-            return "InvalidRegionException: \(message ?? "")"
-        case .invalidTokenException(let message):
-            return "InvalidTokenException: \(message ?? "")"
-        case .invalidUsageDimensionException(let message):
-            return "InvalidUsageDimensionException: \(message ?? "")"
-        case .platformNotSupportedException(let message):
-            return "PlatformNotSupportedException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .timestampOutOfBoundsException(let message):
-            return "TimestampOutOfBoundsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

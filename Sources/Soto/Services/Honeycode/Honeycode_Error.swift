@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for Honeycode
-public enum HoneycodeErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case automationExecutionException(message: String?)
-    case automationExecutionTimeoutException(message: String?)
-    case internalServerException(message: String?)
-    case requestTimeoutException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-    case validationException(message: String?)
-}
+public struct HoneycodeErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case automationExecutionException = "AutomationExecutionException"
+        case automationExecutionTimeoutException = "AutomationExecutionTimeoutException"
+        case internalServerException = "InternalServerException"
+        case requestTimeoutException = "RequestTimeoutException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+    }
 
-extension HoneycodeErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AutomationExecutionException":
-            self = .automationExecutionException(message: message)
-        case "AutomationExecutionTimeoutException":
-            self = .automationExecutionTimeoutException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "RequestTimeoutException":
-            self = .requestTimeoutException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var automationExecutionException: Self { .init(.automationExecutionException) }
+    public static var automationExecutionTimeoutException: Self { .init(.automationExecutionTimeoutException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension HoneycodeErrorType: Equatable {
+    public static func == (lhs: HoneycodeErrorType, rhs: HoneycodeErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension HoneycodeErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .automationExecutionException(let message):
-            return "AutomationExecutionException: \(message ?? "")"
-        case .automationExecutionTimeoutException(let message):
-            return "AutomationExecutionTimeoutException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .requestTimeoutException(let message):
-            return "RequestTimeoutException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

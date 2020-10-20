@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for OpsWorks
-public enum OpsWorksErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct OpsWorksErrorType: AWSErrorType {
+    enum Code: String {
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension OpsWorksErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension OpsWorksErrorType: Equatable {
+    public static func == (lhs: OpsWorksErrorType, rhs: OpsWorksErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension OpsWorksErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

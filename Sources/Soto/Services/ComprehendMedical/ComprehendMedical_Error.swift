@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for ComprehendMedical
-public enum ComprehendMedicalErrorType: AWSErrorType {
-    case internalServerException(message: String?)
-    case invalidEncodingException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case textSizeLimitExceededException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case validationException(message: String?)
-}
+public struct ComprehendMedicalErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerException = "InternalServerException"
+        case invalidEncodingException = "InvalidEncodingException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case textSizeLimitExceededException = "TextSizeLimitExceededException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case validationException = "ValidationException"
+    }
 
-extension ComprehendMedicalErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidEncodingException":
-            self = .invalidEncodingException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TextSizeLimitExceededException":
-            self = .textSizeLimitExceededException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidEncodingException: Self { .init(.invalidEncodingException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ComprehendMedicalErrorType: Equatable {
+    public static func == (lhs: ComprehendMedicalErrorType, rhs: ComprehendMedicalErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ComprehendMedicalErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidEncodingException(let message):
-            return "InvalidEncodingException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .textSizeLimitExceededException(let message):
-            return "TextSizeLimitExceededException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

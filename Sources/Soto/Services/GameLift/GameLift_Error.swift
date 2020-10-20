@@ -17,100 +17,68 @@
 import SotoCore
 
 /// Error enum for GameLift
-public enum GameLiftErrorType: AWSErrorType {
-    case conflictException(message: String?)
-    case fleetCapacityExceededException(message: String?)
-    case gameSessionFullException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidFleetStatusException(message: String?)
-    case invalidGameSessionStatusException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case outOfCapacityException(message: String?)
-    case taggingFailedException(message: String?)
-    case terminalRoutingStrategyException(message: String?)
-    case unauthorizedException(message: String?)
-    case unsupportedRegionException(message: String?)
-}
+public struct GameLiftErrorType: AWSErrorType {
+    enum Code: String {
+        case conflictException = "ConflictException"
+        case fleetCapacityExceededException = "FleetCapacityExceededException"
+        case gameSessionFullException = "GameSessionFullException"
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case internalServiceException = "InternalServiceException"
+        case invalidFleetStatusException = "InvalidFleetStatusException"
+        case invalidGameSessionStatusException = "InvalidGameSessionStatusException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case outOfCapacityException = "OutOfCapacityException"
+        case taggingFailedException = "TaggingFailedException"
+        case terminalRoutingStrategyException = "TerminalRoutingStrategyException"
+        case unauthorizedException = "UnauthorizedException"
+        case unsupportedRegionException = "UnsupportedRegionException"
+    }
 
-extension GameLiftErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "FleetCapacityExceededException":
-            self = .fleetCapacityExceededException(message: message)
-        case "GameSessionFullException":
-            self = .gameSessionFullException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidFleetStatusException":
-            self = .invalidFleetStatusException(message: message)
-        case "InvalidGameSessionStatusException":
-            self = .invalidGameSessionStatusException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "OutOfCapacityException":
-            self = .outOfCapacityException(message: message)
-        case "TaggingFailedException":
-            self = .taggingFailedException(message: message)
-        case "TerminalRoutingStrategyException":
-            self = .terminalRoutingStrategyException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "UnsupportedRegionException":
-            self = .unsupportedRegionException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var fleetCapacityExceededException: Self { .init(.fleetCapacityExceededException) }
+    public static var gameSessionFullException: Self { .init(.gameSessionFullException) }
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidFleetStatusException: Self { .init(.invalidFleetStatusException) }
+    public static var invalidGameSessionStatusException: Self { .init(.invalidGameSessionStatusException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var outOfCapacityException: Self { .init(.outOfCapacityException) }
+    public static var taggingFailedException: Self { .init(.taggingFailedException) }
+    public static var terminalRoutingStrategyException: Self { .init(.terminalRoutingStrategyException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    public static var unsupportedRegionException: Self { .init(.unsupportedRegionException) }
+}
+
+extension GameLiftErrorType: Equatable {
+    public static func == (lhs: GameLiftErrorType, rhs: GameLiftErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GameLiftErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .fleetCapacityExceededException(let message):
-            return "FleetCapacityExceededException: \(message ?? "")"
-        case .gameSessionFullException(let message):
-            return "GameSessionFullException: \(message ?? "")"
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidFleetStatusException(let message):
-            return "InvalidFleetStatusException: \(message ?? "")"
-        case .invalidGameSessionStatusException(let message):
-            return "InvalidGameSessionStatusException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .outOfCapacityException(let message):
-            return "OutOfCapacityException: \(message ?? "")"
-        case .taggingFailedException(let message):
-            return "TaggingFailedException: \(message ?? "")"
-        case .terminalRoutingStrategyException(let message):
-            return "TerminalRoutingStrategyException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        case .unsupportedRegionException(let message):
-            return "UnsupportedRegionException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

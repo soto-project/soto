@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for CloudWatch
-public enum CloudWatchErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case dashboardInvalidInputError(message: String?)
-    case internalServiceFault(message: String?)
-    case invalidFormatFault(message: String?)
-    case invalidNextToken(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case limitExceededException(message: String?)
-    case limitExceededFault(message: String?)
-    case missingRequiredParameterException(message: String?)
-    case resourceNotFound(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct CloudWatchErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case dashboardInvalidInputError = "InvalidParameterInput"
+        case internalServiceFault = "InternalServiceError"
+        case invalidFormatFault = "InvalidFormat"
+        case invalidNextToken = "InvalidNextToken"
+        case invalidParameterCombinationException = "InvalidParameterCombination"
+        case invalidParameterValueException = "InvalidParameterValue"
+        case limitExceededException = "LimitExceededException"
+        case limitExceededFault = "LimitExceeded"
+        case missingRequiredParameterException = "MissingParameter"
+        case resourceNotFound = "ResourceNotFound"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension CloudWatchErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InvalidParameterInput":
-            self = .dashboardInvalidInputError(message: message)
-        case "InternalServiceError":
-            self = .internalServiceFault(message: message)
-        case "InvalidFormat":
-            self = .invalidFormatFault(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
-        case "InvalidParameterCombination":
-            self = .invalidParameterCombinationException(message: message)
-        case "InvalidParameterValue":
-            self = .invalidParameterValueException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "LimitExceeded":
-            self = .limitExceededFault(message: message)
-        case "MissingParameter":
-            self = .missingRequiredParameterException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var dashboardInvalidInputError: Self { .init(.dashboardInvalidInputError) }
+    public static var internalServiceFault: Self { .init(.internalServiceFault) }
+    public static var invalidFormatFault: Self { .init(.invalidFormatFault) }
+    public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var limitExceededFault: Self { .init(.limitExceededFault) }
+    public static var missingRequiredParameterException: Self { .init(.missingRequiredParameterException) }
+    public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension CloudWatchErrorType: Equatable {
+    public static func == (lhs: CloudWatchErrorType, rhs: CloudWatchErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudWatchErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .dashboardInvalidInputError(let message):
-            return "InvalidParameterInput: \(message ?? "")"
-        case .internalServiceFault(let message):
-            return "InternalServiceError: \(message ?? "")"
-        case .invalidFormatFault(let message):
-            return "InvalidFormat: \(message ?? "")"
-        case .invalidNextToken(let message):
-            return "InvalidNextToken: \(message ?? "")"
-        case .invalidParameterCombinationException(let message):
-            return "InvalidParameterCombination: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValue: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .limitExceededFault(let message):
-            return "LimitExceeded: \(message ?? "")"
-        case .missingRequiredParameterException(let message):
-            return "MissingParameter: \(message ?? "")"
-        case .resourceNotFound(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

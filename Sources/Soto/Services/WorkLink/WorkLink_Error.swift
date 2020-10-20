@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for WorkLink
-public enum WorkLinkErrorType: AWSErrorType {
-    case internalServerErrorException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unauthorizedException(message: String?)
-}
+public struct WorkLinkErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerErrorException = "InternalServerErrorException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unauthorizedException = "UnauthorizedException"
+    }
 
-extension WorkLinkErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension WorkLinkErrorType: Equatable {
+    public static func == (lhs: WorkLinkErrorType, rhs: WorkLinkErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WorkLinkErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

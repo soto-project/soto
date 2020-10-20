@@ -17,950 +17,408 @@
 import SotoCore
 
 /// Error enum for CodeCommit
-public enum CodeCommitErrorType: AWSErrorType {
-    case actorDoesNotExistException(message: String?)
-    case approvalRuleContentRequiredException(message: String?)
-    case approvalRuleDoesNotExistException(message: String?)
-    case approvalRuleNameAlreadyExistsException(message: String?)
-    case approvalRuleNameRequiredException(message: String?)
-    case approvalRuleTemplateContentRequiredException(message: String?)
-    case approvalRuleTemplateDoesNotExistException(message: String?)
-    case approvalRuleTemplateInUseException(message: String?)
-    case approvalRuleTemplateNameAlreadyExistsException(message: String?)
-    case approvalRuleTemplateNameRequiredException(message: String?)
-    case approvalStateRequiredException(message: String?)
-    case authorDoesNotExistException(message: String?)
-    case beforeCommitIdAndAfterCommitIdAreSameException(message: String?)
-    case blobIdDoesNotExistException(message: String?)
-    case blobIdRequiredException(message: String?)
-    case branchDoesNotExistException(message: String?)
-    case branchNameExistsException(message: String?)
-    case branchNameIsTagNameException(message: String?)
-    case branchNameRequiredException(message: String?)
-    case cannotDeleteApprovalRuleFromTemplateException(message: String?)
-    case cannotModifyApprovalRuleFromTemplateException(message: String?)
-    case clientRequestTokenRequiredException(message: String?)
-    case commentContentRequiredException(message: String?)
-    case commentContentSizeLimitExceededException(message: String?)
-    case commentDeletedException(message: String?)
-    case commentDoesNotExistException(message: String?)
-    case commentIdRequiredException(message: String?)
-    case commentNotCreatedByCallerException(message: String?)
-    case commitDoesNotExistException(message: String?)
-    case commitIdDoesNotExistException(message: String?)
-    case commitIdRequiredException(message: String?)
-    case commitIdsLimitExceededException(message: String?)
-    case commitIdsListRequiredException(message: String?)
-    case commitMessageLengthExceededException(message: String?)
-    case commitRequiredException(message: String?)
-    case concurrentReferenceUpdateException(message: String?)
-    case defaultBranchCannotBeDeletedException(message: String?)
-    case directoryNameConflictsWithFileNameException(message: String?)
-    case encryptionIntegrityChecksFailedException(message: String?)
-    case encryptionKeyAccessDeniedException(message: String?)
-    case encryptionKeyDisabledException(message: String?)
-    case encryptionKeyNotFoundException(message: String?)
-    case encryptionKeyUnavailableException(message: String?)
-    case fileContentAndSourceFileSpecifiedException(message: String?)
-    case fileContentRequiredException(message: String?)
-    case fileContentSizeLimitExceededException(message: String?)
-    case fileDoesNotExistException(message: String?)
-    case fileEntryRequiredException(message: String?)
-    case fileModeRequiredException(message: String?)
-    case fileNameConflictsWithDirectoryNameException(message: String?)
-    case filePathConflictsWithSubmodulePathException(message: String?)
-    case fileTooLargeException(message: String?)
-    case folderContentSizeLimitExceededException(message: String?)
-    case folderDoesNotExistException(message: String?)
-    case idempotencyParameterMismatchException(message: String?)
-    case invalidActorArnException(message: String?)
-    case invalidApprovalRuleContentException(message: String?)
-    case invalidApprovalRuleNameException(message: String?)
-    case invalidApprovalRuleTemplateContentException(message: String?)
-    case invalidApprovalRuleTemplateDescriptionException(message: String?)
-    case invalidApprovalRuleTemplateNameException(message: String?)
-    case invalidApprovalStateException(message: String?)
-    case invalidAuthorArnException(message: String?)
-    case invalidBlobIdException(message: String?)
-    case invalidBranchNameException(message: String?)
-    case invalidClientRequestTokenException(message: String?)
-    case invalidCommentIdException(message: String?)
-    case invalidCommitException(message: String?)
-    case invalidCommitIdException(message: String?)
-    case invalidConflictDetailLevelException(message: String?)
-    case invalidConflictResolutionException(message: String?)
-    case invalidConflictResolutionStrategyException(message: String?)
-    case invalidContinuationTokenException(message: String?)
-    case invalidDeletionParameterException(message: String?)
-    case invalidDescriptionException(message: String?)
-    case invalidDestinationCommitSpecifierException(message: String?)
-    case invalidEmailException(message: String?)
-    case invalidFileLocationException(message: String?)
-    case invalidFileModeException(message: String?)
-    case invalidFilePositionException(message: String?)
-    case invalidMaxConflictFilesException(message: String?)
-    case invalidMaxMergeHunksException(message: String?)
-    case invalidMaxResultsException(message: String?)
-    case invalidMergeOptionException(message: String?)
-    case invalidOrderException(message: String?)
-    case invalidOverrideStatusException(message: String?)
-    case invalidParentCommitIdException(message: String?)
-    case invalidPathException(message: String?)
-    case invalidPullRequestEventTypeException(message: String?)
-    case invalidPullRequestIdException(message: String?)
-    case invalidPullRequestStatusException(message: String?)
-    case invalidPullRequestStatusUpdateException(message: String?)
-    case invalidReactionUserArnException(message: String?)
-    case invalidReactionValueException(message: String?)
-    case invalidReferenceNameException(message: String?)
-    case invalidRelativeFileVersionEnumException(message: String?)
-    case invalidReplacementContentException(message: String?)
-    case invalidReplacementTypeException(message: String?)
-    case invalidRepositoryDescriptionException(message: String?)
-    case invalidRepositoryNameException(message: String?)
-    case invalidRepositoryTriggerBranchNameException(message: String?)
-    case invalidRepositoryTriggerCustomDataException(message: String?)
-    case invalidRepositoryTriggerDestinationArnException(message: String?)
-    case invalidRepositoryTriggerEventsException(message: String?)
-    case invalidRepositoryTriggerNameException(message: String?)
-    case invalidRepositoryTriggerRegionException(message: String?)
-    case invalidResourceArnException(message: String?)
-    case invalidRevisionIdException(message: String?)
-    case invalidRuleContentSha256Exception(message: String?)
-    case invalidSortByException(message: String?)
-    case invalidSourceCommitSpecifierException(message: String?)
-    case invalidSystemTagUsageException(message: String?)
-    case invalidTagKeysListException(message: String?)
-    case invalidTagsMapException(message: String?)
-    case invalidTargetBranchException(message: String?)
-    case invalidTargetException(message: String?)
-    case invalidTargetsException(message: String?)
-    case invalidTitleException(message: String?)
-    case manualMergeRequiredException(message: String?)
-    case maximumBranchesExceededException(message: String?)
-    case maximumConflictResolutionEntriesExceededException(message: String?)
-    case maximumFileContentToLoadExceededException(message: String?)
-    case maximumFileEntriesExceededException(message: String?)
-    case maximumItemsToCompareExceededException(message: String?)
-    case maximumNumberOfApprovalsExceededException(message: String?)
-    case maximumOpenPullRequestsExceededException(message: String?)
-    case maximumRepositoryNamesExceededException(message: String?)
-    case maximumRepositoryTriggersExceededException(message: String?)
-    case maximumRuleTemplatesAssociatedWithRepositoryException(message: String?)
-    case mergeOptionRequiredException(message: String?)
-    case multipleConflictResolutionEntriesException(message: String?)
-    case multipleRepositoriesInPullRequestException(message: String?)
-    case nameLengthExceededException(message: String?)
-    case noChangeException(message: String?)
-    case numberOfRuleTemplatesExceededException(message: String?)
-    case numberOfRulesExceededException(message: String?)
-    case overrideAlreadySetException(message: String?)
-    case overrideStatusRequiredException(message: String?)
-    case parentCommitDoesNotExistException(message: String?)
-    case parentCommitIdOutdatedException(message: String?)
-    case parentCommitIdRequiredException(message: String?)
-    case pathDoesNotExistException(message: String?)
-    case pathRequiredException(message: String?)
-    case pullRequestAlreadyClosedException(message: String?)
-    case pullRequestApprovalRulesNotSatisfiedException(message: String?)
-    case pullRequestCannotBeApprovedByAuthorException(message: String?)
-    case pullRequestDoesNotExistException(message: String?)
-    case pullRequestIdRequiredException(message: String?)
-    case pullRequestStatusRequiredException(message: String?)
-    case putFileEntryConflictException(message: String?)
-    case reactionLimitExceededException(message: String?)
-    case reactionValueRequiredException(message: String?)
-    case referenceDoesNotExistException(message: String?)
-    case referenceNameRequiredException(message: String?)
-    case referenceTypeNotSupportedException(message: String?)
-    case replacementContentRequiredException(message: String?)
-    case replacementTypeRequiredException(message: String?)
-    case repositoryDoesNotExistException(message: String?)
-    case repositoryLimitExceededException(message: String?)
-    case repositoryNameExistsException(message: String?)
-    case repositoryNameRequiredException(message: String?)
-    case repositoryNamesRequiredException(message: String?)
-    case repositoryNotAssociatedWithPullRequestException(message: String?)
-    case repositoryTriggerBranchNameListRequiredException(message: String?)
-    case repositoryTriggerDestinationArnRequiredException(message: String?)
-    case repositoryTriggerEventsListRequiredException(message: String?)
-    case repositoryTriggerNameRequiredException(message: String?)
-    case repositoryTriggersListRequiredException(message: String?)
-    case resourceArnRequiredException(message: String?)
-    case restrictedSourceFileException(message: String?)
-    case revisionIdRequiredException(message: String?)
-    case revisionNotCurrentException(message: String?)
-    case sameFileContentException(message: String?)
-    case samePathRequestException(message: String?)
-    case sourceAndDestinationAreSameException(message: String?)
-    case sourceFileOrContentRequiredException(message: String?)
-    case tagKeysListRequiredException(message: String?)
-    case tagPolicyException(message: String?)
-    case tagsMapRequiredException(message: String?)
-    case targetRequiredException(message: String?)
-    case targetsRequiredException(message: String?)
-    case tipOfSourceReferenceIsDifferentException(message: String?)
-    case tipsDivergenceExceededException(message: String?)
-    case titleRequiredException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct CodeCommitErrorType: AWSErrorType {
+    enum Code: String {
+        case actorDoesNotExistException = "ActorDoesNotExistException"
+        case approvalRuleContentRequiredException = "ApprovalRuleContentRequiredException"
+        case approvalRuleDoesNotExistException = "ApprovalRuleDoesNotExistException"
+        case approvalRuleNameAlreadyExistsException = "ApprovalRuleNameAlreadyExistsException"
+        case approvalRuleNameRequiredException = "ApprovalRuleNameRequiredException"
+        case approvalRuleTemplateContentRequiredException = "ApprovalRuleTemplateContentRequiredException"
+        case approvalRuleTemplateDoesNotExistException = "ApprovalRuleTemplateDoesNotExistException"
+        case approvalRuleTemplateInUseException = "ApprovalRuleTemplateInUseException"
+        case approvalRuleTemplateNameAlreadyExistsException = "ApprovalRuleTemplateNameAlreadyExistsException"
+        case approvalRuleTemplateNameRequiredException = "ApprovalRuleTemplateNameRequiredException"
+        case approvalStateRequiredException = "ApprovalStateRequiredException"
+        case authorDoesNotExistException = "AuthorDoesNotExistException"
+        case beforeCommitIdAndAfterCommitIdAreSameException = "BeforeCommitIdAndAfterCommitIdAreSameException"
+        case blobIdDoesNotExistException = "BlobIdDoesNotExistException"
+        case blobIdRequiredException = "BlobIdRequiredException"
+        case branchDoesNotExistException = "BranchDoesNotExistException"
+        case branchNameExistsException = "BranchNameExistsException"
+        case branchNameIsTagNameException = "BranchNameIsTagNameException"
+        case branchNameRequiredException = "BranchNameRequiredException"
+        case cannotDeleteApprovalRuleFromTemplateException = "CannotDeleteApprovalRuleFromTemplateException"
+        case cannotModifyApprovalRuleFromTemplateException = "CannotModifyApprovalRuleFromTemplateException"
+        case clientRequestTokenRequiredException = "ClientRequestTokenRequiredException"
+        case commentContentRequiredException = "CommentContentRequiredException"
+        case commentContentSizeLimitExceededException = "CommentContentSizeLimitExceededException"
+        case commentDeletedException = "CommentDeletedException"
+        case commentDoesNotExistException = "CommentDoesNotExistException"
+        case commentIdRequiredException = "CommentIdRequiredException"
+        case commentNotCreatedByCallerException = "CommentNotCreatedByCallerException"
+        case commitDoesNotExistException = "CommitDoesNotExistException"
+        case commitIdDoesNotExistException = "CommitIdDoesNotExistException"
+        case commitIdRequiredException = "CommitIdRequiredException"
+        case commitIdsLimitExceededException = "CommitIdsLimitExceededException"
+        case commitIdsListRequiredException = "CommitIdsListRequiredException"
+        case commitMessageLengthExceededException = "CommitMessageLengthExceededException"
+        case commitRequiredException = "CommitRequiredException"
+        case concurrentReferenceUpdateException = "ConcurrentReferenceUpdateException"
+        case defaultBranchCannotBeDeletedException = "DefaultBranchCannotBeDeletedException"
+        case directoryNameConflictsWithFileNameException = "DirectoryNameConflictsWithFileNameException"
+        case encryptionIntegrityChecksFailedException = "EncryptionIntegrityChecksFailedException"
+        case encryptionKeyAccessDeniedException = "EncryptionKeyAccessDeniedException"
+        case encryptionKeyDisabledException = "EncryptionKeyDisabledException"
+        case encryptionKeyNotFoundException = "EncryptionKeyNotFoundException"
+        case encryptionKeyUnavailableException = "EncryptionKeyUnavailableException"
+        case fileContentAndSourceFileSpecifiedException = "FileContentAndSourceFileSpecifiedException"
+        case fileContentRequiredException = "FileContentRequiredException"
+        case fileContentSizeLimitExceededException = "FileContentSizeLimitExceededException"
+        case fileDoesNotExistException = "FileDoesNotExistException"
+        case fileEntryRequiredException = "FileEntryRequiredException"
+        case fileModeRequiredException = "FileModeRequiredException"
+        case fileNameConflictsWithDirectoryNameException = "FileNameConflictsWithDirectoryNameException"
+        case filePathConflictsWithSubmodulePathException = "FilePathConflictsWithSubmodulePathException"
+        case fileTooLargeException = "FileTooLargeException"
+        case folderContentSizeLimitExceededException = "FolderContentSizeLimitExceededException"
+        case folderDoesNotExistException = "FolderDoesNotExistException"
+        case idempotencyParameterMismatchException = "IdempotencyParameterMismatchException"
+        case invalidActorArnException = "InvalidActorArnException"
+        case invalidApprovalRuleContentException = "InvalidApprovalRuleContentException"
+        case invalidApprovalRuleNameException = "InvalidApprovalRuleNameException"
+        case invalidApprovalRuleTemplateContentException = "InvalidApprovalRuleTemplateContentException"
+        case invalidApprovalRuleTemplateDescriptionException = "InvalidApprovalRuleTemplateDescriptionException"
+        case invalidApprovalRuleTemplateNameException = "InvalidApprovalRuleTemplateNameException"
+        case invalidApprovalStateException = "InvalidApprovalStateException"
+        case invalidAuthorArnException = "InvalidAuthorArnException"
+        case invalidBlobIdException = "InvalidBlobIdException"
+        case invalidBranchNameException = "InvalidBranchNameException"
+        case invalidClientRequestTokenException = "InvalidClientRequestTokenException"
+        case invalidCommentIdException = "InvalidCommentIdException"
+        case invalidCommitException = "InvalidCommitException"
+        case invalidCommitIdException = "InvalidCommitIdException"
+        case invalidConflictDetailLevelException = "InvalidConflictDetailLevelException"
+        case invalidConflictResolutionException = "InvalidConflictResolutionException"
+        case invalidConflictResolutionStrategyException = "InvalidConflictResolutionStrategyException"
+        case invalidContinuationTokenException = "InvalidContinuationTokenException"
+        case invalidDeletionParameterException = "InvalidDeletionParameterException"
+        case invalidDescriptionException = "InvalidDescriptionException"
+        case invalidDestinationCommitSpecifierException = "InvalidDestinationCommitSpecifierException"
+        case invalidEmailException = "InvalidEmailException"
+        case invalidFileLocationException = "InvalidFileLocationException"
+        case invalidFileModeException = "InvalidFileModeException"
+        case invalidFilePositionException = "InvalidFilePositionException"
+        case invalidMaxConflictFilesException = "InvalidMaxConflictFilesException"
+        case invalidMaxMergeHunksException = "InvalidMaxMergeHunksException"
+        case invalidMaxResultsException = "InvalidMaxResultsException"
+        case invalidMergeOptionException = "InvalidMergeOptionException"
+        case invalidOrderException = "InvalidOrderException"
+        case invalidOverrideStatusException = "InvalidOverrideStatusException"
+        case invalidParentCommitIdException = "InvalidParentCommitIdException"
+        case invalidPathException = "InvalidPathException"
+        case invalidPullRequestEventTypeException = "InvalidPullRequestEventTypeException"
+        case invalidPullRequestIdException = "InvalidPullRequestIdException"
+        case invalidPullRequestStatusException = "InvalidPullRequestStatusException"
+        case invalidPullRequestStatusUpdateException = "InvalidPullRequestStatusUpdateException"
+        case invalidReactionUserArnException = "InvalidReactionUserArnException"
+        case invalidReactionValueException = "InvalidReactionValueException"
+        case invalidReferenceNameException = "InvalidReferenceNameException"
+        case invalidRelativeFileVersionEnumException = "InvalidRelativeFileVersionEnumException"
+        case invalidReplacementContentException = "InvalidReplacementContentException"
+        case invalidReplacementTypeException = "InvalidReplacementTypeException"
+        case invalidRepositoryDescriptionException = "InvalidRepositoryDescriptionException"
+        case invalidRepositoryNameException = "InvalidRepositoryNameException"
+        case invalidRepositoryTriggerBranchNameException = "InvalidRepositoryTriggerBranchNameException"
+        case invalidRepositoryTriggerCustomDataException = "InvalidRepositoryTriggerCustomDataException"
+        case invalidRepositoryTriggerDestinationArnException = "InvalidRepositoryTriggerDestinationArnException"
+        case invalidRepositoryTriggerEventsException = "InvalidRepositoryTriggerEventsException"
+        case invalidRepositoryTriggerNameException = "InvalidRepositoryTriggerNameException"
+        case invalidRepositoryTriggerRegionException = "InvalidRepositoryTriggerRegionException"
+        case invalidResourceArnException = "InvalidResourceArnException"
+        case invalidRevisionIdException = "InvalidRevisionIdException"
+        case invalidRuleContentSha256Exception = "InvalidRuleContentSha256Exception"
+        case invalidSortByException = "InvalidSortByException"
+        case invalidSourceCommitSpecifierException = "InvalidSourceCommitSpecifierException"
+        case invalidSystemTagUsageException = "InvalidSystemTagUsageException"
+        case invalidTagKeysListException = "InvalidTagKeysListException"
+        case invalidTagsMapException = "InvalidTagsMapException"
+        case invalidTargetBranchException = "InvalidTargetBranchException"
+        case invalidTargetException = "InvalidTargetException"
+        case invalidTargetsException = "InvalidTargetsException"
+        case invalidTitleException = "InvalidTitleException"
+        case manualMergeRequiredException = "ManualMergeRequiredException"
+        case maximumBranchesExceededException = "MaximumBranchesExceededException"
+        case maximumConflictResolutionEntriesExceededException = "MaximumConflictResolutionEntriesExceededException"
+        case maximumFileContentToLoadExceededException = "MaximumFileContentToLoadExceededException"
+        case maximumFileEntriesExceededException = "MaximumFileEntriesExceededException"
+        case maximumItemsToCompareExceededException = "MaximumItemsToCompareExceededException"
+        case maximumNumberOfApprovalsExceededException = "MaximumNumberOfApprovalsExceededException"
+        case maximumOpenPullRequestsExceededException = "MaximumOpenPullRequestsExceededException"
+        case maximumRepositoryNamesExceededException = "MaximumRepositoryNamesExceededException"
+        case maximumRepositoryTriggersExceededException = "MaximumRepositoryTriggersExceededException"
+        case maximumRuleTemplatesAssociatedWithRepositoryException = "MaximumRuleTemplatesAssociatedWithRepositoryException"
+        case mergeOptionRequiredException = "MergeOptionRequiredException"
+        case multipleConflictResolutionEntriesException = "MultipleConflictResolutionEntriesException"
+        case multipleRepositoriesInPullRequestException = "MultipleRepositoriesInPullRequestException"
+        case nameLengthExceededException = "NameLengthExceededException"
+        case noChangeException = "NoChangeException"
+        case numberOfRuleTemplatesExceededException = "NumberOfRuleTemplatesExceededException"
+        case numberOfRulesExceededException = "NumberOfRulesExceededException"
+        case overrideAlreadySetException = "OverrideAlreadySetException"
+        case overrideStatusRequiredException = "OverrideStatusRequiredException"
+        case parentCommitDoesNotExistException = "ParentCommitDoesNotExistException"
+        case parentCommitIdOutdatedException = "ParentCommitIdOutdatedException"
+        case parentCommitIdRequiredException = "ParentCommitIdRequiredException"
+        case pathDoesNotExistException = "PathDoesNotExistException"
+        case pathRequiredException = "PathRequiredException"
+        case pullRequestAlreadyClosedException = "PullRequestAlreadyClosedException"
+        case pullRequestApprovalRulesNotSatisfiedException = "PullRequestApprovalRulesNotSatisfiedException"
+        case pullRequestCannotBeApprovedByAuthorException = "PullRequestCannotBeApprovedByAuthorException"
+        case pullRequestDoesNotExistException = "PullRequestDoesNotExistException"
+        case pullRequestIdRequiredException = "PullRequestIdRequiredException"
+        case pullRequestStatusRequiredException = "PullRequestStatusRequiredException"
+        case putFileEntryConflictException = "PutFileEntryConflictException"
+        case reactionLimitExceededException = "ReactionLimitExceededException"
+        case reactionValueRequiredException = "ReactionValueRequiredException"
+        case referenceDoesNotExistException = "ReferenceDoesNotExistException"
+        case referenceNameRequiredException = "ReferenceNameRequiredException"
+        case referenceTypeNotSupportedException = "ReferenceTypeNotSupportedException"
+        case replacementContentRequiredException = "ReplacementContentRequiredException"
+        case replacementTypeRequiredException = "ReplacementTypeRequiredException"
+        case repositoryDoesNotExistException = "RepositoryDoesNotExistException"
+        case repositoryLimitExceededException = "RepositoryLimitExceededException"
+        case repositoryNameExistsException = "RepositoryNameExistsException"
+        case repositoryNameRequiredException = "RepositoryNameRequiredException"
+        case repositoryNamesRequiredException = "RepositoryNamesRequiredException"
+        case repositoryNotAssociatedWithPullRequestException = "RepositoryNotAssociatedWithPullRequestException"
+        case repositoryTriggerBranchNameListRequiredException = "RepositoryTriggerBranchNameListRequiredException"
+        case repositoryTriggerDestinationArnRequiredException = "RepositoryTriggerDestinationArnRequiredException"
+        case repositoryTriggerEventsListRequiredException = "RepositoryTriggerEventsListRequiredException"
+        case repositoryTriggerNameRequiredException = "RepositoryTriggerNameRequiredException"
+        case repositoryTriggersListRequiredException = "RepositoryTriggersListRequiredException"
+        case resourceArnRequiredException = "ResourceArnRequiredException"
+        case restrictedSourceFileException = "RestrictedSourceFileException"
+        case revisionIdRequiredException = "RevisionIdRequiredException"
+        case revisionNotCurrentException = "RevisionNotCurrentException"
+        case sameFileContentException = "SameFileContentException"
+        case samePathRequestException = "SamePathRequestException"
+        case sourceAndDestinationAreSameException = "SourceAndDestinationAreSameException"
+        case sourceFileOrContentRequiredException = "SourceFileOrContentRequiredException"
+        case tagKeysListRequiredException = "TagKeysListRequiredException"
+        case tagPolicyException = "TagPolicyException"
+        case tagsMapRequiredException = "TagsMapRequiredException"
+        case targetRequiredException = "TargetRequiredException"
+        case targetsRequiredException = "TargetsRequiredException"
+        case tipOfSourceReferenceIsDifferentException = "TipOfSourceReferenceIsDifferentException"
+        case tipsDivergenceExceededException = "TipsDivergenceExceededException"
+        case titleRequiredException = "TitleRequiredException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension CodeCommitErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ActorDoesNotExistException":
-            self = .actorDoesNotExistException(message: message)
-        case "ApprovalRuleContentRequiredException":
-            self = .approvalRuleContentRequiredException(message: message)
-        case "ApprovalRuleDoesNotExistException":
-            self = .approvalRuleDoesNotExistException(message: message)
-        case "ApprovalRuleNameAlreadyExistsException":
-            self = .approvalRuleNameAlreadyExistsException(message: message)
-        case "ApprovalRuleNameRequiredException":
-            self = .approvalRuleNameRequiredException(message: message)
-        case "ApprovalRuleTemplateContentRequiredException":
-            self = .approvalRuleTemplateContentRequiredException(message: message)
-        case "ApprovalRuleTemplateDoesNotExistException":
-            self = .approvalRuleTemplateDoesNotExistException(message: message)
-        case "ApprovalRuleTemplateInUseException":
-            self = .approvalRuleTemplateInUseException(message: message)
-        case "ApprovalRuleTemplateNameAlreadyExistsException":
-            self = .approvalRuleTemplateNameAlreadyExistsException(message: message)
-        case "ApprovalRuleTemplateNameRequiredException":
-            self = .approvalRuleTemplateNameRequiredException(message: message)
-        case "ApprovalStateRequiredException":
-            self = .approvalStateRequiredException(message: message)
-        case "AuthorDoesNotExistException":
-            self = .authorDoesNotExistException(message: message)
-        case "BeforeCommitIdAndAfterCommitIdAreSameException":
-            self = .beforeCommitIdAndAfterCommitIdAreSameException(message: message)
-        case "BlobIdDoesNotExistException":
-            self = .blobIdDoesNotExistException(message: message)
-        case "BlobIdRequiredException":
-            self = .blobIdRequiredException(message: message)
-        case "BranchDoesNotExistException":
-            self = .branchDoesNotExistException(message: message)
-        case "BranchNameExistsException":
-            self = .branchNameExistsException(message: message)
-        case "BranchNameIsTagNameException":
-            self = .branchNameIsTagNameException(message: message)
-        case "BranchNameRequiredException":
-            self = .branchNameRequiredException(message: message)
-        case "CannotDeleteApprovalRuleFromTemplateException":
-            self = .cannotDeleteApprovalRuleFromTemplateException(message: message)
-        case "CannotModifyApprovalRuleFromTemplateException":
-            self = .cannotModifyApprovalRuleFromTemplateException(message: message)
-        case "ClientRequestTokenRequiredException":
-            self = .clientRequestTokenRequiredException(message: message)
-        case "CommentContentRequiredException":
-            self = .commentContentRequiredException(message: message)
-        case "CommentContentSizeLimitExceededException":
-            self = .commentContentSizeLimitExceededException(message: message)
-        case "CommentDeletedException":
-            self = .commentDeletedException(message: message)
-        case "CommentDoesNotExistException":
-            self = .commentDoesNotExistException(message: message)
-        case "CommentIdRequiredException":
-            self = .commentIdRequiredException(message: message)
-        case "CommentNotCreatedByCallerException":
-            self = .commentNotCreatedByCallerException(message: message)
-        case "CommitDoesNotExistException":
-            self = .commitDoesNotExistException(message: message)
-        case "CommitIdDoesNotExistException":
-            self = .commitIdDoesNotExistException(message: message)
-        case "CommitIdRequiredException":
-            self = .commitIdRequiredException(message: message)
-        case "CommitIdsLimitExceededException":
-            self = .commitIdsLimitExceededException(message: message)
-        case "CommitIdsListRequiredException":
-            self = .commitIdsListRequiredException(message: message)
-        case "CommitMessageLengthExceededException":
-            self = .commitMessageLengthExceededException(message: message)
-        case "CommitRequiredException":
-            self = .commitRequiredException(message: message)
-        case "ConcurrentReferenceUpdateException":
-            self = .concurrentReferenceUpdateException(message: message)
-        case "DefaultBranchCannotBeDeletedException":
-            self = .defaultBranchCannotBeDeletedException(message: message)
-        case "DirectoryNameConflictsWithFileNameException":
-            self = .directoryNameConflictsWithFileNameException(message: message)
-        case "EncryptionIntegrityChecksFailedException":
-            self = .encryptionIntegrityChecksFailedException(message: message)
-        case "EncryptionKeyAccessDeniedException":
-            self = .encryptionKeyAccessDeniedException(message: message)
-        case "EncryptionKeyDisabledException":
-            self = .encryptionKeyDisabledException(message: message)
-        case "EncryptionKeyNotFoundException":
-            self = .encryptionKeyNotFoundException(message: message)
-        case "EncryptionKeyUnavailableException":
-            self = .encryptionKeyUnavailableException(message: message)
-        case "FileContentAndSourceFileSpecifiedException":
-            self = .fileContentAndSourceFileSpecifiedException(message: message)
-        case "FileContentRequiredException":
-            self = .fileContentRequiredException(message: message)
-        case "FileContentSizeLimitExceededException":
-            self = .fileContentSizeLimitExceededException(message: message)
-        case "FileDoesNotExistException":
-            self = .fileDoesNotExistException(message: message)
-        case "FileEntryRequiredException":
-            self = .fileEntryRequiredException(message: message)
-        case "FileModeRequiredException":
-            self = .fileModeRequiredException(message: message)
-        case "FileNameConflictsWithDirectoryNameException":
-            self = .fileNameConflictsWithDirectoryNameException(message: message)
-        case "FilePathConflictsWithSubmodulePathException":
-            self = .filePathConflictsWithSubmodulePathException(message: message)
-        case "FileTooLargeException":
-            self = .fileTooLargeException(message: message)
-        case "FolderContentSizeLimitExceededException":
-            self = .folderContentSizeLimitExceededException(message: message)
-        case "FolderDoesNotExistException":
-            self = .folderDoesNotExistException(message: message)
-        case "IdempotencyParameterMismatchException":
-            self = .idempotencyParameterMismatchException(message: message)
-        case "InvalidActorArnException":
-            self = .invalidActorArnException(message: message)
-        case "InvalidApprovalRuleContentException":
-            self = .invalidApprovalRuleContentException(message: message)
-        case "InvalidApprovalRuleNameException":
-            self = .invalidApprovalRuleNameException(message: message)
-        case "InvalidApprovalRuleTemplateContentException":
-            self = .invalidApprovalRuleTemplateContentException(message: message)
-        case "InvalidApprovalRuleTemplateDescriptionException":
-            self = .invalidApprovalRuleTemplateDescriptionException(message: message)
-        case "InvalidApprovalRuleTemplateNameException":
-            self = .invalidApprovalRuleTemplateNameException(message: message)
-        case "InvalidApprovalStateException":
-            self = .invalidApprovalStateException(message: message)
-        case "InvalidAuthorArnException":
-            self = .invalidAuthorArnException(message: message)
-        case "InvalidBlobIdException":
-            self = .invalidBlobIdException(message: message)
-        case "InvalidBranchNameException":
-            self = .invalidBranchNameException(message: message)
-        case "InvalidClientRequestTokenException":
-            self = .invalidClientRequestTokenException(message: message)
-        case "InvalidCommentIdException":
-            self = .invalidCommentIdException(message: message)
-        case "InvalidCommitException":
-            self = .invalidCommitException(message: message)
-        case "InvalidCommitIdException":
-            self = .invalidCommitIdException(message: message)
-        case "InvalidConflictDetailLevelException":
-            self = .invalidConflictDetailLevelException(message: message)
-        case "InvalidConflictResolutionException":
-            self = .invalidConflictResolutionException(message: message)
-        case "InvalidConflictResolutionStrategyException":
-            self = .invalidConflictResolutionStrategyException(message: message)
-        case "InvalidContinuationTokenException":
-            self = .invalidContinuationTokenException(message: message)
-        case "InvalidDeletionParameterException":
-            self = .invalidDeletionParameterException(message: message)
-        case "InvalidDescriptionException":
-            self = .invalidDescriptionException(message: message)
-        case "InvalidDestinationCommitSpecifierException":
-            self = .invalidDestinationCommitSpecifierException(message: message)
-        case "InvalidEmailException":
-            self = .invalidEmailException(message: message)
-        case "InvalidFileLocationException":
-            self = .invalidFileLocationException(message: message)
-        case "InvalidFileModeException":
-            self = .invalidFileModeException(message: message)
-        case "InvalidFilePositionException":
-            self = .invalidFilePositionException(message: message)
-        case "InvalidMaxConflictFilesException":
-            self = .invalidMaxConflictFilesException(message: message)
-        case "InvalidMaxMergeHunksException":
-            self = .invalidMaxMergeHunksException(message: message)
-        case "InvalidMaxResultsException":
-            self = .invalidMaxResultsException(message: message)
-        case "InvalidMergeOptionException":
-            self = .invalidMergeOptionException(message: message)
-        case "InvalidOrderException":
-            self = .invalidOrderException(message: message)
-        case "InvalidOverrideStatusException":
-            self = .invalidOverrideStatusException(message: message)
-        case "InvalidParentCommitIdException":
-            self = .invalidParentCommitIdException(message: message)
-        case "InvalidPathException":
-            self = .invalidPathException(message: message)
-        case "InvalidPullRequestEventTypeException":
-            self = .invalidPullRequestEventTypeException(message: message)
-        case "InvalidPullRequestIdException":
-            self = .invalidPullRequestIdException(message: message)
-        case "InvalidPullRequestStatusException":
-            self = .invalidPullRequestStatusException(message: message)
-        case "InvalidPullRequestStatusUpdateException":
-            self = .invalidPullRequestStatusUpdateException(message: message)
-        case "InvalidReactionUserArnException":
-            self = .invalidReactionUserArnException(message: message)
-        case "InvalidReactionValueException":
-            self = .invalidReactionValueException(message: message)
-        case "InvalidReferenceNameException":
-            self = .invalidReferenceNameException(message: message)
-        case "InvalidRelativeFileVersionEnumException":
-            self = .invalidRelativeFileVersionEnumException(message: message)
-        case "InvalidReplacementContentException":
-            self = .invalidReplacementContentException(message: message)
-        case "InvalidReplacementTypeException":
-            self = .invalidReplacementTypeException(message: message)
-        case "InvalidRepositoryDescriptionException":
-            self = .invalidRepositoryDescriptionException(message: message)
-        case "InvalidRepositoryNameException":
-            self = .invalidRepositoryNameException(message: message)
-        case "InvalidRepositoryTriggerBranchNameException":
-            self = .invalidRepositoryTriggerBranchNameException(message: message)
-        case "InvalidRepositoryTriggerCustomDataException":
-            self = .invalidRepositoryTriggerCustomDataException(message: message)
-        case "InvalidRepositoryTriggerDestinationArnException":
-            self = .invalidRepositoryTriggerDestinationArnException(message: message)
-        case "InvalidRepositoryTriggerEventsException":
-            self = .invalidRepositoryTriggerEventsException(message: message)
-        case "InvalidRepositoryTriggerNameException":
-            self = .invalidRepositoryTriggerNameException(message: message)
-        case "InvalidRepositoryTriggerRegionException":
-            self = .invalidRepositoryTriggerRegionException(message: message)
-        case "InvalidResourceArnException":
-            self = .invalidResourceArnException(message: message)
-        case "InvalidRevisionIdException":
-            self = .invalidRevisionIdException(message: message)
-        case "InvalidRuleContentSha256Exception":
-            self = .invalidRuleContentSha256Exception(message: message)
-        case "InvalidSortByException":
-            self = .invalidSortByException(message: message)
-        case "InvalidSourceCommitSpecifierException":
-            self = .invalidSourceCommitSpecifierException(message: message)
-        case "InvalidSystemTagUsageException":
-            self = .invalidSystemTagUsageException(message: message)
-        case "InvalidTagKeysListException":
-            self = .invalidTagKeysListException(message: message)
-        case "InvalidTagsMapException":
-            self = .invalidTagsMapException(message: message)
-        case "InvalidTargetBranchException":
-            self = .invalidTargetBranchException(message: message)
-        case "InvalidTargetException":
-            self = .invalidTargetException(message: message)
-        case "InvalidTargetsException":
-            self = .invalidTargetsException(message: message)
-        case "InvalidTitleException":
-            self = .invalidTitleException(message: message)
-        case "ManualMergeRequiredException":
-            self = .manualMergeRequiredException(message: message)
-        case "MaximumBranchesExceededException":
-            self = .maximumBranchesExceededException(message: message)
-        case "MaximumConflictResolutionEntriesExceededException":
-            self = .maximumConflictResolutionEntriesExceededException(message: message)
-        case "MaximumFileContentToLoadExceededException":
-            self = .maximumFileContentToLoadExceededException(message: message)
-        case "MaximumFileEntriesExceededException":
-            self = .maximumFileEntriesExceededException(message: message)
-        case "MaximumItemsToCompareExceededException":
-            self = .maximumItemsToCompareExceededException(message: message)
-        case "MaximumNumberOfApprovalsExceededException":
-            self = .maximumNumberOfApprovalsExceededException(message: message)
-        case "MaximumOpenPullRequestsExceededException":
-            self = .maximumOpenPullRequestsExceededException(message: message)
-        case "MaximumRepositoryNamesExceededException":
-            self = .maximumRepositoryNamesExceededException(message: message)
-        case "MaximumRepositoryTriggersExceededException":
-            self = .maximumRepositoryTriggersExceededException(message: message)
-        case "MaximumRuleTemplatesAssociatedWithRepositoryException":
-            self = .maximumRuleTemplatesAssociatedWithRepositoryException(message: message)
-        case "MergeOptionRequiredException":
-            self = .mergeOptionRequiredException(message: message)
-        case "MultipleConflictResolutionEntriesException":
-            self = .multipleConflictResolutionEntriesException(message: message)
-        case "MultipleRepositoriesInPullRequestException":
-            self = .multipleRepositoriesInPullRequestException(message: message)
-        case "NameLengthExceededException":
-            self = .nameLengthExceededException(message: message)
-        case "NoChangeException":
-            self = .noChangeException(message: message)
-        case "NumberOfRuleTemplatesExceededException":
-            self = .numberOfRuleTemplatesExceededException(message: message)
-        case "NumberOfRulesExceededException":
-            self = .numberOfRulesExceededException(message: message)
-        case "OverrideAlreadySetException":
-            self = .overrideAlreadySetException(message: message)
-        case "OverrideStatusRequiredException":
-            self = .overrideStatusRequiredException(message: message)
-        case "ParentCommitDoesNotExistException":
-            self = .parentCommitDoesNotExistException(message: message)
-        case "ParentCommitIdOutdatedException":
-            self = .parentCommitIdOutdatedException(message: message)
-        case "ParentCommitIdRequiredException":
-            self = .parentCommitIdRequiredException(message: message)
-        case "PathDoesNotExistException":
-            self = .pathDoesNotExistException(message: message)
-        case "PathRequiredException":
-            self = .pathRequiredException(message: message)
-        case "PullRequestAlreadyClosedException":
-            self = .pullRequestAlreadyClosedException(message: message)
-        case "PullRequestApprovalRulesNotSatisfiedException":
-            self = .pullRequestApprovalRulesNotSatisfiedException(message: message)
-        case "PullRequestCannotBeApprovedByAuthorException":
-            self = .pullRequestCannotBeApprovedByAuthorException(message: message)
-        case "PullRequestDoesNotExistException":
-            self = .pullRequestDoesNotExistException(message: message)
-        case "PullRequestIdRequiredException":
-            self = .pullRequestIdRequiredException(message: message)
-        case "PullRequestStatusRequiredException":
-            self = .pullRequestStatusRequiredException(message: message)
-        case "PutFileEntryConflictException":
-            self = .putFileEntryConflictException(message: message)
-        case "ReactionLimitExceededException":
-            self = .reactionLimitExceededException(message: message)
-        case "ReactionValueRequiredException":
-            self = .reactionValueRequiredException(message: message)
-        case "ReferenceDoesNotExistException":
-            self = .referenceDoesNotExistException(message: message)
-        case "ReferenceNameRequiredException":
-            self = .referenceNameRequiredException(message: message)
-        case "ReferenceTypeNotSupportedException":
-            self = .referenceTypeNotSupportedException(message: message)
-        case "ReplacementContentRequiredException":
-            self = .replacementContentRequiredException(message: message)
-        case "ReplacementTypeRequiredException":
-            self = .replacementTypeRequiredException(message: message)
-        case "RepositoryDoesNotExistException":
-            self = .repositoryDoesNotExistException(message: message)
-        case "RepositoryLimitExceededException":
-            self = .repositoryLimitExceededException(message: message)
-        case "RepositoryNameExistsException":
-            self = .repositoryNameExistsException(message: message)
-        case "RepositoryNameRequiredException":
-            self = .repositoryNameRequiredException(message: message)
-        case "RepositoryNamesRequiredException":
-            self = .repositoryNamesRequiredException(message: message)
-        case "RepositoryNotAssociatedWithPullRequestException":
-            self = .repositoryNotAssociatedWithPullRequestException(message: message)
-        case "RepositoryTriggerBranchNameListRequiredException":
-            self = .repositoryTriggerBranchNameListRequiredException(message: message)
-        case "RepositoryTriggerDestinationArnRequiredException":
-            self = .repositoryTriggerDestinationArnRequiredException(message: message)
-        case "RepositoryTriggerEventsListRequiredException":
-            self = .repositoryTriggerEventsListRequiredException(message: message)
-        case "RepositoryTriggerNameRequiredException":
-            self = .repositoryTriggerNameRequiredException(message: message)
-        case "RepositoryTriggersListRequiredException":
-            self = .repositoryTriggersListRequiredException(message: message)
-        case "ResourceArnRequiredException":
-            self = .resourceArnRequiredException(message: message)
-        case "RestrictedSourceFileException":
-            self = .restrictedSourceFileException(message: message)
-        case "RevisionIdRequiredException":
-            self = .revisionIdRequiredException(message: message)
-        case "RevisionNotCurrentException":
-            self = .revisionNotCurrentException(message: message)
-        case "SameFileContentException":
-            self = .sameFileContentException(message: message)
-        case "SamePathRequestException":
-            self = .samePathRequestException(message: message)
-        case "SourceAndDestinationAreSameException":
-            self = .sourceAndDestinationAreSameException(message: message)
-        case "SourceFileOrContentRequiredException":
-            self = .sourceFileOrContentRequiredException(message: message)
-        case "TagKeysListRequiredException":
-            self = .tagKeysListRequiredException(message: message)
-        case "TagPolicyException":
-            self = .tagPolicyException(message: message)
-        case "TagsMapRequiredException":
-            self = .tagsMapRequiredException(message: message)
-        case "TargetRequiredException":
-            self = .targetRequiredException(message: message)
-        case "TargetsRequiredException":
-            self = .targetsRequiredException(message: message)
-        case "TipOfSourceReferenceIsDifferentException":
-            self = .tipOfSourceReferenceIsDifferentException(message: message)
-        case "TipsDivergenceExceededException":
-            self = .tipsDivergenceExceededException(message: message)
-        case "TitleRequiredException":
-            self = .titleRequiredException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var actorDoesNotExistException: Self { .init(.actorDoesNotExistException) }
+    public static var approvalRuleContentRequiredException: Self { .init(.approvalRuleContentRequiredException) }
+    public static var approvalRuleDoesNotExistException: Self { .init(.approvalRuleDoesNotExistException) }
+    public static var approvalRuleNameAlreadyExistsException: Self { .init(.approvalRuleNameAlreadyExistsException) }
+    public static var approvalRuleNameRequiredException: Self { .init(.approvalRuleNameRequiredException) }
+    public static var approvalRuleTemplateContentRequiredException: Self { .init(.approvalRuleTemplateContentRequiredException) }
+    public static var approvalRuleTemplateDoesNotExistException: Self { .init(.approvalRuleTemplateDoesNotExistException) }
+    public static var approvalRuleTemplateInUseException: Self { .init(.approvalRuleTemplateInUseException) }
+    public static var approvalRuleTemplateNameAlreadyExistsException: Self { .init(.approvalRuleTemplateNameAlreadyExistsException) }
+    public static var approvalRuleTemplateNameRequiredException: Self { .init(.approvalRuleTemplateNameRequiredException) }
+    public static var approvalStateRequiredException: Self { .init(.approvalStateRequiredException) }
+    public static var authorDoesNotExistException: Self { .init(.authorDoesNotExistException) }
+    public static var beforeCommitIdAndAfterCommitIdAreSameException: Self { .init(.beforeCommitIdAndAfterCommitIdAreSameException) }
+    public static var blobIdDoesNotExistException: Self { .init(.blobIdDoesNotExistException) }
+    public static var blobIdRequiredException: Self { .init(.blobIdRequiredException) }
+    public static var branchDoesNotExistException: Self { .init(.branchDoesNotExistException) }
+    public static var branchNameExistsException: Self { .init(.branchNameExistsException) }
+    public static var branchNameIsTagNameException: Self { .init(.branchNameIsTagNameException) }
+    public static var branchNameRequiredException: Self { .init(.branchNameRequiredException) }
+    public static var cannotDeleteApprovalRuleFromTemplateException: Self { .init(.cannotDeleteApprovalRuleFromTemplateException) }
+    public static var cannotModifyApprovalRuleFromTemplateException: Self { .init(.cannotModifyApprovalRuleFromTemplateException) }
+    public static var clientRequestTokenRequiredException: Self { .init(.clientRequestTokenRequiredException) }
+    public static var commentContentRequiredException: Self { .init(.commentContentRequiredException) }
+    public static var commentContentSizeLimitExceededException: Self { .init(.commentContentSizeLimitExceededException) }
+    public static var commentDeletedException: Self { .init(.commentDeletedException) }
+    public static var commentDoesNotExistException: Self { .init(.commentDoesNotExistException) }
+    public static var commentIdRequiredException: Self { .init(.commentIdRequiredException) }
+    public static var commentNotCreatedByCallerException: Self { .init(.commentNotCreatedByCallerException) }
+    public static var commitDoesNotExistException: Self { .init(.commitDoesNotExistException) }
+    public static var commitIdDoesNotExistException: Self { .init(.commitIdDoesNotExistException) }
+    public static var commitIdRequiredException: Self { .init(.commitIdRequiredException) }
+    public static var commitIdsLimitExceededException: Self { .init(.commitIdsLimitExceededException) }
+    public static var commitIdsListRequiredException: Self { .init(.commitIdsListRequiredException) }
+    public static var commitMessageLengthExceededException: Self { .init(.commitMessageLengthExceededException) }
+    public static var commitRequiredException: Self { .init(.commitRequiredException) }
+    public static var concurrentReferenceUpdateException: Self { .init(.concurrentReferenceUpdateException) }
+    public static var defaultBranchCannotBeDeletedException: Self { .init(.defaultBranchCannotBeDeletedException) }
+    public static var directoryNameConflictsWithFileNameException: Self { .init(.directoryNameConflictsWithFileNameException) }
+    public static var encryptionIntegrityChecksFailedException: Self { .init(.encryptionIntegrityChecksFailedException) }
+    public static var encryptionKeyAccessDeniedException: Self { .init(.encryptionKeyAccessDeniedException) }
+    public static var encryptionKeyDisabledException: Self { .init(.encryptionKeyDisabledException) }
+    public static var encryptionKeyNotFoundException: Self { .init(.encryptionKeyNotFoundException) }
+    public static var encryptionKeyUnavailableException: Self { .init(.encryptionKeyUnavailableException) }
+    public static var fileContentAndSourceFileSpecifiedException: Self { .init(.fileContentAndSourceFileSpecifiedException) }
+    public static var fileContentRequiredException: Self { .init(.fileContentRequiredException) }
+    public static var fileContentSizeLimitExceededException: Self { .init(.fileContentSizeLimitExceededException) }
+    public static var fileDoesNotExistException: Self { .init(.fileDoesNotExistException) }
+    public static var fileEntryRequiredException: Self { .init(.fileEntryRequiredException) }
+    public static var fileModeRequiredException: Self { .init(.fileModeRequiredException) }
+    public static var fileNameConflictsWithDirectoryNameException: Self { .init(.fileNameConflictsWithDirectoryNameException) }
+    public static var filePathConflictsWithSubmodulePathException: Self { .init(.filePathConflictsWithSubmodulePathException) }
+    public static var fileTooLargeException: Self { .init(.fileTooLargeException) }
+    public static var folderContentSizeLimitExceededException: Self { .init(.folderContentSizeLimitExceededException) }
+    public static var folderDoesNotExistException: Self { .init(.folderDoesNotExistException) }
+    public static var idempotencyParameterMismatchException: Self { .init(.idempotencyParameterMismatchException) }
+    public static var invalidActorArnException: Self { .init(.invalidActorArnException) }
+    public static var invalidApprovalRuleContentException: Self { .init(.invalidApprovalRuleContentException) }
+    public static var invalidApprovalRuleNameException: Self { .init(.invalidApprovalRuleNameException) }
+    public static var invalidApprovalRuleTemplateContentException: Self { .init(.invalidApprovalRuleTemplateContentException) }
+    public static var invalidApprovalRuleTemplateDescriptionException: Self { .init(.invalidApprovalRuleTemplateDescriptionException) }
+    public static var invalidApprovalRuleTemplateNameException: Self { .init(.invalidApprovalRuleTemplateNameException) }
+    public static var invalidApprovalStateException: Self { .init(.invalidApprovalStateException) }
+    public static var invalidAuthorArnException: Self { .init(.invalidAuthorArnException) }
+    public static var invalidBlobIdException: Self { .init(.invalidBlobIdException) }
+    public static var invalidBranchNameException: Self { .init(.invalidBranchNameException) }
+    public static var invalidClientRequestTokenException: Self { .init(.invalidClientRequestTokenException) }
+    public static var invalidCommentIdException: Self { .init(.invalidCommentIdException) }
+    public static var invalidCommitException: Self { .init(.invalidCommitException) }
+    public static var invalidCommitIdException: Self { .init(.invalidCommitIdException) }
+    public static var invalidConflictDetailLevelException: Self { .init(.invalidConflictDetailLevelException) }
+    public static var invalidConflictResolutionException: Self { .init(.invalidConflictResolutionException) }
+    public static var invalidConflictResolutionStrategyException: Self { .init(.invalidConflictResolutionStrategyException) }
+    public static var invalidContinuationTokenException: Self { .init(.invalidContinuationTokenException) }
+    public static var invalidDeletionParameterException: Self { .init(.invalidDeletionParameterException) }
+    public static var invalidDescriptionException: Self { .init(.invalidDescriptionException) }
+    public static var invalidDestinationCommitSpecifierException: Self { .init(.invalidDestinationCommitSpecifierException) }
+    public static var invalidEmailException: Self { .init(.invalidEmailException) }
+    public static var invalidFileLocationException: Self { .init(.invalidFileLocationException) }
+    public static var invalidFileModeException: Self { .init(.invalidFileModeException) }
+    public static var invalidFilePositionException: Self { .init(.invalidFilePositionException) }
+    public static var invalidMaxConflictFilesException: Self { .init(.invalidMaxConflictFilesException) }
+    public static var invalidMaxMergeHunksException: Self { .init(.invalidMaxMergeHunksException) }
+    public static var invalidMaxResultsException: Self { .init(.invalidMaxResultsException) }
+    public static var invalidMergeOptionException: Self { .init(.invalidMergeOptionException) }
+    public static var invalidOrderException: Self { .init(.invalidOrderException) }
+    public static var invalidOverrideStatusException: Self { .init(.invalidOverrideStatusException) }
+    public static var invalidParentCommitIdException: Self { .init(.invalidParentCommitIdException) }
+    public static var invalidPathException: Self { .init(.invalidPathException) }
+    public static var invalidPullRequestEventTypeException: Self { .init(.invalidPullRequestEventTypeException) }
+    public static var invalidPullRequestIdException: Self { .init(.invalidPullRequestIdException) }
+    public static var invalidPullRequestStatusException: Self { .init(.invalidPullRequestStatusException) }
+    public static var invalidPullRequestStatusUpdateException: Self { .init(.invalidPullRequestStatusUpdateException) }
+    public static var invalidReactionUserArnException: Self { .init(.invalidReactionUserArnException) }
+    public static var invalidReactionValueException: Self { .init(.invalidReactionValueException) }
+    public static var invalidReferenceNameException: Self { .init(.invalidReferenceNameException) }
+    public static var invalidRelativeFileVersionEnumException: Self { .init(.invalidRelativeFileVersionEnumException) }
+    public static var invalidReplacementContentException: Self { .init(.invalidReplacementContentException) }
+    public static var invalidReplacementTypeException: Self { .init(.invalidReplacementTypeException) }
+    public static var invalidRepositoryDescriptionException: Self { .init(.invalidRepositoryDescriptionException) }
+    public static var invalidRepositoryNameException: Self { .init(.invalidRepositoryNameException) }
+    public static var invalidRepositoryTriggerBranchNameException: Self { .init(.invalidRepositoryTriggerBranchNameException) }
+    public static var invalidRepositoryTriggerCustomDataException: Self { .init(.invalidRepositoryTriggerCustomDataException) }
+    public static var invalidRepositoryTriggerDestinationArnException: Self { .init(.invalidRepositoryTriggerDestinationArnException) }
+    public static var invalidRepositoryTriggerEventsException: Self { .init(.invalidRepositoryTriggerEventsException) }
+    public static var invalidRepositoryTriggerNameException: Self { .init(.invalidRepositoryTriggerNameException) }
+    public static var invalidRepositoryTriggerRegionException: Self { .init(.invalidRepositoryTriggerRegionException) }
+    public static var invalidResourceArnException: Self { .init(.invalidResourceArnException) }
+    public static var invalidRevisionIdException: Self { .init(.invalidRevisionIdException) }
+    public static var invalidRuleContentSha256Exception: Self { .init(.invalidRuleContentSha256Exception) }
+    public static var invalidSortByException: Self { .init(.invalidSortByException) }
+    public static var invalidSourceCommitSpecifierException: Self { .init(.invalidSourceCommitSpecifierException) }
+    public static var invalidSystemTagUsageException: Self { .init(.invalidSystemTagUsageException) }
+    public static var invalidTagKeysListException: Self { .init(.invalidTagKeysListException) }
+    public static var invalidTagsMapException: Self { .init(.invalidTagsMapException) }
+    public static var invalidTargetBranchException: Self { .init(.invalidTargetBranchException) }
+    public static var invalidTargetException: Self { .init(.invalidTargetException) }
+    public static var invalidTargetsException: Self { .init(.invalidTargetsException) }
+    public static var invalidTitleException: Self { .init(.invalidTitleException) }
+    public static var manualMergeRequiredException: Self { .init(.manualMergeRequiredException) }
+    public static var maximumBranchesExceededException: Self { .init(.maximumBranchesExceededException) }
+    public static var maximumConflictResolutionEntriesExceededException: Self { .init(.maximumConflictResolutionEntriesExceededException) }
+    public static var maximumFileContentToLoadExceededException: Self { .init(.maximumFileContentToLoadExceededException) }
+    public static var maximumFileEntriesExceededException: Self { .init(.maximumFileEntriesExceededException) }
+    public static var maximumItemsToCompareExceededException: Self { .init(.maximumItemsToCompareExceededException) }
+    public static var maximumNumberOfApprovalsExceededException: Self { .init(.maximumNumberOfApprovalsExceededException) }
+    public static var maximumOpenPullRequestsExceededException: Self { .init(.maximumOpenPullRequestsExceededException) }
+    public static var maximumRepositoryNamesExceededException: Self { .init(.maximumRepositoryNamesExceededException) }
+    public static var maximumRepositoryTriggersExceededException: Self { .init(.maximumRepositoryTriggersExceededException) }
+    public static var maximumRuleTemplatesAssociatedWithRepositoryException: Self { .init(.maximumRuleTemplatesAssociatedWithRepositoryException) }
+    public static var mergeOptionRequiredException: Self { .init(.mergeOptionRequiredException) }
+    public static var multipleConflictResolutionEntriesException: Self { .init(.multipleConflictResolutionEntriesException) }
+    public static var multipleRepositoriesInPullRequestException: Self { .init(.multipleRepositoriesInPullRequestException) }
+    public static var nameLengthExceededException: Self { .init(.nameLengthExceededException) }
+    public static var noChangeException: Self { .init(.noChangeException) }
+    public static var numberOfRuleTemplatesExceededException: Self { .init(.numberOfRuleTemplatesExceededException) }
+    public static var numberOfRulesExceededException: Self { .init(.numberOfRulesExceededException) }
+    public static var overrideAlreadySetException: Self { .init(.overrideAlreadySetException) }
+    public static var overrideStatusRequiredException: Self { .init(.overrideStatusRequiredException) }
+    public static var parentCommitDoesNotExistException: Self { .init(.parentCommitDoesNotExistException) }
+    public static var parentCommitIdOutdatedException: Self { .init(.parentCommitIdOutdatedException) }
+    public static var parentCommitIdRequiredException: Self { .init(.parentCommitIdRequiredException) }
+    public static var pathDoesNotExistException: Self { .init(.pathDoesNotExistException) }
+    public static var pathRequiredException: Self { .init(.pathRequiredException) }
+    public static var pullRequestAlreadyClosedException: Self { .init(.pullRequestAlreadyClosedException) }
+    public static var pullRequestApprovalRulesNotSatisfiedException: Self { .init(.pullRequestApprovalRulesNotSatisfiedException) }
+    public static var pullRequestCannotBeApprovedByAuthorException: Self { .init(.pullRequestCannotBeApprovedByAuthorException) }
+    public static var pullRequestDoesNotExistException: Self { .init(.pullRequestDoesNotExistException) }
+    public static var pullRequestIdRequiredException: Self { .init(.pullRequestIdRequiredException) }
+    public static var pullRequestStatusRequiredException: Self { .init(.pullRequestStatusRequiredException) }
+    public static var putFileEntryConflictException: Self { .init(.putFileEntryConflictException) }
+    public static var reactionLimitExceededException: Self { .init(.reactionLimitExceededException) }
+    public static var reactionValueRequiredException: Self { .init(.reactionValueRequiredException) }
+    public static var referenceDoesNotExistException: Self { .init(.referenceDoesNotExistException) }
+    public static var referenceNameRequiredException: Self { .init(.referenceNameRequiredException) }
+    public static var referenceTypeNotSupportedException: Self { .init(.referenceTypeNotSupportedException) }
+    public static var replacementContentRequiredException: Self { .init(.replacementContentRequiredException) }
+    public static var replacementTypeRequiredException: Self { .init(.replacementTypeRequiredException) }
+    public static var repositoryDoesNotExistException: Self { .init(.repositoryDoesNotExistException) }
+    public static var repositoryLimitExceededException: Self { .init(.repositoryLimitExceededException) }
+    public static var repositoryNameExistsException: Self { .init(.repositoryNameExistsException) }
+    public static var repositoryNameRequiredException: Self { .init(.repositoryNameRequiredException) }
+    public static var repositoryNamesRequiredException: Self { .init(.repositoryNamesRequiredException) }
+    public static var repositoryNotAssociatedWithPullRequestException: Self { .init(.repositoryNotAssociatedWithPullRequestException) }
+    public static var repositoryTriggerBranchNameListRequiredException: Self { .init(.repositoryTriggerBranchNameListRequiredException) }
+    public static var repositoryTriggerDestinationArnRequiredException: Self { .init(.repositoryTriggerDestinationArnRequiredException) }
+    public static var repositoryTriggerEventsListRequiredException: Self { .init(.repositoryTriggerEventsListRequiredException) }
+    public static var repositoryTriggerNameRequiredException: Self { .init(.repositoryTriggerNameRequiredException) }
+    public static var repositoryTriggersListRequiredException: Self { .init(.repositoryTriggersListRequiredException) }
+    public static var resourceArnRequiredException: Self { .init(.resourceArnRequiredException) }
+    public static var restrictedSourceFileException: Self { .init(.restrictedSourceFileException) }
+    public static var revisionIdRequiredException: Self { .init(.revisionIdRequiredException) }
+    public static var revisionNotCurrentException: Self { .init(.revisionNotCurrentException) }
+    public static var sameFileContentException: Self { .init(.sameFileContentException) }
+    public static var samePathRequestException: Self { .init(.samePathRequestException) }
+    public static var sourceAndDestinationAreSameException: Self { .init(.sourceAndDestinationAreSameException) }
+    public static var sourceFileOrContentRequiredException: Self { .init(.sourceFileOrContentRequiredException) }
+    public static var tagKeysListRequiredException: Self { .init(.tagKeysListRequiredException) }
+    public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    public static var tagsMapRequiredException: Self { .init(.tagsMapRequiredException) }
+    public static var targetRequiredException: Self { .init(.targetRequiredException) }
+    public static var targetsRequiredException: Self { .init(.targetsRequiredException) }
+    public static var tipOfSourceReferenceIsDifferentException: Self { .init(.tipOfSourceReferenceIsDifferentException) }
+    public static var tipsDivergenceExceededException: Self { .init(.tipsDivergenceExceededException) }
+    public static var titleRequiredException: Self { .init(.titleRequiredException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension CodeCommitErrorType: Equatable {
+    public static func == (lhs: CodeCommitErrorType, rhs: CodeCommitErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeCommitErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .actorDoesNotExistException(let message):
-            return "ActorDoesNotExistException: \(message ?? "")"
-        case .approvalRuleContentRequiredException(let message):
-            return "ApprovalRuleContentRequiredException: \(message ?? "")"
-        case .approvalRuleDoesNotExistException(let message):
-            return "ApprovalRuleDoesNotExistException: \(message ?? "")"
-        case .approvalRuleNameAlreadyExistsException(let message):
-            return "ApprovalRuleNameAlreadyExistsException: \(message ?? "")"
-        case .approvalRuleNameRequiredException(let message):
-            return "ApprovalRuleNameRequiredException: \(message ?? "")"
-        case .approvalRuleTemplateContentRequiredException(let message):
-            return "ApprovalRuleTemplateContentRequiredException: \(message ?? "")"
-        case .approvalRuleTemplateDoesNotExistException(let message):
-            return "ApprovalRuleTemplateDoesNotExistException: \(message ?? "")"
-        case .approvalRuleTemplateInUseException(let message):
-            return "ApprovalRuleTemplateInUseException: \(message ?? "")"
-        case .approvalRuleTemplateNameAlreadyExistsException(let message):
-            return "ApprovalRuleTemplateNameAlreadyExistsException: \(message ?? "")"
-        case .approvalRuleTemplateNameRequiredException(let message):
-            return "ApprovalRuleTemplateNameRequiredException: \(message ?? "")"
-        case .approvalStateRequiredException(let message):
-            return "ApprovalStateRequiredException: \(message ?? "")"
-        case .authorDoesNotExistException(let message):
-            return "AuthorDoesNotExistException: \(message ?? "")"
-        case .beforeCommitIdAndAfterCommitIdAreSameException(let message):
-            return "BeforeCommitIdAndAfterCommitIdAreSameException: \(message ?? "")"
-        case .blobIdDoesNotExistException(let message):
-            return "BlobIdDoesNotExistException: \(message ?? "")"
-        case .blobIdRequiredException(let message):
-            return "BlobIdRequiredException: \(message ?? "")"
-        case .branchDoesNotExistException(let message):
-            return "BranchDoesNotExistException: \(message ?? "")"
-        case .branchNameExistsException(let message):
-            return "BranchNameExistsException: \(message ?? "")"
-        case .branchNameIsTagNameException(let message):
-            return "BranchNameIsTagNameException: \(message ?? "")"
-        case .branchNameRequiredException(let message):
-            return "BranchNameRequiredException: \(message ?? "")"
-        case .cannotDeleteApprovalRuleFromTemplateException(let message):
-            return "CannotDeleteApprovalRuleFromTemplateException: \(message ?? "")"
-        case .cannotModifyApprovalRuleFromTemplateException(let message):
-            return "CannotModifyApprovalRuleFromTemplateException: \(message ?? "")"
-        case .clientRequestTokenRequiredException(let message):
-            return "ClientRequestTokenRequiredException: \(message ?? "")"
-        case .commentContentRequiredException(let message):
-            return "CommentContentRequiredException: \(message ?? "")"
-        case .commentContentSizeLimitExceededException(let message):
-            return "CommentContentSizeLimitExceededException: \(message ?? "")"
-        case .commentDeletedException(let message):
-            return "CommentDeletedException: \(message ?? "")"
-        case .commentDoesNotExistException(let message):
-            return "CommentDoesNotExistException: \(message ?? "")"
-        case .commentIdRequiredException(let message):
-            return "CommentIdRequiredException: \(message ?? "")"
-        case .commentNotCreatedByCallerException(let message):
-            return "CommentNotCreatedByCallerException: \(message ?? "")"
-        case .commitDoesNotExistException(let message):
-            return "CommitDoesNotExistException: \(message ?? "")"
-        case .commitIdDoesNotExistException(let message):
-            return "CommitIdDoesNotExistException: \(message ?? "")"
-        case .commitIdRequiredException(let message):
-            return "CommitIdRequiredException: \(message ?? "")"
-        case .commitIdsLimitExceededException(let message):
-            return "CommitIdsLimitExceededException: \(message ?? "")"
-        case .commitIdsListRequiredException(let message):
-            return "CommitIdsListRequiredException: \(message ?? "")"
-        case .commitMessageLengthExceededException(let message):
-            return "CommitMessageLengthExceededException: \(message ?? "")"
-        case .commitRequiredException(let message):
-            return "CommitRequiredException: \(message ?? "")"
-        case .concurrentReferenceUpdateException(let message):
-            return "ConcurrentReferenceUpdateException: \(message ?? "")"
-        case .defaultBranchCannotBeDeletedException(let message):
-            return "DefaultBranchCannotBeDeletedException: \(message ?? "")"
-        case .directoryNameConflictsWithFileNameException(let message):
-            return "DirectoryNameConflictsWithFileNameException: \(message ?? "")"
-        case .encryptionIntegrityChecksFailedException(let message):
-            return "EncryptionIntegrityChecksFailedException: \(message ?? "")"
-        case .encryptionKeyAccessDeniedException(let message):
-            return "EncryptionKeyAccessDeniedException: \(message ?? "")"
-        case .encryptionKeyDisabledException(let message):
-            return "EncryptionKeyDisabledException: \(message ?? "")"
-        case .encryptionKeyNotFoundException(let message):
-            return "EncryptionKeyNotFoundException: \(message ?? "")"
-        case .encryptionKeyUnavailableException(let message):
-            return "EncryptionKeyUnavailableException: \(message ?? "")"
-        case .fileContentAndSourceFileSpecifiedException(let message):
-            return "FileContentAndSourceFileSpecifiedException: \(message ?? "")"
-        case .fileContentRequiredException(let message):
-            return "FileContentRequiredException: \(message ?? "")"
-        case .fileContentSizeLimitExceededException(let message):
-            return "FileContentSizeLimitExceededException: \(message ?? "")"
-        case .fileDoesNotExistException(let message):
-            return "FileDoesNotExistException: \(message ?? "")"
-        case .fileEntryRequiredException(let message):
-            return "FileEntryRequiredException: \(message ?? "")"
-        case .fileModeRequiredException(let message):
-            return "FileModeRequiredException: \(message ?? "")"
-        case .fileNameConflictsWithDirectoryNameException(let message):
-            return "FileNameConflictsWithDirectoryNameException: \(message ?? "")"
-        case .filePathConflictsWithSubmodulePathException(let message):
-            return "FilePathConflictsWithSubmodulePathException: \(message ?? "")"
-        case .fileTooLargeException(let message):
-            return "FileTooLargeException: \(message ?? "")"
-        case .folderContentSizeLimitExceededException(let message):
-            return "FolderContentSizeLimitExceededException: \(message ?? "")"
-        case .folderDoesNotExistException(let message):
-            return "FolderDoesNotExistException: \(message ?? "")"
-        case .idempotencyParameterMismatchException(let message):
-            return "IdempotencyParameterMismatchException: \(message ?? "")"
-        case .invalidActorArnException(let message):
-            return "InvalidActorArnException: \(message ?? "")"
-        case .invalidApprovalRuleContentException(let message):
-            return "InvalidApprovalRuleContentException: \(message ?? "")"
-        case .invalidApprovalRuleNameException(let message):
-            return "InvalidApprovalRuleNameException: \(message ?? "")"
-        case .invalidApprovalRuleTemplateContentException(let message):
-            return "InvalidApprovalRuleTemplateContentException: \(message ?? "")"
-        case .invalidApprovalRuleTemplateDescriptionException(let message):
-            return "InvalidApprovalRuleTemplateDescriptionException: \(message ?? "")"
-        case .invalidApprovalRuleTemplateNameException(let message):
-            return "InvalidApprovalRuleTemplateNameException: \(message ?? "")"
-        case .invalidApprovalStateException(let message):
-            return "InvalidApprovalStateException: \(message ?? "")"
-        case .invalidAuthorArnException(let message):
-            return "InvalidAuthorArnException: \(message ?? "")"
-        case .invalidBlobIdException(let message):
-            return "InvalidBlobIdException: \(message ?? "")"
-        case .invalidBranchNameException(let message):
-            return "InvalidBranchNameException: \(message ?? "")"
-        case .invalidClientRequestTokenException(let message):
-            return "InvalidClientRequestTokenException: \(message ?? "")"
-        case .invalidCommentIdException(let message):
-            return "InvalidCommentIdException: \(message ?? "")"
-        case .invalidCommitException(let message):
-            return "InvalidCommitException: \(message ?? "")"
-        case .invalidCommitIdException(let message):
-            return "InvalidCommitIdException: \(message ?? "")"
-        case .invalidConflictDetailLevelException(let message):
-            return "InvalidConflictDetailLevelException: \(message ?? "")"
-        case .invalidConflictResolutionException(let message):
-            return "InvalidConflictResolutionException: \(message ?? "")"
-        case .invalidConflictResolutionStrategyException(let message):
-            return "InvalidConflictResolutionStrategyException: \(message ?? "")"
-        case .invalidContinuationTokenException(let message):
-            return "InvalidContinuationTokenException: \(message ?? "")"
-        case .invalidDeletionParameterException(let message):
-            return "InvalidDeletionParameterException: \(message ?? "")"
-        case .invalidDescriptionException(let message):
-            return "InvalidDescriptionException: \(message ?? "")"
-        case .invalidDestinationCommitSpecifierException(let message):
-            return "InvalidDestinationCommitSpecifierException: \(message ?? "")"
-        case .invalidEmailException(let message):
-            return "InvalidEmailException: \(message ?? "")"
-        case .invalidFileLocationException(let message):
-            return "InvalidFileLocationException: \(message ?? "")"
-        case .invalidFileModeException(let message):
-            return "InvalidFileModeException: \(message ?? "")"
-        case .invalidFilePositionException(let message):
-            return "InvalidFilePositionException: \(message ?? "")"
-        case .invalidMaxConflictFilesException(let message):
-            return "InvalidMaxConflictFilesException: \(message ?? "")"
-        case .invalidMaxMergeHunksException(let message):
-            return "InvalidMaxMergeHunksException: \(message ?? "")"
-        case .invalidMaxResultsException(let message):
-            return "InvalidMaxResultsException: \(message ?? "")"
-        case .invalidMergeOptionException(let message):
-            return "InvalidMergeOptionException: \(message ?? "")"
-        case .invalidOrderException(let message):
-            return "InvalidOrderException: \(message ?? "")"
-        case .invalidOverrideStatusException(let message):
-            return "InvalidOverrideStatusException: \(message ?? "")"
-        case .invalidParentCommitIdException(let message):
-            return "InvalidParentCommitIdException: \(message ?? "")"
-        case .invalidPathException(let message):
-            return "InvalidPathException: \(message ?? "")"
-        case .invalidPullRequestEventTypeException(let message):
-            return "InvalidPullRequestEventTypeException: \(message ?? "")"
-        case .invalidPullRequestIdException(let message):
-            return "InvalidPullRequestIdException: \(message ?? "")"
-        case .invalidPullRequestStatusException(let message):
-            return "InvalidPullRequestStatusException: \(message ?? "")"
-        case .invalidPullRequestStatusUpdateException(let message):
-            return "InvalidPullRequestStatusUpdateException: \(message ?? "")"
-        case .invalidReactionUserArnException(let message):
-            return "InvalidReactionUserArnException: \(message ?? "")"
-        case .invalidReactionValueException(let message):
-            return "InvalidReactionValueException: \(message ?? "")"
-        case .invalidReferenceNameException(let message):
-            return "InvalidReferenceNameException: \(message ?? "")"
-        case .invalidRelativeFileVersionEnumException(let message):
-            return "InvalidRelativeFileVersionEnumException: \(message ?? "")"
-        case .invalidReplacementContentException(let message):
-            return "InvalidReplacementContentException: \(message ?? "")"
-        case .invalidReplacementTypeException(let message):
-            return "InvalidReplacementTypeException: \(message ?? "")"
-        case .invalidRepositoryDescriptionException(let message):
-            return "InvalidRepositoryDescriptionException: \(message ?? "")"
-        case .invalidRepositoryNameException(let message):
-            return "InvalidRepositoryNameException: \(message ?? "")"
-        case .invalidRepositoryTriggerBranchNameException(let message):
-            return "InvalidRepositoryTriggerBranchNameException: \(message ?? "")"
-        case .invalidRepositoryTriggerCustomDataException(let message):
-            return "InvalidRepositoryTriggerCustomDataException: \(message ?? "")"
-        case .invalidRepositoryTriggerDestinationArnException(let message):
-            return "InvalidRepositoryTriggerDestinationArnException: \(message ?? "")"
-        case .invalidRepositoryTriggerEventsException(let message):
-            return "InvalidRepositoryTriggerEventsException: \(message ?? "")"
-        case .invalidRepositoryTriggerNameException(let message):
-            return "InvalidRepositoryTriggerNameException: \(message ?? "")"
-        case .invalidRepositoryTriggerRegionException(let message):
-            return "InvalidRepositoryTriggerRegionException: \(message ?? "")"
-        case .invalidResourceArnException(let message):
-            return "InvalidResourceArnException: \(message ?? "")"
-        case .invalidRevisionIdException(let message):
-            return "InvalidRevisionIdException: \(message ?? "")"
-        case .invalidRuleContentSha256Exception(let message):
-            return "InvalidRuleContentSha256Exception: \(message ?? "")"
-        case .invalidSortByException(let message):
-            return "InvalidSortByException: \(message ?? "")"
-        case .invalidSourceCommitSpecifierException(let message):
-            return "InvalidSourceCommitSpecifierException: \(message ?? "")"
-        case .invalidSystemTagUsageException(let message):
-            return "InvalidSystemTagUsageException: \(message ?? "")"
-        case .invalidTagKeysListException(let message):
-            return "InvalidTagKeysListException: \(message ?? "")"
-        case .invalidTagsMapException(let message):
-            return "InvalidTagsMapException: \(message ?? "")"
-        case .invalidTargetBranchException(let message):
-            return "InvalidTargetBranchException: \(message ?? "")"
-        case .invalidTargetException(let message):
-            return "InvalidTargetException: \(message ?? "")"
-        case .invalidTargetsException(let message):
-            return "InvalidTargetsException: \(message ?? "")"
-        case .invalidTitleException(let message):
-            return "InvalidTitleException: \(message ?? "")"
-        case .manualMergeRequiredException(let message):
-            return "ManualMergeRequiredException: \(message ?? "")"
-        case .maximumBranchesExceededException(let message):
-            return "MaximumBranchesExceededException: \(message ?? "")"
-        case .maximumConflictResolutionEntriesExceededException(let message):
-            return "MaximumConflictResolutionEntriesExceededException: \(message ?? "")"
-        case .maximumFileContentToLoadExceededException(let message):
-            return "MaximumFileContentToLoadExceededException: \(message ?? "")"
-        case .maximumFileEntriesExceededException(let message):
-            return "MaximumFileEntriesExceededException: \(message ?? "")"
-        case .maximumItemsToCompareExceededException(let message):
-            return "MaximumItemsToCompareExceededException: \(message ?? "")"
-        case .maximumNumberOfApprovalsExceededException(let message):
-            return "MaximumNumberOfApprovalsExceededException: \(message ?? "")"
-        case .maximumOpenPullRequestsExceededException(let message):
-            return "MaximumOpenPullRequestsExceededException: \(message ?? "")"
-        case .maximumRepositoryNamesExceededException(let message):
-            return "MaximumRepositoryNamesExceededException: \(message ?? "")"
-        case .maximumRepositoryTriggersExceededException(let message):
-            return "MaximumRepositoryTriggersExceededException: \(message ?? "")"
-        case .maximumRuleTemplatesAssociatedWithRepositoryException(let message):
-            return "MaximumRuleTemplatesAssociatedWithRepositoryException: \(message ?? "")"
-        case .mergeOptionRequiredException(let message):
-            return "MergeOptionRequiredException: \(message ?? "")"
-        case .multipleConflictResolutionEntriesException(let message):
-            return "MultipleConflictResolutionEntriesException: \(message ?? "")"
-        case .multipleRepositoriesInPullRequestException(let message):
-            return "MultipleRepositoriesInPullRequestException: \(message ?? "")"
-        case .nameLengthExceededException(let message):
-            return "NameLengthExceededException: \(message ?? "")"
-        case .noChangeException(let message):
-            return "NoChangeException: \(message ?? "")"
-        case .numberOfRuleTemplatesExceededException(let message):
-            return "NumberOfRuleTemplatesExceededException: \(message ?? "")"
-        case .numberOfRulesExceededException(let message):
-            return "NumberOfRulesExceededException: \(message ?? "")"
-        case .overrideAlreadySetException(let message):
-            return "OverrideAlreadySetException: \(message ?? "")"
-        case .overrideStatusRequiredException(let message):
-            return "OverrideStatusRequiredException: \(message ?? "")"
-        case .parentCommitDoesNotExistException(let message):
-            return "ParentCommitDoesNotExistException: \(message ?? "")"
-        case .parentCommitIdOutdatedException(let message):
-            return "ParentCommitIdOutdatedException: \(message ?? "")"
-        case .parentCommitIdRequiredException(let message):
-            return "ParentCommitIdRequiredException: \(message ?? "")"
-        case .pathDoesNotExistException(let message):
-            return "PathDoesNotExistException: \(message ?? "")"
-        case .pathRequiredException(let message):
-            return "PathRequiredException: \(message ?? "")"
-        case .pullRequestAlreadyClosedException(let message):
-            return "PullRequestAlreadyClosedException: \(message ?? "")"
-        case .pullRequestApprovalRulesNotSatisfiedException(let message):
-            return "PullRequestApprovalRulesNotSatisfiedException: \(message ?? "")"
-        case .pullRequestCannotBeApprovedByAuthorException(let message):
-            return "PullRequestCannotBeApprovedByAuthorException: \(message ?? "")"
-        case .pullRequestDoesNotExistException(let message):
-            return "PullRequestDoesNotExistException: \(message ?? "")"
-        case .pullRequestIdRequiredException(let message):
-            return "PullRequestIdRequiredException: \(message ?? "")"
-        case .pullRequestStatusRequiredException(let message):
-            return "PullRequestStatusRequiredException: \(message ?? "")"
-        case .putFileEntryConflictException(let message):
-            return "PutFileEntryConflictException: \(message ?? "")"
-        case .reactionLimitExceededException(let message):
-            return "ReactionLimitExceededException: \(message ?? "")"
-        case .reactionValueRequiredException(let message):
-            return "ReactionValueRequiredException: \(message ?? "")"
-        case .referenceDoesNotExistException(let message):
-            return "ReferenceDoesNotExistException: \(message ?? "")"
-        case .referenceNameRequiredException(let message):
-            return "ReferenceNameRequiredException: \(message ?? "")"
-        case .referenceTypeNotSupportedException(let message):
-            return "ReferenceTypeNotSupportedException: \(message ?? "")"
-        case .replacementContentRequiredException(let message):
-            return "ReplacementContentRequiredException: \(message ?? "")"
-        case .replacementTypeRequiredException(let message):
-            return "ReplacementTypeRequiredException: \(message ?? "")"
-        case .repositoryDoesNotExistException(let message):
-            return "RepositoryDoesNotExistException: \(message ?? "")"
-        case .repositoryLimitExceededException(let message):
-            return "RepositoryLimitExceededException: \(message ?? "")"
-        case .repositoryNameExistsException(let message):
-            return "RepositoryNameExistsException: \(message ?? "")"
-        case .repositoryNameRequiredException(let message):
-            return "RepositoryNameRequiredException: \(message ?? "")"
-        case .repositoryNamesRequiredException(let message):
-            return "RepositoryNamesRequiredException: \(message ?? "")"
-        case .repositoryNotAssociatedWithPullRequestException(let message):
-            return "RepositoryNotAssociatedWithPullRequestException: \(message ?? "")"
-        case .repositoryTriggerBranchNameListRequiredException(let message):
-            return "RepositoryTriggerBranchNameListRequiredException: \(message ?? "")"
-        case .repositoryTriggerDestinationArnRequiredException(let message):
-            return "RepositoryTriggerDestinationArnRequiredException: \(message ?? "")"
-        case .repositoryTriggerEventsListRequiredException(let message):
-            return "RepositoryTriggerEventsListRequiredException: \(message ?? "")"
-        case .repositoryTriggerNameRequiredException(let message):
-            return "RepositoryTriggerNameRequiredException: \(message ?? "")"
-        case .repositoryTriggersListRequiredException(let message):
-            return "RepositoryTriggersListRequiredException: \(message ?? "")"
-        case .resourceArnRequiredException(let message):
-            return "ResourceArnRequiredException: \(message ?? "")"
-        case .restrictedSourceFileException(let message):
-            return "RestrictedSourceFileException: \(message ?? "")"
-        case .revisionIdRequiredException(let message):
-            return "RevisionIdRequiredException: \(message ?? "")"
-        case .revisionNotCurrentException(let message):
-            return "RevisionNotCurrentException: \(message ?? "")"
-        case .sameFileContentException(let message):
-            return "SameFileContentException: \(message ?? "")"
-        case .samePathRequestException(let message):
-            return "SamePathRequestException: \(message ?? "")"
-        case .sourceAndDestinationAreSameException(let message):
-            return "SourceAndDestinationAreSameException: \(message ?? "")"
-        case .sourceFileOrContentRequiredException(let message):
-            return "SourceFileOrContentRequiredException: \(message ?? "")"
-        case .tagKeysListRequiredException(let message):
-            return "TagKeysListRequiredException: \(message ?? "")"
-        case .tagPolicyException(let message):
-            return "TagPolicyException: \(message ?? "")"
-        case .tagsMapRequiredException(let message):
-            return "TagsMapRequiredException: \(message ?? "")"
-        case .targetRequiredException(let message):
-            return "TargetRequiredException: \(message ?? "")"
-        case .targetsRequiredException(let message):
-            return "TargetsRequiredException: \(message ?? "")"
-        case .tipOfSourceReferenceIsDifferentException(let message):
-            return "TipOfSourceReferenceIsDifferentException: \(message ?? "")"
-        case .tipsDivergenceExceededException(let message):
-            return "TipsDivergenceExceededException: \(message ?? "")"
-        case .titleRequiredException(let message):
-            return "TitleRequiredException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

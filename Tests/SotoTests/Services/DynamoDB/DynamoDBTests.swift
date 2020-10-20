@@ -56,7 +56,7 @@ class DynamoDBTests: XCTestCase {
             }
             .flatMapErrorThrowing { error in
                 switch error {
-                case DynamoDBErrorType.resourceInUseException:
+                case let error as DynamoDBErrorType where error == .resourceInUseException:
                     print("Table (\(name)) already exists")
                     return
                 default:
@@ -183,8 +183,8 @@ class DynamoDBTests: XCTestCase {
         let response = Self.dynamoDB.describeTable(.init(tableName: "non-existent-table"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case DynamoDBErrorType.resourceNotFoundException(let message):
-                XCTAssertNotNil(message)
+            case let error as DynamoDBErrorType where error == .resourceNotFoundException:
+                XCTAssertNotNil(error.message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

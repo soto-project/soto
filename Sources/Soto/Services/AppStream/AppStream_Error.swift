@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for AppStream
-public enum AppStreamErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case incompatibleImageException(message: String?)
-    case invalidAccountStatusException(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case invalidRoleException(message: String?)
-    case limitExceededException(message: String?)
-    case operationNotPermittedException(message: String?)
-    case requestLimitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotAvailableException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct AppStreamErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case incompatibleImageException = "IncompatibleImageException"
+        case invalidAccountStatusException = "InvalidAccountStatusException"
+        case invalidParameterCombinationException = "InvalidParameterCombinationException"
+        case invalidRoleException = "InvalidRoleException"
+        case limitExceededException = "LimitExceededException"
+        case operationNotPermittedException = "OperationNotPermittedException"
+        case requestLimitExceededException = "RequestLimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotAvailableException = "ResourceNotAvailableException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension AppStreamErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "IncompatibleImageException":
-            self = .incompatibleImageException(message: message)
-        case "InvalidAccountStatusException":
-            self = .invalidAccountStatusException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
-        case "InvalidRoleException":
-            self = .invalidRoleException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "OperationNotPermittedException":
-            self = .operationNotPermittedException(message: message)
-        case "RequestLimitExceededException":
-            self = .requestLimitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotAvailableException":
-            self = .resourceNotAvailableException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var incompatibleImageException: Self { .init(.incompatibleImageException) }
+    public static var invalidAccountStatusException: Self { .init(.invalidAccountStatusException) }
+    public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    public static var invalidRoleException: Self { .init(.invalidRoleException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    public static var requestLimitExceededException: Self { .init(.requestLimitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotAvailableException: Self { .init(.resourceNotAvailableException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension AppStreamErrorType: Equatable {
+    public static func == (lhs: AppStreamErrorType, rhs: AppStreamErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AppStreamErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .incompatibleImageException(let message):
-            return "IncompatibleImageException: \(message ?? "")"
-        case .invalidAccountStatusException(let message):
-            return "InvalidAccountStatusException: \(message ?? "")"
-        case .invalidParameterCombinationException(let message):
-            return "InvalidParameterCombinationException: \(message ?? "")"
-        case .invalidRoleException(let message):
-            return "InvalidRoleException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .operationNotPermittedException(let message):
-            return "OperationNotPermittedException: \(message ?? "")"
-        case .requestLimitExceededException(let message):
-            return "RequestLimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotAvailableException(let message):
-            return "ResourceNotAvailableException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

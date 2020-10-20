@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for Route53Domains
-public enum Route53DomainsErrorType: AWSErrorType {
-    case domainLimitExceeded(message: String?)
-    case duplicateRequest(message: String?)
-    case invalidInput(message: String?)
-    case operationLimitExceeded(message: String?)
-    case tLDRulesViolation(message: String?)
-    case unsupportedTLD(message: String?)
-}
+public struct Route53DomainsErrorType: AWSErrorType {
+    enum Code: String {
+        case domainLimitExceeded = "DomainLimitExceeded"
+        case duplicateRequest = "DuplicateRequest"
+        case invalidInput = "InvalidInput"
+        case operationLimitExceeded = "OperationLimitExceeded"
+        case tLDRulesViolation = "TLDRulesViolation"
+        case unsupportedTLD = "UnsupportedTLD"
+    }
 
-extension Route53DomainsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DomainLimitExceeded":
-            self = .domainLimitExceeded(message: message)
-        case "DuplicateRequest":
-            self = .duplicateRequest(message: message)
-        case "InvalidInput":
-            self = .invalidInput(message: message)
-        case "OperationLimitExceeded":
-            self = .operationLimitExceeded(message: message)
-        case "TLDRulesViolation":
-            self = .tLDRulesViolation(message: message)
-        case "UnsupportedTLD":
-            self = .unsupportedTLD(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var domainLimitExceeded: Self { .init(.domainLimitExceeded) }
+    public static var duplicateRequest: Self { .init(.duplicateRequest) }
+    public static var invalidInput: Self { .init(.invalidInput) }
+    public static var operationLimitExceeded: Self { .init(.operationLimitExceeded) }
+    public static var tLDRulesViolation: Self { .init(.tLDRulesViolation) }
+    public static var unsupportedTLD: Self { .init(.unsupportedTLD) }
+}
+
+extension Route53DomainsErrorType: Equatable {
+    public static func == (lhs: Route53DomainsErrorType, rhs: Route53DomainsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension Route53DomainsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .domainLimitExceeded(let message):
-            return "DomainLimitExceeded: \(message ?? "")"
-        case .duplicateRequest(let message):
-            return "DuplicateRequest: \(message ?? "")"
-        case .invalidInput(let message):
-            return "InvalidInput: \(message ?? "")"
-        case .operationLimitExceeded(let message):
-            return "OperationLimitExceeded: \(message ?? "")"
-        case .tLDRulesViolation(let message):
-            return "TLDRulesViolation: \(message ?? "")"
-        case .unsupportedTLD(let message):
-            return "UnsupportedTLD: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

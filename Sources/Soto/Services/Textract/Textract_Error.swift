@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for Textract
-public enum TextractErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case badDocumentException(message: String?)
-    case documentTooLargeException(message: String?)
-    case humanLoopQuotaExceededException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case internalServerError(message: String?)
-    case invalidJobIdException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidS3ObjectException(message: String?)
-    case limitExceededException(message: String?)
-    case provisionedThroughputExceededException(message: String?)
-    case throttlingException(message: String?)
-    case unsupportedDocumentException(message: String?)
-}
+public struct TextractErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case badDocumentException = "BadDocumentException"
+        case documentTooLargeException = "DocumentTooLargeException"
+        case humanLoopQuotaExceededException = "HumanLoopQuotaExceededException"
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case internalServerError = "InternalServerError"
+        case invalidJobIdException = "InvalidJobIdException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidS3ObjectException = "InvalidS3ObjectException"
+        case limitExceededException = "LimitExceededException"
+        case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
+        case throttlingException = "ThrottlingException"
+        case unsupportedDocumentException = "UnsupportedDocumentException"
+    }
 
-extension TextractErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "BadDocumentException":
-            self = .badDocumentException(message: message)
-        case "DocumentTooLargeException":
-            self = .documentTooLargeException(message: message)
-        case "HumanLoopQuotaExceededException":
-            self = .humanLoopQuotaExceededException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidJobIdException":
-            self = .invalidJobIdException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidS3ObjectException":
-            self = .invalidS3ObjectException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ProvisionedThroughputExceededException":
-            self = .provisionedThroughputExceededException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "UnsupportedDocumentException":
-            self = .unsupportedDocumentException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var badDocumentException: Self { .init(.badDocumentException) }
+    public static var documentTooLargeException: Self { .init(.documentTooLargeException) }
+    public static var humanLoopQuotaExceededException: Self { .init(.humanLoopQuotaExceededException) }
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidJobIdException: Self { .init(.invalidJobIdException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidS3ObjectException: Self { .init(.invalidS3ObjectException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var unsupportedDocumentException: Self { .init(.unsupportedDocumentException) }
+}
+
+extension TextractErrorType: Equatable {
+    public static func == (lhs: TextractErrorType, rhs: TextractErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension TextractErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .badDocumentException(let message):
-            return "BadDocumentException: \(message ?? "")"
-        case .documentTooLargeException(let message):
-            return "DocumentTooLargeException: \(message ?? "")"
-        case .humanLoopQuotaExceededException(let message):
-            return "HumanLoopQuotaExceededException: \(message ?? "")"
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidJobIdException(let message):
-            return "InvalidJobIdException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidS3ObjectException(let message):
-            return "InvalidS3ObjectException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .provisionedThroughputExceededException(let message):
-            return "ProvisionedThroughputExceededException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .unsupportedDocumentException(let message):
-            return "UnsupportedDocumentException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

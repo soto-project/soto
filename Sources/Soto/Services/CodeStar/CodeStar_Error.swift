@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for CodeStar
-public enum CodeStarErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidServiceRoleException(message: String?)
-    case limitExceededException(message: String?)
-    case projectAlreadyExistsException(message: String?)
-    case projectConfigurationException(message: String?)
-    case projectCreationFailedException(message: String?)
-    case projectNotFoundException(message: String?)
-    case teamMemberAlreadyAssociatedException(message: String?)
-    case teamMemberNotFoundException(message: String?)
-    case userProfileAlreadyExistsException(message: String?)
-    case userProfileNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct CodeStarErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidServiceRoleException = "InvalidServiceRoleException"
+        case limitExceededException = "LimitExceededException"
+        case projectAlreadyExistsException = "ProjectAlreadyExistsException"
+        case projectConfigurationException = "ProjectConfigurationException"
+        case projectCreationFailedException = "ProjectCreationFailedException"
+        case projectNotFoundException = "ProjectNotFoundException"
+        case teamMemberAlreadyAssociatedException = "TeamMemberAlreadyAssociatedException"
+        case teamMemberNotFoundException = "TeamMemberNotFoundException"
+        case userProfileAlreadyExistsException = "UserProfileAlreadyExistsException"
+        case userProfileNotFoundException = "UserProfileNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension CodeStarErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidServiceRoleException":
-            self = .invalidServiceRoleException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ProjectAlreadyExistsException":
-            self = .projectAlreadyExistsException(message: message)
-        case "ProjectConfigurationException":
-            self = .projectConfigurationException(message: message)
-        case "ProjectCreationFailedException":
-            self = .projectCreationFailedException(message: message)
-        case "ProjectNotFoundException":
-            self = .projectNotFoundException(message: message)
-        case "TeamMemberAlreadyAssociatedException":
-            self = .teamMemberAlreadyAssociatedException(message: message)
-        case "TeamMemberNotFoundException":
-            self = .teamMemberNotFoundException(message: message)
-        case "UserProfileAlreadyExistsException":
-            self = .userProfileAlreadyExistsException(message: message)
-        case "UserProfileNotFoundException":
-            self = .userProfileNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidServiceRoleException: Self { .init(.invalidServiceRoleException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var projectAlreadyExistsException: Self { .init(.projectAlreadyExistsException) }
+    public static var projectConfigurationException: Self { .init(.projectConfigurationException) }
+    public static var projectCreationFailedException: Self { .init(.projectCreationFailedException) }
+    public static var projectNotFoundException: Self { .init(.projectNotFoundException) }
+    public static var teamMemberAlreadyAssociatedException: Self { .init(.teamMemberAlreadyAssociatedException) }
+    public static var teamMemberNotFoundException: Self { .init(.teamMemberNotFoundException) }
+    public static var userProfileAlreadyExistsException: Self { .init(.userProfileAlreadyExistsException) }
+    public static var userProfileNotFoundException: Self { .init(.userProfileNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CodeStarErrorType: Equatable {
+    public static func == (lhs: CodeStarErrorType, rhs: CodeStarErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeStarErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidServiceRoleException(let message):
-            return "InvalidServiceRoleException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .projectAlreadyExistsException(let message):
-            return "ProjectAlreadyExistsException: \(message ?? "")"
-        case .projectConfigurationException(let message):
-            return "ProjectConfigurationException: \(message ?? "")"
-        case .projectCreationFailedException(let message):
-            return "ProjectCreationFailedException: \(message ?? "")"
-        case .projectNotFoundException(let message):
-            return "ProjectNotFoundException: \(message ?? "")"
-        case .teamMemberAlreadyAssociatedException(let message):
-            return "TeamMemberAlreadyAssociatedException: \(message ?? "")"
-        case .teamMemberNotFoundException(let message):
-            return "TeamMemberNotFoundException: \(message ?? "")"
-        case .userProfileAlreadyExistsException(let message):
-            return "UserProfileAlreadyExistsException: \(message ?? "")"
-        case .userProfileNotFoundException(let message):
-            return "UserProfileNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

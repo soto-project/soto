@@ -17,105 +17,70 @@
 import SotoCore
 
 /// Error enum for Comprehend
-public enum ComprehendErrorType: AWSErrorType {
-    case batchSizeLimitExceededException(message: String?)
-    case concurrentModificationException(message: String?)
-    case internalServerException(message: String?)
-    case invalidFilterException(message: String?)
-    case invalidRequestException(message: String?)
-    case jobNotFoundException(message: String?)
-    case kmsKeyValidationException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceUnavailableException(message: String?)
-    case textSizeLimitExceededException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case tooManyTagKeysException(message: String?)
-    case tooManyTagsException(message: String?)
-    case unsupportedLanguageException(message: String?)
-}
+public struct ComprehendErrorType: AWSErrorType {
+    enum Code: String {
+        case batchSizeLimitExceededException = "BatchSizeLimitExceededException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case internalServerException = "InternalServerException"
+        case invalidFilterException = "InvalidFilterException"
+        case invalidRequestException = "InvalidRequestException"
+        case jobNotFoundException = "JobNotFoundException"
+        case kmsKeyValidationException = "KmsKeyValidationException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
+        case textSizeLimitExceededException = "TextSizeLimitExceededException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case tooManyTagKeysException = "TooManyTagKeysException"
+        case tooManyTagsException = "TooManyTagsException"
+        case unsupportedLanguageException = "UnsupportedLanguageException"
+    }
 
-extension ComprehendErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BatchSizeLimitExceededException":
-            self = .batchSizeLimitExceededException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidFilterException":
-            self = .invalidFilterException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "JobNotFoundException":
-            self = .jobNotFoundException(message: message)
-        case "KmsKeyValidationException":
-            self = .kmsKeyValidationException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
-        case "TextSizeLimitExceededException":
-            self = .textSizeLimitExceededException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "TooManyTagKeysException":
-            self = .tooManyTagKeysException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        case "UnsupportedLanguageException":
-            self = .unsupportedLanguageException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var batchSizeLimitExceededException: Self { .init(.batchSizeLimitExceededException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidFilterException: Self { .init(.invalidFilterException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var jobNotFoundException: Self { .init(.jobNotFoundException) }
+    public static var kmsKeyValidationException: Self { .init(.kmsKeyValidationException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var tooManyTagKeysException: Self { .init(.tooManyTagKeysException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var unsupportedLanguageException: Self { .init(.unsupportedLanguageException) }
+}
+
+extension ComprehendErrorType: Equatable {
+    public static func == (lhs: ComprehendErrorType, rhs: ComprehendErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ComprehendErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .batchSizeLimitExceededException(let message):
-            return "BatchSizeLimitExceededException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidFilterException(let message):
-            return "InvalidFilterException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .jobNotFoundException(let message):
-            return "JobNotFoundException: \(message ?? "")"
-        case .kmsKeyValidationException(let message):
-            return "KmsKeyValidationException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceUnavailableException(let message):
-            return "ResourceUnavailableException: \(message ?? "")"
-        case .textSizeLimitExceededException(let message):
-            return "TextSizeLimitExceededException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .tooManyTagKeysException(let message):
-            return "TooManyTagKeysException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        case .unsupportedLanguageException(let message):
-            return "UnsupportedLanguageException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

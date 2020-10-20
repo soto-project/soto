@@ -17,590 +17,264 @@
 import SotoCore
 
 /// Error enum for SSM
-public enum SSMErrorType: AWSErrorType {
-    case alreadyExistsException(message: String?)
-    case associatedInstances(message: String?)
-    case associationAlreadyExists(message: String?)
-    case associationDoesNotExist(message: String?)
-    case associationExecutionDoesNotExist(message: String?)
-    case associationLimitExceeded(message: String?)
-    case associationVersionLimitExceeded(message: String?)
-    case automationDefinitionNotFoundException(message: String?)
-    case automationDefinitionVersionNotFoundException(message: String?)
-    case automationExecutionLimitExceededException(message: String?)
-    case automationExecutionNotFoundException(message: String?)
-    case automationStepNotFoundException(message: String?)
-    case complianceTypeCountLimitExceededException(message: String?)
-    case customSchemaCountLimitExceededException(message: String?)
-    case documentAlreadyExists(message: String?)
-    case documentLimitExceeded(message: String?)
-    case documentPermissionLimit(message: String?)
-    case documentVersionLimitExceeded(message: String?)
-    case doesNotExistException(message: String?)
-    case duplicateDocumentContent(message: String?)
-    case duplicateDocumentVersionName(message: String?)
-    case duplicateInstanceId(message: String?)
-    case featureNotAvailableException(message: String?)
-    case hierarchyLevelLimitExceededException(message: String?)
-    case hierarchyTypeMismatchException(message: String?)
-    case idempotentParameterMismatch(message: String?)
-    case incompatiblePolicyException(message: String?)
-    case internalServerError(message: String?)
-    case invalidActivation(message: String?)
-    case invalidActivationId(message: String?)
-    case invalidAggregatorException(message: String?)
-    case invalidAllowedPatternException(message: String?)
-    case invalidAssociation(message: String?)
-    case invalidAssociationVersion(message: String?)
-    case invalidAutomationExecutionParametersException(message: String?)
-    case invalidAutomationSignalException(message: String?)
-    case invalidAutomationStatusUpdateException(message: String?)
-    case invalidCommandId(message: String?)
-    case invalidDeleteInventoryParametersException(message: String?)
-    case invalidDeletionIdException(message: String?)
-    case invalidDocument(message: String?)
-    case invalidDocumentContent(message: String?)
-    case invalidDocumentOperation(message: String?)
-    case invalidDocumentSchemaVersion(message: String?)
-    case invalidDocumentType(message: String?)
-    case invalidDocumentVersion(message: String?)
-    case invalidFilter(message: String?)
-    case invalidFilterKey(message: String?)
-    case invalidFilterOption(message: String?)
-    case invalidFilterValue(message: String?)
-    case invalidInstanceId(message: String?)
-    case invalidInstanceInformationFilterValue(message: String?)
-    case invalidInventoryGroupException(message: String?)
-    case invalidInventoryItemContextException(message: String?)
-    case invalidInventoryRequestException(message: String?)
-    case invalidItemContentException(message: String?)
-    case invalidKeyId(message: String?)
-    case invalidNextToken(message: String?)
-    case invalidNotificationConfig(message: String?)
-    case invalidOptionException(message: String?)
-    case invalidOutputFolder(message: String?)
-    case invalidOutputLocation(message: String?)
-    case invalidParameters(message: String?)
-    case invalidPermissionType(message: String?)
-    case invalidPluginName(message: String?)
-    case invalidPolicyAttributeException(message: String?)
-    case invalidPolicyTypeException(message: String?)
-    case invalidResourceId(message: String?)
-    case invalidResourceType(message: String?)
-    case invalidResultAttributeException(message: String?)
-    case invalidRole(message: String?)
-    case invalidSchedule(message: String?)
-    case invalidTarget(message: String?)
-    case invalidTypeNameException(message: String?)
-    case invalidUpdate(message: String?)
-    case invocationDoesNotExist(message: String?)
-    case itemContentMismatchException(message: String?)
-    case itemSizeLimitExceededException(message: String?)
-    case maxDocumentSizeExceeded(message: String?)
-    case opsItemAlreadyExistsException(message: String?)
-    case opsItemInvalidParameterException(message: String?)
-    case opsItemLimitExceededException(message: String?)
-    case opsItemNotFoundException(message: String?)
-    case parameterAlreadyExists(message: String?)
-    case parameterLimitExceeded(message: String?)
-    case parameterMaxVersionLimitExceeded(message: String?)
-    case parameterNotFound(message: String?)
-    case parameterPatternMismatchException(message: String?)
-    case parameterVersionLabelLimitExceeded(message: String?)
-    case parameterVersionNotFound(message: String?)
-    case policiesLimitExceededException(message: String?)
-    case resourceDataSyncAlreadyExistsException(message: String?)
-    case resourceDataSyncConflictException(message: String?)
-    case resourceDataSyncCountExceededException(message: String?)
-    case resourceDataSyncInvalidConfigurationException(message: String?)
-    case resourceDataSyncNotFoundException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case serviceSettingNotFound(message: String?)
-    case statusUnchanged(message: String?)
-    case subTypeCountLimitExceededException(message: String?)
-    case targetInUseException(message: String?)
-    case targetNotConnected(message: String?)
-    case tooManyTagsError(message: String?)
-    case tooManyUpdates(message: String?)
-    case totalSizeLimitExceededException(message: String?)
-    case unsupportedCalendarException(message: String?)
-    case unsupportedFeatureRequiredException(message: String?)
-    case unsupportedInventoryItemContextException(message: String?)
-    case unsupportedInventorySchemaVersionException(message: String?)
-    case unsupportedOperatingSystem(message: String?)
-    case unsupportedParameterType(message: String?)
-    case unsupportedPlatformType(message: String?)
-}
+public struct SSMErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyExistsException = "AlreadyExistsException"
+        case associatedInstances = "AssociatedInstances"
+        case associationAlreadyExists = "AssociationAlreadyExists"
+        case associationDoesNotExist = "AssociationDoesNotExist"
+        case associationExecutionDoesNotExist = "AssociationExecutionDoesNotExist"
+        case associationLimitExceeded = "AssociationLimitExceeded"
+        case associationVersionLimitExceeded = "AssociationVersionLimitExceeded"
+        case automationDefinitionNotFoundException = "AutomationDefinitionNotFoundException"
+        case automationDefinitionVersionNotFoundException = "AutomationDefinitionVersionNotFoundException"
+        case automationExecutionLimitExceededException = "AutomationExecutionLimitExceededException"
+        case automationExecutionNotFoundException = "AutomationExecutionNotFoundException"
+        case automationStepNotFoundException = "AutomationStepNotFoundException"
+        case complianceTypeCountLimitExceededException = "ComplianceTypeCountLimitExceededException"
+        case customSchemaCountLimitExceededException = "CustomSchemaCountLimitExceededException"
+        case documentAlreadyExists = "DocumentAlreadyExists"
+        case documentLimitExceeded = "DocumentLimitExceeded"
+        case documentPermissionLimit = "DocumentPermissionLimit"
+        case documentVersionLimitExceeded = "DocumentVersionLimitExceeded"
+        case doesNotExistException = "DoesNotExistException"
+        case duplicateDocumentContent = "DuplicateDocumentContent"
+        case duplicateDocumentVersionName = "DuplicateDocumentVersionName"
+        case duplicateInstanceId = "DuplicateInstanceId"
+        case featureNotAvailableException = "FeatureNotAvailableException"
+        case hierarchyLevelLimitExceededException = "HierarchyLevelLimitExceededException"
+        case hierarchyTypeMismatchException = "HierarchyTypeMismatchException"
+        case idempotentParameterMismatch = "IdempotentParameterMismatch"
+        case incompatiblePolicyException = "IncompatiblePolicyException"
+        case internalServerError = "InternalServerError"
+        case invalidActivation = "InvalidActivation"
+        case invalidActivationId = "InvalidActivationId"
+        case invalidAggregatorException = "InvalidAggregatorException"
+        case invalidAllowedPatternException = "InvalidAllowedPatternException"
+        case invalidAssociation = "InvalidAssociation"
+        case invalidAssociationVersion = "InvalidAssociationVersion"
+        case invalidAutomationExecutionParametersException = "InvalidAutomationExecutionParametersException"
+        case invalidAutomationSignalException = "InvalidAutomationSignalException"
+        case invalidAutomationStatusUpdateException = "InvalidAutomationStatusUpdateException"
+        case invalidCommandId = "InvalidCommandId"
+        case invalidDeleteInventoryParametersException = "InvalidDeleteInventoryParametersException"
+        case invalidDeletionIdException = "InvalidDeletionIdException"
+        case invalidDocument = "InvalidDocument"
+        case invalidDocumentContent = "InvalidDocumentContent"
+        case invalidDocumentOperation = "InvalidDocumentOperation"
+        case invalidDocumentSchemaVersion = "InvalidDocumentSchemaVersion"
+        case invalidDocumentType = "InvalidDocumentType"
+        case invalidDocumentVersion = "InvalidDocumentVersion"
+        case invalidFilter = "InvalidFilter"
+        case invalidFilterKey = "InvalidFilterKey"
+        case invalidFilterOption = "InvalidFilterOption"
+        case invalidFilterValue = "InvalidFilterValue"
+        case invalidInstanceId = "InvalidInstanceId"
+        case invalidInstanceInformationFilterValue = "InvalidInstanceInformationFilterValue"
+        case invalidInventoryGroupException = "InvalidInventoryGroupException"
+        case invalidInventoryItemContextException = "InvalidInventoryItemContextException"
+        case invalidInventoryRequestException = "InvalidInventoryRequestException"
+        case invalidItemContentException = "InvalidItemContentException"
+        case invalidKeyId = "InvalidKeyId"
+        case invalidNextToken = "InvalidNextToken"
+        case invalidNotificationConfig = "InvalidNotificationConfig"
+        case invalidOptionException = "InvalidOptionException"
+        case invalidOutputFolder = "InvalidOutputFolder"
+        case invalidOutputLocation = "InvalidOutputLocation"
+        case invalidParameters = "InvalidParameters"
+        case invalidPermissionType = "InvalidPermissionType"
+        case invalidPluginName = "InvalidPluginName"
+        case invalidPolicyAttributeException = "InvalidPolicyAttributeException"
+        case invalidPolicyTypeException = "InvalidPolicyTypeException"
+        case invalidResourceId = "InvalidResourceId"
+        case invalidResourceType = "InvalidResourceType"
+        case invalidResultAttributeException = "InvalidResultAttributeException"
+        case invalidRole = "InvalidRole"
+        case invalidSchedule = "InvalidSchedule"
+        case invalidTarget = "InvalidTarget"
+        case invalidTypeNameException = "InvalidTypeNameException"
+        case invalidUpdate = "InvalidUpdate"
+        case invocationDoesNotExist = "InvocationDoesNotExist"
+        case itemContentMismatchException = "ItemContentMismatchException"
+        case itemSizeLimitExceededException = "ItemSizeLimitExceededException"
+        case maxDocumentSizeExceeded = "MaxDocumentSizeExceeded"
+        case opsItemAlreadyExistsException = "OpsItemAlreadyExistsException"
+        case opsItemInvalidParameterException = "OpsItemInvalidParameterException"
+        case opsItemLimitExceededException = "OpsItemLimitExceededException"
+        case opsItemNotFoundException = "OpsItemNotFoundException"
+        case parameterAlreadyExists = "ParameterAlreadyExists"
+        case parameterLimitExceeded = "ParameterLimitExceeded"
+        case parameterMaxVersionLimitExceeded = "ParameterMaxVersionLimitExceeded"
+        case parameterNotFound = "ParameterNotFound"
+        case parameterPatternMismatchException = "ParameterPatternMismatchException"
+        case parameterVersionLabelLimitExceeded = "ParameterVersionLabelLimitExceeded"
+        case parameterVersionNotFound = "ParameterVersionNotFound"
+        case policiesLimitExceededException = "PoliciesLimitExceededException"
+        case resourceDataSyncAlreadyExistsException = "ResourceDataSyncAlreadyExistsException"
+        case resourceDataSyncConflictException = "ResourceDataSyncConflictException"
+        case resourceDataSyncCountExceededException = "ResourceDataSyncCountExceededException"
+        case resourceDataSyncInvalidConfigurationException = "ResourceDataSyncInvalidConfigurationException"
+        case resourceDataSyncNotFoundException = "ResourceDataSyncNotFoundException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case serviceSettingNotFound = "ServiceSettingNotFound"
+        case statusUnchanged = "StatusUnchanged"
+        case subTypeCountLimitExceededException = "SubTypeCountLimitExceededException"
+        case targetInUseException = "TargetInUseException"
+        case targetNotConnected = "TargetNotConnected"
+        case tooManyTagsError = "TooManyTagsError"
+        case tooManyUpdates = "TooManyUpdates"
+        case totalSizeLimitExceededException = "TotalSizeLimitExceededException"
+        case unsupportedCalendarException = "UnsupportedCalendarException"
+        case unsupportedFeatureRequiredException = "UnsupportedFeatureRequiredException"
+        case unsupportedInventoryItemContextException = "UnsupportedInventoryItemContextException"
+        case unsupportedInventorySchemaVersionException = "UnsupportedInventorySchemaVersionException"
+        case unsupportedOperatingSystem = "UnsupportedOperatingSystem"
+        case unsupportedParameterType = "UnsupportedParameterType"
+        case unsupportedPlatformType = "UnsupportedPlatformType"
+    }
 
-extension SSMErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "AssociatedInstances":
-            self = .associatedInstances(message: message)
-        case "AssociationAlreadyExists":
-            self = .associationAlreadyExists(message: message)
-        case "AssociationDoesNotExist":
-            self = .associationDoesNotExist(message: message)
-        case "AssociationExecutionDoesNotExist":
-            self = .associationExecutionDoesNotExist(message: message)
-        case "AssociationLimitExceeded":
-            self = .associationLimitExceeded(message: message)
-        case "AssociationVersionLimitExceeded":
-            self = .associationVersionLimitExceeded(message: message)
-        case "AutomationDefinitionNotFoundException":
-            self = .automationDefinitionNotFoundException(message: message)
-        case "AutomationDefinitionVersionNotFoundException":
-            self = .automationDefinitionVersionNotFoundException(message: message)
-        case "AutomationExecutionLimitExceededException":
-            self = .automationExecutionLimitExceededException(message: message)
-        case "AutomationExecutionNotFoundException":
-            self = .automationExecutionNotFoundException(message: message)
-        case "AutomationStepNotFoundException":
-            self = .automationStepNotFoundException(message: message)
-        case "ComplianceTypeCountLimitExceededException":
-            self = .complianceTypeCountLimitExceededException(message: message)
-        case "CustomSchemaCountLimitExceededException":
-            self = .customSchemaCountLimitExceededException(message: message)
-        case "DocumentAlreadyExists":
-            self = .documentAlreadyExists(message: message)
-        case "DocumentLimitExceeded":
-            self = .documentLimitExceeded(message: message)
-        case "DocumentPermissionLimit":
-            self = .documentPermissionLimit(message: message)
-        case "DocumentVersionLimitExceeded":
-            self = .documentVersionLimitExceeded(message: message)
-        case "DoesNotExistException":
-            self = .doesNotExistException(message: message)
-        case "DuplicateDocumentContent":
-            self = .duplicateDocumentContent(message: message)
-        case "DuplicateDocumentVersionName":
-            self = .duplicateDocumentVersionName(message: message)
-        case "DuplicateInstanceId":
-            self = .duplicateInstanceId(message: message)
-        case "FeatureNotAvailableException":
-            self = .featureNotAvailableException(message: message)
-        case "HierarchyLevelLimitExceededException":
-            self = .hierarchyLevelLimitExceededException(message: message)
-        case "HierarchyTypeMismatchException":
-            self = .hierarchyTypeMismatchException(message: message)
-        case "IdempotentParameterMismatch":
-            self = .idempotentParameterMismatch(message: message)
-        case "IncompatiblePolicyException":
-            self = .incompatiblePolicyException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidActivation":
-            self = .invalidActivation(message: message)
-        case "InvalidActivationId":
-            self = .invalidActivationId(message: message)
-        case "InvalidAggregatorException":
-            self = .invalidAggregatorException(message: message)
-        case "InvalidAllowedPatternException":
-            self = .invalidAllowedPatternException(message: message)
-        case "InvalidAssociation":
-            self = .invalidAssociation(message: message)
-        case "InvalidAssociationVersion":
-            self = .invalidAssociationVersion(message: message)
-        case "InvalidAutomationExecutionParametersException":
-            self = .invalidAutomationExecutionParametersException(message: message)
-        case "InvalidAutomationSignalException":
-            self = .invalidAutomationSignalException(message: message)
-        case "InvalidAutomationStatusUpdateException":
-            self = .invalidAutomationStatusUpdateException(message: message)
-        case "InvalidCommandId":
-            self = .invalidCommandId(message: message)
-        case "InvalidDeleteInventoryParametersException":
-            self = .invalidDeleteInventoryParametersException(message: message)
-        case "InvalidDeletionIdException":
-            self = .invalidDeletionIdException(message: message)
-        case "InvalidDocument":
-            self = .invalidDocument(message: message)
-        case "InvalidDocumentContent":
-            self = .invalidDocumentContent(message: message)
-        case "InvalidDocumentOperation":
-            self = .invalidDocumentOperation(message: message)
-        case "InvalidDocumentSchemaVersion":
-            self = .invalidDocumentSchemaVersion(message: message)
-        case "InvalidDocumentType":
-            self = .invalidDocumentType(message: message)
-        case "InvalidDocumentVersion":
-            self = .invalidDocumentVersion(message: message)
-        case "InvalidFilter":
-            self = .invalidFilter(message: message)
-        case "InvalidFilterKey":
-            self = .invalidFilterKey(message: message)
-        case "InvalidFilterOption":
-            self = .invalidFilterOption(message: message)
-        case "InvalidFilterValue":
-            self = .invalidFilterValue(message: message)
-        case "InvalidInstanceId":
-            self = .invalidInstanceId(message: message)
-        case "InvalidInstanceInformationFilterValue":
-            self = .invalidInstanceInformationFilterValue(message: message)
-        case "InvalidInventoryGroupException":
-            self = .invalidInventoryGroupException(message: message)
-        case "InvalidInventoryItemContextException":
-            self = .invalidInventoryItemContextException(message: message)
-        case "InvalidInventoryRequestException":
-            self = .invalidInventoryRequestException(message: message)
-        case "InvalidItemContentException":
-            self = .invalidItemContentException(message: message)
-        case "InvalidKeyId":
-            self = .invalidKeyId(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
-        case "InvalidNotificationConfig":
-            self = .invalidNotificationConfig(message: message)
-        case "InvalidOptionException":
-            self = .invalidOptionException(message: message)
-        case "InvalidOutputFolder":
-            self = .invalidOutputFolder(message: message)
-        case "InvalidOutputLocation":
-            self = .invalidOutputLocation(message: message)
-        case "InvalidParameters":
-            self = .invalidParameters(message: message)
-        case "InvalidPermissionType":
-            self = .invalidPermissionType(message: message)
-        case "InvalidPluginName":
-            self = .invalidPluginName(message: message)
-        case "InvalidPolicyAttributeException":
-            self = .invalidPolicyAttributeException(message: message)
-        case "InvalidPolicyTypeException":
-            self = .invalidPolicyTypeException(message: message)
-        case "InvalidResourceId":
-            self = .invalidResourceId(message: message)
-        case "InvalidResourceType":
-            self = .invalidResourceType(message: message)
-        case "InvalidResultAttributeException":
-            self = .invalidResultAttributeException(message: message)
-        case "InvalidRole":
-            self = .invalidRole(message: message)
-        case "InvalidSchedule":
-            self = .invalidSchedule(message: message)
-        case "InvalidTarget":
-            self = .invalidTarget(message: message)
-        case "InvalidTypeNameException":
-            self = .invalidTypeNameException(message: message)
-        case "InvalidUpdate":
-            self = .invalidUpdate(message: message)
-        case "InvocationDoesNotExist":
-            self = .invocationDoesNotExist(message: message)
-        case "ItemContentMismatchException":
-            self = .itemContentMismatchException(message: message)
-        case "ItemSizeLimitExceededException":
-            self = .itemSizeLimitExceededException(message: message)
-        case "MaxDocumentSizeExceeded":
-            self = .maxDocumentSizeExceeded(message: message)
-        case "OpsItemAlreadyExistsException":
-            self = .opsItemAlreadyExistsException(message: message)
-        case "OpsItemInvalidParameterException":
-            self = .opsItemInvalidParameterException(message: message)
-        case "OpsItemLimitExceededException":
-            self = .opsItemLimitExceededException(message: message)
-        case "OpsItemNotFoundException":
-            self = .opsItemNotFoundException(message: message)
-        case "ParameterAlreadyExists":
-            self = .parameterAlreadyExists(message: message)
-        case "ParameterLimitExceeded":
-            self = .parameterLimitExceeded(message: message)
-        case "ParameterMaxVersionLimitExceeded":
-            self = .parameterMaxVersionLimitExceeded(message: message)
-        case "ParameterNotFound":
-            self = .parameterNotFound(message: message)
-        case "ParameterPatternMismatchException":
-            self = .parameterPatternMismatchException(message: message)
-        case "ParameterVersionLabelLimitExceeded":
-            self = .parameterVersionLabelLimitExceeded(message: message)
-        case "ParameterVersionNotFound":
-            self = .parameterVersionNotFound(message: message)
-        case "PoliciesLimitExceededException":
-            self = .policiesLimitExceededException(message: message)
-        case "ResourceDataSyncAlreadyExistsException":
-            self = .resourceDataSyncAlreadyExistsException(message: message)
-        case "ResourceDataSyncConflictException":
-            self = .resourceDataSyncConflictException(message: message)
-        case "ResourceDataSyncCountExceededException":
-            self = .resourceDataSyncCountExceededException(message: message)
-        case "ResourceDataSyncInvalidConfigurationException":
-            self = .resourceDataSyncInvalidConfigurationException(message: message)
-        case "ResourceDataSyncNotFoundException":
-            self = .resourceDataSyncNotFoundException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ServiceSettingNotFound":
-            self = .serviceSettingNotFound(message: message)
-        case "StatusUnchanged":
-            self = .statusUnchanged(message: message)
-        case "SubTypeCountLimitExceededException":
-            self = .subTypeCountLimitExceededException(message: message)
-        case "TargetInUseException":
-            self = .targetInUseException(message: message)
-        case "TargetNotConnected":
-            self = .targetNotConnected(message: message)
-        case "TooManyTagsError":
-            self = .tooManyTagsError(message: message)
-        case "TooManyUpdates":
-            self = .tooManyUpdates(message: message)
-        case "TotalSizeLimitExceededException":
-            self = .totalSizeLimitExceededException(message: message)
-        case "UnsupportedCalendarException":
-            self = .unsupportedCalendarException(message: message)
-        case "UnsupportedFeatureRequiredException":
-            self = .unsupportedFeatureRequiredException(message: message)
-        case "UnsupportedInventoryItemContextException":
-            self = .unsupportedInventoryItemContextException(message: message)
-        case "UnsupportedInventorySchemaVersionException":
-            self = .unsupportedInventorySchemaVersionException(message: message)
-        case "UnsupportedOperatingSystem":
-            self = .unsupportedOperatingSystem(message: message)
-        case "UnsupportedParameterType":
-            self = .unsupportedParameterType(message: message)
-        case "UnsupportedPlatformType":
-            self = .unsupportedPlatformType(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var associatedInstances: Self { .init(.associatedInstances) }
+    public static var associationAlreadyExists: Self { .init(.associationAlreadyExists) }
+    public static var associationDoesNotExist: Self { .init(.associationDoesNotExist) }
+    public static var associationExecutionDoesNotExist: Self { .init(.associationExecutionDoesNotExist) }
+    public static var associationLimitExceeded: Self { .init(.associationLimitExceeded) }
+    public static var associationVersionLimitExceeded: Self { .init(.associationVersionLimitExceeded) }
+    public static var automationDefinitionNotFoundException: Self { .init(.automationDefinitionNotFoundException) }
+    public static var automationDefinitionVersionNotFoundException: Self { .init(.automationDefinitionVersionNotFoundException) }
+    public static var automationExecutionLimitExceededException: Self { .init(.automationExecutionLimitExceededException) }
+    public static var automationExecutionNotFoundException: Self { .init(.automationExecutionNotFoundException) }
+    public static var automationStepNotFoundException: Self { .init(.automationStepNotFoundException) }
+    public static var complianceTypeCountLimitExceededException: Self { .init(.complianceTypeCountLimitExceededException) }
+    public static var customSchemaCountLimitExceededException: Self { .init(.customSchemaCountLimitExceededException) }
+    public static var documentAlreadyExists: Self { .init(.documentAlreadyExists) }
+    public static var documentLimitExceeded: Self { .init(.documentLimitExceeded) }
+    public static var documentPermissionLimit: Self { .init(.documentPermissionLimit) }
+    public static var documentVersionLimitExceeded: Self { .init(.documentVersionLimitExceeded) }
+    public static var doesNotExistException: Self { .init(.doesNotExistException) }
+    public static var duplicateDocumentContent: Self { .init(.duplicateDocumentContent) }
+    public static var duplicateDocumentVersionName: Self { .init(.duplicateDocumentVersionName) }
+    public static var duplicateInstanceId: Self { .init(.duplicateInstanceId) }
+    public static var featureNotAvailableException: Self { .init(.featureNotAvailableException) }
+    public static var hierarchyLevelLimitExceededException: Self { .init(.hierarchyLevelLimitExceededException) }
+    public static var hierarchyTypeMismatchException: Self { .init(.hierarchyTypeMismatchException) }
+    public static var idempotentParameterMismatch: Self { .init(.idempotentParameterMismatch) }
+    public static var incompatiblePolicyException: Self { .init(.incompatiblePolicyException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidActivation: Self { .init(.invalidActivation) }
+    public static var invalidActivationId: Self { .init(.invalidActivationId) }
+    public static var invalidAggregatorException: Self { .init(.invalidAggregatorException) }
+    public static var invalidAllowedPatternException: Self { .init(.invalidAllowedPatternException) }
+    public static var invalidAssociation: Self { .init(.invalidAssociation) }
+    public static var invalidAssociationVersion: Self { .init(.invalidAssociationVersion) }
+    public static var invalidAutomationExecutionParametersException: Self { .init(.invalidAutomationExecutionParametersException) }
+    public static var invalidAutomationSignalException: Self { .init(.invalidAutomationSignalException) }
+    public static var invalidAutomationStatusUpdateException: Self { .init(.invalidAutomationStatusUpdateException) }
+    public static var invalidCommandId: Self { .init(.invalidCommandId) }
+    public static var invalidDeleteInventoryParametersException: Self { .init(.invalidDeleteInventoryParametersException) }
+    public static var invalidDeletionIdException: Self { .init(.invalidDeletionIdException) }
+    public static var invalidDocument: Self { .init(.invalidDocument) }
+    public static var invalidDocumentContent: Self { .init(.invalidDocumentContent) }
+    public static var invalidDocumentOperation: Self { .init(.invalidDocumentOperation) }
+    public static var invalidDocumentSchemaVersion: Self { .init(.invalidDocumentSchemaVersion) }
+    public static var invalidDocumentType: Self { .init(.invalidDocumentType) }
+    public static var invalidDocumentVersion: Self { .init(.invalidDocumentVersion) }
+    public static var invalidFilter: Self { .init(.invalidFilter) }
+    public static var invalidFilterKey: Self { .init(.invalidFilterKey) }
+    public static var invalidFilterOption: Self { .init(.invalidFilterOption) }
+    public static var invalidFilterValue: Self { .init(.invalidFilterValue) }
+    public static var invalidInstanceId: Self { .init(.invalidInstanceId) }
+    public static var invalidInstanceInformationFilterValue: Self { .init(.invalidInstanceInformationFilterValue) }
+    public static var invalidInventoryGroupException: Self { .init(.invalidInventoryGroupException) }
+    public static var invalidInventoryItemContextException: Self { .init(.invalidInventoryItemContextException) }
+    public static var invalidInventoryRequestException: Self { .init(.invalidInventoryRequestException) }
+    public static var invalidItemContentException: Self { .init(.invalidItemContentException) }
+    public static var invalidKeyId: Self { .init(.invalidKeyId) }
+    public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    public static var invalidNotificationConfig: Self { .init(.invalidNotificationConfig) }
+    public static var invalidOptionException: Self { .init(.invalidOptionException) }
+    public static var invalidOutputFolder: Self { .init(.invalidOutputFolder) }
+    public static var invalidOutputLocation: Self { .init(.invalidOutputLocation) }
+    public static var invalidParameters: Self { .init(.invalidParameters) }
+    public static var invalidPermissionType: Self { .init(.invalidPermissionType) }
+    public static var invalidPluginName: Self { .init(.invalidPluginName) }
+    public static var invalidPolicyAttributeException: Self { .init(.invalidPolicyAttributeException) }
+    public static var invalidPolicyTypeException: Self { .init(.invalidPolicyTypeException) }
+    public static var invalidResourceId: Self { .init(.invalidResourceId) }
+    public static var invalidResourceType: Self { .init(.invalidResourceType) }
+    public static var invalidResultAttributeException: Self { .init(.invalidResultAttributeException) }
+    public static var invalidRole: Self { .init(.invalidRole) }
+    public static var invalidSchedule: Self { .init(.invalidSchedule) }
+    public static var invalidTarget: Self { .init(.invalidTarget) }
+    public static var invalidTypeNameException: Self { .init(.invalidTypeNameException) }
+    public static var invalidUpdate: Self { .init(.invalidUpdate) }
+    public static var invocationDoesNotExist: Self { .init(.invocationDoesNotExist) }
+    public static var itemContentMismatchException: Self { .init(.itemContentMismatchException) }
+    public static var itemSizeLimitExceededException: Self { .init(.itemSizeLimitExceededException) }
+    public static var maxDocumentSizeExceeded: Self { .init(.maxDocumentSizeExceeded) }
+    public static var opsItemAlreadyExistsException: Self { .init(.opsItemAlreadyExistsException) }
+    public static var opsItemInvalidParameterException: Self { .init(.opsItemInvalidParameterException) }
+    public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
+    public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }
+    public static var parameterAlreadyExists: Self { .init(.parameterAlreadyExists) }
+    public static var parameterLimitExceeded: Self { .init(.parameterLimitExceeded) }
+    public static var parameterMaxVersionLimitExceeded: Self { .init(.parameterMaxVersionLimitExceeded) }
+    public static var parameterNotFound: Self { .init(.parameterNotFound) }
+    public static var parameterPatternMismatchException: Self { .init(.parameterPatternMismatchException) }
+    public static var parameterVersionLabelLimitExceeded: Self { .init(.parameterVersionLabelLimitExceeded) }
+    public static var parameterVersionNotFound: Self { .init(.parameterVersionNotFound) }
+    public static var policiesLimitExceededException: Self { .init(.policiesLimitExceededException) }
+    public static var resourceDataSyncAlreadyExistsException: Self { .init(.resourceDataSyncAlreadyExistsException) }
+    public static var resourceDataSyncConflictException: Self { .init(.resourceDataSyncConflictException) }
+    public static var resourceDataSyncCountExceededException: Self { .init(.resourceDataSyncCountExceededException) }
+    public static var resourceDataSyncInvalidConfigurationException: Self { .init(.resourceDataSyncInvalidConfigurationException) }
+    public static var resourceDataSyncNotFoundException: Self { .init(.resourceDataSyncNotFoundException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var serviceSettingNotFound: Self { .init(.serviceSettingNotFound) }
+    public static var statusUnchanged: Self { .init(.statusUnchanged) }
+    public static var subTypeCountLimitExceededException: Self { .init(.subTypeCountLimitExceededException) }
+    public static var targetInUseException: Self { .init(.targetInUseException) }
+    public static var targetNotConnected: Self { .init(.targetNotConnected) }
+    public static var tooManyTagsError: Self { .init(.tooManyTagsError) }
+    public static var tooManyUpdates: Self { .init(.tooManyUpdates) }
+    public static var totalSizeLimitExceededException: Self { .init(.totalSizeLimitExceededException) }
+    public static var unsupportedCalendarException: Self { .init(.unsupportedCalendarException) }
+    public static var unsupportedFeatureRequiredException: Self { .init(.unsupportedFeatureRequiredException) }
+    public static var unsupportedInventoryItemContextException: Self { .init(.unsupportedInventoryItemContextException) }
+    public static var unsupportedInventorySchemaVersionException: Self { .init(.unsupportedInventorySchemaVersionException) }
+    public static var unsupportedOperatingSystem: Self { .init(.unsupportedOperatingSystem) }
+    public static var unsupportedParameterType: Self { .init(.unsupportedParameterType) }
+    public static var unsupportedPlatformType: Self { .init(.unsupportedPlatformType) }
+}
+
+extension SSMErrorType: Equatable {
+    public static func == (lhs: SSMErrorType, rhs: SSMErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SSMErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .associatedInstances(let message):
-            return "AssociatedInstances: \(message ?? "")"
-        case .associationAlreadyExists(let message):
-            return "AssociationAlreadyExists: \(message ?? "")"
-        case .associationDoesNotExist(let message):
-            return "AssociationDoesNotExist: \(message ?? "")"
-        case .associationExecutionDoesNotExist(let message):
-            return "AssociationExecutionDoesNotExist: \(message ?? "")"
-        case .associationLimitExceeded(let message):
-            return "AssociationLimitExceeded: \(message ?? "")"
-        case .associationVersionLimitExceeded(let message):
-            return "AssociationVersionLimitExceeded: \(message ?? "")"
-        case .automationDefinitionNotFoundException(let message):
-            return "AutomationDefinitionNotFoundException: \(message ?? "")"
-        case .automationDefinitionVersionNotFoundException(let message):
-            return "AutomationDefinitionVersionNotFoundException: \(message ?? "")"
-        case .automationExecutionLimitExceededException(let message):
-            return "AutomationExecutionLimitExceededException: \(message ?? "")"
-        case .automationExecutionNotFoundException(let message):
-            return "AutomationExecutionNotFoundException: \(message ?? "")"
-        case .automationStepNotFoundException(let message):
-            return "AutomationStepNotFoundException: \(message ?? "")"
-        case .complianceTypeCountLimitExceededException(let message):
-            return "ComplianceTypeCountLimitExceededException: \(message ?? "")"
-        case .customSchemaCountLimitExceededException(let message):
-            return "CustomSchemaCountLimitExceededException: \(message ?? "")"
-        case .documentAlreadyExists(let message):
-            return "DocumentAlreadyExists: \(message ?? "")"
-        case .documentLimitExceeded(let message):
-            return "DocumentLimitExceeded: \(message ?? "")"
-        case .documentPermissionLimit(let message):
-            return "DocumentPermissionLimit: \(message ?? "")"
-        case .documentVersionLimitExceeded(let message):
-            return "DocumentVersionLimitExceeded: \(message ?? "")"
-        case .doesNotExistException(let message):
-            return "DoesNotExistException: \(message ?? "")"
-        case .duplicateDocumentContent(let message):
-            return "DuplicateDocumentContent: \(message ?? "")"
-        case .duplicateDocumentVersionName(let message):
-            return "DuplicateDocumentVersionName: \(message ?? "")"
-        case .duplicateInstanceId(let message):
-            return "DuplicateInstanceId: \(message ?? "")"
-        case .featureNotAvailableException(let message):
-            return "FeatureNotAvailableException: \(message ?? "")"
-        case .hierarchyLevelLimitExceededException(let message):
-            return "HierarchyLevelLimitExceededException: \(message ?? "")"
-        case .hierarchyTypeMismatchException(let message):
-            return "HierarchyTypeMismatchException: \(message ?? "")"
-        case .idempotentParameterMismatch(let message):
-            return "IdempotentParameterMismatch: \(message ?? "")"
-        case .incompatiblePolicyException(let message):
-            return "IncompatiblePolicyException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidActivation(let message):
-            return "InvalidActivation: \(message ?? "")"
-        case .invalidActivationId(let message):
-            return "InvalidActivationId: \(message ?? "")"
-        case .invalidAggregatorException(let message):
-            return "InvalidAggregatorException: \(message ?? "")"
-        case .invalidAllowedPatternException(let message):
-            return "InvalidAllowedPatternException: \(message ?? "")"
-        case .invalidAssociation(let message):
-            return "InvalidAssociation: \(message ?? "")"
-        case .invalidAssociationVersion(let message):
-            return "InvalidAssociationVersion: \(message ?? "")"
-        case .invalidAutomationExecutionParametersException(let message):
-            return "InvalidAutomationExecutionParametersException: \(message ?? "")"
-        case .invalidAutomationSignalException(let message):
-            return "InvalidAutomationSignalException: \(message ?? "")"
-        case .invalidAutomationStatusUpdateException(let message):
-            return "InvalidAutomationStatusUpdateException: \(message ?? "")"
-        case .invalidCommandId(let message):
-            return "InvalidCommandId: \(message ?? "")"
-        case .invalidDeleteInventoryParametersException(let message):
-            return "InvalidDeleteInventoryParametersException: \(message ?? "")"
-        case .invalidDeletionIdException(let message):
-            return "InvalidDeletionIdException: \(message ?? "")"
-        case .invalidDocument(let message):
-            return "InvalidDocument: \(message ?? "")"
-        case .invalidDocumentContent(let message):
-            return "InvalidDocumentContent: \(message ?? "")"
-        case .invalidDocumentOperation(let message):
-            return "InvalidDocumentOperation: \(message ?? "")"
-        case .invalidDocumentSchemaVersion(let message):
-            return "InvalidDocumentSchemaVersion: \(message ?? "")"
-        case .invalidDocumentType(let message):
-            return "InvalidDocumentType: \(message ?? "")"
-        case .invalidDocumentVersion(let message):
-            return "InvalidDocumentVersion: \(message ?? "")"
-        case .invalidFilter(let message):
-            return "InvalidFilter: \(message ?? "")"
-        case .invalidFilterKey(let message):
-            return "InvalidFilterKey: \(message ?? "")"
-        case .invalidFilterOption(let message):
-            return "InvalidFilterOption: \(message ?? "")"
-        case .invalidFilterValue(let message):
-            return "InvalidFilterValue: \(message ?? "")"
-        case .invalidInstanceId(let message):
-            return "InvalidInstanceId: \(message ?? "")"
-        case .invalidInstanceInformationFilterValue(let message):
-            return "InvalidInstanceInformationFilterValue: \(message ?? "")"
-        case .invalidInventoryGroupException(let message):
-            return "InvalidInventoryGroupException: \(message ?? "")"
-        case .invalidInventoryItemContextException(let message):
-            return "InvalidInventoryItemContextException: \(message ?? "")"
-        case .invalidInventoryRequestException(let message):
-            return "InvalidInventoryRequestException: \(message ?? "")"
-        case .invalidItemContentException(let message):
-            return "InvalidItemContentException: \(message ?? "")"
-        case .invalidKeyId(let message):
-            return "InvalidKeyId: \(message ?? "")"
-        case .invalidNextToken(let message):
-            return "InvalidNextToken: \(message ?? "")"
-        case .invalidNotificationConfig(let message):
-            return "InvalidNotificationConfig: \(message ?? "")"
-        case .invalidOptionException(let message):
-            return "InvalidOptionException: \(message ?? "")"
-        case .invalidOutputFolder(let message):
-            return "InvalidOutputFolder: \(message ?? "")"
-        case .invalidOutputLocation(let message):
-            return "InvalidOutputLocation: \(message ?? "")"
-        case .invalidParameters(let message):
-            return "InvalidParameters: \(message ?? "")"
-        case .invalidPermissionType(let message):
-            return "InvalidPermissionType: \(message ?? "")"
-        case .invalidPluginName(let message):
-            return "InvalidPluginName: \(message ?? "")"
-        case .invalidPolicyAttributeException(let message):
-            return "InvalidPolicyAttributeException: \(message ?? "")"
-        case .invalidPolicyTypeException(let message):
-            return "InvalidPolicyTypeException: \(message ?? "")"
-        case .invalidResourceId(let message):
-            return "InvalidResourceId: \(message ?? "")"
-        case .invalidResourceType(let message):
-            return "InvalidResourceType: \(message ?? "")"
-        case .invalidResultAttributeException(let message):
-            return "InvalidResultAttributeException: \(message ?? "")"
-        case .invalidRole(let message):
-            return "InvalidRole: \(message ?? "")"
-        case .invalidSchedule(let message):
-            return "InvalidSchedule: \(message ?? "")"
-        case .invalidTarget(let message):
-            return "InvalidTarget: \(message ?? "")"
-        case .invalidTypeNameException(let message):
-            return "InvalidTypeNameException: \(message ?? "")"
-        case .invalidUpdate(let message):
-            return "InvalidUpdate: \(message ?? "")"
-        case .invocationDoesNotExist(let message):
-            return "InvocationDoesNotExist: \(message ?? "")"
-        case .itemContentMismatchException(let message):
-            return "ItemContentMismatchException: \(message ?? "")"
-        case .itemSizeLimitExceededException(let message):
-            return "ItemSizeLimitExceededException: \(message ?? "")"
-        case .maxDocumentSizeExceeded(let message):
-            return "MaxDocumentSizeExceeded: \(message ?? "")"
-        case .opsItemAlreadyExistsException(let message):
-            return "OpsItemAlreadyExistsException: \(message ?? "")"
-        case .opsItemInvalidParameterException(let message):
-            return "OpsItemInvalidParameterException: \(message ?? "")"
-        case .opsItemLimitExceededException(let message):
-            return "OpsItemLimitExceededException: \(message ?? "")"
-        case .opsItemNotFoundException(let message):
-            return "OpsItemNotFoundException: \(message ?? "")"
-        case .parameterAlreadyExists(let message):
-            return "ParameterAlreadyExists: \(message ?? "")"
-        case .parameterLimitExceeded(let message):
-            return "ParameterLimitExceeded: \(message ?? "")"
-        case .parameterMaxVersionLimitExceeded(let message):
-            return "ParameterMaxVersionLimitExceeded: \(message ?? "")"
-        case .parameterNotFound(let message):
-            return "ParameterNotFound: \(message ?? "")"
-        case .parameterPatternMismatchException(let message):
-            return "ParameterPatternMismatchException: \(message ?? "")"
-        case .parameterVersionLabelLimitExceeded(let message):
-            return "ParameterVersionLabelLimitExceeded: \(message ?? "")"
-        case .parameterVersionNotFound(let message):
-            return "ParameterVersionNotFound: \(message ?? "")"
-        case .policiesLimitExceededException(let message):
-            return "PoliciesLimitExceededException: \(message ?? "")"
-        case .resourceDataSyncAlreadyExistsException(let message):
-            return "ResourceDataSyncAlreadyExistsException: \(message ?? "")"
-        case .resourceDataSyncConflictException(let message):
-            return "ResourceDataSyncConflictException: \(message ?? "")"
-        case .resourceDataSyncCountExceededException(let message):
-            return "ResourceDataSyncCountExceededException: \(message ?? "")"
-        case .resourceDataSyncInvalidConfigurationException(let message):
-            return "ResourceDataSyncInvalidConfigurationException: \(message ?? "")"
-        case .resourceDataSyncNotFoundException(let message):
-            return "ResourceDataSyncNotFoundException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .serviceSettingNotFound(let message):
-            return "ServiceSettingNotFound: \(message ?? "")"
-        case .statusUnchanged(let message):
-            return "StatusUnchanged: \(message ?? "")"
-        case .subTypeCountLimitExceededException(let message):
-            return "SubTypeCountLimitExceededException: \(message ?? "")"
-        case .targetInUseException(let message):
-            return "TargetInUseException: \(message ?? "")"
-        case .targetNotConnected(let message):
-            return "TargetNotConnected: \(message ?? "")"
-        case .tooManyTagsError(let message):
-            return "TooManyTagsError: \(message ?? "")"
-        case .tooManyUpdates(let message):
-            return "TooManyUpdates: \(message ?? "")"
-        case .totalSizeLimitExceededException(let message):
-            return "TotalSizeLimitExceededException: \(message ?? "")"
-        case .unsupportedCalendarException(let message):
-            return "UnsupportedCalendarException: \(message ?? "")"
-        case .unsupportedFeatureRequiredException(let message):
-            return "UnsupportedFeatureRequiredException: \(message ?? "")"
-        case .unsupportedInventoryItemContextException(let message):
-            return "UnsupportedInventoryItemContextException: \(message ?? "")"
-        case .unsupportedInventorySchemaVersionException(let message):
-            return "UnsupportedInventorySchemaVersionException: \(message ?? "")"
-        case .unsupportedOperatingSystem(let message):
-            return "UnsupportedOperatingSystem: \(message ?? "")"
-        case .unsupportedParameterType(let message):
-            return "UnsupportedParameterType: \(message ?? "")"
-        case .unsupportedPlatformType(let message):
-            return "UnsupportedPlatformType: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,245 +17,126 @@
 import SotoCore
 
 /// Error enum for Organizations
-public enum OrganizationsErrorType: AWSErrorType {
-    case aWSOrganizationsNotInUseException(message: String?)
-    case accessDeniedException(message: String?)
-    case accessDeniedForDependencyException(message: String?)
-    case accountAlreadyRegisteredException(message: String?)
-    case accountNotFoundException(message: String?)
-    case accountNotRegisteredException(message: String?)
-    case accountOwnerNotVerifiedException(message: String?)
-    case alreadyInOrganizationException(message: String?)
-    case childNotFoundException(message: String?)
-    case concurrentModificationException(message: String?)
-    case constraintViolationException(message: String?)
-    case createAccountStatusNotFoundException(message: String?)
-    case destinationParentNotFoundException(message: String?)
-    case duplicateAccountException(message: String?)
-    case duplicateHandshakeException(message: String?)
-    case duplicateOrganizationalUnitException(message: String?)
-    case duplicatePolicyAttachmentException(message: String?)
-    case duplicatePolicyException(message: String?)
-    case effectivePolicyNotFoundException(message: String?)
-    case finalizingOrganizationException(message: String?)
-    case handshakeAlreadyInStateException(message: String?)
-    case handshakeConstraintViolationException(message: String?)
-    case handshakeNotFoundException(message: String?)
-    case invalidHandshakeTransitionException(message: String?)
-    case invalidInputException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case masterCannotLeaveOrganizationException(message: String?)
-    case organizationNotEmptyException(message: String?)
-    case organizationalUnitNotEmptyException(message: String?)
-    case organizationalUnitNotFoundException(message: String?)
-    case parentNotFoundException(message: String?)
-    case policyChangesInProgressException(message: String?)
-    case policyInUseException(message: String?)
-    case policyNotAttachedException(message: String?)
-    case policyNotFoundException(message: String?)
-    case policyTypeAlreadyEnabledException(message: String?)
-    case policyTypeNotAvailableForOrganizationException(message: String?)
-    case policyTypeNotEnabledException(message: String?)
-    case rootNotFoundException(message: String?)
-    case serviceException(message: String?)
-    case sourceParentNotFoundException(message: String?)
-    case targetNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unsupportedAPIEndpointException(message: String?)
-}
+public struct OrganizationsErrorType: AWSErrorType {
+    enum Code: String {
+        case aWSOrganizationsNotInUseException = "AWSOrganizationsNotInUseException"
+        case accessDeniedException = "AccessDeniedException"
+        case accessDeniedForDependencyException = "AccessDeniedForDependencyException"
+        case accountAlreadyRegisteredException = "AccountAlreadyRegisteredException"
+        case accountNotFoundException = "AccountNotFoundException"
+        case accountNotRegisteredException = "AccountNotRegisteredException"
+        case accountOwnerNotVerifiedException = "AccountOwnerNotVerifiedException"
+        case alreadyInOrganizationException = "AlreadyInOrganizationException"
+        case childNotFoundException = "ChildNotFoundException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case constraintViolationException = "ConstraintViolationException"
+        case createAccountStatusNotFoundException = "CreateAccountStatusNotFoundException"
+        case destinationParentNotFoundException = "DestinationParentNotFoundException"
+        case duplicateAccountException = "DuplicateAccountException"
+        case duplicateHandshakeException = "DuplicateHandshakeException"
+        case duplicateOrganizationalUnitException = "DuplicateOrganizationalUnitException"
+        case duplicatePolicyAttachmentException = "DuplicatePolicyAttachmentException"
+        case duplicatePolicyException = "DuplicatePolicyException"
+        case effectivePolicyNotFoundException = "EffectivePolicyNotFoundException"
+        case finalizingOrganizationException = "FinalizingOrganizationException"
+        case handshakeAlreadyInStateException = "HandshakeAlreadyInStateException"
+        case handshakeConstraintViolationException = "HandshakeConstraintViolationException"
+        case handshakeNotFoundException = "HandshakeNotFoundException"
+        case invalidHandshakeTransitionException = "InvalidHandshakeTransitionException"
+        case invalidInputException = "InvalidInputException"
+        case malformedPolicyDocumentException = "MalformedPolicyDocumentException"
+        case masterCannotLeaveOrganizationException = "MasterCannotLeaveOrganizationException"
+        case organizationNotEmptyException = "OrganizationNotEmptyException"
+        case organizationalUnitNotEmptyException = "OrganizationalUnitNotEmptyException"
+        case organizationalUnitNotFoundException = "OrganizationalUnitNotFoundException"
+        case parentNotFoundException = "ParentNotFoundException"
+        case policyChangesInProgressException = "PolicyChangesInProgressException"
+        case policyInUseException = "PolicyInUseException"
+        case policyNotAttachedException = "PolicyNotAttachedException"
+        case policyNotFoundException = "PolicyNotFoundException"
+        case policyTypeAlreadyEnabledException = "PolicyTypeAlreadyEnabledException"
+        case policyTypeNotAvailableForOrganizationException = "PolicyTypeNotAvailableForOrganizationException"
+        case policyTypeNotEnabledException = "PolicyTypeNotEnabledException"
+        case rootNotFoundException = "RootNotFoundException"
+        case serviceException = "ServiceException"
+        case sourceParentNotFoundException = "SourceParentNotFoundException"
+        case targetNotFoundException = "TargetNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unsupportedAPIEndpointException = "UnsupportedAPIEndpointException"
+    }
 
-extension OrganizationsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AWSOrganizationsNotInUseException":
-            self = .aWSOrganizationsNotInUseException(message: message)
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AccessDeniedForDependencyException":
-            self = .accessDeniedForDependencyException(message: message)
-        case "AccountAlreadyRegisteredException":
-            self = .accountAlreadyRegisteredException(message: message)
-        case "AccountNotFoundException":
-            self = .accountNotFoundException(message: message)
-        case "AccountNotRegisteredException":
-            self = .accountNotRegisteredException(message: message)
-        case "AccountOwnerNotVerifiedException":
-            self = .accountOwnerNotVerifiedException(message: message)
-        case "AlreadyInOrganizationException":
-            self = .alreadyInOrganizationException(message: message)
-        case "ChildNotFoundException":
-            self = .childNotFoundException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConstraintViolationException":
-            self = .constraintViolationException(message: message)
-        case "CreateAccountStatusNotFoundException":
-            self = .createAccountStatusNotFoundException(message: message)
-        case "DestinationParentNotFoundException":
-            self = .destinationParentNotFoundException(message: message)
-        case "DuplicateAccountException":
-            self = .duplicateAccountException(message: message)
-        case "DuplicateHandshakeException":
-            self = .duplicateHandshakeException(message: message)
-        case "DuplicateOrganizationalUnitException":
-            self = .duplicateOrganizationalUnitException(message: message)
-        case "DuplicatePolicyAttachmentException":
-            self = .duplicatePolicyAttachmentException(message: message)
-        case "DuplicatePolicyException":
-            self = .duplicatePolicyException(message: message)
-        case "EffectivePolicyNotFoundException":
-            self = .effectivePolicyNotFoundException(message: message)
-        case "FinalizingOrganizationException":
-            self = .finalizingOrganizationException(message: message)
-        case "HandshakeAlreadyInStateException":
-            self = .handshakeAlreadyInStateException(message: message)
-        case "HandshakeConstraintViolationException":
-            self = .handshakeConstraintViolationException(message: message)
-        case "HandshakeNotFoundException":
-            self = .handshakeNotFoundException(message: message)
-        case "InvalidHandshakeTransitionException":
-            self = .invalidHandshakeTransitionException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "MalformedPolicyDocumentException":
-            self = .malformedPolicyDocumentException(message: message)
-        case "MasterCannotLeaveOrganizationException":
-            self = .masterCannotLeaveOrganizationException(message: message)
-        case "OrganizationNotEmptyException":
-            self = .organizationNotEmptyException(message: message)
-        case "OrganizationalUnitNotEmptyException":
-            self = .organizationalUnitNotEmptyException(message: message)
-        case "OrganizationalUnitNotFoundException":
-            self = .organizationalUnitNotFoundException(message: message)
-        case "ParentNotFoundException":
-            self = .parentNotFoundException(message: message)
-        case "PolicyChangesInProgressException":
-            self = .policyChangesInProgressException(message: message)
-        case "PolicyInUseException":
-            self = .policyInUseException(message: message)
-        case "PolicyNotAttachedException":
-            self = .policyNotAttachedException(message: message)
-        case "PolicyNotFoundException":
-            self = .policyNotFoundException(message: message)
-        case "PolicyTypeAlreadyEnabledException":
-            self = .policyTypeAlreadyEnabledException(message: message)
-        case "PolicyTypeNotAvailableForOrganizationException":
-            self = .policyTypeNotAvailableForOrganizationException(message: message)
-        case "PolicyTypeNotEnabledException":
-            self = .policyTypeNotEnabledException(message: message)
-        case "RootNotFoundException":
-            self = .rootNotFoundException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "SourceParentNotFoundException":
-            self = .sourceParentNotFoundException(message: message)
-        case "TargetNotFoundException":
-            self = .targetNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnsupportedAPIEndpointException":
-            self = .unsupportedAPIEndpointException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var aWSOrganizationsNotInUseException: Self { .init(.aWSOrganizationsNotInUseException) }
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var accessDeniedForDependencyException: Self { .init(.accessDeniedForDependencyException) }
+    public static var accountAlreadyRegisteredException: Self { .init(.accountAlreadyRegisteredException) }
+    public static var accountNotFoundException: Self { .init(.accountNotFoundException) }
+    public static var accountNotRegisteredException: Self { .init(.accountNotRegisteredException) }
+    public static var accountOwnerNotVerifiedException: Self { .init(.accountOwnerNotVerifiedException) }
+    public static var alreadyInOrganizationException: Self { .init(.alreadyInOrganizationException) }
+    public static var childNotFoundException: Self { .init(.childNotFoundException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var constraintViolationException: Self { .init(.constraintViolationException) }
+    public static var createAccountStatusNotFoundException: Self { .init(.createAccountStatusNotFoundException) }
+    public static var destinationParentNotFoundException: Self { .init(.destinationParentNotFoundException) }
+    public static var duplicateAccountException: Self { .init(.duplicateAccountException) }
+    public static var duplicateHandshakeException: Self { .init(.duplicateHandshakeException) }
+    public static var duplicateOrganizationalUnitException: Self { .init(.duplicateOrganizationalUnitException) }
+    public static var duplicatePolicyAttachmentException: Self { .init(.duplicatePolicyAttachmentException) }
+    public static var duplicatePolicyException: Self { .init(.duplicatePolicyException) }
+    public static var effectivePolicyNotFoundException: Self { .init(.effectivePolicyNotFoundException) }
+    public static var finalizingOrganizationException: Self { .init(.finalizingOrganizationException) }
+    public static var handshakeAlreadyInStateException: Self { .init(.handshakeAlreadyInStateException) }
+    public static var handshakeConstraintViolationException: Self { .init(.handshakeConstraintViolationException) }
+    public static var handshakeNotFoundException: Self { .init(.handshakeNotFoundException) }
+    public static var invalidHandshakeTransitionException: Self { .init(.invalidHandshakeTransitionException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    public static var masterCannotLeaveOrganizationException: Self { .init(.masterCannotLeaveOrganizationException) }
+    public static var organizationNotEmptyException: Self { .init(.organizationNotEmptyException) }
+    public static var organizationalUnitNotEmptyException: Self { .init(.organizationalUnitNotEmptyException) }
+    public static var organizationalUnitNotFoundException: Self { .init(.organizationalUnitNotFoundException) }
+    public static var parentNotFoundException: Self { .init(.parentNotFoundException) }
+    public static var policyChangesInProgressException: Self { .init(.policyChangesInProgressException) }
+    public static var policyInUseException: Self { .init(.policyInUseException) }
+    public static var policyNotAttachedException: Self { .init(.policyNotAttachedException) }
+    public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
+    public static var policyTypeAlreadyEnabledException: Self { .init(.policyTypeAlreadyEnabledException) }
+    public static var policyTypeNotAvailableForOrganizationException: Self { .init(.policyTypeNotAvailableForOrganizationException) }
+    public static var policyTypeNotEnabledException: Self { .init(.policyTypeNotEnabledException) }
+    public static var rootNotFoundException: Self { .init(.rootNotFoundException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var sourceParentNotFoundException: Self { .init(.sourceParentNotFoundException) }
+    public static var targetNotFoundException: Self { .init(.targetNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unsupportedAPIEndpointException: Self { .init(.unsupportedAPIEndpointException) }
+}
+
+extension OrganizationsErrorType: Equatable {
+    public static func == (lhs: OrganizationsErrorType, rhs: OrganizationsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension OrganizationsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .aWSOrganizationsNotInUseException(let message):
-            return "AWSOrganizationsNotInUseException: \(message ?? "")"
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .accessDeniedForDependencyException(let message):
-            return "AccessDeniedForDependencyException: \(message ?? "")"
-        case .accountAlreadyRegisteredException(let message):
-            return "AccountAlreadyRegisteredException: \(message ?? "")"
-        case .accountNotFoundException(let message):
-            return "AccountNotFoundException: \(message ?? "")"
-        case .accountNotRegisteredException(let message):
-            return "AccountNotRegisteredException: \(message ?? "")"
-        case .accountOwnerNotVerifiedException(let message):
-            return "AccountOwnerNotVerifiedException: \(message ?? "")"
-        case .alreadyInOrganizationException(let message):
-            return "AlreadyInOrganizationException: \(message ?? "")"
-        case .childNotFoundException(let message):
-            return "ChildNotFoundException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .constraintViolationException(let message):
-            return "ConstraintViolationException: \(message ?? "")"
-        case .createAccountStatusNotFoundException(let message):
-            return "CreateAccountStatusNotFoundException: \(message ?? "")"
-        case .destinationParentNotFoundException(let message):
-            return "DestinationParentNotFoundException: \(message ?? "")"
-        case .duplicateAccountException(let message):
-            return "DuplicateAccountException: \(message ?? "")"
-        case .duplicateHandshakeException(let message):
-            return "DuplicateHandshakeException: \(message ?? "")"
-        case .duplicateOrganizationalUnitException(let message):
-            return "DuplicateOrganizationalUnitException: \(message ?? "")"
-        case .duplicatePolicyAttachmentException(let message):
-            return "DuplicatePolicyAttachmentException: \(message ?? "")"
-        case .duplicatePolicyException(let message):
-            return "DuplicatePolicyException: \(message ?? "")"
-        case .effectivePolicyNotFoundException(let message):
-            return "EffectivePolicyNotFoundException: \(message ?? "")"
-        case .finalizingOrganizationException(let message):
-            return "FinalizingOrganizationException: \(message ?? "")"
-        case .handshakeAlreadyInStateException(let message):
-            return "HandshakeAlreadyInStateException: \(message ?? "")"
-        case .handshakeConstraintViolationException(let message):
-            return "HandshakeConstraintViolationException: \(message ?? "")"
-        case .handshakeNotFoundException(let message):
-            return "HandshakeNotFoundException: \(message ?? "")"
-        case .invalidHandshakeTransitionException(let message):
-            return "InvalidHandshakeTransitionException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .malformedPolicyDocumentException(let message):
-            return "MalformedPolicyDocumentException: \(message ?? "")"
-        case .masterCannotLeaveOrganizationException(let message):
-            return "MasterCannotLeaveOrganizationException: \(message ?? "")"
-        case .organizationNotEmptyException(let message):
-            return "OrganizationNotEmptyException: \(message ?? "")"
-        case .organizationalUnitNotEmptyException(let message):
-            return "OrganizationalUnitNotEmptyException: \(message ?? "")"
-        case .organizationalUnitNotFoundException(let message):
-            return "OrganizationalUnitNotFoundException: \(message ?? "")"
-        case .parentNotFoundException(let message):
-            return "ParentNotFoundException: \(message ?? "")"
-        case .policyChangesInProgressException(let message):
-            return "PolicyChangesInProgressException: \(message ?? "")"
-        case .policyInUseException(let message):
-            return "PolicyInUseException: \(message ?? "")"
-        case .policyNotAttachedException(let message):
-            return "PolicyNotAttachedException: \(message ?? "")"
-        case .policyNotFoundException(let message):
-            return "PolicyNotFoundException: \(message ?? "")"
-        case .policyTypeAlreadyEnabledException(let message):
-            return "PolicyTypeAlreadyEnabledException: \(message ?? "")"
-        case .policyTypeNotAvailableForOrganizationException(let message):
-            return "PolicyTypeNotAvailableForOrganizationException: \(message ?? "")"
-        case .policyTypeNotEnabledException(let message):
-            return "PolicyTypeNotEnabledException: \(message ?? "")"
-        case .rootNotFoundException(let message):
-            return "RootNotFoundException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .sourceParentNotFoundException(let message):
-            return "SourceParentNotFoundException: \(message ?? "")"
-        case .targetNotFoundException(let message):
-            return "TargetNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unsupportedAPIEndpointException(let message):
-            return "UnsupportedAPIEndpointException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

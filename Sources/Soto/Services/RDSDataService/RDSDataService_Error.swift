@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for RDSDataService
-public enum RDSDataServiceErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case forbiddenException(message: String?)
-    case internalServerErrorException(message: String?)
-    case notFoundException(message: String?)
-    case serviceUnavailableError(message: String?)
-    case statementTimeoutException(message: String?)
-}
+public struct RDSDataServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case forbiddenException = "ForbiddenException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case notFoundException = "NotFoundException"
+        case serviceUnavailableError = "ServiceUnavailableError"
+        case statementTimeoutException = "StatementTimeoutException"
+    }
 
-extension RDSDataServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceUnavailableError":
-            self = .serviceUnavailableError(message: message)
-        case "StatementTimeoutException":
-            self = .statementTimeoutException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
+    public static var statementTimeoutException: Self { .init(.statementTimeoutException) }
+}
+
+extension RDSDataServiceErrorType: Equatable {
+    public static func == (lhs: RDSDataServiceErrorType, rhs: RDSDataServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension RDSDataServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .serviceUnavailableError(let message):
-            return "ServiceUnavailableError: \(message ?? "")"
-        case .statementTimeoutException(let message):
-            return "StatementTimeoutException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

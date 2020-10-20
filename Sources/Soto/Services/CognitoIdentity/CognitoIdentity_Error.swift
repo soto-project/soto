@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for CognitoIdentity
-public enum CognitoIdentityErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case developerUserAlreadyRegisteredException(message: String?)
-    case externalServiceException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidIdentityPoolConfigurationException(message: String?)
-    case invalidParameterException(message: String?)
-    case limitExceededException(message: String?)
-    case notAuthorizedException(message: String?)
-    case resourceConflictException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct CognitoIdentityErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case developerUserAlreadyRegisteredException = "DeveloperUserAlreadyRegisteredException"
+        case externalServiceException = "ExternalServiceException"
+        case internalErrorException = "InternalErrorException"
+        case invalidIdentityPoolConfigurationException = "InvalidIdentityPoolConfigurationException"
+        case invalidParameterException = "InvalidParameterException"
+        case limitExceededException = "LimitExceededException"
+        case notAuthorizedException = "NotAuthorizedException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension CognitoIdentityErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "DeveloperUserAlreadyRegisteredException":
-            self = .developerUserAlreadyRegisteredException(message: message)
-        case "ExternalServiceException":
-            self = .externalServiceException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidIdentityPoolConfigurationException":
-            self = .invalidIdentityPoolConfigurationException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var developerUserAlreadyRegisteredException: Self { .init(.developerUserAlreadyRegisteredException) }
+    public static var externalServiceException: Self { .init(.externalServiceException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidIdentityPoolConfigurationException: Self { .init(.invalidIdentityPoolConfigurationException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension CognitoIdentityErrorType: Equatable {
+    public static func == (lhs: CognitoIdentityErrorType, rhs: CognitoIdentityErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CognitoIdentityErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .developerUserAlreadyRegisteredException(let message):
-            return "DeveloperUserAlreadyRegisteredException: \(message ?? "")"
-        case .externalServiceException(let message):
-            return "ExternalServiceException: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .invalidIdentityPoolConfigurationException(let message):
-            return "InvalidIdentityPoolConfigurationException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
-        case .resourceConflictException(let message):
-            return "ResourceConflictException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

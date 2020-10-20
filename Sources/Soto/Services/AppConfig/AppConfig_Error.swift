@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for AppConfig
-public enum AppConfigErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case internalServerException(message: String?)
-    case payloadTooLargeException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-}
+public struct AppConfigErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case payloadTooLargeException = "PayloadTooLargeException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+    }
 
-extension AppConfigErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "PayloadTooLargeException":
-            self = .payloadTooLargeException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+}
+
+extension AppConfigErrorType: Equatable {
+    public static func == (lhs: AppConfigErrorType, rhs: AppConfigErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AppConfigErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .payloadTooLargeException(let message):
-            return "PayloadTooLargeException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for XRay
-public enum XRayErrorType: AWSErrorType {
-    case invalidRequestException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case ruleLimitExceededException(message: String?)
-    case throttledException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct XRayErrorType: AWSErrorType {
+    enum Code: String {
+        case invalidRequestException = "InvalidRequestException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case ruleLimitExceededException = "RuleLimitExceededException"
+        case throttledException = "ThrottledException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension XRayErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RuleLimitExceededException":
-            self = .ruleLimitExceededException(message: message)
-        case "ThrottledException":
-            self = .throttledException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var ruleLimitExceededException: Self { .init(.ruleLimitExceededException) }
+    public static var throttledException: Self { .init(.throttledException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension XRayErrorType: Equatable {
+    public static func == (lhs: XRayErrorType, rhs: XRayErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension XRayErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .ruleLimitExceededException(let message):
-            return "RuleLimitExceededException: \(message ?? "")"
-        case .throttledException(let message):
-            return "ThrottledException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

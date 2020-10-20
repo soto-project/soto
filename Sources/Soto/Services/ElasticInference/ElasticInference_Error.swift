@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for ElasticInference
-public enum ElasticInferenceErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case internalServerException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct ElasticInferenceErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension ElasticInferenceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension ElasticInferenceErrorType: Equatable {
+    public static func == (lhs: ElasticInferenceErrorType, rhs: ElasticInferenceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElasticInferenceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

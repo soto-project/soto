@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for Snowball
-public enum SnowballErrorType: AWSErrorType {
-    case clusterLimitExceededException(message: String?)
-    case ec2RequestFailedException(message: String?)
-    case invalidAddressException(message: String?)
-    case invalidInputCombinationException(message: String?)
-    case invalidJobStateException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidResourceException(message: String?)
-    case kMSRequestFailedException(message: String?)
-    case unsupportedAddressException(message: String?)
-}
+public struct SnowballErrorType: AWSErrorType {
+    enum Code: String {
+        case clusterLimitExceededException = "ClusterLimitExceededException"
+        case ec2RequestFailedException = "Ec2RequestFailedException"
+        case invalidAddressException = "InvalidAddressException"
+        case invalidInputCombinationException = "InvalidInputCombinationException"
+        case invalidJobStateException = "InvalidJobStateException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidResourceException = "InvalidResourceException"
+        case kMSRequestFailedException = "KMSRequestFailedException"
+        case unsupportedAddressException = "UnsupportedAddressException"
+    }
 
-extension SnowballErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ClusterLimitExceededException":
-            self = .clusterLimitExceededException(message: message)
-        case "Ec2RequestFailedException":
-            self = .ec2RequestFailedException(message: message)
-        case "InvalidAddressException":
-            self = .invalidAddressException(message: message)
-        case "InvalidInputCombinationException":
-            self = .invalidInputCombinationException(message: message)
-        case "InvalidJobStateException":
-            self = .invalidJobStateException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidResourceException":
-            self = .invalidResourceException(message: message)
-        case "KMSRequestFailedException":
-            self = .kMSRequestFailedException(message: message)
-        case "UnsupportedAddressException":
-            self = .unsupportedAddressException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var clusterLimitExceededException: Self { .init(.clusterLimitExceededException) }
+    public static var ec2RequestFailedException: Self { .init(.ec2RequestFailedException) }
+    public static var invalidAddressException: Self { .init(.invalidAddressException) }
+    public static var invalidInputCombinationException: Self { .init(.invalidInputCombinationException) }
+    public static var invalidJobStateException: Self { .init(.invalidJobStateException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidResourceException: Self { .init(.invalidResourceException) }
+    public static var kMSRequestFailedException: Self { .init(.kMSRequestFailedException) }
+    public static var unsupportedAddressException: Self { .init(.unsupportedAddressException) }
+}
+
+extension SnowballErrorType: Equatable {
+    public static func == (lhs: SnowballErrorType, rhs: SnowballErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SnowballErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .clusterLimitExceededException(let message):
-            return "ClusterLimitExceededException: \(message ?? "")"
-        case .ec2RequestFailedException(let message):
-            return "Ec2RequestFailedException: \(message ?? "")"
-        case .invalidAddressException(let message):
-            return "InvalidAddressException: \(message ?? "")"
-        case .invalidInputCombinationException(let message):
-            return "InvalidInputCombinationException: \(message ?? "")"
-        case .invalidJobStateException(let message):
-            return "InvalidJobStateException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidResourceException(let message):
-            return "InvalidResourceException: \(message ?? "")"
-        case .kMSRequestFailedException(let message):
-            return "KMSRequestFailedException: \(message ?? "")"
-        case .unsupportedAddressException(let message):
-            return "UnsupportedAddressException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

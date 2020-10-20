@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for MediaConnect
-public enum MediaConnectErrorType: AWSErrorType {
-    case addFlowOutputs420Exception(message: String?)
-    case badRequestException(message: String?)
-    case createFlow420Exception(message: String?)
-    case forbiddenException(message: String?)
-    case grantFlowEntitlements420Exception(message: String?)
-    case internalServerErrorException(message: String?)
-    case notFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct MediaConnectErrorType: AWSErrorType {
+    enum Code: String {
+        case addFlowOutputs420Exception = "AddFlowOutputs420Exception"
+        case badRequestException = "BadRequestException"
+        case createFlow420Exception = "CreateFlow420Exception"
+        case forbiddenException = "ForbiddenException"
+        case grantFlowEntitlements420Exception = "GrantFlowEntitlements420Exception"
+        case internalServerErrorException = "InternalServerErrorException"
+        case notFoundException = "NotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension MediaConnectErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AddFlowOutputs420Exception":
-            self = .addFlowOutputs420Exception(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "CreateFlow420Exception":
-            self = .createFlow420Exception(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "GrantFlowEntitlements420Exception":
-            self = .grantFlowEntitlements420Exception(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var addFlowOutputs420Exception: Self { .init(.addFlowOutputs420Exception) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var createFlow420Exception: Self { .init(.createFlow420Exception) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var grantFlowEntitlements420Exception: Self { .init(.grantFlowEntitlements420Exception) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension MediaConnectErrorType: Equatable {
+    public static func == (lhs: MediaConnectErrorType, rhs: MediaConnectErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MediaConnectErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .addFlowOutputs420Exception(let message):
-            return "AddFlowOutputs420Exception: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .createFlow420Exception(let message):
-            return "CreateFlow420Exception: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .grantFlowEntitlements420Exception(let message):
-            return "GrantFlowEntitlements420Exception: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

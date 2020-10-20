@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for Pricing
-public enum PricingErrorType: AWSErrorType {
-    case expiredNextTokenException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case notFoundException(message: String?)
-}
+public struct PricingErrorType: AWSErrorType {
+    enum Code: String {
+        case expiredNextTokenException = "ExpiredNextTokenException"
+        case internalErrorException = "InternalErrorException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case notFoundException = "NotFoundException"
+    }
 
-extension PricingErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ExpiredNextTokenException":
-            self = .expiredNextTokenException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+}
+
+extension PricingErrorType: Equatable {
+    public static func == (lhs: PricingErrorType, rhs: PricingErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PricingErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .expiredNextTokenException(let message):
-            return "ExpiredNextTokenException: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

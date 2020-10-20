@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for RoboMaker
-public enum RoboMakerErrorType: AWSErrorType {
-    case concurrentDeploymentException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case internalServerException(message: String?)
-    case invalidParameterException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct RoboMakerErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentDeploymentException = "ConcurrentDeploymentException"
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case internalServerException = "InternalServerException"
+        case invalidParameterException = "InvalidParameterException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension RoboMakerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentDeploymentException":
-            self = .concurrentDeploymentException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentDeploymentException: Self { .init(.concurrentDeploymentException) }
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension RoboMakerErrorType: Equatable {
+    public static func == (lhs: RoboMakerErrorType, rhs: RoboMakerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension RoboMakerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentDeploymentException(let message):
-            return "ConcurrentDeploymentException: \(message ?? "")"
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

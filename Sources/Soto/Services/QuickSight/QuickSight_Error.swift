@@ -17,110 +17,72 @@
 import SotoCore
 
 /// Error enum for QuickSight
-public enum QuickSightErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case concurrentUpdatingException(message: String?)
-    case conflictException(message: String?)
-    case domainNotWhitelistedException(message: String?)
-    case identityTypeNotSupportedException(message: String?)
-    case internalFailureException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case limitExceededException(message: String?)
-    case preconditionNotMetException(message: String?)
-    case quickSightUserNotFoundException(message: String?)
-    case resourceExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceUnavailableException(message: String?)
-    case sessionLifetimeInMinutesInvalidException(message: String?)
-    case throttlingException(message: String?)
-    case unsupportedUserEditionException(message: String?)
-}
+public struct QuickSightErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case concurrentUpdatingException = "ConcurrentUpdatingException"
+        case conflictException = "ConflictException"
+        case domainNotWhitelistedException = "DomainNotWhitelistedException"
+        case identityTypeNotSupportedException = "IdentityTypeNotSupportedException"
+        case internalFailureException = "InternalFailureException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case limitExceededException = "LimitExceededException"
+        case preconditionNotMetException = "PreconditionNotMetException"
+        case quickSightUserNotFoundException = "QuickSightUserNotFoundException"
+        case resourceExistsException = "ResourceExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
+        case sessionLifetimeInMinutesInvalidException = "SessionLifetimeInMinutesInvalidException"
+        case throttlingException = "ThrottlingException"
+        case unsupportedUserEditionException = "UnsupportedUserEditionException"
+    }
 
-extension QuickSightErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConcurrentUpdatingException":
-            self = .concurrentUpdatingException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "DomainNotWhitelistedException":
-            self = .domainNotWhitelistedException(message: message)
-        case "IdentityTypeNotSupportedException":
-            self = .identityTypeNotSupportedException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
-        case "QuickSightUserNotFoundException":
-            self = .quickSightUserNotFoundException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
-        case "SessionLifetimeInMinutesInvalidException":
-            self = .sessionLifetimeInMinutesInvalidException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "UnsupportedUserEditionException":
-            self = .unsupportedUserEditionException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var concurrentUpdatingException: Self { .init(.concurrentUpdatingException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var domainNotWhitelistedException: Self { .init(.domainNotWhitelistedException) }
+    public static var identityTypeNotSupportedException: Self { .init(.identityTypeNotSupportedException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
+    public static var quickSightUserNotFoundException: Self { .init(.quickSightUserNotFoundException) }
+    public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    public static var sessionLifetimeInMinutesInvalidException: Self { .init(.sessionLifetimeInMinutesInvalidException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }
+}
+
+extension QuickSightErrorType: Equatable {
+    public static func == (lhs: QuickSightErrorType, rhs: QuickSightErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension QuickSightErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .concurrentUpdatingException(let message):
-            return "ConcurrentUpdatingException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .domainNotWhitelistedException(let message):
-            return "DomainNotWhitelistedException: \(message ?? "")"
-        case .identityTypeNotSupportedException(let message):
-            return "IdentityTypeNotSupportedException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .preconditionNotMetException(let message):
-            return "PreconditionNotMetException: \(message ?? "")"
-        case .quickSightUserNotFoundException(let message):
-            return "QuickSightUserNotFoundException: \(message ?? "")"
-        case .resourceExistsException(let message):
-            return "ResourceExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceUnavailableException(let message):
-            return "ResourceUnavailableException: \(message ?? "")"
-        case .sessionLifetimeInMinutesInvalidException(let message):
-            return "SessionLifetimeInMinutesInvalidException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .unsupportedUserEditionException(let message):
-            return "UnsupportedUserEditionException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

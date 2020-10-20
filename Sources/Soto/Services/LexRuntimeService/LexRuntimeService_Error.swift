@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for LexRuntimeService
-public enum LexRuntimeServiceErrorType: AWSErrorType {
-    case badGatewayException(message: String?)
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case dependencyFailedException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
-    case loopDetectedException(message: String?)
-    case notAcceptableException(message: String?)
-    case notFoundException(message: String?)
-    case requestTimeoutException(message: String?)
-    case unsupportedMediaTypeException(message: String?)
-}
+public struct LexRuntimeServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case badGatewayException = "BadGatewayException"
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case dependencyFailedException = "DependencyFailedException"
+        case internalFailureException = "InternalFailureException"
+        case limitExceededException = "LimitExceededException"
+        case loopDetectedException = "LoopDetectedException"
+        case notAcceptableException = "NotAcceptableException"
+        case notFoundException = "NotFoundException"
+        case requestTimeoutException = "RequestTimeoutException"
+        case unsupportedMediaTypeException = "UnsupportedMediaTypeException"
+    }
 
-extension LexRuntimeServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadGatewayException":
-            self = .badGatewayException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "DependencyFailedException":
-            self = .dependencyFailedException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "LoopDetectedException":
-            self = .loopDetectedException(message: message)
-        case "NotAcceptableException":
-            self = .notAcceptableException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "RequestTimeoutException":
-            self = .requestTimeoutException(message: message)
-        case "UnsupportedMediaTypeException":
-            self = .unsupportedMediaTypeException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badGatewayException: Self { .init(.badGatewayException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var dependencyFailedException: Self { .init(.dependencyFailedException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var loopDetectedException: Self { .init(.loopDetectedException) }
+    public static var notAcceptableException: Self { .init(.notAcceptableException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
+    public static var unsupportedMediaTypeException: Self { .init(.unsupportedMediaTypeException) }
+}
+
+extension LexRuntimeServiceErrorType: Equatable {
+    public static func == (lhs: LexRuntimeServiceErrorType, rhs: LexRuntimeServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LexRuntimeServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badGatewayException(let message):
-            return "BadGatewayException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .dependencyFailedException(let message):
-            return "DependencyFailedException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .loopDetectedException(let message):
-            return "LoopDetectedException: \(message ?? "")"
-        case .notAcceptableException(let message):
-            return "NotAcceptableException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .requestTimeoutException(let message):
-            return "RequestTimeoutException: \(message ?? "")"
-        case .unsupportedMediaTypeException(let message):
-            return "UnsupportedMediaTypeException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

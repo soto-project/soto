@@ -17,95 +17,66 @@
 import SotoCore
 
 /// Error enum for WorkSpaces
-public enum WorkSpacesErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case invalidParameterValuesException(message: String?)
-    case invalidResourceStateException(message: String?)
-    case operationInProgressException(message: String?)
-    case operationNotSupportedException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceAssociatedException(message: String?)
-    case resourceCreationFailedException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceUnavailableException(message: String?)
-    case unsupportedNetworkConfigurationException(message: String?)
-    case unsupportedWorkspaceConfigurationException(message: String?)
-    case workspacesDefaultRoleNotFoundException(message: String?)
-}
+public struct WorkSpacesErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case invalidParameterValuesException = "InvalidParameterValuesException"
+        case invalidResourceStateException = "InvalidResourceStateException"
+        case operationInProgressException = "OperationInProgressException"
+        case operationNotSupportedException = "OperationNotSupportedException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceAssociatedException = "ResourceAssociatedException"
+        case resourceCreationFailedException = "ResourceCreationFailedException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
+        case unsupportedNetworkConfigurationException = "UnsupportedNetworkConfigurationException"
+        case unsupportedWorkspaceConfigurationException = "UnsupportedWorkspaceConfigurationException"
+        case workspacesDefaultRoleNotFoundException = "WorkspacesDefaultRoleNotFoundException"
+    }
 
-extension WorkSpacesErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "InvalidParameterValuesException":
-            self = .invalidParameterValuesException(message: message)
-        case "InvalidResourceStateException":
-            self = .invalidResourceStateException(message: message)
-        case "OperationInProgressException":
-            self = .operationInProgressException(message: message)
-        case "OperationNotSupportedException":
-            self = .operationNotSupportedException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceAssociatedException":
-            self = .resourceAssociatedException(message: message)
-        case "ResourceCreationFailedException":
-            self = .resourceCreationFailedException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
-        case "UnsupportedNetworkConfigurationException":
-            self = .unsupportedNetworkConfigurationException(message: message)
-        case "UnsupportedWorkspaceConfigurationException":
-            self = .unsupportedWorkspaceConfigurationException(message: message)
-        case "WorkspacesDefaultRoleNotFoundException":
-            self = .workspacesDefaultRoleNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var invalidParameterValuesException: Self { .init(.invalidParameterValuesException) }
+    public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    public static var operationInProgressException: Self { .init(.operationInProgressException) }
+    public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceAssociatedException: Self { .init(.resourceAssociatedException) }
+    public static var resourceCreationFailedException: Self { .init(.resourceCreationFailedException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    public static var unsupportedNetworkConfigurationException: Self { .init(.unsupportedNetworkConfigurationException) }
+    public static var unsupportedWorkspaceConfigurationException: Self { .init(.unsupportedWorkspaceConfigurationException) }
+    public static var workspacesDefaultRoleNotFoundException: Self { .init(.workspacesDefaultRoleNotFoundException) }
+}
+
+extension WorkSpacesErrorType: Equatable {
+    public static func == (lhs: WorkSpacesErrorType, rhs: WorkSpacesErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WorkSpacesErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .invalidParameterValuesException(let message):
-            return "InvalidParameterValuesException: \(message ?? "")"
-        case .invalidResourceStateException(let message):
-            return "InvalidResourceStateException: \(message ?? "")"
-        case .operationInProgressException(let message):
-            return "OperationInProgressException: \(message ?? "")"
-        case .operationNotSupportedException(let message):
-            return "OperationNotSupportedException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceAssociatedException(let message):
-            return "ResourceAssociatedException: \(message ?? "")"
-        case .resourceCreationFailedException(let message):
-            return "ResourceCreationFailedException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceUnavailableException(let message):
-            return "ResourceUnavailableException: \(message ?? "")"
-        case .unsupportedNetworkConfigurationException(let message):
-            return "UnsupportedNetworkConfigurationException: \(message ?? "")"
-        case .unsupportedWorkspaceConfigurationException(let message):
-            return "UnsupportedWorkspaceConfigurationException: \(message ?? "")"
-        case .workspacesDefaultRoleNotFoundException(let message):
-            return "WorkspacesDefaultRoleNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

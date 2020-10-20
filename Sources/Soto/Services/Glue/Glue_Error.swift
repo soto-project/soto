@@ -17,145 +17,86 @@
 import SotoCore
 
 /// Error enum for Glue
-public enum GlueErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case alreadyExistsException(message: String?)
-    case concurrentModificationException(message: String?)
-    case concurrentRunsExceededException(message: String?)
-    case conditionCheckFailureException(message: String?)
-    case conflictException(message: String?)
-    case crawlerNotRunningException(message: String?)
-    case crawlerRunningException(message: String?)
-    case crawlerStoppingException(message: String?)
-    case entityNotFoundException(message: String?)
-    case glueEncryptionException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case illegalWorkflowStateException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidInputException(message: String?)
-    case mLTransformNotReadyException(message: String?)
-    case noScheduleException(message: String?)
-    case operationTimeoutException(message: String?)
-    case resourceNumberLimitExceededException(message: String?)
-    case schedulerNotRunningException(message: String?)
-    case schedulerRunningException(message: String?)
-    case schedulerTransitioningException(message: String?)
-    case validationException(message: String?)
-    case versionMismatchException(message: String?)
-}
+public struct GlueErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case alreadyExistsException = "AlreadyExistsException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case concurrentRunsExceededException = "ConcurrentRunsExceededException"
+        case conditionCheckFailureException = "ConditionCheckFailureException"
+        case conflictException = "ConflictException"
+        case crawlerNotRunningException = "CrawlerNotRunningException"
+        case crawlerRunningException = "CrawlerRunningException"
+        case crawlerStoppingException = "CrawlerStoppingException"
+        case entityNotFoundException = "EntityNotFoundException"
+        case glueEncryptionException = "GlueEncryptionException"
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case illegalWorkflowStateException = "IllegalWorkflowStateException"
+        case internalServiceException = "InternalServiceException"
+        case invalidInputException = "InvalidInputException"
+        case mLTransformNotReadyException = "MLTransformNotReadyException"
+        case noScheduleException = "NoScheduleException"
+        case operationTimeoutException = "OperationTimeoutException"
+        case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
+        case schedulerNotRunningException = "SchedulerNotRunningException"
+        case schedulerRunningException = "SchedulerRunningException"
+        case schedulerTransitioningException = "SchedulerTransitioningException"
+        case validationException = "ValidationException"
+        case versionMismatchException = "VersionMismatchException"
+    }
 
-extension GlueErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConcurrentRunsExceededException":
-            self = .concurrentRunsExceededException(message: message)
-        case "ConditionCheckFailureException":
-            self = .conditionCheckFailureException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "CrawlerNotRunningException":
-            self = .crawlerNotRunningException(message: message)
-        case "CrawlerRunningException":
-            self = .crawlerRunningException(message: message)
-        case "CrawlerStoppingException":
-            self = .crawlerStoppingException(message: message)
-        case "EntityNotFoundException":
-            self = .entityNotFoundException(message: message)
-        case "GlueEncryptionException":
-            self = .glueEncryptionException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "IllegalWorkflowStateException":
-            self = .illegalWorkflowStateException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "MLTransformNotReadyException":
-            self = .mLTransformNotReadyException(message: message)
-        case "NoScheduleException":
-            self = .noScheduleException(message: message)
-        case "OperationTimeoutException":
-            self = .operationTimeoutException(message: message)
-        case "ResourceNumberLimitExceededException":
-            self = .resourceNumberLimitExceededException(message: message)
-        case "SchedulerNotRunningException":
-            self = .schedulerNotRunningException(message: message)
-        case "SchedulerRunningException":
-            self = .schedulerRunningException(message: message)
-        case "SchedulerTransitioningException":
-            self = .schedulerTransitioningException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        case "VersionMismatchException":
-            self = .versionMismatchException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var concurrentRunsExceededException: Self { .init(.concurrentRunsExceededException) }
+    public static var conditionCheckFailureException: Self { .init(.conditionCheckFailureException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var crawlerNotRunningException: Self { .init(.crawlerNotRunningException) }
+    public static var crawlerRunningException: Self { .init(.crawlerRunningException) }
+    public static var crawlerStoppingException: Self { .init(.crawlerStoppingException) }
+    public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var illegalWorkflowStateException: Self { .init(.illegalWorkflowStateException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var mLTransformNotReadyException: Self { .init(.mLTransformNotReadyException) }
+    public static var noScheduleException: Self { .init(.noScheduleException) }
+    public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    public static var resourceNumberLimitExceededException: Self { .init(.resourceNumberLimitExceededException) }
+    public static var schedulerNotRunningException: Self { .init(.schedulerNotRunningException) }
+    public static var schedulerRunningException: Self { .init(.schedulerRunningException) }
+    public static var schedulerTransitioningException: Self { .init(.schedulerTransitioningException) }
+    public static var validationException: Self { .init(.validationException) }
+    public static var versionMismatchException: Self { .init(.versionMismatchException) }
+}
+
+extension GlueErrorType: Equatable {
+    public static func == (lhs: GlueErrorType, rhs: GlueErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GlueErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .concurrentRunsExceededException(let message):
-            return "ConcurrentRunsExceededException: \(message ?? "")"
-        case .conditionCheckFailureException(let message):
-            return "ConditionCheckFailureException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .crawlerNotRunningException(let message):
-            return "CrawlerNotRunningException: \(message ?? "")"
-        case .crawlerRunningException(let message):
-            return "CrawlerRunningException: \(message ?? "")"
-        case .crawlerStoppingException(let message):
-            return "CrawlerStoppingException: \(message ?? "")"
-        case .entityNotFoundException(let message):
-            return "EntityNotFoundException: \(message ?? "")"
-        case .glueEncryptionException(let message):
-            return "GlueEncryptionException: \(message ?? "")"
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .illegalWorkflowStateException(let message):
-            return "IllegalWorkflowStateException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .mLTransformNotReadyException(let message):
-            return "MLTransformNotReadyException: \(message ?? "")"
-        case .noScheduleException(let message):
-            return "NoScheduleException: \(message ?? "")"
-        case .operationTimeoutException(let message):
-            return "OperationTimeoutException: \(message ?? "")"
-        case .resourceNumberLimitExceededException(let message):
-            return "ResourceNumberLimitExceededException: \(message ?? "")"
-        case .schedulerNotRunningException(let message):
-            return "SchedulerNotRunningException: \(message ?? "")"
-        case .schedulerRunningException(let message):
-            return "SchedulerRunningException: \(message ?? "")"
-        case .schedulerTransitioningException(let message):
-            return "SchedulerTransitioningException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        case .versionMismatchException(let message):
-            return "VersionMismatchException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

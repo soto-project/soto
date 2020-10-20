@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for EBS
-public enum EBSErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case concurrentLimitExceededException(message: String?)
-    case conflictException(message: String?)
-    case internalServerException(message: String?)
-    case requestThrottledException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case validationException(message: String?)
-}
+public struct EBSErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case concurrentLimitExceededException = "ConcurrentLimitExceededException"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case requestThrottledException = "RequestThrottledException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case validationException = "ValidationException"
+    }
 
-extension EBSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConcurrentLimitExceededException":
-            self = .concurrentLimitExceededException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "RequestThrottledException":
-            self = .requestThrottledException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var concurrentLimitExceededException: Self { .init(.concurrentLimitExceededException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var requestThrottledException: Self { .init(.requestThrottledException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension EBSErrorType: Equatable {
+    public static func == (lhs: EBSErrorType, rhs: EBSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension EBSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .concurrentLimitExceededException(let message):
-            return "ConcurrentLimitExceededException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .requestThrottledException(let message):
-            return "RequestThrottledException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

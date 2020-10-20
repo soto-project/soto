@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for EC2InstanceConnect
-public enum EC2InstanceConnectErrorType: AWSErrorType {
-    case authException(message: String?)
-    case eC2InstanceNotFoundException(message: String?)
-    case invalidArgsException(message: String?)
-    case serviceException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct EC2InstanceConnectErrorType: AWSErrorType {
+    enum Code: String {
+        case authException = "AuthException"
+        case eC2InstanceNotFoundException = "EC2InstanceNotFoundException"
+        case invalidArgsException = "InvalidArgsException"
+        case serviceException = "ServiceException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension EC2InstanceConnectErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AuthException":
-            self = .authException(message: message)
-        case "EC2InstanceNotFoundException":
-            self = .eC2InstanceNotFoundException(message: message)
-        case "InvalidArgsException":
-            self = .invalidArgsException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var authException: Self { .init(.authException) }
+    public static var eC2InstanceNotFoundException: Self { .init(.eC2InstanceNotFoundException) }
+    public static var invalidArgsException: Self { .init(.invalidArgsException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension EC2InstanceConnectErrorType: Equatable {
+    public static func == (lhs: EC2InstanceConnectErrorType, rhs: EC2InstanceConnectErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension EC2InstanceConnectErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .authException(let message):
-            return "AuthException: \(message ?? "")"
-        case .eC2InstanceNotFoundException(let message):
-            return "EC2InstanceNotFoundException: \(message ?? "")"
-        case .invalidArgsException(let message):
-            return "InvalidArgsException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

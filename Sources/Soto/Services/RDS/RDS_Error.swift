@@ -17,590 +17,264 @@
 import SotoCore
 
 /// Error enum for RDS
-public enum RDSErrorType: AWSErrorType {
-    case authorizationAlreadyExistsFault(message: String?)
-    case authorizationNotFoundFault(message: String?)
-    case authorizationQuotaExceededFault(message: String?)
-    case backupPolicyNotFoundFault(message: String?)
-    case certificateNotFoundFault(message: String?)
-    case customAvailabilityZoneAlreadyExistsFault(message: String?)
-    case customAvailabilityZoneNotFoundFault(message: String?)
-    case customAvailabilityZoneQuotaExceededFault(message: String?)
-    case dBClusterAlreadyExistsFault(message: String?)
-    case dBClusterBacktrackNotFoundFault(message: String?)
-    case dBClusterEndpointAlreadyExistsFault(message: String?)
-    case dBClusterEndpointNotFoundFault(message: String?)
-    case dBClusterEndpointQuotaExceededFault(message: String?)
-    case dBClusterNotFoundFault(message: String?)
-    case dBClusterParameterGroupNotFoundFault(message: String?)
-    case dBClusterQuotaExceededFault(message: String?)
-    case dBClusterRoleAlreadyExistsFault(message: String?)
-    case dBClusterRoleNotFoundFault(message: String?)
-    case dBClusterRoleQuotaExceededFault(message: String?)
-    case dBClusterSnapshotAlreadyExistsFault(message: String?)
-    case dBClusterSnapshotNotFoundFault(message: String?)
-    case dBInstanceAlreadyExistsFault(message: String?)
-    case dBInstanceAutomatedBackupNotFoundFault(message: String?)
-    case dBInstanceAutomatedBackupQuotaExceededFault(message: String?)
-    case dBInstanceNotFoundFault(message: String?)
-    case dBInstanceRoleAlreadyExistsFault(message: String?)
-    case dBInstanceRoleNotFoundFault(message: String?)
-    case dBInstanceRoleQuotaExceededFault(message: String?)
-    case dBLogFileNotFoundFault(message: String?)
-    case dBParameterGroupAlreadyExistsFault(message: String?)
-    case dBParameterGroupNotFoundFault(message: String?)
-    case dBParameterGroupQuotaExceededFault(message: String?)
-    case dBProxyAlreadyExistsFault(message: String?)
-    case dBProxyNotFoundFault(message: String?)
-    case dBProxyQuotaExceededFault(message: String?)
-    case dBProxyTargetAlreadyRegisteredFault(message: String?)
-    case dBProxyTargetGroupNotFoundFault(message: String?)
-    case dBProxyTargetNotFoundFault(message: String?)
-    case dBSecurityGroupAlreadyExistsFault(message: String?)
-    case dBSecurityGroupNotFoundFault(message: String?)
-    case dBSecurityGroupNotSupportedFault(message: String?)
-    case dBSecurityGroupQuotaExceededFault(message: String?)
-    case dBSnapshotAlreadyExistsFault(message: String?)
-    case dBSnapshotNotFoundFault(message: String?)
-    case dBSubnetGroupAlreadyExistsFault(message: String?)
-    case dBSubnetGroupDoesNotCoverEnoughAZs(message: String?)
-    case dBSubnetGroupNotAllowedFault(message: String?)
-    case dBSubnetGroupNotFoundFault(message: String?)
-    case dBSubnetGroupQuotaExceededFault(message: String?)
-    case dBSubnetQuotaExceededFault(message: String?)
-    case dBUpgradeDependencyFailureFault(message: String?)
-    case domainNotFoundFault(message: String?)
-    case eventSubscriptionQuotaExceededFault(message: String?)
-    case exportTaskAlreadyExistsFault(message: String?)
-    case exportTaskNotFoundFault(message: String?)
-    case globalClusterAlreadyExistsFault(message: String?)
-    case globalClusterNotFoundFault(message: String?)
-    case globalClusterQuotaExceededFault(message: String?)
-    case iamRoleMissingPermissionsFault(message: String?)
-    case iamRoleNotFoundFault(message: String?)
-    case installationMediaAlreadyExistsFault(message: String?)
-    case installationMediaNotFoundFault(message: String?)
-    case instanceQuotaExceededFault(message: String?)
-    case insufficientAvailableIPsInSubnetFault(message: String?)
-    case insufficientDBClusterCapacityFault(message: String?)
-    case insufficientDBInstanceCapacityFault(message: String?)
-    case insufficientStorageClusterCapacityFault(message: String?)
-    case invalidDBClusterCapacityFault(message: String?)
-    case invalidDBClusterEndpointStateFault(message: String?)
-    case invalidDBClusterSnapshotStateFault(message: String?)
-    case invalidDBClusterStateFault(message: String?)
-    case invalidDBInstanceAutomatedBackupStateFault(message: String?)
-    case invalidDBInstanceStateFault(message: String?)
-    case invalidDBParameterGroupStateFault(message: String?)
-    case invalidDBProxyStateFault(message: String?)
-    case invalidDBSecurityGroupStateFault(message: String?)
-    case invalidDBSnapshotStateFault(message: String?)
-    case invalidDBSubnetGroupFault(message: String?)
-    case invalidDBSubnetGroupStateFault(message: String?)
-    case invalidDBSubnetStateFault(message: String?)
-    case invalidEventSubscriptionStateFault(message: String?)
-    case invalidExportOnlyFault(message: String?)
-    case invalidExportSourceStateFault(message: String?)
-    case invalidExportTaskStateFault(message: String?)
-    case invalidGlobalClusterStateFault(message: String?)
-    case invalidOptionGroupStateFault(message: String?)
-    case invalidRestoreFault(message: String?)
-    case invalidS3BucketFault(message: String?)
-    case invalidSubnet(message: String?)
-    case invalidVPCNetworkStateFault(message: String?)
-    case kMSKeyNotAccessibleFault(message: String?)
-    case optionGroupAlreadyExistsFault(message: String?)
-    case optionGroupNotFoundFault(message: String?)
-    case optionGroupQuotaExceededFault(message: String?)
-    case pointInTimeRestoreNotEnabledFault(message: String?)
-    case provisionedIopsNotAvailableInAZFault(message: String?)
-    case reservedDBInstanceAlreadyExistsFault(message: String?)
-    case reservedDBInstanceNotFoundFault(message: String?)
-    case reservedDBInstanceQuotaExceededFault(message: String?)
-    case reservedDBInstancesOfferingNotFoundFault(message: String?)
-    case resourceNotFoundFault(message: String?)
-    case sNSInvalidTopicFault(message: String?)
-    case sNSNoAuthorizationFault(message: String?)
-    case sNSTopicArnNotFoundFault(message: String?)
-    case sharedSnapshotQuotaExceededFault(message: String?)
-    case snapshotQuotaExceededFault(message: String?)
-    case sourceNotFoundFault(message: String?)
-    case storageQuotaExceededFault(message: String?)
-    case storageTypeNotSupportedFault(message: String?)
-    case subnetAlreadyInUse(message: String?)
-    case subscriptionAlreadyExistFault(message: String?)
-    case subscriptionCategoryNotFoundFault(message: String?)
-    case subscriptionNotFoundFault(message: String?)
-}
+public struct RDSErrorType: AWSErrorType {
+    enum Code: String {
+        case authorizationAlreadyExistsFault = "AuthorizationAlreadyExists"
+        case authorizationNotFoundFault = "AuthorizationNotFound"
+        case authorizationQuotaExceededFault = "AuthorizationQuotaExceeded"
+        case backupPolicyNotFoundFault = "BackupPolicyNotFoundFault"
+        case certificateNotFoundFault = "CertificateNotFound"
+        case customAvailabilityZoneAlreadyExistsFault = "CustomAvailabilityZoneAlreadyExists"
+        case customAvailabilityZoneNotFoundFault = "CustomAvailabilityZoneNotFound"
+        case customAvailabilityZoneQuotaExceededFault = "CustomAvailabilityZoneQuotaExceeded"
+        case dBClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
+        case dBClusterBacktrackNotFoundFault = "DBClusterBacktrackNotFoundFault"
+        case dBClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
+        case dBClusterEndpointNotFoundFault = "DBClusterEndpointNotFoundFault"
+        case dBClusterEndpointQuotaExceededFault = "DBClusterEndpointQuotaExceededFault"
+        case dBClusterNotFoundFault = "DBClusterNotFoundFault"
+        case dBClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
+        case dBClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
+        case dBClusterRoleAlreadyExistsFault = "DBClusterRoleAlreadyExists"
+        case dBClusterRoleNotFoundFault = "DBClusterRoleNotFound"
+        case dBClusterRoleQuotaExceededFault = "DBClusterRoleQuotaExceeded"
+        case dBClusterSnapshotAlreadyExistsFault = "DBClusterSnapshotAlreadyExistsFault"
+        case dBClusterSnapshotNotFoundFault = "DBClusterSnapshotNotFoundFault"
+        case dBInstanceAlreadyExistsFault = "DBInstanceAlreadyExists"
+        case dBInstanceAutomatedBackupNotFoundFault = "DBInstanceAutomatedBackupNotFound"
+        case dBInstanceAutomatedBackupQuotaExceededFault = "DBInstanceAutomatedBackupQuotaExceeded"
+        case dBInstanceNotFoundFault = "DBInstanceNotFound"
+        case dBInstanceRoleAlreadyExistsFault = "DBInstanceRoleAlreadyExists"
+        case dBInstanceRoleNotFoundFault = "DBInstanceRoleNotFound"
+        case dBInstanceRoleQuotaExceededFault = "DBInstanceRoleQuotaExceeded"
+        case dBLogFileNotFoundFault = "DBLogFileNotFoundFault"
+        case dBParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
+        case dBParameterGroupNotFoundFault = "DBParameterGroupNotFound"
+        case dBParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
+        case dBProxyAlreadyExistsFault = "DBProxyTargetExistsFault"
+        case dBProxyNotFoundFault = "DBProxyNotFoundFault"
+        case dBProxyQuotaExceededFault = "DBProxyQuotaExceededFault"
+        case dBProxyTargetAlreadyRegisteredFault = "DBProxyTargetAlreadyRegisteredFault"
+        case dBProxyTargetGroupNotFoundFault = "DBProxyTargetGroupNotFoundFault"
+        case dBProxyTargetNotFoundFault = "DBProxyTargetNotFoundFault"
+        case dBSecurityGroupAlreadyExistsFault = "DBSecurityGroupAlreadyExists"
+        case dBSecurityGroupNotFoundFault = "DBSecurityGroupNotFound"
+        case dBSecurityGroupNotSupportedFault = "DBSecurityGroupNotSupported"
+        case dBSecurityGroupQuotaExceededFault = "QuotaExceeded.DBSecurityGroup"
+        case dBSnapshotAlreadyExistsFault = "DBSnapshotAlreadyExists"
+        case dBSnapshotNotFoundFault = "DBSnapshotNotFound"
+        case dBSubnetGroupAlreadyExistsFault = "DBSubnetGroupAlreadyExists"
+        case dBSubnetGroupDoesNotCoverEnoughAZs = "DBSubnetGroupDoesNotCoverEnoughAZs"
+        case dBSubnetGroupNotAllowedFault = "DBSubnetGroupNotAllowedFault"
+        case dBSubnetGroupNotFoundFault = "DBSubnetGroupNotFoundFault"
+        case dBSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
+        case dBSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
+        case dBUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
+        case domainNotFoundFault = "DomainNotFoundFault"
+        case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
+        case exportTaskAlreadyExistsFault = "ExportTaskAlreadyExists"
+        case exportTaskNotFoundFault = "ExportTaskNotFound"
+        case globalClusterAlreadyExistsFault = "GlobalClusterAlreadyExistsFault"
+        case globalClusterNotFoundFault = "GlobalClusterNotFoundFault"
+        case globalClusterQuotaExceededFault = "GlobalClusterQuotaExceededFault"
+        case iamRoleMissingPermissionsFault = "IamRoleMissingPermissions"
+        case iamRoleNotFoundFault = "IamRoleNotFound"
+        case installationMediaAlreadyExistsFault = "InstallationMediaAlreadyExists"
+        case installationMediaNotFoundFault = "InstallationMediaNotFound"
+        case instanceQuotaExceededFault = "InstanceQuotaExceeded"
+        case insufficientAvailableIPsInSubnetFault = "InsufficientAvailableIPsInSubnetFault"
+        case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
+        case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
+        case insufficientStorageClusterCapacityFault = "InsufficientStorageClusterCapacity"
+        case invalidDBClusterCapacityFault = "InvalidDBClusterCapacityFault"
+        case invalidDBClusterEndpointStateFault = "InvalidDBClusterEndpointStateFault"
+        case invalidDBClusterSnapshotStateFault = "InvalidDBClusterSnapshotStateFault"
+        case invalidDBClusterStateFault = "InvalidDBClusterStateFault"
+        case invalidDBInstanceAutomatedBackupStateFault = "InvalidDBInstanceAutomatedBackupState"
+        case invalidDBInstanceStateFault = "InvalidDBInstanceState"
+        case invalidDBParameterGroupStateFault = "InvalidDBParameterGroupState"
+        case invalidDBProxyStateFault = "InvalidDBProxyStateFault"
+        case invalidDBSecurityGroupStateFault = "InvalidDBSecurityGroupState"
+        case invalidDBSnapshotStateFault = "InvalidDBSnapshotState"
+        case invalidDBSubnetGroupFault = "InvalidDBSubnetGroupFault"
+        case invalidDBSubnetGroupStateFault = "InvalidDBSubnetGroupStateFault"
+        case invalidDBSubnetStateFault = "InvalidDBSubnetStateFault"
+        case invalidEventSubscriptionStateFault = "InvalidEventSubscriptionState"
+        case invalidExportOnlyFault = "InvalidExportOnly"
+        case invalidExportSourceStateFault = "InvalidExportSourceState"
+        case invalidExportTaskStateFault = "InvalidExportTaskStateFault"
+        case invalidGlobalClusterStateFault = "InvalidGlobalClusterStateFault"
+        case invalidOptionGroupStateFault = "InvalidOptionGroupStateFault"
+        case invalidRestoreFault = "InvalidRestoreFault"
+        case invalidS3BucketFault = "InvalidS3BucketFault"
+        case invalidSubnet = "InvalidSubnet"
+        case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
+        case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case optionGroupAlreadyExistsFault = "OptionGroupAlreadyExistsFault"
+        case optionGroupNotFoundFault = "OptionGroupNotFoundFault"
+        case optionGroupQuotaExceededFault = "OptionGroupQuotaExceededFault"
+        case pointInTimeRestoreNotEnabledFault = "PointInTimeRestoreNotEnabled"
+        case provisionedIopsNotAvailableInAZFault = "ProvisionedIopsNotAvailableInAZFault"
+        case reservedDBInstanceAlreadyExistsFault = "ReservedDBInstanceAlreadyExists"
+        case reservedDBInstanceNotFoundFault = "ReservedDBInstanceNotFound"
+        case reservedDBInstanceQuotaExceededFault = "ReservedDBInstanceQuotaExceeded"
+        case reservedDBInstancesOfferingNotFoundFault = "ReservedDBInstancesOfferingNotFound"
+        case resourceNotFoundFault = "ResourceNotFoundFault"
+        case sNSInvalidTopicFault = "SNSInvalidTopic"
+        case sNSNoAuthorizationFault = "SNSNoAuthorization"
+        case sNSTopicArnNotFoundFault = "SNSTopicArnNotFound"
+        case sharedSnapshotQuotaExceededFault = "SharedSnapshotQuotaExceeded"
+        case snapshotQuotaExceededFault = "SnapshotQuotaExceeded"
+        case sourceNotFoundFault = "SourceNotFound"
+        case storageQuotaExceededFault = "StorageQuotaExceeded"
+        case storageTypeNotSupportedFault = "StorageTypeNotSupported"
+        case subnetAlreadyInUse = "SubnetAlreadyInUse"
+        case subscriptionAlreadyExistFault = "SubscriptionAlreadyExist"
+        case subscriptionCategoryNotFoundFault = "SubscriptionCategoryNotFound"
+        case subscriptionNotFoundFault = "SubscriptionNotFound"
+    }
 
-extension RDSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AuthorizationAlreadyExists":
-            self = .authorizationAlreadyExistsFault(message: message)
-        case "AuthorizationNotFound":
-            self = .authorizationNotFoundFault(message: message)
-        case "AuthorizationQuotaExceeded":
-            self = .authorizationQuotaExceededFault(message: message)
-        case "BackupPolicyNotFoundFault":
-            self = .backupPolicyNotFoundFault(message: message)
-        case "CertificateNotFound":
-            self = .certificateNotFoundFault(message: message)
-        case "CustomAvailabilityZoneAlreadyExists":
-            self = .customAvailabilityZoneAlreadyExistsFault(message: message)
-        case "CustomAvailabilityZoneNotFound":
-            self = .customAvailabilityZoneNotFoundFault(message: message)
-        case "CustomAvailabilityZoneQuotaExceeded":
-            self = .customAvailabilityZoneQuotaExceededFault(message: message)
-        case "DBClusterAlreadyExistsFault":
-            self = .dBClusterAlreadyExistsFault(message: message)
-        case "DBClusterBacktrackNotFoundFault":
-            self = .dBClusterBacktrackNotFoundFault(message: message)
-        case "DBClusterEndpointAlreadyExistsFault":
-            self = .dBClusterEndpointAlreadyExistsFault(message: message)
-        case "DBClusterEndpointNotFoundFault":
-            self = .dBClusterEndpointNotFoundFault(message: message)
-        case "DBClusterEndpointQuotaExceededFault":
-            self = .dBClusterEndpointQuotaExceededFault(message: message)
-        case "DBClusterNotFoundFault":
-            self = .dBClusterNotFoundFault(message: message)
-        case "DBClusterParameterGroupNotFound":
-            self = .dBClusterParameterGroupNotFoundFault(message: message)
-        case "DBClusterQuotaExceededFault":
-            self = .dBClusterQuotaExceededFault(message: message)
-        case "DBClusterRoleAlreadyExists":
-            self = .dBClusterRoleAlreadyExistsFault(message: message)
-        case "DBClusterRoleNotFound":
-            self = .dBClusterRoleNotFoundFault(message: message)
-        case "DBClusterRoleQuotaExceeded":
-            self = .dBClusterRoleQuotaExceededFault(message: message)
-        case "DBClusterSnapshotAlreadyExistsFault":
-            self = .dBClusterSnapshotAlreadyExistsFault(message: message)
-        case "DBClusterSnapshotNotFoundFault":
-            self = .dBClusterSnapshotNotFoundFault(message: message)
-        case "DBInstanceAlreadyExists":
-            self = .dBInstanceAlreadyExistsFault(message: message)
-        case "DBInstanceAutomatedBackupNotFound":
-            self = .dBInstanceAutomatedBackupNotFoundFault(message: message)
-        case "DBInstanceAutomatedBackupQuotaExceeded":
-            self = .dBInstanceAutomatedBackupQuotaExceededFault(message: message)
-        case "DBInstanceNotFound":
-            self = .dBInstanceNotFoundFault(message: message)
-        case "DBInstanceRoleAlreadyExists":
-            self = .dBInstanceRoleAlreadyExistsFault(message: message)
-        case "DBInstanceRoleNotFound":
-            self = .dBInstanceRoleNotFoundFault(message: message)
-        case "DBInstanceRoleQuotaExceeded":
-            self = .dBInstanceRoleQuotaExceededFault(message: message)
-        case "DBLogFileNotFoundFault":
-            self = .dBLogFileNotFoundFault(message: message)
-        case "DBParameterGroupAlreadyExists":
-            self = .dBParameterGroupAlreadyExistsFault(message: message)
-        case "DBParameterGroupNotFound":
-            self = .dBParameterGroupNotFoundFault(message: message)
-        case "DBParameterGroupQuotaExceeded":
-            self = .dBParameterGroupQuotaExceededFault(message: message)
-        case "DBProxyTargetExistsFault":
-            self = .dBProxyAlreadyExistsFault(message: message)
-        case "DBProxyNotFoundFault":
-            self = .dBProxyNotFoundFault(message: message)
-        case "DBProxyQuotaExceededFault":
-            self = .dBProxyQuotaExceededFault(message: message)
-        case "DBProxyTargetAlreadyRegisteredFault":
-            self = .dBProxyTargetAlreadyRegisteredFault(message: message)
-        case "DBProxyTargetGroupNotFoundFault":
-            self = .dBProxyTargetGroupNotFoundFault(message: message)
-        case "DBProxyTargetNotFoundFault":
-            self = .dBProxyTargetNotFoundFault(message: message)
-        case "DBSecurityGroupAlreadyExists":
-            self = .dBSecurityGroupAlreadyExistsFault(message: message)
-        case "DBSecurityGroupNotFound":
-            self = .dBSecurityGroupNotFoundFault(message: message)
-        case "DBSecurityGroupNotSupported":
-            self = .dBSecurityGroupNotSupportedFault(message: message)
-        case "QuotaExceeded.DBSecurityGroup":
-            self = .dBSecurityGroupQuotaExceededFault(message: message)
-        case "DBSnapshotAlreadyExists":
-            self = .dBSnapshotAlreadyExistsFault(message: message)
-        case "DBSnapshotNotFound":
-            self = .dBSnapshotNotFoundFault(message: message)
-        case "DBSubnetGroupAlreadyExists":
-            self = .dBSubnetGroupAlreadyExistsFault(message: message)
-        case "DBSubnetGroupDoesNotCoverEnoughAZs":
-            self = .dBSubnetGroupDoesNotCoverEnoughAZs(message: message)
-        case "DBSubnetGroupNotAllowedFault":
-            self = .dBSubnetGroupNotAllowedFault(message: message)
-        case "DBSubnetGroupNotFoundFault":
-            self = .dBSubnetGroupNotFoundFault(message: message)
-        case "DBSubnetGroupQuotaExceeded":
-            self = .dBSubnetGroupQuotaExceededFault(message: message)
-        case "DBSubnetQuotaExceededFault":
-            self = .dBSubnetQuotaExceededFault(message: message)
-        case "DBUpgradeDependencyFailure":
-            self = .dBUpgradeDependencyFailureFault(message: message)
-        case "DomainNotFoundFault":
-            self = .domainNotFoundFault(message: message)
-        case "EventSubscriptionQuotaExceeded":
-            self = .eventSubscriptionQuotaExceededFault(message: message)
-        case "ExportTaskAlreadyExists":
-            self = .exportTaskAlreadyExistsFault(message: message)
-        case "ExportTaskNotFound":
-            self = .exportTaskNotFoundFault(message: message)
-        case "GlobalClusterAlreadyExistsFault":
-            self = .globalClusterAlreadyExistsFault(message: message)
-        case "GlobalClusterNotFoundFault":
-            self = .globalClusterNotFoundFault(message: message)
-        case "GlobalClusterQuotaExceededFault":
-            self = .globalClusterQuotaExceededFault(message: message)
-        case "IamRoleMissingPermissions":
-            self = .iamRoleMissingPermissionsFault(message: message)
-        case "IamRoleNotFound":
-            self = .iamRoleNotFoundFault(message: message)
-        case "InstallationMediaAlreadyExists":
-            self = .installationMediaAlreadyExistsFault(message: message)
-        case "InstallationMediaNotFound":
-            self = .installationMediaNotFoundFault(message: message)
-        case "InstanceQuotaExceeded":
-            self = .instanceQuotaExceededFault(message: message)
-        case "InsufficientAvailableIPsInSubnetFault":
-            self = .insufficientAvailableIPsInSubnetFault(message: message)
-        case "InsufficientDBClusterCapacityFault":
-            self = .insufficientDBClusterCapacityFault(message: message)
-        case "InsufficientDBInstanceCapacity":
-            self = .insufficientDBInstanceCapacityFault(message: message)
-        case "InsufficientStorageClusterCapacity":
-            self = .insufficientStorageClusterCapacityFault(message: message)
-        case "InvalidDBClusterCapacityFault":
-            self = .invalidDBClusterCapacityFault(message: message)
-        case "InvalidDBClusterEndpointStateFault":
-            self = .invalidDBClusterEndpointStateFault(message: message)
-        case "InvalidDBClusterSnapshotStateFault":
-            self = .invalidDBClusterSnapshotStateFault(message: message)
-        case "InvalidDBClusterStateFault":
-            self = .invalidDBClusterStateFault(message: message)
-        case "InvalidDBInstanceAutomatedBackupState":
-            self = .invalidDBInstanceAutomatedBackupStateFault(message: message)
-        case "InvalidDBInstanceState":
-            self = .invalidDBInstanceStateFault(message: message)
-        case "InvalidDBParameterGroupState":
-            self = .invalidDBParameterGroupStateFault(message: message)
-        case "InvalidDBProxyStateFault":
-            self = .invalidDBProxyStateFault(message: message)
-        case "InvalidDBSecurityGroupState":
-            self = .invalidDBSecurityGroupStateFault(message: message)
-        case "InvalidDBSnapshotState":
-            self = .invalidDBSnapshotStateFault(message: message)
-        case "InvalidDBSubnetGroupFault":
-            self = .invalidDBSubnetGroupFault(message: message)
-        case "InvalidDBSubnetGroupStateFault":
-            self = .invalidDBSubnetGroupStateFault(message: message)
-        case "InvalidDBSubnetStateFault":
-            self = .invalidDBSubnetStateFault(message: message)
-        case "InvalidEventSubscriptionState":
-            self = .invalidEventSubscriptionStateFault(message: message)
-        case "InvalidExportOnly":
-            self = .invalidExportOnlyFault(message: message)
-        case "InvalidExportSourceState":
-            self = .invalidExportSourceStateFault(message: message)
-        case "InvalidExportTaskStateFault":
-            self = .invalidExportTaskStateFault(message: message)
-        case "InvalidGlobalClusterStateFault":
-            self = .invalidGlobalClusterStateFault(message: message)
-        case "InvalidOptionGroupStateFault":
-            self = .invalidOptionGroupStateFault(message: message)
-        case "InvalidRestoreFault":
-            self = .invalidRestoreFault(message: message)
-        case "InvalidS3BucketFault":
-            self = .invalidS3BucketFault(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
-        case "InvalidVPCNetworkStateFault":
-            self = .invalidVPCNetworkStateFault(message: message)
-        case "KMSKeyNotAccessibleFault":
-            self = .kMSKeyNotAccessibleFault(message: message)
-        case "OptionGroupAlreadyExistsFault":
-            self = .optionGroupAlreadyExistsFault(message: message)
-        case "OptionGroupNotFoundFault":
-            self = .optionGroupNotFoundFault(message: message)
-        case "OptionGroupQuotaExceededFault":
-            self = .optionGroupQuotaExceededFault(message: message)
-        case "PointInTimeRestoreNotEnabled":
-            self = .pointInTimeRestoreNotEnabledFault(message: message)
-        case "ProvisionedIopsNotAvailableInAZFault":
-            self = .provisionedIopsNotAvailableInAZFault(message: message)
-        case "ReservedDBInstanceAlreadyExists":
-            self = .reservedDBInstanceAlreadyExistsFault(message: message)
-        case "ReservedDBInstanceNotFound":
-            self = .reservedDBInstanceNotFoundFault(message: message)
-        case "ReservedDBInstanceQuotaExceeded":
-            self = .reservedDBInstanceQuotaExceededFault(message: message)
-        case "ReservedDBInstancesOfferingNotFound":
-            self = .reservedDBInstancesOfferingNotFoundFault(message: message)
-        case "ResourceNotFoundFault":
-            self = .resourceNotFoundFault(message: message)
-        case "SNSInvalidTopic":
-            self = .sNSInvalidTopicFault(message: message)
-        case "SNSNoAuthorization":
-            self = .sNSNoAuthorizationFault(message: message)
-        case "SNSTopicArnNotFound":
-            self = .sNSTopicArnNotFoundFault(message: message)
-        case "SharedSnapshotQuotaExceeded":
-            self = .sharedSnapshotQuotaExceededFault(message: message)
-        case "SnapshotQuotaExceeded":
-            self = .snapshotQuotaExceededFault(message: message)
-        case "SourceNotFound":
-            self = .sourceNotFoundFault(message: message)
-        case "StorageQuotaExceeded":
-            self = .storageQuotaExceededFault(message: message)
-        case "StorageTypeNotSupported":
-            self = .storageTypeNotSupportedFault(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
-        case "SubscriptionAlreadyExist":
-            self = .subscriptionAlreadyExistFault(message: message)
-        case "SubscriptionCategoryNotFound":
-            self = .subscriptionCategoryNotFoundFault(message: message)
-        case "SubscriptionNotFound":
-            self = .subscriptionNotFoundFault(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var authorizationAlreadyExistsFault: Self { .init(.authorizationAlreadyExistsFault) }
+    public static var authorizationNotFoundFault: Self { .init(.authorizationNotFoundFault) }
+    public static var authorizationQuotaExceededFault: Self { .init(.authorizationQuotaExceededFault) }
+    public static var backupPolicyNotFoundFault: Self { .init(.backupPolicyNotFoundFault) }
+    public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
+    public static var customAvailabilityZoneAlreadyExistsFault: Self { .init(.customAvailabilityZoneAlreadyExistsFault) }
+    public static var customAvailabilityZoneNotFoundFault: Self { .init(.customAvailabilityZoneNotFoundFault) }
+    public static var customAvailabilityZoneQuotaExceededFault: Self { .init(.customAvailabilityZoneQuotaExceededFault) }
+    public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
+    public static var dBClusterBacktrackNotFoundFault: Self { .init(.dBClusterBacktrackNotFoundFault) }
+    public static var dBClusterEndpointAlreadyExistsFault: Self { .init(.dBClusterEndpointAlreadyExistsFault) }
+    public static var dBClusterEndpointNotFoundFault: Self { .init(.dBClusterEndpointNotFoundFault) }
+    public static var dBClusterEndpointQuotaExceededFault: Self { .init(.dBClusterEndpointQuotaExceededFault) }
+    public static var dBClusterNotFoundFault: Self { .init(.dBClusterNotFoundFault) }
+    public static var dBClusterParameterGroupNotFoundFault: Self { .init(.dBClusterParameterGroupNotFoundFault) }
+    public static var dBClusterQuotaExceededFault: Self { .init(.dBClusterQuotaExceededFault) }
+    public static var dBClusterRoleAlreadyExistsFault: Self { .init(.dBClusterRoleAlreadyExistsFault) }
+    public static var dBClusterRoleNotFoundFault: Self { .init(.dBClusterRoleNotFoundFault) }
+    public static var dBClusterRoleQuotaExceededFault: Self { .init(.dBClusterRoleQuotaExceededFault) }
+    public static var dBClusterSnapshotAlreadyExistsFault: Self { .init(.dBClusterSnapshotAlreadyExistsFault) }
+    public static var dBClusterSnapshotNotFoundFault: Self { .init(.dBClusterSnapshotNotFoundFault) }
+    public static var dBInstanceAlreadyExistsFault: Self { .init(.dBInstanceAlreadyExistsFault) }
+    public static var dBInstanceAutomatedBackupNotFoundFault: Self { .init(.dBInstanceAutomatedBackupNotFoundFault) }
+    public static var dBInstanceAutomatedBackupQuotaExceededFault: Self { .init(.dBInstanceAutomatedBackupQuotaExceededFault) }
+    public static var dBInstanceNotFoundFault: Self { .init(.dBInstanceNotFoundFault) }
+    public static var dBInstanceRoleAlreadyExistsFault: Self { .init(.dBInstanceRoleAlreadyExistsFault) }
+    public static var dBInstanceRoleNotFoundFault: Self { .init(.dBInstanceRoleNotFoundFault) }
+    public static var dBInstanceRoleQuotaExceededFault: Self { .init(.dBInstanceRoleQuotaExceededFault) }
+    public static var dBLogFileNotFoundFault: Self { .init(.dBLogFileNotFoundFault) }
+    public static var dBParameterGroupAlreadyExistsFault: Self { .init(.dBParameterGroupAlreadyExistsFault) }
+    public static var dBParameterGroupNotFoundFault: Self { .init(.dBParameterGroupNotFoundFault) }
+    public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
+    public static var dBProxyAlreadyExistsFault: Self { .init(.dBProxyAlreadyExistsFault) }
+    public static var dBProxyNotFoundFault: Self { .init(.dBProxyNotFoundFault) }
+    public static var dBProxyQuotaExceededFault: Self { .init(.dBProxyQuotaExceededFault) }
+    public static var dBProxyTargetAlreadyRegisteredFault: Self { .init(.dBProxyTargetAlreadyRegisteredFault) }
+    public static var dBProxyTargetGroupNotFoundFault: Self { .init(.dBProxyTargetGroupNotFoundFault) }
+    public static var dBProxyTargetNotFoundFault: Self { .init(.dBProxyTargetNotFoundFault) }
+    public static var dBSecurityGroupAlreadyExistsFault: Self { .init(.dBSecurityGroupAlreadyExistsFault) }
+    public static var dBSecurityGroupNotFoundFault: Self { .init(.dBSecurityGroupNotFoundFault) }
+    public static var dBSecurityGroupNotSupportedFault: Self { .init(.dBSecurityGroupNotSupportedFault) }
+    public static var dBSecurityGroupQuotaExceededFault: Self { .init(.dBSecurityGroupQuotaExceededFault) }
+    public static var dBSnapshotAlreadyExistsFault: Self { .init(.dBSnapshotAlreadyExistsFault) }
+    public static var dBSnapshotNotFoundFault: Self { .init(.dBSnapshotNotFoundFault) }
+    public static var dBSubnetGroupAlreadyExistsFault: Self { .init(.dBSubnetGroupAlreadyExistsFault) }
+    public static var dBSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dBSubnetGroupDoesNotCoverEnoughAZs) }
+    public static var dBSubnetGroupNotAllowedFault: Self { .init(.dBSubnetGroupNotAllowedFault) }
+    public static var dBSubnetGroupNotFoundFault: Self { .init(.dBSubnetGroupNotFoundFault) }
+    public static var dBSubnetGroupQuotaExceededFault: Self { .init(.dBSubnetGroupQuotaExceededFault) }
+    public static var dBSubnetQuotaExceededFault: Self { .init(.dBSubnetQuotaExceededFault) }
+    public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
+    public static var domainNotFoundFault: Self { .init(.domainNotFoundFault) }
+    public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
+    public static var exportTaskAlreadyExistsFault: Self { .init(.exportTaskAlreadyExistsFault) }
+    public static var exportTaskNotFoundFault: Self { .init(.exportTaskNotFoundFault) }
+    public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
+    public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
+    public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
+    public static var iamRoleMissingPermissionsFault: Self { .init(.iamRoleMissingPermissionsFault) }
+    public static var iamRoleNotFoundFault: Self { .init(.iamRoleNotFoundFault) }
+    public static var installationMediaAlreadyExistsFault: Self { .init(.installationMediaAlreadyExistsFault) }
+    public static var installationMediaNotFoundFault: Self { .init(.installationMediaNotFoundFault) }
+    public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
+    public static var insufficientAvailableIPsInSubnetFault: Self { .init(.insufficientAvailableIPsInSubnetFault) }
+    public static var insufficientDBClusterCapacityFault: Self { .init(.insufficientDBClusterCapacityFault) }
+    public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
+    public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
+    public static var invalidDBClusterCapacityFault: Self { .init(.invalidDBClusterCapacityFault) }
+    public static var invalidDBClusterEndpointStateFault: Self { .init(.invalidDBClusterEndpointStateFault) }
+    public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
+    public static var invalidDBClusterStateFault: Self { .init(.invalidDBClusterStateFault) }
+    public static var invalidDBInstanceAutomatedBackupStateFault: Self { .init(.invalidDBInstanceAutomatedBackupStateFault) }
+    public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
+    public static var invalidDBParameterGroupStateFault: Self { .init(.invalidDBParameterGroupStateFault) }
+    public static var invalidDBProxyStateFault: Self { .init(.invalidDBProxyStateFault) }
+    public static var invalidDBSecurityGroupStateFault: Self { .init(.invalidDBSecurityGroupStateFault) }
+    public static var invalidDBSnapshotStateFault: Self { .init(.invalidDBSnapshotStateFault) }
+    public static var invalidDBSubnetGroupFault: Self { .init(.invalidDBSubnetGroupFault) }
+    public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
+    public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
+    public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
+    public static var invalidExportOnlyFault: Self { .init(.invalidExportOnlyFault) }
+    public static var invalidExportSourceStateFault: Self { .init(.invalidExportSourceStateFault) }
+    public static var invalidExportTaskStateFault: Self { .init(.invalidExportTaskStateFault) }
+    public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
+    public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }
+    public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
+    public static var invalidS3BucketFault: Self { .init(.invalidS3BucketFault) }
+    public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    public static var optionGroupAlreadyExistsFault: Self { .init(.optionGroupAlreadyExistsFault) }
+    public static var optionGroupNotFoundFault: Self { .init(.optionGroupNotFoundFault) }
+    public static var optionGroupQuotaExceededFault: Self { .init(.optionGroupQuotaExceededFault) }
+    public static var pointInTimeRestoreNotEnabledFault: Self { .init(.pointInTimeRestoreNotEnabledFault) }
+    public static var provisionedIopsNotAvailableInAZFault: Self { .init(.provisionedIopsNotAvailableInAZFault) }
+    public static var reservedDBInstanceAlreadyExistsFault: Self { .init(.reservedDBInstanceAlreadyExistsFault) }
+    public static var reservedDBInstanceNotFoundFault: Self { .init(.reservedDBInstanceNotFoundFault) }
+    public static var reservedDBInstanceQuotaExceededFault: Self { .init(.reservedDBInstanceQuotaExceededFault) }
+    public static var reservedDBInstancesOfferingNotFoundFault: Self { .init(.reservedDBInstancesOfferingNotFoundFault) }
+    public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
+    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
+    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
+    public static var sNSTopicArnNotFoundFault: Self { .init(.sNSTopicArnNotFoundFault) }
+    public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
+    public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
+    public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
+    public static var storageTypeNotSupportedFault: Self { .init(.storageTypeNotSupportedFault) }
+    public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }
+    public static var subscriptionAlreadyExistFault: Self { .init(.subscriptionAlreadyExistFault) }
+    public static var subscriptionCategoryNotFoundFault: Self { .init(.subscriptionCategoryNotFoundFault) }
+    public static var subscriptionNotFoundFault: Self { .init(.subscriptionNotFoundFault) }
+}
+
+extension RDSErrorType: Equatable {
+    public static func == (lhs: RDSErrorType, rhs: RDSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension RDSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .authorizationAlreadyExistsFault(let message):
-            return "AuthorizationAlreadyExists: \(message ?? "")"
-        case .authorizationNotFoundFault(let message):
-            return "AuthorizationNotFound: \(message ?? "")"
-        case .authorizationQuotaExceededFault(let message):
-            return "AuthorizationQuotaExceeded: \(message ?? "")"
-        case .backupPolicyNotFoundFault(let message):
-            return "BackupPolicyNotFoundFault: \(message ?? "")"
-        case .certificateNotFoundFault(let message):
-            return "CertificateNotFound: \(message ?? "")"
-        case .customAvailabilityZoneAlreadyExistsFault(let message):
-            return "CustomAvailabilityZoneAlreadyExists: \(message ?? "")"
-        case .customAvailabilityZoneNotFoundFault(let message):
-            return "CustomAvailabilityZoneNotFound: \(message ?? "")"
-        case .customAvailabilityZoneQuotaExceededFault(let message):
-            return "CustomAvailabilityZoneQuotaExceeded: \(message ?? "")"
-        case .dBClusterAlreadyExistsFault(let message):
-            return "DBClusterAlreadyExistsFault: \(message ?? "")"
-        case .dBClusterBacktrackNotFoundFault(let message):
-            return "DBClusterBacktrackNotFoundFault: \(message ?? "")"
-        case .dBClusterEndpointAlreadyExistsFault(let message):
-            return "DBClusterEndpointAlreadyExistsFault: \(message ?? "")"
-        case .dBClusterEndpointNotFoundFault(let message):
-            return "DBClusterEndpointNotFoundFault: \(message ?? "")"
-        case .dBClusterEndpointQuotaExceededFault(let message):
-            return "DBClusterEndpointQuotaExceededFault: \(message ?? "")"
-        case .dBClusterNotFoundFault(let message):
-            return "DBClusterNotFoundFault: \(message ?? "")"
-        case .dBClusterParameterGroupNotFoundFault(let message):
-            return "DBClusterParameterGroupNotFound: \(message ?? "")"
-        case .dBClusterQuotaExceededFault(let message):
-            return "DBClusterQuotaExceededFault: \(message ?? "")"
-        case .dBClusterRoleAlreadyExistsFault(let message):
-            return "DBClusterRoleAlreadyExists: \(message ?? "")"
-        case .dBClusterRoleNotFoundFault(let message):
-            return "DBClusterRoleNotFound: \(message ?? "")"
-        case .dBClusterRoleQuotaExceededFault(let message):
-            return "DBClusterRoleQuotaExceeded: \(message ?? "")"
-        case .dBClusterSnapshotAlreadyExistsFault(let message):
-            return "DBClusterSnapshotAlreadyExistsFault: \(message ?? "")"
-        case .dBClusterSnapshotNotFoundFault(let message):
-            return "DBClusterSnapshotNotFoundFault: \(message ?? "")"
-        case .dBInstanceAlreadyExistsFault(let message):
-            return "DBInstanceAlreadyExists: \(message ?? "")"
-        case .dBInstanceAutomatedBackupNotFoundFault(let message):
-            return "DBInstanceAutomatedBackupNotFound: \(message ?? "")"
-        case .dBInstanceAutomatedBackupQuotaExceededFault(let message):
-            return "DBInstanceAutomatedBackupQuotaExceeded: \(message ?? "")"
-        case .dBInstanceNotFoundFault(let message):
-            return "DBInstanceNotFound: \(message ?? "")"
-        case .dBInstanceRoleAlreadyExistsFault(let message):
-            return "DBInstanceRoleAlreadyExists: \(message ?? "")"
-        case .dBInstanceRoleNotFoundFault(let message):
-            return "DBInstanceRoleNotFound: \(message ?? "")"
-        case .dBInstanceRoleQuotaExceededFault(let message):
-            return "DBInstanceRoleQuotaExceeded: \(message ?? "")"
-        case .dBLogFileNotFoundFault(let message):
-            return "DBLogFileNotFoundFault: \(message ?? "")"
-        case .dBParameterGroupAlreadyExistsFault(let message):
-            return "DBParameterGroupAlreadyExists: \(message ?? "")"
-        case .dBParameterGroupNotFoundFault(let message):
-            return "DBParameterGroupNotFound: \(message ?? "")"
-        case .dBParameterGroupQuotaExceededFault(let message):
-            return "DBParameterGroupQuotaExceeded: \(message ?? "")"
-        case .dBProxyAlreadyExistsFault(let message):
-            return "DBProxyTargetExistsFault: \(message ?? "")"
-        case .dBProxyNotFoundFault(let message):
-            return "DBProxyNotFoundFault: \(message ?? "")"
-        case .dBProxyQuotaExceededFault(let message):
-            return "DBProxyQuotaExceededFault: \(message ?? "")"
-        case .dBProxyTargetAlreadyRegisteredFault(let message):
-            return "DBProxyTargetAlreadyRegisteredFault: \(message ?? "")"
-        case .dBProxyTargetGroupNotFoundFault(let message):
-            return "DBProxyTargetGroupNotFoundFault: \(message ?? "")"
-        case .dBProxyTargetNotFoundFault(let message):
-            return "DBProxyTargetNotFoundFault: \(message ?? "")"
-        case .dBSecurityGroupAlreadyExistsFault(let message):
-            return "DBSecurityGroupAlreadyExists: \(message ?? "")"
-        case .dBSecurityGroupNotFoundFault(let message):
-            return "DBSecurityGroupNotFound: \(message ?? "")"
-        case .dBSecurityGroupNotSupportedFault(let message):
-            return "DBSecurityGroupNotSupported: \(message ?? "")"
-        case .dBSecurityGroupQuotaExceededFault(let message):
-            return "QuotaExceeded.DBSecurityGroup: \(message ?? "")"
-        case .dBSnapshotAlreadyExistsFault(let message):
-            return "DBSnapshotAlreadyExists: \(message ?? "")"
-        case .dBSnapshotNotFoundFault(let message):
-            return "DBSnapshotNotFound: \(message ?? "")"
-        case .dBSubnetGroupAlreadyExistsFault(let message):
-            return "DBSubnetGroupAlreadyExists: \(message ?? "")"
-        case .dBSubnetGroupDoesNotCoverEnoughAZs(let message):
-            return "DBSubnetGroupDoesNotCoverEnoughAZs: \(message ?? "")"
-        case .dBSubnetGroupNotAllowedFault(let message):
-            return "DBSubnetGroupNotAllowedFault: \(message ?? "")"
-        case .dBSubnetGroupNotFoundFault(let message):
-            return "DBSubnetGroupNotFoundFault: \(message ?? "")"
-        case .dBSubnetGroupQuotaExceededFault(let message):
-            return "DBSubnetGroupQuotaExceeded: \(message ?? "")"
-        case .dBSubnetQuotaExceededFault(let message):
-            return "DBSubnetQuotaExceededFault: \(message ?? "")"
-        case .dBUpgradeDependencyFailureFault(let message):
-            return "DBUpgradeDependencyFailure: \(message ?? "")"
-        case .domainNotFoundFault(let message):
-            return "DomainNotFoundFault: \(message ?? "")"
-        case .eventSubscriptionQuotaExceededFault(let message):
-            return "EventSubscriptionQuotaExceeded: \(message ?? "")"
-        case .exportTaskAlreadyExistsFault(let message):
-            return "ExportTaskAlreadyExists: \(message ?? "")"
-        case .exportTaskNotFoundFault(let message):
-            return "ExportTaskNotFound: \(message ?? "")"
-        case .globalClusterAlreadyExistsFault(let message):
-            return "GlobalClusterAlreadyExistsFault: \(message ?? "")"
-        case .globalClusterNotFoundFault(let message):
-            return "GlobalClusterNotFoundFault: \(message ?? "")"
-        case .globalClusterQuotaExceededFault(let message):
-            return "GlobalClusterQuotaExceededFault: \(message ?? "")"
-        case .iamRoleMissingPermissionsFault(let message):
-            return "IamRoleMissingPermissions: \(message ?? "")"
-        case .iamRoleNotFoundFault(let message):
-            return "IamRoleNotFound: \(message ?? "")"
-        case .installationMediaAlreadyExistsFault(let message):
-            return "InstallationMediaAlreadyExists: \(message ?? "")"
-        case .installationMediaNotFoundFault(let message):
-            return "InstallationMediaNotFound: \(message ?? "")"
-        case .instanceQuotaExceededFault(let message):
-            return "InstanceQuotaExceeded: \(message ?? "")"
-        case .insufficientAvailableIPsInSubnetFault(let message):
-            return "InsufficientAvailableIPsInSubnetFault: \(message ?? "")"
-        case .insufficientDBClusterCapacityFault(let message):
-            return "InsufficientDBClusterCapacityFault: \(message ?? "")"
-        case .insufficientDBInstanceCapacityFault(let message):
-            return "InsufficientDBInstanceCapacity: \(message ?? "")"
-        case .insufficientStorageClusterCapacityFault(let message):
-            return "InsufficientStorageClusterCapacity: \(message ?? "")"
-        case .invalidDBClusterCapacityFault(let message):
-            return "InvalidDBClusterCapacityFault: \(message ?? "")"
-        case .invalidDBClusterEndpointStateFault(let message):
-            return "InvalidDBClusterEndpointStateFault: \(message ?? "")"
-        case .invalidDBClusterSnapshotStateFault(let message):
-            return "InvalidDBClusterSnapshotStateFault: \(message ?? "")"
-        case .invalidDBClusterStateFault(let message):
-            return "InvalidDBClusterStateFault: \(message ?? "")"
-        case .invalidDBInstanceAutomatedBackupStateFault(let message):
-            return "InvalidDBInstanceAutomatedBackupState: \(message ?? "")"
-        case .invalidDBInstanceStateFault(let message):
-            return "InvalidDBInstanceState: \(message ?? "")"
-        case .invalidDBParameterGroupStateFault(let message):
-            return "InvalidDBParameterGroupState: \(message ?? "")"
-        case .invalidDBProxyStateFault(let message):
-            return "InvalidDBProxyStateFault: \(message ?? "")"
-        case .invalidDBSecurityGroupStateFault(let message):
-            return "InvalidDBSecurityGroupState: \(message ?? "")"
-        case .invalidDBSnapshotStateFault(let message):
-            return "InvalidDBSnapshotState: \(message ?? "")"
-        case .invalidDBSubnetGroupFault(let message):
-            return "InvalidDBSubnetGroupFault: \(message ?? "")"
-        case .invalidDBSubnetGroupStateFault(let message):
-            return "InvalidDBSubnetGroupStateFault: \(message ?? "")"
-        case .invalidDBSubnetStateFault(let message):
-            return "InvalidDBSubnetStateFault: \(message ?? "")"
-        case .invalidEventSubscriptionStateFault(let message):
-            return "InvalidEventSubscriptionState: \(message ?? "")"
-        case .invalidExportOnlyFault(let message):
-            return "InvalidExportOnly: \(message ?? "")"
-        case .invalidExportSourceStateFault(let message):
-            return "InvalidExportSourceState: \(message ?? "")"
-        case .invalidExportTaskStateFault(let message):
-            return "InvalidExportTaskStateFault: \(message ?? "")"
-        case .invalidGlobalClusterStateFault(let message):
-            return "InvalidGlobalClusterStateFault: \(message ?? "")"
-        case .invalidOptionGroupStateFault(let message):
-            return "InvalidOptionGroupStateFault: \(message ?? "")"
-        case .invalidRestoreFault(let message):
-            return "InvalidRestoreFault: \(message ?? "")"
-        case .invalidS3BucketFault(let message):
-            return "InvalidS3BucketFault: \(message ?? "")"
-        case .invalidSubnet(let message):
-            return "InvalidSubnet: \(message ?? "")"
-        case .invalidVPCNetworkStateFault(let message):
-            return "InvalidVPCNetworkStateFault: \(message ?? "")"
-        case .kMSKeyNotAccessibleFault(let message):
-            return "KMSKeyNotAccessibleFault: \(message ?? "")"
-        case .optionGroupAlreadyExistsFault(let message):
-            return "OptionGroupAlreadyExistsFault: \(message ?? "")"
-        case .optionGroupNotFoundFault(let message):
-            return "OptionGroupNotFoundFault: \(message ?? "")"
-        case .optionGroupQuotaExceededFault(let message):
-            return "OptionGroupQuotaExceededFault: \(message ?? "")"
-        case .pointInTimeRestoreNotEnabledFault(let message):
-            return "PointInTimeRestoreNotEnabled: \(message ?? "")"
-        case .provisionedIopsNotAvailableInAZFault(let message):
-            return "ProvisionedIopsNotAvailableInAZFault: \(message ?? "")"
-        case .reservedDBInstanceAlreadyExistsFault(let message):
-            return "ReservedDBInstanceAlreadyExists: \(message ?? "")"
-        case .reservedDBInstanceNotFoundFault(let message):
-            return "ReservedDBInstanceNotFound: \(message ?? "")"
-        case .reservedDBInstanceQuotaExceededFault(let message):
-            return "ReservedDBInstanceQuotaExceeded: \(message ?? "")"
-        case .reservedDBInstancesOfferingNotFoundFault(let message):
-            return "ReservedDBInstancesOfferingNotFound: \(message ?? "")"
-        case .resourceNotFoundFault(let message):
-            return "ResourceNotFoundFault: \(message ?? "")"
-        case .sNSInvalidTopicFault(let message):
-            return "SNSInvalidTopic: \(message ?? "")"
-        case .sNSNoAuthorizationFault(let message):
-            return "SNSNoAuthorization: \(message ?? "")"
-        case .sNSTopicArnNotFoundFault(let message):
-            return "SNSTopicArnNotFound: \(message ?? "")"
-        case .sharedSnapshotQuotaExceededFault(let message):
-            return "SharedSnapshotQuotaExceeded: \(message ?? "")"
-        case .snapshotQuotaExceededFault(let message):
-            return "SnapshotQuotaExceeded: \(message ?? "")"
-        case .sourceNotFoundFault(let message):
-            return "SourceNotFound: \(message ?? "")"
-        case .storageQuotaExceededFault(let message):
-            return "StorageQuotaExceeded: \(message ?? "")"
-        case .storageTypeNotSupportedFault(let message):
-            return "StorageTypeNotSupported: \(message ?? "")"
-        case .subnetAlreadyInUse(let message):
-            return "SubnetAlreadyInUse: \(message ?? "")"
-        case .subscriptionAlreadyExistFault(let message):
-            return "SubscriptionAlreadyExist: \(message ?? "")"
-        case .subscriptionCategoryNotFoundFault(let message):
-            return "SubscriptionCategoryNotFound: \(message ?? "")"
-        case .subscriptionNotFoundFault(let message):
-            return "SubscriptionNotFound: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

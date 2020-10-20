@@ -17,95 +17,66 @@
 import SotoCore
 
 /// Error enum for ServiceDiscovery
-public enum ServiceDiscoveryErrorType: AWSErrorType {
-    case customHealthNotFound(message: String?)
-    case duplicateRequest(message: String?)
-    case instanceNotFound(message: String?)
-    case invalidInput(message: String?)
-    case namespaceAlreadyExists(message: String?)
-    case namespaceNotFound(message: String?)
-    case operationNotFound(message: String?)
-    case requestLimitExceeded(message: String?)
-    case resourceInUse(message: String?)
-    case resourceLimitExceeded(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceAlreadyExists(message: String?)
-    case serviceNotFound(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct ServiceDiscoveryErrorType: AWSErrorType {
+    enum Code: String {
+        case customHealthNotFound = "CustomHealthNotFound"
+        case duplicateRequest = "DuplicateRequest"
+        case instanceNotFound = "InstanceNotFound"
+        case invalidInput = "InvalidInput"
+        case namespaceAlreadyExists = "NamespaceAlreadyExists"
+        case namespaceNotFound = "NamespaceNotFound"
+        case operationNotFound = "OperationNotFound"
+        case requestLimitExceeded = "RequestLimitExceeded"
+        case resourceInUse = "ResourceInUse"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceAlreadyExists = "ServiceAlreadyExists"
+        case serviceNotFound = "ServiceNotFound"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension ServiceDiscoveryErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CustomHealthNotFound":
-            self = .customHealthNotFound(message: message)
-        case "DuplicateRequest":
-            self = .duplicateRequest(message: message)
-        case "InstanceNotFound":
-            self = .instanceNotFound(message: message)
-        case "InvalidInput":
-            self = .invalidInput(message: message)
-        case "NamespaceAlreadyExists":
-            self = .namespaceAlreadyExists(message: message)
-        case "NamespaceNotFound":
-            self = .namespaceNotFound(message: message)
-        case "OperationNotFound":
-            self = .operationNotFound(message: message)
-        case "RequestLimitExceeded":
-            self = .requestLimitExceeded(message: message)
-        case "ResourceInUse":
-            self = .resourceInUse(message: message)
-        case "ResourceLimitExceeded":
-            self = .resourceLimitExceeded(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceAlreadyExists":
-            self = .serviceAlreadyExists(message: message)
-        case "ServiceNotFound":
-            self = .serviceNotFound(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var customHealthNotFound: Self { .init(.customHealthNotFound) }
+    public static var duplicateRequest: Self { .init(.duplicateRequest) }
+    public static var instanceNotFound: Self { .init(.instanceNotFound) }
+    public static var invalidInput: Self { .init(.invalidInput) }
+    public static var namespaceAlreadyExists: Self { .init(.namespaceAlreadyExists) }
+    public static var namespaceNotFound: Self { .init(.namespaceNotFound) }
+    public static var operationNotFound: Self { .init(.operationNotFound) }
+    public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
+    public static var resourceInUse: Self { .init(.resourceInUse) }
+    public static var resourceLimitExceeded: Self { .init(.resourceLimitExceeded) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceAlreadyExists: Self { .init(.serviceAlreadyExists) }
+    public static var serviceNotFound: Self { .init(.serviceNotFound) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ServiceDiscoveryErrorType: Equatable {
+    public static func == (lhs: ServiceDiscoveryErrorType, rhs: ServiceDiscoveryErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ServiceDiscoveryErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .customHealthNotFound(let message):
-            return "CustomHealthNotFound: \(message ?? "")"
-        case .duplicateRequest(let message):
-            return "DuplicateRequest: \(message ?? "")"
-        case .instanceNotFound(let message):
-            return "InstanceNotFound: \(message ?? "")"
-        case .invalidInput(let message):
-            return "InvalidInput: \(message ?? "")"
-        case .namespaceAlreadyExists(let message):
-            return "NamespaceAlreadyExists: \(message ?? "")"
-        case .namespaceNotFound(let message):
-            return "NamespaceNotFound: \(message ?? "")"
-        case .operationNotFound(let message):
-            return "OperationNotFound: \(message ?? "")"
-        case .requestLimitExceeded(let message):
-            return "RequestLimitExceeded: \(message ?? "")"
-        case .resourceInUse(let message):
-            return "ResourceInUse: \(message ?? "")"
-        case .resourceLimitExceeded(let message):
-            return "ResourceLimitExceeded: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceAlreadyExists(let message):
-            return "ServiceAlreadyExists: \(message ?? "")"
-        case .serviceNotFound(let message):
-            return "ServiceNotFound: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

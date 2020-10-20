@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for AppSync
-public enum AppSyncErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case apiKeyLimitExceededException(message: String?)
-    case apiKeyValidityOutOfBoundsException(message: String?)
-    case apiLimitExceededException(message: String?)
-    case badRequestException(message: String?)
-    case concurrentModificationException(message: String?)
-    case graphQLSchemaException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case unauthorizedException(message: String?)
-}
+public struct AppSyncErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case apiKeyLimitExceededException = "ApiKeyLimitExceededException"
+        case apiKeyValidityOutOfBoundsException = "ApiKeyValidityOutOfBoundsException"
+        case apiLimitExceededException = "ApiLimitExceededException"
+        case badRequestException = "BadRequestException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case graphQLSchemaException = "GraphQLSchemaException"
+        case internalFailureException = "InternalFailureException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case unauthorizedException = "UnauthorizedException"
+    }
 
-extension AppSyncErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ApiKeyLimitExceededException":
-            self = .apiKeyLimitExceededException(message: message)
-        case "ApiKeyValidityOutOfBoundsException":
-            self = .apiKeyValidityOutOfBoundsException(message: message)
-        case "ApiLimitExceededException":
-            self = .apiLimitExceededException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "GraphQLSchemaException":
-            self = .graphQLSchemaException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var apiKeyLimitExceededException: Self { .init(.apiKeyLimitExceededException) }
+    public static var apiKeyValidityOutOfBoundsException: Self { .init(.apiKeyValidityOutOfBoundsException) }
+    public static var apiLimitExceededException: Self { .init(.apiLimitExceededException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var graphQLSchemaException: Self { .init(.graphQLSchemaException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension AppSyncErrorType: Equatable {
+    public static func == (lhs: AppSyncErrorType, rhs: AppSyncErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AppSyncErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .apiKeyLimitExceededException(let message):
-            return "ApiKeyLimitExceededException: \(message ?? "")"
-        case .apiKeyValidityOutOfBoundsException(let message):
-            return "ApiKeyValidityOutOfBoundsException: \(message ?? "")"
-        case .apiLimitExceededException(let message):
-            return "ApiLimitExceededException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .graphQLSchemaException(let message):
-            return "GraphQLSchemaException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

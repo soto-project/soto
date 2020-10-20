@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for CloudHSMV2
-public enum CloudHSMV2ErrorType: AWSErrorType {
-    case cloudHsmAccessDeniedException(message: String?)
-    case cloudHsmInternalFailureException(message: String?)
-    case cloudHsmInvalidRequestException(message: String?)
-    case cloudHsmResourceNotFoundException(message: String?)
-    case cloudHsmServiceException(message: String?)
-    case cloudHsmTagException(message: String?)
-}
+public struct CloudHSMV2ErrorType: AWSErrorType {
+    enum Code: String {
+        case cloudHsmAccessDeniedException = "CloudHsmAccessDeniedException"
+        case cloudHsmInternalFailureException = "CloudHsmInternalFailureException"
+        case cloudHsmInvalidRequestException = "CloudHsmInvalidRequestException"
+        case cloudHsmResourceNotFoundException = "CloudHsmResourceNotFoundException"
+        case cloudHsmServiceException = "CloudHsmServiceException"
+        case cloudHsmTagException = "CloudHsmTagException"
+    }
 
-extension CloudHSMV2ErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CloudHsmAccessDeniedException":
-            self = .cloudHsmAccessDeniedException(message: message)
-        case "CloudHsmInternalFailureException":
-            self = .cloudHsmInternalFailureException(message: message)
-        case "CloudHsmInvalidRequestException":
-            self = .cloudHsmInvalidRequestException(message: message)
-        case "CloudHsmResourceNotFoundException":
-            self = .cloudHsmResourceNotFoundException(message: message)
-        case "CloudHsmServiceException":
-            self = .cloudHsmServiceException(message: message)
-        case "CloudHsmTagException":
-            self = .cloudHsmTagException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var cloudHsmAccessDeniedException: Self { .init(.cloudHsmAccessDeniedException) }
+    public static var cloudHsmInternalFailureException: Self { .init(.cloudHsmInternalFailureException) }
+    public static var cloudHsmInvalidRequestException: Self { .init(.cloudHsmInvalidRequestException) }
+    public static var cloudHsmResourceNotFoundException: Self { .init(.cloudHsmResourceNotFoundException) }
+    public static var cloudHsmServiceException: Self { .init(.cloudHsmServiceException) }
+    public static var cloudHsmTagException: Self { .init(.cloudHsmTagException) }
+}
+
+extension CloudHSMV2ErrorType: Equatable {
+    public static func == (lhs: CloudHSMV2ErrorType, rhs: CloudHSMV2ErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudHSMV2ErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .cloudHsmAccessDeniedException(let message):
-            return "CloudHsmAccessDeniedException: \(message ?? "")"
-        case .cloudHsmInternalFailureException(let message):
-            return "CloudHsmInternalFailureException: \(message ?? "")"
-        case .cloudHsmInvalidRequestException(let message):
-            return "CloudHsmInvalidRequestException: \(message ?? "")"
-        case .cloudHsmResourceNotFoundException(let message):
-            return "CloudHsmResourceNotFoundException: \(message ?? "")"
-        case .cloudHsmServiceException(let message):
-            return "CloudHsmServiceException: \(message ?? "")"
-        case .cloudHsmTagException(let message):
-            return "CloudHsmTagException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

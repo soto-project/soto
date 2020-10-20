@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for Lightsail
-public enum LightsailErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case accountSetupInProgressException(message: String?)
-    case invalidInputException(message: String?)
-    case notFoundException(message: String?)
-    case operationFailureException(message: String?)
-    case serviceException(message: String?)
-    case unauthenticatedException(message: String?)
-}
+public struct LightsailErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case accountSetupInProgressException = "AccountSetupInProgressException"
+        case invalidInputException = "InvalidInputException"
+        case notFoundException = "NotFoundException"
+        case operationFailureException = "OperationFailureException"
+        case serviceException = "ServiceException"
+        case unauthenticatedException = "UnauthenticatedException"
+    }
 
-extension LightsailErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AccountSetupInProgressException":
-            self = .accountSetupInProgressException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "OperationFailureException":
-            self = .operationFailureException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "UnauthenticatedException":
-            self = .unauthenticatedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var accountSetupInProgressException: Self { .init(.accountSetupInProgressException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var operationFailureException: Self { .init(.operationFailureException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var unauthenticatedException: Self { .init(.unauthenticatedException) }
+}
+
+extension LightsailErrorType: Equatable {
+    public static func == (lhs: LightsailErrorType, rhs: LightsailErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LightsailErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .accountSetupInProgressException(let message):
-            return "AccountSetupInProgressException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .operationFailureException(let message):
-            return "OperationFailureException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .unauthenticatedException(let message):
-            return "UnauthenticatedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

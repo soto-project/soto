@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for Translate
-public enum TranslateErrorType: AWSErrorType {
-    case detectedLanguageLowConfidenceException(message: String?)
-    case internalServerException(message: String?)
-    case invalidFilterException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case textSizeLimitExceededException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unsupportedLanguagePairException(message: String?)
-}
+public struct TranslateErrorType: AWSErrorType {
+    enum Code: String {
+        case detectedLanguageLowConfidenceException = "DetectedLanguageLowConfidenceException"
+        case internalServerException = "InternalServerException"
+        case invalidFilterException = "InvalidFilterException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case textSizeLimitExceededException = "TextSizeLimitExceededException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unsupportedLanguagePairException = "UnsupportedLanguagePairException"
+    }
 
-extension TranslateErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DetectedLanguageLowConfidenceException":
-            self = .detectedLanguageLowConfidenceException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidFilterException":
-            self = .invalidFilterException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TextSizeLimitExceededException":
-            self = .textSizeLimitExceededException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnsupportedLanguagePairException":
-            self = .unsupportedLanguagePairException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var detectedLanguageLowConfidenceException: Self { .init(.detectedLanguageLowConfidenceException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidFilterException: Self { .init(.invalidFilterException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unsupportedLanguagePairException: Self { .init(.unsupportedLanguagePairException) }
+}
+
+extension TranslateErrorType: Equatable {
+    public static func == (lhs: TranslateErrorType, rhs: TranslateErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension TranslateErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .detectedLanguageLowConfidenceException(let message):
-            return "DetectedLanguageLowConfidenceException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidFilterException(let message):
-            return "InvalidFilterException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .textSizeLimitExceededException(let message):
-            return "TextSizeLimitExceededException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unsupportedLanguagePairException(let message):
-            return "UnsupportedLanguagePairException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

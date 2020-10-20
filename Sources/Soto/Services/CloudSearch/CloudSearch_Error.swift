@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for CloudSearch
-public enum CloudSearchErrorType: AWSErrorType {
-    case baseException(message: String?)
-    case disabledOperationException(message: String?)
-    case internalException(message: String?)
-    case invalidTypeException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct CloudSearchErrorType: AWSErrorType {
+    enum Code: String {
+        case baseException = "BaseException"
+        case disabledOperationException = "DisabledAction"
+        case internalException = "InternalException"
+        case invalidTypeException = "InvalidType"
+        case limitExceededException = "LimitExceeded"
+        case resourceNotFoundException = "ResourceNotFound"
+        case validationException = "ValidationException"
+    }
 
-extension CloudSearchErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BaseException":
-            self = .baseException(message: message)
-        case "DisabledAction":
-            self = .disabledOperationException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidType":
-            self = .invalidTypeException(message: message)
-        case "LimitExceeded":
-            self = .limitExceededException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var baseException: Self { .init(.baseException) }
+    public static var disabledOperationException: Self { .init(.disabledOperationException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidTypeException: Self { .init(.invalidTypeException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CloudSearchErrorType: Equatable {
+    public static func == (lhs: CloudSearchErrorType, rhs: CloudSearchErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudSearchErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .baseException(let message):
-            return "BaseException: \(message ?? "")"
-        case .disabledOperationException(let message):
-            return "DisabledAction: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidTypeException(let message):
-            return "InvalidType: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceeded: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

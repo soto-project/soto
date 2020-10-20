@@ -17,125 +17,78 @@
 import SotoCore
 
 /// Error enum for CloudFormation
-public enum CloudFormationErrorType: AWSErrorType {
-    case alreadyExistsException(message: String?)
-    case cFNRegistryException(message: String?)
-    case changeSetNotFoundException(message: String?)
-    case createdButModifiedException(message: String?)
-    case insufficientCapabilitiesException(message: String?)
-    case invalidChangeSetStatusException(message: String?)
-    case invalidOperationException(message: String?)
-    case invalidStateTransitionException(message: String?)
-    case limitExceededException(message: String?)
-    case nameAlreadyExistsException(message: String?)
-    case operationIdAlreadyExistsException(message: String?)
-    case operationInProgressException(message: String?)
-    case operationNotFoundException(message: String?)
-    case operationStatusCheckFailedException(message: String?)
-    case stackInstanceNotFoundException(message: String?)
-    case stackSetNotEmptyException(message: String?)
-    case stackSetNotFoundException(message: String?)
-    case staleRequestException(message: String?)
-    case tokenAlreadyExistsException(message: String?)
-    case typeNotFoundException(message: String?)
-}
+public struct CloudFormationErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyExistsException = "AlreadyExistsException"
+        case cFNRegistryException = "CFNRegistryException"
+        case changeSetNotFoundException = "ChangeSetNotFound"
+        case createdButModifiedException = "CreatedButModifiedException"
+        case insufficientCapabilitiesException = "InsufficientCapabilitiesException"
+        case invalidChangeSetStatusException = "InvalidChangeSetStatus"
+        case invalidOperationException = "InvalidOperationException"
+        case invalidStateTransitionException = "InvalidStateTransition"
+        case limitExceededException = "LimitExceededException"
+        case nameAlreadyExistsException = "NameAlreadyExistsException"
+        case operationIdAlreadyExistsException = "OperationIdAlreadyExistsException"
+        case operationInProgressException = "OperationInProgressException"
+        case operationNotFoundException = "OperationNotFoundException"
+        case operationStatusCheckFailedException = "ConditionalCheckFailed"
+        case stackInstanceNotFoundException = "StackInstanceNotFoundException"
+        case stackSetNotEmptyException = "StackSetNotEmptyException"
+        case stackSetNotFoundException = "StackSetNotFoundException"
+        case staleRequestException = "StaleRequestException"
+        case tokenAlreadyExistsException = "TokenAlreadyExistsException"
+        case typeNotFoundException = "TypeNotFoundException"
+    }
 
-extension CloudFormationErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "CFNRegistryException":
-            self = .cFNRegistryException(message: message)
-        case "ChangeSetNotFound":
-            self = .changeSetNotFoundException(message: message)
-        case "CreatedButModifiedException":
-            self = .createdButModifiedException(message: message)
-        case "InsufficientCapabilitiesException":
-            self = .insufficientCapabilitiesException(message: message)
-        case "InvalidChangeSetStatus":
-            self = .invalidChangeSetStatusException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "InvalidStateTransition":
-            self = .invalidStateTransitionException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NameAlreadyExistsException":
-            self = .nameAlreadyExistsException(message: message)
-        case "OperationIdAlreadyExistsException":
-            self = .operationIdAlreadyExistsException(message: message)
-        case "OperationInProgressException":
-            self = .operationInProgressException(message: message)
-        case "OperationNotFoundException":
-            self = .operationNotFoundException(message: message)
-        case "ConditionalCheckFailed":
-            self = .operationStatusCheckFailedException(message: message)
-        case "StackInstanceNotFoundException":
-            self = .stackInstanceNotFoundException(message: message)
-        case "StackSetNotEmptyException":
-            self = .stackSetNotEmptyException(message: message)
-        case "StackSetNotFoundException":
-            self = .stackSetNotFoundException(message: message)
-        case "StaleRequestException":
-            self = .staleRequestException(message: message)
-        case "TokenAlreadyExistsException":
-            self = .tokenAlreadyExistsException(message: message)
-        case "TypeNotFoundException":
-            self = .typeNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var cFNRegistryException: Self { .init(.cFNRegistryException) }
+    public static var changeSetNotFoundException: Self { .init(.changeSetNotFoundException) }
+    public static var createdButModifiedException: Self { .init(.createdButModifiedException) }
+    public static var insufficientCapabilitiesException: Self { .init(.insufficientCapabilitiesException) }
+    public static var invalidChangeSetStatusException: Self { .init(.invalidChangeSetStatusException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var nameAlreadyExistsException: Self { .init(.nameAlreadyExistsException) }
+    public static var operationIdAlreadyExistsException: Self { .init(.operationIdAlreadyExistsException) }
+    public static var operationInProgressException: Self { .init(.operationInProgressException) }
+    public static var operationNotFoundException: Self { .init(.operationNotFoundException) }
+    public static var operationStatusCheckFailedException: Self { .init(.operationStatusCheckFailedException) }
+    public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
+    public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
+    public static var stackSetNotFoundException: Self { .init(.stackSetNotFoundException) }
+    public static var staleRequestException: Self { .init(.staleRequestException) }
+    public static var tokenAlreadyExistsException: Self { .init(.tokenAlreadyExistsException) }
+    public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
+}
+
+extension CloudFormationErrorType: Equatable {
+    public static func == (lhs: CloudFormationErrorType, rhs: CloudFormationErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudFormationErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .cFNRegistryException(let message):
-            return "CFNRegistryException: \(message ?? "")"
-        case .changeSetNotFoundException(let message):
-            return "ChangeSetNotFound: \(message ?? "")"
-        case .createdButModifiedException(let message):
-            return "CreatedButModifiedException: \(message ?? "")"
-        case .insufficientCapabilitiesException(let message):
-            return "InsufficientCapabilitiesException: \(message ?? "")"
-        case .invalidChangeSetStatusException(let message):
-            return "InvalidChangeSetStatus: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .invalidStateTransitionException(let message):
-            return "InvalidStateTransition: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .nameAlreadyExistsException(let message):
-            return "NameAlreadyExistsException: \(message ?? "")"
-        case .operationIdAlreadyExistsException(let message):
-            return "OperationIdAlreadyExistsException: \(message ?? "")"
-        case .operationInProgressException(let message):
-            return "OperationInProgressException: \(message ?? "")"
-        case .operationNotFoundException(let message):
-            return "OperationNotFoundException: \(message ?? "")"
-        case .operationStatusCheckFailedException(let message):
-            return "ConditionalCheckFailed: \(message ?? "")"
-        case .stackInstanceNotFoundException(let message):
-            return "StackInstanceNotFoundException: \(message ?? "")"
-        case .stackSetNotEmptyException(let message):
-            return "StackSetNotEmptyException: \(message ?? "")"
-        case .stackSetNotFoundException(let message):
-            return "StackSetNotFoundException: \(message ?? "")"
-        case .staleRequestException(let message):
-            return "StaleRequestException: \(message ?? "")"
-        case .tokenAlreadyExistsException(let message):
-            return "TokenAlreadyExistsException: \(message ?? "")"
-        case .typeNotFoundException(let message):
-            return "TypeNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

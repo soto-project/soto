@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for MigrationHubConfig
-public enum MigrationHubConfigErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case dryRunOperation(message: String?)
-    case internalServerError(message: String?)
-    case invalidInputException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct MigrationHubConfigErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case dryRunOperation = "DryRunOperation"
+        case internalServerError = "InternalServerError"
+        case invalidInputException = "InvalidInputException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension MigrationHubConfigErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "DryRunOperation":
-            self = .dryRunOperation(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var dryRunOperation: Self { .init(.dryRunOperation) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension MigrationHubConfigErrorType: Equatable {
+    public static func == (lhs: MigrationHubConfigErrorType, rhs: MigrationHubConfigErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MigrationHubConfigErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .dryRunOperation(let message):
-            return "DryRunOperation: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

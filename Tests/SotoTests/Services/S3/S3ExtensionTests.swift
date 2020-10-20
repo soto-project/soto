@@ -252,7 +252,7 @@ class S3ExtensionTests: XCTestCase {
             }
             .flatMapErrorThrowing { error -> Void in
                 switch error {
-                case S3ErrorType.noSuchBucket:
+                case let error as S3ErrorType where error == .noSuchBucket:
                     return
                 default:
                     XCTFail("Unexpected error: \(error)")

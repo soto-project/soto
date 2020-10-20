@@ -17,30 +17,40 @@
 import SotoCore
 
 /// Error enum for WorkMailMessageFlow
-public enum WorkMailMessageFlowErrorType: AWSErrorType {
-    case resourceNotFoundException(message: String?)
-}
+public struct WorkMailMessageFlowErrorType: AWSErrorType {
+    enum Code: String {
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension WorkMailMessageFlowErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension WorkMailMessageFlowErrorType: Equatable {
+    public static func == (lhs: WorkMailMessageFlowErrorType, rhs: WorkMailMessageFlowErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WorkMailMessageFlowErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

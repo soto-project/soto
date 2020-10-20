@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for DynamoDBStreams
-public enum DynamoDBStreamsErrorType: AWSErrorType {
-    case expiredIteratorException(message: String?)
-    case internalServerError(message: String?)
-    case limitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case trimmedDataAccessException(message: String?)
-}
+public struct DynamoDBStreamsErrorType: AWSErrorType {
+    enum Code: String {
+        case expiredIteratorException = "ExpiredIteratorException"
+        case internalServerError = "InternalServerError"
+        case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case trimmedDataAccessException = "TrimmedDataAccessException"
+    }
 
-extension DynamoDBStreamsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ExpiredIteratorException":
-            self = .expiredIteratorException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TrimmedDataAccessException":
-            self = .trimmedDataAccessException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var expiredIteratorException: Self { .init(.expiredIteratorException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var trimmedDataAccessException: Self { .init(.trimmedDataAccessException) }
+}
+
+extension DynamoDBStreamsErrorType: Equatable {
+    public static func == (lhs: DynamoDBStreamsErrorType, rhs: DynamoDBStreamsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DynamoDBStreamsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .expiredIteratorException(let message):
-            return "ExpiredIteratorException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .trimmedDataAccessException(let message):
-            return "TrimmedDataAccessException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

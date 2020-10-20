@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for CloudWatchEvents
-public enum CloudWatchEventsErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case internalException(message: String?)
-    case invalidEventPatternException(message: String?)
-    case invalidStateException(message: String?)
-    case limitExceededException(message: String?)
-    case managedRuleException(message: String?)
-    case operationDisabledException(message: String?)
-    case policyLengthExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct CloudWatchEventsErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case internalException = "InternalException"
+        case invalidEventPatternException = "InvalidEventPatternException"
+        case invalidStateException = "InvalidStateException"
+        case limitExceededException = "LimitExceededException"
+        case managedRuleException = "ManagedRuleException"
+        case operationDisabledException = "OperationDisabledException"
+        case policyLengthExceededException = "PolicyLengthExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension CloudWatchEventsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidEventPatternException":
-            self = .invalidEventPatternException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ManagedRuleException":
-            self = .managedRuleException(message: message)
-        case "OperationDisabledException":
-            self = .operationDisabledException(message: message)
-        case "PolicyLengthExceededException":
-            self = .policyLengthExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidEventPatternException: Self { .init(.invalidEventPatternException) }
+    public static var invalidStateException: Self { .init(.invalidStateException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var managedRuleException: Self { .init(.managedRuleException) }
+    public static var operationDisabledException: Self { .init(.operationDisabledException) }
+    public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension CloudWatchEventsErrorType: Equatable {
+    public static func == (lhs: CloudWatchEventsErrorType, rhs: CloudWatchEventsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudWatchEventsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidEventPatternException(let message):
-            return "InvalidEventPatternException: \(message ?? "")"
-        case .invalidStateException(let message):
-            return "InvalidStateException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .managedRuleException(let message):
-            return "ManagedRuleException: \(message ?? "")"
-        case .operationDisabledException(let message):
-            return "OperationDisabledException: \(message ?? "")"
-        case .policyLengthExceededException(let message):
-            return "PolicyLengthExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

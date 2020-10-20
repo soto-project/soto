@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for CodeStarconnections
-public enum CodeStarconnectionsErrorType: AWSErrorType {
-    case limitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceUnavailableException(message: String?)
-}
+public struct CodeStarconnectionsErrorType: AWSErrorType {
+    enum Code: String {
+        case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceUnavailableException = "ResourceUnavailableException"
+    }
 
-extension CodeStarconnectionsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceUnavailableException":
-            self = .resourceUnavailableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+}
+
+extension CodeStarconnectionsErrorType: Equatable {
+    public static func == (lhs: CodeStarconnectionsErrorType, rhs: CodeStarconnectionsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeStarconnectionsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceUnavailableException(let message):
-            return "ResourceUnavailableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

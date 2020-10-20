@@ -17,140 +17,84 @@
 import SotoCore
 
 /// Error enum for DatabaseMigrationService
-public enum DatabaseMigrationServiceErrorType: AWSErrorType {
-    case accessDeniedFault(message: String?)
-    case insufficientResourceCapacityFault(message: String?)
-    case invalidCertificateFault(message: String?)
-    case invalidResourceStateFault(message: String?)
-    case invalidSubnet(message: String?)
-    case kMSAccessDeniedFault(message: String?)
-    case kMSDisabledFault(message: String?)
-    case kMSFault(message: String?)
-    case kMSInvalidStateFault(message: String?)
-    case kMSKeyNotAccessibleFault(message: String?)
-    case kMSNotFoundFault(message: String?)
-    case kMSThrottlingFault(message: String?)
-    case replicationSubnetGroupDoesNotCoverEnoughAZs(message: String?)
-    case resourceAlreadyExistsFault(message: String?)
-    case resourceNotFoundFault(message: String?)
-    case resourceQuotaExceededFault(message: String?)
-    case s3AccessDeniedFault(message: String?)
-    case s3ResourceNotFoundFault(message: String?)
-    case sNSInvalidTopicFault(message: String?)
-    case sNSNoAuthorizationFault(message: String?)
-    case storageQuotaExceededFault(message: String?)
-    case subnetAlreadyInUse(message: String?)
-    case upgradeDependencyFailureFault(message: String?)
-}
+public struct DatabaseMigrationServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedFault = "AccessDeniedFault"
+        case insufficientResourceCapacityFault = "InsufficientResourceCapacityFault"
+        case invalidCertificateFault = "InvalidCertificateFault"
+        case invalidResourceStateFault = "InvalidResourceStateFault"
+        case invalidSubnet = "InvalidSubnet"
+        case kMSAccessDeniedFault = "KMSAccessDeniedFault"
+        case kMSDisabledFault = "KMSDisabledFault"
+        case kMSFault = "KMSFault"
+        case kMSInvalidStateFault = "KMSInvalidStateFault"
+        case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case kMSNotFoundFault = "KMSNotFoundFault"
+        case kMSThrottlingFault = "KMSThrottlingFault"
+        case replicationSubnetGroupDoesNotCoverEnoughAZs = "ReplicationSubnetGroupDoesNotCoverEnoughAZs"
+        case resourceAlreadyExistsFault = "ResourceAlreadyExistsFault"
+        case resourceNotFoundFault = "ResourceNotFoundFault"
+        case resourceQuotaExceededFault = "ResourceQuotaExceededFault"
+        case s3AccessDeniedFault = "S3AccessDeniedFault"
+        case s3ResourceNotFoundFault = "S3ResourceNotFoundFault"
+        case sNSInvalidTopicFault = "SNSInvalidTopicFault"
+        case sNSNoAuthorizationFault = "SNSNoAuthorizationFault"
+        case storageQuotaExceededFault = "StorageQuotaExceededFault"
+        case subnetAlreadyInUse = "SubnetAlreadyInUse"
+        case upgradeDependencyFailureFault = "UpgradeDependencyFailureFault"
+    }
 
-extension DatabaseMigrationServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedFault":
-            self = .accessDeniedFault(message: message)
-        case "InsufficientResourceCapacityFault":
-            self = .insufficientResourceCapacityFault(message: message)
-        case "InvalidCertificateFault":
-            self = .invalidCertificateFault(message: message)
-        case "InvalidResourceStateFault":
-            self = .invalidResourceStateFault(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
-        case "KMSAccessDeniedFault":
-            self = .kMSAccessDeniedFault(message: message)
-        case "KMSDisabledFault":
-            self = .kMSDisabledFault(message: message)
-        case "KMSFault":
-            self = .kMSFault(message: message)
-        case "KMSInvalidStateFault":
-            self = .kMSInvalidStateFault(message: message)
-        case "KMSKeyNotAccessibleFault":
-            self = .kMSKeyNotAccessibleFault(message: message)
-        case "KMSNotFoundFault":
-            self = .kMSNotFoundFault(message: message)
-        case "KMSThrottlingFault":
-            self = .kMSThrottlingFault(message: message)
-        case "ReplicationSubnetGroupDoesNotCoverEnoughAZs":
-            self = .replicationSubnetGroupDoesNotCoverEnoughAZs(message: message)
-        case "ResourceAlreadyExistsFault":
-            self = .resourceAlreadyExistsFault(message: message)
-        case "ResourceNotFoundFault":
-            self = .resourceNotFoundFault(message: message)
-        case "ResourceQuotaExceededFault":
-            self = .resourceQuotaExceededFault(message: message)
-        case "S3AccessDeniedFault":
-            self = .s3AccessDeniedFault(message: message)
-        case "S3ResourceNotFoundFault":
-            self = .s3ResourceNotFoundFault(message: message)
-        case "SNSInvalidTopicFault":
-            self = .sNSInvalidTopicFault(message: message)
-        case "SNSNoAuthorizationFault":
-            self = .sNSNoAuthorizationFault(message: message)
-        case "StorageQuotaExceededFault":
-            self = .storageQuotaExceededFault(message: message)
-        case "SubnetAlreadyInUse":
-            self = .subnetAlreadyInUse(message: message)
-        case "UpgradeDependencyFailureFault":
-            self = .upgradeDependencyFailureFault(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedFault: Self { .init(.accessDeniedFault) }
+    public static var insufficientResourceCapacityFault: Self { .init(.insufficientResourceCapacityFault) }
+    public static var invalidCertificateFault: Self { .init(.invalidCertificateFault) }
+    public static var invalidResourceStateFault: Self { .init(.invalidResourceStateFault) }
+    public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    public static var kMSAccessDeniedFault: Self { .init(.kMSAccessDeniedFault) }
+    public static var kMSDisabledFault: Self { .init(.kMSDisabledFault) }
+    public static var kMSFault: Self { .init(.kMSFault) }
+    public static var kMSInvalidStateFault: Self { .init(.kMSInvalidStateFault) }
+    public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    public static var kMSNotFoundFault: Self { .init(.kMSNotFoundFault) }
+    public static var kMSThrottlingFault: Self { .init(.kMSThrottlingFault) }
+    public static var replicationSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.replicationSubnetGroupDoesNotCoverEnoughAZs) }
+    public static var resourceAlreadyExistsFault: Self { .init(.resourceAlreadyExistsFault) }
+    public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
+    public static var resourceQuotaExceededFault: Self { .init(.resourceQuotaExceededFault) }
+    public static var s3AccessDeniedFault: Self { .init(.s3AccessDeniedFault) }
+    public static var s3ResourceNotFoundFault: Self { .init(.s3ResourceNotFoundFault) }
+    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
+    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
+    public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
+    public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }
+    public static var upgradeDependencyFailureFault: Self { .init(.upgradeDependencyFailureFault) }
+}
+
+extension DatabaseMigrationServiceErrorType: Equatable {
+    public static func == (lhs: DatabaseMigrationServiceErrorType, rhs: DatabaseMigrationServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DatabaseMigrationServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedFault(let message):
-            return "AccessDeniedFault: \(message ?? "")"
-        case .insufficientResourceCapacityFault(let message):
-            return "InsufficientResourceCapacityFault: \(message ?? "")"
-        case .invalidCertificateFault(let message):
-            return "InvalidCertificateFault: \(message ?? "")"
-        case .invalidResourceStateFault(let message):
-            return "InvalidResourceStateFault: \(message ?? "")"
-        case .invalidSubnet(let message):
-            return "InvalidSubnet: \(message ?? "")"
-        case .kMSAccessDeniedFault(let message):
-            return "KMSAccessDeniedFault: \(message ?? "")"
-        case .kMSDisabledFault(let message):
-            return "KMSDisabledFault: \(message ?? "")"
-        case .kMSFault(let message):
-            return "KMSFault: \(message ?? "")"
-        case .kMSInvalidStateFault(let message):
-            return "KMSInvalidStateFault: \(message ?? "")"
-        case .kMSKeyNotAccessibleFault(let message):
-            return "KMSKeyNotAccessibleFault: \(message ?? "")"
-        case .kMSNotFoundFault(let message):
-            return "KMSNotFoundFault: \(message ?? "")"
-        case .kMSThrottlingFault(let message):
-            return "KMSThrottlingFault: \(message ?? "")"
-        case .replicationSubnetGroupDoesNotCoverEnoughAZs(let message):
-            return "ReplicationSubnetGroupDoesNotCoverEnoughAZs: \(message ?? "")"
-        case .resourceAlreadyExistsFault(let message):
-            return "ResourceAlreadyExistsFault: \(message ?? "")"
-        case .resourceNotFoundFault(let message):
-            return "ResourceNotFoundFault: \(message ?? "")"
-        case .resourceQuotaExceededFault(let message):
-            return "ResourceQuotaExceededFault: \(message ?? "")"
-        case .s3AccessDeniedFault(let message):
-            return "S3AccessDeniedFault: \(message ?? "")"
-        case .s3ResourceNotFoundFault(let message):
-            return "S3ResourceNotFoundFault: \(message ?? "")"
-        case .sNSInvalidTopicFault(let message):
-            return "SNSInvalidTopicFault: \(message ?? "")"
-        case .sNSNoAuthorizationFault(let message):
-            return "SNSNoAuthorizationFault: \(message ?? "")"
-        case .storageQuotaExceededFault(let message):
-            return "StorageQuotaExceededFault: \(message ?? "")"
-        case .subnetAlreadyInUse(let message):
-            return "SubnetAlreadyInUse: \(message ?? "")"
-        case .upgradeDependencyFailureFault(let message):
-            return "UpgradeDependencyFailureFault: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,130 +17,80 @@
 import SotoCore
 
 /// Error enum for FSx
-public enum FSxErrorType: AWSErrorType {
-    case activeDirectoryError(message: String?)
-    case backupInProgress(message: String?)
-    case backupNotFound(message: String?)
-    case backupRestoring(message: String?)
-    case badRequest(message: String?)
-    case dataRepositoryTaskEnded(message: String?)
-    case dataRepositoryTaskExecuting(message: String?)
-    case dataRepositoryTaskNotFound(message: String?)
-    case fileSystemNotFound(message: String?)
-    case incompatibleParameterError(message: String?)
-    case internalServerError(message: String?)
-    case invalidExportPath(message: String?)
-    case invalidImportPath(message: String?)
-    case invalidNetworkSettings(message: String?)
-    case invalidPerUnitStorageThroughput(message: String?)
-    case missingFileSystemConfiguration(message: String?)
-    case notServiceResourceError(message: String?)
-    case resourceDoesNotSupportTagging(message: String?)
-    case resourceNotFound(message: String?)
-    case serviceLimitExceeded(message: String?)
-    case unsupportedOperation(message: String?)
-}
+public struct FSxErrorType: AWSErrorType {
+    enum Code: String {
+        case activeDirectoryError = "ActiveDirectoryError"
+        case backupInProgress = "BackupInProgress"
+        case backupNotFound = "BackupNotFound"
+        case backupRestoring = "BackupRestoring"
+        case badRequest = "BadRequest"
+        case dataRepositoryTaskEnded = "DataRepositoryTaskEnded"
+        case dataRepositoryTaskExecuting = "DataRepositoryTaskExecuting"
+        case dataRepositoryTaskNotFound = "DataRepositoryTaskNotFound"
+        case fileSystemNotFound = "FileSystemNotFound"
+        case incompatibleParameterError = "IncompatibleParameterError"
+        case internalServerError = "InternalServerError"
+        case invalidExportPath = "InvalidExportPath"
+        case invalidImportPath = "InvalidImportPath"
+        case invalidNetworkSettings = "InvalidNetworkSettings"
+        case invalidPerUnitStorageThroughput = "InvalidPerUnitStorageThroughput"
+        case missingFileSystemConfiguration = "MissingFileSystemConfiguration"
+        case notServiceResourceError = "NotServiceResourceError"
+        case resourceDoesNotSupportTagging = "ResourceDoesNotSupportTagging"
+        case resourceNotFound = "ResourceNotFound"
+        case serviceLimitExceeded = "ServiceLimitExceeded"
+        case unsupportedOperation = "UnsupportedOperation"
+    }
 
-extension FSxErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ActiveDirectoryError":
-            self = .activeDirectoryError(message: message)
-        case "BackupInProgress":
-            self = .backupInProgress(message: message)
-        case "BackupNotFound":
-            self = .backupNotFound(message: message)
-        case "BackupRestoring":
-            self = .backupRestoring(message: message)
-        case "BadRequest":
-            self = .badRequest(message: message)
-        case "DataRepositoryTaskEnded":
-            self = .dataRepositoryTaskEnded(message: message)
-        case "DataRepositoryTaskExecuting":
-            self = .dataRepositoryTaskExecuting(message: message)
-        case "DataRepositoryTaskNotFound":
-            self = .dataRepositoryTaskNotFound(message: message)
-        case "FileSystemNotFound":
-            self = .fileSystemNotFound(message: message)
-        case "IncompatibleParameterError":
-            self = .incompatibleParameterError(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidExportPath":
-            self = .invalidExportPath(message: message)
-        case "InvalidImportPath":
-            self = .invalidImportPath(message: message)
-        case "InvalidNetworkSettings":
-            self = .invalidNetworkSettings(message: message)
-        case "InvalidPerUnitStorageThroughput":
-            self = .invalidPerUnitStorageThroughput(message: message)
-        case "MissingFileSystemConfiguration":
-            self = .missingFileSystemConfiguration(message: message)
-        case "NotServiceResourceError":
-            self = .notServiceResourceError(message: message)
-        case "ResourceDoesNotSupportTagging":
-            self = .resourceDoesNotSupportTagging(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        case "ServiceLimitExceeded":
-            self = .serviceLimitExceeded(message: message)
-        case "UnsupportedOperation":
-            self = .unsupportedOperation(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var activeDirectoryError: Self { .init(.activeDirectoryError) }
+    public static var backupInProgress: Self { .init(.backupInProgress) }
+    public static var backupNotFound: Self { .init(.backupNotFound) }
+    public static var backupRestoring: Self { .init(.backupRestoring) }
+    public static var badRequest: Self { .init(.badRequest) }
+    public static var dataRepositoryTaskEnded: Self { .init(.dataRepositoryTaskEnded) }
+    public static var dataRepositoryTaskExecuting: Self { .init(.dataRepositoryTaskExecuting) }
+    public static var dataRepositoryTaskNotFound: Self { .init(.dataRepositoryTaskNotFound) }
+    public static var fileSystemNotFound: Self { .init(.fileSystemNotFound) }
+    public static var incompatibleParameterError: Self { .init(.incompatibleParameterError) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidExportPath: Self { .init(.invalidExportPath) }
+    public static var invalidImportPath: Self { .init(.invalidImportPath) }
+    public static var invalidNetworkSettings: Self { .init(.invalidNetworkSettings) }
+    public static var invalidPerUnitStorageThroughput: Self { .init(.invalidPerUnitStorageThroughput) }
+    public static var missingFileSystemConfiguration: Self { .init(.missingFileSystemConfiguration) }
+    public static var notServiceResourceError: Self { .init(.notServiceResourceError) }
+    public static var resourceDoesNotSupportTagging: Self { .init(.resourceDoesNotSupportTagging) }
+    public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
+    public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
+}
+
+extension FSxErrorType: Equatable {
+    public static func == (lhs: FSxErrorType, rhs: FSxErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension FSxErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .activeDirectoryError(let message):
-            return "ActiveDirectoryError: \(message ?? "")"
-        case .backupInProgress(let message):
-            return "BackupInProgress: \(message ?? "")"
-        case .backupNotFound(let message):
-            return "BackupNotFound: \(message ?? "")"
-        case .backupRestoring(let message):
-            return "BackupRestoring: \(message ?? "")"
-        case .badRequest(let message):
-            return "BadRequest: \(message ?? "")"
-        case .dataRepositoryTaskEnded(let message):
-            return "DataRepositoryTaskEnded: \(message ?? "")"
-        case .dataRepositoryTaskExecuting(let message):
-            return "DataRepositoryTaskExecuting: \(message ?? "")"
-        case .dataRepositoryTaskNotFound(let message):
-            return "DataRepositoryTaskNotFound: \(message ?? "")"
-        case .fileSystemNotFound(let message):
-            return "FileSystemNotFound: \(message ?? "")"
-        case .incompatibleParameterError(let message):
-            return "IncompatibleParameterError: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidExportPath(let message):
-            return "InvalidExportPath: \(message ?? "")"
-        case .invalidImportPath(let message):
-            return "InvalidImportPath: \(message ?? "")"
-        case .invalidNetworkSettings(let message):
-            return "InvalidNetworkSettings: \(message ?? "")"
-        case .invalidPerUnitStorageThroughput(let message):
-            return "InvalidPerUnitStorageThroughput: \(message ?? "")"
-        case .missingFileSystemConfiguration(let message):
-            return "MissingFileSystemConfiguration: \(message ?? "")"
-        case .notServiceResourceError(let message):
-            return "NotServiceResourceError: \(message ?? "")"
-        case .resourceDoesNotSupportTagging(let message):
-            return "ResourceDoesNotSupportTagging: \(message ?? "")"
-        case .resourceNotFound(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .serviceLimitExceeded(let message):
-            return "ServiceLimitExceeded: \(message ?? "")"
-        case .unsupportedOperation(let message):
-            return "UnsupportedOperation: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }
