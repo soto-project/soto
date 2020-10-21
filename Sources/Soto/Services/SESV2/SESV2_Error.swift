@@ -33,23 +33,23 @@ public struct SESV2ErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SESV2
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
+
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
 
     public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }

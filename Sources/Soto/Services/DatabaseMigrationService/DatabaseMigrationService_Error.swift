@@ -44,23 +44,23 @@ public struct DatabaseMigrationServiceErrorType: AWSErrorType {
         case upgradeDependencyFailureFault = "UpgradeDependencyFailureFault"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize DatabaseMigrationService
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
+
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
 
     public static var accessDeniedFault: Self { .init(.accessDeniedFault) }
     public static var insufficientResourceCapacityFault: Self { .init(.insufficientResourceCapacityFault) }

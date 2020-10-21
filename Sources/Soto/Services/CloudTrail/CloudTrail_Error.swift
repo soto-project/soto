@@ -63,23 +63,23 @@ public struct CloudTrailErrorType: AWSErrorType {
         case unsupportedOperationException = "UnsupportedOperationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CloudTrail
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
+
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
 
     public static var cloudTrailARNInvalidException: Self { .init(.cloudTrailARNInvalidException) }
     public static var cloudTrailAccessNotEnabledException: Self { .init(.cloudTrailAccessNotEnabledException) }
