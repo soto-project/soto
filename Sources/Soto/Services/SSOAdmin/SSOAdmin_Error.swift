@@ -46,12 +46,19 @@ public struct SSOAdminErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request processing has failed because of an unknown error, exception, or failure with an internal server.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Indicates that a requested resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Indicates that the principal has crossed the permitted number of resources that can be created.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Indicates that the principal has crossed the throttling limits of the API operations.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The request failed because it contains a syntax error.
     public static var validationException: Self { .init(.validationException) }
 }
 

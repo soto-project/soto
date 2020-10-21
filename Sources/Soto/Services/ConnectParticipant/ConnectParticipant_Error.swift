@@ -43,9 +43,13 @@ public struct ConnectParticipantErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// This exception occurs when there is an internal failure in the Amazon Connect service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The input fails to satisfy the constraints specified by Amazon Connect.
     public static var validationException: Self { .init(.validationException) }
 }
 

@@ -51,17 +51,29 @@ public struct DeviceFarmErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An invalid argument was specified.
     public static var argumentException: Self { .init(.argumentException) }
+    /// The requested object could not be deleted.
     public static var cannotDeleteException: Self { .init(.cannotDeleteException) }
+    /// An entity with the same name already exists.
     public static var idempotencyException: Self { .init(.idempotencyException) }
+    /// An internal exception was raised in the service. Contact aws-devicefarm-support@amazon.com if you see this error.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// There was an error with the update request, or you do not have sufficient permissions to update this VPC endpoint configuration.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    /// A limit was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Exception gets thrown when a user is not eligible to perform the specified transaction.
     public static var notEligibleException: Self { .init(.notEligibleException) }
+    /// The specified entity was not found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// There was a problem with the service account.
     public static var serviceAccountException: Self { .init(.serviceAccountException) }
+    /// The operation was not successful. Try again.
     public static var tagOperationException: Self { .init(.tagOperationException) }
+    /// The request doesn't comply with the AWS Identity and Access Management (IAM) tag policy. Correct your request and then retry it.
     public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    /// The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

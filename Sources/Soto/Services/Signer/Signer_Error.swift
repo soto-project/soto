@@ -46,12 +46,19 @@ public struct SignerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// An internal error occurred.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// The signing profile was not found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// A specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The signing job has been throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You signing certificate could not be validated.
     public static var validationException: Self { .init(.validationException) }
 }
 

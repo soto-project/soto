@@ -41,7 +41,9 @@ public struct OpsWorksErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Indicates that a resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Indicates that a request was not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

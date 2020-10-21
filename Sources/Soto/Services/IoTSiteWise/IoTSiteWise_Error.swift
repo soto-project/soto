@@ -48,14 +48,23 @@ public struct IoTSiteWiseErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
     public static var conflictingOperationException: Self { .init(.conflictingOperationException) }
+    /// AWS IoT SiteWise can't process your request right now. Try again later.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request isn't valid. This can occur if your request contains malformed JSON or unsupported characters. Check your request and try again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// You've reached the limit for a resource. For example, this can occur if you're trying to associate more than the allowed number of child assets or attempting to create more than the allowed number of properties for an asset model. For more information, see Quotas in the AWS IoT SiteWise User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The requested resource can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The requested service is unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Your request exceeded a rate limit. For example, you might have exceeded the number of AWS IoT SiteWise assets that can be created per second, the allowed number of messages per second, and so on. For more information, see Quotas in the AWS IoT SiteWise User Guide.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You've reached the limit for the number of tags allowed for a resource. For more information, see Tag naming limits and requirements in the AWS General Reference.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

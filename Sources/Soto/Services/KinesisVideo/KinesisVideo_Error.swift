@@ -52,18 +52,31 @@ public struct KinesisVideoErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have required permissions to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// You have reached the maximum limit of active signaling channels for this AWS account in this region.
     public static var accountChannelLimitExceededException: Self { .init(.accountChannelLimitExceededException) }
+    /// The number of streams created for the account is too high.
     public static var accountStreamLimitExceededException: Self { .init(.accountStreamLimitExceededException) }
+    /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    /// Not implemented.
     public static var deviceStreamLimitExceededException: Self { .init(.deviceStreamLimitExceededException) }
+    /// The value for this input parameter is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// Not implemented.
     public static var invalidDeviceException: Self { .init(.invalidDeviceException) }
+    /// The format of the StreamARN is invalid.
     public static var invalidResourceFormatException: Self { .init(.invalidResourceFormatException) }
+    /// The caller is not authorized to perform this operation.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    /// The signaling channel is currently not available for this operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// Amazon Kinesis Video Streams can't find the stream that you specified.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You have exceeded the limit of tags that you can associate with the resource. Kinesis video streams support up to 50 tags.
     public static var tagsPerResourceExceededLimitException: Self { .init(.tagsPerResourceExceededLimitException) }
+    /// The stream version that you specified is not the latest version. To get the latest version, use the DescribeStream API.
     public static var versionMismatchException: Self { .init(.versionMismatchException) }
 }
 

@@ -43,9 +43,13 @@ public struct CostandUsageReportServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// A report with the specified name already exists in the account. Specify a different report name.
     public static var duplicateReportNameException: Self { .init(.duplicateReportNameException) }
+    /// An error on the server occurred during the processing of your request. Try again later.
     public static var internalErrorException: Self { .init(.internalErrorException) }
+    /// This account already has five reports defined. To define a new report, you must delete an existing report.
     public static var reportLimitReachedException: Self { .init(.reportLimitReachedException) }
+    /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
 }
 

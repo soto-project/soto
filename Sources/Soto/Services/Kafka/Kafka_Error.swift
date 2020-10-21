@@ -47,13 +47,21 @@ public struct KafkaErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Returns information about an error.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Returns information about an error.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Returns information about an error.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Returns information about an error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// Returns information about an error.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Returns information about an error.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Returns information about an error.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// Returns information about an error.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

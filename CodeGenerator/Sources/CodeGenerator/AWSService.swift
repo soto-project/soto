@@ -119,6 +119,7 @@ protocol EncodingPropertiesContext {}
 
 extension AWSService {
     struct ErrorContext {
+        let comment: [String.SubSequence]
         let `enum`: String
         let string: String
     }
@@ -336,7 +337,12 @@ extension AWSService {
         let errors = self.errors.sorted { $0.name < $1.name }
         for error in errors {
             let code: String = error.error?.code ?? error.name
-            errorContexts.append(ErrorContext(enum: error.name.toSwiftVariableCase(), string: code))
+            let errorContext = ErrorContext(
+                comment: self.docs.shapes[error.name]?.base?.tagStriped().split(separator: "\n") ?? [],
+                enum: error.name.toSwiftVariableCase(),
+                string: code
+            )
+            errorContexts.append(errorContext)
         }
         if errorContexts.count > 0 {
             context["errors"] = errorContexts
@@ -587,7 +593,7 @@ extension AWSService {
         } else {
             defaultValue = nil
         }
-        let memberDocs = self.docs.shapes[shape.name]?[name]?.tagStriped().split(separator: "\n")
+        let memberDocs = self.docs.shapes[shape.name]?.refs[name]?.tagStriped().split(separator: "\n")
         let propertyWrapper = self.generatePropertyWrapper(member, name: name)
         guard propertyWrapper == nil || member.location == .body || member.location == nil else {
             preconditionFailure("Cannot have a non-body variable with a property wrapper")

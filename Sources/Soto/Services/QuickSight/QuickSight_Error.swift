@@ -56,22 +56,39 @@ public struct QuickSightErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct access keys.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// A resource is already in a state that indicates an operation is happening that must complete before a new update can be applied.
     public static var concurrentUpdatingException: Self { .init(.concurrentUpdatingException) }
+    /// Updating or deleting a resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The domain specified isn't on the allow list. All domains for embedded dashboards must be added to the approved list by an Amazon QuickSight admin.
     public static var domainNotWhitelistedException: Self { .init(.domainNotWhitelistedException) }
+    /// The identity type specified isn't supported. Supported identity types include IAM and QUICKSIGHT.
     public static var identityTypeNotSupportedException: Self { .init(.identityTypeNotSupportedException) }
+    /// An internal failure occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The NextToken value isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One or more parameters has a value that isn't valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// A limit is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// One or more preconditions aren't met.
     public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
+    /// The user with the provided name isn't found. This error can happen in any operation that requires finding a user based on a provided user name, such as DeleteUser, DescribeUser, and so on.
     public static var quickSightUserNotFoundException: Self { .init(.quickSightUserNotFoundException) }
+    /// The resource specified already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    /// One or more resources can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// This resource is currently unavailable.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    /// The number of minutes specified for the lifetime of a session isn't valid. The session lifetime must be 15-600 minutes.
     public static var sessionLifetimeInMinutesInvalidException: Self { .init(.sessionLifetimeInMinutesInvalidException) }
+    /// Access is throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// This error indicates that you are calling an operation on an Amazon QuickSight subscription where the edition doesn't include support for that operation. Amazon QuickSight currently has Standard Edition and Enterprise Edition. Not every operation and capability is available in every edition.
     public static var unsupportedUserEditionException: Self { .init(.unsupportedUserEditionException) }
 }
 

@@ -45,11 +45,17 @@ public struct QLDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// One or more parameters in the request aren't valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// You have reached the limit on the maximum number of resources allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource can't be modified at this time.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The operation failed because a condition wasn't satisfied in advance.
     public static var resourcePreconditionNotMetException: Self { .init(.resourcePreconditionNotMetException) }
 }
 

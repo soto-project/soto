@@ -45,11 +45,17 @@ public struct RDSDataServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// There is an error in the call or in a SQL statement.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// There are insufficient privileges to make the call.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// An internal error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The resourceArn, secretArn, or transactionId value can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The service specified by the resourceArn parameter is not available.
     public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
+    /// The execution of the SQL statement timed out.
     public static var statementTimeoutException: Self { .init(.statementTimeoutException) }
 }
 

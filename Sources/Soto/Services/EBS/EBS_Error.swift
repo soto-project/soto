@@ -47,13 +47,21 @@ public struct EBSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// You have reached the limit for concurrent API requests. For more information, see Optimizing performance of the EBS direct APIs in the Amazon Elastic Compute Cloud User Guide.
     public static var concurrentLimitExceededException: Self { .init(.concurrentLimitExceededException) }
+    /// The request uses the same client token as a previous, but non-identical request.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The number of API requests has exceed the maximum allowed API request throttling limit.
     public static var requestThrottledException: Self { .init(.requestThrottledException) }
+    /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Your current service quotas do not allow you to perform this action.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The input fails to satisfy the constraints of the EBS direct APIs.
     public static var validationException: Self { .init(.validationException) }
 }
 

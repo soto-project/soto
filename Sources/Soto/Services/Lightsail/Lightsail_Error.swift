@@ -46,12 +46,19 @@ public struct LightsailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Lightsail throws this exception when the user cannot be authenticated or uses invalid credentials to access a resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Lightsail throws this exception when an account is still in the setup in progress state.
     public static var accountSetupInProgressException: Self { .init(.accountSetupInProgressException) }
+    /// Lightsail throws this exception when user input does not conform to the validation rules of an input field.  Domain-related APIs are only available in the N. Virginia (us-east-1) Region. Please set your AWS Region configuration to us-east-1 to create, view, or edit these resources.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// Lightsail throws this exception when it cannot find a resource.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Lightsail throws this exception when an operation fails to execute.
     public static var operationFailureException: Self { .init(.operationFailureException) }
+    /// A general service exception.
     public static var serviceException: Self { .init(.serviceException) }
+    /// Lightsail throws this exception when the user has not been authenticated.
     public static var unauthenticatedException: Self { .init(.unauthenticatedException) }
 }
 

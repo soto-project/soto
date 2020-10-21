@@ -47,13 +47,21 @@ public struct MarketplaceCatalogErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Access is denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// There was an internal service exception.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The resource is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Currently, the specified resource is not supported.
     public static var resourceNotSupportedException: Self { .init(.resourceNotSupportedException) }
+    /// The maximum number of open requests per account has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Too many requests.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// An error occurred during validation.
     public static var validationException: Self { .init(.validationException) }
 }
 

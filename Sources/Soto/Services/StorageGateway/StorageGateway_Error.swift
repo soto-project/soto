@@ -42,8 +42,11 @@ public struct StorageGatewayErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An internal server error has occurred during the request. For more information, see the error and message fields.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public static var invalidGatewayRequestException: Self { .init(.invalidGatewayRequestException) }
+    /// An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
     public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
 }
 

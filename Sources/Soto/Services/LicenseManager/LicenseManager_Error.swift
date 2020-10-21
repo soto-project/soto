@@ -49,15 +49,25 @@ public struct LicenseManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Access to resource denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The AWS user account does not have permission to perform the action. Check the IAM policy associated with this account.
     public static var authorizationException: Self { .init(.authorizationException) }
+    /// A dependency required to run the API is missing.
     public static var failedDependencyException: Self { .init(.failedDependencyException) }
+    /// The request uses too many filters or too many filter values.
     public static var filterLimitExceededException: Self { .init(.filterLimitExceededException) }
+    /// One or more parameter values are not valid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// License Manager cannot allocate a license to a resource because of its state.  For example, you cannot allocate a license to an instance in the process of shutting down.
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    /// You do not have enough licenses available to support a new resource launch.
     public static var licenseUsageException: Self { .init(.licenseUsageException) }
+    /// Too many requests have been submitted. Try again after a brief wait.
     public static var rateLimitExceededException: Self { .init(.rateLimitExceededException) }
+    /// Your resource limits have been exceeded.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// The server experienced an internal error. Try again.
     public static var serverInternalException: Self { .init(.serverInternalException) }
 }
 

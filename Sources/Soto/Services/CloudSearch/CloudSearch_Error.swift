@@ -46,12 +46,19 @@ public struct CloudSearchErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An error occurred while processing the request.
     public static var baseException: Self { .init(.baseException) }
+    /// The request was rejected because it attempted an operation which is not enabled.
     public static var disabledOperationException: Self { .init(.disabledOperationException) }
+    /// An internal error occurred while processing the request. If this problem persists, report an issue from the Service Health Dashboard.
     public static var internalException: Self { .init(.internalException) }
+    /// The request was rejected because it specified an invalid type definition.
     public static var invalidTypeException: Self { .init(.invalidTypeException) }
+    /// The request was rejected because a resource limit has already been met.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request was rejected because it attempted to reference a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request was rejected because it has invalid parameters.
     public static var validationException: Self { .init(.validationException) }
 }
 

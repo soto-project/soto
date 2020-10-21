@@ -45,11 +45,17 @@ public struct AugmentedAIRuntimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your request has the same name as another active human loop but has different input data. You cannot start two human loops with the same name and different input data.
     public static var conflictException: Self { .init(.conflictException) }
+    /// We couldn't process your request because of an issue with the server. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// We couldn't find the requested resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You exceeded your service quota. Delete some resources or request an increase in your service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// You exceeded the maximum number of requests.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The request isn't valid. Check the syntax and try again.
     public static var validationException: Self { .init(.validationException) }
 }
 

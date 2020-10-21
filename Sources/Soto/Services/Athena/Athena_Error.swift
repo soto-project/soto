@@ -44,10 +44,15 @@ public struct AthenaErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Indicates a platform issue, which may be due to a transient condition or outage.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Indicates that something is wrong with the input to the request. For example, a required parameter may be missing or out of range.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// An exception that Athena received when it called a custom metastore. Occurs if the error is not caused by user input (InvalidRequestException) or from the Athena platform (InternalServerException). For example, if a user-created Lambda function is missing permissions, the Lambda 4XX exception is returned in a MetadataException.
     public static var metadataException: Self { .init(.metadataException) }
+    /// A resource, such as a workgroup, was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Indicates that the request was throttled.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

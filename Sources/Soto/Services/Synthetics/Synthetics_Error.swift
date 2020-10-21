@@ -43,9 +43,13 @@ public struct SyntheticsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// A conflicting operation is already in progress.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An unknown internal error occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// One of the specified resources was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A parameter could not be validated.
     public static var validationException: Self { .init(.validationException) }
 }
 

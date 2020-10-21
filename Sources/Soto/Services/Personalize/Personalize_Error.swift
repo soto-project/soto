@@ -45,11 +45,17 @@ public struct PersonalizeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Provide a valid value for the field or parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The token is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The limit on the number of requests per second has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// Could not find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

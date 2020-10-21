@@ -53,19 +53,33 @@ public struct Route53ResolverErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The current account doesn't have the IAM permissions required to perform the specified Resolver operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// We encountered an unknown error. Try again in a few minutes.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// The value that you specified for NextToken in a List request isn't valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One or more parameters in this request are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The specified Resolver rule policy is invalid.
     public static var invalidPolicyDocument: Self { .init(.invalidPolicyDocument) }
+    /// The request is invalid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The specified tag is invalid.
     public static var invalidTagException: Self { .init(.invalidTagException) }
+    /// The request caused one or more limits to be exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource that you tried to create already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    /// The resource that you tried to update or delete is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The specified resource isn't available.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
+    /// The request was throttled. Try again in a few minutes.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The specified resource doesn't exist.
     public static var unknownResourceException: Self { .init(.unknownResourceException) }
 }
 

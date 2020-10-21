@@ -46,12 +46,19 @@ public struct NetworkManagerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request has failed due to an internal error.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A service limit was exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The input fails to satisfy the constraints.
     public static var validationException: Self { .init(.validationException) }
 }
 

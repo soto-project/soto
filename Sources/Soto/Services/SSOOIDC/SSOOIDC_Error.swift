@@ -51,17 +51,29 @@ public struct SSOOIDCErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Indicates that a request to authorize a client with an access user session token is pending.
     public static var authorizationPendingException: Self { .init(.authorizationPendingException) }
+    /// Indicates that the token issued by the service is expired and is no longer valid.
     public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    /// Indicates that an error from the service occurred while trying to process a request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Indicates that the clientId or clientSecret in the request is invalid. For example, this can occur when a client sends an incorrect clientId or an expired clientSecret.
     public static var invalidClientException: Self { .init(.invalidClientException) }
+    /// Indicates that the client information sent in the request during registration is invalid.
     public static var invalidClientMetadataException: Self { .init(.invalidClientMetadataException) }
+    /// Indicates that a request contains an invalid grant. This can occur if a client makes a CreateToken request with an invalid grant type.
     public static var invalidGrantException: Self { .init(.invalidGrantException) }
+    /// Indicates that something is wrong with the input to the request. For example, a required parameter might be missing or out of range.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// Indicates that the scope provided in the request is invalid.
     public static var invalidScopeException: Self { .init(.invalidScopeException) }
+    /// Indicates that the client is making the request too frequently and is more than the service can handle.
     public static var slowDownException: Self { .init(.slowDownException) }
+    /// Indicates that the client is not currently authorized to make the request. This can happen when a clientId is not issued for a public client.
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+    /// Indicates that the grant type in the request is not supported by the service.
     public static var unsupportedGrantTypeException: Self { .init(.unsupportedGrantTypeException) }
 }
 

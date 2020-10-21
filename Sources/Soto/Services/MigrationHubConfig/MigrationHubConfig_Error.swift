@@ -45,11 +45,17 @@ public struct MigrationHubConfigErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Exception raised to indicate that authorization of an action was successful, when the DryRun flag is set to true.
     public static var dryRunOperation: Self { .init(.dryRunOperation) }
+    /// Exception raised when an internal, configuration, or dependency error is encountered.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// Exception raised when a request fails due to temporary unavailability of the service.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

@@ -43,9 +43,13 @@ public struct SSOErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Indicates that a problem occurred with the input to the request. For example, a required parameter might be missing or out of range.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Indicates that the request is being made too frequently and is more than what the server can handle.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// Indicates that the request is not authorized. This can happen due to an invalid access token in the request.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

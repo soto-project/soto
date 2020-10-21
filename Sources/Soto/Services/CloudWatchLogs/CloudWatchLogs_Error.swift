@@ -50,16 +50,27 @@ public struct CloudWatchLogsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The event was already logged.
     public static var dataAlreadyAcceptedException: Self { .init(.dataAlreadyAcceptedException) }
+    /// The operation is not valid on the specified resource.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    /// A parameter is specified incorrectly.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The sequence token is not valid. You can get the correct sequence token in the expectedSequenceToken field in the InvalidSequenceTokenException message.
     public static var invalidSequenceTokenException: Self { .init(.invalidSequenceTokenException) }
+    /// You have reached the maximum number of resources that can be created.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The query string is not valid. Details about this error are displayed in a QueryCompileError object. For more information, see QueryCompileError. For more information about valid query syntax, see CloudWatch Logs Insights Query Syntax.
     public static var malformedQueryException: Self { .init(.malformedQueryException) }
+    /// Multiple requests to update the same resource were in conflict.
     public static var operationAbortedException: Self { .init(.operationAbortedException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The most likely cause is an invalid AWS access key ID or secret key.
     public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
 }
 

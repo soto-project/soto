@@ -43,9 +43,13 @@ public struct GroundStationErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Dependency encountered an error.
     public static var dependencyException: Self { .init(.dependencyException) }
+    /// One or more parameters are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// Account limits for this resource have been exceeded.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// Resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

@@ -52,18 +52,31 @@ public struct ConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The contact flow has not been published.
     public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
+    /// The contact with the specified ID is not active or does not exist.
     public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
+    /// Outbound calls to the destination number are not allowed.
     public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }
+    /// A resource with the specified name already exists.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    /// Request processing failed due to an error or failure with the service.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The contact flow is not valid.
     public static var invalidContactFlowException: Self { .init(.invalidContactFlowException) }
+    /// One or more of the specified parameters are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The request is not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The allowed limit for the resource has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The contact is not permitted.
     public static var outboundContactNotPermittedException: Self { .init(.outboundContactNotPermittedException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The throttling limit has been exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// No user with the specified credentials was found in the Amazon Connect instance.
     public static var userNotFoundException: Self { .init(.userNotFoundException) }
 }
 

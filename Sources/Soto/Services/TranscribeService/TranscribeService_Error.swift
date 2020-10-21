@@ -44,10 +44,15 @@ public struct TranscribeServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your request didn't pass one or more validation tests. For example, if the entity that you're trying to delete doesn't exist or if it is in a non-terminal state (for example, it's "in progress"). See the exception Message field for more information.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// There is already a resource with that name.
     public static var conflictException: Self { .init(.conflictException) }
+    /// There was an internal error. Check the error message and try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// Either you have sent too many requests or your input file is too long. Wait before you resend your request, or use a smaller file and resend the request.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// We can't find the requested resource. Check the name and try your request again.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

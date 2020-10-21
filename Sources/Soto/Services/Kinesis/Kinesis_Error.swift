@@ -52,18 +52,31 @@ public struct KinesisErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The provided iterator exceeds the maximum age allowed.
     public static var expiredIteratorException: Self { .init(.expiredIteratorException) }
+    /// The pagination token passed to the operation is expired.
     public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    /// A specified parameter exceeds its restrictions, is not supported, or can't be used. For more information, see the returned message.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// The ciphertext references a key that doesn't exist or that you don't have access to.
     public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    /// The request was rejected because the specified customer master key (CMK) isn't enabled.
     public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
     public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    /// The request was rejected because the specified entity or resource can't be found.
     public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    /// The AWS access key ID needs a subscription for the service.
     public static var kMSOptInRequired: Self { .init(.kMSOptInRequired) }
+    /// The request was denied due to request throttling. For more information about throttling, see Limits in the AWS Key Management Service Developer Guide.
     public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
+    /// The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide, and Error Retries and Exponential Backoff in AWS in the AWS General Reference.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
+    /// The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The requested resource could not be found. The stream might not be specified correctly.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

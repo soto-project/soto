@@ -45,11 +45,17 @@ public struct ServerlessApplicationRepositoryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// One of the parameters in the request is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The resource already exists.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The client is not authenticated.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// The AWS Serverless Application Repository service encountered an internal error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The resource (for example, an access policy statement) specified in the request doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The client is sending more than the allowed number of requests per unit of time.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

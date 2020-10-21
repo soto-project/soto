@@ -45,11 +45,17 @@ public struct MediaStoreErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The container that you specified in the request already exists or is being updated.
     public static var containerInUseException: Self { .init(.containerInUseException) }
+    /// The container that you specified in the request does not exist.
     public static var containerNotFoundException: Self { .init(.containerNotFoundException) }
+    /// The CORS policy that you specified in the request does not exist.
     public static var corsPolicyNotFoundException: Self { .init(.corsPolicyNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// A service limit has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The policy that you specified in the request does not exist.
     public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
 }
 

@@ -53,19 +53,33 @@ public struct ServiceDiscoveryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The health check for the instance that is specified by ServiceId and InstanceId is not a custom health check.
     public static var customHealthNotFound: Self { .init(.customHealthNotFound) }
+    /// The operation is already in progress.
     public static var duplicateRequest: Self { .init(.duplicateRequest) }
+    /// No instance exists with the specified ID, or the instance was recently registered, and information about the instance hasn't propagated yet.
     public static var instanceNotFound: Self { .init(.instanceNotFound) }
+    /// One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     public static var invalidInput: Self { .init(.invalidInput) }
+    /// The namespace that you're trying to create already exists.
     public static var namespaceAlreadyExists: Self { .init(.namespaceAlreadyExists) }
+    /// No namespace exists with the specified ID.
     public static var namespaceNotFound: Self { .init(.namespaceNotFound) }
+    /// No operation exists with the specified ID.
     public static var operationNotFound: Self { .init(.operationNotFound) }
+    /// The operation can't be completed because you've reached the quota for the number of requests. For more information, see AWS Cloud Map API request throttling quota in the AWS Cloud Map Developer Guide.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
+    /// The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     public static var resourceInUse: Self { .init(.resourceInUse) }
+    /// The resource can't be created because you've reached the quota on the number of resources.
     public static var resourceLimitExceeded: Self { .init(.resourceLimitExceeded) }
+    /// The operation can't be completed because the resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service can't be created because a service with the same name already exists.
     public static var serviceAlreadyExists: Self { .init(.serviceAlreadyExists) }
+    /// No service exists with the specified ID.
     public static var serviceNotFound: Self { .init(.serviceNotFound) }
+    /// The list of tags on the resource is over the quota. The maximum number of tags that can be applied to a resource is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

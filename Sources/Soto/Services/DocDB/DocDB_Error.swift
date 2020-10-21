@@ -83,49 +83,93 @@ public struct DocDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified CIDR IP or Amazon EC2 security group isn't authorized for the specified security group. Amazon DocumentDB also might not be authorized to perform necessary actions on your behalf using IAM.
     public static var authorizationNotFoundFault: Self { .init(.authorizationNotFoundFault) }
+    ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
+    /// You already have a cluster with the given identifier.
     public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
+    ///  DBClusterIdentifier doesn't refer to an existing cluster.
     public static var dBClusterNotFoundFault: Self { .init(.dBClusterNotFoundFault) }
+    ///  DBClusterParameterGroupName doesn't refer to an existing cluster parameter group.
     public static var dBClusterParameterGroupNotFoundFault: Self { .init(.dBClusterParameterGroupNotFoundFault) }
+    /// The cluster can't be created because you have reached the maximum allowed quota of clusters.
     public static var dBClusterQuotaExceededFault: Self { .init(.dBClusterQuotaExceededFault) }
+    /// You already have a cluster snapshot with the given identifier.
     public static var dBClusterSnapshotAlreadyExistsFault: Self { .init(.dBClusterSnapshotAlreadyExistsFault) }
+    ///  DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
     public static var dBClusterSnapshotNotFoundFault: Self { .init(.dBClusterSnapshotNotFoundFault) }
+    /// You already have a instance with the given identifier.
     public static var dBInstanceAlreadyExistsFault: Self { .init(.dBInstanceAlreadyExistsFault) }
+    ///  DBInstanceIdentifier doesn't refer to an existing instance.
     public static var dBInstanceNotFoundFault: Self { .init(.dBInstanceNotFoundFault) }
+    /// A parameter group with the same name already exists.
     public static var dBParameterGroupAlreadyExistsFault: Self { .init(.dBParameterGroupAlreadyExistsFault) }
+    ///  DBParameterGroupName doesn't refer to an existing parameter group.
     public static var dBParameterGroupNotFoundFault: Self { .init(.dBParameterGroupNotFoundFault) }
+    /// This request would cause you to exceed the allowed number of parameter groups.
     public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
+    ///  DBSecurityGroupName doesn't refer to an existing security group.
     public static var dBSecurityGroupNotFoundFault: Self { .init(.dBSecurityGroupNotFoundFault) }
+    ///  DBSnapshotIdentifier is already being used by an existing snapshot.
     public static var dBSnapshotAlreadyExistsFault: Self { .init(.dBSnapshotAlreadyExistsFault) }
+    ///  DBSnapshotIdentifier doesn't refer to an existing snapshot.
     public static var dBSnapshotNotFoundFault: Self { .init(.dBSnapshotNotFoundFault) }
+    ///  DBSubnetGroupName is already being used by an existing subnet group.
     public static var dBSubnetGroupAlreadyExistsFault: Self { .init(.dBSubnetGroupAlreadyExistsFault) }
+    /// Subnets in the subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     public static var dBSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dBSubnetGroupDoesNotCoverEnoughAZs) }
+    ///  DBSubnetGroupName doesn't refer to an existing subnet group.
     public static var dBSubnetGroupNotFoundFault: Self { .init(.dBSubnetGroupNotFoundFault) }
+    /// The request would cause you to exceed the allowed number of subnet groups.
     public static var dBSubnetGroupQuotaExceededFault: Self { .init(.dBSubnetGroupQuotaExceededFault) }
+    /// The request would cause you to exceed the allowed number of subnets in a subnet group.
     public static var dBSubnetQuotaExceededFault: Self { .init(.dBSubnetQuotaExceededFault) }
+    /// The upgrade failed because a resource that the depends on can't be modified.
     public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
+    /// The request would cause you to exceed the allowed number of instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
+    /// The cluster doesn't have enough capacity for the current operation.
     public static var insufficientDBClusterCapacityFault: Self { .init(.insufficientDBClusterCapacityFault) }
+    /// The specified instance class isn't available in the specified Availability Zone.
     public static var insufficientDBInstanceCapacityFault: Self { .init(.insufficientDBInstanceCapacityFault) }
+    /// There is not enough storage available for the current action. You might be able to resolve this error by updating your subnet group to use different Availability Zones that have more storage available.
     public static var insufficientStorageClusterCapacityFault: Self { .init(.insufficientStorageClusterCapacityFault) }
+    /// The provided value isn't a valid cluster snapshot state.
     public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
+    /// The cluster isn't in a valid state.
     public static var invalidDBClusterStateFault: Self { .init(.invalidDBClusterStateFault) }
+    ///  The specified instance isn't in the available state.
     public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
+    /// The parameter group is in use, or it is in a state that is not valid. If you are trying to delete the parameter group, you can't delete it when the parameter group is in this state.
     public static var invalidDBParameterGroupStateFault: Self { .init(.invalidDBParameterGroupStateFault) }
+    /// The state of the security group doesn't allow deletion.
     public static var invalidDBSecurityGroupStateFault: Self { .init(.invalidDBSecurityGroupStateFault) }
+    /// The state of the snapshot doesn't allow deletion.
     public static var invalidDBSnapshotStateFault: Self { .init(.invalidDBSnapshotStateFault) }
+    /// The subnet group can't be deleted because it's in use.
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
+    ///  The subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
+    /// You cannot restore from a virtual private cloud (VPC) backup to a non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
+    /// The requested subnet is not valid, or multiple subnets were requested that are not all in a common virtual private cloud (VPC).
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    /// An error occurred when accessing an AWS KMS key.
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
+    /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
+    /// The request would cause you to exceed the allowed number of snapshots.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    /// The request would cause you to exceed the allowed amount of storage available across all instances.
     public static var storageQuotaExceededFault: Self { .init(.storageQuotaExceededFault) }
+    /// Storage of the specified StorageType can't be associated with the DB instance.
     public static var storageTypeNotSupportedFault: Self { .init(.storageTypeNotSupportedFault) }
+    /// The subnet is already in use in the Availability Zone.
     public static var subnetAlreadyInUse: Self { .init(.subnetAlreadyInUse) }
 }
 

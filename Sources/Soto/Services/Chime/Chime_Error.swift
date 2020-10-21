@@ -50,16 +50,27 @@ public struct ChimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You don't have permissions to perform the requested operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The input parameters don't match the service's restrictions.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The request could not be processed because of conflict in the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The client is permanently forbidden from making the request. For example, when a user tries to create an account from an unsupported Region.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The request exceeds the resource limit.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// The service encountered an unexpected error.
     public static var serviceFailureException: Self { .init(.serviceFailureException) }
+    /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The client exceeded its request rate limit.
     public static var throttledClientException: Self { .init(.throttledClientException) }
+    /// The client is not currently authorized to make the request.
     public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+    /// The request was well-formed but was unable to be followed due to semantic errors.
     public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
 }
 

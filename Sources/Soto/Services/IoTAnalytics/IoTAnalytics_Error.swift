@@ -46,12 +46,19 @@ public struct IoTAnalyticsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// There was an internal failure.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request was not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The command caused an internal limit to be exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A resource with the same name already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// A resource with the specified name could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

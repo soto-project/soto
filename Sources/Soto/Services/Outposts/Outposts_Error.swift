@@ -44,10 +44,15 @@ public struct OutpostsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have permission to perform this operation.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// An internal error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The specified request is not valid.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// You have exceeded a service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// A parameter is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

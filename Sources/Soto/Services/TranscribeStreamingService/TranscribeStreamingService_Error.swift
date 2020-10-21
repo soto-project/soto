@@ -44,10 +44,15 @@ public struct TranscribeStreamingServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// One or more arguments to the StartStreamTranscription operation was invalid. For example, MediaEncoding was not set to pcm or LanguageCode was not set to a valid code. Check the parameters and try your request again.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// A new stream started with the same session ID. The current stream has been terminated.
     public static var conflictException: Self { .init(.conflictException) }
+    /// A problem occurred while processing the audio. Amazon Transcribe terminated processing. Try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// You have exceeded the maximum number of concurrent transcription streams, are starting transcription streams too quickly, or the maximum audio length of 4 hours. Wait until a stream has finished processing, or break your audio stream into smaller chunks and try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Service is currently unavailable. Try your request later.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
 }
 

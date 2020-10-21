@@ -48,14 +48,23 @@ public struct TimestreamWriteErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You are not authorized to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Timestream was unable to process this request because it contains resource that already exists.
     public static var conflictException: Self { .init(.conflictException) }
+    ///  Timestream was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested endpoint was invalid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
+    ///  WriteRecords would throw this exception in the following cases:     Records with duplicate data where there are multiple records with the same dimensions, timestamps, and measure names but different measure values.     Records with timestamps that lie outside the retention duration of the memory store     Records with dimensions or measures that exceed the Timestream defined limits.     For more information, see Access Management in the Timestream Developer Guide.
     public static var rejectedRecordsException: Self { .init(.rejectedRecordsException) }
+    /// The operation tried to access a nonexistent resource. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  Instance quota of resource exceeded for this account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    ///  Too many requests were made by a user exceeding service quotas. The request was throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
+    ///  Invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
 }
 

@@ -45,11 +45,17 @@ public struct LakeFormationErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// A resource to be created or added already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// Two processes are trying to modify a resource simultaneously.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// A specified entity does not exist
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// An internal service error occurred.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The input provided was not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
 }
 

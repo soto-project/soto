@@ -43,9 +43,13 @@ public struct SageMakerRuntimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  An internal failure occurred.
     public static var internalFailure: Self { .init(.internalFailure) }
+    ///  Model (owned by the customer in the container) returned 4xx or 5xx error code.
     public static var modelError: Self { .init(.modelError) }
+    ///  The service is unavailable. Try your call again.
     public static var serviceUnavailable: Self { .init(.serviceUnavailable) }
+    ///  Inspect your request and try again.
     public static var validationError: Self { .init(.validationError) }
 }
 

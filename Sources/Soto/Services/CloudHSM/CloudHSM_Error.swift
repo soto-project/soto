@@ -42,8 +42,11 @@ public struct CloudHSMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Indicates that an internal error occurred.
     public static var cloudHsmInternalException: Self { .init(.cloudHsmInternalException) }
+    /// Indicates that an exception occurred in the AWS CloudHSM service.
     public static var cloudHsmServiceException: Self { .init(.cloudHsmServiceException) }
+    /// Indicates that one or more of the request parameters are not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
 }
 

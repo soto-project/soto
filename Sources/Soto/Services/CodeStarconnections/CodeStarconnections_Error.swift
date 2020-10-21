@@ -42,8 +42,11 @@ public struct CodeStarconnectionsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Exceeded the maximum limit for connections.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Resource not found. Verify the connection resource ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Resource not found. Verify the ARN for the host resource and try again.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
 }
 

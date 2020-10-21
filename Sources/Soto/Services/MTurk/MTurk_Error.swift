@@ -41,7 +41,9 @@ public struct MTurkErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your request is invalid.
     public static var requestError: Self { .init(.requestError) }
+    /// Amazon Mechanical Turk is temporarily unable to process your request. Try your call again.
     public static var serviceFault: Self { .init(.serviceFault) }
 }
 

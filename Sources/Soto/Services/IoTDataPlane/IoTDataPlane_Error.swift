@@ -49,15 +49,25 @@ public struct IoTDataPlaneErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified version does not match the version of the document.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An unexpected error has occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request is not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The specified combination of HTTP verb and URI is not supported.
     public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
+    /// The payload exceeds the maximum size allowed.
     public static var requestEntityTooLargeException: Self { .init(.requestEntityTooLargeException) }
+    /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The rate exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You are not authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// The document encoding is not supported.
     public static var unsupportedDocumentEncodingException: Self { .init(.unsupportedDocumentEncodingException) }
 }
 

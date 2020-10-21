@@ -48,14 +48,22 @@ public struct ApplicationDiscoveryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The AWS user account does not have permission to perform the action. Check the IAM policy associated with this account.
     public static var authorizationErrorException: Self { .init(.authorizationErrorException) }
     public static var conflictErrorException: Self { .init(.conflictErrorException) }
+    /// The home region is not set. Set the home region to continue.
     public static var homeRegionNotSetException: Self { .init(.homeRegionNotSetException) }
+    /// One or more parameters are not valid. Verify the parameters and try again.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The value of one or more parameters are either invalid or out of range. Verify the parameter values and try again.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// This operation is not permitted.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// This issue occurs when the same clientRequestToken is used with the StartImportTask action, but with different parameters. For example, you use the same request token but have two different import URLs, you can encounter this issue. If the import tasks are meant to be different, use a different clientRequestToken, and try again.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified configuration ID was not located. Verify the configuration ID and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The server experienced an internal error. Try again.
     public static var serverInternalErrorException: Self { .init(.serverInternalErrorException) }
 }
 

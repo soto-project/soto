@@ -45,11 +45,17 @@ public struct CodeGuruProfilerErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The server encountered an internal error and is unable to complete the request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource specified in the request does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The parameter is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

@@ -41,7 +41,9 @@ public struct GuardDutyErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// A bad request exception object.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// An internal server error exception object.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
 }
 

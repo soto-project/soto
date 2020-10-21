@@ -42,8 +42,11 @@ public struct EMRErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Indicates that an error occurred while processing the request and that the request was not completed.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// This exception occurs when there is an internal failure in the EMR service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// This exception occurs when there is something wrong with user input.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
 }
 

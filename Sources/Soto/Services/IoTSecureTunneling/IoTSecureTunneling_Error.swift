@@ -41,7 +41,9 @@ public struct IoTSecureTunnelingErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Thrown when a tunnel limit is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Thrown when an operation is attempted on a resource that does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

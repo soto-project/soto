@@ -45,9 +45,13 @@ public struct ApiGatewayV2ErrorType: AWSErrorType {
     public var errorCode: String { self.error.rawValue }
 
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The resource specified in the request was not found. See the message field for more information.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// A limit has been exceeded. See the accompanying error message for details.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

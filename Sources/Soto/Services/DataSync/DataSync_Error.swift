@@ -41,7 +41,9 @@ public struct DataSyncErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// This exception is thrown when an error occurs in the AWS DataSync service.
     public static var internalException: Self { .init(.internalException) }
+    /// This exception is thrown when the client submits a malformed request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
 }
 

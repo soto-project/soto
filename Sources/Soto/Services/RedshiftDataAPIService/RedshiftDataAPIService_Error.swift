@@ -43,9 +43,13 @@ public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The SQL statement encountered an environmental error while running.
     public static var executeStatementException: Self { .init(.executeStatementException) }
+    /// The Amazon Redshift Data API operation failed due to invalid input.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The Amazon Redshift Data API operation failed due to a missing resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The Amazon Redshift Data API operation failed due to invalid input.
     public static var validationException: Self { .init(.validationException) }
 }
 

@@ -40,6 +40,7 @@ public struct WorkMailMessageFlowErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The requested email message is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

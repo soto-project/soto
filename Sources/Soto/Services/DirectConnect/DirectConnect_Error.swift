@@ -43,9 +43,13 @@ public struct DirectConnectErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// One or more parameters are not valid.
     public static var directConnectClientException: Self { .init(.directConnectClientException) }
+    /// A server-side error occurred.
     public static var directConnectServerException: Self { .init(.directConnectServerException) }
+    /// A tag key was specified more than once.
     public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    /// You have reached the limit on the number of tags that can be assigned.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

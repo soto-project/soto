@@ -74,40 +74,75 @@ public struct CloudDirectoryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Access denied. Check your permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// A BatchWrite exception has occurred.
     public static var batchWriteException: Self { .init(.batchWriteException) }
+    /// Cannot list the parents of a Directory root.
     public static var cannotListParentOfRootException: Self { .init(.cannotListParentOfRootException) }
+    /// Indicates that a Directory could not be created due to a naming conflict. Choose a different name and try again.
     public static var directoryAlreadyExistsException: Self { .init(.directoryAlreadyExistsException) }
+    /// A directory that has been deleted and to which access has been attempted. Note: The requested resource will eventually cease to exist.
     public static var directoryDeletedException: Self { .init(.directoryDeletedException) }
+    /// An operation can only operate on a disabled directory.
     public static var directoryNotDisabledException: Self { .init(.directoryNotDisabledException) }
+    /// Operations are only permitted on enabled directories.
     public static var directoryNotEnabledException: Self { .init(.directoryNotEnabledException) }
+    /// A facet with the same name already exists.
     public static var facetAlreadyExistsException: Self { .init(.facetAlreadyExistsException) }
+    /// Occurs when deleting a facet that contains an attribute that is a target to an attribute reference in a different facet.
     public static var facetInUseException: Self { .init(.facetInUseException) }
+    /// The specified Facet could not be found.
     public static var facetNotFoundException: Self { .init(.facetNotFoundException) }
+    /// The Facet that you provided was not well formed or could not be validated with the schema.
     public static var facetValidationException: Self { .init(.facetValidationException) }
+    /// Indicates a failure occurred while performing a check for backward compatibility between the specified schema and the schema that is currently applied to the directory.
     public static var incompatibleSchemaException: Self { .init(.incompatibleSchemaException) }
+    /// An object has been attempted to be attached to an object that does not have the appropriate attribute value.
     public static var indexedAttributeMissingException: Self { .init(.indexedAttributeMissingException) }
+    /// Indicates a problem that must be resolved by Amazon Web Services. This might be a transient error in which case you can retry your request until it succeeds. Otherwise, go to the AWS Service Health Dashboard site to see if there are any operational issues with the service.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// Indicates that the provided ARN value is not valid.
     public static var invalidArnException: Self { .init(.invalidArnException) }
+    /// Indicates that an attempt to make an attachment was invalid. For example, attaching two nodes with a link type that is not applicable to the nodes or attempting to apply a schema to a directory a second time.
     public static var invalidAttachmentException: Self { .init(.invalidAttachmentException) }
+    /// An attempt to modify a Facet resulted in an invalid schema exception.
     public static var invalidFacetUpdateException: Self { .init(.invalidFacetUpdateException) }
+    /// Indicates that the NextToken value is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// Occurs when any of the rule parameter keys or values are invalid.
     public static var invalidRuleException: Self { .init(.invalidRuleException) }
+    /// Indicates that the provided SchemaDoc value is not valid.
     public static var invalidSchemaDocException: Self { .init(.invalidSchemaDocException) }
+    /// Can occur for multiple reasons such as when you tag a resource that doesn’t exist or if you specify a higher number of tags for a resource than the allowed limit. Allowed limit is 50 tags per resource.
     public static var invalidTaggingRequestException: Self { .init(.invalidTaggingRequestException) }
+    /// Indicates that limits are exceeded. See Limits for more information.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Indicates that a link could not be created due to a naming conflict. Choose a different name and then try again.
     public static var linkNameAlreadyInUseException: Self { .init(.linkNameAlreadyInUseException) }
+    /// Indicates that the requested operation can only operate on index objects.
     public static var notIndexException: Self { .init(.notIndexException) }
+    /// Occurs when any invalid operations are performed on an object that is not a node, such as calling ListObjectChildren for a leaf node object.
     public static var notNodeException: Self { .init(.notNodeException) }
+    /// Indicates that the requested operation can only operate on policy objects.
     public static var notPolicyException: Self { .init(.notPolicyException) }
+    /// Indicates that the object is not attached to the index.
     public static var objectAlreadyDetachedException: Self { .init(.objectAlreadyDetachedException) }
+    /// Indicates that the requested operation cannot be completed because the object has not been detached from the tree.
     public static var objectNotDetachedException: Self { .init(.objectNotDetachedException) }
+    /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Occurs when a conflict with a previous successful write is detected. For example, if a write operation occurs on an object and then an attempt is made to read the object using “SERIALIZABLE” consistency, this exception may result. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
     public static var retryableConflictException: Self { .init(.retryableConflictException) }
+    /// Indicates that a schema could not be created due to a naming conflict. Please select a different name and then try again.
     public static var schemaAlreadyExistsException: Self { .init(.schemaAlreadyExistsException) }
+    /// Indicates that a schema is already published.
     public static var schemaAlreadyPublishedException: Self { .init(.schemaAlreadyPublishedException) }
+    /// The object could not be deleted because links still exist. Remove the links and then try the operation again.
     public static var stillContainsLinksException: Self { .init(.stillContainsLinksException) }
+    /// Indicates that the requested index type is not supported.
     public static var unsupportedIndexTypeException: Self { .init(.unsupportedIndexTypeException) }
+    /// Indicates that your request is malformed in some manner. See the exception message.
     public static var validationException: Self { .init(.validationException) }
 }
 

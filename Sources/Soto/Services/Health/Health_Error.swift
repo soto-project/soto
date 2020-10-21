@@ -42,8 +42,11 @@ public struct HealthErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  EnableHealthServiceAccessForOrganization is already in progress. Wait for the action to complete before trying again. To get the current status, use the DescribeHealthServiceStatusForOrganization operation.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The specified pagination token (nextToken) is not valid.
     public static var invalidPaginationToken: Self { .init(.invalidPaginationToken) }
+    /// The specified locale is not supported.
     public static var unsupportedLocale: Self { .init(.unsupportedLocale) }
 }
 

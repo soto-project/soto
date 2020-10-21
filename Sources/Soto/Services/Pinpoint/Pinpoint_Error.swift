@@ -47,13 +47,21 @@ public struct PinpointErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Provides information about an API request or response.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Provides information about an API request or response.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Provides information about an API request or response.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Provides information about an API request or response.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// Provides information about an API request or response.
     public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
+    /// Provides information about an API request or response.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Provides information about an API request or response.
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
+    /// Provides information about an API request or response.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

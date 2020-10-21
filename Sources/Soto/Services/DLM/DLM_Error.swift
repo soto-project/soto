@@ -43,9 +43,13 @@ public struct DLMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The service failed in an unexpected way.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Bad request. The request is missing required parameters or has invalid parameters.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The request failed because a limit was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

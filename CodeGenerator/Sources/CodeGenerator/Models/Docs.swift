@@ -18,6 +18,11 @@ struct Docs: Decodable {
         var base: String?
         var refs: [String: String]
 
+        init(base: String?, refs: [String: String]) {
+            self.base = base
+            self.refs = refs
+        }
+
         init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             self.base = try container.decodeIfPresent(String.self, forKey: .base)
@@ -33,7 +38,7 @@ struct Docs: Decodable {
     var version: String
     var service: String?
     var operations: [String: String]
-    var shapes: [String: [String: String]]
+    var shapes: [String: Shape]
 
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -49,13 +54,20 @@ struct Docs: Decodable {
         self.shapes = [:]
 
         for shape in tempShapes {
+            if let base = shape.value.base {
+                if self.shapes[shape.key] == nil {
+                    self.shapes[shape.key] = .init(base: base, refs: [:])
+                } else {
+                    self.shapes[shape.key]!.base = base
+                }
+            }
             for ref in shape.value.refs {
                 let components = ref.key.split(separator: "$").map { String($0) }
                 guard components.count == 2 else { continue }
                 if self.shapes[components[0]] == nil {
-                    self.shapes[components[0]] = [components[1]: ref.value]
+                    self.shapes[components[0]] = .init(base: nil, refs: [components[1]: ref.value])
                 } else {
-                    self.shapes[components[0]]![components[1]] = ref.value
+                    self.shapes[components[0]]!.refs[components[1]] = ref.value
                 }
             }
         }

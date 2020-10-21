@@ -29,6 +29,9 @@ public struct {{errorName}}: AWSErrorType {
     public var errorCode: String { error.rawValue }
 
 {%for error in errors %}
+{%for comment in error.comment %}
+        /// {{comment}}
+{%endfor %}
     public static var {{error.enum}}: Self { .init(.{{error.enum}}) }
 {% endfor %}
 }

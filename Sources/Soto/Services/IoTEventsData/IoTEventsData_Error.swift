@@ -44,10 +44,15 @@ public struct IoTEventsDataErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An internal failure occured.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request was invalid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request could not be completed due to throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

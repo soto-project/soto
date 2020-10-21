@@ -48,14 +48,23 @@ public struct IoTEventsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An internal failure occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request was invalid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// A limit was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request could not be completed due to throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The requested operation is not supported.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 

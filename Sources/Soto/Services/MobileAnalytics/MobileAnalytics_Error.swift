@@ -40,6 +40,7 @@ public struct MobileAnalyticsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An exception object returned when a request fails.
     public static var badRequestException: Self { .init(.badRequestException) }
 }
 

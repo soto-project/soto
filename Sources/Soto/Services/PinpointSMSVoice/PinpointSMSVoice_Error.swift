@@ -45,11 +45,17 @@ public struct PinpointSMSVoiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The resource specified in your request already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// The input you provided is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The API encountered an unexpected error and couldn't complete the request. You might be able to successfully issue the request again in the future.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// There are too many instances of the specified resource type.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource you attempted to access doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// You've issued too many requests to the resource. Wait a few minutes, and then try again.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

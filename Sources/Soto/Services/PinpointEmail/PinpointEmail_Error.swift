@@ -49,15 +49,25 @@ public struct PinpointEmailErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The message can't be sent because the account's ability to send email has been permanently restricted.
     public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
+    /// The resource specified in your request already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// The input you provided is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The resource is being modified by another operation or thread.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// There are too many instances of the specified resource type.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The message can't be sent because the sending domain isn't verified.
     public static var mailFromDomainNotVerifiedException: Self { .init(.mailFromDomainNotVerifiedException) }
+    /// The message can't be sent because it contains invalid content.
     public static var messageRejected: Self { .init(.messageRejected) }
+    /// The resource you attempted to access doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The message can't be sent because the account's ability to send email is currently paused.
     public static var sendingPausedException: Self { .init(.sendingPausedException) }
+    /// Too many requests have been made to the operation.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

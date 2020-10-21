@@ -46,12 +46,19 @@ public struct ApplicationAutoScalingErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Concurrent updates caused an exception, for example, if you request an update to an Application Auto Scaling resource that already has a pending update.
     public static var concurrentUpdateException: Self { .init(.concurrentUpdateException) }
+    /// Failed access to resources caused an exception. This exception is thrown when Application Auto Scaling is unable to retrieve the alarms associated with a scaling policy due to a client error, for example, if the role ARN specified for a scalable target does not have permission to call the CloudWatch DescribeAlarms on your behalf.
     public static var failedResourceAccessException: Self { .init(.failedResourceAccessException) }
+    /// The service encountered an internal error.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The next token supplied was invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// A per-account resource limit is exceeded. For more information, see Application Auto Scaling Limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified object could not be found. For any operation that depends on the existence of a scalable target, this exception is thrown if the scalable target with the specified service namespace, resource ID, and scalable dimension does not exist. For any operation that deletes or deregisters a resource, this exception is thrown if the resource cannot be found.
     public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    /// An exception was thrown for a validation issue. Review the available parameters for the API request.
     public static var validationException: Self { .init(.validationException) }
 }
 

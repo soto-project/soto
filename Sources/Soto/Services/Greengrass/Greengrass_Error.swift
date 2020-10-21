@@ -41,7 +41,9 @@ public struct GreengrassErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// General error information.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// General error information.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
 }
 

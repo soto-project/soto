@@ -59,25 +59,45 @@ public struct ImportExportErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The account specified does not have the appropriate bucket permissions.
     public static var bucketPermissionException: Self { .init(.bucketPermissionException) }
+    /// The specified job ID has been canceled and is no longer valid.
     public static var canceledJobIdException: Self { .init(.canceledJobIdException) }
+    /// Each account can create only a certain number of jobs per day. If you need to create more than this, please contact awsimportexport@amazon.com to explain your particular use case.
     public static var createJobQuotaExceededException: Self { .init(.createJobQuotaExceededException) }
+    /// Indicates that the specified job has expired out of the system.
     public static var expiredJobIdException: Self { .init(.expiredJobIdException) }
+    /// The AWS Access Key ID specified in the request did not match the manifest's accessKeyId value. The manifest and the request authentication must use the same AWS Access Key ID.
     public static var invalidAccessKeyIdException: Self { .init(.invalidAccessKeyIdException) }
+    /// The address specified in the manifest is invalid.
     public static var invalidAddressException: Self { .init(.invalidAddressException) }
+    /// One or more customs parameters was invalid. Please correct and resubmit.
     public static var invalidCustomsException: Self { .init(.invalidCustomsException) }
+    /// File system specified in export manifest is invalid.
     public static var invalidFileSystemException: Self { .init(.invalidFileSystemException) }
+    /// The JOBID was missing, not found, or not associated with the AWS account.
     public static var invalidJobIdException: Self { .init(.invalidJobIdException) }
+    /// One or more manifest fields was invalid. Please correct and resubmit.
     public static var invalidManifestFieldException: Self { .init(.invalidManifestFieldException) }
+    /// One or more parameters had an invalid value.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The client tool version is invalid.
     public static var invalidVersionException: Self { .init(.invalidVersionException) }
+    /// Your manifest is not well-formed.
     public static var malformedManifestException: Self { .init(.malformedManifestException) }
+    /// One or more required customs parameters was missing from the manifest.
     public static var missingCustomsException: Self { .init(.missingCustomsException) }
+    /// One or more required fields were missing from the manifest file. Please correct and resubmit.
     public static var missingManifestFieldException: Self { .init(.missingManifestFieldException) }
+    /// One or more required parameters was missing from the request.
     public static var missingParameterException: Self { .init(.missingParameterException) }
+    /// Your manifest file contained buckets from multiple regions. A job is restricted to buckets from one region. Please correct and resubmit.
     public static var multipleRegionsException: Self { .init(.multipleRegionsException) }
+    /// The specified bucket does not exist. Create the specified bucket or change the manifest's bucket, exportBucket, or logBucket field to a bucket that the account, as specified by the manifest's Access Key ID, has write permissions to.
     public static var noSuchBucketException: Self { .init(.noSuchBucketException) }
+    /// AWS Import/Export cannot cancel the job
     public static var unableToCancelJobIdException: Self { .init(.unableToCancelJobIdException) }
+    /// AWS Import/Export cannot update the job
     public static var unableToUpdateJobIdException: Self { .init(.unableToUpdateJobIdException) }
 }
 

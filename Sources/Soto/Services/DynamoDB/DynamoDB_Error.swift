@@ -64,30 +64,55 @@ public struct DynamoDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// There is another ongoing conflicting backup control plane operation on the table. The backup is either being created, deleted or restored to a table.
     public static var backupInUseException: Self { .init(.backupInUseException) }
+    /// Backup not found for the given BackupARN.
     public static var backupNotFoundException: Self { .init(.backupNotFoundException) }
+    /// A condition specified in the operation could not be evaluated.
     public static var conditionalCheckFailedException: Self { .init(.conditionalCheckFailedException) }
+    /// Backups have not yet been enabled for this table.
     public static var continuousBackupsUnavailableException: Self { .init(.continuousBackupsUnavailableException) }
+    /// The specified global table already exists.
     public static var globalTableAlreadyExistsException: Self { .init(.globalTableAlreadyExistsException) }
+    /// The specified global table does not exist.
     public static var globalTableNotFoundException: Self { .init(.globalTableNotFoundException) }
+    /// DynamoDB rejected the request because you retried a request with a different payload but with an idempotent token that was already used.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    /// The operation tried to access a nonexistent index.
     public static var indexNotFoundException: Self { .init(.indexNotFoundException) }
+    /// An error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// An invalid restore time was specified. RestoreDateTime must be between EarliestRestorableDateTime and LatestRestorableDateTime.
     public static var invalidRestoreTimeException: Self { .init(.invalidRestoreTimeException) }
+    /// An item collection is too large. This exception is only returned for tables that have one or more local secondary indexes.
     public static var itemCollectionSizeLimitExceededException: Self { .init(.itemCollectionSizeLimitExceededException) }
+    /// There is no limit to the number of daily on-demand backups that can be taken.  Up to 50 simultaneous table operations are allowed per account. These operations include CreateTable, UpdateTable, DeleteTable,UpdateTimeToLive, RestoreTableFromBackup, and RestoreTableToPointInTime.  The only exception is when you are creating a table with one or more secondary indexes. You can have up to 25 such requests running at a time; however, if the table or index specifications are complex, DynamoDB might temporarily reduce the number of concurrent operations. There is a soft account quota of 256 tables.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Point in time recovery has not yet been enabled for this source table.
     public static var pointInTimeRecoveryUnavailableException: Self { .init(.pointInTimeRecoveryUnavailableException) }
+    /// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry requests that receive this exception. Your request is eventually successful, unless your retry queue is too large to finish. Reduce the frequency of requests and use exponential backoff. For more information, go to Error Retries and Exponential Backoff in the Amazon DynamoDB Developer Guide.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
+    /// The specified replica is already part of the global table.
     public static var replicaAlreadyExistsException: Self { .init(.replicaAlreadyExistsException) }
+    /// The specified replica is no longer part of the global table.
     public static var replicaNotFoundException: Self { .init(.replicaNotFoundException) }
+    /// Throughput exceeds the current throughput quota for your account. Please contact AWS Support at AWS Support to request a quota increase.
     public static var requestLimitExceeded: Self { .init(.requestLimitExceeded) }
+    /// The operation conflicts with the resource's availability. For example, you attempted to recreate an existing table, or tried to delete a table currently in the CREATING state.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The operation tried to access a nonexistent table or index. The resource might not be specified correctly, or its status might not be ACTIVE.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A target table with the specified name already exists.
     public static var tableAlreadyExistsException: Self { .init(.tableAlreadyExistsException) }
+    /// A target table with the specified name is either being created or deleted.
     public static var tableInUseException: Self { .init(.tableInUseException) }
+    /// A source table with the name TableName does not currently exist within the subscriber's account.
     public static var tableNotFoundException: Self { .init(.tableNotFoundException) }
+    /// The entire transaction request was canceled. DynamoDB cancels a TransactWriteItems request under the following circumstances:   A condition in one of the condition expressions is not met.   A table in the TransactWriteItems request is in a different account or region.   More than one action in the TransactWriteItems operation targets the same item.   There is insufficient provisioned capacity for the transaction to be completed.   An item size becomes too large (larger than 400 KB), or a local secondary index (LSI) becomes too large, or a similar validation error occurs because of changes made by the transaction.   There is a user error, such as an invalid data format.   DynamoDB cancels a TransactGetItems request under the following circumstances:   There is an ongoing TransactGetItems operation that conflicts with a concurrent PutItem, UpdateItem, DeleteItem or TransactWriteItems request. In this case the TransactGetItems operation fails with a TransactionCanceledException.   A table in the TransactGetItems request is in a different account or region.   There is insufficient provisioned capacity for the transaction to be completed.   There is a user error, such as an invalid data format.    If using Java, DynamoDB lists the cancellation reasons on the CancellationReasons property. This property is not set for other languages. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have NONE code and Null message.  Cancellation reason codes and possible error messages:   No Errors:   Code: NONE    Message: null      Conditional Check Failed:   Code: ConditionalCheckFailed    Message: The conditional request failed.      Item Collection Size Limit Exceeded:   Code: ItemCollectionSizeLimitExceeded    Message: Collection size exceeded.     Transaction Conflict:   Code: TransactionConflict    Message: Transaction is ongoing for the item.     Provisioned Throughput Exceeded:   Code: ProvisionedThroughputExceeded    Messages:    The level of configured provisioned throughput for the table was exceeded. Consider increasing your provisioning level with the UpdateTable API.  This Message is received when provisioned throughput is exceeded is on a provisioned DynamoDB table.    The level of configured provisioned throughput for one or more global secondary indexes of the table was exceeded. Consider increasing your provisioning level for the under-provisioned global secondary indexes with the UpdateTable API.  This message is returned when provisioned throughput is exceeded is on a provisioned GSI.        Throttling Error:   Code: ThrottlingError    Messages:    Throughput exceeds the current capacity of your table or index. DynamoDB is automatically scaling your table or index so please try again shortly. If exceptions persist, check if you have a hot key: https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/bp-partition-key-design.html.  This message is returned when writes get throttled on an On-Demand table as DynamoDB is automatically scaling the table.    Throughput exceeds the current capacity for one or more global secondary indexes. DynamoDB is automatically scaling your index so please try again shortly.  This message is returned when when writes get throttled on an On-Demand GSI as DynamoDB is automatically scaling the GSI.        Validation Error:   Code: ValidationError    Messages:    One or more parameter values were invalid.   The update expression attempted to update the secondary index key beyond allowed size limits.   The update expression attempted to update the secondary index key to unsupported type.   An operand in the update expression has an incorrect data type.   Item size to update has exceeded the maximum allowed size.   Number overflow. Attempting to store a number with magnitude larger than supported range.   Type mismatch for attribute to update.   Nesting Levels have exceeded supported limits.   The document path provided in the update expression is invalid for update.   The provided expression refers to an attribute that does not exist in the item.
     public static var transactionCanceledException: Self { .init(.transactionCanceledException) }
+    /// Operation was rejected because there is an ongoing transaction for the item.
     public static var transactionConflictException: Self { .init(.transactionConflictException) }
+    /// The transaction with the given request token is already in progress.
     public static var transactionInProgressException: Self { .init(.transactionInProgressException) }
 }
 

@@ -42,8 +42,11 @@ public struct ElasticInferenceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  Raised when a malformed input has been provided to the API.
     public static var badRequestException: Self { .init(.badRequestException) }
+    ///  Raised when an unexpected error occurred during request processing.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  Raised when the requested resource cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

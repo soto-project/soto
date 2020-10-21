@@ -41,7 +41,9 @@ public struct CloudSearchDomainErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Information about any problems encountered while processing an upload request.
     public static var documentServiceException: Self { .init(.documentServiceException) }
+    /// Information about any problems encountered while processing a search request.
     public static var searchException: Self { .init(.searchException) }
 }
 

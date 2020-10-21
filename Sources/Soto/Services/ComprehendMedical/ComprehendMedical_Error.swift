@@ -47,13 +47,21 @@ public struct ComprehendMedicalErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  An internal server error occurred. Retry your request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    ///  The input text was not in valid UTF-8 character encoding. Check your text then retry your request.
     public static var invalidEncodingException: Self { .init(.invalidEncodingException) }
+    ///  The request that you made is invalid. Check your request to determine why it's invalid and then retry the request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    ///  The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }
+    ///  You have made too many requests within a short period of time. Wait for a short time and then try your request again. Contact customer support for more information about a service limit increase.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// The filter that you specified for the operation is invalid. Check the filter values that you entered and try your request again.
     public static var validationException: Self { .init(.validationException) }
 }
 

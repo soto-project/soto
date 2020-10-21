@@ -47,13 +47,21 @@ public struct ServiceCatalogErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified resource is a duplicate.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    /// One or more parameters provided to the operation are not valid.
     public static var invalidParametersException: Self { .init(.invalidParametersException) }
+    /// An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     public static var invalidStateException: Self { .init(.invalidStateException) }
+    /// The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The operation is not supported.
     public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
+    /// A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Please use the AWS console to perform the migration process before retrying the operation.
     public static var tagOptionNotMigratedException: Self { .init(.tagOptionNotMigratedException) }
 }
 

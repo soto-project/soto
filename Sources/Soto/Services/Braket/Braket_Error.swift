@@ -47,13 +47,21 @@ public struct BraketErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// An error occurred due to a conflict.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The specified device is currently offline.
     public static var deviceOfflineException: Self { .init(.deviceOfflineException) }
+    /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request failed because a service quota is met.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The throttling rate limit is met.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The input fails to satisfy the constraints specified by an AWS service.
     public static var validationException: Self { .init(.validationException) }
 }
 

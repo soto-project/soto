@@ -46,12 +46,19 @@ public struct APIGatewayErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The submitted request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The request configuration has conflicts. For details, see the accompanying error message.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The request exceeded the rate limit. Retry after the specified time period.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The requested resource is not found. Make sure that the request URI is correct.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The requested service is not available. For details see the accompanying error message. Retry after the specified time period.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request has reached its throttling limit. Retry after the specified time period.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// The request is denied because the caller has insufficient permissions.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

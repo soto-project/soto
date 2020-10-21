@@ -41,7 +41,9 @@ public struct PersonalizeRuntimeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Provide a valid value for the field or parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

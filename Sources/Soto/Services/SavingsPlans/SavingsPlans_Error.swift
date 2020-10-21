@@ -43,9 +43,13 @@ public struct SavingsPlansErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An unexpected error occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A service quota has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// One of the input parameters is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

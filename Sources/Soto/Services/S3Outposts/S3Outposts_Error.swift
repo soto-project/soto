@@ -44,10 +44,15 @@ public struct S3OutpostsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Access was denied for this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// There was a conflict with this action, and it could not be completed.
     public static var conflictException: Self { .init(.conflictException) }
+    /// There was an exception with the internal server.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// There was an exception validating this data.
     public static var validationException: Self { .init(.validationException) }
 }
 

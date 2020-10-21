@@ -48,14 +48,23 @@ public struct SupportErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An attachment with the specified ID could not be found.
     public static var attachmentIdNotFound: Self { .init(.attachmentIdNotFound) }
+    /// The limit for the number of attachment sets created in a short period of time has been exceeded.
     public static var attachmentLimitExceeded: Self { .init(.attachmentLimitExceeded) }
+    /// The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
     public static var attachmentSetExpired: Self { .init(.attachmentSetExpired) }
+    /// An attachment set with the specified ID could not be found.
     public static var attachmentSetIdNotFound: Self { .init(.attachmentSetIdNotFound) }
+    /// A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
     public static var attachmentSetSizeLimitExceeded: Self { .init(.attachmentSetSizeLimitExceeded) }
+    /// The case creation limit for the account has been exceeded.
     public static var caseCreationLimitExceeded: Self { .init(.caseCreationLimitExceeded) }
+    /// The requested caseId could not be located.
     public static var caseIdNotFound: Self { .init(.caseIdNotFound) }
+    /// The limit for the number of DescribeAttachment requests in a short period of time has been exceeded.
     public static var describeAttachmentLimitExceeded: Self { .init(.describeAttachmentLimitExceeded) }
+    /// An internal server error occurred.
     public static var internalServerError: Self { .init(.internalServerError) }
 }
 

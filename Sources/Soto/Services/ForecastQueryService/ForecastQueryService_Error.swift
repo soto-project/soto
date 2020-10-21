@@ -44,10 +44,15 @@ public struct ForecastQueryServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The value is invalid or is too long.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The token is not valid. Tokens expire after 24 hours.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The limit on the number of requests per second has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// We can't find that resource. Check the information that you've provided and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

@@ -45,11 +45,17 @@ public struct KinesisVideoSignalingChannelsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Your request was throttled because you have exceeded the limit of allowed client calls. Try making the call later.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    /// The value for this input parameter is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// The specified client is invalid.
     public static var invalidClientException: Self { .init(.invalidClientException) }
+    /// The caller is not authorized to perform this operation.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    /// The specified resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
     public static var sessionExpiredException: Self { .init(.sessionExpiredException) }
 }
 

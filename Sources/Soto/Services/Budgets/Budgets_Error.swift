@@ -47,13 +47,21 @@ public struct BudgetsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You are not authorized to use this operation with the given parameters.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// You've exceeded the notification or subscriber limit.
     public static var creationLimitExceededException: Self { .init(.creationLimitExceededException) }
+    /// The budget name already exists. Budget names must be unique within an account.
     public static var duplicateRecordException: Self { .init(.duplicateRecordException) }
+    /// The pagination token expired.
     public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    /// An error on the server occurred during the processing of your request. Try again later.
     public static var internalErrorException: Self { .init(.internalErrorException) }
+    /// The pagination token is invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// An error on the client occurred. Typically, the cause is an invalid input value.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// We can’t locate the resource that you specified.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

@@ -152,118 +152,230 @@ public struct SSMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Error returned if an attempt is made to register a patch group with a patch baseline that is already registered with a different patch baseline.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// You must disassociate a document from all instances before you can delete it.
     public static var associatedInstances: Self { .init(.associatedInstances) }
+    /// The specified association already exists.
     public static var associationAlreadyExists: Self { .init(.associationAlreadyExists) }
+    /// The specified association does not exist.
     public static var associationDoesNotExist: Self { .init(.associationDoesNotExist) }
+    /// The specified execution ID does not exist. Verify the ID number and try again.
     public static var associationExecutionDoesNotExist: Self { .init(.associationExecutionDoesNotExist) }
+    /// You can have at most 2,000 active associations.
     public static var associationLimitExceeded: Self { .init(.associationLimitExceeded) }
+    /// You have reached the maximum number versions allowed for an association. Each association has a limit of 1,000 versions.
     public static var associationVersionLimitExceeded: Self { .init(.associationVersionLimitExceeded) }
+    /// An Automation document with the specified name could not be found.
     public static var automationDefinitionNotFoundException: Self { .init(.automationDefinitionNotFoundException) }
+    /// An Automation document with the specified name and version could not be found.
     public static var automationDefinitionVersionNotFoundException: Self { .init(.automationDefinitionVersionNotFoundException) }
+    /// The number of simultaneously running Automation executions exceeded the allowable limit.
     public static var automationExecutionLimitExceededException: Self { .init(.automationExecutionLimitExceededException) }
+    /// There is no automation execution information for the requested automation execution ID.
     public static var automationExecutionNotFoundException: Self { .init(.automationExecutionNotFoundException) }
+    /// The specified step name and execution ID don't exist. Verify the information and try again.
     public static var automationStepNotFoundException: Self { .init(.automationStepNotFoundException) }
+    /// You specified too many custom compliance types. You can specify a maximum of 10 different types.
     public static var complianceTypeCountLimitExceededException: Self { .init(.complianceTypeCountLimitExceededException) }
+    /// You have exceeded the limit for custom schemas. Delete one or more custom schemas and try again.
     public static var customSchemaCountLimitExceededException: Self { .init(.customSchemaCountLimitExceededException) }
+    /// The specified document already exists.
     public static var documentAlreadyExists: Self { .init(.documentAlreadyExists) }
+    /// You can have at most 500 active Systems Manager documents.
     public static var documentLimitExceeded: Self { .init(.documentLimitExceeded) }
+    /// The document cannot be shared with more AWS user accounts. You can share a document with a maximum of 20 accounts. You can publicly share up to five documents. If you need to increase this limit, contact AWS Support.
     public static var documentPermissionLimit: Self { .init(.documentPermissionLimit) }
+    /// The document has too many versions. Delete one or more document versions and try again.
     public static var documentVersionLimitExceeded: Self { .init(.documentVersionLimitExceeded) }
+    /// Error returned when the ID specified for a resource, such as a maintenance window or Patch baseline, doesn't exist. For information about resource quotas in Systems Manager, see Systems Manager service quotas in the AWS General Reference.
     public static var doesNotExistException: Self { .init(.doesNotExistException) }
+    /// The content of the association document matches another document. Change the content of the document and try again.
     public static var duplicateDocumentContent: Self { .init(.duplicateDocumentContent) }
+    /// The version name has already been used in this document. Specify a different version name, and then try again.
     public static var duplicateDocumentVersionName: Self { .init(.duplicateDocumentVersionName) }
+    /// You cannot specify an instance ID in more than one association.
     public static var duplicateInstanceId: Self { .init(.duplicateInstanceId) }
+    /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding service is not available.
     public static var featureNotAvailableException: Self { .init(.featureNotAvailableException) }
+    /// A hierarchy can have a maximum of 15 levels. For more information, see Requirements and constraints for parameter names in the AWS Systems Manager User Guide.
     public static var hierarchyLevelLimitExceededException: Self { .init(.hierarchyLevelLimitExceededException) }
+    /// Parameter Store does not support changing a parameter type in a hierarchy. For example, you can't change a parameter from a String type to a SecureString type. You must create a new, unique parameter.
     public static var hierarchyTypeMismatchException: Self { .init(.hierarchyTypeMismatchException) }
+    /// Error returned when an idempotent operation is retried and the parameters don't match the original call to the API with the same idempotency token.
     public static var idempotentParameterMismatch: Self { .init(.idempotentParameterMismatch) }
+    /// There is a conflict in the policies specified for this parameter. You can't, for example, specify two Expiration policies for a parameter. Review your policies, and try again.
     public static var incompatiblePolicyException: Self { .init(.incompatiblePolicyException) }
+    /// An error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// The activation is not valid. The activation might have been deleted, or the ActivationId and the ActivationCode do not match.
     public static var invalidActivation: Self { .init(.invalidActivation) }
+    /// The activation ID is not valid. Verify the you entered the correct ActivationId or ActivationCode and try again.
     public static var invalidActivationId: Self { .init(.invalidActivationId) }
+    /// The specified aggregator is not valid for inventory groups. Verify that the aggregator uses a valid inventory type such as AWS:Application or AWS:InstanceInformation.
     public static var invalidAggregatorException: Self { .init(.invalidAggregatorException) }
+    /// The request does not meet the regular expression requirement.
     public static var invalidAllowedPatternException: Self { .init(.invalidAllowedPatternException) }
+    /// The association is not valid or does not exist.
     public static var invalidAssociation: Self { .init(.invalidAssociation) }
+    /// The version you specified is not valid. Use ListAssociationVersions to view all versions of an association according to the association ID. Or, use the $LATEST parameter to view the latest version of the association.
     public static var invalidAssociationVersion: Self { .init(.invalidAssociationVersion) }
+    /// The supplied parameters for invoking the specified Automation document are incorrect. For example, they may not match the set of parameters permitted for the specified Automation document.
     public static var invalidAutomationExecutionParametersException: Self { .init(.invalidAutomationExecutionParametersException) }
+    /// The signal is not valid for the current Automation execution.
     public static var invalidAutomationSignalException: Self { .init(.invalidAutomationSignalException) }
+    /// The specified update status operation is not valid.
     public static var invalidAutomationStatusUpdateException: Self { .init(.invalidAutomationStatusUpdateException) }
     public static var invalidCommandId: Self { .init(.invalidCommandId) }
+    /// One or more of the parameters specified for the delete operation is not valid. Verify all parameters and try again.
     public static var invalidDeleteInventoryParametersException: Self { .init(.invalidDeleteInventoryParametersException) }
+    /// The ID specified for the delete operation does not exist or is not valid. Verify the ID and try again.
     public static var invalidDeletionIdException: Self { .init(.invalidDeletionIdException) }
+    /// The specified document does not exist.
     public static var invalidDocument: Self { .init(.invalidDocument) }
+    /// The content for the document is not valid.
     public static var invalidDocumentContent: Self { .init(.invalidDocumentContent) }
+    /// You attempted to delete a document while it is still shared. You must stop sharing the document before you can delete it.
     public static var invalidDocumentOperation: Self { .init(.invalidDocumentOperation) }
+    /// The version of the document schema is not supported.
     public static var invalidDocumentSchemaVersion: Self { .init(.invalidDocumentSchemaVersion) }
+    /// The document type is not valid. Valid document types are described in the DocumentType property.
     public static var invalidDocumentType: Self { .init(.invalidDocumentType) }
+    /// The document version is not valid or does not exist.
     public static var invalidDocumentVersion: Self { .init(.invalidDocumentVersion) }
+    /// The filter name is not valid. Verify the you entered the correct name and try again.
     public static var invalidFilter: Self { .init(.invalidFilter) }
+    /// The specified key is not valid.
     public static var invalidFilterKey: Self { .init(.invalidFilterKey) }
+    /// The specified filter option is not valid. Valid options are Equals and BeginsWith. For Path filter, valid options are Recursive and OneLevel.
     public static var invalidFilterOption: Self { .init(.invalidFilterOption) }
+    /// The filter value is not valid. Verify the value and try again.
     public static var invalidFilterValue: Self { .init(.invalidFilterValue) }
+    /// The following problems can cause this exception: You do not have permission to access the instance. SSM Agent is not running. Verify that SSM Agent is running. SSM Agent is not registered with the SSM endpoint. Try reinstalling SSM Agent. The instance is not in valid state. Valid states are: Running, Pending, Stopped, Stopping. Invalid states are: Shutting-down and Terminated.
     public static var invalidInstanceId: Self { .init(.invalidInstanceId) }
+    /// The specified filter value is not valid.
     public static var invalidInstanceInformationFilterValue: Self { .init(.invalidInstanceInformationFilterValue) }
+    /// The specified inventory group is not valid.
     public static var invalidInventoryGroupException: Self { .init(.invalidInventoryGroupException) }
+    /// You specified invalid keys or values in the Context attribute for InventoryItem. Verify the keys and values, and try again.
     public static var invalidInventoryItemContextException: Self { .init(.invalidInventoryItemContextException) }
+    /// The request is not valid.
     public static var invalidInventoryRequestException: Self { .init(.invalidInventoryRequestException) }
+    /// One or more content items is not valid.
     public static var invalidItemContentException: Self { .init(.invalidItemContentException) }
+    /// The query key ID is not valid.
     public static var invalidKeyId: Self { .init(.invalidKeyId) }
+    /// The specified token is not valid.
     public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    /// One or more configuration items is not valid. Verify that a valid Amazon Resource Name (ARN) was provided for an Amazon SNS topic.
     public static var invalidNotificationConfig: Self { .init(.invalidNotificationConfig) }
+    /// The delete inventory option specified is not valid. Verify the option and try again.
     public static var invalidOptionException: Self { .init(.invalidOptionException) }
+    /// The S3 bucket does not exist.
     public static var invalidOutputFolder: Self { .init(.invalidOutputFolder) }
+    /// The output location is not valid or does not exist.
     public static var invalidOutputLocation: Self { .init(.invalidOutputLocation) }
+    /// You must specify values for all required parameters in the Systems Manager document. You can only supply values to parameters defined in the Systems Manager document.
     public static var invalidParameters: Self { .init(.invalidParameters) }
+    /// The permission type is not supported. Share is the only supported permission type.
     public static var invalidPermissionType: Self { .init(.invalidPermissionType) }
+    /// The plugin name is not valid.
     public static var invalidPluginName: Self { .init(.invalidPluginName) }
+    /// A policy attribute or its value is invalid.
     public static var invalidPolicyAttributeException: Self { .init(.invalidPolicyAttributeException) }
+    /// The policy type is not supported. Parameter Store supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
     public static var invalidPolicyTypeException: Self { .init(.invalidPolicyTypeException) }
+    /// The resource ID is not valid. Verify that you entered the correct ID and try again.
     public static var invalidResourceId: Self { .init(.invalidResourceId) }
+    /// The resource type is not valid. For example, if you are attempting to tag an instance, the instance must be a registered, managed instance.
     public static var invalidResourceType: Self { .init(.invalidResourceType) }
+    /// The specified inventory item result attribute is not valid.
     public static var invalidResultAttributeException: Self { .init(.invalidResultAttributeException) }
+    /// The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see Configuring Amazon SNS Notifications for Run Command in the AWS Systems Manager User Guide.
     public static var invalidRole: Self { .init(.invalidRole) }
+    /// The schedule is invalid. Verify your cron or rate expression and try again.
     public static var invalidSchedule: Self { .init(.invalidSchedule) }
+    /// The target is not valid or does not exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     public static var invalidTarget: Self { .init(.invalidTarget) }
+    /// The parameter type name is not valid.
     public static var invalidTypeNameException: Self { .init(.invalidTypeNameException) }
+    /// The update is not valid.
     public static var invalidUpdate: Self { .init(.invalidUpdate) }
+    /// The command ID and instance ID you specified did not match any invocations. Verify the command ID and the instance ID and try again.
     public static var invocationDoesNotExist: Self { .init(.invocationDoesNotExist) }
+    /// The inventory item has invalid content.
     public static var itemContentMismatchException: Self { .init(.itemContentMismatchException) }
+    /// The inventory item size has exceeded the size limit.
     public static var itemSizeLimitExceededException: Self { .init(.itemSizeLimitExceededException) }
+    /// The size limit of a document is 64 KB.
     public static var maxDocumentSizeExceeded: Self { .init(.maxDocumentSizeExceeded) }
+    /// The OpsItem already exists.
     public static var opsItemAlreadyExistsException: Self { .init(.opsItemAlreadyExistsException) }
+    /// A specified parameter argument isn't valid. Verify the available arguments and try again.
     public static var opsItemInvalidParameterException: Self { .init(.opsItemInvalidParameterException) }
+    /// The request caused OpsItems to exceed one or more quotas. For information about OpsItem quotas, see What are the resource limits for OpsCenter?.
     public static var opsItemLimitExceededException: Self { .init(.opsItemLimitExceededException) }
+    /// The specified OpsItem ID doesn't exist. Verify the ID and try again.
     public static var opsItemNotFoundException: Self { .init(.opsItemNotFoundException) }
+    /// The parameter already exists. You can't create duplicate parameters.
     public static var parameterAlreadyExists: Self { .init(.parameterAlreadyExists) }
+    /// You have exceeded the number of parameters for this AWS account. Delete one or more parameters and try again.
     public static var parameterLimitExceeded: Self { .init(.parameterLimitExceeded) }
+    /// The parameter exceeded the maximum number of allowed versions.
     public static var parameterMaxVersionLimitExceeded: Self { .init(.parameterMaxVersionLimitExceeded) }
+    /// The parameter could not be found. Verify the name and try again.
     public static var parameterNotFound: Self { .init(.parameterNotFound) }
+    /// The parameter name is not valid.
     public static var parameterPatternMismatchException: Self { .init(.parameterPatternMismatchException) }
+    /// A parameter version can have a maximum of ten labels.
     public static var parameterVersionLabelLimitExceeded: Self { .init(.parameterVersionLabelLimitExceeded) }
+    /// The specified parameter version was not found. Verify the parameter name and version, and try again.
     public static var parameterVersionNotFound: Self { .init(.parameterVersionNotFound) }
+    /// You specified more than the maximum number of allowed policies for the parameter. The maximum is 10.
     public static var policiesLimitExceededException: Self { .init(.policiesLimitExceededException) }
+    /// A sync configuration with the same name already exists.
     public static var resourceDataSyncAlreadyExistsException: Self { .init(.resourceDataSyncAlreadyExistsException) }
+    /// Another UpdateResourceDataSync request is being processed. Wait a few minutes and try again.
     public static var resourceDataSyncConflictException: Self { .init(.resourceDataSyncConflictException) }
+    /// You have exceeded the allowed maximum sync configurations.
     public static var resourceDataSyncCountExceededException: Self { .init(.resourceDataSyncCountExceededException) }
+    /// The specified sync configuration is invalid.
     public static var resourceDataSyncInvalidConfigurationException: Self { .init(.resourceDataSyncInvalidConfigurationException) }
+    /// The specified sync name was not found.
     public static var resourceDataSyncNotFoundException: Self { .init(.resourceDataSyncNotFoundException) }
+    /// Error returned if an attempt is made to delete a patch baseline that is registered for a patch group.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// Error returned when the caller has exceeded the default resource quotas. For example, too many maintenance windows or patch baselines have been created. For information about resource quotas in Systems Manager, see Systems Manager service quotas in the AWS General Reference.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// The specified service setting was not found. Either the service name or the setting has not been provisioned by the AWS service team.
     public static var serviceSettingNotFound: Self { .init(.serviceSettingNotFound) }
+    /// The updated status is the same as the current status.
     public static var statusUnchanged: Self { .init(.statusUnchanged) }
+    /// The sub-type count exceeded the limit for the inventory type.
     public static var subTypeCountLimitExceededException: Self { .init(.subTypeCountLimitExceededException) }
+    /// You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
     public static var targetInUseException: Self { .init(.targetInUseException) }
+    /// The specified target instance for the session is not fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the AWS Systems Manager User Guide. This error is also returned if you attempt to start a session on an instance that is located in a different account or Region
     public static var targetNotConnected: Self { .init(.targetNotConnected) }
+    /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     public static var tooManyTagsError: Self { .init(.tooManyTagsError) }
+    /// There are concurrent updates for a resource that supports one update at a time.
     public static var tooManyUpdates: Self { .init(.tooManyUpdates) }
+    /// The size of inventory data has exceeded the total size limit for the resource.
     public static var totalSizeLimitExceededException: Self { .init(.totalSizeLimitExceededException) }
+    /// The calendar entry contained in the specified Systems Manager document is not supported.
     public static var unsupportedCalendarException: Self { .init(.unsupportedCalendarException) }
+    /// Microsoft application patching is only available on EC2 instances and advanced instances. To patch Microsoft applications on on-premises servers and VMs, you must enable advanced instances. For more information, see Using the advanced-instances tier in the AWS Systems Manager User Guide.
     public static var unsupportedFeatureRequiredException: Self { .init(.unsupportedFeatureRequiredException) }
+    /// The Context attribute that you specified for the InventoryItem is not allowed for this inventory type. You can only use the Context attribute with inventory types like AWS:ComplianceItem.
     public static var unsupportedInventoryItemContextException: Self { .init(.unsupportedInventoryItemContextException) }
+    /// Inventory item type schema version has to match supported versions in the service. Check output of GetInventorySchema to see the available schema version for each type.
     public static var unsupportedInventorySchemaVersionException: Self { .init(.unsupportedInventorySchemaVersionException) }
+    /// The operating systems you specified is not supported, or the operation is not supported for the operating system.
     public static var unsupportedOperatingSystem: Self { .init(.unsupportedOperatingSystem) }
+    /// The parameter type is not supported.
     public static var unsupportedParameterType: Self { .init(.unsupportedParameterType) }
+    /// The document does not support the platform type of the given instance ID(s). For example, you sent an document for a Windows instance to a Linux instance.
     public static var unsupportedPlatformType: Self { .init(.unsupportedPlatformType) }
 }
 

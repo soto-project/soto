@@ -47,13 +47,21 @@ public struct Cloud9ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The target request is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// A concurrent access issue occurred.
     public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
+    /// A conflict occurred.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An access permissions issue occurred.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// An internal server error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// A service limit was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The target resource cannot be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Too many service requests were made over the given time period.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

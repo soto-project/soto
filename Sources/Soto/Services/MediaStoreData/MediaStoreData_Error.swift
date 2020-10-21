@@ -43,9 +43,13 @@ public struct MediaStoreDataErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified container was not found for the specified account.
     public static var containerNotFoundException: Self { .init(.containerNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// Could not perform an operation on an object that does not exist.
     public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    /// The requested content range is not valid.
     public static var requestedRangeNotSatisfiableException: Self { .init(.requestedRangeNotSatisfiableException) }
 }
 

@@ -45,11 +45,17 @@ public struct OpsWorksCMErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// This occurs when the provided nextToken is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The resource is in a state that does not allow you to perform a specified action.
     public static var invalidStateException: Self { .init(.invalidStateException) }
+    /// The limit of servers or backups has been reached.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The requested resource cannot be created because it already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The requested resource does not exist, or access was denied.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// One or more of the provided request parameters are not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

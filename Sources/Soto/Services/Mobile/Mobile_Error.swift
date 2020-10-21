@@ -47,13 +47,21 @@ public struct MobileErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  Account Action is required in order to continue the request.
     public static var accountActionRequiredException: Self { .init(.accountActionRequiredException) }
+    ///  The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
     public static var badRequestException: Self { .init(.badRequestException) }
+    ///  The service has encountered an unexpected error condition which prevents it from servicing the request.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    ///  There are too many AWS Mobile Hub projects in the account or the account has exceeded the maximum number of resources in some AWS service. You should create another sub-account using AWS Organizations or remove some resources and retry your request.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    ///  No entity can be found with the specified identifier.
     public static var notFoundException: Self { .init(.notFoundException) }
+    ///  The service is temporarily unavailable. The request should be retried after some time delay.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    ///  Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    ///  Credentials of the caller are insufficient to authorize the request.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

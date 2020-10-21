@@ -46,12 +46,19 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    ///  You are not authorized to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    ///  Unable to poll results for a cancelled query.
     public static var conflictException: Self { .init(.conflictException) }
+    ///  Timestream was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested endpoint was invalid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
+    ///  Timestream was unable to run the query successfully.
     public static var queryExecutionException: Self { .init(.queryExecutionException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    ///  Invalid or malformed request.
     public static var validationException: Self { .init(.validationException) }
 }
 

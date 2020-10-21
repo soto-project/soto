@@ -46,12 +46,19 @@ public struct Macie2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// Provides information about an error that occurred due to insufficient access to a specified resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Provides information about an error that occurred due to a versioning conflict for a specified resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// Provides information about an error that occurred because a specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Provides information about an error that occurred due to one or more service quotas for an account.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// Provides information about an error that occurred due to a syntax error in a request.
     public static var validationException: Self { .init(.validationException) }
 }
 

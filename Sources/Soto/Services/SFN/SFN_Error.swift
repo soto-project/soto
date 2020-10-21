@@ -63,29 +63,49 @@ public struct SFNErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The specified activity does not exist.
     public static var activityDoesNotExist: Self { .init(.activityDoesNotExist) }
+    /// The maximum number of activities has been reached. Existing activities must be deleted before a new activity can be created.
     public static var activityLimitExceeded: Self { .init(.activityLimitExceeded) }
+    /// The maximum number of workers concurrently polling for activity tasks has been reached.
     public static var activityWorkerLimitExceeded: Self { .init(.activityWorkerLimitExceeded) }
+    /// The execution has the same name as another execution (but a different input).  Executions with the same name and input are considered idempotent.
     public static var executionAlreadyExists: Self { .init(.executionAlreadyExists) }
+    /// The specified execution does not exist.
     public static var executionDoesNotExist: Self { .init(.executionDoesNotExist) }
+    /// The maximum number of running executions has been reached. Running executions must end or be stopped before a new execution can be started.
     public static var executionLimitExceeded: Self { .init(.executionLimitExceeded) }
+    /// The provided Amazon Resource Name (ARN) is invalid.
     public static var invalidArn: Self { .init(.invalidArn) }
+    /// The provided Amazon States Language definition is invalid.
     public static var invalidDefinition: Self { .init(.invalidDefinition) }
+    /// The provided JSON input data is invalid.
     public static var invalidExecutionInput: Self { .init(.invalidExecutionInput) }
     public static var invalidLoggingConfiguration: Self { .init(.invalidLoggingConfiguration) }
+    /// The provided name is invalid.
     public static var invalidName: Self { .init(.invalidName) }
+    /// The provided JSON output data is invalid.
     public static var invalidOutput: Self { .init(.invalidOutput) }
+    /// The provided token is invalid.
     public static var invalidToken: Self { .init(.invalidToken) }
+    /// Your tracingConfiguration key does not match, or enabled has not been set to true or false.
     public static var invalidTracingConfiguration: Self { .init(.invalidTracingConfiguration) }
+    /// Request is missing a required parameter. This error occurs if both definition and roleArn are not specified.
     public static var missingRequiredParameter: Self { .init(.missingRequiredParameter) }
+    /// Could not find the referenced resource. Only state machine and activity ARNs are supported.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    /// A state machine with the same name but a different definition or role ARN already exists.
     public static var stateMachineAlreadyExists: Self { .init(.stateMachineAlreadyExists) }
+    /// The specified state machine is being deleted.
     public static var stateMachineDeleting: Self { .init(.stateMachineDeleting) }
+    /// The specified state machine does not exist.
     public static var stateMachineDoesNotExist: Self { .init(.stateMachineDoesNotExist) }
+    /// The maximum number of state machines has been reached. Existing state machines must be deleted before a new state machine can be created.
     public static var stateMachineLimitExceeded: Self { .init(.stateMachineLimitExceeded) }
     public static var stateMachineTypeNotSupported: Self { .init(.stateMachineTypeNotSupported) }
     public static var taskDoesNotExist: Self { .init(.taskDoesNotExist) }
     public static var taskTimedOut: Self { .init(.taskTimedOut) }
+    /// You've exceeded the number of tags allowed for a resource. See the  Limits Topic in the AWS Step Functions Developer Guide.
     public static var tooManyTags: Self { .init(.tooManyTags) }
 }
 

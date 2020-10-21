@@ -40,6 +40,7 @@ public struct MarketplaceCommerceAnalyticsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// This exception is thrown when an internal service error occurs.
     public static var marketplaceCommerceAnalyticsException: Self { .init(.marketplaceCommerceAnalyticsException) }
 }
 

@@ -42,8 +42,11 @@ public struct MarketplaceEntitlementServiceErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// One or more parameters in your request was invalid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The calls to the GetEntitlements API are throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

@@ -42,8 +42,11 @@ public struct PIErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// The request failed due to an unknown error.
     public static var internalServiceError: Self { .init(.internalServiceError) }
+    /// One of the arguments provided is invalid for this request.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// The user is not authorized to perform this request.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
 }
 
