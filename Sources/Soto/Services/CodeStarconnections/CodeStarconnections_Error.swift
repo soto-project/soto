@@ -24,26 +24,29 @@ public struct CodeStarconnectionsErrorType: AWSErrorType {
         case resourceUnavailableException = "ResourceUnavailableException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CodeStarconnections
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Exceeded the maximum limit for connections.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Resource not found. Verify the connection resource ARN and try again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Resource not found. Verify the ARN for the host resource and try again.
     public static var resourceUnavailableException: Self { .init(.resourceUnavailableException) }
 }
 

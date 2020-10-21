@@ -54,7 +54,7 @@ public struct Lightsail: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            possibleErrorTypes: [LightsailErrorType.self],
+            errorType: LightsailErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

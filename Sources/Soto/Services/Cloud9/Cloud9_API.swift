@@ -54,7 +54,7 @@ public struct Cloud9: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-23",
             endpoint: endpoint,
-            possibleErrorTypes: [Cloud9ErrorType.self],
+            errorType: Cloud9ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

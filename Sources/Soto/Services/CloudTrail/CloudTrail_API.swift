@@ -55,7 +55,7 @@ public struct CloudTrail: AWSService {
             apiVersion: "2013-11-01",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "cloudtrail.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cloudtrail.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [CloudTrailErrorType.self],
+            errorType: CloudTrailErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

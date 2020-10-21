@@ -25,27 +25,31 @@ public struct SyntheticsErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Synthetics
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// A conflicting operation is already in progress.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An unknown internal error occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// One of the specified resources was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// A parameter could not be validated.
     public static var validationException: Self { .init(.validationException) }
 }
 

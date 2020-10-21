@@ -27,29 +27,35 @@ public struct WorkLinkErrorType: AWSErrorType {
         case unauthorizedException = "UnauthorizedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize WorkLink
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The service is temporarily unavailable.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The request is not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The number of requests exceeds the limit.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// You are not authorized to perform this action.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

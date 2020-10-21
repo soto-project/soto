@@ -53,7 +53,7 @@ public struct RDS: AWSService {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
-            possibleErrorTypes: [RDSErrorType.self],
+            errorType: RDSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

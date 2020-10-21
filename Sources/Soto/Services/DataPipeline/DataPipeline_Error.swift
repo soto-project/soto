@@ -26,28 +26,33 @@ public struct DataPipelineErrorType: AWSErrorType {
         case taskNotFoundException = "TaskNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize DataPipeline
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// An internal service error occurred.
     public static var internalServiceError: Self { .init(.internalServiceError) }
+    /// The request was not valid. Verify that your request was properly formatted, that the signature was generated with the correct credentials, and that you haven't exceeded any of the service limits for your account.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The specified pipeline has been deleted.
     public static var pipelineDeletedException: Self { .init(.pipelineDeletedException) }
+    /// The specified pipeline was not found. Verify that you used the correct user and account identifiers.
     public static var pipelineNotFoundException: Self { .init(.pipelineNotFoundException) }
+    /// The specified task was not found.
     public static var taskNotFoundException: Self { .init(.taskNotFoundException) }
 }
 

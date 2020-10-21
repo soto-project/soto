@@ -27,29 +27,35 @@ public struct LakeFormationErrorType: AWSErrorType {
         case operationTimeoutException = "OperationTimeoutException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize LakeFormation
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// A resource to be created or added already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// Two processes are trying to modify a resource simultaneously.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// A specified entity does not exist
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// An internal service error occurred.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The input provided was not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
 }
 

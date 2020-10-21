@@ -36,38 +36,53 @@ public struct GameLiftErrorType: AWSErrorType {
         case unsupportedRegionException = "UnsupportedRegionException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize GameLift
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The specified fleet has no available instances to fulfill a CreateGameSession request. Clients can retry such requests immediately or after a waiting period.
     public static var fleetCapacityExceededException: Self { .init(.fleetCapacityExceededException) }
+    /// The game instance is currently full and cannot allow the requested player(s) to join. Clients can retry such requests immediately or after a waiting period.
     public static var gameSessionFullException: Self { .init(.gameSessionFullException) }
+    /// A game session with this custom ID string already exists in this fleet. Resolve this conflict before retrying this request.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    /// The service encountered an unrecoverable internal failure while processing the request. Clients can retry such requests immediately or after a waiting period.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The requested operation would cause a conflict with the current state of a resource associated with the request and/or the fleet. Resolve the conflict before retrying.
     public static var invalidFleetStatusException: Self { .init(.invalidFleetStatusException) }
+    /// The requested operation would cause a conflict with the current state of a resource associated with the request and/or the game instance. Resolve the conflict before retrying.
     public static var invalidGameSessionStatusException: Self { .init(.invalidGameSessionStatusException) }
+    /// One or more parameter values in the request are invalid. Correct the invalid parameter values before retrying.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The requested operation would cause the resource to exceed the allowed service limit. Resolve the issue before retrying.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A service resource associated with the request could not be found. Clients should not retry such requests.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The specified game server group has no available game servers to fulfill a ClaimGameServer request. Clients can retry such requests immediately or after a waiting period.
     public static var outOfCapacityException: Self { .init(.outOfCapacityException) }
+    ///  The requested tagging operation did not succeed. This may be due to invalid tag format or the maximum tag limit may have been exceeded. Resolve the issue before retrying.
     public static var taggingFailedException: Self { .init(.taggingFailedException) }
+    /// The service is unable to resolve the routing for a particular alias because it has a terminal RoutingStrategy associated with it. The message returned in this exception is the message defined in the routing strategy itself. Such requests should only be retried if the routing strategy for the specified alias is modified.
     public static var terminalRoutingStrategyException: Self { .init(.terminalRoutingStrategyException) }
+    /// The client failed authentication. Clients should not retry such requests.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// The requested operation is not supported in the Region specified.
     public static var unsupportedRegionException: Self { .init(.unsupportedRegionException) }
 }
 

@@ -29,31 +29,39 @@ public struct ServiceCatalogErrorType: AWSErrorType {
         case tagOptionNotMigratedException = "TagOptionNotMigratedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ServiceCatalog
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The specified resource is a duplicate.
     public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    /// One or more parameters provided to the operation are not valid.
     public static var invalidParametersException: Self { .init(.invalidParametersException) }
+    /// An attempt was made to modify a resource that is in a state that is not valid. Check your resources to ensure that they are in valid states before retrying the operation.
     public static var invalidStateException: Self { .init(.invalidStateException) }
+    /// The current limits of the service would have been exceeded by this operation. Decrease your resource use or increase your service limits and retry the operation.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The operation is not supported.
     public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
+    /// A resource that is currently in use. Ensure that the resource is not in use and retry the operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// An operation requiring TagOptions failed because the TagOptions migration process has not been performed for this account. Please use the AWS console to perform the migration process before retrying the operation.
     public static var tagOptionNotMigratedException: Self { .init(.tagOptionNotMigratedException) }
 }
 

@@ -53,7 +53,7 @@ public struct XRay: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-04-12",
             endpoint: endpoint,
-            possibleErrorTypes: [XRayErrorType.self],
+            errorType: XRayErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct ECS: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-13",
             endpoint: endpoint,
-            possibleErrorTypes: [ECSErrorType.self],
+            errorType: ECSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

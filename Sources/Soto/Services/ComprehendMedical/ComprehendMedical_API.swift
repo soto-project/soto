@@ -54,7 +54,7 @@ public struct ComprehendMedical: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-30",
             endpoint: endpoint,
-            possibleErrorTypes: [ComprehendMedicalErrorType.self],
+            errorType: ComprehendMedicalErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

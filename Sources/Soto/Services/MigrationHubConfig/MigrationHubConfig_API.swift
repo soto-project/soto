@@ -55,7 +55,7 @@ public struct MigrationHubConfig: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-30",
             endpoint: endpoint,
-            possibleErrorTypes: [MigrationHubConfigErrorType.self],
+            errorType: MigrationHubConfigErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

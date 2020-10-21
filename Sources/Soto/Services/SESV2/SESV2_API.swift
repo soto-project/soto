@@ -54,7 +54,7 @@ public struct SESV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-27",
             endpoint: endpoint,
-            possibleErrorTypes: [SESV2ErrorType.self],
+            errorType: SESV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

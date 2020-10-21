@@ -54,7 +54,7 @@ public struct FraudDetector: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-11-15",
             endpoint: endpoint,
-            possibleErrorTypes: [FraudDetectorErrorType.self],
+            errorType: FraudDetectorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

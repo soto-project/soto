@@ -32,34 +32,45 @@ public struct AppSyncErrorType: AWSErrorType {
         case unauthorizedException = "UnauthorizedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize AppSync
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have access to perform this operation on this resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The API key exceeded a limit. Try your request again.
     public static var apiKeyLimitExceededException: Self { .init(.apiKeyLimitExceededException) }
+    /// The API key expiration must be set to a value between 1 and 365 days from creation (for CreateApiKey) or from update (for UpdateApiKey).
     public static var apiKeyValidityOutOfBoundsException: Self { .init(.apiKeyValidityOutOfBoundsException) }
+    /// The GraphQL API exceeded a limit. Try your request again.
     public static var apiLimitExceededException: Self { .init(.apiLimitExceededException) }
+    /// The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Another modification is in progress at this time and it must complete before you can make your change.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The GraphQL schema is not valid.
     public static var graphQLSchemaException: Self { .init(.graphQLSchemaException) }
+    /// An internal AWS AppSync error occurred. Try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request exceeded a limit. Try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource specified in the request was not found. Check the resource, and then try again.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// You are not authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

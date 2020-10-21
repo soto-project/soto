@@ -28,30 +28,37 @@ public struct SignerErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Signer
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// An internal error occurred.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// The signing profile was not found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// A specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The signing job has been throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You signing certificate could not be validated.
     public static var validationException: Self { .init(.validationException) }
 }
 

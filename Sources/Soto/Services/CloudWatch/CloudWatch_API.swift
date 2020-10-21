@@ -53,7 +53,7 @@ public struct CloudWatch: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-08-01",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudWatchErrorType.self],
+            errorType: CloudWatchErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

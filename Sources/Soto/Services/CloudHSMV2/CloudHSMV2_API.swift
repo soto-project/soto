@@ -55,7 +55,7 @@ public struct CloudHSMV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-28",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudHSMV2ErrorType.self],
+            errorType: CloudHSMV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

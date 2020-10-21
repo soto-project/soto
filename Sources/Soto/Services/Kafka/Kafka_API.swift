@@ -53,7 +53,7 @@ public struct Kafka: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",
             endpoint: endpoint,
-            possibleErrorTypes: [KafkaErrorType.self],
+            errorType: KafkaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

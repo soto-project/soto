@@ -54,7 +54,7 @@ public struct EMR: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2009-03-31",
             endpoint: endpoint,
-            possibleErrorTypes: [EMRErrorType.self],
+            errorType: EMRErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -25,27 +25,31 @@ public struct ApiGatewayManagementApiErrorType: AWSErrorType {
         case payloadTooLargeException = "PayloadTooLargeException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ApiGatewayManagementApi
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The caller is not authorized to invoke this operation.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// The connection with the provided id no longer exists.
     public static var goneException: Self { .init(.goneException) }
+    /// The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The data has exceeded the maximum size allowed.
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
 }
 

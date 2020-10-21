@@ -28,30 +28,37 @@ public struct ResourceGroupsErrorType: AWSErrorType {
         case unauthorizedException = "UnauthorizedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ResourceGroups
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The request includes one or more parameters that violate validation rules.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The caller isn't authorized to make the request. Check permissions.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// An internal error occurred while processing the request. Try again later.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The request uses an HTTP method that isn't allowed for the specified resource.
     public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
+    /// One or more of the specified resources don't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// You've exceeded throttling limits by making too many requests in a period of time.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// The request was rejected because it doesn't have valid credentials for the target resource.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

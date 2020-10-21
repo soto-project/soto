@@ -124,126 +124,229 @@ public struct CloudFrontErrorType: AWSErrorType {
         case trustedSignerDoesNotExist = "TrustedSignerDoesNotExist"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CloudFront
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Access denied.
     public static var accessDenied: Self { .init(.accessDenied) }
+    /// Invalidation batch specified is too large.
     public static var batchTooLarge: Self { .init(.batchTooLarge) }
+    /// The CNAME specified is already defined for CloudFront.
     public static var cNAMEAlreadyExists: Self { .init(.cNAMEAlreadyExists) }
+    /// A cache policy with this name already exists. You must provide a unique name. To modify an existing cache policy, use UpdateCachePolicy.
     public static var cachePolicyAlreadyExists: Self { .init(.cachePolicyAlreadyExists) }
+    /// Cannot delete the cache policy because it is attached to one or more cache behaviors.
     public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
+    /// You can't change the value of a public key.
     public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
+    /// If the CallerReference is a value you already sent in a previous request to create an identity but the content of the CloudFrontOriginAccessIdentityConfig is different from the original request, CloudFront returns a CloudFrontOriginAccessIdentityAlreadyExists error.
     public static var cloudFrontOriginAccessIdentityAlreadyExists: Self { .init(.cloudFrontOriginAccessIdentityAlreadyExists) }
+    /// The Origin Access Identity specified is already in use.
     public static var cloudFrontOriginAccessIdentityInUse: Self { .init(.cloudFrontOriginAccessIdentityInUse) }
+    /// The caller reference you attempted to create the distribution with is associated with another distribution.
     public static var distributionAlreadyExists: Self { .init(.distributionAlreadyExists) }
+    /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
+    /// The specified configuration for field-level encryption already exists.
     public static var fieldLevelEncryptionConfigAlreadyExists: Self { .init(.fieldLevelEncryptionConfigAlreadyExists) }
+    /// The specified configuration for field-level encryption is in use.
     public static var fieldLevelEncryptionConfigInUse: Self { .init(.fieldLevelEncryptionConfigInUse) }
+    /// The specified profile for field-level encryption already exists.
     public static var fieldLevelEncryptionProfileAlreadyExists: Self { .init(.fieldLevelEncryptionProfileAlreadyExists) }
+    /// The specified profile for field-level encryption is in use.
     public static var fieldLevelEncryptionProfileInUse: Self { .init(.fieldLevelEncryptionProfileInUse) }
+    /// The maximum size of a profile for field-level encryption was exceeded.
     public static var fieldLevelEncryptionProfileSizeExceeded: Self { .init(.fieldLevelEncryptionProfileSizeExceeded) }
+    /// You cannot delete a managed policy.
     public static var illegalDelete: Self { .init(.illegalDelete) }
+    /// The specified configuration for field-level encryption can't be associated with the specified cache behavior.
     public static var illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Self { .init(.illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior) }
+    /// The update contains modifications that are not allowed.
     public static var illegalUpdate: Self { .init(.illegalUpdate) }
+    /// The value of Quantity and the size of Items don't match.
     public static var inconsistentQuantities: Self { .init(.inconsistentQuantities) }
+    /// An argument is invalid.
     public static var invalidArgument: Self { .init(.invalidArgument) }
+    /// The default root object file name is too big or contains an invalid character.
     public static var invalidDefaultRootObject: Self { .init(.invalidDefaultRootObject) }
+    /// An invalid error code was specified.
     public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
+    /// Your request contains forward cookies option which doesn't match with the expectation for the whitelisted list of cookie names. Either list of cookie names has been specified when not allowed or list of cookie names is missing when expected.
     public static var invalidForwardCookies: Self { .init(.invalidForwardCookies) }
+    /// The specified geo restriction parameter is not valid.
     public static var invalidGeoRestrictionParameter: Self { .init(.invalidGeoRestrictionParameter) }
+    /// The headers specified are not valid for an Amazon S3 origin.
     public static var invalidHeadersForS3Origin: Self { .init(.invalidHeadersForS3Origin) }
+    /// The If-Match version is missing or not valid.
     public static var invalidIfMatchVersion: Self { .init(.invalidIfMatchVersion) }
+    /// The specified Lambda function association is invalid.
     public static var invalidLambdaFunctionAssociation: Self { .init(.invalidLambdaFunctionAssociation) }
+    /// The location code specified is not valid.
     public static var invalidLocationCode: Self { .init(.invalidLocationCode) }
+    /// The minimum protocol version specified is not valid.
     public static var invalidMinimumProtocolVersion: Self { .init(.invalidMinimumProtocolVersion) }
+    /// The Amazon S3 origin server specified does not refer to a valid Amazon S3 bucket.
     public static var invalidOrigin: Self { .init(.invalidOrigin) }
+    /// The origin access identity is not valid or doesn't exist.
     public static var invalidOriginAccessIdentity: Self { .init(.invalidOriginAccessIdentity) }
+    /// The keep alive timeout specified for the origin is not valid.
     public static var invalidOriginKeepaliveTimeout: Self { .init(.invalidOriginKeepaliveTimeout) }
+    /// The read timeout specified for the origin is not valid.
     public static var invalidOriginReadTimeout: Self { .init(.invalidOriginReadTimeout) }
+    /// You cannot specify SSLv3 as the minimum protocol version if you only want to support only clients that support Server Name Indication (SNI).
     public static var invalidProtocolSettings: Self { .init(.invalidProtocolSettings) }
+    /// The query string parameters specified are not valid.
     public static var invalidQueryStringParameters: Self { .init(.invalidQueryStringParameters) }
+    /// The relative path is too big, is not URL-encoded, or does not begin with a slash (/).
     public static var invalidRelativePath: Self { .init(.invalidRelativePath) }
+    /// This operation requires the HTTPS protocol. Ensure that you specify the HTTPS protocol in your request, or omit the RequiredProtocols element from your distribution configuration.
     public static var invalidRequiredProtocol: Self { .init(.invalidRequiredProtocol) }
+    /// A response code is not valid.
     public static var invalidResponseCode: Self { .init(.invalidResponseCode) }
+    /// The TTL order specified is not valid.
     public static var invalidTTLOrder: Self { .init(.invalidTTLOrder) }
+    /// The tagging specified is not valid.
     public static var invalidTagging: Self { .init(.invalidTagging) }
+    /// A viewer certificate specified is not valid.
     public static var invalidViewerCertificate: Self { .init(.invalidViewerCertificate) }
+    /// A web ACL ID specified is not valid. To specify a web ACL created using the latest version of AWS WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using AWS WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a.
     public static var invalidWebACLId: Self { .init(.invalidWebACLId) }
+    /// This operation requires a body. Ensure that the body is present and the Content-Type header is set.
     public static var missingBody: Self { .init(.missingBody) }
+    /// The cache policy does not exist.
     public static var noSuchCachePolicy: Self { .init(.noSuchCachePolicy) }
+    /// The specified origin access identity does not exist.
     public static var noSuchCloudFrontOriginAccessIdentity: Self { .init(.noSuchCloudFrontOriginAccessIdentity) }
+    /// The specified distribution does not exist.
     public static var noSuchDistribution: Self { .init(.noSuchDistribution) }
+    /// The specified configuration for field-level encryption doesn't exist.
     public static var noSuchFieldLevelEncryptionConfig: Self { .init(.noSuchFieldLevelEncryptionConfig) }
+    /// The specified profile for field-level encryption doesn't exist.
     public static var noSuchFieldLevelEncryptionProfile: Self { .init(.noSuchFieldLevelEncryptionProfile) }
+    /// The specified invalidation does not exist.
     public static var noSuchInvalidation: Self { .init(.noSuchInvalidation) }
+    /// No origin exists with the specified Origin Id.
     public static var noSuchOrigin: Self { .init(.noSuchOrigin) }
+    /// The origin request policy does not exist.
     public static var noSuchOriginRequestPolicy: Self { .init(.noSuchOriginRequestPolicy) }
+    /// The specified public key doesn't exist.
     public static var noSuchPublicKey: Self { .init(.noSuchPublicKey) }
+    /// The real-time log configuration does not exist.
     public static var noSuchRealtimeLogConfig: Self { .init(.noSuchRealtimeLogConfig) }
+    /// A resource that was specified is not valid.
     public static var noSuchResource: Self { .init(.noSuchResource) }
+    /// The specified streaming distribution does not exist.
     public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
+    /// An origin request policy with this name already exists. You must provide a unique name. To modify an existing origin request policy, use UpdateOriginRequestPolicy.
     public static var originRequestPolicyAlreadyExists: Self { .init(.originRequestPolicyAlreadyExists) }
+    /// Cannot delete the origin request policy because it is attached to one or more cache behaviors.
     public static var originRequestPolicyInUse: Self { .init(.originRequestPolicyInUse) }
+    /// The precondition given in one or more of the request header fields evaluated to false.
     public static var preconditionFailed: Self { .init(.preconditionFailed) }
+    /// The specified public key already exists.
     public static var publicKeyAlreadyExists: Self { .init(.publicKeyAlreadyExists) }
+    /// The specified public key is in use.
     public static var publicKeyInUse: Self { .init(.publicKeyInUse) }
+    /// No profile specified for the field-level encryption query argument.
     public static var queryArgProfileEmpty: Self { .init(.queryArgProfileEmpty) }
+    /// A real-time log configuration with this name already exists. You must provide a unique name. To modify an existing real-time log configuration, use UpdateRealtimeLogConfig.
     public static var realtimeLogConfigAlreadyExists: Self { .init(.realtimeLogConfigAlreadyExists) }
+    /// Cannot delete the real-time log configuration because it is attached to one or more cache behaviors.
     public static var realtimeLogConfigInUse: Self { .init(.realtimeLogConfigInUse) }
+    /// The caller reference you attempted to create the streaming distribution with is associated with another distribution
     public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }
+    /// The specified CloudFront distribution is not disabled. You must disable the distribution before you can delete it.
     public static var streamingDistributionNotDisabled: Self { .init(.streamingDistributionNotDisabled) }
+    /// You cannot create more cache behaviors for the distribution.
     public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
+    /// You have reached the maximum number of cache policies for this AWS account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCachePolicies: Self { .init(.tooManyCachePolicies) }
+    /// You cannot create anymore custom SSL/TLS certificates.
     public static var tooManyCertificates: Self { .init(.tooManyCertificates) }
+    /// Processing your request would cause you to exceed the maximum number of origin access identities allowed.
     public static var tooManyCloudFrontOriginAccessIdentities: Self { .init(.tooManyCloudFrontOriginAccessIdentities) }
+    /// Your request contains more cookie names in the whitelist than are allowed per cache behavior.
     public static var tooManyCookieNamesInWhiteList: Self { .init(.tooManyCookieNamesInWhiteList) }
+    /// The number of cookies in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCookiesInCachePolicy: Self { .init(.tooManyCookiesInCachePolicy) }
+    /// The number of cookies in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyCookiesInOriginRequestPolicy: Self { .init(.tooManyCookiesInOriginRequestPolicy) }
+    /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyDistributionCNAMEs: Self { .init(.tooManyDistributionCNAMEs) }
+    /// Processing your request would cause you to exceed the maximum number of distributions allowed.
     public static var tooManyDistributions: Self { .init(.tooManyDistributions) }
+    /// The maximum number of distributions have been associated with the specified cache policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToCachePolicy: Self { .init(.tooManyDistributionsAssociatedToCachePolicy) }
+    /// The maximum number of distributions have been associated with the specified configuration for field-level encryption.
     public static var tooManyDistributionsAssociatedToFieldLevelEncryptionConfig: Self { .init(.tooManyDistributionsAssociatedToFieldLevelEncryptionConfig) }
+    /// The maximum number of distributions have been associated with the specified origin request policy. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
+    /// Processing your request would cause the maximum number of distributions with Lambda function associations per owner to be exceeded.
     public static var tooManyDistributionsWithLambdaAssociations: Self { .init(.tooManyDistributionsWithLambdaAssociations) }
+    /// The maximum number of distributions have been associated with the specified Lambda function.
     public static var tooManyDistributionsWithSingleFunctionARN: Self { .init(.tooManyDistributionsWithSingleFunctionARN) }
+    /// The maximum number of configurations for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionConfigs: Self { .init(.tooManyFieldLevelEncryptionConfigs) }
+    /// The maximum number of content type profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionContentTypeProfiles: Self { .init(.tooManyFieldLevelEncryptionContentTypeProfiles) }
+    /// The maximum number of encryption entities for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionEncryptionEntities: Self { .init(.tooManyFieldLevelEncryptionEncryptionEntities) }
+    /// The maximum number of field patterns for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionFieldPatterns: Self { .init(.tooManyFieldLevelEncryptionFieldPatterns) }
+    /// The maximum number of profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionProfiles: Self { .init(.tooManyFieldLevelEncryptionProfiles) }
+    /// The maximum number of query arg profiles for field-level encryption have been created.
     public static var tooManyFieldLevelEncryptionQueryArgProfiles: Self { .init(.tooManyFieldLevelEncryptionQueryArgProfiles) }
+    /// The number of headers in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInCachePolicy: Self { .init(.tooManyHeadersInCachePolicy) }
+    /// Your request contains too many headers in forwarded values.
     public static var tooManyHeadersInForwardedValues: Self { .init(.tooManyHeadersInForwardedValues) }
+    /// The number of headers in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyHeadersInOriginRequestPolicy: Self { .init(.tooManyHeadersInOriginRequestPolicy) }
+    /// You have exceeded the maximum number of allowable InProgress invalidation batch requests, or invalidation objects.
     public static var tooManyInvalidationsInProgress: Self { .init(.tooManyInvalidationsInProgress) }
+    /// Your request contains more Lambda function associations than are allowed per distribution.
     public static var tooManyLambdaFunctionAssociations: Self { .init(.tooManyLambdaFunctionAssociations) }
+    /// Your request contains too many origin custom headers.
     public static var tooManyOriginCustomHeaders: Self { .init(.tooManyOriginCustomHeaders) }
+    /// Processing your request would cause you to exceed the maximum number of origin groups allowed.
     public static var tooManyOriginGroupsPerDistribution: Self { .init(.tooManyOriginGroupsPerDistribution) }
+    /// You have reached the maximum number of origin request policies for this AWS account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyOriginRequestPolicies: Self { .init(.tooManyOriginRequestPolicies) }
+    /// You cannot create more origins for the distribution.
     public static var tooManyOrigins: Self { .init(.tooManyOrigins) }
+    /// The maximum number of public keys for field-level encryption have been created. To create a new public key, delete one of the existing keys.
     public static var tooManyPublicKeys: Self { .init(.tooManyPublicKeys) }
+    /// Your request contains too many query string parameters.
     public static var tooManyQueryStringParameters: Self { .init(.tooManyQueryStringParameters) }
+    /// The number of query strings in the cache policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyQueryStringsInCachePolicy: Self { .init(.tooManyQueryStringsInCachePolicy) }
+    /// The number of query strings in the origin request policy exceeds the maximum. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyQueryStringsInOriginRequestPolicy: Self { .init(.tooManyQueryStringsInOriginRequestPolicy) }
+    /// You have reached the maximum number of real-time log configurations for this AWS account. For more information, see Quotas (formerly known as limits) in the Amazon CloudFront Developer Guide.
     public static var tooManyRealtimeLogConfigs: Self { .init(.tooManyRealtimeLogConfigs) }
+    /// Your request contains more CNAMEs than are allowed per distribution.
     public static var tooManyStreamingDistributionCNAMEs: Self { .init(.tooManyStreamingDistributionCNAMEs) }
+    /// Processing your request would cause you to exceed the maximum number of streaming distributions allowed.
     public static var tooManyStreamingDistributions: Self { .init(.tooManyStreamingDistributions) }
+    /// Your request contains more trusted signers than are allowed per distribution.
     public static var tooManyTrustedSigners: Self { .init(.tooManyTrustedSigners) }
+    /// One or more of your trusted signers don't exist.
     public static var trustedSignerDoesNotExist: Self { .init(.trustedSignerDoesNotExist) }
 }
 

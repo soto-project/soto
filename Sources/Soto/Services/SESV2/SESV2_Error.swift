@@ -33,35 +33,47 @@ public struct SESV2ErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SESV2
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The message can't be sent because the account's ability to send email has been permanently restricted.
     public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
+    /// The resource specified in your request already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// The input you provided is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The resource is being modified by another operation or thread.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// If there is already an ongoing account details update under review.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The specified request includes an invalid or expired token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// There are too many instances of the specified resource type.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The message can't be sent because the sending domain isn't verified.
     public static var mailFromDomainNotVerifiedException: Self { .init(.mailFromDomainNotVerifiedException) }
+    /// The message can't be sent because it contains invalid content.
     public static var messageRejected: Self { .init(.messageRejected) }
+    /// The resource you attempted to access doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The message can't be sent because the account's ability to send email is currently paused.
     public static var sendingPausedException: Self { .init(.sendingPausedException) }
+    /// Too many requests have been made to the operation.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

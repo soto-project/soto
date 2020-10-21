@@ -33,35 +33,47 @@ public struct SMSErrorType: AWSErrorType {
         case unauthorizedOperationException = "UnauthorizedOperationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SMS
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The user has the required permissions, so the request would have succeeded, but a dry run was performed.
     public static var dryRunOperationException: Self { .init(.dryRunOperationException) }
+    /// An internal error occurred.
     public static var internalError: Self { .init(.internalError) }
+    /// A specified parameter is not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// A required parameter is missing.
     public static var missingRequiredParameterException: Self { .init(.missingRequiredParameterException) }
+    /// There are no connectors available.
     public static var noConnectorsAvailableException: Self { .init(.noConnectorsAvailableException) }
+    /// This operation is not allowed.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// The specified replication job already exists.
     public static var replicationJobAlreadyExistsException: Self { .init(.replicationJobAlreadyExistsException) }
+    /// The specified replication job does not exist.
     public static var replicationJobNotFoundException: Self { .init(.replicationJobNotFoundException) }
+    /// You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
     public static var replicationRunLimitExceededException: Self { .init(.replicationRunLimitExceededException) }
+    /// The specified server cannot be replicated.
     public static var serverCannotBeReplicatedException: Self { .init(.serverCannotBeReplicatedException) }
+    /// The service is temporarily unavailable.
     public static var temporarilyUnavailableException: Self { .init(.temporarilyUnavailableException) }
+    /// You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public static var unauthorizedOperationException: Self { .init(.unauthorizedOperationException) }
 }
 

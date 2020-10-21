@@ -54,7 +54,7 @@ public struct Athena: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-05-18",
             endpoint: endpoint,
-            possibleErrorTypes: [AthenaErrorType.self],
+            errorType: AthenaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

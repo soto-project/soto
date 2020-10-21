@@ -28,30 +28,37 @@ public struct DataExchangeErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize DataExchange
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Access to the resource is denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request couldn't be completed because it conflicted with the current state of the resource.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An exception occurred with the service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource couldn't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request has exceeded the quotas imposed by the service.
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
+    /// The limit on the number of requests per second was exceeded.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The request was invalid.
     public static var validationException: Self { .init(.validationException) }
 }
 

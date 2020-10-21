@@ -27,29 +27,35 @@ public struct KinesisVideoSignalingChannelsErrorType: AWSErrorType {
         case sessionExpiredException = "SessionExpiredException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize KinesisVideoSignalingChannels
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Your request was throttled because you have exceeded the limit of allowed client calls. Try making the call later.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    /// The value for this input parameter is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// The specified client is invalid.
     public static var invalidClientException: Self { .init(.invalidClientException) }
+    /// The caller is not authorized to perform this operation.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    /// The specified resource is not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// If the client session is expired. Once the client is connected, the session is valid for 45 minutes. Client should reconnect to the channel to continue sending/receiving messages.
     public static var sessionExpiredException: Self { .init(.sessionExpiredException) }
 }
 

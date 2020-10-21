@@ -53,7 +53,7 @@ public struct Honeycode: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-03-01",
             endpoint: endpoint,
-            possibleErrorTypes: [HoneycodeErrorType.self],
+            errorType: HoneycodeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

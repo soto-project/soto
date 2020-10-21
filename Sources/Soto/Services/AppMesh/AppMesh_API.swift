@@ -65,7 +65,7 @@ public struct AppMesh: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-01-25",
             endpoint: endpoint,
-            possibleErrorTypes: [AppMeshErrorType.self],
+            errorType: AppMeshErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

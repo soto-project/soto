@@ -33,35 +33,47 @@ public struct AppStreamErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize AppStream
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// An API error occurred. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The image does not support storage connectors.
     public static var incompatibleImageException: Self { .init(.incompatibleImageException) }
+    /// The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.
     public static var invalidAccountStatusException: Self { .init(.invalidAccountStatusException) }
+    /// Indicates an incorrect combination of parameters, or a missing parameter.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    /// The specified role is invalid.
     public static var invalidRoleException: Self { .init(.invalidRoleException) }
+    /// The requested limit exceeds the permitted limit for an account.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The attempted operation is not permitted.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// AppStream 2.0 can’t process the request right now because the Describe calls from your AWS account are being throttled by Amazon EC2. Try again later.
     public static var requestLimitExceededException: Self { .init(.requestLimitExceededException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource exists and is not in use, but isn't available.
     public static var resourceNotAvailableException: Self { .init(.resourceNotAvailableException) }
+    /// The specified resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

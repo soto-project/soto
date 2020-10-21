@@ -40,42 +40,61 @@ public struct ElasticBeanstalkErrorType: AWSErrorType {
         case tooManyTagsException = "TooManyTagsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ElasticBeanstalk
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// AWS CodeBuild is not available in the specified region.
     public static var codeBuildNotInServiceRegionException: Self { .init(.codeBuildNotInServiceRegionException) }
+    /// A generic service exception has occurred.
     public static var elasticBeanstalkServiceException: Self { .init(.elasticBeanstalkServiceException) }
+    /// The specified account does not have sufficient privileges for one or more AWS services.
     public static var insufficientPrivilegesException: Self { .init(.insufficientPrivilegesException) }
+    /// One or more input parameters is not valid. Please correct the input parameters and try the operation again.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// Cannot modify the managed action in its current state.
     public static var managedActionInvalidStateException: Self { .init(.managedActionInvalidStateException) }
+    /// Unable to perform the specified operation because another operation that effects an element in this activity is already in progress.
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
+    /// You cannot delete the platform version because there are still environments running on it.
     public static var platformVersionStillReferencedException: Self { .init(.platformVersionStillReferencedException) }
+    /// A resource doesn't exist for the specified Amazon Resource Name (ARN).
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The type of the specified Amazon Resource Name (ARN) isn't supported for this operation.
     public static var resourceTypeNotSupportedException: Self { .init(.resourceTypeNotSupportedException) }
+    /// The specified S3 bucket does not belong to the S3 region in which the service is running. The following regions are supported:   IAD/us-east-1   PDX/us-west-2   DUB/eu-west-1
     public static var s3LocationNotInServiceRegionException: Self { .init(.s3LocationNotInServiceRegionException) }
+    /// The specified account does not have a subscription to Amazon S3.
     public static var s3SubscriptionRequiredException: Self { .init(.s3SubscriptionRequiredException) }
+    /// Unable to delete the Amazon S3 source bundle associated with the application version. The application version was deleted successfully.
     public static var sourceBundleDeletionException: Self { .init(.sourceBundleDeletionException) }
+    /// The specified account has reached its limit of application versions.
     public static var tooManyApplicationVersionsException: Self { .init(.tooManyApplicationVersionsException) }
+    /// The specified account has reached its limit of applications.
     public static var tooManyApplicationsException: Self { .init(.tooManyApplicationsException) }
+    /// The specified account has reached its limit of Amazon S3 buckets.
     public static var tooManyBucketsException: Self { .init(.tooManyBucketsException) }
+    /// The specified account has reached its limit of configuration templates.
     public static var tooManyConfigurationTemplatesException: Self { .init(.tooManyConfigurationTemplatesException) }
+    /// The specified account has reached its limit of environments.
     public static var tooManyEnvironmentsException: Self { .init(.tooManyEnvironmentsException) }
+    /// You have exceeded the maximum number of allowed platforms associated with the account.
     public static var tooManyPlatformsException: Self { .init(.tooManyPlatformsException) }
+    /// The number of tags in the resource would exceed the number of tags that each resource can have. To calculate this, the operation considers both the number of tags the resource already has and the tags this operation would add if it succeeded.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

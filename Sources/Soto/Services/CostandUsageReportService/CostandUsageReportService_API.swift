@@ -54,7 +54,7 @@ public struct CostandUsageReportService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-06",
             endpoint: endpoint,
-            possibleErrorTypes: [CostandUsageReportServiceErrorType.self],
+            errorType: CostandUsageReportServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

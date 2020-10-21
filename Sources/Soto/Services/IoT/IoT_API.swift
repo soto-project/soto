@@ -54,7 +54,7 @@ public struct IoT: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-05-28",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTErrorType.self],
+            errorType: IoTErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

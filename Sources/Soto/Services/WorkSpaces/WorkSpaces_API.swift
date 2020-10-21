@@ -54,7 +54,7 @@ public struct WorkSpaces: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-08",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkSpacesErrorType.self],
+            errorType: WorkSpacesErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

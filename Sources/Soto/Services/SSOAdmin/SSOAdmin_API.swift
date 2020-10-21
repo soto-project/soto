@@ -53,7 +53,7 @@ public struct SSOAdmin: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-07-20",
             endpoint: endpoint,
-            possibleErrorTypes: [SSOAdminErrorType.self],
+            errorType: SSOAdminErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

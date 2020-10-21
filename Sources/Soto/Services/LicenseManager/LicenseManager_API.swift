@@ -54,7 +54,7 @@ public struct LicenseManager: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-01",
             endpoint: endpoint,
-            possibleErrorTypes: [LicenseManagerErrorType.self],
+            errorType: LicenseManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

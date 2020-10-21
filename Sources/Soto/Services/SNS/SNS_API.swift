@@ -54,7 +54,7 @@ public struct SNS: AWSService {
             apiVersion: "2010-03-31",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "sns.us-gov-east-1.amazonaws.com", "us-gov-west-1": "sns.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [SNSErrorType.self],
+            errorType: SNSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct ForecastService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-06-26",
             endpoint: endpoint,
-            possibleErrorTypes: [ForecastServiceErrorType.self],
+            errorType: ForecastServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

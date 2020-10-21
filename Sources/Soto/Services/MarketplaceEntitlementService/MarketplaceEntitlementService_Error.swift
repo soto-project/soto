@@ -24,26 +24,29 @@ public struct MarketplaceEntitlementServiceErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize MarketplaceEntitlementService
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// An internal error has occurred. Retry your request. If the problem persists, post a message with details on the AWS forums.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// One or more parameters in your request was invalid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The calls to the GetEntitlements API are throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

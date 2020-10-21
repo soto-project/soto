@@ -53,7 +53,7 @@ public struct DataExchange: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [DataExchangeErrorType.self],
+            errorType: DataExchangeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

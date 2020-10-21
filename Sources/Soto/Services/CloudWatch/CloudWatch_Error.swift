@@ -33,35 +33,47 @@ public struct CloudWatchErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CloudWatch
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// More than one process tried to modify a resource at the same time.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// Some part of the dashboard data is invalid.
     public static var dashboardInvalidInputError: Self { .init(.dashboardInvalidInputError) }
+    /// Request processing has failed due to some unknown error, exception, or failure.
     public static var internalServiceFault: Self { .init(.internalServiceFault) }
+    /// Data was not syntactically valid JSON.
     public static var invalidFormatFault: Self { .init(.invalidFormatFault) }
+    /// The next token specified is invalid.
     public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    /// Parameters were used together that cannot be used together.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    /// The value of an input parameter is bad or out-of-range.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// The operation exceeded one or more limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The quota for alarms for this customer has already been reached.
     public static var limitExceededFault: Self { .init(.limitExceededFault) }
+    /// An input parameter that is required is missing.
     public static var missingRequiredParameterException: Self { .init(.missingRequiredParameterException) }
+    /// The named resource does not exist.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    /// The named resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

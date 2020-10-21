@@ -53,7 +53,7 @@ public struct ApiGatewayV2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-29",
             endpoint: endpoint,
-            possibleErrorTypes: [ApiGatewayV2ErrorType.self],
+            errorType: ApiGatewayV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

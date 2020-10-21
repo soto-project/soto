@@ -30,32 +30,41 @@ public struct SnowballErrorType: AWSErrorType {
         case unsupportedAddressException = "UnsupportedAddressException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Snowball
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Job creation failed. Currently, clusters support five nodes. If you have less than five nodes for your cluster and you have more nodes to create for this cluster, try again and create jobs until your cluster has exactly five notes.
     public static var clusterLimitExceededException: Self { .init(.clusterLimitExceededException) }
+    /// Your IAM user lacks the necessary Amazon EC2 permissions to perform the attempted action.
     public static var ec2RequestFailedException: Self { .init(.ec2RequestFailedException) }
+    /// The address provided was invalid. Check the address with your region's carrier, and try again.
     public static var invalidAddressException: Self { .init(.invalidAddressException) }
+    /// Job or cluster creation failed. One or more inputs were invalid. Confirm that the CreateClusterRequest$SnowballType value supports your CreateJobRequest$JobType, and try again.
     public static var invalidInputCombinationException: Self { .init(.invalidInputCombinationException) }
+    /// The action can't be performed because the job's current state doesn't allow that action to be performed.
     public static var invalidJobStateException: Self { .init(.invalidJobStateException) }
+    /// The NextToken string was altered unexpectedly, and the operation has stopped. Run the operation without changing the NextToken string, and try again.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The specified resource can't be found. Check the information you provided in your last request, and try again.
     public static var invalidResourceException: Self { .init(.invalidResourceException) }
+    /// The provided AWS Key Management Service key lacks the permissions to perform the specified CreateJob or UpdateJob action.
     public static var kMSRequestFailedException: Self { .init(.kMSRequestFailedException) }
+    /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact AWS Support.
     public static var unsupportedAddressException: Self { .init(.unsupportedAddressException) }
 }
 

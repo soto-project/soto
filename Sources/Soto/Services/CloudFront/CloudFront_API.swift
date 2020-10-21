@@ -53,7 +53,7 @@ public struct CloudFront: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "cloudfront.cn-northwest-1.amazonaws.com.cn", "aws-global": "cloudfront.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
-            possibleErrorTypes: [CloudFrontErrorType.self],
+            errorType: CloudFrontErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

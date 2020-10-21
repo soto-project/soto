@@ -53,7 +53,7 @@ public struct Braket: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-01",
             endpoint: endpoint,
-            possibleErrorTypes: [BraketErrorType.self],
+            errorType: BraketErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

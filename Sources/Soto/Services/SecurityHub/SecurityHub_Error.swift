@@ -28,30 +28,37 @@ public struct SecurityHubErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SecurityHub
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You don't have permission to perform the action specified in the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Internal server error.
     public static var internalException: Self { .init(.internalException) }
+    /// AWS Security Hub isn't enabled for the account used to make this request.
     public static var invalidAccessException: Self { .init(.invalidAccessException) }
+    /// The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error code describes the limit exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource specified in the request conflicts with an existing resource.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    /// The request was rejected because we can't find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

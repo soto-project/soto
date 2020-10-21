@@ -54,7 +54,7 @@ public struct MediaConvert: AWSService {
             apiVersion: "2017-08-29",
             endpoint: endpoint,
             serviceEndpoints: ["cn-northwest-1": "subscribe.mediaconvert.cn-northwest-1.amazonaws.com.cn", "us-gov-west-1": "mediaconvert.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [MediaConvertErrorType.self],
+            errorType: MediaConvertErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

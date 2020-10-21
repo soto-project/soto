@@ -53,7 +53,7 @@ public struct ElasticLoadBalancingv2: AWSService {
             serviceProtocol: .query,
             apiVersion: "2015-12-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ElasticLoadBalancingv2ErrorType.self],
+            errorType: ElasticLoadBalancingv2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

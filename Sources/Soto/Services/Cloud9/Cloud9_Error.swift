@@ -29,31 +29,39 @@ public struct Cloud9ErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Cloud9
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The target request is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// A concurrent access issue occurred.
     public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
+    /// A conflict occurred.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An access permissions issue occurred.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// An internal server error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// A service limit was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The target resource cannot be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Too many service requests were made over the given time period.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

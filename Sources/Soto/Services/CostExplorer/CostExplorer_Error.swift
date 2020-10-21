@@ -31,33 +31,43 @@ public struct CostExplorerErrorType: AWSErrorType {
         case unresolvableUsageUnitException = "UnresolvableUsageUnitException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CostExplorer
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The requested report expired. Update the date interval and try again.
     public static var billExpirationException: Self { .init(.billExpirationException) }
+    /// The requested data is unavailable.
     public static var dataUnavailableException: Self { .init(.dataUnavailableException) }
+    /// The pagination token is invalid. Try again without a pagination token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// You made too many calls in a short period of time. Try again later.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Your request parameters changed between pages. Try again with the old parameters or without a pagination token.
     public static var requestChangedException: Self { .init(.requestChangedException) }
+    ///  The specified ARN in the request doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The cost anomaly monitor does not exist for the account.
     public static var unknownMonitorException: Self { .init(.unknownMonitorException) }
+    /// The cost anomaly subscription does not exist for the account.
     public static var unknownSubscriptionException: Self { .init(.unknownSubscriptionException) }
+    /// Cost Explorer was unable to identify the usage unit. Provide UsageType/UsageTypeGroup filter selections that contain matching units, for example: hours.
     public static var unresolvableUsageUnitException: Self { .init(.unresolvableUsageUnitException) }
 }
 

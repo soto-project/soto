@@ -54,7 +54,7 @@ public struct SES: AWSService {
             serviceProtocol: .query,
             apiVersion: "2010-12-01",
             endpoint: endpoint,
-            possibleErrorTypes: [SESErrorType.self],
+            errorType: SESErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

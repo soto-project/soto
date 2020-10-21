@@ -54,7 +54,7 @@ public struct PersonalizeEvents: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-03-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeEventsErrorType.self],
+            errorType: PersonalizeEventsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

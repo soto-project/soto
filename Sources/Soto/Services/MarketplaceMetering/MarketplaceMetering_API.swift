@@ -55,7 +55,7 @@ public struct MarketplaceMetering: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-14",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceMeteringErrorType.self],
+            errorType: MarketplaceMeteringErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

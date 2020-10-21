@@ -55,7 +55,7 @@ public struct Pinpoint: AWSService {
             apiVersion: "2016-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "pinpoint.us-east-1.amazonaws.com", "us-west-2": "pinpoint.us-west-2.amazonaws.com"],
-            possibleErrorTypes: [PinpointErrorType.self],
+            errorType: PinpointErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

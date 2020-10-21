@@ -54,7 +54,7 @@ public struct PinpointSMSVoice: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-05",
             endpoint: endpoint,
-            possibleErrorTypes: [PinpointSMSVoiceErrorType.self],
+            errorType: PinpointSMSVoiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

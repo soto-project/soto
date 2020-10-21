@@ -54,7 +54,7 @@ public struct Health: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
-            possibleErrorTypes: [HealthErrorType.self],
+            errorType: HealthErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

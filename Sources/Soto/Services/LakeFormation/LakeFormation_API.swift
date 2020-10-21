@@ -54,7 +54,7 @@ public struct LakeFormation: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
-            possibleErrorTypes: [LakeFormationErrorType.self],
+            errorType: LakeFormationErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

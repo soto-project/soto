@@ -54,7 +54,7 @@ public struct DAX: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-19",
             endpoint: endpoint,
-            possibleErrorTypes: [DAXErrorType.self],
+            errorType: DAXErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

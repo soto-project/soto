@@ -53,7 +53,7 @@ public struct Lambda: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-03-31",
             endpoint: endpoint,
-            possibleErrorTypes: [LambdaErrorType.self],
+            errorType: LambdaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

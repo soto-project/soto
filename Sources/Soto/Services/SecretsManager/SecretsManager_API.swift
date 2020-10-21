@@ -54,7 +54,7 @@ public struct SecretsManager: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-17",
             endpoint: endpoint,
-            possibleErrorTypes: [SecretsManagerErrorType.self],
+            errorType: SecretsManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

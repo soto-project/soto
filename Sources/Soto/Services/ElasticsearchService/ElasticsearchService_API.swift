@@ -53,7 +53,7 @@ public struct ElasticsearchService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ElasticsearchServiceErrorType.self],
+            errorType: ElasticsearchServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

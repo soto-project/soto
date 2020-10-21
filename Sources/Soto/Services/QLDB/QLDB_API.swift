@@ -53,7 +53,7 @@ public struct QLDB: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-01-02",
             endpoint: endpoint,
-            possibleErrorTypes: [QLDBErrorType.self],
+            errorType: QLDBErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

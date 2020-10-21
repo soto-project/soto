@@ -54,7 +54,7 @@ public struct Glue: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-03-31",
             endpoint: endpoint,
-            possibleErrorTypes: [GlueErrorType.self],
+            errorType: GlueErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

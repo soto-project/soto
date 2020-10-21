@@ -55,7 +55,7 @@ public struct Kinesis: AWSService {
             apiVersion: "2013-12-02",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "kinesis.us-gov-east-1.amazonaws.com", "us-gov-west-1": "kinesis.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [KinesisErrorType.self],
+            errorType: KinesisErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

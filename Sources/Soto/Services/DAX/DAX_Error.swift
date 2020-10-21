@@ -47,49 +47,75 @@ public struct DAXErrorType: AWSErrorType {
         case tagQuotaPerResourceExceeded = "TagQuotaPerResourceExceeded"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize DAX
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You already have a DAX cluster with the given identifier.
     public static var clusterAlreadyExistsFault: Self { .init(.clusterAlreadyExistsFault) }
+    /// The requested cluster ID does not refer to an existing DAX cluster.
     public static var clusterNotFoundFault: Self { .init(.clusterNotFoundFault) }
+    /// You have attempted to exceed the maximum number of DAX clusters for your AWS account.
     public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }
+    /// There are not enough system resources to create the cluster you requested (or to resize an already-existing cluster).
     public static var insufficientClusterCapacityFault: Self { .init(.insufficientClusterCapacityFault) }
+    /// The Amazon Resource Name (ARN) supplied in the request is not valid.
     public static var invalidARNFault: Self { .init(.invalidARNFault) }
+    /// The requested DAX cluster is not in the available state.
     public static var invalidClusterStateFault: Self { .init(.invalidClusterStateFault) }
+    /// Two or more incompatible parameters were specified.
     public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    /// One or more parameters in a parameter group are in an invalid state.
     public static var invalidParameterGroupStateFault: Self { .init(.invalidParameterGroupStateFault) }
+    /// The value for a parameter is invalid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// An invalid subnet identifier was specified.
     public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    /// The VPC network is in an invalid state.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    /// None of the nodes in the cluster have the given node ID.
     public static var nodeNotFoundFault: Self { .init(.nodeNotFoundFault) }
+    /// You have attempted to exceed the maximum number of nodes for a DAX cluster.
     public static var nodeQuotaForClusterExceededFault: Self { .init(.nodeQuotaForClusterExceededFault) }
+    /// You have attempted to exceed the maximum number of nodes for your AWS account.
     public static var nodeQuotaForCustomerExceededFault: Self { .init(.nodeQuotaForCustomerExceededFault) }
+    /// The specified parameter group already exists.
     public static var parameterGroupAlreadyExistsFault: Self { .init(.parameterGroupAlreadyExistsFault) }
+    /// The specified parameter group does not exist.
     public static var parameterGroupNotFoundFault: Self { .init(.parameterGroupNotFoundFault) }
+    /// You have attempted to exceed the maximum number of parameter groups.
     public static var parameterGroupQuotaExceededFault: Self { .init(.parameterGroupQuotaExceededFault) }
+    /// The specified service linked role (SLR) was not found.
     public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
+    /// The specified subnet group already exists.
     public static var subnetGroupAlreadyExistsFault: Self { .init(.subnetGroupAlreadyExistsFault) }
+    /// The specified subnet group is currently in use.
     public static var subnetGroupInUseFault: Self { .init(.subnetGroupInUseFault) }
+    /// The requested subnet group name does not refer to an existing subnet group.
     public static var subnetGroupNotFoundFault: Self { .init(.subnetGroupNotFoundFault) }
+    /// The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     public static var subnetGroupQuotaExceededFault: Self { .init(.subnetGroupQuotaExceededFault) }
+    /// The requested subnet is being used by another subnet group.
     public static var subnetInUse: Self { .init(.subnetInUse) }
+    /// The request cannot be processed because it would exceed the allowed number of subnets in a subnet group.
     public static var subnetQuotaExceededFault: Self { .init(.subnetQuotaExceededFault) }
+    /// The tag does not exist.
     public static var tagNotFoundFault: Self { .init(.tagNotFoundFault) }
+    /// You have exceeded the maximum number of tags for this DAX cluster.
     public static var tagQuotaPerResourceExceeded: Self { .init(.tagQuotaPerResourceExceeded) }
 }
 

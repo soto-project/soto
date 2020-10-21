@@ -28,30 +28,37 @@ public struct IoTAnalyticsErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize IoTAnalytics
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// There was an internal failure.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request was not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The command caused an internal limit to be exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A resource with the same name already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// A resource with the specified name could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

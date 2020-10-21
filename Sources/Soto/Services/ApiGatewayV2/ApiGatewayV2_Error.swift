@@ -26,28 +26,32 @@ public struct ApiGatewayV2ErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ApiGatewayV2
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The request is not valid, for example, the input is incomplete or incorrect. See the accompanying error message for details.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The resource specified in the request was not found. See the message field for more information.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// A limit has been exceeded. See the accompanying error message for details.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

@@ -30,32 +30,41 @@ public struct MediaConnectErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize MediaConnect
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var addFlowOutputs420Exception: Self { .init(.addFlowOutputs420Exception) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var createFlow420Exception: Self { .init(.createFlow420Exception) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var grantFlowEntitlements420Exception: Self { .init(.grantFlowEntitlements420Exception) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

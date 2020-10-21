@@ -55,7 +55,7 @@ public struct QLDBSession: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-07-11",
             endpoint: endpoint,
-            possibleErrorTypes: [QLDBSessionErrorType.self],
+            errorType: QLDBSessionErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

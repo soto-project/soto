@@ -53,7 +53,7 @@ public struct CodeArtifact: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-22",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeArtifactErrorType.self],
+            errorType: CodeArtifactErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

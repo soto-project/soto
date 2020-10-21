@@ -25,27 +25,31 @@ public struct ConnectParticipantErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ConnectParticipant
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// This exception occurs when there is an internal failure in the Amazon Connect service.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The input fails to satisfy the constraints specified by Amazon Connect.
     public static var validationException: Self { .init(.validationException) }
 }
 

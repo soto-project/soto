@@ -26,28 +26,33 @@ public struct XRayErrorType: AWSErrorType {
         case tooManyTagsException = "TooManyTagsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize XRay
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The request is missing required parameters or has invalid parameters.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The resource was not found. Verify that the name or ARN of the resource is correct.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You have reached the maximum number of sampling rules.
     public static var ruleLimitExceededException: Self { .init(.ruleLimitExceededException) }
+    /// The request exceeds the maximum number of requests per second.
     public static var throttledException: Self { .init(.throttledException) }
+    /// You have exceeded the maximum number of tags you can apply to this resource.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

@@ -53,7 +53,7 @@ public struct IVS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-07-14",
             endpoint: endpoint,
-            possibleErrorTypes: [IVSErrorType.self],
+            errorType: IVSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -53,7 +53,7 @@ public struct KinesisVideoSignalingChannels: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-12-04",
             endpoint: endpoint,
-            possibleErrorTypes: [KinesisVideoSignalingChannelsErrorType.self],
+            errorType: KinesisVideoSignalingChannelsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -29,31 +29,39 @@ public struct PinpointErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Pinpoint
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Provides information about an API request or response.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Provides information about an API request or response.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Provides information about an API request or response.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Provides information about an API request or response.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// Provides information about an API request or response.
     public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
+    /// Provides information about an API request or response.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Provides information about an API request or response.
     public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
+    /// Provides information about an API request or response.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

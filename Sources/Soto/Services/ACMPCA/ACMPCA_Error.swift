@@ -40,42 +40,61 @@ public struct ACMPCAErrorType: AWSErrorType {
         case tooManyTagsException = "TooManyTagsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ACMPCA
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The certificate authority certificate you are importing does not comply with conditions specified in the certificate that signed it.
     public static var certificateMismatchException: Self { .init(.certificateMismatchException) }
+    /// A previous update to your private CA is still ongoing.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// One or more of the specified arguments was not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
+    /// The requested Amazon Resource Name (ARN) does not refer to an existing resource.
     public static var invalidArnException: Self { .init(.invalidArnException) }
+    /// The token specified in the NextToken argument is not valid. Use the token returned from your previous call to ListCertificateAuthorities.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The resource policy is invalid or is missing a required statement. For general information about IAM policy and statement structure, see Overview of JSON Policies.
     public static var invalidPolicyException: Self { .init(.invalidPolicyException) }
+    /// The request action cannot be performed or is prohibited.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The state of the private CA does not allow this action to occur.
     public static var invalidStateException: Self { .init(.invalidStateException) }
+    /// The tag associated with the CA is not valid. The invalid argument is contained in the message field.
     public static var invalidTagException: Self { .init(.invalidTagException) }
+    /// An ACM Private CA quota has been exceeded. See the exception message returned to determine the quota that was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The current action was prevented because it would lock the caller out from performing subsequent actions. Verify that the specified parameters would not result in the caller being denied access to the resource.
     public static var lockoutPreventedException: Self { .init(.lockoutPreventedException) }
+    /// The certificate signing request is invalid.
     public static var malformedCSRException: Self { .init(.malformedCSRException) }
+    /// One or more fields in the certificate are invalid.
     public static var malformedCertificateException: Self { .init(.malformedCertificateException) }
+    /// The designated permission has already been given to the user.
     public static var permissionAlreadyExistsException: Self { .init(.permissionAlreadyExistsException) }
+    /// Your request has already been completed.
     public static var requestAlreadyProcessedException: Self { .init(.requestAlreadyProcessedException) }
+    /// The request has failed for an unspecified reason.
     public static var requestFailedException: Self { .init(.requestFailedException) }
+    /// Your request is already in progress.
     public static var requestInProgressException: Self { .init(.requestInProgressException) }
+    /// A resource such as a private CA, S3 bucket, certificate, audit report, or policy cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You can associate up to 50 tags with a private CA. Exception information is contained in the exception message field.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

@@ -54,7 +54,7 @@ public struct DeviceFarm: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-06-23",
             endpoint: endpoint,
-            possibleErrorTypes: [DeviceFarmErrorType.self],
+            errorType: DeviceFarmErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

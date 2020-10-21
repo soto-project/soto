@@ -53,7 +53,7 @@ public struct MediaPackageVod: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-07",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaPackageVodErrorType.self],
+            errorType: MediaPackageVodErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

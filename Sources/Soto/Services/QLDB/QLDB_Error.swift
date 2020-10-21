@@ -27,29 +27,35 @@ public struct QLDBErrorType: AWSErrorType {
         case resourcePreconditionNotMetException = "ResourcePreconditionNotMetException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize QLDB
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// One or more parameters in the request aren't valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// You have reached the limit on the maximum number of resources allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource can't be modified at this time.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The operation failed because a condition wasn't satisfied in advance.
     public static var resourcePreconditionNotMetException: Self { .init(.resourcePreconditionNotMetException) }
 }
 

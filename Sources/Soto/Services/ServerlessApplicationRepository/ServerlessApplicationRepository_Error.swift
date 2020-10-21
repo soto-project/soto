@@ -27,29 +27,35 @@ public struct ServerlessApplicationRepositoryErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ServerlessApplicationRepository
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// One of the parameters in the request is invalid.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The resource already exists.
     public static var conflictException: Self { .init(.conflictException) }
+    /// The client is not authenticated.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// The AWS Serverless Application Repository service encountered an internal error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The resource (for example, an access policy statement) specified in the request doesn't exist.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The client is sending more than the allowed number of requests per unit of time.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

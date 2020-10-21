@@ -27,29 +27,35 @@ public struct KinesisVideoMediaErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize KinesisVideoMedia
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client connections.
     public static var connectionLimitExceededException: Self { .init(.connectionLimitExceededException) }
+    /// The value for this input parameter is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    ///  Status Code: 400, Caller used wrong endpoint to write data to a stream. On receiving such an exception, the user must call GetDataEndpoint with AccessMode set to "READ" and use the endpoint Kinesis Video returns in the next GetMedia call.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
+    /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    /// Status Code: 404, The stream with the given name does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

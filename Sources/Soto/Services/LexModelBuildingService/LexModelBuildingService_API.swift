@@ -54,7 +54,7 @@ public struct LexModelBuildingService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-04-19",
             endpoint: endpoint,
-            possibleErrorTypes: [LexModelBuildingServiceErrorType.self],
+            errorType: LexModelBuildingServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

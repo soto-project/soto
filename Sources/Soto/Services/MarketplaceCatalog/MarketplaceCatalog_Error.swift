@@ -29,31 +29,39 @@ public struct MarketplaceCatalogErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize MarketplaceCatalog
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Access is denied.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// There was an internal service exception.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The resource is currently in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource wasn't found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Currently, the specified resource is not supported.
     public static var resourceNotSupportedException: Self { .init(.resourceNotSupportedException) }
+    /// The maximum number of open requests per account has been exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Too many requests.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// An error occurred during validation.
     public static var validationException: Self { .init(.validationException) }
 }
 

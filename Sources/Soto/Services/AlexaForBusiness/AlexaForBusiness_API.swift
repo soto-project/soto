@@ -54,7 +54,7 @@ public struct AlexaForBusiness: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-09",
             endpoint: endpoint,
-            possibleErrorTypes: [AlexaForBusinessErrorType.self],
+            errorType: AlexaForBusinessErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

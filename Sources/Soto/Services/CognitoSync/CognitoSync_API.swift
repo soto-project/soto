@@ -53,7 +53,7 @@ public struct CognitoSync: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2014-06-30",
             endpoint: endpoint,
-            possibleErrorTypes: [CognitoSyncErrorType.self],
+            errorType: CognitoSyncErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

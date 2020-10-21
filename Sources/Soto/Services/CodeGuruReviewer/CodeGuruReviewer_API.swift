@@ -53,7 +53,7 @@ public struct CodeGuruReviewer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-09-19",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeGuruReviewerErrorType.self],
+            errorType: CodeGuruReviewerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

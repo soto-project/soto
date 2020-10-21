@@ -55,7 +55,7 @@ public struct IoTSecureTunneling: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-05",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTSecureTunnelingErrorType.self],
+            errorType: IoTSecureTunnelingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

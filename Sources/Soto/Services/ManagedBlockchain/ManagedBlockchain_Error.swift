@@ -30,32 +30,40 @@ public struct ManagedBlockchainErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ManagedBlockchain
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     public static var illegalActionException: Self { .init(.illegalActionException) }
+    /// The request processing has failed because of an unknown error, exception or failure.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// The action or operation requested is invalid. Verify that the action is typed correctly.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// A resource request is issued for a resource that already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The maximum number of resources of that type already exist. Ensure the resources requested are within the boundaries of the service edition and your account limits.
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    /// A requested resource does not exist on the network. It may have been deleted or referenced inaccurately.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The requested resource exists but is not in a status that can complete the operation.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    /// The request or operation could not be performed because a service is throttling requests. The most common source of throttling errors is launching EC2 instances such that your service limit for EC2 instances is exceeded. Request a limit increase or delete unused resources if possible.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

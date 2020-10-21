@@ -27,29 +27,35 @@ public struct AugmentedAIRuntimeErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize AugmentedAIRuntime
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Your request has the same name as another active human loop but has different input data. You cannot start two human loops with the same name and different input data.
     public static var conflictException: Self { .init(.conflictException) }
+    /// We couldn't process your request because of an issue with the server. Try again later.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// We couldn't find the requested resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You exceeded your service quota. Delete some resources or request an increase in your service quota.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// You exceeded the maximum number of requests.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// The request isn't valid. Check the syntax and try again.
     public static var validationException: Self { .init(.validationException) }
 }
 

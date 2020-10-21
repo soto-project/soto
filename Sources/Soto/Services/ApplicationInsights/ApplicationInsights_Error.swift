@@ -28,30 +28,37 @@ public struct ApplicationInsightsErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ApplicationInsights
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The request is not understood by the server.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The server encountered an internal error and is unable to complete the request.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The resource is already created or in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The resource does not exist in the customer account.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Tags are already registered for the specified application ARN.
     public static var tagsAlreadyExistException: Self { .init(.tagsAlreadyExistException) }
+    /// The number of the provided tags is beyond the limit, or the number of total tags you are trying to attach to the specified resource exceeds the limit.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The parameter is not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

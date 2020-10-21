@@ -43,45 +43,67 @@ public struct ElasticLoadBalancingErrorType: AWSErrorType {
         case unsupportedProtocolException = "UnsupportedProtocol"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ElasticLoadBalancing
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The specified load balancer does not exist.
     public static var accessPointNotFoundException: Self { .init(.accessPointNotFoundException) }
+    /// The specified ARN does not refer to a valid SSL certificate in AWS Identity and Access Management (IAM) or AWS Certificate Manager (ACM). Note that if you recently uploaded the certificate to IAM, this error might indicate that the certificate is not fully available yet.
     public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
+    /// A request made by Elastic Load Balancing to another service exceeds the maximum request rate permitted for your account.
     public static var dependencyThrottleException: Self { .init(.dependencyThrottleException) }
+    /// The specified load balancer name already exists for this account.
     public static var duplicateAccessPointNameException: Self { .init(.duplicateAccessPointNameException) }
+    /// A listener already exists for the specified load balancer name and port, but with a different instance port, protocol, or SSL certificate.
     public static var duplicateListenerException: Self { .init(.duplicateListenerException) }
+    /// A policy with the specified name already exists for this load balancer.
     public static var duplicatePolicyNameException: Self { .init(.duplicatePolicyNameException) }
+    /// A tag key was specified more than once.
     public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    /// The requested configuration change is not valid.
     public static var invalidConfigurationRequestException: Self { .init(.invalidConfigurationRequestException) }
+    /// The specified endpoint is not valid.
     public static var invalidEndPointException: Self { .init(.invalidEndPointException) }
+    /// The specified value for the schema is not valid. You can only specify a scheme for load balancers in a VPC.
     public static var invalidSchemeException: Self { .init(.invalidSchemeException) }
+    /// One or more of the specified security groups do not exist.
     public static var invalidSecurityGroupException: Self { .init(.invalidSecurityGroupException) }
+    /// The specified VPC has no associated Internet gateway.
     public static var invalidSubnetException: Self { .init(.invalidSubnetException) }
+    /// The load balancer does not have a listener configured at the specified port.
     public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
+    /// The specified load balancer attribute does not exist.
     public static var loadBalancerAttributeNotFoundException: Self { .init(.loadBalancerAttributeNotFoundException) }
+    /// This operation is not allowed.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// One or more of the specified policies do not exist.
     public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
+    /// One or more of the specified policy types do not exist.
     public static var policyTypeNotFoundException: Self { .init(.policyTypeNotFoundException) }
+    /// One or more of the specified subnets do not exist.
     public static var subnetNotFoundException: Self { .init(.subnetNotFoundException) }
+    /// The quota for the number of load balancers has been reached.
     public static var tooManyAccessPointsException: Self { .init(.tooManyAccessPointsException) }
+    /// The quota for the number of policies for this load balancer has been reached.
     public static var tooManyPoliciesException: Self { .init(.tooManyPoliciesException) }
+    /// The quota for the number of tags that can be assigned to a load balancer has been reached.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// The specified protocol or signature version is not supported.
     public static var unsupportedProtocolException: Self { .init(.unsupportedProtocolException) }
 }
 

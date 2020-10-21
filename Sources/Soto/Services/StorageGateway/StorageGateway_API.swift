@@ -54,7 +54,7 @@ public struct StorageGateway: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2013-06-30",
             endpoint: endpoint,
-            possibleErrorTypes: [StorageGatewayErrorType.self],
+            errorType: StorageGatewayErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

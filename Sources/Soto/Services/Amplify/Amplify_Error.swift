@@ -28,30 +28,37 @@ public struct AmplifyErrorType: AWSErrorType {
         case unauthorizedException = "UnauthorizedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Amplify
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    ///  A request contains unexpected data.
     public static var badRequestException: Self { .init(.badRequestException) }
+    ///  An operation failed because a dependent service threw an exception.
     public static var dependentServiceFailureException: Self { .init(.dependentServiceFailureException) }
+    ///  The service failed to perform an operation due to an internal issue.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    ///  A resource could not be created because service quotas were exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    ///  An entity was not found during an operation.
     public static var notFoundException: Self { .init(.notFoundException) }
+    ///  An operation failed due to a non-existent resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///  An operation failed due to a lack of access.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

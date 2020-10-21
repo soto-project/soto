@@ -54,7 +54,7 @@ public struct IoTThingsGraph: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-09-06",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTThingsGraphErrorType.self],
+            errorType: IoTThingsGraphErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -26,28 +26,33 @@ public struct PricingErrorType: AWSErrorType {
         case notFoundException = "NotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Pricing
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The pagination token expired. Try again without a pagination token.
     public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    /// An error on the server occurred during the processing of your request. Try again later.
     public static var internalErrorException: Self { .init(.internalErrorException) }
+    /// The pagination token is invalid. Try again without a pagination token.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One or more parameters had an invalid value.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The requested resource can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

@@ -54,7 +54,7 @@ public struct MediaStore: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-09-01",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaStoreErrorType.self],
+            errorType: MediaStoreErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

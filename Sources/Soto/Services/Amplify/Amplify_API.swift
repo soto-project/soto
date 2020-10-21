@@ -53,7 +53,7 @@ public struct Amplify: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [AmplifyErrorType.self],
+            errorType: AmplifyErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -27,29 +27,35 @@ public struct RDSDataServiceErrorType: AWSErrorType {
         case statementTimeoutException = "StatementTimeoutException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize RDSDataService
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// There is an error in the call or in a SQL statement.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// There are insufficient privileges to make the call.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// An internal error occurred.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// The resourceArn, secretArn, or transactionId value can't be found.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The service specified by the resourceArn parameter is not available.
     public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
+    /// The execution of the SQL statement timed out.
     public static var statementTimeoutException: Self { .init(.statementTimeoutException) }
 }
 

@@ -24,26 +24,29 @@ public struct StorageGatewayErrorType: AWSErrorType {
         case serviceUnavailableError = "ServiceUnavailableError"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize StorageGateway
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// An internal server error has occurred during the request. For more information, see the error and message fields.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// An exception occurred because an invalid gateway request was issued to the service. For more information, see the error and message fields.
     public static var invalidGatewayRequestException: Self { .init(.invalidGatewayRequestException) }
+    /// An internal server error has occurred because the service is unavailable. For more information, see the error and message fields.
     public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
 }
 

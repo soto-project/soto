@@ -29,31 +29,39 @@ public struct GlacierErrorType: AWSErrorType {
         case serviceUnavailableException = "ServiceUnavailableException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Glacier
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
     public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
+    /// Returned if a parameter of the request is incorrectly specified.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// Returned if the request results in a vault or account limit being exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Returned if a required header or parameter is missing from the request.
     public static var missingParameterValueException: Self { .init(.missingParameterValueException) }
+    /// Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     public static var policyEnforcedException: Self { .init(.policyEnforcedException) }
+    /// Returned if, when uploading an archive, Amazon S3 Glacier times out while receiving the upload.
     public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
+    /// Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Returned if the service cannot complete the request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
 }
 

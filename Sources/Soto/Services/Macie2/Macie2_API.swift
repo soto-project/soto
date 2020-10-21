@@ -53,7 +53,7 @@ public struct Macie2: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [Macie2ErrorType.self],
+            errorType: Macie2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

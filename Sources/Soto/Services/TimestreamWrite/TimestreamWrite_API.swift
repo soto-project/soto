@@ -55,7 +55,7 @@ public struct TimestreamWrite: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2018-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [TimestreamWriteErrorType.self],
+            errorType: TimestreamWriteErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

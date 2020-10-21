@@ -50,52 +50,81 @@ public struct IoTErrorType: AWSErrorType {
         case versionsLimitExceededException = "VersionsLimitExceededException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize IoT
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Unable to verify the CA certificate used to sign the device certificate you are attempting to register. This is happens when you have registered more than one CA certificate that has the same subject field and public key.
     public static var certificateConflictException: Self { .init(.certificateConflictException) }
+    /// The certificate operation is not allowed.
     public static var certificateStateException: Self { .init(.certificateStateException) }
+    /// The certificate is invalid.
     public static var certificateValidationException: Self { .init(.certificateValidationException) }
+    /// A conflicting resource update exception. This exception is thrown when two pending updates cause a conflict.
     public static var conflictingResourceUpdateException: Self { .init(.conflictingResourceUpdateException) }
+    /// You can't delete the resource because it is attached to one or more resources.
     public static var deleteConflictException: Self { .init(.deleteConflictException) }
+    /// The index is not ready.
     public static var indexNotReadyException: Self { .init(.indexNotReadyException) }
+    /// An unexpected error has occurred.
     public static var internalException: Self { .init(.internalException) }
+    /// An unexpected error has occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The aggregation is invalid.
     public static var invalidAggregationException: Self { .init(.invalidAggregationException) }
+    /// The query is invalid.
     public static var invalidQueryException: Self { .init(.invalidQueryException) }
+    /// The request is not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The response is invalid.
     public static var invalidResponseException: Self { .init(.invalidResponseException) }
+    /// An attempt was made to change to an invalid state, for example by deleting a job or a job execution which is "IN_PROGRESS" without setting the force parameter.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    /// A limit has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The policy documentation is not valid.
     public static var malformedPolicyException: Self { .init(.malformedPolicyException) }
+    /// The resource is not configured.
     public static var notConfiguredException: Self { .init(.notConfiguredException) }
+    /// The registration code is invalid.
     public static var registrationCodeValidationException: Self { .init(.registrationCodeValidationException) }
+    /// The resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The specified resource does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The resource registration failed.
     public static var resourceRegistrationFailureException: Self { .init(.resourceRegistrationFailureException) }
+    /// The service is temporarily unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The Rule-SQL expression can't be parsed correctly.
     public static var sqlParseException: Self { .init(.sqlParseException) }
+    /// This exception occurs if you attempt to start a task with the same task-id as an existing task but with a different clientRequestToken.
     public static var taskAlreadyExistsException: Self { .init(.taskAlreadyExistsException) }
+    /// The rate exceeds the limit.
     public static var throttlingException: Self { .init(.throttlingException) }
+    /// You can't revert the certificate transfer because the transfer is already complete.
     public static var transferAlreadyCompletedException: Self { .init(.transferAlreadyCompletedException) }
+    /// You can't transfer the certificate because authorization policies are still attached.
     public static var transferConflictException: Self { .init(.transferConflictException) }
+    /// You are not authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    /// An exception thrown when the version of an entity specified with the expectedVersion parameter does not match the latest version in the system.
     public static var versionConflictException: Self { .init(.versionConflictException) }
+    /// The number of policy versions exceeds the limit.
     public static var versionsLimitExceededException: Self { .init(.versionsLimitExceededException) }
 }
 

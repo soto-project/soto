@@ -29,31 +29,39 @@ public struct CodeStarNotificationsErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CodeStarNotifications
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// AWS CodeStar Notifications can't create the notification rule because you do not have sufficient permissions.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// AWS CodeStar Notifications can't complete the request because the resource is being modified by another process. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// Some or all of the configuration is incomplete, missing, or not valid.
     public static var configurationException: Self { .init(.configurationException) }
+    /// The value for the enumeration token used in the request to return the next batch of the results is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One of the AWS CodeStar Notifications limits has been exceeded. Limits apply to accounts, notification rules, notifications, resources, and targets. For more information, see Limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A resource with the same name or ID already exists. Notification rule names must be unique in your AWS account.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// AWS CodeStar Notifications can't find a resource that matches the provided ARN.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// One or more parameter values are not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

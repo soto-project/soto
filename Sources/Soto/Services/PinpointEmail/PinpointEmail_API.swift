@@ -54,7 +54,7 @@ public struct PinpointEmail: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-07-26",
             endpoint: endpoint,
-            possibleErrorTypes: [PinpointEmailErrorType.self],
+            errorType: PinpointEmailErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

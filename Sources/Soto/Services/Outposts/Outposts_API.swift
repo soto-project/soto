@@ -54,7 +54,7 @@ public struct Outposts: AWSService {
             apiVersion: "2019-12-03",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "outposts.us-gov-east-1.amazonaws.com", "us-gov-west-1": "outposts.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [OutpostsErrorType.self],
+            errorType: OutpostsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

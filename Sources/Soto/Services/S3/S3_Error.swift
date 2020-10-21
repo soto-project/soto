@@ -28,30 +28,37 @@ public struct S3ErrorType: AWSErrorType {
         case objectNotInActiveTierError = "ObjectNotInActiveTierError"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize S3
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
+    /// The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all AWS Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
+    /// The specified bucket does not exist.
     public static var noSuchBucket: Self { .init(.noSuchBucket) }
+    /// The specified key does not exist.
     public static var noSuchKey: Self { .init(.noSuchKey) }
+    /// The specified multipart upload does not exist.
     public static var noSuchUpload: Self { .init(.noSuchUpload) }
+    /// This operation is not allowed against this storage tier.
     public static var objectAlreadyInActiveTierError: Self { .init(.objectAlreadyInActiveTierError) }
+    /// The source object of the COPY operation is not in the active tier and is only stored in Amazon S3 Glacier.
     public static var objectNotInActiveTierError: Self { .init(.objectNotInActiveTierError) }
 }
 

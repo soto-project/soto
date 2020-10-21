@@ -27,29 +27,35 @@ public struct MigrationHubConfigErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize MigrationHubConfig
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// Exception raised to indicate that authorization of an action was successful, when the DryRun flag is set to true.
     public static var dryRunOperation: Self { .init(.dryRunOperation) }
+    /// Exception raised when an internal, configuration, or dependency error is encountered.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// Exception raised when the provided input violates a policy constraint or is entered in the wrong format or data type.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// Exception raised when a request fails due to temporary unavailability of the service.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

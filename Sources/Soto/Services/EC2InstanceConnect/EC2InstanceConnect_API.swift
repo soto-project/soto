@@ -54,7 +54,7 @@ public struct EC2InstanceConnect: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-02",
             endpoint: endpoint,
-            possibleErrorTypes: [EC2InstanceConnectErrorType.self],
+            errorType: EC2InstanceConnectErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

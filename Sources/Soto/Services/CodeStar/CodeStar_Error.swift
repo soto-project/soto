@@ -34,36 +34,49 @@ public struct CodeStarErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CodeStar
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Another modification is being made. That modification must complete before you can make your change.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The next token is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The service role is not valid.
     public static var invalidServiceRoleException: Self { .init(.invalidServiceRoleException) }
+    /// A resource limit has been exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// An AWS CodeStar project with the same ID already exists in this region for the AWS account. AWS CodeStar project IDs must be unique within a region for the AWS account.
     public static var projectAlreadyExistsException: Self { .init(.projectAlreadyExistsException) }
+    /// Project configuration information is required but not specified.
     public static var projectConfigurationException: Self { .init(.projectConfigurationException) }
+    /// The project creation request was valid, but a nonspecific exception or error occurred during project creation. The project could not be created in AWS CodeStar.
     public static var projectCreationFailedException: Self { .init(.projectCreationFailedException) }
+    /// The specified AWS CodeStar project was not found.
     public static var projectNotFoundException: Self { .init(.projectNotFoundException) }
+    /// The team member is already associated with a role in this project.
     public static var teamMemberAlreadyAssociatedException: Self { .init(.teamMemberAlreadyAssociatedException) }
+    /// The specified team member was not found.
     public static var teamMemberNotFoundException: Self { .init(.teamMemberNotFoundException) }
+    /// A user profile with that name already exists in this region for the AWS account. AWS CodeStar user profile names must be unique within a region for the AWS account.
     public static var userProfileAlreadyExistsException: Self { .init(.userProfileAlreadyExistsException) }
+    /// The user profile was not found.
     public static var userProfileNotFoundException: Self { .init(.userProfileNotFoundException) }
+    /// The specified input is either not valid, or it could not be validated.
     public static var validationException: Self { .init(.validationException) }
 }
 

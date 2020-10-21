@@ -54,7 +54,7 @@ public struct Route53Domains: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-15",
             endpoint: endpoint,
-            possibleErrorTypes: [Route53DomainsErrorType.self],
+            errorType: Route53DomainsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

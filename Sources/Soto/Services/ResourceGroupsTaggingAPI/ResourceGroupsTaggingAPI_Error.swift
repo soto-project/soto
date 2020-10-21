@@ -27,29 +27,35 @@ public struct ResourceGroupsTaggingAPIErrorType: AWSErrorType {
         case throttledException = "ThrottledException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ResourceGroupsTaggingAPI
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The target of the operation is currently being modified by a different request. Try again later.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The request was denied because performing this operation violates a constraint.  Some of the reasons in the following list might not apply to this specific operation.   You must meet the prerequisites for using tag policies. For information, see Prerequisites and Permissions for Using Tag Policies in the AWS Organizations User Guide.    You must enable the tag policies service principal (tagpolicies.tag.amazonaws.com) to integrate with AWS Organizations For information, see EnableAWSServiceAccess.   You must have a tag policy attached to the organization root, an OU, or an account.
     public static var constraintViolationException: Self { .init(.constraintViolationException) }
+    /// The request processing failed because of an unknown error, exception, or failure. You can retry the request.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// This error indicates one of the following:   A parameter is missing.   A malformed string was supplied for the request parameter.   An out-of-range value was supplied for the request parameter.   The target ID is invalid, unsupported, or doesn't exist.   You can't access the Amazon S3 bucket for report storage. For more information, see Additional Requirements for Organization-wide Tag Compliance Reports in the AWS Organizations User Guide.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// A PaginationToken is valid for a maximum of 15 minutes. Your request was denied because the specified PaginationToken has expired.
     public static var paginationTokenExpiredException: Self { .init(.paginationTokenExpiredException) }
+    /// The request was denied to limit the frequency of submitted requests.
     public static var throttledException: Self { .init(.throttledException) }
 }
 

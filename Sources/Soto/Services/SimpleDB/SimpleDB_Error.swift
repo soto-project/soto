@@ -38,40 +38,57 @@ public struct SimpleDBErrorType: AWSErrorType {
         case tooManyRequestedAttributes = "TooManyRequestedAttributes"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SimpleDB
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The specified attribute does not exist.
     public static var attributeDoesNotExist: Self { .init(.attributeDoesNotExist) }
+    /// The item name was specified more than once.
     public static var duplicateItemName: Self { .init(.duplicateItemName) }
+    /// The specified NextToken is not valid.
     public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    /// Too many predicates exist in the query expression.
     public static var invalidNumberPredicates: Self { .init(.invalidNumberPredicates) }
+    /// Too many predicates exist in the query expression.
     public static var invalidNumberValueTests: Self { .init(.invalidNumberValueTests) }
+    /// The value for a parameter is invalid.
     public static var invalidParameterValue: Self { .init(.invalidParameterValue) }
+    /// The specified query expression syntax is not valid.
     public static var invalidQueryExpression: Self { .init(.invalidQueryExpression) }
+    /// The request must contain the specified missing parameter.
     public static var missingParameter: Self { .init(.missingParameter) }
+    /// The specified domain does not exist.
     public static var noSuchDomain: Self { .init(.noSuchDomain) }
+    /// Too many attributes in this domain.
     public static var numberDomainAttributesExceeded: Self { .init(.numberDomainAttributesExceeded) }
+    /// Too many bytes in this domain.
     public static var numberDomainBytesExceeded: Self { .init(.numberDomainBytesExceeded) }
+    /// Too many domains exist per this account.
     public static var numberDomainsExceeded: Self { .init(.numberDomainsExceeded) }
+    /// Too many attributes in this item.
     public static var numberItemAttributesExceeded: Self { .init(.numberItemAttributesExceeded) }
+    /// Too many attributes exist in a single call.
     public static var numberSubmittedAttributesExceeded: Self { .init(.numberSubmittedAttributesExceeded) }
+    /// Too many items exist in a single call.
     public static var numberSubmittedItemsExceeded: Self { .init(.numberSubmittedItemsExceeded) }
+    /// A timeout occurred when attempting to query the specified domain with specified query expression.
     public static var requestTimeout: Self { .init(.requestTimeout) }
+    /// Too many attributes requested.
     public static var tooManyRequestedAttributes: Self { .init(.tooManyRequestedAttributes) }
 }
 

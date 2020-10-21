@@ -27,29 +27,35 @@ public struct AutoScalingPlansErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize AutoScalingPlans
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Concurrent updates caused an exception, for example, if you request an update to a scaling plan that already has a pending update.
     public static var concurrentUpdateException: Self { .init(.concurrentUpdateException) }
+    /// The service encountered an internal error.
     public static var internalServiceException: Self { .init(.internalServiceException) }
+    /// The token provided is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// Your account exceeded a limit. This exception is thrown when a per-account resource limit is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified object could not be found.
     public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    /// An exception was thrown for a validation issue. Review the parameters provided.
     public static var validationException: Self { .init(.validationException) }
 }
 

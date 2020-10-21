@@ -33,35 +33,47 @@ public struct KinesisAnalyticsErrorType: AWSErrorType {
         case unsupportedOperationException = "UnsupportedOperationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize KinesisAnalytics
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// User-provided application code (query) is invalid. This can be a simple syntax error.
     public static var codeValidationException: Self { .init(.codeValidationException) }
+    /// Exception thrown as a result of concurrent modification to an application. For example, two individuals attempting to edit the same application at the same time.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// User-provided application configuration is not valid.
     public static var invalidApplicationConfigurationException: Self { .init(.invalidApplicationConfigurationException) }
+    /// Specified input parameter value is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// Exceeded the number of applications allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Application is not available for this operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// Specified application can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Discovery failed to get a record from the streaming source because of the Amazon Kinesis Streams ProvisionedThroughputExceededException. For more information, see GetRecords in the Amazon Kinesis Streams API Reference.
     public static var resourceProvisionedThroughputExceededException: Self { .init(.resourceProvisionedThroughputExceededException) }
+    /// The service is unavailable. Back off and retry the operation.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Application created with too many tags, or too many tags added to an application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// Data format is not valid. Amazon Kinesis Analytics is not able to detect schema for the given streaming source.
     public static var unableToDetectSchemaException: Self { .init(.unableToDetectSchemaException) }
+    /// The request was rejected because a specified parameter is not supported or a specified resource is not valid for this operation.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 

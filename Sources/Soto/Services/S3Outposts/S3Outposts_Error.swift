@@ -26,28 +26,33 @@ public struct S3OutpostsErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize S3Outposts
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Access was denied for this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// There was a conflict with this action, and it could not be completed.
     public static var conflictException: Self { .init(.conflictException) }
+    /// There was an exception with the internal server.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// There was an exception validating this data.
     public static var validationException: Self { .init(.validationException) }
 }
 

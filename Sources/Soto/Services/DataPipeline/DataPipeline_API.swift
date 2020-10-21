@@ -54,7 +54,7 @@ public struct DataPipeline: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2012-10-29",
             endpoint: endpoint,
-            possibleErrorTypes: [DataPipelineErrorType.self],
+            errorType: DataPipelineErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -27,29 +27,35 @@ public struct Route53DomainsErrorType: AWSErrorType {
         case unsupportedTLD = "UnsupportedTLD"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Route53Domains
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The number of domains has exceeded the allowed threshold for the account.
     public static var domainLimitExceeded: Self { .init(.domainLimitExceeded) }
+    /// The request is already in progress for the domain.
     public static var duplicateRequest: Self { .init(.duplicateRequest) }
+    /// The requested item is not acceptable. For example, for APIs that accept a domain name, the request might specify a domain name that doesn't belong to the account that submitted the request. For AcceptDomainTransferFromAnotherAwsAccount, the password might be invalid.
     public static var invalidInput: Self { .init(.invalidInput) }
+    /// The number of operations or jobs running exceeded the allowed threshold for the account.
     public static var operationLimitExceeded: Self { .init(.operationLimitExceeded) }
+    /// The top-level domain does not support this operation.
     public static var tLDRulesViolation: Self { .init(.tLDRulesViolation) }
+    /// Amazon Route 53 does not support this top-level domain (TLD).
     public static var unsupportedTLD: Self { .init(.unsupportedTLD) }
 }
 

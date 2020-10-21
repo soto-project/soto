@@ -128,8 +128,8 @@ class S3ExtensionTests: XCTestCase {
             }
             .flatMapErrorThrowing { error in
                 switch error {
-                case let error as AWSError:
-                    XCTAssertEqual(error.statusCode, .notFound)
+                case let error as AWSRawError:
+                    XCTAssertEqual(error.context.responseCode, .notFound)
                     return
                 default:
                     XCTFail("Unexpected error: \(error)")

@@ -30,32 +30,41 @@ public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
         case unsupportedStreamMediaTypeException = "UnsupportedStreamMediaTypeException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize KinesisVideoArchivedMedia
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Kinesis Video Streams has throttled the request because you have exceeded the limit of allowed client calls. Try making the call later.
     public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    /// A specified parameter exceeds its restrictions, is not supported, or can't be used.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// The codec private data in at least one of the tracks of the video stream is not valid for this operation.
     public static var invalidCodecPrivateDataException: Self { .init(.invalidCodecPrivateDataException) }
+    /// One or more frames in the requested clip could not be parsed based on the specified codec.
     public static var invalidMediaFrameException: Self { .init(.invalidMediaFrameException) }
+    /// No codec private data was found in at least one of tracks of the video stream.
     public static var missingCodecPrivateDataException: Self { .init(.missingCodecPrivateDataException) }
+    /// A streaming session was requested for a stream that does not retain data (that is, has a DataRetentionInHours of 0).
     public static var noDataRetentionException: Self { .init(.noDataRetentionException) }
+    /// Status Code: 403, The caller is not authorized to perform an operation on the given stream, or the token has expired.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    ///  GetMedia throws this error when Kinesis Video Streams can't find the stream that you specified.  GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The type of the media (for example, h.264 or h.265 video or ACC or G.711 audio) could not be determined from the codec IDs of the tracks in the first fragment for a playback session. The codec ID for track 1 should be V_MPEG/ISO/AVC and, optionally, the codec ID for track 2 should be A_AAC.
     public static var unsupportedStreamMediaTypeException: Self { .init(.unsupportedStreamMediaTypeException) }
 }
 

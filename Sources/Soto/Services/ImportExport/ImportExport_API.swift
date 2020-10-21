@@ -53,7 +53,7 @@ public struct ImportExport: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "importexport.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            possibleErrorTypes: [ImportExportErrorType.self],
+            errorType: ImportExportErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

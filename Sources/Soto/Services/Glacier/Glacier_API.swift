@@ -54,7 +54,7 @@ public struct Glacier: AWSService {
             apiVersion: "2012-06-01",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "glacier.us-gov-east-1.amazonaws.com", "us-gov-west-1": "glacier.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [GlacierErrorType.self],
+            errorType: GlacierErrorType.self,
             middlewares: [GlacierRequestMiddleware(apiVersion: "2012-06-01")],
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

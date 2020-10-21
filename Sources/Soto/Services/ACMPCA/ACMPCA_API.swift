@@ -54,7 +54,7 @@ public struct ACMPCA: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-08-22",
             endpoint: endpoint,
-            possibleErrorTypes: [ACMPCAErrorType.self],
+            errorType: ACMPCAErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

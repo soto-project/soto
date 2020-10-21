@@ -52,7 +52,7 @@ public struct KinesisVideoArchivedMedia: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-30",
             endpoint: endpoint,
-            possibleErrorTypes: [KinesisVideoArchivedMediaErrorType.self],
+            errorType: KinesisVideoArchivedMediaErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

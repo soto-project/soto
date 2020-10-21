@@ -54,7 +54,7 @@ public struct Organizations: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "organizations.cn-northwest-1.amazonaws.com.cn", "aws-global": "organizations.us-east-1.amazonaws.com", "aws-us-gov-global": "organizations.us-gov-west-1.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
-            possibleErrorTypes: [OrganizationsErrorType.self],
+            errorType: OrganizationsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

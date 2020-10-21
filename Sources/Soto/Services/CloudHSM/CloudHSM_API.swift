@@ -54,7 +54,7 @@ public struct CloudHSM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-05-30",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudHSMErrorType.self],
+            errorType: CloudHSMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

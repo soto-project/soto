@@ -54,7 +54,7 @@ public struct Rekognition: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-27",
             endpoint: endpoint,
-            possibleErrorTypes: [RekognitionErrorType.self],
+            errorType: RekognitionErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

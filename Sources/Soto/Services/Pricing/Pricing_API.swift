@@ -55,7 +55,7 @@ public struct Pricing: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-15",
             endpoint: endpoint,
-            possibleErrorTypes: [PricingErrorType.self],
+            errorType: PricingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

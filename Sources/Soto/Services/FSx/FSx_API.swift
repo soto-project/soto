@@ -54,7 +54,7 @@ public struct FSx: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-03-01",
             endpoint: endpoint,
-            possibleErrorTypes: [FSxErrorType.self],
+            errorType: FSxErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

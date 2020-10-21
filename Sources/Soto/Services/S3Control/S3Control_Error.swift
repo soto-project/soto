@@ -33,35 +33,39 @@ public struct S3ControlErrorType: AWSErrorType {
         case tooManyTagsException = "TooManyTagsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize S3Control
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the AWS Outposts in this Region. Select a different name and try again.
     public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
+    /// The Outposts bucket you tried to create already exists, and you own it.
     public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
     public static var idempotencyException: Self { .init(.idempotencyException) }
     public static var internalServiceException: Self { .init(.internalServiceException) }
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     public static var jobStatusException: Self { .init(.jobStatusException) }
+    /// Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
     public static var noSuchPublicAccessBlockConfiguration: Self { .init(.noSuchPublicAccessBlockConfiguration) }
     public static var notFoundException: Self { .init(.notFoundException) }
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// Amazon S3 throws this exception if you have too many tags in your tag set.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 

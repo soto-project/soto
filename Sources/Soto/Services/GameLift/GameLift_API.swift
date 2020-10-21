@@ -54,7 +54,7 @@ public struct GameLift: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-01",
             endpoint: endpoint,
-            possibleErrorTypes: [GameLiftErrorType.self],
+            errorType: GameLiftErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

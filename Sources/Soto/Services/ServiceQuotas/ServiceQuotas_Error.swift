@@ -36,38 +36,53 @@ public struct ServiceQuotasErrorType: AWSErrorType {
         case tooManyRequestsException = "TooManyRequestsException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ServiceQuotas
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization. To enable, call AssociateServiceQuotaTemplate.
     public static var aWSServiceAccessNotEnabledException: Self { .init(.aWSServiceAccessNotEnabledException) }
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// You can't perform this action because a dependency does not have access.
     public static var dependencyAccessDeniedException: Self { .init(.dependencyAccessDeniedException) }
+    /// Invalid input was provided.
     public static var illegalArgumentException: Self { .init(.illegalArgumentException) }
+    /// Invalid input was provided.
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
+    /// Invalid input was provided for the .
     public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    /// The account making this call is not a member of an organization.
     public static var noAvailableOrganizationException: Self { .init(.noAvailableOrganizationException) }
+    /// The specified resource does not exist.
     public static var noSuchResourceException: Self { .init(.noSuchResourceException) }
+    /// The organization that your account belongs to, is not in All Features mode. To enable all features mode, see EnableAllFeatures.
     public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
+    /// You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
     public static var quotaExceededException: Self { .init(.quotaExceededException) }
+    /// The specified resource already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// Something went wrong.
     public static var serviceException: Self { .init(.serviceException) }
+    /// The quota request template is not associated with your organization.  To use the template, call AssociateServiceQuotaTemplate.
     public static var serviceQuotaTemplateNotInUseException: Self { .init(.serviceQuotaTemplateNotInUseException) }
+    /// The Service Quotas template is not available in the Region where you are making the request. Please make the request in us-east-1.
     public static var templatesNotAvailableInRegionException: Self { .init(.templatesNotAvailableInRegionException) }
+    /// Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
 }
 

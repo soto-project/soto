@@ -29,31 +29,39 @@ public struct KafkaErrorType: AWSErrorType {
         case unauthorizedException = "UnauthorizedException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Kafka
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Returns information about an error.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Returns information about an error.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Returns information about an error.
     public static var forbiddenException: Self { .init(.forbiddenException) }
+    /// Returns information about an error.
     public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    /// Returns information about an error.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// Returns information about an error.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Returns information about an error.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// Returns information about an error.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

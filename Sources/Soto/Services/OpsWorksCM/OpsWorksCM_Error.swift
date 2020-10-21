@@ -27,29 +27,35 @@ public struct OpsWorksCMErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize OpsWorksCM
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// This occurs when the provided nextToken is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The resource is in a state that does not allow you to perform a specified action.
     public static var invalidStateException: Self { .init(.invalidStateException) }
+    /// The limit of servers or backups has been reached.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The requested resource cannot be created because it already exists.
     public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    /// The requested resource does not exist, or access was denied.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// One or more of the provided request parameters are not valid.
     public static var validationException: Self { .init(.validationException) }
 }
 

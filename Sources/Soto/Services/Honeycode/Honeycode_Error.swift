@@ -30,32 +30,41 @@ public struct HoneycodeErrorType: AWSErrorType {
         case validationException = "ValidationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Honeycode
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    ///  You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the screen/automation in the request.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The automation execution did not end successfully.
     public static var automationExecutionException: Self { .init(.automationExecutionException) }
+    /// The automation execution timed out.
     public static var automationExecutionTimeoutException: Self { .init(.automationExecutionTimeoutException) }
+    /// There were unexpected errors from the server.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The request timed out.
     public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
+    /// A Workbook, App, Screen or Screen Automation was not found with the given ID.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Remote service is unreachable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// Tps(transactions per second) rate reached.
     public static var throttlingException: Self { .init(.throttlingException) }
+    ///  Request is invalid. The message in the response contains details on why the request is invalid.
     public static var validationException: Self { .init(.validationException) }
 }
 

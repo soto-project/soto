@@ -54,7 +54,7 @@ public struct ConfigService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-12",
             endpoint: endpoint,
-            possibleErrorTypes: [ConfigServiceErrorType.self],
+            errorType: ConfigServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct ComputeOptimizer: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2019-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ComputeOptimizerErrorType.self],
+            errorType: ComputeOptimizerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

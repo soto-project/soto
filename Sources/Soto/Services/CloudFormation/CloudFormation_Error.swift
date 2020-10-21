@@ -41,43 +41,63 @@ public struct CloudFormationErrorType: AWSErrorType {
         case typeNotFoundException = "TypeNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CloudFormation
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The resource with the name requested already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    /// An error occurred during a CloudFormation registry operation.
     public static var cFNRegistryException: Self { .init(.cFNRegistryException) }
+    /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets action.
     public static var changeSetNotFoundException: Self { .init(.changeSetNotFoundException) }
+    /// The specified resource exists, but has been changed.
     public static var createdButModifiedException: Self { .init(.createdButModifiedException) }
+    /// The template contains resources with capabilities that weren't specified in the Capabilities parameter.
     public static var insufficientCapabilitiesException: Self { .init(.insufficientCapabilitiesException) }
+    /// The specified change set can't be used to update the stack. For example, the change set status might be CREATE_IN_PROGRESS, or the stack status might be UPDATE_IN_PROGRESS.
     public static var invalidChangeSetStatusException: Self { .init(.invalidChangeSetStatusException) }
+    /// The specified operation isn't valid.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation does not return this error to users.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    /// The quota for the resource has already been reached. For information on resource and stack limitations, see Limits in the AWS CloudFormation User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The specified name is already in use.
     public static var nameAlreadyExistsException: Self { .init(.nameAlreadyExistsException) }
+    /// The specified operation ID already exists.
     public static var operationIdAlreadyExistsException: Self { .init(.operationIdAlreadyExistsException) }
+    /// Another operation is currently in progress for this stack set. Only one operation can be performed for a stack set at a given time.
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
+    /// The specified ID refers to an operation that doesn't exist.
     public static var operationNotFoundException: Self { .init(.operationNotFoundException) }
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation does not return this error to users.
     public static var operationStatusCheckFailedException: Self { .init(.operationStatusCheckFailedException) }
+    /// The specified stack instance doesn't exist.
     public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
+    /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
     public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
+    /// The specified stack set doesn't exist.
     public static var stackSetNotFoundException: Self { .init(.stackSetNotFoundException) }
+    /// Another operation has been performed on this stack set since the specified operation was performed.
     public static var staleRequestException: Self { .init(.staleRequestException) }
+    /// A client request token already exists.
     public static var tokenAlreadyExistsException: Self { .init(.tokenAlreadyExistsException) }
+    /// The specified type does not exist in the CloudFormation registry.
     public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
 }
 

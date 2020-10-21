@@ -54,7 +54,7 @@ public struct DatabaseMigrationService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [DatabaseMigrationServiceErrorType.self],
+            errorType: DatabaseMigrationServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

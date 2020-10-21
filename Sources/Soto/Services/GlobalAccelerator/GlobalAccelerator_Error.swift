@@ -36,38 +36,53 @@ public struct GlobalAcceleratorErrorType: AWSErrorType {
         case listenerNotFoundException = "ListenerNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize GlobalAccelerator
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The accelerator that you specified could not be disabled.
     public static var acceleratorNotDisabledException: Self { .init(.acceleratorNotDisabledException) }
+    /// The accelerator that you specified doesn't exist.
     public static var acceleratorNotFoundException: Self { .init(.acceleratorNotFoundException) }
+    /// You don't have access permission.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// The listener that you specified has an endpoint group associated with it. You must remove all dependent resources from a listener before you can delete it.
     public static var associatedEndpointGroupFoundException: Self { .init(.associatedEndpointGroupFoundException) }
+    /// The accelerator that you specified has a listener associated with it. You must remove all dependent resources from an accelerator before you can delete it.
     public static var associatedListenerFoundException: Self { .init(.associatedListenerFoundException) }
+    /// The CIDR that you specified was not found or is incorrect.
     public static var byoipCidrNotFoundException: Self { .init(.byoipCidrNotFoundException) }
+    /// The endpoint group that you specified already exists.
     public static var endpointGroupAlreadyExistsException: Self { .init(.endpointGroupAlreadyExistsException) }
+    /// The endpoint group that you specified doesn't exist.
     public static var endpointGroupNotFoundException: Self { .init(.endpointGroupNotFoundException) }
+    /// The CIDR that you specified is not valid for this action. For example, the state of the CIDR might be incorrect for this action.
     public static var incorrectCidrStateException: Self { .init(.incorrectCidrStateException) }
+    /// There was an internal error for AWS Global Accelerator.
     public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    /// An argument that you specified is invalid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// There isn't another item to return.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// The port numbers that you specified are not valid numbers or are not unique for this accelerator.
     public static var invalidPortRangeException: Self { .init(.invalidPortRangeException) }
+    /// Processing your request would cause you to exceed an AWS Global Accelerator limit.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The listener that you specified doesn't exist.
     public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
 }
 

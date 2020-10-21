@@ -58,60 +58,97 @@ public struct ElasticLoadBalancingv2ErrorType: AWSErrorType {
         case unsupportedProtocolException = "UnsupportedProtocol"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ElasticLoadBalancingv2
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The specified ALPN policy is not supported.
     public static var aLPNPolicyNotSupportedException: Self { .init(.aLPNPolicyNotSupportedException) }
+    /// The specified allocation ID does not exist.
     public static var allocationIdNotFoundException: Self { .init(.allocationIdNotFoundException) }
+    /// The specified Availability Zone is not supported.
     public static var availabilityZoneNotSupportedException: Self { .init(.availabilityZoneNotSupportedException) }
+    /// The specified certificate does not exist.
     public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
+    /// A listener with the specified port already exists.
     public static var duplicateListenerException: Self { .init(.duplicateListenerException) }
+    /// A load balancer with the specified name already exists.
     public static var duplicateLoadBalancerNameException: Self { .init(.duplicateLoadBalancerNameException) }
+    /// A tag key was specified more than once.
     public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    /// A target group with the specified name already exists.
     public static var duplicateTargetGroupNameException: Self { .init(.duplicateTargetGroupNameException) }
+    /// The health of the specified targets could not be retrieved due to an internal error.
     public static var healthUnavailableException: Self { .init(.healthUnavailableException) }
+    /// The specified configuration is not valid with this protocol.
     public static var incompatibleProtocolsException: Self { .init(.incompatibleProtocolsException) }
+    /// The requested configuration is not valid.
     public static var invalidConfigurationRequestException: Self { .init(.invalidConfigurationRequestException) }
+    /// The requested action is not valid.
     public static var invalidLoadBalancerActionException: Self { .init(.invalidLoadBalancerActionException) }
+    /// The requested scheme is not valid.
     public static var invalidSchemeException: Self { .init(.invalidSchemeException) }
+    /// The specified security group does not exist.
     public static var invalidSecurityGroupException: Self { .init(.invalidSecurityGroupException) }
+    /// The specified subnet is out of available addresses.
     public static var invalidSubnetException: Self { .init(.invalidSubnetException) }
+    /// The specified target does not exist, is not in the same VPC as the target group, or has an unsupported instance type.
     public static var invalidTargetException: Self { .init(.invalidTargetException) }
+    /// The specified listener does not exist.
     public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
+    /// The specified load balancer does not exist.
     public static var loadBalancerNotFoundException: Self { .init(.loadBalancerNotFoundException) }
+    /// This operation is not allowed.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    /// The specified priority is in use.
     public static var priorityInUseException: Self { .init(.priorityInUseException) }
+    /// A specified resource is in use.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified rule does not exist.
     public static var ruleNotFoundException: Self { .init(.ruleNotFoundException) }
+    /// The specified SSL policy does not exist.
     public static var sSLPolicyNotFoundException: Self { .init(.sSLPolicyNotFoundException) }
+    /// The specified subnet does not exist.
     public static var subnetNotFoundException: Self { .init(.subnetNotFoundException) }
+    /// You've reached the limit on the number of load balancers per target group.
     public static var targetGroupAssociationLimitException: Self { .init(.targetGroupAssociationLimitException) }
+    /// The specified target group does not exist.
     public static var targetGroupNotFoundException: Self { .init(.targetGroupNotFoundException) }
+    /// You've reached the limit on the number of actions per rule.
     public static var tooManyActionsException: Self { .init(.tooManyActionsException) }
+    /// You've reached the limit on the number of certificates per load balancer.
     public static var tooManyCertificatesException: Self { .init(.tooManyCertificatesException) }
+    /// You've reached the limit on the number of listeners per load balancer.
     public static var tooManyListenersException: Self { .init(.tooManyListenersException) }
+    /// You've reached the limit on the number of load balancers for your AWS account.
     public static var tooManyLoadBalancersException: Self { .init(.tooManyLoadBalancersException) }
+    /// You've reached the limit on the number of times a target can be registered with a load balancer.
     public static var tooManyRegistrationsForTargetIdException: Self { .init(.tooManyRegistrationsForTargetIdException) }
+    /// You've reached the limit on the number of rules per load balancer.
     public static var tooManyRulesException: Self { .init(.tooManyRulesException) }
+    /// You've reached the limit on the number of tags per load balancer.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// You've reached the limit on the number of target groups for your AWS account.
     public static var tooManyTargetGroupsException: Self { .init(.tooManyTargetGroupsException) }
+    /// You've reached the limit on the number of targets.
     public static var tooManyTargetsException: Self { .init(.tooManyTargetsException) }
+    /// You've reached the limit on the number of unique target groups per load balancer across all listeners. If a target group is used by multiple actions for a load balancer, it is counted as only one use.
     public static var tooManyUniqueTargetGroupsPerLoadBalancerException: Self { .init(.tooManyUniqueTargetGroupsPerLoadBalancerException) }
+    /// The specified protocol is not supported.
     public static var unsupportedProtocolException: Self { .init(.unsupportedProtocolException) }
 }
 

@@ -54,7 +54,7 @@ public struct ServiceQuotas: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-06-24",
             endpoint: endpoint,
-            possibleErrorTypes: [ServiceQuotasErrorType.self],
+            errorType: ServiceQuotasErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct DataSync: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-09",
             endpoint: endpoint,
-            possibleErrorTypes: [DataSyncErrorType.self],
+            errorType: DataSyncErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

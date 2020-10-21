@@ -53,7 +53,7 @@ public struct EFS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2015-02-01",
             endpoint: endpoint,
-            possibleErrorTypes: [EFSErrorType.self],
+            errorType: EFSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -52,7 +52,7 @@ public struct MTurk: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-17",
             endpoint: endpoint,
-            possibleErrorTypes: [MTurkErrorType.self],
+            errorType: MTurkErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

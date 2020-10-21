@@ -25,27 +25,31 @@ public struct MediaStoreDataErrorType: AWSErrorType {
         case requestedRangeNotSatisfiableException = "RequestedRangeNotSatisfiableException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize MediaStoreData
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The specified container was not found for the specified account.
     public static var containerNotFoundException: Self { .init(.containerNotFoundException) }
+    /// The service is temporarily unavailable.
     public static var internalServerError: Self { .init(.internalServerError) }
+    /// Could not perform an operation on an object that does not exist.
     public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    /// The requested content range is not valid.
     public static var requestedRangeNotSatisfiableException: Self { .init(.requestedRangeNotSatisfiableException) }
 }
 

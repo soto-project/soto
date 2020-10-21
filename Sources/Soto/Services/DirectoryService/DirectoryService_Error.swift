@@ -52,54 +52,85 @@ public struct DirectoryServiceErrorType: AWSErrorType {
         case userDoesNotExistException = "UserDoesNotExistException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize DirectoryService
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// An authentication error occurred.
     public static var authenticationFailedException: Self { .init(.authenticationFailedException) }
+    /// The certificate has already been registered into the system.
     public static var certificateAlreadyExistsException: Self { .init(.certificateAlreadyExistsException) }
+    /// The certificate is not present in the system for describe or deregister activities.
     public static var certificateDoesNotExistException: Self { .init(.certificateDoesNotExistException) }
+    /// The certificate is being used for the LDAP security connection and cannot be removed without disabling LDAP security.
     public static var certificateInUseException: Self { .init(.certificateInUseException) }
+    /// The certificate could not be added because the certificate limit has been reached.
     public static var certificateLimitExceededException: Self { .init(.certificateLimitExceededException) }
+    /// A client exception has occurred.
     public static var clientException: Self { .init(.clientException) }
+    /// The specified directory has already been shared with this AWS account.
     public static var directoryAlreadySharedException: Self { .init(.directoryAlreadySharedException) }
+    /// The specified directory does not exist in the system.
     public static var directoryDoesNotExistException: Self { .init(.directoryDoesNotExistException) }
+    /// The maximum number of directories in the region has been reached. You can use the GetDirectoryLimits operation to determine your directory limits in the region.
     public static var directoryLimitExceededException: Self { .init(.directoryLimitExceededException) }
+    /// The specified directory has not been shared with this AWS account.
     public static var directoryNotSharedException: Self { .init(.directoryNotSharedException) }
+    /// The specified directory is unavailable or could not be found.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
+    /// The maximum allowed number of domain controllers per directory was exceeded. The default limit per directory is 20 domain controllers.
     public static var domainControllerLimitExceededException: Self { .init(.domainControllerLimitExceededException) }
+    /// The specified entity already exists.
     public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
+    /// The specified entity could not be found.
     public static var entityDoesNotExistException: Self { .init(.entityDoesNotExistException) }
+    /// The account does not have sufficient permission to perform the operation.
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
+    /// The certificate PEM that was provided has incorrect encoding.
     public static var invalidCertificateException: Self { .init(.invalidCertificateException) }
+    /// The LDAP activities could not be performed because they are limited by the LDAPS status.
     public static var invalidLDAPSStatusException: Self { .init(.invalidLDAPSStatusException) }
+    /// The NextToken value is not valid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// One or more parameters are not valid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The new password provided by the user does not meet the password complexity requirements defined in your directory.
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
+    /// The specified shared target is not valid.
     public static var invalidTargetException: Self { .init(.invalidTargetException) }
+    /// The maximum allowed number of IP addresses was exceeded. The default limit is 100 IP address blocks.
     public static var ipRouteLimitExceededException: Self { .init(.ipRouteLimitExceededException) }
+    /// The LDAP activities could not be performed because at least one valid certificate must be registered with the system.
     public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
+    /// Exception encountered while trying to access your AWS organization.
     public static var organizationsException: Self { .init(.organizationsException) }
+    /// An exception has occurred in AWS Directory Service.
     public static var serviceException: Self { .init(.serviceException) }
+    /// The maximum number of AWS accounts that you can share with this directory has been reached.
     public static var shareLimitExceededException: Self { .init(.shareLimitExceededException) }
+    /// The maximum number of manual snapshots for the directory has been reached. You can use the GetSnapshotLimits operation to determine the snapshot limits for a directory.
     public static var snapshotLimitExceededException: Self { .init(.snapshotLimitExceededException) }
+    /// The maximum allowed number of tags was exceeded.
     public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
+    /// The operation is not supported.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    /// The user provided a username that does not exist in your directory.
     public static var userDoesNotExistException: Self { .init(.userDoesNotExistException) }
 }
 

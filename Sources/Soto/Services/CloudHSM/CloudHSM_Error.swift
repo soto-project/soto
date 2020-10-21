@@ -24,26 +24,29 @@ public struct CloudHSMErrorType: AWSErrorType {
         case invalidRequestException = "InvalidRequestException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize CloudHSM
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Indicates that an internal error occurred.
     public static var cloudHsmInternalException: Self { .init(.cloudHsmInternalException) }
+    /// Indicates that an exception occurred in the AWS CloudHSM service.
     public static var cloudHsmServiceException: Self { .init(.cloudHsmServiceException) }
+    /// Indicates that one or more of the request parameters are not valid.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
 }
 

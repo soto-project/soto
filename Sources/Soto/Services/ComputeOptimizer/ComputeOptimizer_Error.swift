@@ -30,32 +30,41 @@ public struct ComputeOptimizerErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize ComputeOptimizer
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// An internal error has occurred. Try your call again.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// An invalid or out-of-range value was supplied for the input parameter.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// The request exceeds a limit of the service.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The request must contain either a valid (registered) AWS access key ID or X.509 certificate.
     public static var missingAuthenticationToken: Self { .init(.missingAuthenticationToken) }
+    /// The account is not opted in to AWS Compute Optimizer.
     public static var optInRequiredException: Self { .init(.optInRequiredException) }
+    /// A resource that is required for the action doesn't exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request has failed due to a temporary failure of the server.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

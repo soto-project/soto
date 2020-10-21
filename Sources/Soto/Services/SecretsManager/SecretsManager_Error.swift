@@ -33,35 +33,47 @@ public struct SecretsManagerErrorType: AWSErrorType {
         case resourceNotFoundException = "ResourceNotFoundException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SecretsManager
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Secrets Manager can't decrypt the protected secret text using the provided KMS key.
     public static var decryptionFailure: Self { .init(.decryptionFailure) }
+    /// Secrets Manager can't encrypt the protected secret text using the provided KMS key. Check that the customer master key (CMK) is available, enabled, and not in an invalid state. For more information, see How Key State Affects Use of a Customer Master Key.
     public static var encryptionFailure: Self { .init(.encryptionFailure) }
+    /// An error occurred on the server side.
     public static var internalServiceError: Self { .init(.internalServiceError) }
+    /// You provided an invalid NextToken value.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// You provided an invalid value for a parameter.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// You provided a parameter value that is not valid for the current state of the resource. Possible causes:   You tried to perform the operation on a secret that's currently marked deleted.   You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The request failed because it would exceed one of the Secrets Manager internal limits.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The policy document that you provided isn't valid.
     public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    /// The request failed because you did not complete all the prerequisite steps.
     public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
+    /// The resource policy did not prevent broad access to the secret.
     public static var publicPolicyException: Self { .init(.publicPolicyException) }
+    /// A resource with the ID you requested already exists.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    /// We can't find the resource that you asked for.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
 }
 

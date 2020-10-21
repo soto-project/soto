@@ -26,28 +26,33 @@ public struct QLDBSessionErrorType: AWSErrorType {
         case rateExceededException = "RateExceededException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize QLDBSession
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     public static var badRequestException: Self { .init(.badRequestException) }
+    /// Returned if the session doesn't exist anymore because it timed out or expired.
     public static var invalidSessionException: Self { .init(.invalidSessionException) }
+    /// Returned if a resource limit such as number of active sessions is exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// Returned when a transaction cannot be written to the journal due to a failure in the verification phase of optimistic concurrency control (OCC).
     public static var occConflictException: Self { .init(.occConflictException) }
+    /// Returned when the rate of requests exceeds the allowed throughput.
     public static var rateExceededException: Self { .init(.rateExceededException) }
 }
 

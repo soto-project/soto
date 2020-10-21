@@ -54,7 +54,7 @@ public struct PI: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-02-27",
             endpoint: endpoint,
-            possibleErrorTypes: [PIErrorType.self],
+            errorType: PIErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

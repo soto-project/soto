@@ -53,7 +53,7 @@ public struct AppConfig: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-10-09",
             endpoint: endpoint,
-            possibleErrorTypes: [AppConfigErrorType.self],
+            errorType: AppConfigErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct ACM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-08",
             endpoint: endpoint,
-            possibleErrorTypes: [ACMErrorType.self],
+            errorType: ACMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

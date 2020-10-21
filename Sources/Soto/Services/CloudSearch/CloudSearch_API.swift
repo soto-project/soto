@@ -53,7 +53,7 @@ public struct CloudSearch: AWSService {
             serviceProtocol: .query,
             apiVersion: "2013-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudSearchErrorType.self],
+            errorType: CloudSearchErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

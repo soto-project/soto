@@ -54,7 +54,7 @@ public struct AutoScalingPlans: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-06",
             endpoint: endpoint,
-            possibleErrorTypes: [AutoScalingPlansErrorType.self],
+            errorType: AutoScalingPlansErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -53,7 +53,7 @@ public struct PersonalizeRuntime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeRuntimeErrorType.self],
+            errorType: PersonalizeRuntimeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

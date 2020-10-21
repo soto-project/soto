@@ -52,54 +52,85 @@ public struct LambdaErrorType: AWSErrorType {
         case unsupportedMediaTypeException = "UnsupportedMediaTypeException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Lambda
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You have exceeded your maximum total code size per account. Learn more
     public static var codeStorageExceededException: Self { .init(.codeStorageExceededException) }
+    /// Need additional permissions to configure VPC settings.
     public static var eC2AccessDeniedException: Self { .init(.eC2AccessDeniedException) }
+    /// AWS Lambda was throttled by Amazon EC2 during Lambda function initialization using the execution role provided for the Lambda function.
     public static var eC2ThrottledException: Self { .init(.eC2ThrottledException) }
+    /// AWS Lambda received an unexpected EC2 client exception while setting up for the Lambda function.
     public static var eC2UnexpectedException: Self { .init(.eC2UnexpectedException) }
+    /// An error occured when reading from or writing to a connected file system.
     public static var eFSIOException: Self { .init(.eFSIOException) }
+    /// The function couldn't make a network connection to the configured file system.
     public static var eFSMountConnectivityException: Self { .init(.eFSMountConnectivityException) }
+    /// The function couldn't mount the configured file system due to a permission or configuration issue.
     public static var eFSMountFailureException: Self { .init(.eFSMountFailureException) }
+    /// The function was able to make a network connection to the configured file system, but the mount operation timed out.
     public static var eFSMountTimeoutException: Self { .init(.eFSMountTimeoutException) }
+    /// AWS Lambda was not able to create an elastic network interface in the VPC, specified as part of Lambda function configuration, because the limit for network interfaces has been reached.
     public static var eNILimitReachedException: Self { .init(.eNILimitReachedException) }
+    /// One of the parameters in the request is invalid.
     public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    /// The request body could not be parsed as JSON.
     public static var invalidRequestContentException: Self { .init(.invalidRequestContentException) }
+    /// The runtime or runtime version specified is not supported.
     public static var invalidRuntimeException: Self { .init(.invalidRuntimeException) }
+    /// The Security Group ID provided in the Lambda function VPC configuration is invalid.
     public static var invalidSecurityGroupIDException: Self { .init(.invalidSecurityGroupIDException) }
+    /// The Subnet ID provided in the Lambda function VPC configuration is invalid.
     public static var invalidSubnetIDException: Self { .init(.invalidSubnetIDException) }
+    /// AWS Lambda could not unzip the deployment package.
     public static var invalidZipFileException: Self { .init(.invalidZipFileException) }
+    /// Lambda was unable to decrypt the environment variables because KMS access was denied. Check the Lambda function's KMS permissions.
     public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    /// Lambda was unable to decrypt the environment variables because the KMS key used is disabled. Check the Lambda function's KMS key settings.
     public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    /// Lambda was unable to decrypt the environment variables because the KMS key used is in an invalid state for Decrypt. Check the function's KMS key settings.
     public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    /// Lambda was unable to decrypt the environment variables because the KMS key was not found. Check the function's KMS key settings.
     public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    /// The permissions policy for the resource is too large. Learn more
     public static var policyLengthExceededException: Self { .init(.policyLengthExceededException) }
+    /// The RevisionId provided does not match the latest RevisionId for the Lambda function or alias. Call the GetFunction or the GetAlias API to retrieve the latest RevisionId for your resource.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    /// The specified configuration does not exist.
     public static var provisionedConcurrencyConfigNotFoundException: Self { .init(.provisionedConcurrencyConfigNotFoundException) }
+    /// The request payload exceeded the Invoke request body JSON input limit. For more information, see Limits.
     public static var requestTooLargeException: Self { .init(.requestTooLargeException) }
+    /// The resource already exists, or another operation is in progress.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    /// The operation conflicts with the resource's availability. For example, you attempted to update an EventSource Mapping in CREATING, or tried to delete a EventSource mapping currently in the UPDATING state.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The resource specified in the request does not exist.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The function is inactive and its VPC connection is no longer available. Wait for the VPC connection to reestablish and try again.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
+    /// The AWS Lambda service encountered an internal error.
     public static var serviceException: Self { .init(.serviceException) }
+    /// AWS Lambda was not able to set up VPC access for the Lambda function because one or more configured subnets has no available IP addresses.
     public static var subnetIPAddressLimitReachedException: Self { .init(.subnetIPAddressLimitReachedException) }
+    /// The request throughput limit was exceeded.
     public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    /// The content type of the Invoke request body is not JSON.
     public static var unsupportedMediaTypeException: Self { .init(.unsupportedMediaTypeException) }
 }
 

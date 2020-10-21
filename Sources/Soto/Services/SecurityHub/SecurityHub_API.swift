@@ -53,7 +53,7 @@ public struct SecurityHub: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-10-26",
             endpoint: endpoint,
-            possibleErrorTypes: [SecurityHubErrorType.self],
+            errorType: SecurityHubErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

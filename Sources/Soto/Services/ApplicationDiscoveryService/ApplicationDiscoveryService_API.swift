@@ -54,7 +54,7 @@ public struct ApplicationDiscoveryService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [ApplicationDiscoveryServiceErrorType.self],
+            errorType: ApplicationDiscoveryServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

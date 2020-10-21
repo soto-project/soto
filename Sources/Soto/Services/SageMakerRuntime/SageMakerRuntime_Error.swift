@@ -25,27 +25,31 @@ public struct SageMakerRuntimeErrorType: AWSErrorType {
         case validationError = "ValidationError"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize SageMakerRuntime
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    ///  An internal failure occurred.
     public static var internalFailure: Self { .init(.internalFailure) }
+    ///  Model (owned by the customer in the container) returned 4xx or 5xx error code.
     public static var modelError: Self { .init(.modelError) }
+    ///  The service is unavailable. Try your call again.
     public static var serviceUnavailable: Self { .init(.serviceUnavailable) }
+    ///  Inspect your request and try again.
     public static var validationError: Self { .init(.validationError) }
 }
 

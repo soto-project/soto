@@ -53,7 +53,7 @@ public struct RAM: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-01-04",
             endpoint: endpoint,
-            possibleErrorTypes: [RAMErrorType.self],
+            errorType: RAMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

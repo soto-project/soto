@@ -28,30 +28,37 @@ public struct LexModelBuildingServiceErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize LexModelBuildingService
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and try again.
     public static var badRequestException: Self { .init(.badRequestException) }
+    ///  There was a conflict processing the request. Try your request again.
     public static var conflictException: Self { .init(.conflictException) }
+    /// An internal Amazon Lex error occurred. Try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// The request exceeded a limit. Try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource specified in the request was not found. Check the resource and try again.
     public static var notFoundException: Self { .init(.notFoundException) }
+    ///  The checksum of the resource that you are trying to change does not match the checksum in the request. Check the resource's checksum and try again.
     public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    /// The resource that you are attempting to delete is referred to by another resource. Use this information to remove references to the resource that you are trying to delete. The body of the exception contains a JSON object that describes the resource.  { "resourceType": BOT | BOTALIAS | BOTCHANNEL | INTENT,   "resourceReference": {   "name": string, "version": string } }
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
 }
 

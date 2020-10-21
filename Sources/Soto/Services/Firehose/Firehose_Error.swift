@@ -28,30 +28,37 @@ public struct FirehoseErrorType: AWSErrorType {
         case serviceUnavailableException = "ServiceUnavailableException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Firehose
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// Another modification has already happened. Fetch VersionId again and use it to update the destination.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The specified input parameter has a value that is not valid.
     public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    /// Kinesis Data Firehose throws this exception when an attempt to put records or to start or stop delivery stream encryption fails. This happens when the KMS service throws one of the following exception types: AccessDeniedException, InvalidStateException, DisabledException, or NotFoundException.
     public static var invalidKMSResourceException: Self { .init(.invalidKMSResourceException) }
+    /// You have already reached the limit for a requested resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// The resource is already in use and not available for this operation.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    /// The specified resource could not be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The service is unavailable. Back off and retry the operation. If you continue to see the exception, throughput limits for the delivery stream may have been exceeded. For more information about limits and how to request an increase, see Amazon Kinesis Data Firehose Limits.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
 }
 

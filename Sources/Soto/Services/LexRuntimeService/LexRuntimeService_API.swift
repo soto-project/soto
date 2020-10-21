@@ -54,7 +54,7 @@ public struct LexRuntimeService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-11-28",
             endpoint: endpoint,
-            possibleErrorTypes: [LexRuntimeServiceErrorType.self],
+            errorType: LexRuntimeServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

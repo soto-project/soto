@@ -54,7 +54,7 @@ public struct SSM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-06",
             endpoint: endpoint,
-            possibleErrorTypes: [SSMErrorType.self],
+            errorType: SSMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

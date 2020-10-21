@@ -30,32 +30,41 @@ public struct TransferErrorType: AWSErrorType {
         case throttlingException = "ThrottlingException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize Transfer
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    /// This exception is thrown when the UpdatServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// This exception is thrown when an error occurs in the AWS Transfer Family service.
     public static var internalServiceError: Self { .init(.internalServiceError) }
+    /// The NextToken parameter that was passed is invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    /// This exception is thrown when the client submits a malformed request.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    /// The requested resource does not exist.
     public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    /// This exception is thrown when a resource is not found by the AWS Transfer Family service.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request has failed because the AWS Transfer Family service is not available.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The request was denied due to request throttling.  HTTP Status Code: 400
     public static var throttlingException: Self { .init(.throttlingException) }
 }
 

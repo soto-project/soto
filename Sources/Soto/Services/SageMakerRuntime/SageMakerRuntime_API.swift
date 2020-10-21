@@ -54,7 +54,7 @@ public struct SageMakerRuntime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-05-13",
             endpoint: endpoint,
-            possibleErrorTypes: [SageMakerRuntimeErrorType.self],
+            errorType: SageMakerRuntimeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

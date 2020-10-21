@@ -40,42 +40,61 @@ public struct WorkMailErrorType: AWSErrorType {
         case unsupportedOperationException = "UnsupportedOperationException"
     }
 
-    private var error: Code
-    public var message: String?
+    private let error: Code
+    public let context: AWSErrorContext?
 
-    public init?(errorCode: String, message: String?) {
-        var errorCode = errorCode
-        if let index = errorCode.firstIndex(of: "#") {
-            errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
-        }
+    /// initialize WorkMail
+    public init?(errorCode: String, context: AWSErrorContext) {
         guard let error = Code(rawValue: errorCode) else { return nil }
         self.error = error
-        self.message = message
+        self.context = context
     }
 
     internal init(_ error: Code) {
         self.error = error
-        self.message = nil
+        self.context = nil
     }
 
+    /// return error code string
+    public var errorCode: String { self.error.rawValue }
+
+    /// The directory service doesn't recognize the credentials supplied by WorkMail.
     public static var directoryServiceAuthenticationFailedException: Self { .init(.directoryServiceAuthenticationFailedException) }
+    /// The directory on which you are trying to perform operations isn't available.
     public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
+    /// The email address that you're trying to assign is already created for a different user, group, or resource.
     public static var emailAddressInUseException: Self { .init(.emailAddressInUseException) }
+    /// The user, group, or resource that you're trying to register is already registered.
     public static var entityAlreadyRegisteredException: Self { .init(.entityAlreadyRegisteredException) }
+    /// The identifier supplied for the user, group, or resource does not exist in your organization.
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
     public static var entityStateException: Self { .init(.entityStateException) }
+    /// The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
     public static var invalidConfigurationException: Self { .init(.invalidConfigurationException) }
+    /// One or more of the input parameters don't match the service's restrictions.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    /// The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
+    /// The request exceeds the limit of the resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// For an email or alias to be created in Amazon WorkMail, the included domain must be defined in the organization.
     public static var mailDomainNotFoundException: Self { .init(.mailDomainNotFoundException) }
+    /// After a domain has been added to the organization, it must be verified. The domain is not yet verified.
     public static var mailDomainStateException: Self { .init(.mailDomainStateException) }
+    /// The user, group, or resource name isn't unique in Amazon WorkMail.
     public static var nameAvailabilityException: Self { .init(.nameAvailabilityException) }
+    /// An operation received a valid organization identifier that either doesn't belong or exist in the system.
     public static var organizationNotFoundException: Self { .init(.organizationNotFoundException) }
+    /// The organization must have a valid state (Active or Synchronizing) to perform certain operations on the organization or its members.
     public static var organizationStateException: Self { .init(.organizationStateException) }
+    /// This user, group, or resource name is not allowed in Amazon WorkMail.
     public static var reservedNameException: Self { .init(.reservedNameException) }
+    /// The resource cannot be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The resource can have up to 50 user-applied tags.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    /// You can't perform a write operation against a read-only directory.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
 }
 

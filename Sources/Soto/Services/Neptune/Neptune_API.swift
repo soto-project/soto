@@ -53,7 +53,7 @@ public struct Neptune: AWSService {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
-            possibleErrorTypes: [NeptuneErrorType.self],
+            errorType: NeptuneErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
