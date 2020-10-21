@@ -53,7 +53,7 @@ public struct GuardDuty: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-28",
             endpoint: endpoint,
-            possibleErrorTypes: [GuardDutyErrorType.self],
+            errorType: GuardDutyErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

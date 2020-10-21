@@ -54,7 +54,7 @@ public struct CloudSearchDomain: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2013-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudSearchDomainErrorType.self],
+            errorType: CloudSearchDomainErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

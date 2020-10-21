@@ -53,7 +53,7 @@ public struct Schemas: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
-            possibleErrorTypes: [SchemasErrorType.self],
+            errorType: SchemasErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

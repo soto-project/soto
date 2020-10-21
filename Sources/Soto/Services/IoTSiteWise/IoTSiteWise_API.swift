@@ -53,7 +53,7 @@ public struct IoTSiteWise: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-12-02",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTSiteWiseErrorType.self],
+            errorType: IoTSiteWiseErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

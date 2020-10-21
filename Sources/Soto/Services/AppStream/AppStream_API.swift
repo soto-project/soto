@@ -55,7 +55,7 @@ public struct AppStream: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-12-01",
             endpoint: endpoint,
-            possibleErrorTypes: [AppStreamErrorType.self],
+            errorType: AppStreamErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

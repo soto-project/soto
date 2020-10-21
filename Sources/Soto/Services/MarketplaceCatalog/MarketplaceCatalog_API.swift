@@ -54,7 +54,7 @@ public struct MarketplaceCatalog: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-17",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceCatalogErrorType.self],
+            errorType: MarketplaceCatalogErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

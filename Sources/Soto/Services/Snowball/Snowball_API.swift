@@ -54,7 +54,7 @@ public struct Snowball: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-06-30",
             endpoint: endpoint,
-            possibleErrorTypes: [SnowballErrorType.self],
+            errorType: SnowballErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

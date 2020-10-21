@@ -55,7 +55,7 @@ public struct SWF: AWSService {
             apiVersion: "2012-01-25",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "swf.us-gov-east-1.amazonaws.com", "us-gov-west-1": "swf.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [SWFErrorType.self],
+            errorType: SWFErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -56,7 +56,7 @@ public struct IoT1ClickDevicesService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-05-14",
             endpoint: endpoint,
-            possibleErrorTypes: [IoT1ClickDevicesServiceErrorType.self],
+            errorType: IoT1ClickDevicesServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

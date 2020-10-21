@@ -53,7 +53,7 @@ public struct ElastiCache: AWSService {
             serviceProtocol: .query,
             apiVersion: "2015-02-02",
             endpoint: endpoint,
-            possibleErrorTypes: [ElastiCacheErrorType.self],
+            errorType: ElastiCacheErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

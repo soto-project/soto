@@ -53,7 +53,7 @@ public struct WorkMailMessageFlow: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-05-01",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkMailMessageFlowErrorType.self],
+            errorType: WorkMailMessageFlowErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

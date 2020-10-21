@@ -53,7 +53,7 @@ public struct MobileAnalytics: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2014-06-05",
             endpoint: endpoint,
-            possibleErrorTypes: [MobileAnalyticsErrorType.self],
+            errorType: MobileAnalyticsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct GlobalAccelerator: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-08-08",
             endpoint: endpoint,
-            possibleErrorTypes: [GlobalAcceleratorErrorType.self],
+            errorType: GlobalAcceleratorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

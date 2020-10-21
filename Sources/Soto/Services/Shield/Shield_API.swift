@@ -54,7 +54,7 @@ public struct Shield: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "shield.us-east-1.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            possibleErrorTypes: [ShieldErrorType.self],
+            errorType: ShieldErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

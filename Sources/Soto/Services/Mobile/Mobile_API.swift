@@ -54,7 +54,7 @@ public struct Mobile: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-01",
             endpoint: endpoint,
-            possibleErrorTypes: [MobileErrorType.self],
+            errorType: MobileErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

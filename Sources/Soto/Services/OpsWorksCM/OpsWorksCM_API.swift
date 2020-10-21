@@ -54,7 +54,7 @@ public struct OpsWorksCM: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [OpsWorksCMErrorType.self],
+            errorType: OpsWorksCMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

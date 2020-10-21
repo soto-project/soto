@@ -53,7 +53,7 @@ public struct MQ: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-27",
             endpoint: endpoint,
-            possibleErrorTypes: [MQErrorType.self],
+            errorType: MQErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

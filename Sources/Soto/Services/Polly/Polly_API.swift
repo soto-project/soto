@@ -53,7 +53,7 @@ public struct Polly: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-06-10",
             endpoint: endpoint,
-            possibleErrorTypes: [PollyErrorType.self],
+            errorType: PollyErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

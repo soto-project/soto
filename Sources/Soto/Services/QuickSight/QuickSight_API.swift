@@ -53,7 +53,7 @@ public struct QuickSight: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-04-01",
             endpoint: endpoint,
-            possibleErrorTypes: [QuickSightErrorType.self],
+            errorType: QuickSightErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

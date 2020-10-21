@@ -54,7 +54,7 @@ public struct KinesisAnalyticsV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-05-23",
             endpoint: endpoint,
-            possibleErrorTypes: [KinesisAnalyticsV2ErrorType.self],
+            errorType: KinesisAnalyticsV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

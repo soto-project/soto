@@ -54,7 +54,7 @@ public struct WAF: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "waf.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            possibleErrorTypes: [WAFErrorType.self],
+            errorType: WAFErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

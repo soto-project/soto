@@ -54,7 +54,7 @@ public struct Translate: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-07-01",
             endpoint: endpoint,
-            possibleErrorTypes: [TranslateErrorType.self],
+            errorType: TranslateErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

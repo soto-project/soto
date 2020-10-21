@@ -55,7 +55,7 @@ public struct DirectConnect: AWSService {
             apiVersion: "2012-10-25",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "directconnect.us-gov-east-1.amazonaws.com", "us-gov-west-1": "directconnect.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [DirectConnectErrorType.self],
+            errorType: DirectConnectErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

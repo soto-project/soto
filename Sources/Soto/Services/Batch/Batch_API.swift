@@ -53,7 +53,7 @@ public struct Batch: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-08-10",
             endpoint: endpoint,
-            possibleErrorTypes: [BatchErrorType.self],
+            errorType: BatchErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

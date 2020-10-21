@@ -54,7 +54,7 @@ public struct CostExplorer: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "ce.cn-northwest-1.amazonaws.com.cn", "aws-global": "ce.us-east-1.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
-            possibleErrorTypes: [CostExplorerErrorType.self],
+            errorType: CostExplorerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

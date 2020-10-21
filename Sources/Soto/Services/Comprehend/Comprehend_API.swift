@@ -54,7 +54,7 @@ public struct Comprehend: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-11-27",
             endpoint: endpoint,
-            possibleErrorTypes: [ComprehendErrorType.self],
+            errorType: ComprehendErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

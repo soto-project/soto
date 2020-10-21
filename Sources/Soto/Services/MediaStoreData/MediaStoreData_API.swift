@@ -54,7 +54,7 @@ public struct MediaStoreData: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-01",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaStoreDataErrorType.self],
+            errorType: MediaStoreDataErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

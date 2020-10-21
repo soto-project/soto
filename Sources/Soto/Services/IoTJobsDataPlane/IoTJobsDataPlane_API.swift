@@ -54,7 +54,7 @@ public struct IoTJobsDataPlane: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-09-29",
             endpoint: endpoint,
-            possibleErrorTypes: [IoTJobsDataPlaneErrorType.self],
+            errorType: IoTJobsDataPlaneErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

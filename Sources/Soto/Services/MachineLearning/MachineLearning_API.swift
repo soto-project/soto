@@ -54,7 +54,7 @@ public struct MachineLearning: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-12-12",
             endpoint: endpoint,
-            possibleErrorTypes: [MachineLearningErrorType.self],
+            errorType: MachineLearningErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

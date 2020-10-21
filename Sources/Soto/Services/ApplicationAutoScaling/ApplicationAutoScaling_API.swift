@@ -54,7 +54,7 @@ public struct ApplicationAutoScaling: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-06",
             endpoint: endpoint,
-            possibleErrorTypes: [ApplicationAutoScalingErrorType.self],
+            errorType: ApplicationAutoScalingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

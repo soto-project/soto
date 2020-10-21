@@ -54,7 +54,7 @@ public struct Firehose: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-08-04",
             endpoint: endpoint,
-            possibleErrorTypes: [FirehoseErrorType.self],
+            errorType: FirehoseErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

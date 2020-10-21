@@ -54,7 +54,7 @@ public struct CodeBuild: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-06",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeBuildErrorType.self],
+            errorType: CodeBuildErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

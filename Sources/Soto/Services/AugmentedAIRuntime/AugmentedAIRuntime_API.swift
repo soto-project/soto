@@ -54,7 +54,7 @@ public struct AugmentedAIRuntime: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-11-07",
             endpoint: endpoint,
-            possibleErrorTypes: [AugmentedAIRuntimeErrorType.self],
+            errorType: AugmentedAIRuntimeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

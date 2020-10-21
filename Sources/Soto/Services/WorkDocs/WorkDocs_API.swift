@@ -53,7 +53,7 @@ public struct WorkDocs: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2016-05-01",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkDocsErrorType.self],
+            errorType: WorkDocsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

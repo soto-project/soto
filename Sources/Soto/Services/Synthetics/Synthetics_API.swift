@@ -53,7 +53,7 @@ public struct Synthetics: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-11",
             endpoint: endpoint,
-            possibleErrorTypes: [SyntheticsErrorType.self],
+            errorType: SyntheticsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

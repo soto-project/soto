@@ -55,7 +55,7 @@ public struct DynamoDBStreams: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2012-08-10",
             endpoint: endpoint,
-            possibleErrorTypes: [DynamoDBStreamsErrorType.self],
+            errorType: DynamoDBStreamsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

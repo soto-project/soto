@@ -54,7 +54,7 @@ public struct Route53Resolver: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-04-01",
             endpoint: endpoint,
-            possibleErrorTypes: [Route53ResolverErrorType.self],
+            errorType: Route53ResolverErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

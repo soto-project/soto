@@ -54,7 +54,7 @@ public struct CloudFormation: AWSService {
             apiVersion: "2010-05-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "cloudformation.us-gov-east-1.amazonaws.com", "us-gov-west-1": "cloudformation.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [CloudFormationErrorType.self],
+            errorType: CloudFormationErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

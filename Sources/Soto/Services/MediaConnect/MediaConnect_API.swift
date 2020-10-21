@@ -53,7 +53,7 @@ public struct MediaConnect: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-14",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaConnectErrorType.self],
+            errorType: MediaConnectErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct Budgets: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "budgets.amazonaws.com.cn", "aws-global": "budgets.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1)],
-            possibleErrorTypes: [BudgetsErrorType.self],
+            errorType: BudgetsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct SMS: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-10-24",
             endpoint: endpoint,
-            possibleErrorTypes: [SMSErrorType.self],
+            errorType: SMSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

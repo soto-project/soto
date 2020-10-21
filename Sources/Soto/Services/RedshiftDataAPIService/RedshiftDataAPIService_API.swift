@@ -54,7 +54,7 @@ public struct RedshiftDataAPIService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-12-20",
             endpoint: endpoint,
-            possibleErrorTypes: [RedshiftDataAPIServiceErrorType.self],
+            errorType: RedshiftDataAPIServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

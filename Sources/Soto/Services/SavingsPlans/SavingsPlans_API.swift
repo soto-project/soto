@@ -53,7 +53,7 @@ public struct SavingsPlans: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-global": "savingsplans.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1)],
-            possibleErrorTypes: [SavingsPlansErrorType.self],
+            errorType: SavingsPlansErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

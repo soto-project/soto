@@ -54,7 +54,7 @@ public struct Transfer: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-11-05",
             endpoint: endpoint,
-            possibleErrorTypes: [TransferErrorType.self],
+            errorType: TransferErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

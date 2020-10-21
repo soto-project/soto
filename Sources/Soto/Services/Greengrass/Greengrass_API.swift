@@ -54,7 +54,7 @@ public struct Greengrass: AWSService {
             apiVersion: "2017-06-07",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-west-1": "greengrass.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [GreengrassErrorType.self],
+            errorType: GreengrassErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct CodePipeline: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-09",
             endpoint: endpoint,
-            possibleErrorTypes: [CodePipelineErrorType.self],
+            errorType: CodePipelineErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

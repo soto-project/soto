@@ -55,7 +55,7 @@ public struct MarketplaceEntitlementService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-11",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceEntitlementServiceErrorType.self],
+            errorType: MarketplaceEntitlementServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

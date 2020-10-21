@@ -53,7 +53,7 @@ public struct Connect: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-08",
             endpoint: endpoint,
-            possibleErrorTypes: [ConnectErrorType.self],
+            errorType: ConnectErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

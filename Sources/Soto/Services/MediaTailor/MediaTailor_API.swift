@@ -54,7 +54,7 @@ public struct MediaTailor: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-04-23",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaTailorErrorType.self],
+            errorType: MediaTailorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

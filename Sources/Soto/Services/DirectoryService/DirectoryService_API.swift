@@ -54,7 +54,7 @@ public struct DirectoryService: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-16",
             endpoint: endpoint,
-            possibleErrorTypes: [DirectoryServiceErrorType.self],
+            errorType: DirectoryServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

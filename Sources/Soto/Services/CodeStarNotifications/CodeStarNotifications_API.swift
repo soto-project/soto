@@ -53,7 +53,7 @@ public struct CodeStarNotifications: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-10-15",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeStarNotificationsErrorType.self],
+            errorType: CodeStarNotificationsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

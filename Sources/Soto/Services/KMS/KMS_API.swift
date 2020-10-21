@@ -54,7 +54,7 @@ public struct KMS: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [KMSErrorType.self],
+            errorType: KMSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

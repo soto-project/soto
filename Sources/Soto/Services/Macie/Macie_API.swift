@@ -54,7 +54,7 @@ public struct Macie: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-12-19",
             endpoint: endpoint,
-            possibleErrorTypes: [MacieErrorType.self],
+            errorType: MacieErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

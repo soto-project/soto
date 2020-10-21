@@ -54,7 +54,7 @@ public struct SimpleDB: AWSService {
             apiVersion: "2009-04-15",
             endpoint: endpoint,
             serviceEndpoints: ["us-east-1": "sdb.amazonaws.com"],
-            possibleErrorTypes: [SimpleDBErrorType.self],
+            errorType: SimpleDBErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

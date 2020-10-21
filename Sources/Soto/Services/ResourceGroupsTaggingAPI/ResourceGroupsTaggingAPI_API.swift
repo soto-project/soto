@@ -54,7 +54,7 @@ public struct ResourceGroupsTaggingAPI: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-01-26",
             endpoint: endpoint,
-            possibleErrorTypes: [ResourceGroupsTaggingAPIErrorType.self],
+            errorType: ResourceGroupsTaggingAPIErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

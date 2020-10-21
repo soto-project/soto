@@ -53,7 +53,7 @@ public struct Backup: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-11-15",
             endpoint: endpoint,
-            possibleErrorTypes: [BackupErrorType.self],
+            errorType: BackupErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

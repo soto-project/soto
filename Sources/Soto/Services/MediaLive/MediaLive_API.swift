@@ -53,7 +53,7 @@ public struct MediaLive: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-14",
             endpoint: endpoint,
-            possibleErrorTypes: [MediaLiveErrorType.self],
+            errorType: MediaLiveErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

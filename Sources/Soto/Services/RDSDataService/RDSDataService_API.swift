@@ -53,7 +53,7 @@ public struct RDSDataService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-08-01",
             endpoint: endpoint,
-            possibleErrorTypes: [RDSDataServiceErrorType.self],
+            errorType: RDSDataServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

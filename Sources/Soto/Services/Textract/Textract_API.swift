@@ -54,7 +54,7 @@ public struct Textract: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-06-27",
             endpoint: endpoint,
-            possibleErrorTypes: [TextractErrorType.self],
+            errorType: TextractErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

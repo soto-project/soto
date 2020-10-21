@@ -53,7 +53,7 @@ public struct CloudDirectory: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-01-11",
             endpoint: endpoint,
-            possibleErrorTypes: [CloudDirectoryErrorType.self],
+            errorType: CloudDirectoryErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

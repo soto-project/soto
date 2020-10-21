@@ -54,7 +54,7 @@ public struct SFN: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2016-11-23",
             endpoint: endpoint,
-            possibleErrorTypes: [SFNErrorType.self],
+            errorType: SFNErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct CodeStar: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-04-19",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeStarErrorType.self],
+            errorType: CodeStarErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

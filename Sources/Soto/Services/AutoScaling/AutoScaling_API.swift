@@ -53,7 +53,7 @@ public struct AutoScaling: AWSService {
             serviceProtocol: .query,
             apiVersion: "2011-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [AutoScalingErrorType.self],
+            errorType: AutoScalingErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

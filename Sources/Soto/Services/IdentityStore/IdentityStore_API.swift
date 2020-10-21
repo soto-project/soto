@@ -53,7 +53,7 @@ public struct IdentityStore: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2020-06-15",
             endpoint: endpoint,
-            possibleErrorTypes: [IdentityStoreErrorType.self],
+            errorType: IdentityStoreErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -53,7 +53,7 @@ public struct ManagedBlockchain: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-24",
             endpoint: endpoint,
-            possibleErrorTypes: [ManagedBlockchainErrorType.self],
+            errorType: ManagedBlockchainErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

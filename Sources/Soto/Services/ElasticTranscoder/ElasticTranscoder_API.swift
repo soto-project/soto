@@ -53,7 +53,7 @@ public struct ElasticTranscoder: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2012-09-25",
             endpoint: endpoint,
-            possibleErrorTypes: [ElasticTranscoderErrorType.self],
+            errorType: ElasticTranscoderErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

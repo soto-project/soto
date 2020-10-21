@@ -54,7 +54,7 @@ public struct ServiceCatalog: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-12-10",
             endpoint: endpoint,
-            possibleErrorTypes: [ServiceCatalogErrorType.self],
+            errorType: ServiceCatalogErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

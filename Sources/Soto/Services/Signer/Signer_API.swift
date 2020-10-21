@@ -53,7 +53,7 @@ public struct Signer: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-08-25",
             endpoint: endpoint,
-            possibleErrorTypes: [SignerErrorType.self],
+            errorType: SignerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

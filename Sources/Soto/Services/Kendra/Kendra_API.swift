@@ -54,7 +54,7 @@ public struct Kendra: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-02-03",
             endpoint: endpoint,
-            possibleErrorTypes: [KendraErrorType.self],
+            errorType: KendraErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

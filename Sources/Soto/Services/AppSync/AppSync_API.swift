@@ -53,7 +53,7 @@ public struct AppSync: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [AppSyncErrorType.self],
+            errorType: AppSyncErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

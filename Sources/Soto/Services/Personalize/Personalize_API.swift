@@ -54,7 +54,7 @@ public struct Personalize: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-05-22",
             endpoint: endpoint,
-            possibleErrorTypes: [PersonalizeErrorType.self],
+            errorType: PersonalizeErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

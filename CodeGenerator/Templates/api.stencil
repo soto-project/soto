@@ -63,7 +63,7 @@ public struct {{ name }}: AWSService {
             endpoint: endpoint{% if serviceEndpoints %},
             serviceEndpoints: [{{ serviceEndpoints|join:", "}}]{% endif %}{% if partitionEndpoints %},
             partitionEndpoints: [{{ partitionEndpoints|join:", "}}]{% endif %}{% if errorTypes %},
-            possibleErrorTypes: [{{errorTypes}}.self]{% endif %}{% if middlewareClass %},
+            errorType: {{errorTypes}}.self{% endif %}{% if middlewareClass %},
             middlewares: [{{middlewareClass}}]{% endif %},
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

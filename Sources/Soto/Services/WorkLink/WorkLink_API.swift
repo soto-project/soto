@@ -53,7 +53,7 @@ public struct WorkLink: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-09-25",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkLinkErrorType.self],
+            errorType: WorkLinkErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct Inspector: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-02-16",
             endpoint: endpoint,
-            possibleErrorTypes: [InspectorErrorType.self],
+            errorType: InspectorErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

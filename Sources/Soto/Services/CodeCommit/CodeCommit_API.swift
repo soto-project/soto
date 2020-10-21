@@ -54,7 +54,7 @@ public struct CodeCommit: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-04-13",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeCommitErrorType.self],
+            errorType: CodeCommitErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

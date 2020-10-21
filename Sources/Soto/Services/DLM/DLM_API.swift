@@ -53,7 +53,7 @@ public struct DLM: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-01-12",
             endpoint: endpoint,
-            possibleErrorTypes: [DLMErrorType.self],
+            errorType: DLMErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

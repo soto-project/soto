@@ -54,7 +54,7 @@ public struct CognitoIdentityProvider: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2016-04-18",
             endpoint: endpoint,
-            possibleErrorTypes: [CognitoIdentityProviderErrorType.self],
+            errorType: CognitoIdentityProviderErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

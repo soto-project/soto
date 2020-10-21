@@ -54,7 +54,7 @@ public struct FMS: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-01-01",
             endpoint: endpoint,
-            possibleErrorTypes: [FMSErrorType.self],
+            errorType: FMSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

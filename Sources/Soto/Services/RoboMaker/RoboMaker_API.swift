@@ -53,7 +53,7 @@ public struct RoboMaker: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-06-29",
             endpoint: endpoint,
-            possibleErrorTypes: [RoboMakerErrorType.self],
+            errorType: RoboMakerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

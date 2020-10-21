@@ -54,7 +54,7 @@ public struct TranscribeStreamingService: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-10-26",
             endpoint: endpoint,
-            possibleErrorTypes: [TranscribeStreamingServiceErrorType.self],
+            errorType: TranscribeStreamingServiceErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

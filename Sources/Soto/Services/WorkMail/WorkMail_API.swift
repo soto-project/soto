@@ -54,7 +54,7 @@ public struct WorkMail: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2017-10-01",
             endpoint: endpoint,
-            possibleErrorTypes: [WorkMailErrorType.self],
+            errorType: WorkMailErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

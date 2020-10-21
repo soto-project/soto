@@ -54,7 +54,7 @@ public struct MarketplaceCommerceAnalytics: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-07-01",
             endpoint: endpoint,
-            possibleErrorTypes: [MarketplaceCommerceAnalyticsErrorType.self],
+            errorType: MarketplaceCommerceAnalyticsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

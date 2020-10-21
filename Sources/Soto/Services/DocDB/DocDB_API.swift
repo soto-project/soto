@@ -53,7 +53,7 @@ public struct DocDB: AWSService {
             serviceProtocol: .query,
             apiVersion: "2014-10-31",
             endpoint: endpoint,
-            possibleErrorTypes: [DocDBErrorType.self],
+            errorType: DocDBErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

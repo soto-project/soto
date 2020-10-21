@@ -54,7 +54,7 @@ public struct Redshift: AWSService {
             apiVersion: "2012-12-01",
             endpoint: endpoint,
             serviceEndpoints: ["us-gov-east-1": "redshift.us-gov-east-1.amazonaws.com", "us-gov-west-1": "redshift.us-gov-west-1.amazonaws.com"],
-            possibleErrorTypes: [RedshiftErrorType.self],
+            errorType: RedshiftErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

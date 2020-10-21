@@ -54,7 +54,7 @@ public struct TimestreamQuery: AWSService {
             serviceProtocol: .json(version: "1.0"),
             apiVersion: "2018-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [TimestreamQueryErrorType.self],
+            errorType: TimestreamQueryErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

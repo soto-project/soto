@@ -53,7 +53,7 @@ public struct GroundStation: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-05-23",
             endpoint: endpoint,
-            possibleErrorTypes: [GroundStationErrorType.self],
+            errorType: GroundStationErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct Detective: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2018-10-26",
             endpoint: endpoint,
-            possibleErrorTypes: [DetectiveErrorType.self],
+            errorType: DetectiveErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

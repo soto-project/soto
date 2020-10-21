@@ -53,7 +53,7 @@ public struct S3Outposts: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-07-25",
             endpoint: endpoint,
-            possibleErrorTypes: [S3OutpostsErrorType.self],
+            errorType: S3OutpostsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

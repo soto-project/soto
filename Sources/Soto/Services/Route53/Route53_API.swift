@@ -53,7 +53,7 @@ public struct Route53: AWSService {
             endpoint: endpoint,
             serviceEndpoints: ["aws-cn-global": "route53.amazonaws.com.cn", "aws-global": "route53.amazonaws.com", "aws-iso-global": "route53.c2s.ic.gov", "aws-us-gov-global": "route53.us-gov.amazonaws.com"],
             partitionEndpoints: [.aws: (endpoint: "aws-global", region: .useast1), .awscn: (endpoint: "aws-cn-global", region: .cnnorthwest1), .awsiso: (endpoint: "aws-iso-global", region: .usisoeast1), .awsusgov: (endpoint: "aws-us-gov-global", region: .usgovwest1)],
-            possibleErrorTypes: [Route53ErrorType.self],
+            errorType: Route53ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct CodeDeploy: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2014-10-06",
             endpoint: endpoint,
-            possibleErrorTypes: [CodeDeployErrorType.self],
+            errorType: CodeDeployErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

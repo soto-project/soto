@@ -53,7 +53,7 @@ public struct Appflow: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2020-08-23",
             endpoint: endpoint,
-            possibleErrorTypes: [AppflowErrorType.self],
+            errorType: AppflowErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

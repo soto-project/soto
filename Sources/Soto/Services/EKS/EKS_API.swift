@@ -53,7 +53,7 @@ public struct EKS: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2017-11-01",
             endpoint: endpoint,
-            possibleErrorTypes: [EKSErrorType.self],
+            errorType: EKSErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

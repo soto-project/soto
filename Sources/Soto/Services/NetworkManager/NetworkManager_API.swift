@@ -53,7 +53,7 @@ public struct NetworkManager: AWSService {
             serviceProtocol: .restjson,
             apiVersion: "2019-07-05",
             endpoint: endpoint,
-            possibleErrorTypes: [NetworkManagerErrorType.self],
+            errorType: NetworkManagerErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options

@@ -54,7 +54,7 @@ public struct WAFV2: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2019-07-29",
             endpoint: endpoint,
-            possibleErrorTypes: [WAFV2ErrorType.self],
+            errorType: WAFV2ErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
             options: options
