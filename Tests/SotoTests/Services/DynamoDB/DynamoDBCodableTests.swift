@@ -43,7 +43,7 @@ final class DynamoDBCodableTests: XCTestCase {
             }
             .flatMapErrorThrowing { error in
                 switch error {
-                case DynamoDBErrorType.resourceInUseException:
+                case let error as DynamoDBErrorType where error == .resourceInUseException:
                     print("Table (\(name)) already exists")
                     return
                 default:

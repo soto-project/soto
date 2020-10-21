@@ -17,180 +17,100 @@
 import SotoCore
 
 /// Error enum for DirectoryService
-public enum DirectoryServiceErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case authenticationFailedException(message: String?)
-    case certificateAlreadyExistsException(message: String?)
-    case certificateDoesNotExistException(message: String?)
-    case certificateInUseException(message: String?)
-    case certificateLimitExceededException(message: String?)
-    case clientException(message: String?)
-    case directoryAlreadySharedException(message: String?)
-    case directoryDoesNotExistException(message: String?)
-    case directoryLimitExceededException(message: String?)
-    case directoryNotSharedException(message: String?)
-    case directoryUnavailableException(message: String?)
-    case domainControllerLimitExceededException(message: String?)
-    case entityAlreadyExistsException(message: String?)
-    case entityDoesNotExistException(message: String?)
-    case insufficientPermissionsException(message: String?)
-    case invalidCertificateException(message: String?)
-    case invalidLDAPSStatusException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidPasswordException(message: String?)
-    case invalidTargetException(message: String?)
-    case ipRouteLimitExceededException(message: String?)
-    case noAvailableCertificateException(message: String?)
-    case organizationsException(message: String?)
-    case serviceException(message: String?)
-    case shareLimitExceededException(message: String?)
-    case snapshotLimitExceededException(message: String?)
-    case tagLimitExceededException(message: String?)
-    case unsupportedOperationException(message: String?)
-    case userDoesNotExistException(message: String?)
-}
+public struct DirectoryServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case authenticationFailedException = "AuthenticationFailedException"
+        case certificateAlreadyExistsException = "CertificateAlreadyExistsException"
+        case certificateDoesNotExistException = "CertificateDoesNotExistException"
+        case certificateInUseException = "CertificateInUseException"
+        case certificateLimitExceededException = "CertificateLimitExceededException"
+        case clientException = "ClientException"
+        case directoryAlreadySharedException = "DirectoryAlreadySharedException"
+        case directoryDoesNotExistException = "DirectoryDoesNotExistException"
+        case directoryLimitExceededException = "DirectoryLimitExceededException"
+        case directoryNotSharedException = "DirectoryNotSharedException"
+        case directoryUnavailableException = "DirectoryUnavailableException"
+        case domainControllerLimitExceededException = "DomainControllerLimitExceededException"
+        case entityAlreadyExistsException = "EntityAlreadyExistsException"
+        case entityDoesNotExistException = "EntityDoesNotExistException"
+        case insufficientPermissionsException = "InsufficientPermissionsException"
+        case invalidCertificateException = "InvalidCertificateException"
+        case invalidLDAPSStatusException = "InvalidLDAPSStatusException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidPasswordException = "InvalidPasswordException"
+        case invalidTargetException = "InvalidTargetException"
+        case ipRouteLimitExceededException = "IpRouteLimitExceededException"
+        case noAvailableCertificateException = "NoAvailableCertificateException"
+        case organizationsException = "OrganizationsException"
+        case serviceException = "ServiceException"
+        case shareLimitExceededException = "ShareLimitExceededException"
+        case snapshotLimitExceededException = "SnapshotLimitExceededException"
+        case tagLimitExceededException = "TagLimitExceededException"
+        case unsupportedOperationException = "UnsupportedOperationException"
+        case userDoesNotExistException = "UserDoesNotExistException"
+    }
 
-extension DirectoryServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AuthenticationFailedException":
-            self = .authenticationFailedException(message: message)
-        case "CertificateAlreadyExistsException":
-            self = .certificateAlreadyExistsException(message: message)
-        case "CertificateDoesNotExistException":
-            self = .certificateDoesNotExistException(message: message)
-        case "CertificateInUseException":
-            self = .certificateInUseException(message: message)
-        case "CertificateLimitExceededException":
-            self = .certificateLimitExceededException(message: message)
-        case "ClientException":
-            self = .clientException(message: message)
-        case "DirectoryAlreadySharedException":
-            self = .directoryAlreadySharedException(message: message)
-        case "DirectoryDoesNotExistException":
-            self = .directoryDoesNotExistException(message: message)
-        case "DirectoryLimitExceededException":
-            self = .directoryLimitExceededException(message: message)
-        case "DirectoryNotSharedException":
-            self = .directoryNotSharedException(message: message)
-        case "DirectoryUnavailableException":
-            self = .directoryUnavailableException(message: message)
-        case "DomainControllerLimitExceededException":
-            self = .domainControllerLimitExceededException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
-        case "EntityDoesNotExistException":
-            self = .entityDoesNotExistException(message: message)
-        case "InsufficientPermissionsException":
-            self = .insufficientPermissionsException(message: message)
-        case "InvalidCertificateException":
-            self = .invalidCertificateException(message: message)
-        case "InvalidLDAPSStatusException":
-            self = .invalidLDAPSStatusException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
-        case "InvalidTargetException":
-            self = .invalidTargetException(message: message)
-        case "IpRouteLimitExceededException":
-            self = .ipRouteLimitExceededException(message: message)
-        case "NoAvailableCertificateException":
-            self = .noAvailableCertificateException(message: message)
-        case "OrganizationsException":
-            self = .organizationsException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "ShareLimitExceededException":
-            self = .shareLimitExceededException(message: message)
-        case "SnapshotLimitExceededException":
-            self = .snapshotLimitExceededException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
-        case "UserDoesNotExistException":
-            self = .userDoesNotExistException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var authenticationFailedException: Self { .init(.authenticationFailedException) }
+    public static var certificateAlreadyExistsException: Self { .init(.certificateAlreadyExistsException) }
+    public static var certificateDoesNotExistException: Self { .init(.certificateDoesNotExistException) }
+    public static var certificateInUseException: Self { .init(.certificateInUseException) }
+    public static var certificateLimitExceededException: Self { .init(.certificateLimitExceededException) }
+    public static var clientException: Self { .init(.clientException) }
+    public static var directoryAlreadySharedException: Self { .init(.directoryAlreadySharedException) }
+    public static var directoryDoesNotExistException: Self { .init(.directoryDoesNotExistException) }
+    public static var directoryLimitExceededException: Self { .init(.directoryLimitExceededException) }
+    public static var directoryNotSharedException: Self { .init(.directoryNotSharedException) }
+    public static var directoryUnavailableException: Self { .init(.directoryUnavailableException) }
+    public static var domainControllerLimitExceededException: Self { .init(.domainControllerLimitExceededException) }
+    public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
+    public static var entityDoesNotExistException: Self { .init(.entityDoesNotExistException) }
+    public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
+    public static var invalidCertificateException: Self { .init(.invalidCertificateException) }
+    public static var invalidLDAPSStatusException: Self { .init(.invalidLDAPSStatusException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
+    public static var invalidTargetException: Self { .init(.invalidTargetException) }
+    public static var ipRouteLimitExceededException: Self { .init(.ipRouteLimitExceededException) }
+    public static var noAvailableCertificateException: Self { .init(.noAvailableCertificateException) }
+    public static var organizationsException: Self { .init(.organizationsException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var shareLimitExceededException: Self { .init(.shareLimitExceededException) }
+    public static var snapshotLimitExceededException: Self { .init(.snapshotLimitExceededException) }
+    public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    public static var userDoesNotExistException: Self { .init(.userDoesNotExistException) }
+}
+
+extension DirectoryServiceErrorType: Equatable {
+    public static func == (lhs: DirectoryServiceErrorType, rhs: DirectoryServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DirectoryServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .authenticationFailedException(let message):
-            return "AuthenticationFailedException: \(message ?? "")"
-        case .certificateAlreadyExistsException(let message):
-            return "CertificateAlreadyExistsException: \(message ?? "")"
-        case .certificateDoesNotExistException(let message):
-            return "CertificateDoesNotExistException: \(message ?? "")"
-        case .certificateInUseException(let message):
-            return "CertificateInUseException: \(message ?? "")"
-        case .certificateLimitExceededException(let message):
-            return "CertificateLimitExceededException: \(message ?? "")"
-        case .clientException(let message):
-            return "ClientException: \(message ?? "")"
-        case .directoryAlreadySharedException(let message):
-            return "DirectoryAlreadySharedException: \(message ?? "")"
-        case .directoryDoesNotExistException(let message):
-            return "DirectoryDoesNotExistException: \(message ?? "")"
-        case .directoryLimitExceededException(let message):
-            return "DirectoryLimitExceededException: \(message ?? "")"
-        case .directoryNotSharedException(let message):
-            return "DirectoryNotSharedException: \(message ?? "")"
-        case .directoryUnavailableException(let message):
-            return "DirectoryUnavailableException: \(message ?? "")"
-        case .domainControllerLimitExceededException(let message):
-            return "DomainControllerLimitExceededException: \(message ?? "")"
-        case .entityAlreadyExistsException(let message):
-            return "EntityAlreadyExistsException: \(message ?? "")"
-        case .entityDoesNotExistException(let message):
-            return "EntityDoesNotExistException: \(message ?? "")"
-        case .insufficientPermissionsException(let message):
-            return "InsufficientPermissionsException: \(message ?? "")"
-        case .invalidCertificateException(let message):
-            return "InvalidCertificateException: \(message ?? "")"
-        case .invalidLDAPSStatusException(let message):
-            return "InvalidLDAPSStatusException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidPasswordException(let message):
-            return "InvalidPasswordException: \(message ?? "")"
-        case .invalidTargetException(let message):
-            return "InvalidTargetException: \(message ?? "")"
-        case .ipRouteLimitExceededException(let message):
-            return "IpRouteLimitExceededException: \(message ?? "")"
-        case .noAvailableCertificateException(let message):
-            return "NoAvailableCertificateException: \(message ?? "")"
-        case .organizationsException(let message):
-            return "OrganizationsException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .shareLimitExceededException(let message):
-            return "ShareLimitExceededException: \(message ?? "")"
-        case .snapshotLimitExceededException(let message):
-            return "SnapshotLimitExceededException: \(message ?? "")"
-        case .tagLimitExceededException(let message):
-            return "TagLimitExceededException: \(message ?? "")"
-        case .unsupportedOperationException(let message):
-            return "UnsupportedOperationException: \(message ?? "")"
-        case .userDoesNotExistException(let message):
-            return "UserDoesNotExistException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

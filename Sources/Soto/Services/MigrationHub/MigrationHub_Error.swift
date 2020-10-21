@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for MigrationHub
-public enum MigrationHubErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case dryRunOperation(message: String?)
-    case homeRegionNotSetException(message: String?)
-    case internalServerError(message: String?)
-    case invalidInputException(message: String?)
-    case policyErrorException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-    case unauthorizedOperation(message: String?)
-}
+public struct MigrationHubErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case dryRunOperation = "DryRunOperation"
+        case homeRegionNotSetException = "HomeRegionNotSetException"
+        case internalServerError = "InternalServerError"
+        case invalidInputException = "InvalidInputException"
+        case policyErrorException = "PolicyErrorException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+        case unauthorizedOperation = "UnauthorizedOperation"
+    }
 
-extension MigrationHubErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "DryRunOperation":
-            self = .dryRunOperation(message: message)
-        case "HomeRegionNotSetException":
-            self = .homeRegionNotSetException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "PolicyErrorException":
-            self = .policyErrorException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "UnauthorizedOperation":
-            self = .unauthorizedOperation(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var dryRunOperation: Self { .init(.dryRunOperation) }
+    public static var homeRegionNotSetException: Self { .init(.homeRegionNotSetException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var policyErrorException: Self { .init(.policyErrorException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var unauthorizedOperation: Self { .init(.unauthorizedOperation) }
+}
+
+extension MigrationHubErrorType: Equatable {
+    public static func == (lhs: MigrationHubErrorType, rhs: MigrationHubErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MigrationHubErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .dryRunOperation(let message):
-            return "DryRunOperation: \(message ?? "")"
-        case .homeRegionNotSetException(let message):
-            return "HomeRegionNotSetException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .policyErrorException(let message):
-            return "PolicyErrorException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .unauthorizedOperation(let message):
-            return "UnauthorizedOperation: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

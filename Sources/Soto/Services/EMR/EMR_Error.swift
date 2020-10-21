@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for EMR
-public enum EMRErrorType: AWSErrorType {
-    case internalServerError(message: String?)
-    case internalServerException(message: String?)
-    case invalidRequestException(message: String?)
-}
+public struct EMRErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerError = "InternalServerError"
+        case internalServerException = "InternalServerException"
+        case invalidRequestException = "InvalidRequestException"
+    }
 
-extension EMRErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+}
+
+extension EMRErrorType: Equatable {
+    public static func == (lhs: EMRErrorType, rhs: EMRErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension EMRErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

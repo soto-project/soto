@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for Transfer
-public enum TransferErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case conflictException(message: String?)
-    case internalServiceError(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct TransferErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
+        case internalServiceError = "InternalServiceError"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceExistsException = "ResourceExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension TransferErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServiceError":
-            self = .internalServiceError(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServiceError: Self { .init(.internalServiceError) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension TransferErrorType: Equatable {
+    public static func == (lhs: TransferErrorType, rhs: TransferErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension TransferErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServiceError(let message):
-            return "InternalServiceError: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceExistsException(let message):
-            return "ResourceExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for ComputeOptimizer
-public enum ComputeOptimizerErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case internalServerException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case limitExceededException(message: String?)
-    case missingAuthenticationToken(message: String?)
-    case optInRequiredException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct ComputeOptimizerErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerException = "InternalServerException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case limitExceededException = "LimitExceededException"
+        case missingAuthenticationToken = "MissingAuthenticationToken"
+        case optInRequiredException = "OptInRequiredException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension ComputeOptimizerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MissingAuthenticationToken":
-            self = .missingAuthenticationToken(message: message)
-        case "OptInRequiredException":
-            self = .optInRequiredException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var missingAuthenticationToken: Self { .init(.missingAuthenticationToken) }
+    public static var optInRequiredException: Self { .init(.optInRequiredException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension ComputeOptimizerErrorType: Equatable {
+    public static func == (lhs: ComputeOptimizerErrorType, rhs: ComputeOptimizerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ComputeOptimizerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .missingAuthenticationToken(let message):
-            return "MissingAuthenticationToken: \(message ?? "")"
-        case .optInRequiredException(let message):
-            return "OptInRequiredException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,140 +17,84 @@
 import SotoCore
 
 /// Error enum for ECS
-public enum ECSErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case attributeLimitExceededException(message: String?)
-    case blockedException(message: String?)
-    case clientException(message: String?)
-    case clusterContainsContainerInstancesException(message: String?)
-    case clusterContainsServicesException(message: String?)
-    case clusterContainsTasksException(message: String?)
-    case clusterNotFoundException(message: String?)
-    case invalidParameterException(message: String?)
-    case limitExceededException(message: String?)
-    case missingVersionException(message: String?)
-    case noUpdateAvailableException(message: String?)
-    case platformTaskDefinitionIncompatibilityException(message: String?)
-    case platformUnknownException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serverException(message: String?)
-    case serviceNotActiveException(message: String?)
-    case serviceNotFoundException(message: String?)
-    case targetNotFoundException(message: String?)
-    case taskSetNotFoundException(message: String?)
-    case unsupportedFeatureException(message: String?)
-    case updateInProgressException(message: String?)
-}
+public struct ECSErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case attributeLimitExceededException = "AttributeLimitExceededException"
+        case blockedException = "BlockedException"
+        case clientException = "ClientException"
+        case clusterContainsContainerInstancesException = "ClusterContainsContainerInstancesException"
+        case clusterContainsServicesException = "ClusterContainsServicesException"
+        case clusterContainsTasksException = "ClusterContainsTasksException"
+        case clusterNotFoundException = "ClusterNotFoundException"
+        case invalidParameterException = "InvalidParameterException"
+        case limitExceededException = "LimitExceededException"
+        case missingVersionException = "MissingVersionException"
+        case noUpdateAvailableException = "NoUpdateAvailableException"
+        case platformTaskDefinitionIncompatibilityException = "PlatformTaskDefinitionIncompatibilityException"
+        case platformUnknownException = "PlatformUnknownException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serverException = "ServerException"
+        case serviceNotActiveException = "ServiceNotActiveException"
+        case serviceNotFoundException = "ServiceNotFoundException"
+        case targetNotFoundException = "TargetNotFoundException"
+        case taskSetNotFoundException = "TaskSetNotFoundException"
+        case unsupportedFeatureException = "UnsupportedFeatureException"
+        case updateInProgressException = "UpdateInProgressException"
+    }
 
-extension ECSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AttributeLimitExceededException":
-            self = .attributeLimitExceededException(message: message)
-        case "BlockedException":
-            self = .blockedException(message: message)
-        case "ClientException":
-            self = .clientException(message: message)
-        case "ClusterContainsContainerInstancesException":
-            self = .clusterContainsContainerInstancesException(message: message)
-        case "ClusterContainsServicesException":
-            self = .clusterContainsServicesException(message: message)
-        case "ClusterContainsTasksException":
-            self = .clusterContainsTasksException(message: message)
-        case "ClusterNotFoundException":
-            self = .clusterNotFoundException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MissingVersionException":
-            self = .missingVersionException(message: message)
-        case "NoUpdateAvailableException":
-            self = .noUpdateAvailableException(message: message)
-        case "PlatformTaskDefinitionIncompatibilityException":
-            self = .platformTaskDefinitionIncompatibilityException(message: message)
-        case "PlatformUnknownException":
-            self = .platformUnknownException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServerException":
-            self = .serverException(message: message)
-        case "ServiceNotActiveException":
-            self = .serviceNotActiveException(message: message)
-        case "ServiceNotFoundException":
-            self = .serviceNotFoundException(message: message)
-        case "TargetNotFoundException":
-            self = .targetNotFoundException(message: message)
-        case "TaskSetNotFoundException":
-            self = .taskSetNotFoundException(message: message)
-        case "UnsupportedFeatureException":
-            self = .unsupportedFeatureException(message: message)
-        case "UpdateInProgressException":
-            self = .updateInProgressException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var attributeLimitExceededException: Self { .init(.attributeLimitExceededException) }
+    public static var blockedException: Self { .init(.blockedException) }
+    public static var clientException: Self { .init(.clientException) }
+    public static var clusterContainsContainerInstancesException: Self { .init(.clusterContainsContainerInstancesException) }
+    public static var clusterContainsServicesException: Self { .init(.clusterContainsServicesException) }
+    public static var clusterContainsTasksException: Self { .init(.clusterContainsTasksException) }
+    public static var clusterNotFoundException: Self { .init(.clusterNotFoundException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var missingVersionException: Self { .init(.missingVersionException) }
+    public static var noUpdateAvailableException: Self { .init(.noUpdateAvailableException) }
+    public static var platformTaskDefinitionIncompatibilityException: Self { .init(.platformTaskDefinitionIncompatibilityException) }
+    public static var platformUnknownException: Self { .init(.platformUnknownException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serverException: Self { .init(.serverException) }
+    public static var serviceNotActiveException: Self { .init(.serviceNotActiveException) }
+    public static var serviceNotFoundException: Self { .init(.serviceNotFoundException) }
+    public static var targetNotFoundException: Self { .init(.targetNotFoundException) }
+    public static var taskSetNotFoundException: Self { .init(.taskSetNotFoundException) }
+    public static var unsupportedFeatureException: Self { .init(.unsupportedFeatureException) }
+    public static var updateInProgressException: Self { .init(.updateInProgressException) }
+}
+
+extension ECSErrorType: Equatable {
+    public static func == (lhs: ECSErrorType, rhs: ECSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ECSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .attributeLimitExceededException(let message):
-            return "AttributeLimitExceededException: \(message ?? "")"
-        case .blockedException(let message):
-            return "BlockedException: \(message ?? "")"
-        case .clientException(let message):
-            return "ClientException: \(message ?? "")"
-        case .clusterContainsContainerInstancesException(let message):
-            return "ClusterContainsContainerInstancesException: \(message ?? "")"
-        case .clusterContainsServicesException(let message):
-            return "ClusterContainsServicesException: \(message ?? "")"
-        case .clusterContainsTasksException(let message):
-            return "ClusterContainsTasksException: \(message ?? "")"
-        case .clusterNotFoundException(let message):
-            return "ClusterNotFoundException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .missingVersionException(let message):
-            return "MissingVersionException: \(message ?? "")"
-        case .noUpdateAvailableException(let message):
-            return "NoUpdateAvailableException: \(message ?? "")"
-        case .platformTaskDefinitionIncompatibilityException(let message):
-            return "PlatformTaskDefinitionIncompatibilityException: \(message ?? "")"
-        case .platformUnknownException(let message):
-            return "PlatformUnknownException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serverException(let message):
-            return "ServerException: \(message ?? "")"
-        case .serviceNotActiveException(let message):
-            return "ServiceNotActiveException: \(message ?? "")"
-        case .serviceNotFoundException(let message):
-            return "ServiceNotFoundException: \(message ?? "")"
-        case .targetNotFoundException(let message):
-            return "TargetNotFoundException: \(message ?? "")"
-        case .taskSetNotFoundException(let message):
-            return "TaskSetNotFoundException: \(message ?? "")"
-        case .unsupportedFeatureException(let message):
-            return "UnsupportedFeatureException: \(message ?? "")"
-        case .updateInProgressException(let message):
-            return "UpdateInProgressException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

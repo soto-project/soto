@@ -17,30 +17,40 @@
 import SotoCore
 
 /// Error enum for MobileAnalytics
-public enum MobileAnalyticsErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-}
+public struct MobileAnalyticsErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+    }
 
-extension MobileAnalyticsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+}
+
+extension MobileAnalyticsErrorType: Equatable {
+    public static func == (lhs: MobileAnalyticsErrorType, rhs: MobileAnalyticsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MobileAnalyticsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

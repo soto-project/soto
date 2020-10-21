@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for ResourceGroupsTaggingAPI
-public enum ResourceGroupsTaggingAPIErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case constraintViolationException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidParameterException(message: String?)
-    case paginationTokenExpiredException(message: String?)
-    case throttledException(message: String?)
-}
+public struct ResourceGroupsTaggingAPIErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case constraintViolationException = "ConstraintViolationException"
+        case internalServiceException = "InternalServiceException"
+        case invalidParameterException = "InvalidParameterException"
+        case paginationTokenExpiredException = "PaginationTokenExpiredException"
+        case throttledException = "ThrottledException"
+    }
 
-extension ResourceGroupsTaggingAPIErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConstraintViolationException":
-            self = .constraintViolationException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "PaginationTokenExpiredException":
-            self = .paginationTokenExpiredException(message: message)
-        case "ThrottledException":
-            self = .throttledException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var constraintViolationException: Self { .init(.constraintViolationException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var paginationTokenExpiredException: Self { .init(.paginationTokenExpiredException) }
+    public static var throttledException: Self { .init(.throttledException) }
+}
+
+extension ResourceGroupsTaggingAPIErrorType: Equatable {
+    public static func == (lhs: ResourceGroupsTaggingAPIErrorType, rhs: ResourceGroupsTaggingAPIErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ResourceGroupsTaggingAPIErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .constraintViolationException(let message):
-            return "ConstraintViolationException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .paginationTokenExpiredException(let message):
-            return "PaginationTokenExpiredException: \(message ?? "")"
-        case .throttledException(let message):
-            return "ThrottledException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

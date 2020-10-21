@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for SSO
-public enum SSOErrorType: AWSErrorType {
-    case invalidRequestException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unauthorizedException(message: String?)
-}
+public struct SSOErrorType: AWSErrorType {
+    enum Code: String {
+        case invalidRequestException = "InvalidRequestException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unauthorizedException = "UnauthorizedException"
+    }
 
-extension SSOErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension SSOErrorType: Equatable {
+    public static func == (lhs: SSOErrorType, rhs: SSOErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SSOErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

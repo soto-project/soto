@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for MachineLearning
-public enum MachineLearningErrorType: AWSErrorType {
-    case idempotentParameterMismatchException(message: String?)
-    case internalServerException(message: String?)
-    case invalidInputException(message: String?)
-    case invalidTagException(message: String?)
-    case limitExceededException(message: String?)
-    case predictorNotMountedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tagLimitExceededException(message: String?)
-}
+public struct MachineLearningErrorType: AWSErrorType {
+    enum Code: String {
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case internalServerException = "InternalServerException"
+        case invalidInputException = "InvalidInputException"
+        case invalidTagException = "InvalidTagException"
+        case limitExceededException = "LimitExceededException"
+        case predictorNotMountedException = "PredictorNotMountedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tagLimitExceededException = "TagLimitExceededException"
+    }
 
-extension MachineLearningErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "PredictorNotMountedException":
-            self = .predictorNotMountedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TagLimitExceededException":
-            self = .tagLimitExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var invalidTagException: Self { .init(.invalidTagException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var predictorNotMountedException: Self { .init(.predictorNotMountedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
+}
+
+extension MachineLearningErrorType: Equatable {
+    public static func == (lhs: MachineLearningErrorType, rhs: MachineLearningErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MachineLearningErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .invalidTagException(let message):
-            return "InvalidTagException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .predictorNotMountedException(let message):
-            return "PredictorNotMountedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tagLimitExceededException(let message):
-            return "TagLimitExceededException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

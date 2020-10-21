@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for LakeFormation
-public enum LakeFormationErrorType: AWSErrorType {
-    case alreadyExistsException(message: String?)
-    case concurrentModificationException(message: String?)
-    case entityNotFoundException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidInputException(message: String?)
-    case operationTimeoutException(message: String?)
-}
+public struct LakeFormationErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyExistsException = "AlreadyExistsException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case entityNotFoundException = "EntityNotFoundException"
+        case internalServiceException = "InternalServiceException"
+        case invalidInputException = "InvalidInputException"
+        case operationTimeoutException = "OperationTimeoutException"
+    }
 
-extension LakeFormationErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "EntityNotFoundException":
-            self = .entityNotFoundException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "OperationTimeoutException":
-            self = .operationTimeoutException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+}
+
+extension LakeFormationErrorType: Equatable {
+    public static func == (lhs: LakeFormationErrorType, rhs: LakeFormationErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LakeFormationErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .entityNotFoundException(let message):
-            return "EntityNotFoundException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .operationTimeoutException(let message):
-            return "OperationTimeoutException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

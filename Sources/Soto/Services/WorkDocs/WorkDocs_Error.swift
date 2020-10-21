@@ -17,150 +17,88 @@
 import SotoCore
 
 /// Error enum for WorkDocs
-public enum WorkDocsErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case conflictingOperationException(message: String?)
-    case customMetadataLimitExceededException(message: String?)
-    case deactivatingLastSystemUserException(message: String?)
-    case documentLockedForCommentsException(message: String?)
-    case draftUploadOutOfSyncException(message: String?)
-    case entityAlreadyExistsException(message: String?)
-    case entityNotExistsException(message: String?)
-    case failedDependencyException(message: String?)
-    case illegalUserStateException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidCommentOperationException(message: String?)
-    case invalidOperationException(message: String?)
-    case invalidPasswordException(message: String?)
-    case limitExceededException(message: String?)
-    case prohibitedStateException(message: String?)
-    case requestedEntityTooLargeException(message: String?)
-    case resourceAlreadyCheckedOutException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case storageLimitExceededException(message: String?)
-    case storageLimitWillExceedException(message: String?)
-    case tooManyLabelsException(message: String?)
-    case tooManySubscriptionsException(message: String?)
-    case unauthorizedOperationException(message: String?)
-    case unauthorizedResourceAccessException(message: String?)
-}
+public struct WorkDocsErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case conflictingOperationException = "ConflictingOperationException"
+        case customMetadataLimitExceededException = "CustomMetadataLimitExceededException"
+        case deactivatingLastSystemUserException = "DeactivatingLastSystemUserException"
+        case documentLockedForCommentsException = "DocumentLockedForCommentsException"
+        case draftUploadOutOfSyncException = "DraftUploadOutOfSyncException"
+        case entityAlreadyExistsException = "EntityAlreadyExistsException"
+        case entityNotExistsException = "EntityNotExistsException"
+        case failedDependencyException = "FailedDependencyException"
+        case illegalUserStateException = "IllegalUserStateException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidCommentOperationException = "InvalidCommentOperationException"
+        case invalidOperationException = "InvalidOperationException"
+        case invalidPasswordException = "InvalidPasswordException"
+        case limitExceededException = "LimitExceededException"
+        case prohibitedStateException = "ProhibitedStateException"
+        case requestedEntityTooLargeException = "RequestedEntityTooLargeException"
+        case resourceAlreadyCheckedOutException = "ResourceAlreadyCheckedOutException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case storageLimitExceededException = "StorageLimitExceededException"
+        case storageLimitWillExceedException = "StorageLimitWillExceedException"
+        case tooManyLabelsException = "TooManyLabelsException"
+        case tooManySubscriptionsException = "TooManySubscriptionsException"
+        case unauthorizedOperationException = "UnauthorizedOperationException"
+        case unauthorizedResourceAccessException = "UnauthorizedResourceAccessException"
+    }
 
-extension WorkDocsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConflictingOperationException":
-            self = .conflictingOperationException(message: message)
-        case "CustomMetadataLimitExceededException":
-            self = .customMetadataLimitExceededException(message: message)
-        case "DeactivatingLastSystemUserException":
-            self = .deactivatingLastSystemUserException(message: message)
-        case "DocumentLockedForCommentsException":
-            self = .documentLockedForCommentsException(message: message)
-        case "DraftUploadOutOfSyncException":
-            self = .draftUploadOutOfSyncException(message: message)
-        case "EntityAlreadyExistsException":
-            self = .entityAlreadyExistsException(message: message)
-        case "EntityNotExistsException":
-            self = .entityNotExistsException(message: message)
-        case "FailedDependencyException":
-            self = .failedDependencyException(message: message)
-        case "IllegalUserStateException":
-            self = .illegalUserStateException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidCommentOperationException":
-            self = .invalidCommentOperationException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "InvalidPasswordException":
-            self = .invalidPasswordException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ProhibitedStateException":
-            self = .prohibitedStateException(message: message)
-        case "RequestedEntityTooLargeException":
-            self = .requestedEntityTooLargeException(message: message)
-        case "ResourceAlreadyCheckedOutException":
-            self = .resourceAlreadyCheckedOutException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "StorageLimitExceededException":
-            self = .storageLimitExceededException(message: message)
-        case "StorageLimitWillExceedException":
-            self = .storageLimitWillExceedException(message: message)
-        case "TooManyLabelsException":
-            self = .tooManyLabelsException(message: message)
-        case "TooManySubscriptionsException":
-            self = .tooManySubscriptionsException(message: message)
-        case "UnauthorizedOperationException":
-            self = .unauthorizedOperationException(message: message)
-        case "UnauthorizedResourceAccessException":
-            self = .unauthorizedResourceAccessException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var conflictingOperationException: Self { .init(.conflictingOperationException) }
+    public static var customMetadataLimitExceededException: Self { .init(.customMetadataLimitExceededException) }
+    public static var deactivatingLastSystemUserException: Self { .init(.deactivatingLastSystemUserException) }
+    public static var documentLockedForCommentsException: Self { .init(.documentLockedForCommentsException) }
+    public static var draftUploadOutOfSyncException: Self { .init(.draftUploadOutOfSyncException) }
+    public static var entityAlreadyExistsException: Self { .init(.entityAlreadyExistsException) }
+    public static var entityNotExistsException: Self { .init(.entityNotExistsException) }
+    public static var failedDependencyException: Self { .init(.failedDependencyException) }
+    public static var illegalUserStateException: Self { .init(.illegalUserStateException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidCommentOperationException: Self { .init(.invalidCommentOperationException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var prohibitedStateException: Self { .init(.prohibitedStateException) }
+    public static var requestedEntityTooLargeException: Self { .init(.requestedEntityTooLargeException) }
+    public static var resourceAlreadyCheckedOutException: Self { .init(.resourceAlreadyCheckedOutException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var storageLimitExceededException: Self { .init(.storageLimitExceededException) }
+    public static var storageLimitWillExceedException: Self { .init(.storageLimitWillExceedException) }
+    public static var tooManyLabelsException: Self { .init(.tooManyLabelsException) }
+    public static var tooManySubscriptionsException: Self { .init(.tooManySubscriptionsException) }
+    public static var unauthorizedOperationException: Self { .init(.unauthorizedOperationException) }
+    public static var unauthorizedResourceAccessException: Self { .init(.unauthorizedResourceAccessException) }
+}
+
+extension WorkDocsErrorType: Equatable {
+    public static func == (lhs: WorkDocsErrorType, rhs: WorkDocsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension WorkDocsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .conflictingOperationException(let message):
-            return "ConflictingOperationException: \(message ?? "")"
-        case .customMetadataLimitExceededException(let message):
-            return "CustomMetadataLimitExceededException: \(message ?? "")"
-        case .deactivatingLastSystemUserException(let message):
-            return "DeactivatingLastSystemUserException: \(message ?? "")"
-        case .documentLockedForCommentsException(let message):
-            return "DocumentLockedForCommentsException: \(message ?? "")"
-        case .draftUploadOutOfSyncException(let message):
-            return "DraftUploadOutOfSyncException: \(message ?? "")"
-        case .entityAlreadyExistsException(let message):
-            return "EntityAlreadyExistsException: \(message ?? "")"
-        case .entityNotExistsException(let message):
-            return "EntityNotExistsException: \(message ?? "")"
-        case .failedDependencyException(let message):
-            return "FailedDependencyException: \(message ?? "")"
-        case .illegalUserStateException(let message):
-            return "IllegalUserStateException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidCommentOperationException(let message):
-            return "InvalidCommentOperationException: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .invalidPasswordException(let message):
-            return "InvalidPasswordException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .prohibitedStateException(let message):
-            return "ProhibitedStateException: \(message ?? "")"
-        case .requestedEntityTooLargeException(let message):
-            return "RequestedEntityTooLargeException: \(message ?? "")"
-        case .resourceAlreadyCheckedOutException(let message):
-            return "ResourceAlreadyCheckedOutException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .storageLimitExceededException(let message):
-            return "StorageLimitExceededException: \(message ?? "")"
-        case .storageLimitWillExceedException(let message):
-            return "StorageLimitWillExceedException: \(message ?? "")"
-        case .tooManyLabelsException(let message):
-            return "TooManyLabelsException: \(message ?? "")"
-        case .tooManySubscriptionsException(let message):
-            return "TooManySubscriptionsException: \(message ?? "")"
-        case .unauthorizedOperationException(let message):
-            return "UnauthorizedOperationException: \(message ?? "")"
-        case .unauthorizedResourceAccessException(let message):
-            return "UnauthorizedResourceAccessException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

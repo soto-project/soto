@@ -17,110 +17,72 @@
 import SotoCore
 
 /// Error enum for Imagebuilder
-public enum ImagebuilderErrorType: AWSErrorType {
-    case callRateLimitExceededException(message: String?)
-    case clientException(message: String?)
-    case forbiddenException(message: String?)
-    case idempotentParameterMismatchException(message: String?)
-    case invalidPaginationTokenException(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidRequestException(message: String?)
-    case invalidVersionNumberException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceDependencyException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case serviceUnavailableException(message: String?)
-}
+public struct ImagebuilderErrorType: AWSErrorType {
+    enum Code: String {
+        case callRateLimitExceededException = "CallRateLimitExceededException"
+        case clientException = "ClientException"
+        case forbiddenException = "ForbiddenException"
+        case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
+        case invalidPaginationTokenException = "InvalidPaginationTokenException"
+        case invalidParameterCombinationException = "InvalidParameterCombinationException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidRequestException = "InvalidRequestException"
+        case invalidVersionNumberException = "InvalidVersionNumberException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceDependencyException = "ResourceDependencyException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceException = "ServiceException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+    }
 
-extension ImagebuilderErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CallRateLimitExceededException":
-            self = .callRateLimitExceededException(message: message)
-        case "ClientException":
-            self = .clientException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "IdempotentParameterMismatchException":
-            self = .idempotentParameterMismatchException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
-        case "InvalidParameterCombinationException":
-            self = .invalidParameterCombinationException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InvalidVersionNumberException":
-            self = .invalidVersionNumberException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceDependencyException":
-            self = .resourceDependencyException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var callRateLimitExceededException: Self { .init(.callRateLimitExceededException) }
+    public static var clientException: Self { .init(.clientException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
+    public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
+    public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var invalidVersionNumberException: Self { .init(.invalidVersionNumberException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceDependencyException: Self { .init(.resourceDependencyException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension ImagebuilderErrorType: Equatable {
+    public static func == (lhs: ImagebuilderErrorType, rhs: ImagebuilderErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ImagebuilderErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .callRateLimitExceededException(let message):
-            return "CallRateLimitExceededException: \(message ?? "")"
-        case .clientException(let message):
-            return "ClientException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .idempotentParameterMismatchException(let message):
-            return "IdempotentParameterMismatchException: \(message ?? "")"
-        case .invalidPaginationTokenException(let message):
-            return "InvalidPaginationTokenException: \(message ?? "")"
-        case .invalidParameterCombinationException(let message):
-            return "InvalidParameterCombinationException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .invalidVersionNumberException(let message):
-            return "InvalidVersionNumberException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceDependencyException(let message):
-            return "ResourceDependencyException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,200 +17,108 @@
 import SotoCore
 
 /// Error enum for CloudDirectory
-public enum CloudDirectoryErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case batchWriteException(message: String?)
-    case cannotListParentOfRootException(message: String?)
-    case directoryAlreadyExistsException(message: String?)
-    case directoryDeletedException(message: String?)
-    case directoryNotDisabledException(message: String?)
-    case directoryNotEnabledException(message: String?)
-    case facetAlreadyExistsException(message: String?)
-    case facetInUseException(message: String?)
-    case facetNotFoundException(message: String?)
-    case facetValidationException(message: String?)
-    case incompatibleSchemaException(message: String?)
-    case indexedAttributeMissingException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidArnException(message: String?)
-    case invalidAttachmentException(message: String?)
-    case invalidFacetUpdateException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidRuleException(message: String?)
-    case invalidSchemaDocException(message: String?)
-    case invalidTaggingRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case linkNameAlreadyInUseException(message: String?)
-    case notIndexException(message: String?)
-    case notNodeException(message: String?)
-    case notPolicyException(message: String?)
-    case objectAlreadyDetachedException(message: String?)
-    case objectNotDetachedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case retryableConflictException(message: String?)
-    case schemaAlreadyExistsException(message: String?)
-    case schemaAlreadyPublishedException(message: String?)
-    case stillContainsLinksException(message: String?)
-    case unsupportedIndexTypeException(message: String?)
-    case validationException(message: String?)
-}
+public struct CloudDirectoryErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case batchWriteException = "BatchWriteException"
+        case cannotListParentOfRootException = "CannotListParentOfRootException"
+        case directoryAlreadyExistsException = "DirectoryAlreadyExistsException"
+        case directoryDeletedException = "DirectoryDeletedException"
+        case directoryNotDisabledException = "DirectoryNotDisabledException"
+        case directoryNotEnabledException = "DirectoryNotEnabledException"
+        case facetAlreadyExistsException = "FacetAlreadyExistsException"
+        case facetInUseException = "FacetInUseException"
+        case facetNotFoundException = "FacetNotFoundException"
+        case facetValidationException = "FacetValidationException"
+        case incompatibleSchemaException = "IncompatibleSchemaException"
+        case indexedAttributeMissingException = "IndexedAttributeMissingException"
+        case internalServiceException = "InternalServiceException"
+        case invalidArnException = "InvalidArnException"
+        case invalidAttachmentException = "InvalidAttachmentException"
+        case invalidFacetUpdateException = "InvalidFacetUpdateException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidRuleException = "InvalidRuleException"
+        case invalidSchemaDocException = "InvalidSchemaDocException"
+        case invalidTaggingRequestException = "InvalidTaggingRequestException"
+        case limitExceededException = "LimitExceededException"
+        case linkNameAlreadyInUseException = "LinkNameAlreadyInUseException"
+        case notIndexException = "NotIndexException"
+        case notNodeException = "NotNodeException"
+        case notPolicyException = "NotPolicyException"
+        case objectAlreadyDetachedException = "ObjectAlreadyDetachedException"
+        case objectNotDetachedException = "ObjectNotDetachedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case retryableConflictException = "RetryableConflictException"
+        case schemaAlreadyExistsException = "SchemaAlreadyExistsException"
+        case schemaAlreadyPublishedException = "SchemaAlreadyPublishedException"
+        case stillContainsLinksException = "StillContainsLinksException"
+        case unsupportedIndexTypeException = "UnsupportedIndexTypeException"
+        case validationException = "ValidationException"
+    }
 
-extension CloudDirectoryErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "BatchWriteException":
-            self = .batchWriteException(message: message)
-        case "CannotListParentOfRootException":
-            self = .cannotListParentOfRootException(message: message)
-        case "DirectoryAlreadyExistsException":
-            self = .directoryAlreadyExistsException(message: message)
-        case "DirectoryDeletedException":
-            self = .directoryDeletedException(message: message)
-        case "DirectoryNotDisabledException":
-            self = .directoryNotDisabledException(message: message)
-        case "DirectoryNotEnabledException":
-            self = .directoryNotEnabledException(message: message)
-        case "FacetAlreadyExistsException":
-            self = .facetAlreadyExistsException(message: message)
-        case "FacetInUseException":
-            self = .facetInUseException(message: message)
-        case "FacetNotFoundException":
-            self = .facetNotFoundException(message: message)
-        case "FacetValidationException":
-            self = .facetValidationException(message: message)
-        case "IncompatibleSchemaException":
-            self = .incompatibleSchemaException(message: message)
-        case "IndexedAttributeMissingException":
-            self = .indexedAttributeMissingException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidArnException":
-            self = .invalidArnException(message: message)
-        case "InvalidAttachmentException":
-            self = .invalidAttachmentException(message: message)
-        case "InvalidFacetUpdateException":
-            self = .invalidFacetUpdateException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidRuleException":
-            self = .invalidRuleException(message: message)
-        case "InvalidSchemaDocException":
-            self = .invalidSchemaDocException(message: message)
-        case "InvalidTaggingRequestException":
-            self = .invalidTaggingRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "LinkNameAlreadyInUseException":
-            self = .linkNameAlreadyInUseException(message: message)
-        case "NotIndexException":
-            self = .notIndexException(message: message)
-        case "NotNodeException":
-            self = .notNodeException(message: message)
-        case "NotPolicyException":
-            self = .notPolicyException(message: message)
-        case "ObjectAlreadyDetachedException":
-            self = .objectAlreadyDetachedException(message: message)
-        case "ObjectNotDetachedException":
-            self = .objectNotDetachedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "RetryableConflictException":
-            self = .retryableConflictException(message: message)
-        case "SchemaAlreadyExistsException":
-            self = .schemaAlreadyExistsException(message: message)
-        case "SchemaAlreadyPublishedException":
-            self = .schemaAlreadyPublishedException(message: message)
-        case "StillContainsLinksException":
-            self = .stillContainsLinksException(message: message)
-        case "UnsupportedIndexTypeException":
-            self = .unsupportedIndexTypeException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var batchWriteException: Self { .init(.batchWriteException) }
+    public static var cannotListParentOfRootException: Self { .init(.cannotListParentOfRootException) }
+    public static var directoryAlreadyExistsException: Self { .init(.directoryAlreadyExistsException) }
+    public static var directoryDeletedException: Self { .init(.directoryDeletedException) }
+    public static var directoryNotDisabledException: Self { .init(.directoryNotDisabledException) }
+    public static var directoryNotEnabledException: Self { .init(.directoryNotEnabledException) }
+    public static var facetAlreadyExistsException: Self { .init(.facetAlreadyExistsException) }
+    public static var facetInUseException: Self { .init(.facetInUseException) }
+    public static var facetNotFoundException: Self { .init(.facetNotFoundException) }
+    public static var facetValidationException: Self { .init(.facetValidationException) }
+    public static var incompatibleSchemaException: Self { .init(.incompatibleSchemaException) }
+    public static var indexedAttributeMissingException: Self { .init(.indexedAttributeMissingException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidArnException: Self { .init(.invalidArnException) }
+    public static var invalidAttachmentException: Self { .init(.invalidAttachmentException) }
+    public static var invalidFacetUpdateException: Self { .init(.invalidFacetUpdateException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidRuleException: Self { .init(.invalidRuleException) }
+    public static var invalidSchemaDocException: Self { .init(.invalidSchemaDocException) }
+    public static var invalidTaggingRequestException: Self { .init(.invalidTaggingRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var linkNameAlreadyInUseException: Self { .init(.linkNameAlreadyInUseException) }
+    public static var notIndexException: Self { .init(.notIndexException) }
+    public static var notNodeException: Self { .init(.notNodeException) }
+    public static var notPolicyException: Self { .init(.notPolicyException) }
+    public static var objectAlreadyDetachedException: Self { .init(.objectAlreadyDetachedException) }
+    public static var objectNotDetachedException: Self { .init(.objectNotDetachedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var retryableConflictException: Self { .init(.retryableConflictException) }
+    public static var schemaAlreadyExistsException: Self { .init(.schemaAlreadyExistsException) }
+    public static var schemaAlreadyPublishedException: Self { .init(.schemaAlreadyPublishedException) }
+    public static var stillContainsLinksException: Self { .init(.stillContainsLinksException) }
+    public static var unsupportedIndexTypeException: Self { .init(.unsupportedIndexTypeException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CloudDirectoryErrorType: Equatable {
+    public static func == (lhs: CloudDirectoryErrorType, rhs: CloudDirectoryErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudDirectoryErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .batchWriteException(let message):
-            return "BatchWriteException: \(message ?? "")"
-        case .cannotListParentOfRootException(let message):
-            return "CannotListParentOfRootException: \(message ?? "")"
-        case .directoryAlreadyExistsException(let message):
-            return "DirectoryAlreadyExistsException: \(message ?? "")"
-        case .directoryDeletedException(let message):
-            return "DirectoryDeletedException: \(message ?? "")"
-        case .directoryNotDisabledException(let message):
-            return "DirectoryNotDisabledException: \(message ?? "")"
-        case .directoryNotEnabledException(let message):
-            return "DirectoryNotEnabledException: \(message ?? "")"
-        case .facetAlreadyExistsException(let message):
-            return "FacetAlreadyExistsException: \(message ?? "")"
-        case .facetInUseException(let message):
-            return "FacetInUseException: \(message ?? "")"
-        case .facetNotFoundException(let message):
-            return "FacetNotFoundException: \(message ?? "")"
-        case .facetValidationException(let message):
-            return "FacetValidationException: \(message ?? "")"
-        case .incompatibleSchemaException(let message):
-            return "IncompatibleSchemaException: \(message ?? "")"
-        case .indexedAttributeMissingException(let message):
-            return "IndexedAttributeMissingException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidArnException(let message):
-            return "InvalidArnException: \(message ?? "")"
-        case .invalidAttachmentException(let message):
-            return "InvalidAttachmentException: \(message ?? "")"
-        case .invalidFacetUpdateException(let message):
-            return "InvalidFacetUpdateException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidRuleException(let message):
-            return "InvalidRuleException: \(message ?? "")"
-        case .invalidSchemaDocException(let message):
-            return "InvalidSchemaDocException: \(message ?? "")"
-        case .invalidTaggingRequestException(let message):
-            return "InvalidTaggingRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .linkNameAlreadyInUseException(let message):
-            return "LinkNameAlreadyInUseException: \(message ?? "")"
-        case .notIndexException(let message):
-            return "NotIndexException: \(message ?? "")"
-        case .notNodeException(let message):
-            return "NotNodeException: \(message ?? "")"
-        case .notPolicyException(let message):
-            return "NotPolicyException: \(message ?? "")"
-        case .objectAlreadyDetachedException(let message):
-            return "ObjectAlreadyDetachedException: \(message ?? "")"
-        case .objectNotDetachedException(let message):
-            return "ObjectNotDetachedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .retryableConflictException(let message):
-            return "RetryableConflictException: \(message ?? "")"
-        case .schemaAlreadyExistsException(let message):
-            return "SchemaAlreadyExistsException: \(message ?? "")"
-        case .schemaAlreadyPublishedException(let message):
-            return "SchemaAlreadyPublishedException: \(message ?? "")"
-        case .stillContainsLinksException(let message):
-            return "StillContainsLinksException: \(message ?? "")"
-        case .unsupportedIndexTypeException(let message):
-            return "UnsupportedIndexTypeException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

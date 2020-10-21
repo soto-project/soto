@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for CloudHSM
-public enum CloudHSMErrorType: AWSErrorType {
-    case cloudHsmInternalException(message: String?)
-    case cloudHsmServiceException(message: String?)
-    case invalidRequestException(message: String?)
-}
+public struct CloudHSMErrorType: AWSErrorType {
+    enum Code: String {
+        case cloudHsmInternalException = "CloudHsmInternalException"
+        case cloudHsmServiceException = "CloudHsmServiceException"
+        case invalidRequestException = "InvalidRequestException"
+    }
 
-extension CloudHSMErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CloudHsmInternalException":
-            self = .cloudHsmInternalException(message: message)
-        case "CloudHsmServiceException":
-            self = .cloudHsmServiceException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var cloudHsmInternalException: Self { .init(.cloudHsmInternalException) }
+    public static var cloudHsmServiceException: Self { .init(.cloudHsmServiceException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+}
+
+extension CloudHSMErrorType: Equatable {
+    public static func == (lhs: CloudHSMErrorType, rhs: CloudHSMErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudHSMErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .cloudHsmInternalException(let message):
-            return "CloudHsmInternalException: \(message ?? "")"
-        case .cloudHsmServiceException(let message):
-            return "CloudHsmServiceException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

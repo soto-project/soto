@@ -17,140 +17,84 @@
 import SotoCore
 
 /// Error enum for SNS
-public enum SNSErrorType: AWSErrorType {
-    case authorizationErrorException(message: String?)
-    case concurrentAccessException(message: String?)
-    case endpointDisabledException(message: String?)
-    case filterPolicyLimitExceededException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidSecurityException(message: String?)
-    case kMSAccessDeniedException(message: String?)
-    case kMSDisabledException(message: String?)
-    case kMSInvalidStateException(message: String?)
-    case kMSNotFoundException(message: String?)
-    case kMSOptInRequired(message: String?)
-    case kMSThrottlingException(message: String?)
-    case notFoundException(message: String?)
-    case platformApplicationDisabledException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case staleTagException(message: String?)
-    case subscriptionLimitExceededException(message: String?)
-    case tagLimitExceededException(message: String?)
-    case tagPolicyException(message: String?)
-    case throttledException(message: String?)
-    case topicLimitExceededException(message: String?)
-}
+public struct SNSErrorType: AWSErrorType {
+    enum Code: String {
+        case authorizationErrorException = "AuthorizationError"
+        case concurrentAccessException = "ConcurrentAccess"
+        case endpointDisabledException = "EndpointDisabled"
+        case filterPolicyLimitExceededException = "FilterPolicyLimitExceeded"
+        case internalErrorException = "InternalError"
+        case invalidParameterException = "InvalidParameter"
+        case invalidParameterValueException = "ParameterValueInvalid"
+        case invalidSecurityException = "InvalidSecurity"
+        case kMSAccessDeniedException = "KMSAccessDenied"
+        case kMSDisabledException = "KMSDisabled"
+        case kMSInvalidStateException = "KMSInvalidState"
+        case kMSNotFoundException = "KMSNotFound"
+        case kMSOptInRequired = "KMSOptInRequired"
+        case kMSThrottlingException = "KMSThrottling"
+        case notFoundException = "NotFound"
+        case platformApplicationDisabledException = "PlatformApplicationDisabled"
+        case resourceNotFoundException = "ResourceNotFound"
+        case staleTagException = "StaleTag"
+        case subscriptionLimitExceededException = "SubscriptionLimitExceeded"
+        case tagLimitExceededException = "TagLimitExceeded"
+        case tagPolicyException = "TagPolicy"
+        case throttledException = "Throttled"
+        case topicLimitExceededException = "TopicLimitExceeded"
+    }
 
-extension SNSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AuthorizationError":
-            self = .authorizationErrorException(message: message)
-        case "ConcurrentAccess":
-            self = .concurrentAccessException(message: message)
-        case "EndpointDisabled":
-            self = .endpointDisabledException(message: message)
-        case "FilterPolicyLimitExceeded":
-            self = .filterPolicyLimitExceededException(message: message)
-        case "InternalError":
-            self = .internalErrorException(message: message)
-        case "InvalidParameter":
-            self = .invalidParameterException(message: message)
-        case "ParameterValueInvalid":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidSecurity":
-            self = .invalidSecurityException(message: message)
-        case "KMSAccessDenied":
-            self = .kMSAccessDeniedException(message: message)
-        case "KMSDisabled":
-            self = .kMSDisabledException(message: message)
-        case "KMSInvalidState":
-            self = .kMSInvalidStateException(message: message)
-        case "KMSNotFound":
-            self = .kMSNotFoundException(message: message)
-        case "KMSOptInRequired":
-            self = .kMSOptInRequired(message: message)
-        case "KMSThrottling":
-            self = .kMSThrottlingException(message: message)
-        case "NotFound":
-            self = .notFoundException(message: message)
-        case "PlatformApplicationDisabled":
-            self = .platformApplicationDisabledException(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFoundException(message: message)
-        case "StaleTag":
-            self = .staleTagException(message: message)
-        case "SubscriptionLimitExceeded":
-            self = .subscriptionLimitExceededException(message: message)
-        case "TagLimitExceeded":
-            self = .tagLimitExceededException(message: message)
-        case "TagPolicy":
-            self = .tagPolicyException(message: message)
-        case "Throttled":
-            self = .throttledException(message: message)
-        case "TopicLimitExceeded":
-            self = .topicLimitExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var authorizationErrorException: Self { .init(.authorizationErrorException) }
+    public static var concurrentAccessException: Self { .init(.concurrentAccessException) }
+    public static var endpointDisabledException: Self { .init(.endpointDisabledException) }
+    public static var filterPolicyLimitExceededException: Self { .init(.filterPolicyLimitExceededException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidSecurityException: Self { .init(.invalidSecurityException) }
+    public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    public static var kMSOptInRequired: Self { .init(.kMSOptInRequired) }
+    public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var platformApplicationDisabledException: Self { .init(.platformApplicationDisabledException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var staleTagException: Self { .init(.staleTagException) }
+    public static var subscriptionLimitExceededException: Self { .init(.subscriptionLimitExceededException) }
+    public static var tagLimitExceededException: Self { .init(.tagLimitExceededException) }
+    public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    public static var throttledException: Self { .init(.throttledException) }
+    public static var topicLimitExceededException: Self { .init(.topicLimitExceededException) }
+}
+
+extension SNSErrorType: Equatable {
+    public static func == (lhs: SNSErrorType, rhs: SNSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SNSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .authorizationErrorException(let message):
-            return "AuthorizationError: \(message ?? "")"
-        case .concurrentAccessException(let message):
-            return "ConcurrentAccess: \(message ?? "")"
-        case .endpointDisabledException(let message):
-            return "EndpointDisabled: \(message ?? "")"
-        case .filterPolicyLimitExceededException(let message):
-            return "FilterPolicyLimitExceeded: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalError: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameter: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "ParameterValueInvalid: \(message ?? "")"
-        case .invalidSecurityException(let message):
-            return "InvalidSecurity: \(message ?? "")"
-        case .kMSAccessDeniedException(let message):
-            return "KMSAccessDenied: \(message ?? "")"
-        case .kMSDisabledException(let message):
-            return "KMSDisabled: \(message ?? "")"
-        case .kMSInvalidStateException(let message):
-            return "KMSInvalidState: \(message ?? "")"
-        case .kMSNotFoundException(let message):
-            return "KMSNotFound: \(message ?? "")"
-        case .kMSOptInRequired(let message):
-            return "KMSOptInRequired: \(message ?? "")"
-        case .kMSThrottlingException(let message):
-            return "KMSThrottling: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFound: \(message ?? "")"
-        case .platformApplicationDisabledException(let message):
-            return "PlatformApplicationDisabled: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .staleTagException(let message):
-            return "StaleTag: \(message ?? "")"
-        case .subscriptionLimitExceededException(let message):
-            return "SubscriptionLimitExceeded: \(message ?? "")"
-        case .tagLimitExceededException(let message):
-            return "TagLimitExceeded: \(message ?? "")"
-        case .tagPolicyException(let message):
-            return "TagPolicy: \(message ?? "")"
-        case .throttledException(let message):
-            return "Throttled: \(message ?? "")"
-        case .topicLimitExceededException(let message):
-            return "TopicLimitExceeded: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

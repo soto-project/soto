@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for IoT1ClickProjects
-public enum IoT1ClickProjectsErrorType: AWSErrorType {
-    case internalFailureException(message: String?)
-    case invalidRequestException(message: String?)
-    case resourceConflictException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct IoT1ClickProjectsErrorType: AWSErrorType {
+    enum Code: String {
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension IoT1ClickProjectsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension IoT1ClickProjectsErrorType: Equatable {
+    public static func == (lhs: IoT1ClickProjectsErrorType, rhs: IoT1ClickProjectsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoT1ClickProjectsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .resourceConflictException(let message):
-            return "ResourceConflictException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

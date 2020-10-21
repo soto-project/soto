@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for CostandUsageReportService
-public enum CostandUsageReportServiceErrorType: AWSErrorType {
-    case duplicateReportNameException(message: String?)
-    case internalErrorException(message: String?)
-    case reportLimitReachedException(message: String?)
-    case validationException(message: String?)
-}
+public struct CostandUsageReportServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case duplicateReportNameException = "DuplicateReportNameException"
+        case internalErrorException = "InternalErrorException"
+        case reportLimitReachedException = "ReportLimitReachedException"
+        case validationException = "ValidationException"
+    }
 
-extension CostandUsageReportServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DuplicateReportNameException":
-            self = .duplicateReportNameException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "ReportLimitReachedException":
-            self = .reportLimitReachedException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var duplicateReportNameException: Self { .init(.duplicateReportNameException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var reportLimitReachedException: Self { .init(.reportLimitReachedException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CostandUsageReportServiceErrorType: Equatable {
+    public static func == (lhs: CostandUsageReportServiceErrorType, rhs: CostandUsageReportServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CostandUsageReportServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .duplicateReportNameException(let message):
-            return "DuplicateReportNameException: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .reportLimitReachedException(let message):
-            return "ReportLimitReachedException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

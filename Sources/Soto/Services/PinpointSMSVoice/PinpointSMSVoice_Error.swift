@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for PinpointSMSVoice
-public enum PinpointSMSVoiceErrorType: AWSErrorType {
-    case alreadyExistsException(message: String?)
-    case badRequestException(message: String?)
-    case internalServiceErrorException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct PinpointSMSVoiceErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyExistsException = "AlreadyExistsException"
+        case badRequestException = "BadRequestException"
+        case internalServiceErrorException = "InternalServiceErrorException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension PinpointSMSVoiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalServiceErrorException":
-            self = .internalServiceErrorException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var internalServiceErrorException: Self { .init(.internalServiceErrorException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension PinpointSMSVoiceErrorType: Equatable {
+    public static func == (lhs: PinpointSMSVoiceErrorType, rhs: PinpointSMSVoiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PinpointSMSVoiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .internalServiceErrorException(let message):
-            return "InternalServiceErrorException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

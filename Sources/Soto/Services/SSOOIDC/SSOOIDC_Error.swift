@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for SSOOIDC
-public enum SSOOIDCErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case authorizationPendingException(message: String?)
-    case expiredTokenException(message: String?)
-    case internalServerException(message: String?)
-    case invalidClientException(message: String?)
-    case invalidClientMetadataException(message: String?)
-    case invalidGrantException(message: String?)
-    case invalidRequestException(message: String?)
-    case invalidScopeException(message: String?)
-    case slowDownException(message: String?)
-    case unauthorizedClientException(message: String?)
-    case unsupportedGrantTypeException(message: String?)
-}
+public struct SSOOIDCErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case authorizationPendingException = "AuthorizationPendingException"
+        case expiredTokenException = "ExpiredTokenException"
+        case internalServerException = "InternalServerException"
+        case invalidClientException = "InvalidClientException"
+        case invalidClientMetadataException = "InvalidClientMetadataException"
+        case invalidGrantException = "InvalidGrantException"
+        case invalidRequestException = "InvalidRequestException"
+        case invalidScopeException = "InvalidScopeException"
+        case slowDownException = "SlowDownException"
+        case unauthorizedClientException = "UnauthorizedClientException"
+        case unsupportedGrantTypeException = "UnsupportedGrantTypeException"
+    }
 
-extension SSOOIDCErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AuthorizationPendingException":
-            self = .authorizationPendingException(message: message)
-        case "ExpiredTokenException":
-            self = .expiredTokenException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidClientException":
-            self = .invalidClientException(message: message)
-        case "InvalidClientMetadataException":
-            self = .invalidClientMetadataException(message: message)
-        case "InvalidGrantException":
-            self = .invalidGrantException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InvalidScopeException":
-            self = .invalidScopeException(message: message)
-        case "SlowDownException":
-            self = .slowDownException(message: message)
-        case "UnauthorizedClientException":
-            self = .unauthorizedClientException(message: message)
-        case "UnsupportedGrantTypeException":
-            self = .unsupportedGrantTypeException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var authorizationPendingException: Self { .init(.authorizationPendingException) }
+    public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidClientException: Self { .init(.invalidClientException) }
+    public static var invalidClientMetadataException: Self { .init(.invalidClientMetadataException) }
+    public static var invalidGrantException: Self { .init(.invalidGrantException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var invalidScopeException: Self { .init(.invalidScopeException) }
+    public static var slowDownException: Self { .init(.slowDownException) }
+    public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+    public static var unsupportedGrantTypeException: Self { .init(.unsupportedGrantTypeException) }
+}
+
+extension SSOOIDCErrorType: Equatable {
+    public static func == (lhs: SSOOIDCErrorType, rhs: SSOOIDCErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SSOOIDCErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .authorizationPendingException(let message):
-            return "AuthorizationPendingException: \(message ?? "")"
-        case .expiredTokenException(let message):
-            return "ExpiredTokenException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidClientException(let message):
-            return "InvalidClientException: \(message ?? "")"
-        case .invalidClientMetadataException(let message):
-            return "InvalidClientMetadataException: \(message ?? "")"
-        case .invalidGrantException(let message):
-            return "InvalidGrantException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .invalidScopeException(let message):
-            return "InvalidScopeException: \(message ?? "")"
-        case .slowDownException(let message):
-            return "SlowDownException: \(message ?? "")"
-        case .unauthorizedClientException(let message):
-            return "UnauthorizedClientException: \(message ?? "")"
-        case .unsupportedGrantTypeException(let message):
-            return "UnsupportedGrantTypeException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

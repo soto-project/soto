@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for Macie
-public enum MacieErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case internalException(message: String?)
-    case invalidInputException(message: String?)
-    case limitExceededException(message: String?)
-}
+public struct MacieErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case internalException = "InternalException"
+        case invalidInputException = "InvalidInputException"
+        case limitExceededException = "LimitExceededException"
+    }
 
-extension MacieErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+}
+
+extension MacieErrorType: Equatable {
+    public static func == (lhs: MacieErrorType, rhs: MacieErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MacieErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

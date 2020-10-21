@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for Batch
-public enum BatchErrorType: AWSErrorType {
-    case clientException(message: String?)
-    case serverException(message: String?)
-}
+public struct BatchErrorType: AWSErrorType {
+    enum Code: String {
+        case clientException = "ClientException"
+        case serverException = "ServerException"
+    }
 
-extension BatchErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ClientException":
-            self = .clientException(message: message)
-        case "ServerException":
-            self = .serverException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var clientException: Self { .init(.clientException) }
+    public static var serverException: Self { .init(.serverException) }
+}
+
+extension BatchErrorType: Equatable {
+    public static func == (lhs: BatchErrorType, rhs: BatchErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension BatchErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .clientException(let message):
-            return "ClientException: \(message ?? "")"
-        case .serverException(let message):
-            return "ServerException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

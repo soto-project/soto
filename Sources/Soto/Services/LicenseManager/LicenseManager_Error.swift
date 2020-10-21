@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for LicenseManager
-public enum LicenseManagerErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case authorizationException(message: String?)
-    case failedDependencyException(message: String?)
-    case filterLimitExceededException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidResourceStateException(message: String?)
-    case licenseUsageException(message: String?)
-    case rateLimitExceededException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case serverInternalException(message: String?)
-}
+public struct LicenseManagerErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case authorizationException = "AuthorizationException"
+        case failedDependencyException = "FailedDependencyException"
+        case filterLimitExceededException = "FilterLimitExceededException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidResourceStateException = "InvalidResourceStateException"
+        case licenseUsageException = "LicenseUsageException"
+        case rateLimitExceededException = "RateLimitExceededException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case serverInternalException = "ServerInternalException"
+    }
 
-extension LicenseManagerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AuthorizationException":
-            self = .authorizationException(message: message)
-        case "FailedDependencyException":
-            self = .failedDependencyException(message: message)
-        case "FilterLimitExceededException":
-            self = .filterLimitExceededException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidResourceStateException":
-            self = .invalidResourceStateException(message: message)
-        case "LicenseUsageException":
-            self = .licenseUsageException(message: message)
-        case "RateLimitExceededException":
-            self = .rateLimitExceededException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ServerInternalException":
-            self = .serverInternalException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var authorizationException: Self { .init(.authorizationException) }
+    public static var failedDependencyException: Self { .init(.failedDependencyException) }
+    public static var filterLimitExceededException: Self { .init(.filterLimitExceededException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    public static var licenseUsageException: Self { .init(.licenseUsageException) }
+    public static var rateLimitExceededException: Self { .init(.rateLimitExceededException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var serverInternalException: Self { .init(.serverInternalException) }
+}
+
+extension LicenseManagerErrorType: Equatable {
+    public static func == (lhs: LicenseManagerErrorType, rhs: LicenseManagerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension LicenseManagerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .authorizationException(let message):
-            return "AuthorizationException: \(message ?? "")"
-        case .failedDependencyException(let message):
-            return "FailedDependencyException: \(message ?? "")"
-        case .filterLimitExceededException(let message):
-            return "FilterLimitExceededException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .invalidResourceStateException(let message):
-            return "InvalidResourceStateException: \(message ?? "")"
-        case .licenseUsageException(let message):
-            return "LicenseUsageException: \(message ?? "")"
-        case .rateLimitExceededException(let message):
-            return "RateLimitExceededException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .serverInternalException(let message):
-            return "ServerInternalException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

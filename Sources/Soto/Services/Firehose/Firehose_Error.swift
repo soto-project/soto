@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for Firehose
-public enum FirehoseErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidKMSResourceException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-}
+public struct FirehoseErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidKMSResourceException = "InvalidKMSResourceException"
+        case limitExceededException = "LimitExceededException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+    }
 
-extension FirehoseErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidKMSResourceException":
-            self = .invalidKMSResourceException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidKMSResourceException: Self { .init(.invalidKMSResourceException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension FirehoseErrorType: Equatable {
+    public static func == (lhs: FirehoseErrorType, rhs: FirehoseErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension FirehoseErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidKMSResourceException(let message):
-            return "InvalidKMSResourceException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

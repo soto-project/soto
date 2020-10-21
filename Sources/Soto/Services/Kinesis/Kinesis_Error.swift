@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for Kinesis
-public enum KinesisErrorType: AWSErrorType {
-    case expiredIteratorException(message: String?)
-    case expiredNextTokenException(message: String?)
-    case invalidArgumentException(message: String?)
-    case kMSAccessDeniedException(message: String?)
-    case kMSDisabledException(message: String?)
-    case kMSInvalidStateException(message: String?)
-    case kMSNotFoundException(message: String?)
-    case kMSOptInRequired(message: String?)
-    case kMSThrottlingException(message: String?)
-    case limitExceededException(message: String?)
-    case provisionedThroughputExceededException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct KinesisErrorType: AWSErrorType {
+    enum Code: String {
+        case expiredIteratorException = "ExpiredIteratorException"
+        case expiredNextTokenException = "ExpiredNextTokenException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case kMSAccessDeniedException = "KMSAccessDeniedException"
+        case kMSDisabledException = "KMSDisabledException"
+        case kMSInvalidStateException = "KMSInvalidStateException"
+        case kMSNotFoundException = "KMSNotFoundException"
+        case kMSOptInRequired = "KMSOptInRequired"
+        case kMSThrottlingException = "KMSThrottlingException"
+        case limitExceededException = "LimitExceededException"
+        case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension KinesisErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ExpiredIteratorException":
-            self = .expiredIteratorException(message: message)
-        case "ExpiredNextTokenException":
-            self = .expiredNextTokenException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "KMSAccessDeniedException":
-            self = .kMSAccessDeniedException(message: message)
-        case "KMSDisabledException":
-            self = .kMSDisabledException(message: message)
-        case "KMSInvalidStateException":
-            self = .kMSInvalidStateException(message: message)
-        case "KMSNotFoundException":
-            self = .kMSNotFoundException(message: message)
-        case "KMSOptInRequired":
-            self = .kMSOptInRequired(message: message)
-        case "KMSThrottlingException":
-            self = .kMSThrottlingException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ProvisionedThroughputExceededException":
-            self = .provisionedThroughputExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var expiredIteratorException: Self { .init(.expiredIteratorException) }
+    public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var kMSAccessDeniedException: Self { .init(.kMSAccessDeniedException) }
+    public static var kMSDisabledException: Self { .init(.kMSDisabledException) }
+    public static var kMSInvalidStateException: Self { .init(.kMSInvalidStateException) }
+    public static var kMSNotFoundException: Self { .init(.kMSNotFoundException) }
+    public static var kMSOptInRequired: Self { .init(.kMSOptInRequired) }
+    public static var kMSThrottlingException: Self { .init(.kMSThrottlingException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension KinesisErrorType: Equatable {
+    public static func == (lhs: KinesisErrorType, rhs: KinesisErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension KinesisErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .expiredIteratorException(let message):
-            return "ExpiredIteratorException: \(message ?? "")"
-        case .expiredNextTokenException(let message):
-            return "ExpiredNextTokenException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .kMSAccessDeniedException(let message):
-            return "KMSAccessDeniedException: \(message ?? "")"
-        case .kMSDisabledException(let message):
-            return "KMSDisabledException: \(message ?? "")"
-        case .kMSInvalidStateException(let message):
-            return "KMSInvalidStateException: \(message ?? "")"
-        case .kMSNotFoundException(let message):
-            return "KMSNotFoundException: \(message ?? "")"
-        case .kMSOptInRequired(let message):
-            return "KMSOptInRequired: \(message ?? "")"
-        case .kMSThrottlingException(let message):
-            return "KMSThrottlingException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .provisionedThroughputExceededException(let message):
-            return "ProvisionedThroughputExceededException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

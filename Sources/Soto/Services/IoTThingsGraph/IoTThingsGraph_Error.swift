@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for IoTThingsGraph
-public enum IoTThingsGraphErrorType: AWSErrorType {
-    case internalFailureException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct IoTThingsGraphErrorType: AWSErrorType {
+    enum Code: String {
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension IoTThingsGraphErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension IoTThingsGraphErrorType: Equatable {
+    public static func == (lhs: IoTThingsGraphErrorType, rhs: IoTThingsGraphErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoTThingsGraphErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

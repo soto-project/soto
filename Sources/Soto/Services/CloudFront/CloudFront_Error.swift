@@ -17,540 +17,244 @@
 import SotoCore
 
 /// Error enum for CloudFront
-public enum CloudFrontErrorType: AWSErrorType {
-    case accessDenied(message: String?)
-    case batchTooLarge(message: String?)
-    case cNAMEAlreadyExists(message: String?)
-    case cachePolicyAlreadyExists(message: String?)
-    case cachePolicyInUse(message: String?)
-    case cannotChangeImmutablePublicKeyFields(message: String?)
-    case cloudFrontOriginAccessIdentityAlreadyExists(message: String?)
-    case cloudFrontOriginAccessIdentityInUse(message: String?)
-    case distributionAlreadyExists(message: String?)
-    case distributionNotDisabled(message: String?)
-    case fieldLevelEncryptionConfigAlreadyExists(message: String?)
-    case fieldLevelEncryptionConfigInUse(message: String?)
-    case fieldLevelEncryptionProfileAlreadyExists(message: String?)
-    case fieldLevelEncryptionProfileInUse(message: String?)
-    case fieldLevelEncryptionProfileSizeExceeded(message: String?)
-    case illegalDelete(message: String?)
-    case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: String?)
-    case illegalUpdate(message: String?)
-    case inconsistentQuantities(message: String?)
-    case invalidArgument(message: String?)
-    case invalidDefaultRootObject(message: String?)
-    case invalidErrorCode(message: String?)
-    case invalidForwardCookies(message: String?)
-    case invalidGeoRestrictionParameter(message: String?)
-    case invalidHeadersForS3Origin(message: String?)
-    case invalidIfMatchVersion(message: String?)
-    case invalidLambdaFunctionAssociation(message: String?)
-    case invalidLocationCode(message: String?)
-    case invalidMinimumProtocolVersion(message: String?)
-    case invalidOrigin(message: String?)
-    case invalidOriginAccessIdentity(message: String?)
-    case invalidOriginKeepaliveTimeout(message: String?)
-    case invalidOriginReadTimeout(message: String?)
-    case invalidProtocolSettings(message: String?)
-    case invalidQueryStringParameters(message: String?)
-    case invalidRelativePath(message: String?)
-    case invalidRequiredProtocol(message: String?)
-    case invalidResponseCode(message: String?)
-    case invalidTTLOrder(message: String?)
-    case invalidTagging(message: String?)
-    case invalidViewerCertificate(message: String?)
-    case invalidWebACLId(message: String?)
-    case missingBody(message: String?)
-    case noSuchCachePolicy(message: String?)
-    case noSuchCloudFrontOriginAccessIdentity(message: String?)
-    case noSuchDistribution(message: String?)
-    case noSuchFieldLevelEncryptionConfig(message: String?)
-    case noSuchFieldLevelEncryptionProfile(message: String?)
-    case noSuchInvalidation(message: String?)
-    case noSuchOrigin(message: String?)
-    case noSuchOriginRequestPolicy(message: String?)
-    case noSuchPublicKey(message: String?)
-    case noSuchRealtimeLogConfig(message: String?)
-    case noSuchResource(message: String?)
-    case noSuchStreamingDistribution(message: String?)
-    case originRequestPolicyAlreadyExists(message: String?)
-    case originRequestPolicyInUse(message: String?)
-    case preconditionFailed(message: String?)
-    case publicKeyAlreadyExists(message: String?)
-    case publicKeyInUse(message: String?)
-    case queryArgProfileEmpty(message: String?)
-    case realtimeLogConfigAlreadyExists(message: String?)
-    case realtimeLogConfigInUse(message: String?)
-    case streamingDistributionAlreadyExists(message: String?)
-    case streamingDistributionNotDisabled(message: String?)
-    case tooManyCacheBehaviors(message: String?)
-    case tooManyCachePolicies(message: String?)
-    case tooManyCertificates(message: String?)
-    case tooManyCloudFrontOriginAccessIdentities(message: String?)
-    case tooManyCookieNamesInWhiteList(message: String?)
-    case tooManyCookiesInCachePolicy(message: String?)
-    case tooManyCookiesInOriginRequestPolicy(message: String?)
-    case tooManyDistributionCNAMEs(message: String?)
-    case tooManyDistributions(message: String?)
-    case tooManyDistributionsAssociatedToCachePolicy(message: String?)
-    case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: String?)
-    case tooManyDistributionsAssociatedToOriginRequestPolicy(message: String?)
-    case tooManyDistributionsWithLambdaAssociations(message: String?)
-    case tooManyDistributionsWithSingleFunctionARN(message: String?)
-    case tooManyFieldLevelEncryptionConfigs(message: String?)
-    case tooManyFieldLevelEncryptionContentTypeProfiles(message: String?)
-    case tooManyFieldLevelEncryptionEncryptionEntities(message: String?)
-    case tooManyFieldLevelEncryptionFieldPatterns(message: String?)
-    case tooManyFieldLevelEncryptionProfiles(message: String?)
-    case tooManyFieldLevelEncryptionQueryArgProfiles(message: String?)
-    case tooManyHeadersInCachePolicy(message: String?)
-    case tooManyHeadersInForwardedValues(message: String?)
-    case tooManyHeadersInOriginRequestPolicy(message: String?)
-    case tooManyInvalidationsInProgress(message: String?)
-    case tooManyLambdaFunctionAssociations(message: String?)
-    case tooManyOriginCustomHeaders(message: String?)
-    case tooManyOriginGroupsPerDistribution(message: String?)
-    case tooManyOriginRequestPolicies(message: String?)
-    case tooManyOrigins(message: String?)
-    case tooManyPublicKeys(message: String?)
-    case tooManyQueryStringParameters(message: String?)
-    case tooManyQueryStringsInCachePolicy(message: String?)
-    case tooManyQueryStringsInOriginRequestPolicy(message: String?)
-    case tooManyRealtimeLogConfigs(message: String?)
-    case tooManyStreamingDistributionCNAMEs(message: String?)
-    case tooManyStreamingDistributions(message: String?)
-    case tooManyTrustedSigners(message: String?)
-    case trustedSignerDoesNotExist(message: String?)
-}
+public struct CloudFrontErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDenied = "AccessDenied"
+        case batchTooLarge = "BatchTooLarge"
+        case cNAMEAlreadyExists = "CNAMEAlreadyExists"
+        case cachePolicyAlreadyExists = "CachePolicyAlreadyExists"
+        case cachePolicyInUse = "CachePolicyInUse"
+        case cannotChangeImmutablePublicKeyFields = "CannotChangeImmutablePublicKeyFields"
+        case cloudFrontOriginAccessIdentityAlreadyExists = "CloudFrontOriginAccessIdentityAlreadyExists"
+        case cloudFrontOriginAccessIdentityInUse = "CloudFrontOriginAccessIdentityInUse"
+        case distributionAlreadyExists = "DistributionAlreadyExists"
+        case distributionNotDisabled = "DistributionNotDisabled"
+        case fieldLevelEncryptionConfigAlreadyExists = "FieldLevelEncryptionConfigAlreadyExists"
+        case fieldLevelEncryptionConfigInUse = "FieldLevelEncryptionConfigInUse"
+        case fieldLevelEncryptionProfileAlreadyExists = "FieldLevelEncryptionProfileAlreadyExists"
+        case fieldLevelEncryptionProfileInUse = "FieldLevelEncryptionProfileInUse"
+        case fieldLevelEncryptionProfileSizeExceeded = "FieldLevelEncryptionProfileSizeExceeded"
+        case illegalDelete = "IllegalDelete"
+        case illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior = "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior"
+        case illegalUpdate = "IllegalUpdate"
+        case inconsistentQuantities = "InconsistentQuantities"
+        case invalidArgument = "InvalidArgument"
+        case invalidDefaultRootObject = "InvalidDefaultRootObject"
+        case invalidErrorCode = "InvalidErrorCode"
+        case invalidForwardCookies = "InvalidForwardCookies"
+        case invalidGeoRestrictionParameter = "InvalidGeoRestrictionParameter"
+        case invalidHeadersForS3Origin = "InvalidHeadersForS3Origin"
+        case invalidIfMatchVersion = "InvalidIfMatchVersion"
+        case invalidLambdaFunctionAssociation = "InvalidLambdaFunctionAssociation"
+        case invalidLocationCode = "InvalidLocationCode"
+        case invalidMinimumProtocolVersion = "InvalidMinimumProtocolVersion"
+        case invalidOrigin = "InvalidOrigin"
+        case invalidOriginAccessIdentity = "InvalidOriginAccessIdentity"
+        case invalidOriginKeepaliveTimeout = "InvalidOriginKeepaliveTimeout"
+        case invalidOriginReadTimeout = "InvalidOriginReadTimeout"
+        case invalidProtocolSettings = "InvalidProtocolSettings"
+        case invalidQueryStringParameters = "InvalidQueryStringParameters"
+        case invalidRelativePath = "InvalidRelativePath"
+        case invalidRequiredProtocol = "InvalidRequiredProtocol"
+        case invalidResponseCode = "InvalidResponseCode"
+        case invalidTTLOrder = "InvalidTTLOrder"
+        case invalidTagging = "InvalidTagging"
+        case invalidViewerCertificate = "InvalidViewerCertificate"
+        case invalidWebACLId = "InvalidWebACLId"
+        case missingBody = "MissingBody"
+        case noSuchCachePolicy = "NoSuchCachePolicy"
+        case noSuchCloudFrontOriginAccessIdentity = "NoSuchCloudFrontOriginAccessIdentity"
+        case noSuchDistribution = "NoSuchDistribution"
+        case noSuchFieldLevelEncryptionConfig = "NoSuchFieldLevelEncryptionConfig"
+        case noSuchFieldLevelEncryptionProfile = "NoSuchFieldLevelEncryptionProfile"
+        case noSuchInvalidation = "NoSuchInvalidation"
+        case noSuchOrigin = "NoSuchOrigin"
+        case noSuchOriginRequestPolicy = "NoSuchOriginRequestPolicy"
+        case noSuchPublicKey = "NoSuchPublicKey"
+        case noSuchRealtimeLogConfig = "NoSuchRealtimeLogConfig"
+        case noSuchResource = "NoSuchResource"
+        case noSuchStreamingDistribution = "NoSuchStreamingDistribution"
+        case originRequestPolicyAlreadyExists = "OriginRequestPolicyAlreadyExists"
+        case originRequestPolicyInUse = "OriginRequestPolicyInUse"
+        case preconditionFailed = "PreconditionFailed"
+        case publicKeyAlreadyExists = "PublicKeyAlreadyExists"
+        case publicKeyInUse = "PublicKeyInUse"
+        case queryArgProfileEmpty = "QueryArgProfileEmpty"
+        case realtimeLogConfigAlreadyExists = "RealtimeLogConfigAlreadyExists"
+        case realtimeLogConfigInUse = "RealtimeLogConfigInUse"
+        case streamingDistributionAlreadyExists = "StreamingDistributionAlreadyExists"
+        case streamingDistributionNotDisabled = "StreamingDistributionNotDisabled"
+        case tooManyCacheBehaviors = "TooManyCacheBehaviors"
+        case tooManyCachePolicies = "TooManyCachePolicies"
+        case tooManyCertificates = "TooManyCertificates"
+        case tooManyCloudFrontOriginAccessIdentities = "TooManyCloudFrontOriginAccessIdentities"
+        case tooManyCookieNamesInWhiteList = "TooManyCookieNamesInWhiteList"
+        case tooManyCookiesInCachePolicy = "TooManyCookiesInCachePolicy"
+        case tooManyCookiesInOriginRequestPolicy = "TooManyCookiesInOriginRequestPolicy"
+        case tooManyDistributionCNAMEs = "TooManyDistributionCNAMEs"
+        case tooManyDistributions = "TooManyDistributions"
+        case tooManyDistributionsAssociatedToCachePolicy = "TooManyDistributionsAssociatedToCachePolicy"
+        case tooManyDistributionsAssociatedToFieldLevelEncryptionConfig = "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig"
+        case tooManyDistributionsAssociatedToOriginRequestPolicy = "TooManyDistributionsAssociatedToOriginRequestPolicy"
+        case tooManyDistributionsWithLambdaAssociations = "TooManyDistributionsWithLambdaAssociations"
+        case tooManyDistributionsWithSingleFunctionARN = "TooManyDistributionsWithSingleFunctionARN"
+        case tooManyFieldLevelEncryptionConfigs = "TooManyFieldLevelEncryptionConfigs"
+        case tooManyFieldLevelEncryptionContentTypeProfiles = "TooManyFieldLevelEncryptionContentTypeProfiles"
+        case tooManyFieldLevelEncryptionEncryptionEntities = "TooManyFieldLevelEncryptionEncryptionEntities"
+        case tooManyFieldLevelEncryptionFieldPatterns = "TooManyFieldLevelEncryptionFieldPatterns"
+        case tooManyFieldLevelEncryptionProfiles = "TooManyFieldLevelEncryptionProfiles"
+        case tooManyFieldLevelEncryptionQueryArgProfiles = "TooManyFieldLevelEncryptionQueryArgProfiles"
+        case tooManyHeadersInCachePolicy = "TooManyHeadersInCachePolicy"
+        case tooManyHeadersInForwardedValues = "TooManyHeadersInForwardedValues"
+        case tooManyHeadersInOriginRequestPolicy = "TooManyHeadersInOriginRequestPolicy"
+        case tooManyInvalidationsInProgress = "TooManyInvalidationsInProgress"
+        case tooManyLambdaFunctionAssociations = "TooManyLambdaFunctionAssociations"
+        case tooManyOriginCustomHeaders = "TooManyOriginCustomHeaders"
+        case tooManyOriginGroupsPerDistribution = "TooManyOriginGroupsPerDistribution"
+        case tooManyOriginRequestPolicies = "TooManyOriginRequestPolicies"
+        case tooManyOrigins = "TooManyOrigins"
+        case tooManyPublicKeys = "TooManyPublicKeys"
+        case tooManyQueryStringParameters = "TooManyQueryStringParameters"
+        case tooManyQueryStringsInCachePolicy = "TooManyQueryStringsInCachePolicy"
+        case tooManyQueryStringsInOriginRequestPolicy = "TooManyQueryStringsInOriginRequestPolicy"
+        case tooManyRealtimeLogConfigs = "TooManyRealtimeLogConfigs"
+        case tooManyStreamingDistributionCNAMEs = "TooManyStreamingDistributionCNAMEs"
+        case tooManyStreamingDistributions = "TooManyStreamingDistributions"
+        case tooManyTrustedSigners = "TooManyTrustedSigners"
+        case trustedSignerDoesNotExist = "TrustedSignerDoesNotExist"
+    }
 
-extension CloudFrontErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDenied":
-            self = .accessDenied(message: message)
-        case "BatchTooLarge":
-            self = .batchTooLarge(message: message)
-        case "CNAMEAlreadyExists":
-            self = .cNAMEAlreadyExists(message: message)
-        case "CachePolicyAlreadyExists":
-            self = .cachePolicyAlreadyExists(message: message)
-        case "CachePolicyInUse":
-            self = .cachePolicyInUse(message: message)
-        case "CannotChangeImmutablePublicKeyFields":
-            self = .cannotChangeImmutablePublicKeyFields(message: message)
-        case "CloudFrontOriginAccessIdentityAlreadyExists":
-            self = .cloudFrontOriginAccessIdentityAlreadyExists(message: message)
-        case "CloudFrontOriginAccessIdentityInUse":
-            self = .cloudFrontOriginAccessIdentityInUse(message: message)
-        case "DistributionAlreadyExists":
-            self = .distributionAlreadyExists(message: message)
-        case "DistributionNotDisabled":
-            self = .distributionNotDisabled(message: message)
-        case "FieldLevelEncryptionConfigAlreadyExists":
-            self = .fieldLevelEncryptionConfigAlreadyExists(message: message)
-        case "FieldLevelEncryptionConfigInUse":
-            self = .fieldLevelEncryptionConfigInUse(message: message)
-        case "FieldLevelEncryptionProfileAlreadyExists":
-            self = .fieldLevelEncryptionProfileAlreadyExists(message: message)
-        case "FieldLevelEncryptionProfileInUse":
-            self = .fieldLevelEncryptionProfileInUse(message: message)
-        case "FieldLevelEncryptionProfileSizeExceeded":
-            self = .fieldLevelEncryptionProfileSizeExceeded(message: message)
-        case "IllegalDelete":
-            self = .illegalDelete(message: message)
-        case "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior":
-            self = .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(message: message)
-        case "IllegalUpdate":
-            self = .illegalUpdate(message: message)
-        case "InconsistentQuantities":
-            self = .inconsistentQuantities(message: message)
-        case "InvalidArgument":
-            self = .invalidArgument(message: message)
-        case "InvalidDefaultRootObject":
-            self = .invalidDefaultRootObject(message: message)
-        case "InvalidErrorCode":
-            self = .invalidErrorCode(message: message)
-        case "InvalidForwardCookies":
-            self = .invalidForwardCookies(message: message)
-        case "InvalidGeoRestrictionParameter":
-            self = .invalidGeoRestrictionParameter(message: message)
-        case "InvalidHeadersForS3Origin":
-            self = .invalidHeadersForS3Origin(message: message)
-        case "InvalidIfMatchVersion":
-            self = .invalidIfMatchVersion(message: message)
-        case "InvalidLambdaFunctionAssociation":
-            self = .invalidLambdaFunctionAssociation(message: message)
-        case "InvalidLocationCode":
-            self = .invalidLocationCode(message: message)
-        case "InvalidMinimumProtocolVersion":
-            self = .invalidMinimumProtocolVersion(message: message)
-        case "InvalidOrigin":
-            self = .invalidOrigin(message: message)
-        case "InvalidOriginAccessIdentity":
-            self = .invalidOriginAccessIdentity(message: message)
-        case "InvalidOriginKeepaliveTimeout":
-            self = .invalidOriginKeepaliveTimeout(message: message)
-        case "InvalidOriginReadTimeout":
-            self = .invalidOriginReadTimeout(message: message)
-        case "InvalidProtocolSettings":
-            self = .invalidProtocolSettings(message: message)
-        case "InvalidQueryStringParameters":
-            self = .invalidQueryStringParameters(message: message)
-        case "InvalidRelativePath":
-            self = .invalidRelativePath(message: message)
-        case "InvalidRequiredProtocol":
-            self = .invalidRequiredProtocol(message: message)
-        case "InvalidResponseCode":
-            self = .invalidResponseCode(message: message)
-        case "InvalidTTLOrder":
-            self = .invalidTTLOrder(message: message)
-        case "InvalidTagging":
-            self = .invalidTagging(message: message)
-        case "InvalidViewerCertificate":
-            self = .invalidViewerCertificate(message: message)
-        case "InvalidWebACLId":
-            self = .invalidWebACLId(message: message)
-        case "MissingBody":
-            self = .missingBody(message: message)
-        case "NoSuchCachePolicy":
-            self = .noSuchCachePolicy(message: message)
-        case "NoSuchCloudFrontOriginAccessIdentity":
-            self = .noSuchCloudFrontOriginAccessIdentity(message: message)
-        case "NoSuchDistribution":
-            self = .noSuchDistribution(message: message)
-        case "NoSuchFieldLevelEncryptionConfig":
-            self = .noSuchFieldLevelEncryptionConfig(message: message)
-        case "NoSuchFieldLevelEncryptionProfile":
-            self = .noSuchFieldLevelEncryptionProfile(message: message)
-        case "NoSuchInvalidation":
-            self = .noSuchInvalidation(message: message)
-        case "NoSuchOrigin":
-            self = .noSuchOrigin(message: message)
-        case "NoSuchOriginRequestPolicy":
-            self = .noSuchOriginRequestPolicy(message: message)
-        case "NoSuchPublicKey":
-            self = .noSuchPublicKey(message: message)
-        case "NoSuchRealtimeLogConfig":
-            self = .noSuchRealtimeLogConfig(message: message)
-        case "NoSuchResource":
-            self = .noSuchResource(message: message)
-        case "NoSuchStreamingDistribution":
-            self = .noSuchStreamingDistribution(message: message)
-        case "OriginRequestPolicyAlreadyExists":
-            self = .originRequestPolicyAlreadyExists(message: message)
-        case "OriginRequestPolicyInUse":
-            self = .originRequestPolicyInUse(message: message)
-        case "PreconditionFailed":
-            self = .preconditionFailed(message: message)
-        case "PublicKeyAlreadyExists":
-            self = .publicKeyAlreadyExists(message: message)
-        case "PublicKeyInUse":
-            self = .publicKeyInUse(message: message)
-        case "QueryArgProfileEmpty":
-            self = .queryArgProfileEmpty(message: message)
-        case "RealtimeLogConfigAlreadyExists":
-            self = .realtimeLogConfigAlreadyExists(message: message)
-        case "RealtimeLogConfigInUse":
-            self = .realtimeLogConfigInUse(message: message)
-        case "StreamingDistributionAlreadyExists":
-            self = .streamingDistributionAlreadyExists(message: message)
-        case "StreamingDistributionNotDisabled":
-            self = .streamingDistributionNotDisabled(message: message)
-        case "TooManyCacheBehaviors":
-            self = .tooManyCacheBehaviors(message: message)
-        case "TooManyCachePolicies":
-            self = .tooManyCachePolicies(message: message)
-        case "TooManyCertificates":
-            self = .tooManyCertificates(message: message)
-        case "TooManyCloudFrontOriginAccessIdentities":
-            self = .tooManyCloudFrontOriginAccessIdentities(message: message)
-        case "TooManyCookieNamesInWhiteList":
-            self = .tooManyCookieNamesInWhiteList(message: message)
-        case "TooManyCookiesInCachePolicy":
-            self = .tooManyCookiesInCachePolicy(message: message)
-        case "TooManyCookiesInOriginRequestPolicy":
-            self = .tooManyCookiesInOriginRequestPolicy(message: message)
-        case "TooManyDistributionCNAMEs":
-            self = .tooManyDistributionCNAMEs(message: message)
-        case "TooManyDistributions":
-            self = .tooManyDistributions(message: message)
-        case "TooManyDistributionsAssociatedToCachePolicy":
-            self = .tooManyDistributionsAssociatedToCachePolicy(message: message)
-        case "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig":
-            self = .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(message: message)
-        case "TooManyDistributionsAssociatedToOriginRequestPolicy":
-            self = .tooManyDistributionsAssociatedToOriginRequestPolicy(message: message)
-        case "TooManyDistributionsWithLambdaAssociations":
-            self = .tooManyDistributionsWithLambdaAssociations(message: message)
-        case "TooManyDistributionsWithSingleFunctionARN":
-            self = .tooManyDistributionsWithSingleFunctionARN(message: message)
-        case "TooManyFieldLevelEncryptionConfigs":
-            self = .tooManyFieldLevelEncryptionConfigs(message: message)
-        case "TooManyFieldLevelEncryptionContentTypeProfiles":
-            self = .tooManyFieldLevelEncryptionContentTypeProfiles(message: message)
-        case "TooManyFieldLevelEncryptionEncryptionEntities":
-            self = .tooManyFieldLevelEncryptionEncryptionEntities(message: message)
-        case "TooManyFieldLevelEncryptionFieldPatterns":
-            self = .tooManyFieldLevelEncryptionFieldPatterns(message: message)
-        case "TooManyFieldLevelEncryptionProfiles":
-            self = .tooManyFieldLevelEncryptionProfiles(message: message)
-        case "TooManyFieldLevelEncryptionQueryArgProfiles":
-            self = .tooManyFieldLevelEncryptionQueryArgProfiles(message: message)
-        case "TooManyHeadersInCachePolicy":
-            self = .tooManyHeadersInCachePolicy(message: message)
-        case "TooManyHeadersInForwardedValues":
-            self = .tooManyHeadersInForwardedValues(message: message)
-        case "TooManyHeadersInOriginRequestPolicy":
-            self = .tooManyHeadersInOriginRequestPolicy(message: message)
-        case "TooManyInvalidationsInProgress":
-            self = .tooManyInvalidationsInProgress(message: message)
-        case "TooManyLambdaFunctionAssociations":
-            self = .tooManyLambdaFunctionAssociations(message: message)
-        case "TooManyOriginCustomHeaders":
-            self = .tooManyOriginCustomHeaders(message: message)
-        case "TooManyOriginGroupsPerDistribution":
-            self = .tooManyOriginGroupsPerDistribution(message: message)
-        case "TooManyOriginRequestPolicies":
-            self = .tooManyOriginRequestPolicies(message: message)
-        case "TooManyOrigins":
-            self = .tooManyOrigins(message: message)
-        case "TooManyPublicKeys":
-            self = .tooManyPublicKeys(message: message)
-        case "TooManyQueryStringParameters":
-            self = .tooManyQueryStringParameters(message: message)
-        case "TooManyQueryStringsInCachePolicy":
-            self = .tooManyQueryStringsInCachePolicy(message: message)
-        case "TooManyQueryStringsInOriginRequestPolicy":
-            self = .tooManyQueryStringsInOriginRequestPolicy(message: message)
-        case "TooManyRealtimeLogConfigs":
-            self = .tooManyRealtimeLogConfigs(message: message)
-        case "TooManyStreamingDistributionCNAMEs":
-            self = .tooManyStreamingDistributionCNAMEs(message: message)
-        case "TooManyStreamingDistributions":
-            self = .tooManyStreamingDistributions(message: message)
-        case "TooManyTrustedSigners":
-            self = .tooManyTrustedSigners(message: message)
-        case "TrustedSignerDoesNotExist":
-            self = .trustedSignerDoesNotExist(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDenied: Self { .init(.accessDenied) }
+    public static var batchTooLarge: Self { .init(.batchTooLarge) }
+    public static var cNAMEAlreadyExists: Self { .init(.cNAMEAlreadyExists) }
+    public static var cachePolicyAlreadyExists: Self { .init(.cachePolicyAlreadyExists) }
+    public static var cachePolicyInUse: Self { .init(.cachePolicyInUse) }
+    public static var cannotChangeImmutablePublicKeyFields: Self { .init(.cannotChangeImmutablePublicKeyFields) }
+    public static var cloudFrontOriginAccessIdentityAlreadyExists: Self { .init(.cloudFrontOriginAccessIdentityAlreadyExists) }
+    public static var cloudFrontOriginAccessIdentityInUse: Self { .init(.cloudFrontOriginAccessIdentityInUse) }
+    public static var distributionAlreadyExists: Self { .init(.distributionAlreadyExists) }
+    public static var distributionNotDisabled: Self { .init(.distributionNotDisabled) }
+    public static var fieldLevelEncryptionConfigAlreadyExists: Self { .init(.fieldLevelEncryptionConfigAlreadyExists) }
+    public static var fieldLevelEncryptionConfigInUse: Self { .init(.fieldLevelEncryptionConfigInUse) }
+    public static var fieldLevelEncryptionProfileAlreadyExists: Self { .init(.fieldLevelEncryptionProfileAlreadyExists) }
+    public static var fieldLevelEncryptionProfileInUse: Self { .init(.fieldLevelEncryptionProfileInUse) }
+    public static var fieldLevelEncryptionProfileSizeExceeded: Self { .init(.fieldLevelEncryptionProfileSizeExceeded) }
+    public static var illegalDelete: Self { .init(.illegalDelete) }
+    public static var illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: Self { .init(.illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior) }
+    public static var illegalUpdate: Self { .init(.illegalUpdate) }
+    public static var inconsistentQuantities: Self { .init(.inconsistentQuantities) }
+    public static var invalidArgument: Self { .init(.invalidArgument) }
+    public static var invalidDefaultRootObject: Self { .init(.invalidDefaultRootObject) }
+    public static var invalidErrorCode: Self { .init(.invalidErrorCode) }
+    public static var invalidForwardCookies: Self { .init(.invalidForwardCookies) }
+    public static var invalidGeoRestrictionParameter: Self { .init(.invalidGeoRestrictionParameter) }
+    public static var invalidHeadersForS3Origin: Self { .init(.invalidHeadersForS3Origin) }
+    public static var invalidIfMatchVersion: Self { .init(.invalidIfMatchVersion) }
+    public static var invalidLambdaFunctionAssociation: Self { .init(.invalidLambdaFunctionAssociation) }
+    public static var invalidLocationCode: Self { .init(.invalidLocationCode) }
+    public static var invalidMinimumProtocolVersion: Self { .init(.invalidMinimumProtocolVersion) }
+    public static var invalidOrigin: Self { .init(.invalidOrigin) }
+    public static var invalidOriginAccessIdentity: Self { .init(.invalidOriginAccessIdentity) }
+    public static var invalidOriginKeepaliveTimeout: Self { .init(.invalidOriginKeepaliveTimeout) }
+    public static var invalidOriginReadTimeout: Self { .init(.invalidOriginReadTimeout) }
+    public static var invalidProtocolSettings: Self { .init(.invalidProtocolSettings) }
+    public static var invalidQueryStringParameters: Self { .init(.invalidQueryStringParameters) }
+    public static var invalidRelativePath: Self { .init(.invalidRelativePath) }
+    public static var invalidRequiredProtocol: Self { .init(.invalidRequiredProtocol) }
+    public static var invalidResponseCode: Self { .init(.invalidResponseCode) }
+    public static var invalidTTLOrder: Self { .init(.invalidTTLOrder) }
+    public static var invalidTagging: Self { .init(.invalidTagging) }
+    public static var invalidViewerCertificate: Self { .init(.invalidViewerCertificate) }
+    public static var invalidWebACLId: Self { .init(.invalidWebACLId) }
+    public static var missingBody: Self { .init(.missingBody) }
+    public static var noSuchCachePolicy: Self { .init(.noSuchCachePolicy) }
+    public static var noSuchCloudFrontOriginAccessIdentity: Self { .init(.noSuchCloudFrontOriginAccessIdentity) }
+    public static var noSuchDistribution: Self { .init(.noSuchDistribution) }
+    public static var noSuchFieldLevelEncryptionConfig: Self { .init(.noSuchFieldLevelEncryptionConfig) }
+    public static var noSuchFieldLevelEncryptionProfile: Self { .init(.noSuchFieldLevelEncryptionProfile) }
+    public static var noSuchInvalidation: Self { .init(.noSuchInvalidation) }
+    public static var noSuchOrigin: Self { .init(.noSuchOrigin) }
+    public static var noSuchOriginRequestPolicy: Self { .init(.noSuchOriginRequestPolicy) }
+    public static var noSuchPublicKey: Self { .init(.noSuchPublicKey) }
+    public static var noSuchRealtimeLogConfig: Self { .init(.noSuchRealtimeLogConfig) }
+    public static var noSuchResource: Self { .init(.noSuchResource) }
+    public static var noSuchStreamingDistribution: Self { .init(.noSuchStreamingDistribution) }
+    public static var originRequestPolicyAlreadyExists: Self { .init(.originRequestPolicyAlreadyExists) }
+    public static var originRequestPolicyInUse: Self { .init(.originRequestPolicyInUse) }
+    public static var preconditionFailed: Self { .init(.preconditionFailed) }
+    public static var publicKeyAlreadyExists: Self { .init(.publicKeyAlreadyExists) }
+    public static var publicKeyInUse: Self { .init(.publicKeyInUse) }
+    public static var queryArgProfileEmpty: Self { .init(.queryArgProfileEmpty) }
+    public static var realtimeLogConfigAlreadyExists: Self { .init(.realtimeLogConfigAlreadyExists) }
+    public static var realtimeLogConfigInUse: Self { .init(.realtimeLogConfigInUse) }
+    public static var streamingDistributionAlreadyExists: Self { .init(.streamingDistributionAlreadyExists) }
+    public static var streamingDistributionNotDisabled: Self { .init(.streamingDistributionNotDisabled) }
+    public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
+    public static var tooManyCachePolicies: Self { .init(.tooManyCachePolicies) }
+    public static var tooManyCertificates: Self { .init(.tooManyCertificates) }
+    public static var tooManyCloudFrontOriginAccessIdentities: Self { .init(.tooManyCloudFrontOriginAccessIdentities) }
+    public static var tooManyCookieNamesInWhiteList: Self { .init(.tooManyCookieNamesInWhiteList) }
+    public static var tooManyCookiesInCachePolicy: Self { .init(.tooManyCookiesInCachePolicy) }
+    public static var tooManyCookiesInOriginRequestPolicy: Self { .init(.tooManyCookiesInOriginRequestPolicy) }
+    public static var tooManyDistributionCNAMEs: Self { .init(.tooManyDistributionCNAMEs) }
+    public static var tooManyDistributions: Self { .init(.tooManyDistributions) }
+    public static var tooManyDistributionsAssociatedToCachePolicy: Self { .init(.tooManyDistributionsAssociatedToCachePolicy) }
+    public static var tooManyDistributionsAssociatedToFieldLevelEncryptionConfig: Self { .init(.tooManyDistributionsAssociatedToFieldLevelEncryptionConfig) }
+    public static var tooManyDistributionsAssociatedToOriginRequestPolicy: Self { .init(.tooManyDistributionsAssociatedToOriginRequestPolicy) }
+    public static var tooManyDistributionsWithLambdaAssociations: Self { .init(.tooManyDistributionsWithLambdaAssociations) }
+    public static var tooManyDistributionsWithSingleFunctionARN: Self { .init(.tooManyDistributionsWithSingleFunctionARN) }
+    public static var tooManyFieldLevelEncryptionConfigs: Self { .init(.tooManyFieldLevelEncryptionConfigs) }
+    public static var tooManyFieldLevelEncryptionContentTypeProfiles: Self { .init(.tooManyFieldLevelEncryptionContentTypeProfiles) }
+    public static var tooManyFieldLevelEncryptionEncryptionEntities: Self { .init(.tooManyFieldLevelEncryptionEncryptionEntities) }
+    public static var tooManyFieldLevelEncryptionFieldPatterns: Self { .init(.tooManyFieldLevelEncryptionFieldPatterns) }
+    public static var tooManyFieldLevelEncryptionProfiles: Self { .init(.tooManyFieldLevelEncryptionProfiles) }
+    public static var tooManyFieldLevelEncryptionQueryArgProfiles: Self { .init(.tooManyFieldLevelEncryptionQueryArgProfiles) }
+    public static var tooManyHeadersInCachePolicy: Self { .init(.tooManyHeadersInCachePolicy) }
+    public static var tooManyHeadersInForwardedValues: Self { .init(.tooManyHeadersInForwardedValues) }
+    public static var tooManyHeadersInOriginRequestPolicy: Self { .init(.tooManyHeadersInOriginRequestPolicy) }
+    public static var tooManyInvalidationsInProgress: Self { .init(.tooManyInvalidationsInProgress) }
+    public static var tooManyLambdaFunctionAssociations: Self { .init(.tooManyLambdaFunctionAssociations) }
+    public static var tooManyOriginCustomHeaders: Self { .init(.tooManyOriginCustomHeaders) }
+    public static var tooManyOriginGroupsPerDistribution: Self { .init(.tooManyOriginGroupsPerDistribution) }
+    public static var tooManyOriginRequestPolicies: Self { .init(.tooManyOriginRequestPolicies) }
+    public static var tooManyOrigins: Self { .init(.tooManyOrigins) }
+    public static var tooManyPublicKeys: Self { .init(.tooManyPublicKeys) }
+    public static var tooManyQueryStringParameters: Self { .init(.tooManyQueryStringParameters) }
+    public static var tooManyQueryStringsInCachePolicy: Self { .init(.tooManyQueryStringsInCachePolicy) }
+    public static var tooManyQueryStringsInOriginRequestPolicy: Self { .init(.tooManyQueryStringsInOriginRequestPolicy) }
+    public static var tooManyRealtimeLogConfigs: Self { .init(.tooManyRealtimeLogConfigs) }
+    public static var tooManyStreamingDistributionCNAMEs: Self { .init(.tooManyStreamingDistributionCNAMEs) }
+    public static var tooManyStreamingDistributions: Self { .init(.tooManyStreamingDistributions) }
+    public static var tooManyTrustedSigners: Self { .init(.tooManyTrustedSigners) }
+    public static var trustedSignerDoesNotExist: Self { .init(.trustedSignerDoesNotExist) }
+}
+
+extension CloudFrontErrorType: Equatable {
+    public static func == (lhs: CloudFrontErrorType, rhs: CloudFrontErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudFrontErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDenied(let message):
-            return "AccessDenied: \(message ?? "")"
-        case .batchTooLarge(let message):
-            return "BatchTooLarge: \(message ?? "")"
-        case .cNAMEAlreadyExists(let message):
-            return "CNAMEAlreadyExists: \(message ?? "")"
-        case .cachePolicyAlreadyExists(let message):
-            return "CachePolicyAlreadyExists: \(message ?? "")"
-        case .cachePolicyInUse(let message):
-            return "CachePolicyInUse: \(message ?? "")"
-        case .cannotChangeImmutablePublicKeyFields(let message):
-            return "CannotChangeImmutablePublicKeyFields: \(message ?? "")"
-        case .cloudFrontOriginAccessIdentityAlreadyExists(let message):
-            return "CloudFrontOriginAccessIdentityAlreadyExists: \(message ?? "")"
-        case .cloudFrontOriginAccessIdentityInUse(let message):
-            return "CloudFrontOriginAccessIdentityInUse: \(message ?? "")"
-        case .distributionAlreadyExists(let message):
-            return "DistributionAlreadyExists: \(message ?? "")"
-        case .distributionNotDisabled(let message):
-            return "DistributionNotDisabled: \(message ?? "")"
-        case .fieldLevelEncryptionConfigAlreadyExists(let message):
-            return "FieldLevelEncryptionConfigAlreadyExists: \(message ?? "")"
-        case .fieldLevelEncryptionConfigInUse(let message):
-            return "FieldLevelEncryptionConfigInUse: \(message ?? "")"
-        case .fieldLevelEncryptionProfileAlreadyExists(let message):
-            return "FieldLevelEncryptionProfileAlreadyExists: \(message ?? "")"
-        case .fieldLevelEncryptionProfileInUse(let message):
-            return "FieldLevelEncryptionProfileInUse: \(message ?? "")"
-        case .fieldLevelEncryptionProfileSizeExceeded(let message):
-            return "FieldLevelEncryptionProfileSizeExceeded: \(message ?? "")"
-        case .illegalDelete(let message):
-            return "IllegalDelete: \(message ?? "")"
-        case .illegalFieldLevelEncryptionConfigAssociationWithCacheBehavior(let message):
-            return "IllegalFieldLevelEncryptionConfigAssociationWithCacheBehavior: \(message ?? "")"
-        case .illegalUpdate(let message):
-            return "IllegalUpdate: \(message ?? "")"
-        case .inconsistentQuantities(let message):
-            return "InconsistentQuantities: \(message ?? "")"
-        case .invalidArgument(let message):
-            return "InvalidArgument: \(message ?? "")"
-        case .invalidDefaultRootObject(let message):
-            return "InvalidDefaultRootObject: \(message ?? "")"
-        case .invalidErrorCode(let message):
-            return "InvalidErrorCode: \(message ?? "")"
-        case .invalidForwardCookies(let message):
-            return "InvalidForwardCookies: \(message ?? "")"
-        case .invalidGeoRestrictionParameter(let message):
-            return "InvalidGeoRestrictionParameter: \(message ?? "")"
-        case .invalidHeadersForS3Origin(let message):
-            return "InvalidHeadersForS3Origin: \(message ?? "")"
-        case .invalidIfMatchVersion(let message):
-            return "InvalidIfMatchVersion: \(message ?? "")"
-        case .invalidLambdaFunctionAssociation(let message):
-            return "InvalidLambdaFunctionAssociation: \(message ?? "")"
-        case .invalidLocationCode(let message):
-            return "InvalidLocationCode: \(message ?? "")"
-        case .invalidMinimumProtocolVersion(let message):
-            return "InvalidMinimumProtocolVersion: \(message ?? "")"
-        case .invalidOrigin(let message):
-            return "InvalidOrigin: \(message ?? "")"
-        case .invalidOriginAccessIdentity(let message):
-            return "InvalidOriginAccessIdentity: \(message ?? "")"
-        case .invalidOriginKeepaliveTimeout(let message):
-            return "InvalidOriginKeepaliveTimeout: \(message ?? "")"
-        case .invalidOriginReadTimeout(let message):
-            return "InvalidOriginReadTimeout: \(message ?? "")"
-        case .invalidProtocolSettings(let message):
-            return "InvalidProtocolSettings: \(message ?? "")"
-        case .invalidQueryStringParameters(let message):
-            return "InvalidQueryStringParameters: \(message ?? "")"
-        case .invalidRelativePath(let message):
-            return "InvalidRelativePath: \(message ?? "")"
-        case .invalidRequiredProtocol(let message):
-            return "InvalidRequiredProtocol: \(message ?? "")"
-        case .invalidResponseCode(let message):
-            return "InvalidResponseCode: \(message ?? "")"
-        case .invalidTTLOrder(let message):
-            return "InvalidTTLOrder: \(message ?? "")"
-        case .invalidTagging(let message):
-            return "InvalidTagging: \(message ?? "")"
-        case .invalidViewerCertificate(let message):
-            return "InvalidViewerCertificate: \(message ?? "")"
-        case .invalidWebACLId(let message):
-            return "InvalidWebACLId: \(message ?? "")"
-        case .missingBody(let message):
-            return "MissingBody: \(message ?? "")"
-        case .noSuchCachePolicy(let message):
-            return "NoSuchCachePolicy: \(message ?? "")"
-        case .noSuchCloudFrontOriginAccessIdentity(let message):
-            return "NoSuchCloudFrontOriginAccessIdentity: \(message ?? "")"
-        case .noSuchDistribution(let message):
-            return "NoSuchDistribution: \(message ?? "")"
-        case .noSuchFieldLevelEncryptionConfig(let message):
-            return "NoSuchFieldLevelEncryptionConfig: \(message ?? "")"
-        case .noSuchFieldLevelEncryptionProfile(let message):
-            return "NoSuchFieldLevelEncryptionProfile: \(message ?? "")"
-        case .noSuchInvalidation(let message):
-            return "NoSuchInvalidation: \(message ?? "")"
-        case .noSuchOrigin(let message):
-            return "NoSuchOrigin: \(message ?? "")"
-        case .noSuchOriginRequestPolicy(let message):
-            return "NoSuchOriginRequestPolicy: \(message ?? "")"
-        case .noSuchPublicKey(let message):
-            return "NoSuchPublicKey: \(message ?? "")"
-        case .noSuchRealtimeLogConfig(let message):
-            return "NoSuchRealtimeLogConfig: \(message ?? "")"
-        case .noSuchResource(let message):
-            return "NoSuchResource: \(message ?? "")"
-        case .noSuchStreamingDistribution(let message):
-            return "NoSuchStreamingDistribution: \(message ?? "")"
-        case .originRequestPolicyAlreadyExists(let message):
-            return "OriginRequestPolicyAlreadyExists: \(message ?? "")"
-        case .originRequestPolicyInUse(let message):
-            return "OriginRequestPolicyInUse: \(message ?? "")"
-        case .preconditionFailed(let message):
-            return "PreconditionFailed: \(message ?? "")"
-        case .publicKeyAlreadyExists(let message):
-            return "PublicKeyAlreadyExists: \(message ?? "")"
-        case .publicKeyInUse(let message):
-            return "PublicKeyInUse: \(message ?? "")"
-        case .queryArgProfileEmpty(let message):
-            return "QueryArgProfileEmpty: \(message ?? "")"
-        case .realtimeLogConfigAlreadyExists(let message):
-            return "RealtimeLogConfigAlreadyExists: \(message ?? "")"
-        case .realtimeLogConfigInUse(let message):
-            return "RealtimeLogConfigInUse: \(message ?? "")"
-        case .streamingDistributionAlreadyExists(let message):
-            return "StreamingDistributionAlreadyExists: \(message ?? "")"
-        case .streamingDistributionNotDisabled(let message):
-            return "StreamingDistributionNotDisabled: \(message ?? "")"
-        case .tooManyCacheBehaviors(let message):
-            return "TooManyCacheBehaviors: \(message ?? "")"
-        case .tooManyCachePolicies(let message):
-            return "TooManyCachePolicies: \(message ?? "")"
-        case .tooManyCertificates(let message):
-            return "TooManyCertificates: \(message ?? "")"
-        case .tooManyCloudFrontOriginAccessIdentities(let message):
-            return "TooManyCloudFrontOriginAccessIdentities: \(message ?? "")"
-        case .tooManyCookieNamesInWhiteList(let message):
-            return "TooManyCookieNamesInWhiteList: \(message ?? "")"
-        case .tooManyCookiesInCachePolicy(let message):
-            return "TooManyCookiesInCachePolicy: \(message ?? "")"
-        case .tooManyCookiesInOriginRequestPolicy(let message):
-            return "TooManyCookiesInOriginRequestPolicy: \(message ?? "")"
-        case .tooManyDistributionCNAMEs(let message):
-            return "TooManyDistributionCNAMEs: \(message ?? "")"
-        case .tooManyDistributions(let message):
-            return "TooManyDistributions: \(message ?? "")"
-        case .tooManyDistributionsAssociatedToCachePolicy(let message):
-            return "TooManyDistributionsAssociatedToCachePolicy: \(message ?? "")"
-        case .tooManyDistributionsAssociatedToFieldLevelEncryptionConfig(let message):
-            return "TooManyDistributionsAssociatedToFieldLevelEncryptionConfig: \(message ?? "")"
-        case .tooManyDistributionsAssociatedToOriginRequestPolicy(let message):
-            return "TooManyDistributionsAssociatedToOriginRequestPolicy: \(message ?? "")"
-        case .tooManyDistributionsWithLambdaAssociations(let message):
-            return "TooManyDistributionsWithLambdaAssociations: \(message ?? "")"
-        case .tooManyDistributionsWithSingleFunctionARN(let message):
-            return "TooManyDistributionsWithSingleFunctionARN: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionConfigs(let message):
-            return "TooManyFieldLevelEncryptionConfigs: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionContentTypeProfiles(let message):
-            return "TooManyFieldLevelEncryptionContentTypeProfiles: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionEncryptionEntities(let message):
-            return "TooManyFieldLevelEncryptionEncryptionEntities: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionFieldPatterns(let message):
-            return "TooManyFieldLevelEncryptionFieldPatterns: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionProfiles(let message):
-            return "TooManyFieldLevelEncryptionProfiles: \(message ?? "")"
-        case .tooManyFieldLevelEncryptionQueryArgProfiles(let message):
-            return "TooManyFieldLevelEncryptionQueryArgProfiles: \(message ?? "")"
-        case .tooManyHeadersInCachePolicy(let message):
-            return "TooManyHeadersInCachePolicy: \(message ?? "")"
-        case .tooManyHeadersInForwardedValues(let message):
-            return "TooManyHeadersInForwardedValues: \(message ?? "")"
-        case .tooManyHeadersInOriginRequestPolicy(let message):
-            return "TooManyHeadersInOriginRequestPolicy: \(message ?? "")"
-        case .tooManyInvalidationsInProgress(let message):
-            return "TooManyInvalidationsInProgress: \(message ?? "")"
-        case .tooManyLambdaFunctionAssociations(let message):
-            return "TooManyLambdaFunctionAssociations: \(message ?? "")"
-        case .tooManyOriginCustomHeaders(let message):
-            return "TooManyOriginCustomHeaders: \(message ?? "")"
-        case .tooManyOriginGroupsPerDistribution(let message):
-            return "TooManyOriginGroupsPerDistribution: \(message ?? "")"
-        case .tooManyOriginRequestPolicies(let message):
-            return "TooManyOriginRequestPolicies: \(message ?? "")"
-        case .tooManyOrigins(let message):
-            return "TooManyOrigins: \(message ?? "")"
-        case .tooManyPublicKeys(let message):
-            return "TooManyPublicKeys: \(message ?? "")"
-        case .tooManyQueryStringParameters(let message):
-            return "TooManyQueryStringParameters: \(message ?? "")"
-        case .tooManyQueryStringsInCachePolicy(let message):
-            return "TooManyQueryStringsInCachePolicy: \(message ?? "")"
-        case .tooManyQueryStringsInOriginRequestPolicy(let message):
-            return "TooManyQueryStringsInOriginRequestPolicy: \(message ?? "")"
-        case .tooManyRealtimeLogConfigs(let message):
-            return "TooManyRealtimeLogConfigs: \(message ?? "")"
-        case .tooManyStreamingDistributionCNAMEs(let message):
-            return "TooManyStreamingDistributionCNAMEs: \(message ?? "")"
-        case .tooManyStreamingDistributions(let message):
-            return "TooManyStreamingDistributions: \(message ?? "")"
-        case .tooManyTrustedSigners(let message):
-            return "TooManyTrustedSigners: \(message ?? "")"
-        case .trustedSignerDoesNotExist(let message):
-            return "TrustedSignerDoesNotExist: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

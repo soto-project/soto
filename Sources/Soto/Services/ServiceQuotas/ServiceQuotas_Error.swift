@@ -17,100 +17,68 @@
 import SotoCore
 
 /// Error enum for ServiceQuotas
-public enum ServiceQuotasErrorType: AWSErrorType {
-    case aWSServiceAccessNotEnabledException(message: String?)
-    case accessDeniedException(message: String?)
-    case dependencyAccessDeniedException(message: String?)
-    case illegalArgumentException(message: String?)
-    case invalidPaginationTokenException(message: String?)
-    case invalidResourceStateException(message: String?)
-    case noAvailableOrganizationException(message: String?)
-    case noSuchResourceException(message: String?)
-    case organizationNotInAllFeaturesModeException(message: String?)
-    case quotaExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case serviceException(message: String?)
-    case serviceQuotaTemplateNotInUseException(message: String?)
-    case templatesNotAvailableInRegionException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct ServiceQuotasErrorType: AWSErrorType {
+    enum Code: String {
+        case aWSServiceAccessNotEnabledException = "AWSServiceAccessNotEnabledException"
+        case accessDeniedException = "AccessDeniedException"
+        case dependencyAccessDeniedException = "DependencyAccessDeniedException"
+        case illegalArgumentException = "IllegalArgumentException"
+        case invalidPaginationTokenException = "InvalidPaginationTokenException"
+        case invalidResourceStateException = "InvalidResourceStateException"
+        case noAvailableOrganizationException = "NoAvailableOrganizationException"
+        case noSuchResourceException = "NoSuchResourceException"
+        case organizationNotInAllFeaturesModeException = "OrganizationNotInAllFeaturesModeException"
+        case quotaExceededException = "QuotaExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case serviceException = "ServiceException"
+        case serviceQuotaTemplateNotInUseException = "ServiceQuotaTemplateNotInUseException"
+        case templatesNotAvailableInRegionException = "TemplatesNotAvailableInRegionException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension ServiceQuotasErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AWSServiceAccessNotEnabledException":
-            self = .aWSServiceAccessNotEnabledException(message: message)
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "DependencyAccessDeniedException":
-            self = .dependencyAccessDeniedException(message: message)
-        case "IllegalArgumentException":
-            self = .illegalArgumentException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
-        case "InvalidResourceStateException":
-            self = .invalidResourceStateException(message: message)
-        case "NoAvailableOrganizationException":
-            self = .noAvailableOrganizationException(message: message)
-        case "NoSuchResourceException":
-            self = .noSuchResourceException(message: message)
-        case "OrganizationNotInAllFeaturesModeException":
-            self = .organizationNotInAllFeaturesModeException(message: message)
-        case "QuotaExceededException":
-            self = .quotaExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ServiceException":
-            self = .serviceException(message: message)
-        case "ServiceQuotaTemplateNotInUseException":
-            self = .serviceQuotaTemplateNotInUseException(message: message)
-        case "TemplatesNotAvailableInRegionException":
-            self = .templatesNotAvailableInRegionException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var aWSServiceAccessNotEnabledException: Self { .init(.aWSServiceAccessNotEnabledException) }
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var dependencyAccessDeniedException: Self { .init(.dependencyAccessDeniedException) }
+    public static var illegalArgumentException: Self { .init(.illegalArgumentException) }
+    public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
+    public static var invalidResourceStateException: Self { .init(.invalidResourceStateException) }
+    public static var noAvailableOrganizationException: Self { .init(.noAvailableOrganizationException) }
+    public static var noSuchResourceException: Self { .init(.noSuchResourceException) }
+    public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
+    public static var quotaExceededException: Self { .init(.quotaExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var serviceException: Self { .init(.serviceException) }
+    public static var serviceQuotaTemplateNotInUseException: Self { .init(.serviceQuotaTemplateNotInUseException) }
+    public static var templatesNotAvailableInRegionException: Self { .init(.templatesNotAvailableInRegionException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension ServiceQuotasErrorType: Equatable {
+    public static func == (lhs: ServiceQuotasErrorType, rhs: ServiceQuotasErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ServiceQuotasErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .aWSServiceAccessNotEnabledException(let message):
-            return "AWSServiceAccessNotEnabledException: \(message ?? "")"
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .dependencyAccessDeniedException(let message):
-            return "DependencyAccessDeniedException: \(message ?? "")"
-        case .illegalArgumentException(let message):
-            return "IllegalArgumentException: \(message ?? "")"
-        case .invalidPaginationTokenException(let message):
-            return "InvalidPaginationTokenException: \(message ?? "")"
-        case .invalidResourceStateException(let message):
-            return "InvalidResourceStateException: \(message ?? "")"
-        case .noAvailableOrganizationException(let message):
-            return "NoAvailableOrganizationException: \(message ?? "")"
-        case .noSuchResourceException(let message):
-            return "NoSuchResourceException: \(message ?? "")"
-        case .organizationNotInAllFeaturesModeException(let message):
-            return "OrganizationNotInAllFeaturesModeException: \(message ?? "")"
-        case .quotaExceededException(let message):
-            return "QuotaExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .serviceException(let message):
-            return "ServiceException: \(message ?? "")"
-        case .serviceQuotaTemplateNotInUseException(let message):
-            return "ServiceQuotaTemplateNotInUseException: \(message ?? "")"
-        case .templatesNotAvailableInRegionException(let message):
-            return "TemplatesNotAvailableInRegionException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,165 +17,94 @@
 import SotoCore
 
 /// Error enum for ECR
-public enum ECRErrorType: AWSErrorType {
-    case emptyUploadException(message: String?)
-    case imageAlreadyExistsException(message: String?)
-    case imageDigestDoesNotMatchException(message: String?)
-    case imageNotFoundException(message: String?)
-    case imageTagAlreadyExistsException(message: String?)
-    case invalidLayerException(message: String?)
-    case invalidLayerPartException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidTagParameterException(message: String?)
-    case kmsException(message: String?)
-    case layerAlreadyExistsException(message: String?)
-    case layerInaccessibleException(message: String?)
-    case layerPartTooSmallException(message: String?)
-    case layersNotFoundException(message: String?)
-    case lifecyclePolicyNotFoundException(message: String?)
-    case lifecyclePolicyPreviewInProgressException(message: String?)
-    case lifecyclePolicyPreviewNotFoundException(message: String?)
-    case limitExceededException(message: String?)
-    case referencedImagesNotFoundException(message: String?)
-    case repositoryAlreadyExistsException(message: String?)
-    case repositoryNotEmptyException(message: String?)
-    case repositoryNotFoundException(message: String?)
-    case repositoryPolicyNotFoundException(message: String?)
-    case scanNotFoundException(message: String?)
-    case serverException(message: String?)
-    case tooManyTagsException(message: String?)
-    case unsupportedImageTypeException(message: String?)
-    case uploadNotFoundException(message: String?)
-}
+public struct ECRErrorType: AWSErrorType {
+    enum Code: String {
+        case emptyUploadException = "EmptyUploadException"
+        case imageAlreadyExistsException = "ImageAlreadyExistsException"
+        case imageDigestDoesNotMatchException = "ImageDigestDoesNotMatchException"
+        case imageNotFoundException = "ImageNotFoundException"
+        case imageTagAlreadyExistsException = "ImageTagAlreadyExistsException"
+        case invalidLayerException = "InvalidLayerException"
+        case invalidLayerPartException = "InvalidLayerPartException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidTagParameterException = "InvalidTagParameterException"
+        case kmsException = "KmsException"
+        case layerAlreadyExistsException = "LayerAlreadyExistsException"
+        case layerInaccessibleException = "LayerInaccessibleException"
+        case layerPartTooSmallException = "LayerPartTooSmallException"
+        case layersNotFoundException = "LayersNotFoundException"
+        case lifecyclePolicyNotFoundException = "LifecyclePolicyNotFoundException"
+        case lifecyclePolicyPreviewInProgressException = "LifecyclePolicyPreviewInProgressException"
+        case lifecyclePolicyPreviewNotFoundException = "LifecyclePolicyPreviewNotFoundException"
+        case limitExceededException = "LimitExceededException"
+        case referencedImagesNotFoundException = "ReferencedImagesNotFoundException"
+        case repositoryAlreadyExistsException = "RepositoryAlreadyExistsException"
+        case repositoryNotEmptyException = "RepositoryNotEmptyException"
+        case repositoryNotFoundException = "RepositoryNotFoundException"
+        case repositoryPolicyNotFoundException = "RepositoryPolicyNotFoundException"
+        case scanNotFoundException = "ScanNotFoundException"
+        case serverException = "ServerException"
+        case tooManyTagsException = "TooManyTagsException"
+        case unsupportedImageTypeException = "UnsupportedImageTypeException"
+        case uploadNotFoundException = "UploadNotFoundException"
+    }
 
-extension ECRErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "EmptyUploadException":
-            self = .emptyUploadException(message: message)
-        case "ImageAlreadyExistsException":
-            self = .imageAlreadyExistsException(message: message)
-        case "ImageDigestDoesNotMatchException":
-            self = .imageDigestDoesNotMatchException(message: message)
-        case "ImageNotFoundException":
-            self = .imageNotFoundException(message: message)
-        case "ImageTagAlreadyExistsException":
-            self = .imageTagAlreadyExistsException(message: message)
-        case "InvalidLayerException":
-            self = .invalidLayerException(message: message)
-        case "InvalidLayerPartException":
-            self = .invalidLayerPartException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidTagParameterException":
-            self = .invalidTagParameterException(message: message)
-        case "KmsException":
-            self = .kmsException(message: message)
-        case "LayerAlreadyExistsException":
-            self = .layerAlreadyExistsException(message: message)
-        case "LayerInaccessibleException":
-            self = .layerInaccessibleException(message: message)
-        case "LayerPartTooSmallException":
-            self = .layerPartTooSmallException(message: message)
-        case "LayersNotFoundException":
-            self = .layersNotFoundException(message: message)
-        case "LifecyclePolicyNotFoundException":
-            self = .lifecyclePolicyNotFoundException(message: message)
-        case "LifecyclePolicyPreviewInProgressException":
-            self = .lifecyclePolicyPreviewInProgressException(message: message)
-        case "LifecyclePolicyPreviewNotFoundException":
-            self = .lifecyclePolicyPreviewNotFoundException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ReferencedImagesNotFoundException":
-            self = .referencedImagesNotFoundException(message: message)
-        case "RepositoryAlreadyExistsException":
-            self = .repositoryAlreadyExistsException(message: message)
-        case "RepositoryNotEmptyException":
-            self = .repositoryNotEmptyException(message: message)
-        case "RepositoryNotFoundException":
-            self = .repositoryNotFoundException(message: message)
-        case "RepositoryPolicyNotFoundException":
-            self = .repositoryPolicyNotFoundException(message: message)
-        case "ScanNotFoundException":
-            self = .scanNotFoundException(message: message)
-        case "ServerException":
-            self = .serverException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        case "UnsupportedImageTypeException":
-            self = .unsupportedImageTypeException(message: message)
-        case "UploadNotFoundException":
-            self = .uploadNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var emptyUploadException: Self { .init(.emptyUploadException) }
+    public static var imageAlreadyExistsException: Self { .init(.imageAlreadyExistsException) }
+    public static var imageDigestDoesNotMatchException: Self { .init(.imageDigestDoesNotMatchException) }
+    public static var imageNotFoundException: Self { .init(.imageNotFoundException) }
+    public static var imageTagAlreadyExistsException: Self { .init(.imageTagAlreadyExistsException) }
+    public static var invalidLayerException: Self { .init(.invalidLayerException) }
+    public static var invalidLayerPartException: Self { .init(.invalidLayerPartException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidTagParameterException: Self { .init(.invalidTagParameterException) }
+    public static var kmsException: Self { .init(.kmsException) }
+    public static var layerAlreadyExistsException: Self { .init(.layerAlreadyExistsException) }
+    public static var layerInaccessibleException: Self { .init(.layerInaccessibleException) }
+    public static var layerPartTooSmallException: Self { .init(.layerPartTooSmallException) }
+    public static var layersNotFoundException: Self { .init(.layersNotFoundException) }
+    public static var lifecyclePolicyNotFoundException: Self { .init(.lifecyclePolicyNotFoundException) }
+    public static var lifecyclePolicyPreviewInProgressException: Self { .init(.lifecyclePolicyPreviewInProgressException) }
+    public static var lifecyclePolicyPreviewNotFoundException: Self { .init(.lifecyclePolicyPreviewNotFoundException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }
+    public static var repositoryAlreadyExistsException: Self { .init(.repositoryAlreadyExistsException) }
+    public static var repositoryNotEmptyException: Self { .init(.repositoryNotEmptyException) }
+    public static var repositoryNotFoundException: Self { .init(.repositoryNotFoundException) }
+    public static var repositoryPolicyNotFoundException: Self { .init(.repositoryPolicyNotFoundException) }
+    public static var scanNotFoundException: Self { .init(.scanNotFoundException) }
+    public static var serverException: Self { .init(.serverException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
+    public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }
+}
+
+extension ECRErrorType: Equatable {
+    public static func == (lhs: ECRErrorType, rhs: ECRErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ECRErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .emptyUploadException(let message):
-            return "EmptyUploadException: \(message ?? "")"
-        case .imageAlreadyExistsException(let message):
-            return "ImageAlreadyExistsException: \(message ?? "")"
-        case .imageDigestDoesNotMatchException(let message):
-            return "ImageDigestDoesNotMatchException: \(message ?? "")"
-        case .imageNotFoundException(let message):
-            return "ImageNotFoundException: \(message ?? "")"
-        case .imageTagAlreadyExistsException(let message):
-            return "ImageTagAlreadyExistsException: \(message ?? "")"
-        case .invalidLayerException(let message):
-            return "InvalidLayerException: \(message ?? "")"
-        case .invalidLayerPartException(let message):
-            return "InvalidLayerPartException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidTagParameterException(let message):
-            return "InvalidTagParameterException: \(message ?? "")"
-        case .kmsException(let message):
-            return "KmsException: \(message ?? "")"
-        case .layerAlreadyExistsException(let message):
-            return "LayerAlreadyExistsException: \(message ?? "")"
-        case .layerInaccessibleException(let message):
-            return "LayerInaccessibleException: \(message ?? "")"
-        case .layerPartTooSmallException(let message):
-            return "LayerPartTooSmallException: \(message ?? "")"
-        case .layersNotFoundException(let message):
-            return "LayersNotFoundException: \(message ?? "")"
-        case .lifecyclePolicyNotFoundException(let message):
-            return "LifecyclePolicyNotFoundException: \(message ?? "")"
-        case .lifecyclePolicyPreviewInProgressException(let message):
-            return "LifecyclePolicyPreviewInProgressException: \(message ?? "")"
-        case .lifecyclePolicyPreviewNotFoundException(let message):
-            return "LifecyclePolicyPreviewNotFoundException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .referencedImagesNotFoundException(let message):
-            return "ReferencedImagesNotFoundException: \(message ?? "")"
-        case .repositoryAlreadyExistsException(let message):
-            return "RepositoryAlreadyExistsException: \(message ?? "")"
-        case .repositoryNotEmptyException(let message):
-            return "RepositoryNotEmptyException: \(message ?? "")"
-        case .repositoryNotFoundException(let message):
-            return "RepositoryNotFoundException: \(message ?? "")"
-        case .repositoryPolicyNotFoundException(let message):
-            return "RepositoryPolicyNotFoundException: \(message ?? "")"
-        case .scanNotFoundException(let message):
-            return "ScanNotFoundException: \(message ?? "")"
-        case .serverException(let message):
-            return "ServerException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        case .unsupportedImageTypeException(let message):
-            return "UnsupportedImageTypeException: \(message ?? "")"
-        case .uploadNotFoundException(let message):
-            return "UploadNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

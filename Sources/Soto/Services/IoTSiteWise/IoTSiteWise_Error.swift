@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for IoTSiteWise
-public enum IoTSiteWiseErrorType: AWSErrorType {
-    case conflictingOperationException(message: String?)
-    case internalFailureException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttlingException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct IoTSiteWiseErrorType: AWSErrorType {
+    enum Code: String {
+        case conflictingOperationException = "ConflictingOperationException"
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension IoTSiteWiseErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConflictingOperationException":
-            self = .conflictingOperationException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var conflictingOperationException: Self { .init(.conflictingOperationException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension IoTSiteWiseErrorType: Equatable {
+    public static func == (lhs: IoTSiteWiseErrorType, rhs: IoTSiteWiseErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoTSiteWiseErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .conflictingOperationException(let message):
-            return "ConflictingOperationException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

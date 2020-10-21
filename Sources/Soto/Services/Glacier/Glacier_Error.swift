@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Glacier
-public enum GlacierErrorType: AWSErrorType {
-    case insufficientCapacityException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case limitExceededException(message: String?)
-    case missingParameterValueException(message: String?)
-    case policyEnforcedException(message: String?)
-    case requestTimeoutException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-}
+public struct GlacierErrorType: AWSErrorType {
+    enum Code: String {
+        case insufficientCapacityException = "InsufficientCapacityException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case limitExceededException = "LimitExceededException"
+        case missingParameterValueException = "MissingParameterValueException"
+        case policyEnforcedException = "PolicyEnforcedException"
+        case requestTimeoutException = "RequestTimeoutException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+    }
 
-extension GlacierErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InsufficientCapacityException":
-            self = .insufficientCapacityException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MissingParameterValueException":
-            self = .missingParameterValueException(message: message)
-        case "PolicyEnforcedException":
-            self = .policyEnforcedException(message: message)
-        case "RequestTimeoutException":
-            self = .requestTimeoutException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var missingParameterValueException: Self { .init(.missingParameterValueException) }
+    public static var policyEnforcedException: Self { .init(.policyEnforcedException) }
+    public static var requestTimeoutException: Self { .init(.requestTimeoutException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension GlacierErrorType: Equatable {
+    public static func == (lhs: GlacierErrorType, rhs: GlacierErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GlacierErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .insufficientCapacityException(let message):
-            return "InsufficientCapacityException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .missingParameterValueException(let message):
-            return "MissingParameterValueException: \(message ?? "")"
-        case .policyEnforcedException(let message):
-            return "PolicyEnforcedException: \(message ?? "")"
-        case .requestTimeoutException(let message):
-            return "RequestTimeoutException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for FMS
-public enum FMSErrorType: AWSErrorType {
-    case internalErrorException(message: String?)
-    case invalidInputException(message: String?)
-    case invalidOperationException(message: String?)
-    case invalidTypeException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct FMSErrorType: AWSErrorType {
+    enum Code: String {
+        case internalErrorException = "InternalErrorException"
+        case invalidInputException = "InvalidInputException"
+        case invalidOperationException = "InvalidOperationException"
+        case invalidTypeException = "InvalidTypeException"
+        case limitExceededException = "LimitExceededException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension FMSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "InvalidTypeException":
-            self = .invalidTypeException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var invalidTypeException: Self { .init(.invalidTypeException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension FMSErrorType: Equatable {
+    public static func == (lhs: FMSErrorType, rhs: FMSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension FMSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .invalidTypeException(let message):
-            return "InvalidTypeException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

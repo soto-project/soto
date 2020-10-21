@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for PinpointEmail
-public enum PinpointEmailErrorType: AWSErrorType {
-    case accountSuspendedException(message: String?)
-    case alreadyExistsException(message: String?)
-    case badRequestException(message: String?)
-    case concurrentModificationException(message: String?)
-    case limitExceededException(message: String?)
-    case mailFromDomainNotVerifiedException(message: String?)
-    case messageRejected(message: String?)
-    case notFoundException(message: String?)
-    case sendingPausedException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct PinpointEmailErrorType: AWSErrorType {
+    enum Code: String {
+        case accountSuspendedException = "AccountSuspendedException"
+        case alreadyExistsException = "AlreadyExistsException"
+        case badRequestException = "BadRequestException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case limitExceededException = "LimitExceededException"
+        case mailFromDomainNotVerifiedException = "MailFromDomainNotVerifiedException"
+        case messageRejected = "MessageRejected"
+        case notFoundException = "NotFoundException"
+        case sendingPausedException = "SendingPausedException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension PinpointEmailErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccountSuspendedException":
-            self = .accountSuspendedException(message: message)
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MailFromDomainNotVerifiedException":
-            self = .mailFromDomainNotVerifiedException(message: message)
-        case "MessageRejected":
-            self = .messageRejected(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "SendingPausedException":
-            self = .sendingPausedException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accountSuspendedException: Self { .init(.accountSuspendedException) }
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var mailFromDomainNotVerifiedException: Self { .init(.mailFromDomainNotVerifiedException) }
+    public static var messageRejected: Self { .init(.messageRejected) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var sendingPausedException: Self { .init(.sendingPausedException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension PinpointEmailErrorType: Equatable {
+    public static func == (lhs: PinpointEmailErrorType, rhs: PinpointEmailErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PinpointEmailErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accountSuspendedException(let message):
-            return "AccountSuspendedException: \(message ?? "")"
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .mailFromDomainNotVerifiedException(let message):
-            return "MailFromDomainNotVerifiedException: \(message ?? "")"
-        case .messageRejected(let message):
-            return "MessageRejected: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .sendingPausedException(let message):
-            return "SendingPausedException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

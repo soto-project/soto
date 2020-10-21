@@ -17,145 +17,86 @@
 import SotoCore
 
 /// Error enum for SFN
-public enum SFNErrorType: AWSErrorType {
-    case activityDoesNotExist(message: String?)
-    case activityLimitExceeded(message: String?)
-    case activityWorkerLimitExceeded(message: String?)
-    case executionAlreadyExists(message: String?)
-    case executionDoesNotExist(message: String?)
-    case executionLimitExceeded(message: String?)
-    case invalidArn(message: String?)
-    case invalidDefinition(message: String?)
-    case invalidExecutionInput(message: String?)
-    case invalidLoggingConfiguration(message: String?)
-    case invalidName(message: String?)
-    case invalidOutput(message: String?)
-    case invalidToken(message: String?)
-    case invalidTracingConfiguration(message: String?)
-    case missingRequiredParameter(message: String?)
-    case resourceNotFound(message: String?)
-    case stateMachineAlreadyExists(message: String?)
-    case stateMachineDeleting(message: String?)
-    case stateMachineDoesNotExist(message: String?)
-    case stateMachineLimitExceeded(message: String?)
-    case stateMachineTypeNotSupported(message: String?)
-    case taskDoesNotExist(message: String?)
-    case taskTimedOut(message: String?)
-    case tooManyTags(message: String?)
-}
+public struct SFNErrorType: AWSErrorType {
+    enum Code: String {
+        case activityDoesNotExist = "ActivityDoesNotExist"
+        case activityLimitExceeded = "ActivityLimitExceeded"
+        case activityWorkerLimitExceeded = "ActivityWorkerLimitExceeded"
+        case executionAlreadyExists = "ExecutionAlreadyExists"
+        case executionDoesNotExist = "ExecutionDoesNotExist"
+        case executionLimitExceeded = "ExecutionLimitExceeded"
+        case invalidArn = "InvalidArn"
+        case invalidDefinition = "InvalidDefinition"
+        case invalidExecutionInput = "InvalidExecutionInput"
+        case invalidLoggingConfiguration = "InvalidLoggingConfiguration"
+        case invalidName = "InvalidName"
+        case invalidOutput = "InvalidOutput"
+        case invalidToken = "InvalidToken"
+        case invalidTracingConfiguration = "InvalidTracingConfiguration"
+        case missingRequiredParameter = "MissingRequiredParameter"
+        case resourceNotFound = "ResourceNotFound"
+        case stateMachineAlreadyExists = "StateMachineAlreadyExists"
+        case stateMachineDeleting = "StateMachineDeleting"
+        case stateMachineDoesNotExist = "StateMachineDoesNotExist"
+        case stateMachineLimitExceeded = "StateMachineLimitExceeded"
+        case stateMachineTypeNotSupported = "StateMachineTypeNotSupported"
+        case taskDoesNotExist = "TaskDoesNotExist"
+        case taskTimedOut = "TaskTimedOut"
+        case tooManyTags = "TooManyTags"
+    }
 
-extension SFNErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ActivityDoesNotExist":
-            self = .activityDoesNotExist(message: message)
-        case "ActivityLimitExceeded":
-            self = .activityLimitExceeded(message: message)
-        case "ActivityWorkerLimitExceeded":
-            self = .activityWorkerLimitExceeded(message: message)
-        case "ExecutionAlreadyExists":
-            self = .executionAlreadyExists(message: message)
-        case "ExecutionDoesNotExist":
-            self = .executionDoesNotExist(message: message)
-        case "ExecutionLimitExceeded":
-            self = .executionLimitExceeded(message: message)
-        case "InvalidArn":
-            self = .invalidArn(message: message)
-        case "InvalidDefinition":
-            self = .invalidDefinition(message: message)
-        case "InvalidExecutionInput":
-            self = .invalidExecutionInput(message: message)
-        case "InvalidLoggingConfiguration":
-            self = .invalidLoggingConfiguration(message: message)
-        case "InvalidName":
-            self = .invalidName(message: message)
-        case "InvalidOutput":
-            self = .invalidOutput(message: message)
-        case "InvalidToken":
-            self = .invalidToken(message: message)
-        case "InvalidTracingConfiguration":
-            self = .invalidTracingConfiguration(message: message)
-        case "MissingRequiredParameter":
-            self = .missingRequiredParameter(message: message)
-        case "ResourceNotFound":
-            self = .resourceNotFound(message: message)
-        case "StateMachineAlreadyExists":
-            self = .stateMachineAlreadyExists(message: message)
-        case "StateMachineDeleting":
-            self = .stateMachineDeleting(message: message)
-        case "StateMachineDoesNotExist":
-            self = .stateMachineDoesNotExist(message: message)
-        case "StateMachineLimitExceeded":
-            self = .stateMachineLimitExceeded(message: message)
-        case "StateMachineTypeNotSupported":
-            self = .stateMachineTypeNotSupported(message: message)
-        case "TaskDoesNotExist":
-            self = .taskDoesNotExist(message: message)
-        case "TaskTimedOut":
-            self = .taskTimedOut(message: message)
-        case "TooManyTags":
-            self = .tooManyTags(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var activityDoesNotExist: Self { .init(.activityDoesNotExist) }
+    public static var activityLimitExceeded: Self { .init(.activityLimitExceeded) }
+    public static var activityWorkerLimitExceeded: Self { .init(.activityWorkerLimitExceeded) }
+    public static var executionAlreadyExists: Self { .init(.executionAlreadyExists) }
+    public static var executionDoesNotExist: Self { .init(.executionDoesNotExist) }
+    public static var executionLimitExceeded: Self { .init(.executionLimitExceeded) }
+    public static var invalidArn: Self { .init(.invalidArn) }
+    public static var invalidDefinition: Self { .init(.invalidDefinition) }
+    public static var invalidExecutionInput: Self { .init(.invalidExecutionInput) }
+    public static var invalidLoggingConfiguration: Self { .init(.invalidLoggingConfiguration) }
+    public static var invalidName: Self { .init(.invalidName) }
+    public static var invalidOutput: Self { .init(.invalidOutput) }
+    public static var invalidToken: Self { .init(.invalidToken) }
+    public static var invalidTracingConfiguration: Self { .init(.invalidTracingConfiguration) }
+    public static var missingRequiredParameter: Self { .init(.missingRequiredParameter) }
+    public static var resourceNotFound: Self { .init(.resourceNotFound) }
+    public static var stateMachineAlreadyExists: Self { .init(.stateMachineAlreadyExists) }
+    public static var stateMachineDeleting: Self { .init(.stateMachineDeleting) }
+    public static var stateMachineDoesNotExist: Self { .init(.stateMachineDoesNotExist) }
+    public static var stateMachineLimitExceeded: Self { .init(.stateMachineLimitExceeded) }
+    public static var stateMachineTypeNotSupported: Self { .init(.stateMachineTypeNotSupported) }
+    public static var taskDoesNotExist: Self { .init(.taskDoesNotExist) }
+    public static var taskTimedOut: Self { .init(.taskTimedOut) }
+    public static var tooManyTags: Self { .init(.tooManyTags) }
+}
+
+extension SFNErrorType: Equatable {
+    public static func == (lhs: SFNErrorType, rhs: SFNErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SFNErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .activityDoesNotExist(let message):
-            return "ActivityDoesNotExist: \(message ?? "")"
-        case .activityLimitExceeded(let message):
-            return "ActivityLimitExceeded: \(message ?? "")"
-        case .activityWorkerLimitExceeded(let message):
-            return "ActivityWorkerLimitExceeded: \(message ?? "")"
-        case .executionAlreadyExists(let message):
-            return "ExecutionAlreadyExists: \(message ?? "")"
-        case .executionDoesNotExist(let message):
-            return "ExecutionDoesNotExist: \(message ?? "")"
-        case .executionLimitExceeded(let message):
-            return "ExecutionLimitExceeded: \(message ?? "")"
-        case .invalidArn(let message):
-            return "InvalidArn: \(message ?? "")"
-        case .invalidDefinition(let message):
-            return "InvalidDefinition: \(message ?? "")"
-        case .invalidExecutionInput(let message):
-            return "InvalidExecutionInput: \(message ?? "")"
-        case .invalidLoggingConfiguration(let message):
-            return "InvalidLoggingConfiguration: \(message ?? "")"
-        case .invalidName(let message):
-            return "InvalidName: \(message ?? "")"
-        case .invalidOutput(let message):
-            return "InvalidOutput: \(message ?? "")"
-        case .invalidToken(let message):
-            return "InvalidToken: \(message ?? "")"
-        case .invalidTracingConfiguration(let message):
-            return "InvalidTracingConfiguration: \(message ?? "")"
-        case .missingRequiredParameter(let message):
-            return "MissingRequiredParameter: \(message ?? "")"
-        case .resourceNotFound(let message):
-            return "ResourceNotFound: \(message ?? "")"
-        case .stateMachineAlreadyExists(let message):
-            return "StateMachineAlreadyExists: \(message ?? "")"
-        case .stateMachineDeleting(let message):
-            return "StateMachineDeleting: \(message ?? "")"
-        case .stateMachineDoesNotExist(let message):
-            return "StateMachineDoesNotExist: \(message ?? "")"
-        case .stateMachineLimitExceeded(let message):
-            return "StateMachineLimitExceeded: \(message ?? "")"
-        case .stateMachineTypeNotSupported(let message):
-            return "StateMachineTypeNotSupported: \(message ?? "")"
-        case .taskDoesNotExist(let message):
-            return "TaskDoesNotExist: \(message ?? "")"
-        case .taskTimedOut(let message):
-            return "TaskTimedOut: \(message ?? "")"
-        case .tooManyTags(let message):
-            return "TooManyTags: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

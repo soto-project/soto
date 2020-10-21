@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for IoTJobsDataPlane
-public enum IoTJobsDataPlaneErrorType: AWSErrorType {
-    case certificateValidationException(message: String?)
-    case invalidRequestException(message: String?)
-    case invalidStateTransitionException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case terminalStateException(message: String?)
-    case throttlingException(message: String?)
-}
+public struct IoTJobsDataPlaneErrorType: AWSErrorType {
+    enum Code: String {
+        case certificateValidationException = "CertificateValidationException"
+        case invalidRequestException = "InvalidRequestException"
+        case invalidStateTransitionException = "InvalidStateTransitionException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case terminalStateException = "TerminalStateException"
+        case throttlingException = "ThrottlingException"
+    }
 
-extension IoTJobsDataPlaneErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CertificateValidationException":
-            self = .certificateValidationException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InvalidStateTransitionException":
-            self = .invalidStateTransitionException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TerminalStateException":
-            self = .terminalStateException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var certificateValidationException: Self { .init(.certificateValidationException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var terminalStateException: Self { .init(.terminalStateException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+}
+
+extension IoTJobsDataPlaneErrorType: Equatable {
+    public static func == (lhs: IoTJobsDataPlaneErrorType, rhs: IoTJobsDataPlaneErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoTJobsDataPlaneErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .certificateValidationException(let message):
-            return "CertificateValidationException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .invalidStateTransitionException(let message):
-            return "InvalidStateTransitionException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .terminalStateException(let message):
-            return "TerminalStateException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

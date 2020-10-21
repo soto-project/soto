@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for CloudSearchDomain
-public enum CloudSearchDomainErrorType: AWSErrorType {
-    case documentServiceException(message: String?)
-    case searchException(message: String?)
-}
+public struct CloudSearchDomainErrorType: AWSErrorType {
+    enum Code: String {
+        case documentServiceException = "DocumentServiceException"
+        case searchException = "SearchException"
+    }
 
-extension CloudSearchDomainErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DocumentServiceException":
-            self = .documentServiceException(message: message)
-        case "SearchException":
-            self = .searchException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var documentServiceException: Self { .init(.documentServiceException) }
+    public static var searchException: Self { .init(.searchException) }
+}
+
+extension CloudSearchDomainErrorType: Equatable {
+    public static func == (lhs: CloudSearchDomainErrorType, rhs: CloudSearchDomainErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudSearchDomainErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .documentServiceException(let message):
-            return "DocumentServiceException: \(message ?? "")"
-        case .searchException(let message):
-            return "SearchException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

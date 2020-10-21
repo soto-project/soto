@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for DataPipeline
-public enum DataPipelineErrorType: AWSErrorType {
-    case internalServiceError(message: String?)
-    case invalidRequestException(message: String?)
-    case pipelineDeletedException(message: String?)
-    case pipelineNotFoundException(message: String?)
-    case taskNotFoundException(message: String?)
-}
+public struct DataPipelineErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServiceError = "InternalServiceError"
+        case invalidRequestException = "InvalidRequestException"
+        case pipelineDeletedException = "PipelineDeletedException"
+        case pipelineNotFoundException = "PipelineNotFoundException"
+        case taskNotFoundException = "TaskNotFoundException"
+    }
 
-extension DataPipelineErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServiceError":
-            self = .internalServiceError(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "PipelineDeletedException":
-            self = .pipelineDeletedException(message: message)
-        case "PipelineNotFoundException":
-            self = .pipelineNotFoundException(message: message)
-        case "TaskNotFoundException":
-            self = .taskNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServiceError: Self { .init(.internalServiceError) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var pipelineDeletedException: Self { .init(.pipelineDeletedException) }
+    public static var pipelineNotFoundException: Self { .init(.pipelineNotFoundException) }
+    public static var taskNotFoundException: Self { .init(.taskNotFoundException) }
+}
+
+extension DataPipelineErrorType: Equatable {
+    public static func == (lhs: DataPipelineErrorType, rhs: DataPipelineErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DataPipelineErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServiceError(let message):
-            return "InternalServiceError: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .pipelineDeletedException(let message):
-            return "PipelineDeletedException: \(message ?? "")"
-        case .pipelineNotFoundException(let message):
-            return "PipelineNotFoundException: \(message ?? "")"
-        case .taskNotFoundException(let message):
-            return "TaskNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

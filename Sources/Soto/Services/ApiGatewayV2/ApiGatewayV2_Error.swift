@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for ApiGatewayV2
-public enum ApiGatewayV2ErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct ApiGatewayV2ErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case notFoundException = "NotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension ApiGatewayV2ErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension ApiGatewayV2ErrorType: Equatable {
+    public static func == (lhs: ApiGatewayV2ErrorType, rhs: ApiGatewayV2ErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ApiGatewayV2ErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

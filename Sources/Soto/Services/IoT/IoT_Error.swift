@@ -17,170 +17,96 @@
 import SotoCore
 
 /// Error enum for IoT
-public enum IoTErrorType: AWSErrorType {
-    case certificateConflictException(message: String?)
-    case certificateStateException(message: String?)
-    case certificateValidationException(message: String?)
-    case conflictingResourceUpdateException(message: String?)
-    case deleteConflictException(message: String?)
-    case indexNotReadyException(message: String?)
-    case internalException(message: String?)
-    case internalFailureException(message: String?)
-    case invalidAggregationException(message: String?)
-    case invalidQueryException(message: String?)
-    case invalidRequestException(message: String?)
-    case invalidResponseException(message: String?)
-    case invalidStateTransitionException(message: String?)
-    case limitExceededException(message: String?)
-    case malformedPolicyException(message: String?)
-    case notConfiguredException(message: String?)
-    case registrationCodeValidationException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourceRegistrationFailureException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case sqlParseException(message: String?)
-    case taskAlreadyExistsException(message: String?)
-    case throttlingException(message: String?)
-    case transferAlreadyCompletedException(message: String?)
-    case transferConflictException(message: String?)
-    case unauthorizedException(message: String?)
-    case versionConflictException(message: String?)
-    case versionsLimitExceededException(message: String?)
-}
+public struct IoTErrorType: AWSErrorType {
+    enum Code: String {
+        case certificateConflictException = "CertificateConflictException"
+        case certificateStateException = "CertificateStateException"
+        case certificateValidationException = "CertificateValidationException"
+        case conflictingResourceUpdateException = "ConflictingResourceUpdateException"
+        case deleteConflictException = "DeleteConflictException"
+        case indexNotReadyException = "IndexNotReadyException"
+        case internalException = "InternalException"
+        case internalFailureException = "InternalFailureException"
+        case invalidAggregationException = "InvalidAggregationException"
+        case invalidQueryException = "InvalidQueryException"
+        case invalidRequestException = "InvalidRequestException"
+        case invalidResponseException = "InvalidResponseException"
+        case invalidStateTransitionException = "InvalidStateTransitionException"
+        case limitExceededException = "LimitExceededException"
+        case malformedPolicyException = "MalformedPolicyException"
+        case notConfiguredException = "NotConfiguredException"
+        case registrationCodeValidationException = "RegistrationCodeValidationException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourceRegistrationFailureException = "ResourceRegistrationFailureException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case sqlParseException = "SqlParseException"
+        case taskAlreadyExistsException = "TaskAlreadyExistsException"
+        case throttlingException = "ThrottlingException"
+        case transferAlreadyCompletedException = "TransferAlreadyCompletedException"
+        case transferConflictException = "TransferConflictException"
+        case unauthorizedException = "UnauthorizedException"
+        case versionConflictException = "VersionConflictException"
+        case versionsLimitExceededException = "VersionsLimitExceededException"
+    }
 
-extension IoTErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CertificateConflictException":
-            self = .certificateConflictException(message: message)
-        case "CertificateStateException":
-            self = .certificateStateException(message: message)
-        case "CertificateValidationException":
-            self = .certificateValidationException(message: message)
-        case "ConflictingResourceUpdateException":
-            self = .conflictingResourceUpdateException(message: message)
-        case "DeleteConflictException":
-            self = .deleteConflictException(message: message)
-        case "IndexNotReadyException":
-            self = .indexNotReadyException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidAggregationException":
-            self = .invalidAggregationException(message: message)
-        case "InvalidQueryException":
-            self = .invalidQueryException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InvalidResponseException":
-            self = .invalidResponseException(message: message)
-        case "InvalidStateTransitionException":
-            self = .invalidStateTransitionException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MalformedPolicyException":
-            self = .malformedPolicyException(message: message)
-        case "NotConfiguredException":
-            self = .notConfiguredException(message: message)
-        case "RegistrationCodeValidationException":
-            self = .registrationCodeValidationException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourceRegistrationFailureException":
-            self = .resourceRegistrationFailureException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "SqlParseException":
-            self = .sqlParseException(message: message)
-        case "TaskAlreadyExistsException":
-            self = .taskAlreadyExistsException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "TransferAlreadyCompletedException":
-            self = .transferAlreadyCompletedException(message: message)
-        case "TransferConflictException":
-            self = .transferConflictException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        case "VersionConflictException":
-            self = .versionConflictException(message: message)
-        case "VersionsLimitExceededException":
-            self = .versionsLimitExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var certificateConflictException: Self { .init(.certificateConflictException) }
+    public static var certificateStateException: Self { .init(.certificateStateException) }
+    public static var certificateValidationException: Self { .init(.certificateValidationException) }
+    public static var conflictingResourceUpdateException: Self { .init(.conflictingResourceUpdateException) }
+    public static var deleteConflictException: Self { .init(.deleteConflictException) }
+    public static var indexNotReadyException: Self { .init(.indexNotReadyException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidAggregationException: Self { .init(.invalidAggregationException) }
+    public static var invalidQueryException: Self { .init(.invalidQueryException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var invalidResponseException: Self { .init(.invalidResponseException) }
+    public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var malformedPolicyException: Self { .init(.malformedPolicyException) }
+    public static var notConfiguredException: Self { .init(.notConfiguredException) }
+    public static var registrationCodeValidationException: Self { .init(.registrationCodeValidationException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourceRegistrationFailureException: Self { .init(.resourceRegistrationFailureException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var sqlParseException: Self { .init(.sqlParseException) }
+    public static var taskAlreadyExistsException: Self { .init(.taskAlreadyExistsException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var transferAlreadyCompletedException: Self { .init(.transferAlreadyCompletedException) }
+    public static var transferConflictException: Self { .init(.transferConflictException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+    public static var versionConflictException: Self { .init(.versionConflictException) }
+    public static var versionsLimitExceededException: Self { .init(.versionsLimitExceededException) }
+}
+
+extension IoTErrorType: Equatable {
+    public static func == (lhs: IoTErrorType, rhs: IoTErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoTErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .certificateConflictException(let message):
-            return "CertificateConflictException: \(message ?? "")"
-        case .certificateStateException(let message):
-            return "CertificateStateException: \(message ?? "")"
-        case .certificateValidationException(let message):
-            return "CertificateValidationException: \(message ?? "")"
-        case .conflictingResourceUpdateException(let message):
-            return "ConflictingResourceUpdateException: \(message ?? "")"
-        case .deleteConflictException(let message):
-            return "DeleteConflictException: \(message ?? "")"
-        case .indexNotReadyException(let message):
-            return "IndexNotReadyException: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidAggregationException(let message):
-            return "InvalidAggregationException: \(message ?? "")"
-        case .invalidQueryException(let message):
-            return "InvalidQueryException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .invalidResponseException(let message):
-            return "InvalidResponseException: \(message ?? "")"
-        case .invalidStateTransitionException(let message):
-            return "InvalidStateTransitionException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .malformedPolicyException(let message):
-            return "MalformedPolicyException: \(message ?? "")"
-        case .notConfiguredException(let message):
-            return "NotConfiguredException: \(message ?? "")"
-        case .registrationCodeValidationException(let message):
-            return "RegistrationCodeValidationException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourceRegistrationFailureException(let message):
-            return "ResourceRegistrationFailureException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .sqlParseException(let message):
-            return "SqlParseException: \(message ?? "")"
-        case .taskAlreadyExistsException(let message):
-            return "TaskAlreadyExistsException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .transferAlreadyCompletedException(let message):
-            return "TransferAlreadyCompletedException: \(message ?? "")"
-        case .transferConflictException(let message):
-            return "TransferConflictException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        case .versionConflictException(let message):
-            return "VersionConflictException: \(message ?? "")"
-        case .versionsLimitExceededException(let message):
-            return "VersionsLimitExceededException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

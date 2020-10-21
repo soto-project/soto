@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for Chime
-public enum ChimeErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case forbiddenException(message: String?)
-    case notFoundException(message: String?)
-    case resourceLimitExceededException(message: String?)
-    case serviceFailureException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case throttledClientException(message: String?)
-    case unauthorizedClientException(message: String?)
-    case unprocessableEntityException(message: String?)
-}
+public struct ChimeErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
+        case notFoundException = "NotFoundException"
+        case resourceLimitExceededException = "ResourceLimitExceededException"
+        case serviceFailureException = "ServiceFailureException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttledClientException = "ThrottledClientException"
+        case unauthorizedClientException = "UnauthorizedClientException"
+        case unprocessableEntityException = "UnprocessableEntityException"
+    }
 
-extension ChimeErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ResourceLimitExceededException":
-            self = .resourceLimitExceededException(message: message)
-        case "ServiceFailureException":
-            self = .serviceFailureException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "ThrottledClientException":
-            self = .throttledClientException(message: message)
-        case "UnauthorizedClientException":
-            self = .unauthorizedClientException(message: message)
-        case "UnprocessableEntityException":
-            self = .unprocessableEntityException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
+    public static var serviceFailureException: Self { .init(.serviceFailureException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var throttledClientException: Self { .init(.throttledClientException) }
+    public static var unauthorizedClientException: Self { .init(.unauthorizedClientException) }
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension ChimeErrorType: Equatable {
+    public static func == (lhs: ChimeErrorType, rhs: ChimeErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ChimeErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .resourceLimitExceededException(let message):
-            return "ResourceLimitExceededException: \(message ?? "")"
-        case .serviceFailureException(let message):
-            return "ServiceFailureException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .throttledClientException(let message):
-            return "ThrottledClientException: \(message ?? "")"
-        case .unauthorizedClientException(let message):
-            return "UnauthorizedClientException: \(message ?? "")"
-        case .unprocessableEntityException(let message):
-            return "UnprocessableEntityException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

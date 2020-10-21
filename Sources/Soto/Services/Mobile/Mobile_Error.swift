@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Mobile
-public enum MobileErrorType: AWSErrorType {
-    case accountActionRequiredException(message: String?)
-    case badRequestException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unauthorizedException(message: String?)
-}
+public struct MobileErrorType: AWSErrorType {
+    enum Code: String {
+        case accountActionRequiredException = "AccountActionRequiredException"
+        case badRequestException = "BadRequestException"
+        case internalFailureException = "InternalFailureException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unauthorizedException = "UnauthorizedException"
+    }
 
-extension MobileErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccountActionRequiredException":
-            self = .accountActionRequiredException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accountActionRequiredException: Self { .init(.accountActionRequiredException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension MobileErrorType: Equatable {
+    public static func == (lhs: MobileErrorType, rhs: MobileErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MobileErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accountActionRequiredException(let message):
-            return "AccountActionRequiredException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

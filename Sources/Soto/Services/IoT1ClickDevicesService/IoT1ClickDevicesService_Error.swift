@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for IoT1ClickDevicesService
-public enum IoT1ClickDevicesServiceErrorType: AWSErrorType {
-    case forbiddenException(message: String?)
-    case internalFailureException(message: String?)
-    case invalidRequestException(message: String?)
-    case preconditionFailedException(message: String?)
-    case rangeNotSatisfiableException(message: String?)
-    case resourceConflictException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct IoT1ClickDevicesServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case forbiddenException = "ForbiddenException"
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case preconditionFailedException = "PreconditionFailedException"
+        case rangeNotSatisfiableException = "RangeNotSatisfiableException"
+        case resourceConflictException = "ResourceConflictException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension IoT1ClickDevicesServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "PreconditionFailedException":
-            self = .preconditionFailedException(message: message)
-        case "RangeNotSatisfiableException":
-            self = .rangeNotSatisfiableException(message: message)
-        case "ResourceConflictException":
-            self = .resourceConflictException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var preconditionFailedException: Self { .init(.preconditionFailedException) }
+    public static var rangeNotSatisfiableException: Self { .init(.rangeNotSatisfiableException) }
+    public static var resourceConflictException: Self { .init(.resourceConflictException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension IoT1ClickDevicesServiceErrorType: Equatable {
+    public static func == (lhs: IoT1ClickDevicesServiceErrorType, rhs: IoT1ClickDevicesServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension IoT1ClickDevicesServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .preconditionFailedException(let message):
-            return "PreconditionFailedException: \(message ?? "")"
-        case .rangeNotSatisfiableException(let message):
-            return "RangeNotSatisfiableException: \(message ?? "")"
-        case .resourceConflictException(let message):
-            return "ResourceConflictException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

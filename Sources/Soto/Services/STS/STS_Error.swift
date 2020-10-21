@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for STS
-public enum STSErrorType: AWSErrorType {
-    case expiredTokenException(message: String?)
-    case iDPCommunicationErrorException(message: String?)
-    case iDPRejectedClaimException(message: String?)
-    case invalidAuthorizationMessageException(message: String?)
-    case invalidIdentityTokenException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case packedPolicyTooLargeException(message: String?)
-    case regionDisabledException(message: String?)
-}
+public struct STSErrorType: AWSErrorType {
+    enum Code: String {
+        case expiredTokenException = "ExpiredTokenException"
+        case iDPCommunicationErrorException = "IDPCommunicationError"
+        case iDPRejectedClaimException = "IDPRejectedClaim"
+        case invalidAuthorizationMessageException = "InvalidAuthorizationMessageException"
+        case invalidIdentityTokenException = "InvalidIdentityToken"
+        case malformedPolicyDocumentException = "MalformedPolicyDocument"
+        case packedPolicyTooLargeException = "PackedPolicyTooLarge"
+        case regionDisabledException = "RegionDisabledException"
+    }
 
-extension STSErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ExpiredTokenException":
-            self = .expiredTokenException(message: message)
-        case "IDPCommunicationError":
-            self = .iDPCommunicationErrorException(message: message)
-        case "IDPRejectedClaim":
-            self = .iDPRejectedClaimException(message: message)
-        case "InvalidAuthorizationMessageException":
-            self = .invalidAuthorizationMessageException(message: message)
-        case "InvalidIdentityToken":
-            self = .invalidIdentityTokenException(message: message)
-        case "MalformedPolicyDocument":
-            self = .malformedPolicyDocumentException(message: message)
-        case "PackedPolicyTooLarge":
-            self = .packedPolicyTooLargeException(message: message)
-        case "RegionDisabledException":
-            self = .regionDisabledException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var expiredTokenException: Self { .init(.expiredTokenException) }
+    public static var iDPCommunicationErrorException: Self { .init(.iDPCommunicationErrorException) }
+    public static var iDPRejectedClaimException: Self { .init(.iDPRejectedClaimException) }
+    public static var invalidAuthorizationMessageException: Self { .init(.invalidAuthorizationMessageException) }
+    public static var invalidIdentityTokenException: Self { .init(.invalidIdentityTokenException) }
+    public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    public static var packedPolicyTooLargeException: Self { .init(.packedPolicyTooLargeException) }
+    public static var regionDisabledException: Self { .init(.regionDisabledException) }
+}
+
+extension STSErrorType: Equatable {
+    public static func == (lhs: STSErrorType, rhs: STSErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension STSErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .expiredTokenException(let message):
-            return "ExpiredTokenException: \(message ?? "")"
-        case .iDPCommunicationErrorException(let message):
-            return "IDPCommunicationError: \(message ?? "")"
-        case .iDPRejectedClaimException(let message):
-            return "IDPRejectedClaim: \(message ?? "")"
-        case .invalidAuthorizationMessageException(let message):
-            return "InvalidAuthorizationMessageException: \(message ?? "")"
-        case .invalidIdentityTokenException(let message):
-            return "InvalidIdentityToken: \(message ?? "")"
-        case .malformedPolicyDocumentException(let message):
-            return "MalformedPolicyDocument: \(message ?? "")"
-        case .packedPolicyTooLargeException(let message):
-            return "PackedPolicyTooLarge: \(message ?? "")"
-        case .regionDisabledException(let message):
-            return "RegionDisabledException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -48,7 +48,7 @@ class IAMTests: XCTestCase {
             }
             .flatMapErrorThrowing { error in
                 switch error {
-                case IAMErrorType.entityAlreadyExistsException:
+                case let error as IAMErrorType where error == .entityAlreadyExistsException:
                     print("User (\(userName)) already exists")
                     return
                 default:
@@ -198,8 +198,8 @@ class IAMTests: XCTestCase {
         let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case IAMErrorType.noSuchEntityException(let message):
-                XCTAssertNotNil(message)
+            case let error as IAMErrorType where error == .noSuchEntityException:
+                XCTAssertNotNil(error.message)
             default:
                 XCTFail("Wrong error: \(error)")
             }

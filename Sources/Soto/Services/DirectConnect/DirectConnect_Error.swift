@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for DirectConnect
-public enum DirectConnectErrorType: AWSErrorType {
-    case directConnectClientException(message: String?)
-    case directConnectServerException(message: String?)
-    case duplicateTagKeysException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct DirectConnectErrorType: AWSErrorType {
+    enum Code: String {
+        case directConnectClientException = "DirectConnectClientException"
+        case directConnectServerException = "DirectConnectServerException"
+        case duplicateTagKeysException = "DuplicateTagKeysException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension DirectConnectErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DirectConnectClientException":
-            self = .directConnectClientException(message: message)
-        case "DirectConnectServerException":
-            self = .directConnectServerException(message: message)
-        case "DuplicateTagKeysException":
-            self = .duplicateTagKeysException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var directConnectClientException: Self { .init(.directConnectClientException) }
+    public static var directConnectServerException: Self { .init(.directConnectServerException) }
+    public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension DirectConnectErrorType: Equatable {
+    public static func == (lhs: DirectConnectErrorType, rhs: DirectConnectErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DirectConnectErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .directConnectClientException(let message):
-            return "DirectConnectClientException: \(message ?? "")"
-        case .directConnectServerException(let message):
-            return "DirectConnectServerException: \(message ?? "")"
-        case .duplicateTagKeysException(let message):
-            return "DuplicateTagKeysException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

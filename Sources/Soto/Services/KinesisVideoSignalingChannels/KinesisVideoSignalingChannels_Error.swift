@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for KinesisVideoSignalingChannels
-public enum KinesisVideoSignalingChannelsErrorType: AWSErrorType {
-    case clientLimitExceededException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidClientException(message: String?)
-    case notAuthorizedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case sessionExpiredException(message: String?)
-}
+public struct KinesisVideoSignalingChannelsErrorType: AWSErrorType {
+    enum Code: String {
+        case clientLimitExceededException = "ClientLimitExceededException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidClientException = "InvalidClientException"
+        case notAuthorizedException = "NotAuthorizedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case sessionExpiredException = "SessionExpiredException"
+    }
 
-extension KinesisVideoSignalingChannelsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ClientLimitExceededException":
-            self = .clientLimitExceededException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidClientException":
-            self = .invalidClientException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "SessionExpiredException":
-            self = .sessionExpiredException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidClientException: Self { .init(.invalidClientException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var sessionExpiredException: Self { .init(.sessionExpiredException) }
+}
+
+extension KinesisVideoSignalingChannelsErrorType: Equatable {
+    public static func == (lhs: KinesisVideoSignalingChannelsErrorType, rhs: KinesisVideoSignalingChannelsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension KinesisVideoSignalingChannelsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .clientLimitExceededException(let message):
-            return "ClientLimitExceededException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidClientException(let message):
-            return "InvalidClientException: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .sessionExpiredException(let message):
-            return "SessionExpiredException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

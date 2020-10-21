@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for PI
-public enum PIErrorType: AWSErrorType {
-    case internalServiceError(message: String?)
-    case invalidArgumentException(message: String?)
-    case notAuthorizedException(message: String?)
-}
+public struct PIErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServiceError = "InternalServiceError"
+        case invalidArgumentException = "InvalidArgumentException"
+        case notAuthorizedException = "NotAuthorizedException"
+    }
 
-extension PIErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServiceError":
-            self = .internalServiceError(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServiceError: Self { .init(.internalServiceError) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+}
+
+extension PIErrorType: Equatable {
+    public static func == (lhs: PIErrorType, rhs: PIErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PIErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServiceError(let message):
-            return "InternalServiceError: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

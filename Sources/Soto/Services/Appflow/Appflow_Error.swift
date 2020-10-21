@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Appflow
-public enum AppflowErrorType: AWSErrorType {
-    case conflictException(message: String?)
-    case connectorAuthenticationException(message: String?)
-    case connectorServerException(message: String?)
-    case internalServerException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case unsupportedOperationException(message: String?)
-    case validationException(message: String?)
-}
+public struct AppflowErrorType: AWSErrorType {
+    enum Code: String {
+        case conflictException = "ConflictException"
+        case connectorAuthenticationException = "ConnectorAuthenticationException"
+        case connectorServerException = "ConnectorServerException"
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case unsupportedOperationException = "UnsupportedOperationException"
+        case validationException = "ValidationException"
+    }
 
-extension AppflowErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ConnectorAuthenticationException":
-            self = .connectorAuthenticationException(message: message)
-        case "ConnectorServerException":
-            self = .connectorServerException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "UnsupportedOperationException":
-            self = .unsupportedOperationException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var connectorAuthenticationException: Self { .init(.connectorAuthenticationException) }
+    public static var connectorServerException: Self { .init(.connectorServerException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension AppflowErrorType: Equatable {
+    public static func == (lhs: AppflowErrorType, rhs: AppflowErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AppflowErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .connectorAuthenticationException(let message):
-            return "ConnectorAuthenticationException: \(message ?? "")"
-        case .connectorServerException(let message):
-            return "ConnectorServerException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .unsupportedOperationException(let message):
-            return "UnsupportedOperationException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

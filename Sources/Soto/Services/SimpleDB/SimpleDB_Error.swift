@@ -17,110 +17,72 @@
 import SotoCore
 
 /// Error enum for SimpleDB
-public enum SimpleDBErrorType: AWSErrorType {
-    case attributeDoesNotExist(message: String?)
-    case duplicateItemName(message: String?)
-    case invalidNextToken(message: String?)
-    case invalidNumberPredicates(message: String?)
-    case invalidNumberValueTests(message: String?)
-    case invalidParameterValue(message: String?)
-    case invalidQueryExpression(message: String?)
-    case missingParameter(message: String?)
-    case noSuchDomain(message: String?)
-    case numberDomainAttributesExceeded(message: String?)
-    case numberDomainBytesExceeded(message: String?)
-    case numberDomainsExceeded(message: String?)
-    case numberItemAttributesExceeded(message: String?)
-    case numberSubmittedAttributesExceeded(message: String?)
-    case numberSubmittedItemsExceeded(message: String?)
-    case requestTimeout(message: String?)
-    case tooManyRequestedAttributes(message: String?)
-}
+public struct SimpleDBErrorType: AWSErrorType {
+    enum Code: String {
+        case attributeDoesNotExist = "AttributeDoesNotExist"
+        case duplicateItemName = "DuplicateItemName"
+        case invalidNextToken = "InvalidNextToken"
+        case invalidNumberPredicates = "InvalidNumberPredicates"
+        case invalidNumberValueTests = "InvalidNumberValueTests"
+        case invalidParameterValue = "InvalidParameterValue"
+        case invalidQueryExpression = "InvalidQueryExpression"
+        case missingParameter = "MissingParameter"
+        case noSuchDomain = "NoSuchDomain"
+        case numberDomainAttributesExceeded = "NumberDomainAttributesExceeded"
+        case numberDomainBytesExceeded = "NumberDomainBytesExceeded"
+        case numberDomainsExceeded = "NumberDomainsExceeded"
+        case numberItemAttributesExceeded = "NumberItemAttributesExceeded"
+        case numberSubmittedAttributesExceeded = "NumberSubmittedAttributesExceeded"
+        case numberSubmittedItemsExceeded = "NumberSubmittedItemsExceeded"
+        case requestTimeout = "RequestTimeout"
+        case tooManyRequestedAttributes = "TooManyRequestedAttributes"
+    }
 
-extension SimpleDBErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AttributeDoesNotExist":
-            self = .attributeDoesNotExist(message: message)
-        case "DuplicateItemName":
-            self = .duplicateItemName(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
-        case "InvalidNumberPredicates":
-            self = .invalidNumberPredicates(message: message)
-        case "InvalidNumberValueTests":
-            self = .invalidNumberValueTests(message: message)
-        case "InvalidParameterValue":
-            self = .invalidParameterValue(message: message)
-        case "InvalidQueryExpression":
-            self = .invalidQueryExpression(message: message)
-        case "MissingParameter":
-            self = .missingParameter(message: message)
-        case "NoSuchDomain":
-            self = .noSuchDomain(message: message)
-        case "NumberDomainAttributesExceeded":
-            self = .numberDomainAttributesExceeded(message: message)
-        case "NumberDomainBytesExceeded":
-            self = .numberDomainBytesExceeded(message: message)
-        case "NumberDomainsExceeded":
-            self = .numberDomainsExceeded(message: message)
-        case "NumberItemAttributesExceeded":
-            self = .numberItemAttributesExceeded(message: message)
-        case "NumberSubmittedAttributesExceeded":
-            self = .numberSubmittedAttributesExceeded(message: message)
-        case "NumberSubmittedItemsExceeded":
-            self = .numberSubmittedItemsExceeded(message: message)
-        case "RequestTimeout":
-            self = .requestTimeout(message: message)
-        case "TooManyRequestedAttributes":
-            self = .tooManyRequestedAttributes(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var attributeDoesNotExist: Self { .init(.attributeDoesNotExist) }
+    public static var duplicateItemName: Self { .init(.duplicateItemName) }
+    public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    public static var invalidNumberPredicates: Self { .init(.invalidNumberPredicates) }
+    public static var invalidNumberValueTests: Self { .init(.invalidNumberValueTests) }
+    public static var invalidParameterValue: Self { .init(.invalidParameterValue) }
+    public static var invalidQueryExpression: Self { .init(.invalidQueryExpression) }
+    public static var missingParameter: Self { .init(.missingParameter) }
+    public static var noSuchDomain: Self { .init(.noSuchDomain) }
+    public static var numberDomainAttributesExceeded: Self { .init(.numberDomainAttributesExceeded) }
+    public static var numberDomainBytesExceeded: Self { .init(.numberDomainBytesExceeded) }
+    public static var numberDomainsExceeded: Self { .init(.numberDomainsExceeded) }
+    public static var numberItemAttributesExceeded: Self { .init(.numberItemAttributesExceeded) }
+    public static var numberSubmittedAttributesExceeded: Self { .init(.numberSubmittedAttributesExceeded) }
+    public static var numberSubmittedItemsExceeded: Self { .init(.numberSubmittedItemsExceeded) }
+    public static var requestTimeout: Self { .init(.requestTimeout) }
+    public static var tooManyRequestedAttributes: Self { .init(.tooManyRequestedAttributes) }
+}
+
+extension SimpleDBErrorType: Equatable {
+    public static func == (lhs: SimpleDBErrorType, rhs: SimpleDBErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SimpleDBErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .attributeDoesNotExist(let message):
-            return "AttributeDoesNotExist: \(message ?? "")"
-        case .duplicateItemName(let message):
-            return "DuplicateItemName: \(message ?? "")"
-        case .invalidNextToken(let message):
-            return "InvalidNextToken: \(message ?? "")"
-        case .invalidNumberPredicates(let message):
-            return "InvalidNumberPredicates: \(message ?? "")"
-        case .invalidNumberValueTests(let message):
-            return "InvalidNumberValueTests: \(message ?? "")"
-        case .invalidParameterValue(let message):
-            return "InvalidParameterValue: \(message ?? "")"
-        case .invalidQueryExpression(let message):
-            return "InvalidQueryExpression: \(message ?? "")"
-        case .missingParameter(let message):
-            return "MissingParameter: \(message ?? "")"
-        case .noSuchDomain(let message):
-            return "NoSuchDomain: \(message ?? "")"
-        case .numberDomainAttributesExceeded(let message):
-            return "NumberDomainAttributesExceeded: \(message ?? "")"
-        case .numberDomainBytesExceeded(let message):
-            return "NumberDomainBytesExceeded: \(message ?? "")"
-        case .numberDomainsExceeded(let message):
-            return "NumberDomainsExceeded: \(message ?? "")"
-        case .numberItemAttributesExceeded(let message):
-            return "NumberItemAttributesExceeded: \(message ?? "")"
-        case .numberSubmittedAttributesExceeded(let message):
-            return "NumberSubmittedAttributesExceeded: \(message ?? "")"
-        case .numberSubmittedItemsExceeded(let message):
-            return "NumberSubmittedItemsExceeded: \(message ?? "")"
-        case .requestTimeout(let message):
-            return "RequestTimeout: \(message ?? "")"
-        case .tooManyRequestedAttributes(let message):
-            return "TooManyRequestedAttributes: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

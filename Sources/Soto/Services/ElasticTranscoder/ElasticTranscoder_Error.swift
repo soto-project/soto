@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for ElasticTranscoder
-public enum ElasticTranscoderErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case incompatibleVersionException(message: String?)
-    case internalServiceException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct ElasticTranscoderErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case incompatibleVersionException = "IncompatibleVersionException"
+        case internalServiceException = "InternalServiceException"
+        case limitExceededException = "LimitExceededException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension ElasticTranscoderErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "IncompatibleVersionException":
-            self = .incompatibleVersionException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var incompatibleVersionException: Self { .init(.incompatibleVersionException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ElasticTranscoderErrorType: Equatable {
+    public static func == (lhs: ElasticTranscoderErrorType, rhs: ElasticTranscoderErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElasticTranscoderErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .incompatibleVersionException(let message):
-            return "IncompatibleVersionException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

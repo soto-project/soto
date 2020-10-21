@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for ApplicationAutoScaling
-public enum ApplicationAutoScalingErrorType: AWSErrorType {
-    case concurrentUpdateException(message: String?)
-    case failedResourceAccessException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case limitExceededException(message: String?)
-    case objectNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct ApplicationAutoScalingErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentUpdateException = "ConcurrentUpdateException"
+        case failedResourceAccessException = "FailedResourceAccessException"
+        case internalServiceException = "InternalServiceException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case limitExceededException = "LimitExceededException"
+        case objectNotFoundException = "ObjectNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension ApplicationAutoScalingErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentUpdateException":
-            self = .concurrentUpdateException(message: message)
-        case "FailedResourceAccessException":
-            self = .failedResourceAccessException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ObjectNotFoundException":
-            self = .objectNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentUpdateException: Self { .init(.concurrentUpdateException) }
+    public static var failedResourceAccessException: Self { .init(.failedResourceAccessException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var objectNotFoundException: Self { .init(.objectNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ApplicationAutoScalingErrorType: Equatable {
+    public static func == (lhs: ApplicationAutoScalingErrorType, rhs: ApplicationAutoScalingErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ApplicationAutoScalingErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentUpdateException(let message):
-            return "ConcurrentUpdateException: \(message ?? "")"
-        case .failedResourceAccessException(let message):
-            return "FailedResourceAccessException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .objectNotFoundException(let message):
-            return "ObjectNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

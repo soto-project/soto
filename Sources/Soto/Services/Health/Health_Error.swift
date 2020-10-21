@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for Health
-public enum HealthErrorType: AWSErrorType {
-    case concurrentModificationException(message: String?)
-    case invalidPaginationToken(message: String?)
-    case unsupportedLocale(message: String?)
-}
+public struct HealthErrorType: AWSErrorType {
+    enum Code: String {
+        case concurrentModificationException = "ConcurrentModificationException"
+        case invalidPaginationToken = "InvalidPaginationToken"
+        case unsupportedLocale = "UnsupportedLocale"
+    }
 
-extension HealthErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InvalidPaginationToken":
-            self = .invalidPaginationToken(message: message)
-        case "UnsupportedLocale":
-            self = .unsupportedLocale(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var invalidPaginationToken: Self { .init(.invalidPaginationToken) }
+    public static var unsupportedLocale: Self { .init(.unsupportedLocale) }
+}
+
+extension HealthErrorType: Equatable {
+    public static func == (lhs: HealthErrorType, rhs: HealthErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension HealthErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .invalidPaginationToken(let message):
-            return "InvalidPaginationToken: \(message ?? "")"
-        case .unsupportedLocale(let message):
-            return "UnsupportedLocale: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

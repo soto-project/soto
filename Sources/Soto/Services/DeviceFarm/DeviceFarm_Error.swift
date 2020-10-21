@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for DeviceFarm
-public enum DeviceFarmErrorType: AWSErrorType {
-    case argumentException(message: String?)
-    case cannotDeleteException(message: String?)
-    case idempotencyException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidOperationException(message: String?)
-    case limitExceededException(message: String?)
-    case notEligibleException(message: String?)
-    case notFoundException(message: String?)
-    case serviceAccountException(message: String?)
-    case tagOperationException(message: String?)
-    case tagPolicyException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct DeviceFarmErrorType: AWSErrorType {
+    enum Code: String {
+        case argumentException = "ArgumentException"
+        case cannotDeleteException = "CannotDeleteException"
+        case idempotencyException = "IdempotencyException"
+        case internalServiceException = "InternalServiceException"
+        case invalidOperationException = "InvalidOperationException"
+        case limitExceededException = "LimitExceededException"
+        case notEligibleException = "NotEligibleException"
+        case notFoundException = "NotFoundException"
+        case serviceAccountException = "ServiceAccountException"
+        case tagOperationException = "TagOperationException"
+        case tagPolicyException = "TagPolicyException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension DeviceFarmErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ArgumentException":
-            self = .argumentException(message: message)
-        case "CannotDeleteException":
-            self = .cannotDeleteException(message: message)
-        case "IdempotencyException":
-            self = .idempotencyException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotEligibleException":
-            self = .notEligibleException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceAccountException":
-            self = .serviceAccountException(message: message)
-        case "TagOperationException":
-            self = .tagOperationException(message: message)
-        case "TagPolicyException":
-            self = .tagPolicyException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var argumentException: Self { .init(.argumentException) }
+    public static var cannotDeleteException: Self { .init(.cannotDeleteException) }
+    public static var idempotencyException: Self { .init(.idempotencyException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notEligibleException: Self { .init(.notEligibleException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var serviceAccountException: Self { .init(.serviceAccountException) }
+    public static var tagOperationException: Self { .init(.tagOperationException) }
+    public static var tagPolicyException: Self { .init(.tagPolicyException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension DeviceFarmErrorType: Equatable {
+    public static func == (lhs: DeviceFarmErrorType, rhs: DeviceFarmErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DeviceFarmErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .argumentException(let message):
-            return "ArgumentException: \(message ?? "")"
-        case .cannotDeleteException(let message):
-            return "CannotDeleteException: \(message ?? "")"
-        case .idempotencyException(let message):
-            return "IdempotencyException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notEligibleException(let message):
-            return "NotEligibleException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .serviceAccountException(let message):
-            return "ServiceAccountException: \(message ?? "")"
-        case .tagOperationException(let message):
-            return "TagOperationException: \(message ?? "")"
-        case .tagPolicyException(let message):
-            return "TagPolicyException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,125 +17,78 @@
 import SotoCore
 
 /// Error enum for ImportExport
-public enum ImportExportErrorType: AWSErrorType {
-    case bucketPermissionException(message: String?)
-    case canceledJobIdException(message: String?)
-    case createJobQuotaExceededException(message: String?)
-    case expiredJobIdException(message: String?)
-    case invalidAccessKeyIdException(message: String?)
-    case invalidAddressException(message: String?)
-    case invalidCustomsException(message: String?)
-    case invalidFileSystemException(message: String?)
-    case invalidJobIdException(message: String?)
-    case invalidManifestFieldException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidVersionException(message: String?)
-    case malformedManifestException(message: String?)
-    case missingCustomsException(message: String?)
-    case missingManifestFieldException(message: String?)
-    case missingParameterException(message: String?)
-    case multipleRegionsException(message: String?)
-    case noSuchBucketException(message: String?)
-    case unableToCancelJobIdException(message: String?)
-    case unableToUpdateJobIdException(message: String?)
-}
+public struct ImportExportErrorType: AWSErrorType {
+    enum Code: String {
+        case bucketPermissionException = "BucketPermissionException"
+        case canceledJobIdException = "CanceledJobIdException"
+        case createJobQuotaExceededException = "CreateJobQuotaExceededException"
+        case expiredJobIdException = "ExpiredJobIdException"
+        case invalidAccessKeyIdException = "InvalidAccessKeyIdException"
+        case invalidAddressException = "InvalidAddressException"
+        case invalidCustomsException = "InvalidCustomsException"
+        case invalidFileSystemException = "InvalidFileSystemException"
+        case invalidJobIdException = "InvalidJobIdException"
+        case invalidManifestFieldException = "InvalidManifestFieldException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidVersionException = "InvalidVersionException"
+        case malformedManifestException = "MalformedManifestException"
+        case missingCustomsException = "MissingCustomsException"
+        case missingManifestFieldException = "MissingManifestFieldException"
+        case missingParameterException = "MissingParameterException"
+        case multipleRegionsException = "MultipleRegionsException"
+        case noSuchBucketException = "NoSuchBucketException"
+        case unableToCancelJobIdException = "UnableToCancelJobIdException"
+        case unableToUpdateJobIdException = "UnableToUpdateJobIdException"
+    }
 
-extension ImportExportErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BucketPermissionException":
-            self = .bucketPermissionException(message: message)
-        case "CanceledJobIdException":
-            self = .canceledJobIdException(message: message)
-        case "CreateJobQuotaExceededException":
-            self = .createJobQuotaExceededException(message: message)
-        case "ExpiredJobIdException":
-            self = .expiredJobIdException(message: message)
-        case "InvalidAccessKeyIdException":
-            self = .invalidAccessKeyIdException(message: message)
-        case "InvalidAddressException":
-            self = .invalidAddressException(message: message)
-        case "InvalidCustomsException":
-            self = .invalidCustomsException(message: message)
-        case "InvalidFileSystemException":
-            self = .invalidFileSystemException(message: message)
-        case "InvalidJobIdException":
-            self = .invalidJobIdException(message: message)
-        case "InvalidManifestFieldException":
-            self = .invalidManifestFieldException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidVersionException":
-            self = .invalidVersionException(message: message)
-        case "MalformedManifestException":
-            self = .malformedManifestException(message: message)
-        case "MissingCustomsException":
-            self = .missingCustomsException(message: message)
-        case "MissingManifestFieldException":
-            self = .missingManifestFieldException(message: message)
-        case "MissingParameterException":
-            self = .missingParameterException(message: message)
-        case "MultipleRegionsException":
-            self = .multipleRegionsException(message: message)
-        case "NoSuchBucketException":
-            self = .noSuchBucketException(message: message)
-        case "UnableToCancelJobIdException":
-            self = .unableToCancelJobIdException(message: message)
-        case "UnableToUpdateJobIdException":
-            self = .unableToUpdateJobIdException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var bucketPermissionException: Self { .init(.bucketPermissionException) }
+    public static var canceledJobIdException: Self { .init(.canceledJobIdException) }
+    public static var createJobQuotaExceededException: Self { .init(.createJobQuotaExceededException) }
+    public static var expiredJobIdException: Self { .init(.expiredJobIdException) }
+    public static var invalidAccessKeyIdException: Self { .init(.invalidAccessKeyIdException) }
+    public static var invalidAddressException: Self { .init(.invalidAddressException) }
+    public static var invalidCustomsException: Self { .init(.invalidCustomsException) }
+    public static var invalidFileSystemException: Self { .init(.invalidFileSystemException) }
+    public static var invalidJobIdException: Self { .init(.invalidJobIdException) }
+    public static var invalidManifestFieldException: Self { .init(.invalidManifestFieldException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidVersionException: Self { .init(.invalidVersionException) }
+    public static var malformedManifestException: Self { .init(.malformedManifestException) }
+    public static var missingCustomsException: Self { .init(.missingCustomsException) }
+    public static var missingManifestFieldException: Self { .init(.missingManifestFieldException) }
+    public static var missingParameterException: Self { .init(.missingParameterException) }
+    public static var multipleRegionsException: Self { .init(.multipleRegionsException) }
+    public static var noSuchBucketException: Self { .init(.noSuchBucketException) }
+    public static var unableToCancelJobIdException: Self { .init(.unableToCancelJobIdException) }
+    public static var unableToUpdateJobIdException: Self { .init(.unableToUpdateJobIdException) }
+}
+
+extension ImportExportErrorType: Equatable {
+    public static func == (lhs: ImportExportErrorType, rhs: ImportExportErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ImportExportErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .bucketPermissionException(let message):
-            return "BucketPermissionException: \(message ?? "")"
-        case .canceledJobIdException(let message):
-            return "CanceledJobIdException: \(message ?? "")"
-        case .createJobQuotaExceededException(let message):
-            return "CreateJobQuotaExceededException: \(message ?? "")"
-        case .expiredJobIdException(let message):
-            return "ExpiredJobIdException: \(message ?? "")"
-        case .invalidAccessKeyIdException(let message):
-            return "InvalidAccessKeyIdException: \(message ?? "")"
-        case .invalidAddressException(let message):
-            return "InvalidAddressException: \(message ?? "")"
-        case .invalidCustomsException(let message):
-            return "InvalidCustomsException: \(message ?? "")"
-        case .invalidFileSystemException(let message):
-            return "InvalidFileSystemException: \(message ?? "")"
-        case .invalidJobIdException(let message):
-            return "InvalidJobIdException: \(message ?? "")"
-        case .invalidManifestFieldException(let message):
-            return "InvalidManifestFieldException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidVersionException(let message):
-            return "InvalidVersionException: \(message ?? "")"
-        case .malformedManifestException(let message):
-            return "MalformedManifestException: \(message ?? "")"
-        case .missingCustomsException(let message):
-            return "MissingCustomsException: \(message ?? "")"
-        case .missingManifestFieldException(let message):
-            return "MissingManifestFieldException: \(message ?? "")"
-        case .missingParameterException(let message):
-            return "MissingParameterException: \(message ?? "")"
-        case .multipleRegionsException(let message):
-            return "MultipleRegionsException: \(message ?? "")"
-        case .noSuchBucketException(let message):
-            return "NoSuchBucketException: \(message ?? "")"
-        case .unableToCancelJobIdException(let message):
-            return "UnableToCancelJobIdException: \(message ?? "")"
-        case .unableToUpdateJobIdException(let message):
-            return "UnableToUpdateJobIdException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

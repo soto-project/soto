@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for Shield
-public enum ShieldErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case accessDeniedForDependencyException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidOperationException(message: String?)
-    case invalidPaginationTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidResourceException(message: String?)
-    case limitsExceededException(message: String?)
-    case lockedSubscriptionException(message: String?)
-    case noAssociatedRoleException(message: String?)
-    case optimisticLockException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct ShieldErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case accessDeniedForDependencyException = "AccessDeniedForDependencyException"
+        case internalErrorException = "InternalErrorException"
+        case invalidOperationException = "InvalidOperationException"
+        case invalidPaginationTokenException = "InvalidPaginationTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidResourceException = "InvalidResourceException"
+        case limitsExceededException = "LimitsExceededException"
+        case lockedSubscriptionException = "LockedSubscriptionException"
+        case noAssociatedRoleException = "NoAssociatedRoleException"
+        case optimisticLockException = "OptimisticLockException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension ShieldErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AccessDeniedForDependencyException":
-            self = .accessDeniedForDependencyException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidResourceException":
-            self = .invalidResourceException(message: message)
-        case "LimitsExceededException":
-            self = .limitsExceededException(message: message)
-        case "LockedSubscriptionException":
-            self = .lockedSubscriptionException(message: message)
-        case "NoAssociatedRoleException":
-            self = .noAssociatedRoleException(message: message)
-        case "OptimisticLockException":
-            self = .optimisticLockException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var accessDeniedForDependencyException: Self { .init(.accessDeniedForDependencyException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidResourceException: Self { .init(.invalidResourceException) }
+    public static var limitsExceededException: Self { .init(.limitsExceededException) }
+    public static var lockedSubscriptionException: Self { .init(.lockedSubscriptionException) }
+    public static var noAssociatedRoleException: Self { .init(.noAssociatedRoleException) }
+    public static var optimisticLockException: Self { .init(.optimisticLockException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension ShieldErrorType: Equatable {
+    public static func == (lhs: ShieldErrorType, rhs: ShieldErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ShieldErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .accessDeniedForDependencyException(let message):
-            return "AccessDeniedForDependencyException: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .invalidPaginationTokenException(let message):
-            return "InvalidPaginationTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidResourceException(let message):
-            return "InvalidResourceException: \(message ?? "")"
-        case .limitsExceededException(let message):
-            return "LimitsExceededException: \(message ?? "")"
-        case .lockedSubscriptionException(let message):
-            return "LockedSubscriptionException: \(message ?? "")"
-        case .noAssociatedRoleException(let message):
-            return "NoAssociatedRoleException: \(message ?? "")"
-        case .optimisticLockException(let message):
-            return "OptimisticLockException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

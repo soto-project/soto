@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for CodeStarNotifications
-public enum CodeStarNotificationsErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case concurrentModificationException(message: String?)
-    case configurationException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct CodeStarNotificationsErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case configurationException = "ConfigurationException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension CodeStarNotificationsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "ConfigurationException":
-            self = .configurationException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var configurationException: Self { .init(.configurationException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension CodeStarNotificationsErrorType: Equatable {
+    public static func == (lhs: CodeStarNotificationsErrorType, rhs: CodeStarNotificationsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodeStarNotificationsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .configurationException(let message):
-            return "ConfigurationException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

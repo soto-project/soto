@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for MediaPackageVod
-public enum MediaPackageVodErrorType: AWSErrorType {
-    case forbiddenException(message: String?)
-    case internalServerErrorException(message: String?)
-    case notFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unprocessableEntityException(message: String?)
-}
+public struct MediaPackageVodErrorType: AWSErrorType {
+    enum Code: String {
+        case forbiddenException = "ForbiddenException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case notFoundException = "NotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unprocessableEntityException = "UnprocessableEntityException"
+    }
 
-extension MediaPackageVodErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnprocessableEntityException":
-            self = .unprocessableEntityException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension MediaPackageVodErrorType: Equatable {
+    public static func == (lhs: MediaPackageVodErrorType, rhs: MediaPackageVodErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MediaPackageVodErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unprocessableEntityException(let message):
-            return "UnprocessableEntityException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

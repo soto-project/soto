@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for QLDB
-public enum QLDBErrorType: AWSErrorType {
-    case invalidParameterException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case resourcePreconditionNotMetException(message: String?)
-}
+public struct QLDBErrorType: AWSErrorType {
+    enum Code: String {
+        case invalidParameterException = "InvalidParameterException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case resourcePreconditionNotMetException = "ResourcePreconditionNotMetException"
+    }
 
-extension QLDBErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ResourcePreconditionNotMetException":
-            self = .resourcePreconditionNotMetException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var resourcePreconditionNotMetException: Self { .init(.resourcePreconditionNotMetException) }
+}
+
+extension QLDBErrorType: Equatable {
+    public static func == (lhs: QLDBErrorType, rhs: QLDBErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension QLDBErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .resourcePreconditionNotMetException(let message):
-            return "ResourcePreconditionNotMetException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

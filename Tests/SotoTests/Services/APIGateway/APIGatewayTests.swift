@@ -151,8 +151,8 @@ class APIGatewayTests: XCTestCase {
         let response = Self.apiGateway.getModels(.init(restApiId: "invalid-rest-api-id"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case APIGatewayErrorType.notFoundException(let message):
-                XCTAssertNotNil(message)
+            case let error as APIGatewayErrorType where error == .notFoundException:
+                XCTAssertNotNil(error.message)
             default:
                 // local stack is returning a duff error at the moment
                 if TestEnvironment.isUsingLocalstack {

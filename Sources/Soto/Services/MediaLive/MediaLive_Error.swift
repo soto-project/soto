@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for MediaLive
-public enum MediaLiveErrorType: AWSErrorType {
-    case badGatewayException(message: String?)
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case forbiddenException(message: String?)
-    case gatewayTimeoutException(message: String?)
-    case internalServerErrorException(message: String?)
-    case notFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case unprocessableEntityException(message: String?)
-}
+public struct MediaLiveErrorType: AWSErrorType {
+    enum Code: String {
+        case badGatewayException = "BadGatewayException"
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
+        case gatewayTimeoutException = "GatewayTimeoutException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case notFoundException = "NotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case unprocessableEntityException = "UnprocessableEntityException"
+    }
 
-extension MediaLiveErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadGatewayException":
-            self = .badGatewayException(message: message)
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "GatewayTimeoutException":
-            self = .gatewayTimeoutException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "UnprocessableEntityException":
-            self = .unprocessableEntityException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badGatewayException: Self { .init(.badGatewayException) }
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var gatewayTimeoutException: Self { .init(.gatewayTimeoutException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var unprocessableEntityException: Self { .init(.unprocessableEntityException) }
+}
+
+extension MediaLiveErrorType: Equatable {
+    public static func == (lhs: MediaLiveErrorType, rhs: MediaLiveErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MediaLiveErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badGatewayException(let message):
-            return "BadGatewayException: \(message ?? "")"
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .gatewayTimeoutException(let message):
-            return "GatewayTimeoutException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .unprocessableEntityException(let message):
-            return "UnprocessableEntityException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

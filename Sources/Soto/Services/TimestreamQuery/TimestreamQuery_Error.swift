@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for TimestreamQuery
-public enum TimestreamQueryErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case conflictException(message: String?)
-    case internalServerException(message: String?)
-    case invalidEndpointException(message: String?)
-    case queryExecutionException(message: String?)
-    case throttlingException(message: String?)
-    case validationException(message: String?)
-}
+public struct TimestreamQueryErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case conflictException = "ConflictException"
+        case internalServerException = "InternalServerException"
+        case invalidEndpointException = "InvalidEndpointException"
+        case queryExecutionException = "QueryExecutionException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+    }
 
-extension TimestreamQueryErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidEndpointException":
-            self = .invalidEndpointException(message: message)
-        case "QueryExecutionException":
-            self = .queryExecutionException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
+    public static var queryExecutionException: Self { .init(.queryExecutionException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension TimestreamQueryErrorType: Equatable {
+    public static func == (lhs: TimestreamQueryErrorType, rhs: TimestreamQueryErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension TimestreamQueryErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidEndpointException(let message):
-            return "InvalidEndpointException: \(message ?? "")"
-        case .queryExecutionException(let message):
-            return "QueryExecutionException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

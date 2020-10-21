@@ -17,195 +17,106 @@
 import SotoCore
 
 /// Error enum for CodePipeline
-public enum CodePipelineErrorType: AWSErrorType {
-    case actionNotFoundException(message: String?)
-    case actionTypeNotFoundException(message: String?)
-    case approvalAlreadyCompletedException(message: String?)
-    case concurrentModificationException(message: String?)
-    case duplicatedStopRequestException(message: String?)
-    case invalidActionDeclarationException(message: String?)
-    case invalidApprovalTokenException(message: String?)
-    case invalidArnException(message: String?)
-    case invalidBlockerDeclarationException(message: String?)
-    case invalidClientTokenException(message: String?)
-    case invalidJobException(message: String?)
-    case invalidJobStateException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidNonceException(message: String?)
-    case invalidStageDeclarationException(message: String?)
-    case invalidStructureException(message: String?)
-    case invalidTagsException(message: String?)
-    case invalidWebhookAuthenticationParametersException(message: String?)
-    case invalidWebhookFilterPatternException(message: String?)
-    case jobNotFoundException(message: String?)
-    case limitExceededException(message: String?)
-    case notLatestPipelineExecutionException(message: String?)
-    case outputVariablesSizeExceededException(message: String?)
-    case pipelineExecutionNotFoundException(message: String?)
-    case pipelineExecutionNotStoppableException(message: String?)
-    case pipelineNameInUseException(message: String?)
-    case pipelineNotFoundException(message: String?)
-    case pipelineVersionNotFoundException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case stageNotFoundException(message: String?)
-    case stageNotRetryableException(message: String?)
-    case tooManyTagsException(message: String?)
-    case validationException(message: String?)
-    case webhookNotFoundException(message: String?)
-}
+public struct CodePipelineErrorType: AWSErrorType {
+    enum Code: String {
+        case actionNotFoundException = "ActionNotFoundException"
+        case actionTypeNotFoundException = "ActionTypeNotFoundException"
+        case approvalAlreadyCompletedException = "ApprovalAlreadyCompletedException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case duplicatedStopRequestException = "DuplicatedStopRequestException"
+        case invalidActionDeclarationException = "InvalidActionDeclarationException"
+        case invalidApprovalTokenException = "InvalidApprovalTokenException"
+        case invalidArnException = "InvalidArnException"
+        case invalidBlockerDeclarationException = "InvalidBlockerDeclarationException"
+        case invalidClientTokenException = "InvalidClientTokenException"
+        case invalidJobException = "InvalidJobException"
+        case invalidJobStateException = "InvalidJobStateException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidNonceException = "InvalidNonceException"
+        case invalidStageDeclarationException = "InvalidStageDeclarationException"
+        case invalidStructureException = "InvalidStructureException"
+        case invalidTagsException = "InvalidTagsException"
+        case invalidWebhookAuthenticationParametersException = "InvalidWebhookAuthenticationParametersException"
+        case invalidWebhookFilterPatternException = "InvalidWebhookFilterPatternException"
+        case jobNotFoundException = "JobNotFoundException"
+        case limitExceededException = "LimitExceededException"
+        case notLatestPipelineExecutionException = "NotLatestPipelineExecutionException"
+        case outputVariablesSizeExceededException = "OutputVariablesSizeExceededException"
+        case pipelineExecutionNotFoundException = "PipelineExecutionNotFoundException"
+        case pipelineExecutionNotStoppableException = "PipelineExecutionNotStoppableException"
+        case pipelineNameInUseException = "PipelineNameInUseException"
+        case pipelineNotFoundException = "PipelineNotFoundException"
+        case pipelineVersionNotFoundException = "PipelineVersionNotFoundException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case stageNotFoundException = "StageNotFoundException"
+        case stageNotRetryableException = "StageNotRetryableException"
+        case tooManyTagsException = "TooManyTagsException"
+        case validationException = "ValidationException"
+        case webhookNotFoundException = "WebhookNotFoundException"
+    }
 
-extension CodePipelineErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ActionNotFoundException":
-            self = .actionNotFoundException(message: message)
-        case "ActionTypeNotFoundException":
-            self = .actionTypeNotFoundException(message: message)
-        case "ApprovalAlreadyCompletedException":
-            self = .approvalAlreadyCompletedException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "DuplicatedStopRequestException":
-            self = .duplicatedStopRequestException(message: message)
-        case "InvalidActionDeclarationException":
-            self = .invalidActionDeclarationException(message: message)
-        case "InvalidApprovalTokenException":
-            self = .invalidApprovalTokenException(message: message)
-        case "InvalidArnException":
-            self = .invalidArnException(message: message)
-        case "InvalidBlockerDeclarationException":
-            self = .invalidBlockerDeclarationException(message: message)
-        case "InvalidClientTokenException":
-            self = .invalidClientTokenException(message: message)
-        case "InvalidJobException":
-            self = .invalidJobException(message: message)
-        case "InvalidJobStateException":
-            self = .invalidJobStateException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidNonceException":
-            self = .invalidNonceException(message: message)
-        case "InvalidStageDeclarationException":
-            self = .invalidStageDeclarationException(message: message)
-        case "InvalidStructureException":
-            self = .invalidStructureException(message: message)
-        case "InvalidTagsException":
-            self = .invalidTagsException(message: message)
-        case "InvalidWebhookAuthenticationParametersException":
-            self = .invalidWebhookAuthenticationParametersException(message: message)
-        case "InvalidWebhookFilterPatternException":
-            self = .invalidWebhookFilterPatternException(message: message)
-        case "JobNotFoundException":
-            self = .jobNotFoundException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotLatestPipelineExecutionException":
-            self = .notLatestPipelineExecutionException(message: message)
-        case "OutputVariablesSizeExceededException":
-            self = .outputVariablesSizeExceededException(message: message)
-        case "PipelineExecutionNotFoundException":
-            self = .pipelineExecutionNotFoundException(message: message)
-        case "PipelineExecutionNotStoppableException":
-            self = .pipelineExecutionNotStoppableException(message: message)
-        case "PipelineNameInUseException":
-            self = .pipelineNameInUseException(message: message)
-        case "PipelineNotFoundException":
-            self = .pipelineNotFoundException(message: message)
-        case "PipelineVersionNotFoundException":
-            self = .pipelineVersionNotFoundException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "StageNotFoundException":
-            self = .stageNotFoundException(message: message)
-        case "StageNotRetryableException":
-            self = .stageNotRetryableException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        case "WebhookNotFoundException":
-            self = .webhookNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var actionNotFoundException: Self { .init(.actionNotFoundException) }
+    public static var actionTypeNotFoundException: Self { .init(.actionTypeNotFoundException) }
+    public static var approvalAlreadyCompletedException: Self { .init(.approvalAlreadyCompletedException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var duplicatedStopRequestException: Self { .init(.duplicatedStopRequestException) }
+    public static var invalidActionDeclarationException: Self { .init(.invalidActionDeclarationException) }
+    public static var invalidApprovalTokenException: Self { .init(.invalidApprovalTokenException) }
+    public static var invalidArnException: Self { .init(.invalidArnException) }
+    public static var invalidBlockerDeclarationException: Self { .init(.invalidBlockerDeclarationException) }
+    public static var invalidClientTokenException: Self { .init(.invalidClientTokenException) }
+    public static var invalidJobException: Self { .init(.invalidJobException) }
+    public static var invalidJobStateException: Self { .init(.invalidJobStateException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidNonceException: Self { .init(.invalidNonceException) }
+    public static var invalidStageDeclarationException: Self { .init(.invalidStageDeclarationException) }
+    public static var invalidStructureException: Self { .init(.invalidStructureException) }
+    public static var invalidTagsException: Self { .init(.invalidTagsException) }
+    public static var invalidWebhookAuthenticationParametersException: Self { .init(.invalidWebhookAuthenticationParametersException) }
+    public static var invalidWebhookFilterPatternException: Self { .init(.invalidWebhookFilterPatternException) }
+    public static var jobNotFoundException: Self { .init(.jobNotFoundException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notLatestPipelineExecutionException: Self { .init(.notLatestPipelineExecutionException) }
+    public static var outputVariablesSizeExceededException: Self { .init(.outputVariablesSizeExceededException) }
+    public static var pipelineExecutionNotFoundException: Self { .init(.pipelineExecutionNotFoundException) }
+    public static var pipelineExecutionNotStoppableException: Self { .init(.pipelineExecutionNotStoppableException) }
+    public static var pipelineNameInUseException: Self { .init(.pipelineNameInUseException) }
+    public static var pipelineNotFoundException: Self { .init(.pipelineNotFoundException) }
+    public static var pipelineVersionNotFoundException: Self { .init(.pipelineVersionNotFoundException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var stageNotFoundException: Self { .init(.stageNotFoundException) }
+    public static var stageNotRetryableException: Self { .init(.stageNotRetryableException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var validationException: Self { .init(.validationException) }
+    public static var webhookNotFoundException: Self { .init(.webhookNotFoundException) }
+}
+
+extension CodePipelineErrorType: Equatable {
+    public static func == (lhs: CodePipelineErrorType, rhs: CodePipelineErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CodePipelineErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .actionNotFoundException(let message):
-            return "ActionNotFoundException: \(message ?? "")"
-        case .actionTypeNotFoundException(let message):
-            return "ActionTypeNotFoundException: \(message ?? "")"
-        case .approvalAlreadyCompletedException(let message):
-            return "ApprovalAlreadyCompletedException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .duplicatedStopRequestException(let message):
-            return "DuplicatedStopRequestException: \(message ?? "")"
-        case .invalidActionDeclarationException(let message):
-            return "InvalidActionDeclarationException: \(message ?? "")"
-        case .invalidApprovalTokenException(let message):
-            return "InvalidApprovalTokenException: \(message ?? "")"
-        case .invalidArnException(let message):
-            return "InvalidArnException: \(message ?? "")"
-        case .invalidBlockerDeclarationException(let message):
-            return "InvalidBlockerDeclarationException: \(message ?? "")"
-        case .invalidClientTokenException(let message):
-            return "InvalidClientTokenException: \(message ?? "")"
-        case .invalidJobException(let message):
-            return "InvalidJobException: \(message ?? "")"
-        case .invalidJobStateException(let message):
-            return "InvalidJobStateException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidNonceException(let message):
-            return "InvalidNonceException: \(message ?? "")"
-        case .invalidStageDeclarationException(let message):
-            return "InvalidStageDeclarationException: \(message ?? "")"
-        case .invalidStructureException(let message):
-            return "InvalidStructureException: \(message ?? "")"
-        case .invalidTagsException(let message):
-            return "InvalidTagsException: \(message ?? "")"
-        case .invalidWebhookAuthenticationParametersException(let message):
-            return "InvalidWebhookAuthenticationParametersException: \(message ?? "")"
-        case .invalidWebhookFilterPatternException(let message):
-            return "InvalidWebhookFilterPatternException: \(message ?? "")"
-        case .jobNotFoundException(let message):
-            return "JobNotFoundException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notLatestPipelineExecutionException(let message):
-            return "NotLatestPipelineExecutionException: \(message ?? "")"
-        case .outputVariablesSizeExceededException(let message):
-            return "OutputVariablesSizeExceededException: \(message ?? "")"
-        case .pipelineExecutionNotFoundException(let message):
-            return "PipelineExecutionNotFoundException: \(message ?? "")"
-        case .pipelineExecutionNotStoppableException(let message):
-            return "PipelineExecutionNotStoppableException: \(message ?? "")"
-        case .pipelineNameInUseException(let message):
-            return "PipelineNameInUseException: \(message ?? "")"
-        case .pipelineNotFoundException(let message):
-            return "PipelineNotFoundException: \(message ?? "")"
-        case .pipelineVersionNotFoundException(let message):
-            return "PipelineVersionNotFoundException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .stageNotFoundException(let message):
-            return "StageNotFoundException: \(message ?? "")"
-        case .stageNotRetryableException(let message):
-            return "StageNotRetryableException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        case .webhookNotFoundException(let message):
-            return "WebhookNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

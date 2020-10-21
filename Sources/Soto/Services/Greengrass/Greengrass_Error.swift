@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for Greengrass
-public enum GreengrassErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case internalServerErrorException(message: String?)
-}
+public struct GreengrassErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case internalServerErrorException = "InternalServerErrorException"
+    }
 
-extension GreengrassErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+}
+
+extension GreengrassErrorType: Equatable {
+    public static func == (lhs: GreengrassErrorType, rhs: GreengrassErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension GreengrassErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

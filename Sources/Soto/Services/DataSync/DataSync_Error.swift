@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for DataSync
-public enum DataSyncErrorType: AWSErrorType {
-    case internalException(message: String?)
-    case invalidRequestException(message: String?)
-}
+public struct DataSyncErrorType: AWSErrorType {
+    enum Code: String {
+        case internalException = "InternalException"
+        case invalidRequestException = "InvalidRequestException"
+    }
 
-extension DataSyncErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+}
+
+extension DataSyncErrorType: Equatable {
+    public static func == (lhs: DataSyncErrorType, rhs: DataSyncErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension DataSyncErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

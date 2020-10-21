@@ -17,55 +17,50 @@
 import SotoCore
 
 /// Error enum for MediaStore
-public enum MediaStoreErrorType: AWSErrorType {
-    case containerInUseException(message: String?)
-    case containerNotFoundException(message: String?)
-    case corsPolicyNotFoundException(message: String?)
-    case internalServerError(message: String?)
-    case limitExceededException(message: String?)
-    case policyNotFoundException(message: String?)
-}
+public struct MediaStoreErrorType: AWSErrorType {
+    enum Code: String {
+        case containerInUseException = "ContainerInUseException"
+        case containerNotFoundException = "ContainerNotFoundException"
+        case corsPolicyNotFoundException = "CorsPolicyNotFoundException"
+        case internalServerError = "InternalServerError"
+        case limitExceededException = "LimitExceededException"
+        case policyNotFoundException = "PolicyNotFoundException"
+    }
 
-extension MediaStoreErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ContainerInUseException":
-            self = .containerInUseException(message: message)
-        case "ContainerNotFoundException":
-            self = .containerNotFoundException(message: message)
-        case "CorsPolicyNotFoundException":
-            self = .corsPolicyNotFoundException(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "PolicyNotFoundException":
-            self = .policyNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var containerInUseException: Self { .init(.containerInUseException) }
+    public static var containerNotFoundException: Self { .init(.containerNotFoundException) }
+    public static var corsPolicyNotFoundException: Self { .init(.corsPolicyNotFoundException) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
+}
+
+extension MediaStoreErrorType: Equatable {
+    public static func == (lhs: MediaStoreErrorType, rhs: MediaStoreErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MediaStoreErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .containerInUseException(let message):
-            return "ContainerInUseException: \(message ?? "")"
-        case .containerNotFoundException(let message):
-            return "ContainerNotFoundException: \(message ?? "")"
-        case .corsPolicyNotFoundException(let message):
-            return "CorsPolicyNotFoundException: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .policyNotFoundException(let message):
-            return "PolicyNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

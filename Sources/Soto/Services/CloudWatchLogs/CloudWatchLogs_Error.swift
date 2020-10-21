@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for CloudWatchLogs
-public enum CloudWatchLogsErrorType: AWSErrorType {
-    case dataAlreadyAcceptedException(message: String?)
-    case invalidOperationException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidSequenceTokenException(message: String?)
-    case limitExceededException(message: String?)
-    case malformedQueryException(message: String?)
-    case operationAbortedException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case unrecognizedClientException(message: String?)
-}
+public struct CloudWatchLogsErrorType: AWSErrorType {
+    enum Code: String {
+        case dataAlreadyAcceptedException = "DataAlreadyAcceptedException"
+        case invalidOperationException = "InvalidOperationException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidSequenceTokenException = "InvalidSequenceTokenException"
+        case limitExceededException = "LimitExceededException"
+        case malformedQueryException = "MalformedQueryException"
+        case operationAbortedException = "OperationAbortedException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case unrecognizedClientException = "UnrecognizedClientException"
+    }
 
-extension CloudWatchLogsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DataAlreadyAcceptedException":
-            self = .dataAlreadyAcceptedException(message: message)
-        case "InvalidOperationException":
-            self = .invalidOperationException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidSequenceTokenException":
-            self = .invalidSequenceTokenException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MalformedQueryException":
-            self = .malformedQueryException(message: message)
-        case "OperationAbortedException":
-            self = .operationAbortedException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "UnrecognizedClientException":
-            self = .unrecognizedClientException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var dataAlreadyAcceptedException: Self { .init(.dataAlreadyAcceptedException) }
+    public static var invalidOperationException: Self { .init(.invalidOperationException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidSequenceTokenException: Self { .init(.invalidSequenceTokenException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var malformedQueryException: Self { .init(.malformedQueryException) }
+    public static var operationAbortedException: Self { .init(.operationAbortedException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var unrecognizedClientException: Self { .init(.unrecognizedClientException) }
+}
+
+extension CloudWatchLogsErrorType: Equatable {
+    public static func == (lhs: CloudWatchLogsErrorType, rhs: CloudWatchLogsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension CloudWatchLogsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .dataAlreadyAcceptedException(let message):
-            return "DataAlreadyAcceptedException: \(message ?? "")"
-        case .invalidOperationException(let message):
-            return "InvalidOperationException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidSequenceTokenException(let message):
-            return "InvalidSequenceTokenException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .malformedQueryException(let message):
-            return "MalformedQueryException: \(message ?? "")"
-        case .operationAbortedException(let message):
-            return "OperationAbortedException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .unrecognizedClientException(let message):
-            return "UnrecognizedClientException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for ConnectParticipant
-public enum ConnectParticipantErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case internalServerException(message: String?)
-    case throttlingException(message: String?)
-    case validationException(message: String?)
-}
+public struct ConnectParticipantErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case internalServerException = "InternalServerException"
+        case throttlingException = "ThrottlingException"
+        case validationException = "ValidationException"
+    }
 
-extension ConnectParticipantErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ConnectParticipantErrorType: Equatable {
+    public static func == (lhs: ConnectParticipantErrorType, rhs: ConnectParticipantErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ConnectParticipantErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

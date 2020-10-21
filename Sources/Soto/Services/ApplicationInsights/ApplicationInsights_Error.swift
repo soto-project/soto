@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for ApplicationInsights
-public enum ApplicationInsightsErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case internalServerException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tagsAlreadyExistException(message: String?)
-    case tooManyTagsException(message: String?)
-    case validationException(message: String?)
-}
+public struct ApplicationInsightsErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case internalServerException = "InternalServerException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tagsAlreadyExistException = "TagsAlreadyExistException"
+        case tooManyTagsException = "TooManyTagsException"
+        case validationException = "ValidationException"
+    }
 
-extension ApplicationInsightsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TagsAlreadyExistException":
-            self = .tagsAlreadyExistException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tagsAlreadyExistException: Self { .init(.tagsAlreadyExistException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ApplicationInsightsErrorType: Equatable {
+    public static func == (lhs: ApplicationInsightsErrorType, rhs: ApplicationInsightsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ApplicationInsightsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tagsAlreadyExistException(let message):
-            return "TagsAlreadyExistException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

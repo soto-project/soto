@@ -111,8 +111,13 @@ class SNSTests: XCTestCase {
         let response = Self.sns.getTopicAttributes(.init(topicArn: "arn:sns:invalid"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
-            case SNSErrorType.invalidParameterException(let message), SNSErrorType.notFoundException(let message):
-                XCTAssertNotNil(message)
+            case let error as SNSErrorType:
+                switch error {
+                case .invalidParameterException, .notFoundException:
+                    XCTAssertNotNil(error.message)
+                default:
+                    XCTFail("Wrong error: \(error)")
+                }
             default:
                 XCTFail("Wrong error: \(error)")
             }

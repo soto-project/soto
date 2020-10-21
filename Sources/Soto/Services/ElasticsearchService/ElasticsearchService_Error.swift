@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for ElasticsearchService
-public enum ElasticsearchServiceErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case baseException(message: String?)
-    case conflictException(message: String?)
-    case disabledOperationException(message: String?)
-    case internalException(message: String?)
-    case invalidPaginationTokenException(message: String?)
-    case invalidTypeException(message: String?)
-    case limitExceededException(message: String?)
-    case resourceAlreadyExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct ElasticsearchServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case baseException = "BaseException"
+        case conflictException = "ConflictException"
+        case disabledOperationException = "DisabledOperationException"
+        case internalException = "InternalException"
+        case invalidPaginationTokenException = "InvalidPaginationTokenException"
+        case invalidTypeException = "InvalidTypeException"
+        case limitExceededException = "LimitExceededException"
+        case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension ElasticsearchServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "BaseException":
-            self = .baseException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "DisabledOperationException":
-            self = .disabledOperationException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidPaginationTokenException":
-            self = .invalidPaginationTokenException(message: message)
-        case "InvalidTypeException":
-            self = .invalidTypeException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "ResourceAlreadyExistsException":
-            self = .resourceAlreadyExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var baseException: Self { .init(.baseException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var disabledOperationException: Self { .init(.disabledOperationException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
+    public static var invalidTypeException: Self { .init(.invalidTypeException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var resourceAlreadyExistsException: Self { .init(.resourceAlreadyExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension ElasticsearchServiceErrorType: Equatable {
+    public static func == (lhs: ElasticsearchServiceErrorType, rhs: ElasticsearchServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElasticsearchServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .baseException(let message):
-            return "BaseException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .disabledOperationException(let message):
-            return "DisabledOperationException: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidPaginationTokenException(let message):
-            return "InvalidPaginationTokenException: \(message ?? "")"
-        case .invalidTypeException(let message):
-            return "InvalidTypeException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .resourceAlreadyExistsException(let message):
-            return "ResourceAlreadyExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

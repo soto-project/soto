@@ -17,90 +17,64 @@
 import SotoCore
 
 /// Error enum for Connect
-public enum ConnectErrorType: AWSErrorType {
-    case contactFlowNotPublishedException(message: String?)
-    case contactNotFoundException(message: String?)
-    case destinationNotAllowedException(message: String?)
-    case duplicateResourceException(message: String?)
-    case internalServiceException(message: String?)
-    case invalidContactFlowException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case outboundContactNotPermittedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case throttlingException(message: String?)
-    case userNotFoundException(message: String?)
-}
+public struct ConnectErrorType: AWSErrorType {
+    enum Code: String {
+        case contactFlowNotPublishedException = "ContactFlowNotPublishedException"
+        case contactNotFoundException = "ContactNotFoundException"
+        case destinationNotAllowedException = "DestinationNotAllowedException"
+        case duplicateResourceException = "DuplicateResourceException"
+        case internalServiceException = "InternalServiceException"
+        case invalidContactFlowException = "InvalidContactFlowException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case outboundContactNotPermittedException = "OutboundContactNotPermittedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case throttlingException = "ThrottlingException"
+        case userNotFoundException = "UserNotFoundException"
+    }
 
-extension ConnectErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ContactFlowNotPublishedException":
-            self = .contactFlowNotPublishedException(message: message)
-        case "ContactNotFoundException":
-            self = .contactNotFoundException(message: message)
-        case "DestinationNotAllowedException":
-            self = .destinationNotAllowedException(message: message)
-        case "DuplicateResourceException":
-            self = .duplicateResourceException(message: message)
-        case "InternalServiceException":
-            self = .internalServiceException(message: message)
-        case "InvalidContactFlowException":
-            self = .invalidContactFlowException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "OutboundContactNotPermittedException":
-            self = .outboundContactNotPermittedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ThrottlingException":
-            self = .throttlingException(message: message)
-        case "UserNotFoundException":
-            self = .userNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var contactFlowNotPublishedException: Self { .init(.contactFlowNotPublishedException) }
+    public static var contactNotFoundException: Self { .init(.contactNotFoundException) }
+    public static var destinationNotAllowedException: Self { .init(.destinationNotAllowedException) }
+    public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    public static var internalServiceException: Self { .init(.internalServiceException) }
+    public static var invalidContactFlowException: Self { .init(.invalidContactFlowException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var outboundContactNotPermittedException: Self { .init(.outboundContactNotPermittedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var throttlingException: Self { .init(.throttlingException) }
+    public static var userNotFoundException: Self { .init(.userNotFoundException) }
+}
+
+extension ConnectErrorType: Equatable {
+    public static func == (lhs: ConnectErrorType, rhs: ConnectErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ConnectErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .contactFlowNotPublishedException(let message):
-            return "ContactFlowNotPublishedException: \(message ?? "")"
-        case .contactNotFoundException(let message):
-            return "ContactNotFoundException: \(message ?? "")"
-        case .destinationNotAllowedException(let message):
-            return "DestinationNotAllowedException: \(message ?? "")"
-        case .duplicateResourceException(let message):
-            return "DuplicateResourceException: \(message ?? "")"
-        case .internalServiceException(let message):
-            return "InternalServiceException: \(message ?? "")"
-        case .invalidContactFlowException(let message):
-            return "InvalidContactFlowException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .outboundContactNotPermittedException(let message):
-            return "OutboundContactNotPermittedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .throttlingException(let message):
-            return "ThrottlingException: \(message ?? "")"
-        case .userNotFoundException(let message):
-            return "UserNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

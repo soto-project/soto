@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for RedshiftDataAPIService
-public enum RedshiftDataAPIServiceErrorType: AWSErrorType {
-    case executeStatementException(message: String?)
-    case internalServerException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case validationException(message: String?)
-}
+public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
+    enum Code: String {
+        case executeStatementException = "ExecuteStatementException"
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
+    }
 
-extension RedshiftDataAPIServiceErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ExecuteStatementException":
-            self = .executeStatementException(message: message)
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var executeStatementException: Self { .init(.executeStatementException) }
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension RedshiftDataAPIServiceErrorType: Equatable {
+    public static func == (lhs: RedshiftDataAPIServiceErrorType, rhs: RedshiftDataAPIServiceErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension RedshiftDataAPIServiceErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .executeStatementException(let message):
-            return "ExecuteStatementException: \(message ?? "")"
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

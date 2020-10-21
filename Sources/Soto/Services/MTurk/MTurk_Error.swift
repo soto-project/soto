@@ -17,35 +17,42 @@
 import SotoCore
 
 /// Error enum for MTurk
-public enum MTurkErrorType: AWSErrorType {
-    case requestError(message: String?)
-    case serviceFault(message: String?)
-}
+public struct MTurkErrorType: AWSErrorType {
+    enum Code: String {
+        case requestError = "RequestError"
+        case serviceFault = "ServiceFault"
+    }
 
-extension MTurkErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "RequestError":
-            self = .requestError(message: message)
-        case "ServiceFault":
-            self = .serviceFault(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var requestError: Self { .init(.requestError) }
+    public static var serviceFault: Self { .init(.serviceFault) }
+}
+
+extension MTurkErrorType: Equatable {
+    public static func == (lhs: MTurkErrorType, rhs: MTurkErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension MTurkErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .requestError(let message):
-            return "RequestError: \(message ?? "")"
-        case .serviceFault(let message):
-            return "ServiceFault: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

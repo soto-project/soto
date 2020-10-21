@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for Amplify
-public enum AmplifyErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case dependentServiceFailureException(message: String?)
-    case internalFailureException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case unauthorizedException(message: String?)
-}
+public struct AmplifyErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case dependentServiceFailureException = "DependentServiceFailureException"
+        case internalFailureException = "InternalFailureException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case unauthorizedException = "UnauthorizedException"
+    }
 
-extension AmplifyErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "DependentServiceFailureException":
-            self = .dependentServiceFailureException(message: message)
-        case "InternalFailureException":
-            self = .internalFailureException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "UnauthorizedException":
-            self = .unauthorizedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var dependentServiceFailureException: Self { .init(.dependentServiceFailureException) }
+    public static var internalFailureException: Self { .init(.internalFailureException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var unauthorizedException: Self { .init(.unauthorizedException) }
+}
+
+extension AmplifyErrorType: Equatable {
+    public static func == (lhs: AmplifyErrorType, rhs: AmplifyErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AmplifyErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .dependentServiceFailureException(let message):
-            return "DependentServiceFailureException: \(message ?? "")"
-        case .internalFailureException(let message):
-            return "InternalFailureException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .unauthorizedException(let message):
-            return "UnauthorizedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

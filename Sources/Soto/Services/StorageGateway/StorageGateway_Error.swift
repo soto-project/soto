@@ -17,40 +17,44 @@
 import SotoCore
 
 /// Error enum for StorageGateway
-public enum StorageGatewayErrorType: AWSErrorType {
-    case internalServerError(message: String?)
-    case invalidGatewayRequestException(message: String?)
-    case serviceUnavailableError(message: String?)
-}
+public struct StorageGatewayErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerError = "InternalServerError"
+        case invalidGatewayRequestException = "InvalidGatewayRequestException"
+        case serviceUnavailableError = "ServiceUnavailableError"
+    }
 
-extension StorageGatewayErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        case "InvalidGatewayRequestException":
-            self = .invalidGatewayRequestException(message: message)
-        case "ServiceUnavailableError":
-            self = .serviceUnavailableError(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerError: Self { .init(.internalServerError) }
+    public static var invalidGatewayRequestException: Self { .init(.invalidGatewayRequestException) }
+    public static var serviceUnavailableError: Self { .init(.serviceUnavailableError) }
+}
+
+extension StorageGatewayErrorType: Equatable {
+    public static func == (lhs: StorageGatewayErrorType, rhs: StorageGatewayErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension StorageGatewayErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        case .invalidGatewayRequestException(let message):
-            return "InvalidGatewayRequestException: \(message ?? "")"
-        case .serviceUnavailableError(let message):
-            return "ServiceUnavailableError: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

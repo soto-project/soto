@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Backup
-public enum BackupErrorType: AWSErrorType {
-    case alreadyExistsException(message: String?)
-    case dependencyFailureException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case missingParameterValueException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceUnavailableException(message: String?)
-}
+public struct BackupErrorType: AWSErrorType {
+    enum Code: String {
+        case alreadyExistsException = "AlreadyExistsException"
+        case dependencyFailureException = "DependencyFailureException"
+        case invalidParameterValueException = "InvalidParameterValueException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case missingParameterValueException = "MissingParameterValueException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+    }
 
-extension BackupErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AlreadyExistsException":
-            self = .alreadyExistsException(message: message)
-        case "DependencyFailureException":
-            self = .dependencyFailureException(message: message)
-        case "InvalidParameterValueException":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MissingParameterValueException":
-            self = .missingParameterValueException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
+    public static var dependencyFailureException: Self { .init(.dependencyFailureException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var missingParameterValueException: Self { .init(.missingParameterValueException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+}
+
+extension BackupErrorType: Equatable {
+    public static func == (lhs: BackupErrorType, rhs: BackupErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension BackupErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .alreadyExistsException(let message):
-            return "AlreadyExistsException: \(message ?? "")"
-        case .dependencyFailureException(let message):
-            return "DependencyFailureException: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValueException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .missingParameterValueException(let message):
-            return "MissingParameterValueException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

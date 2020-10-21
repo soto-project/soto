@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Pinpoint
-public enum PinpointErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case forbiddenException(message: String?)
-    case internalServerErrorException(message: String?)
-    case methodNotAllowedException(message: String?)
-    case notFoundException(message: String?)
-    case payloadTooLargeException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct PinpointErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case methodNotAllowedException = "MethodNotAllowedException"
+        case notFoundException = "NotFoundException"
+        case payloadTooLargeException = "PayloadTooLargeException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension PinpointErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "MethodNotAllowedException":
-            self = .methodNotAllowedException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "PayloadTooLargeException":
-            self = .payloadTooLargeException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var methodNotAllowedException: Self { .init(.methodNotAllowedException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension PinpointErrorType: Equatable {
+    public static func == (lhs: PinpointErrorType, rhs: PinpointErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension PinpointErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .methodNotAllowedException(let message):
-            return "MethodNotAllowedException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .payloadTooLargeException(let message):
-            return "PayloadTooLargeException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

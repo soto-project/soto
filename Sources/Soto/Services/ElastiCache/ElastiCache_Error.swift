@@ -17,300 +17,148 @@
 import SotoCore
 
 /// Error enum for ElastiCache
-public enum ElastiCacheErrorType: AWSErrorType {
-    case aPICallRateForCustomerExceededFault(message: String?)
-    case authorizationAlreadyExistsFault(message: String?)
-    case authorizationNotFoundFault(message: String?)
-    case cacheClusterAlreadyExistsFault(message: String?)
-    case cacheClusterNotFoundFault(message: String?)
-    case cacheParameterGroupAlreadyExistsFault(message: String?)
-    case cacheParameterGroupNotFoundFault(message: String?)
-    case cacheParameterGroupQuotaExceededFault(message: String?)
-    case cacheSecurityGroupAlreadyExistsFault(message: String?)
-    case cacheSecurityGroupNotFoundFault(message: String?)
-    case cacheSecurityGroupQuotaExceededFault(message: String?)
-    case cacheSubnetGroupAlreadyExistsFault(message: String?)
-    case cacheSubnetGroupInUse(message: String?)
-    case cacheSubnetGroupNotFoundFault(message: String?)
-    case cacheSubnetGroupQuotaExceededFault(message: String?)
-    case cacheSubnetQuotaExceededFault(message: String?)
-    case clusterQuotaForCustomerExceededFault(message: String?)
-    case globalReplicationGroupAlreadyExistsFault(message: String?)
-    case globalReplicationGroupNotFoundFault(message: String?)
-    case insufficientCacheClusterCapacityFault(message: String?)
-    case invalidARNFault(message: String?)
-    case invalidCacheClusterStateFault(message: String?)
-    case invalidCacheParameterGroupStateFault(message: String?)
-    case invalidCacheSecurityGroupStateFault(message: String?)
-    case invalidGlobalReplicationGroupStateFault(message: String?)
-    case invalidKMSKeyFault(message: String?)
-    case invalidParameterCombinationException(message: String?)
-    case invalidParameterValueException(message: String?)
-    case invalidReplicationGroupStateFault(message: String?)
-    case invalidSnapshotStateFault(message: String?)
-    case invalidSubnet(message: String?)
-    case invalidVPCNetworkStateFault(message: String?)
-    case noOperationFault(message: String?)
-    case nodeGroupNotFoundFault(message: String?)
-    case nodeGroupsPerReplicationGroupQuotaExceededFault(message: String?)
-    case nodeQuotaForClusterExceededFault(message: String?)
-    case nodeQuotaForCustomerExceededFault(message: String?)
-    case replicationGroupAlreadyExistsFault(message: String?)
-    case replicationGroupAlreadyUnderMigrationFault(message: String?)
-    case replicationGroupNotFoundFault(message: String?)
-    case replicationGroupNotUnderMigrationFault(message: String?)
-    case reservedCacheNodeAlreadyExistsFault(message: String?)
-    case reservedCacheNodeNotFoundFault(message: String?)
-    case reservedCacheNodeQuotaExceededFault(message: String?)
-    case reservedCacheNodesOfferingNotFoundFault(message: String?)
-    case serviceLinkedRoleNotFoundFault(message: String?)
-    case serviceUpdateNotFoundFault(message: String?)
-    case snapshotAlreadyExistsFault(message: String?)
-    case snapshotFeatureNotSupportedFault(message: String?)
-    case snapshotNotFoundFault(message: String?)
-    case snapshotQuotaExceededFault(message: String?)
-    case subnetInUse(message: String?)
-    case tagNotFoundFault(message: String?)
-    case tagQuotaPerResourceExceeded(message: String?)
-    case testFailoverNotAvailableFault(message: String?)
-}
+public struct ElastiCacheErrorType: AWSErrorType {
+    enum Code: String {
+        case aPICallRateForCustomerExceededFault = "APICallRateForCustomerExceeded"
+        case authorizationAlreadyExistsFault = "AuthorizationAlreadyExists"
+        case authorizationNotFoundFault = "AuthorizationNotFound"
+        case cacheClusterAlreadyExistsFault = "CacheClusterAlreadyExists"
+        case cacheClusterNotFoundFault = "CacheClusterNotFound"
+        case cacheParameterGroupAlreadyExistsFault = "CacheParameterGroupAlreadyExists"
+        case cacheParameterGroupNotFoundFault = "CacheParameterGroupNotFound"
+        case cacheParameterGroupQuotaExceededFault = "CacheParameterGroupQuotaExceeded"
+        case cacheSecurityGroupAlreadyExistsFault = "CacheSecurityGroupAlreadyExists"
+        case cacheSecurityGroupNotFoundFault = "CacheSecurityGroupNotFound"
+        case cacheSecurityGroupQuotaExceededFault = "QuotaExceeded.CacheSecurityGroup"
+        case cacheSubnetGroupAlreadyExistsFault = "CacheSubnetGroupAlreadyExists"
+        case cacheSubnetGroupInUse = "CacheSubnetGroupInUse"
+        case cacheSubnetGroupNotFoundFault = "CacheSubnetGroupNotFoundFault"
+        case cacheSubnetGroupQuotaExceededFault = "CacheSubnetGroupQuotaExceeded"
+        case cacheSubnetQuotaExceededFault = "CacheSubnetQuotaExceededFault"
+        case clusterQuotaForCustomerExceededFault = "ClusterQuotaForCustomerExceeded"
+        case globalReplicationGroupAlreadyExistsFault = "GlobalReplicationGroupAlreadyExistsFault"
+        case globalReplicationGroupNotFoundFault = "GlobalReplicationGroupNotFoundFault"
+        case insufficientCacheClusterCapacityFault = "InsufficientCacheClusterCapacity"
+        case invalidARNFault = "InvalidARN"
+        case invalidCacheClusterStateFault = "InvalidCacheClusterState"
+        case invalidCacheParameterGroupStateFault = "InvalidCacheParameterGroupState"
+        case invalidCacheSecurityGroupStateFault = "InvalidCacheSecurityGroupState"
+        case invalidGlobalReplicationGroupStateFault = "InvalidGlobalReplicationGroupState"
+        case invalidKMSKeyFault = "InvalidKMSKeyFault"
+        case invalidParameterCombinationException = "InvalidParameterCombination"
+        case invalidParameterValueException = "InvalidParameterValue"
+        case invalidReplicationGroupStateFault = "InvalidReplicationGroupState"
+        case invalidSnapshotStateFault = "InvalidSnapshotState"
+        case invalidSubnet = "InvalidSubnet"
+        case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
+        case noOperationFault = "NoOperationFault"
+        case nodeGroupNotFoundFault = "NodeGroupNotFoundFault"
+        case nodeGroupsPerReplicationGroupQuotaExceededFault = "NodeGroupsPerReplicationGroupQuotaExceeded"
+        case nodeQuotaForClusterExceededFault = "NodeQuotaForClusterExceeded"
+        case nodeQuotaForCustomerExceededFault = "NodeQuotaForCustomerExceeded"
+        case replicationGroupAlreadyExistsFault = "ReplicationGroupAlreadyExists"
+        case replicationGroupAlreadyUnderMigrationFault = "ReplicationGroupAlreadyUnderMigrationFault"
+        case replicationGroupNotFoundFault = "ReplicationGroupNotFoundFault"
+        case replicationGroupNotUnderMigrationFault = "ReplicationGroupNotUnderMigrationFault"
+        case reservedCacheNodeAlreadyExistsFault = "ReservedCacheNodeAlreadyExists"
+        case reservedCacheNodeNotFoundFault = "ReservedCacheNodeNotFound"
+        case reservedCacheNodeQuotaExceededFault = "ReservedCacheNodeQuotaExceeded"
+        case reservedCacheNodesOfferingNotFoundFault = "ReservedCacheNodesOfferingNotFound"
+        case serviceLinkedRoleNotFoundFault = "ServiceLinkedRoleNotFoundFault"
+        case serviceUpdateNotFoundFault = "ServiceUpdateNotFoundFault"
+        case snapshotAlreadyExistsFault = "SnapshotAlreadyExistsFault"
+        case snapshotFeatureNotSupportedFault = "SnapshotFeatureNotSupportedFault"
+        case snapshotNotFoundFault = "SnapshotNotFoundFault"
+        case snapshotQuotaExceededFault = "SnapshotQuotaExceededFault"
+        case subnetInUse = "SubnetInUse"
+        case tagNotFoundFault = "TagNotFound"
+        case tagQuotaPerResourceExceeded = "TagQuotaPerResourceExceeded"
+        case testFailoverNotAvailableFault = "TestFailoverNotAvailableFault"
+    }
 
-extension ElastiCacheErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "APICallRateForCustomerExceeded":
-            self = .aPICallRateForCustomerExceededFault(message: message)
-        case "AuthorizationAlreadyExists":
-            self = .authorizationAlreadyExistsFault(message: message)
-        case "AuthorizationNotFound":
-            self = .authorizationNotFoundFault(message: message)
-        case "CacheClusterAlreadyExists":
-            self = .cacheClusterAlreadyExistsFault(message: message)
-        case "CacheClusterNotFound":
-            self = .cacheClusterNotFoundFault(message: message)
-        case "CacheParameterGroupAlreadyExists":
-            self = .cacheParameterGroupAlreadyExistsFault(message: message)
-        case "CacheParameterGroupNotFound":
-            self = .cacheParameterGroupNotFoundFault(message: message)
-        case "CacheParameterGroupQuotaExceeded":
-            self = .cacheParameterGroupQuotaExceededFault(message: message)
-        case "CacheSecurityGroupAlreadyExists":
-            self = .cacheSecurityGroupAlreadyExistsFault(message: message)
-        case "CacheSecurityGroupNotFound":
-            self = .cacheSecurityGroupNotFoundFault(message: message)
-        case "QuotaExceeded.CacheSecurityGroup":
-            self = .cacheSecurityGroupQuotaExceededFault(message: message)
-        case "CacheSubnetGroupAlreadyExists":
-            self = .cacheSubnetGroupAlreadyExistsFault(message: message)
-        case "CacheSubnetGroupInUse":
-            self = .cacheSubnetGroupInUse(message: message)
-        case "CacheSubnetGroupNotFoundFault":
-            self = .cacheSubnetGroupNotFoundFault(message: message)
-        case "CacheSubnetGroupQuotaExceeded":
-            self = .cacheSubnetGroupQuotaExceededFault(message: message)
-        case "CacheSubnetQuotaExceededFault":
-            self = .cacheSubnetQuotaExceededFault(message: message)
-        case "ClusterQuotaForCustomerExceeded":
-            self = .clusterQuotaForCustomerExceededFault(message: message)
-        case "GlobalReplicationGroupAlreadyExistsFault":
-            self = .globalReplicationGroupAlreadyExistsFault(message: message)
-        case "GlobalReplicationGroupNotFoundFault":
-            self = .globalReplicationGroupNotFoundFault(message: message)
-        case "InsufficientCacheClusterCapacity":
-            self = .insufficientCacheClusterCapacityFault(message: message)
-        case "InvalidARN":
-            self = .invalidARNFault(message: message)
-        case "InvalidCacheClusterState":
-            self = .invalidCacheClusterStateFault(message: message)
-        case "InvalidCacheParameterGroupState":
-            self = .invalidCacheParameterGroupStateFault(message: message)
-        case "InvalidCacheSecurityGroupState":
-            self = .invalidCacheSecurityGroupStateFault(message: message)
-        case "InvalidGlobalReplicationGroupState":
-            self = .invalidGlobalReplicationGroupStateFault(message: message)
-        case "InvalidKMSKeyFault":
-            self = .invalidKMSKeyFault(message: message)
-        case "InvalidParameterCombination":
-            self = .invalidParameterCombinationException(message: message)
-        case "InvalidParameterValue":
-            self = .invalidParameterValueException(message: message)
-        case "InvalidReplicationGroupState":
-            self = .invalidReplicationGroupStateFault(message: message)
-        case "InvalidSnapshotState":
-            self = .invalidSnapshotStateFault(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnet(message: message)
-        case "InvalidVPCNetworkStateFault":
-            self = .invalidVPCNetworkStateFault(message: message)
-        case "NoOperationFault":
-            self = .noOperationFault(message: message)
-        case "NodeGroupNotFoundFault":
-            self = .nodeGroupNotFoundFault(message: message)
-        case "NodeGroupsPerReplicationGroupQuotaExceeded":
-            self = .nodeGroupsPerReplicationGroupQuotaExceededFault(message: message)
-        case "NodeQuotaForClusterExceeded":
-            self = .nodeQuotaForClusterExceededFault(message: message)
-        case "NodeQuotaForCustomerExceeded":
-            self = .nodeQuotaForCustomerExceededFault(message: message)
-        case "ReplicationGroupAlreadyExists":
-            self = .replicationGroupAlreadyExistsFault(message: message)
-        case "ReplicationGroupAlreadyUnderMigrationFault":
-            self = .replicationGroupAlreadyUnderMigrationFault(message: message)
-        case "ReplicationGroupNotFoundFault":
-            self = .replicationGroupNotFoundFault(message: message)
-        case "ReplicationGroupNotUnderMigrationFault":
-            self = .replicationGroupNotUnderMigrationFault(message: message)
-        case "ReservedCacheNodeAlreadyExists":
-            self = .reservedCacheNodeAlreadyExistsFault(message: message)
-        case "ReservedCacheNodeNotFound":
-            self = .reservedCacheNodeNotFoundFault(message: message)
-        case "ReservedCacheNodeQuotaExceeded":
-            self = .reservedCacheNodeQuotaExceededFault(message: message)
-        case "ReservedCacheNodesOfferingNotFound":
-            self = .reservedCacheNodesOfferingNotFoundFault(message: message)
-        case "ServiceLinkedRoleNotFoundFault":
-            self = .serviceLinkedRoleNotFoundFault(message: message)
-        case "ServiceUpdateNotFoundFault":
-            self = .serviceUpdateNotFoundFault(message: message)
-        case "SnapshotAlreadyExistsFault":
-            self = .snapshotAlreadyExistsFault(message: message)
-        case "SnapshotFeatureNotSupportedFault":
-            self = .snapshotFeatureNotSupportedFault(message: message)
-        case "SnapshotNotFoundFault":
-            self = .snapshotNotFoundFault(message: message)
-        case "SnapshotQuotaExceededFault":
-            self = .snapshotQuotaExceededFault(message: message)
-        case "SubnetInUse":
-            self = .subnetInUse(message: message)
-        case "TagNotFound":
-            self = .tagNotFoundFault(message: message)
-        case "TagQuotaPerResourceExceeded":
-            self = .tagQuotaPerResourceExceeded(message: message)
-        case "TestFailoverNotAvailableFault":
-            self = .testFailoverNotAvailableFault(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var aPICallRateForCustomerExceededFault: Self { .init(.aPICallRateForCustomerExceededFault) }
+    public static var authorizationAlreadyExistsFault: Self { .init(.authorizationAlreadyExistsFault) }
+    public static var authorizationNotFoundFault: Self { .init(.authorizationNotFoundFault) }
+    public static var cacheClusterAlreadyExistsFault: Self { .init(.cacheClusterAlreadyExistsFault) }
+    public static var cacheClusterNotFoundFault: Self { .init(.cacheClusterNotFoundFault) }
+    public static var cacheParameterGroupAlreadyExistsFault: Self { .init(.cacheParameterGroupAlreadyExistsFault) }
+    public static var cacheParameterGroupNotFoundFault: Self { .init(.cacheParameterGroupNotFoundFault) }
+    public static var cacheParameterGroupQuotaExceededFault: Self { .init(.cacheParameterGroupQuotaExceededFault) }
+    public static var cacheSecurityGroupAlreadyExistsFault: Self { .init(.cacheSecurityGroupAlreadyExistsFault) }
+    public static var cacheSecurityGroupNotFoundFault: Self { .init(.cacheSecurityGroupNotFoundFault) }
+    public static var cacheSecurityGroupQuotaExceededFault: Self { .init(.cacheSecurityGroupQuotaExceededFault) }
+    public static var cacheSubnetGroupAlreadyExistsFault: Self { .init(.cacheSubnetGroupAlreadyExistsFault) }
+    public static var cacheSubnetGroupInUse: Self { .init(.cacheSubnetGroupInUse) }
+    public static var cacheSubnetGroupNotFoundFault: Self { .init(.cacheSubnetGroupNotFoundFault) }
+    public static var cacheSubnetGroupQuotaExceededFault: Self { .init(.cacheSubnetGroupQuotaExceededFault) }
+    public static var cacheSubnetQuotaExceededFault: Self { .init(.cacheSubnetQuotaExceededFault) }
+    public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }
+    public static var globalReplicationGroupAlreadyExistsFault: Self { .init(.globalReplicationGroupAlreadyExistsFault) }
+    public static var globalReplicationGroupNotFoundFault: Self { .init(.globalReplicationGroupNotFoundFault) }
+    public static var insufficientCacheClusterCapacityFault: Self { .init(.insufficientCacheClusterCapacityFault) }
+    public static var invalidARNFault: Self { .init(.invalidARNFault) }
+    public static var invalidCacheClusterStateFault: Self { .init(.invalidCacheClusterStateFault) }
+    public static var invalidCacheParameterGroupStateFault: Self { .init(.invalidCacheParameterGroupStateFault) }
+    public static var invalidCacheSecurityGroupStateFault: Self { .init(.invalidCacheSecurityGroupStateFault) }
+    public static var invalidGlobalReplicationGroupStateFault: Self { .init(.invalidGlobalReplicationGroupStateFault) }
+    public static var invalidKMSKeyFault: Self { .init(.invalidKMSKeyFault) }
+    public static var invalidParameterCombinationException: Self { .init(.invalidParameterCombinationException) }
+    public static var invalidParameterValueException: Self { .init(.invalidParameterValueException) }
+    public static var invalidReplicationGroupStateFault: Self { .init(.invalidReplicationGroupStateFault) }
+    public static var invalidSnapshotStateFault: Self { .init(.invalidSnapshotStateFault) }
+    public static var invalidSubnet: Self { .init(.invalidSubnet) }
+    public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
+    public static var noOperationFault: Self { .init(.noOperationFault) }
+    public static var nodeGroupNotFoundFault: Self { .init(.nodeGroupNotFoundFault) }
+    public static var nodeGroupsPerReplicationGroupQuotaExceededFault: Self { .init(.nodeGroupsPerReplicationGroupQuotaExceededFault) }
+    public static var nodeQuotaForClusterExceededFault: Self { .init(.nodeQuotaForClusterExceededFault) }
+    public static var nodeQuotaForCustomerExceededFault: Self { .init(.nodeQuotaForCustomerExceededFault) }
+    public static var replicationGroupAlreadyExistsFault: Self { .init(.replicationGroupAlreadyExistsFault) }
+    public static var replicationGroupAlreadyUnderMigrationFault: Self { .init(.replicationGroupAlreadyUnderMigrationFault) }
+    public static var replicationGroupNotFoundFault: Self { .init(.replicationGroupNotFoundFault) }
+    public static var replicationGroupNotUnderMigrationFault: Self { .init(.replicationGroupNotUnderMigrationFault) }
+    public static var reservedCacheNodeAlreadyExistsFault: Self { .init(.reservedCacheNodeAlreadyExistsFault) }
+    public static var reservedCacheNodeNotFoundFault: Self { .init(.reservedCacheNodeNotFoundFault) }
+    public static var reservedCacheNodeQuotaExceededFault: Self { .init(.reservedCacheNodeQuotaExceededFault) }
+    public static var reservedCacheNodesOfferingNotFoundFault: Self { .init(.reservedCacheNodesOfferingNotFoundFault) }
+    public static var serviceLinkedRoleNotFoundFault: Self { .init(.serviceLinkedRoleNotFoundFault) }
+    public static var serviceUpdateNotFoundFault: Self { .init(.serviceUpdateNotFoundFault) }
+    public static var snapshotAlreadyExistsFault: Self { .init(.snapshotAlreadyExistsFault) }
+    public static var snapshotFeatureNotSupportedFault: Self { .init(.snapshotFeatureNotSupportedFault) }
+    public static var snapshotNotFoundFault: Self { .init(.snapshotNotFoundFault) }
+    public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    public static var subnetInUse: Self { .init(.subnetInUse) }
+    public static var tagNotFoundFault: Self { .init(.tagNotFoundFault) }
+    public static var tagQuotaPerResourceExceeded: Self { .init(.tagQuotaPerResourceExceeded) }
+    public static var testFailoverNotAvailableFault: Self { .init(.testFailoverNotAvailableFault) }
+}
+
+extension ElastiCacheErrorType: Equatable {
+    public static func == (lhs: ElastiCacheErrorType, rhs: ElastiCacheErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElastiCacheErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .aPICallRateForCustomerExceededFault(let message):
-            return "APICallRateForCustomerExceeded: \(message ?? "")"
-        case .authorizationAlreadyExistsFault(let message):
-            return "AuthorizationAlreadyExists: \(message ?? "")"
-        case .authorizationNotFoundFault(let message):
-            return "AuthorizationNotFound: \(message ?? "")"
-        case .cacheClusterAlreadyExistsFault(let message):
-            return "CacheClusterAlreadyExists: \(message ?? "")"
-        case .cacheClusterNotFoundFault(let message):
-            return "CacheClusterNotFound: \(message ?? "")"
-        case .cacheParameterGroupAlreadyExistsFault(let message):
-            return "CacheParameterGroupAlreadyExists: \(message ?? "")"
-        case .cacheParameterGroupNotFoundFault(let message):
-            return "CacheParameterGroupNotFound: \(message ?? "")"
-        case .cacheParameterGroupQuotaExceededFault(let message):
-            return "CacheParameterGroupQuotaExceeded: \(message ?? "")"
-        case .cacheSecurityGroupAlreadyExistsFault(let message):
-            return "CacheSecurityGroupAlreadyExists: \(message ?? "")"
-        case .cacheSecurityGroupNotFoundFault(let message):
-            return "CacheSecurityGroupNotFound: \(message ?? "")"
-        case .cacheSecurityGroupQuotaExceededFault(let message):
-            return "QuotaExceeded.CacheSecurityGroup: \(message ?? "")"
-        case .cacheSubnetGroupAlreadyExistsFault(let message):
-            return "CacheSubnetGroupAlreadyExists: \(message ?? "")"
-        case .cacheSubnetGroupInUse(let message):
-            return "CacheSubnetGroupInUse: \(message ?? "")"
-        case .cacheSubnetGroupNotFoundFault(let message):
-            return "CacheSubnetGroupNotFoundFault: \(message ?? "")"
-        case .cacheSubnetGroupQuotaExceededFault(let message):
-            return "CacheSubnetGroupQuotaExceeded: \(message ?? "")"
-        case .cacheSubnetQuotaExceededFault(let message):
-            return "CacheSubnetQuotaExceededFault: \(message ?? "")"
-        case .clusterQuotaForCustomerExceededFault(let message):
-            return "ClusterQuotaForCustomerExceeded: \(message ?? "")"
-        case .globalReplicationGroupAlreadyExistsFault(let message):
-            return "GlobalReplicationGroupAlreadyExistsFault: \(message ?? "")"
-        case .globalReplicationGroupNotFoundFault(let message):
-            return "GlobalReplicationGroupNotFoundFault: \(message ?? "")"
-        case .insufficientCacheClusterCapacityFault(let message):
-            return "InsufficientCacheClusterCapacity: \(message ?? "")"
-        case .invalidARNFault(let message):
-            return "InvalidARN: \(message ?? "")"
-        case .invalidCacheClusterStateFault(let message):
-            return "InvalidCacheClusterState: \(message ?? "")"
-        case .invalidCacheParameterGroupStateFault(let message):
-            return "InvalidCacheParameterGroupState: \(message ?? "")"
-        case .invalidCacheSecurityGroupStateFault(let message):
-            return "InvalidCacheSecurityGroupState: \(message ?? "")"
-        case .invalidGlobalReplicationGroupStateFault(let message):
-            return "InvalidGlobalReplicationGroupState: \(message ?? "")"
-        case .invalidKMSKeyFault(let message):
-            return "InvalidKMSKeyFault: \(message ?? "")"
-        case .invalidParameterCombinationException(let message):
-            return "InvalidParameterCombination: \(message ?? "")"
-        case .invalidParameterValueException(let message):
-            return "InvalidParameterValue: \(message ?? "")"
-        case .invalidReplicationGroupStateFault(let message):
-            return "InvalidReplicationGroupState: \(message ?? "")"
-        case .invalidSnapshotStateFault(let message):
-            return "InvalidSnapshotState: \(message ?? "")"
-        case .invalidSubnet(let message):
-            return "InvalidSubnet: \(message ?? "")"
-        case .invalidVPCNetworkStateFault(let message):
-            return "InvalidVPCNetworkStateFault: \(message ?? "")"
-        case .noOperationFault(let message):
-            return "NoOperationFault: \(message ?? "")"
-        case .nodeGroupNotFoundFault(let message):
-            return "NodeGroupNotFoundFault: \(message ?? "")"
-        case .nodeGroupsPerReplicationGroupQuotaExceededFault(let message):
-            return "NodeGroupsPerReplicationGroupQuotaExceeded: \(message ?? "")"
-        case .nodeQuotaForClusterExceededFault(let message):
-            return "NodeQuotaForClusterExceeded: \(message ?? "")"
-        case .nodeQuotaForCustomerExceededFault(let message):
-            return "NodeQuotaForCustomerExceeded: \(message ?? "")"
-        case .replicationGroupAlreadyExistsFault(let message):
-            return "ReplicationGroupAlreadyExists: \(message ?? "")"
-        case .replicationGroupAlreadyUnderMigrationFault(let message):
-            return "ReplicationGroupAlreadyUnderMigrationFault: \(message ?? "")"
-        case .replicationGroupNotFoundFault(let message):
-            return "ReplicationGroupNotFoundFault: \(message ?? "")"
-        case .replicationGroupNotUnderMigrationFault(let message):
-            return "ReplicationGroupNotUnderMigrationFault: \(message ?? "")"
-        case .reservedCacheNodeAlreadyExistsFault(let message):
-            return "ReservedCacheNodeAlreadyExists: \(message ?? "")"
-        case .reservedCacheNodeNotFoundFault(let message):
-            return "ReservedCacheNodeNotFound: \(message ?? "")"
-        case .reservedCacheNodeQuotaExceededFault(let message):
-            return "ReservedCacheNodeQuotaExceeded: \(message ?? "")"
-        case .reservedCacheNodesOfferingNotFoundFault(let message):
-            return "ReservedCacheNodesOfferingNotFound: \(message ?? "")"
-        case .serviceLinkedRoleNotFoundFault(let message):
-            return "ServiceLinkedRoleNotFoundFault: \(message ?? "")"
-        case .serviceUpdateNotFoundFault(let message):
-            return "ServiceUpdateNotFoundFault: \(message ?? "")"
-        case .snapshotAlreadyExistsFault(let message):
-            return "SnapshotAlreadyExistsFault: \(message ?? "")"
-        case .snapshotFeatureNotSupportedFault(let message):
-            return "SnapshotFeatureNotSupportedFault: \(message ?? "")"
-        case .snapshotNotFoundFault(let message):
-            return "SnapshotNotFoundFault: \(message ?? "")"
-        case .snapshotQuotaExceededFault(let message):
-            return "SnapshotQuotaExceededFault: \(message ?? "")"
-        case .subnetInUse(let message):
-            return "SubnetInUse: \(message ?? "")"
-        case .tagNotFoundFault(let message):
-            return "TagNotFound: \(message ?? "")"
-        case .tagQuotaPerResourceExceeded(let message):
-            return "TagQuotaPerResourceExceeded: \(message ?? "")"
-        case .testFailoverNotAvailableFault(let message):
-            return "TestFailoverNotAvailableFault: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

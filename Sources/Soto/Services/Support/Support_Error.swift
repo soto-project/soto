@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for Support
-public enum SupportErrorType: AWSErrorType {
-    case attachmentIdNotFound(message: String?)
-    case attachmentLimitExceeded(message: String?)
-    case attachmentSetExpired(message: String?)
-    case attachmentSetIdNotFound(message: String?)
-    case attachmentSetSizeLimitExceeded(message: String?)
-    case caseCreationLimitExceeded(message: String?)
-    case caseIdNotFound(message: String?)
-    case describeAttachmentLimitExceeded(message: String?)
-    case internalServerError(message: String?)
-}
+public struct SupportErrorType: AWSErrorType {
+    enum Code: String {
+        case attachmentIdNotFound = "AttachmentIdNotFound"
+        case attachmentLimitExceeded = "AttachmentLimitExceeded"
+        case attachmentSetExpired = "AttachmentSetExpired"
+        case attachmentSetIdNotFound = "AttachmentSetIdNotFound"
+        case attachmentSetSizeLimitExceeded = "AttachmentSetSizeLimitExceeded"
+        case caseCreationLimitExceeded = "CaseCreationLimitExceeded"
+        case caseIdNotFound = "CaseIdNotFound"
+        case describeAttachmentLimitExceeded = "DescribeAttachmentLimitExceeded"
+        case internalServerError = "InternalServerError"
+    }
 
-extension SupportErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AttachmentIdNotFound":
-            self = .attachmentIdNotFound(message: message)
-        case "AttachmentLimitExceeded":
-            self = .attachmentLimitExceeded(message: message)
-        case "AttachmentSetExpired":
-            self = .attachmentSetExpired(message: message)
-        case "AttachmentSetIdNotFound":
-            self = .attachmentSetIdNotFound(message: message)
-        case "AttachmentSetSizeLimitExceeded":
-            self = .attachmentSetSizeLimitExceeded(message: message)
-        case "CaseCreationLimitExceeded":
-            self = .caseCreationLimitExceeded(message: message)
-        case "CaseIdNotFound":
-            self = .caseIdNotFound(message: message)
-        case "DescribeAttachmentLimitExceeded":
-            self = .describeAttachmentLimitExceeded(message: message)
-        case "InternalServerError":
-            self = .internalServerError(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var attachmentIdNotFound: Self { .init(.attachmentIdNotFound) }
+    public static var attachmentLimitExceeded: Self { .init(.attachmentLimitExceeded) }
+    public static var attachmentSetExpired: Self { .init(.attachmentSetExpired) }
+    public static var attachmentSetIdNotFound: Self { .init(.attachmentSetIdNotFound) }
+    public static var attachmentSetSizeLimitExceeded: Self { .init(.attachmentSetSizeLimitExceeded) }
+    public static var caseCreationLimitExceeded: Self { .init(.caseCreationLimitExceeded) }
+    public static var caseIdNotFound: Self { .init(.caseIdNotFound) }
+    public static var describeAttachmentLimitExceeded: Self { .init(.describeAttachmentLimitExceeded) }
+    public static var internalServerError: Self { .init(.internalServerError) }
+}
+
+extension SupportErrorType: Equatable {
+    public static func == (lhs: SupportErrorType, rhs: SupportErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SupportErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .attachmentIdNotFound(let message):
-            return "AttachmentIdNotFound: \(message ?? "")"
-        case .attachmentLimitExceeded(let message):
-            return "AttachmentLimitExceeded: \(message ?? "")"
-        case .attachmentSetExpired(let message):
-            return "AttachmentSetExpired: \(message ?? "")"
-        case .attachmentSetIdNotFound(let message):
-            return "AttachmentSetIdNotFound: \(message ?? "")"
-        case .attachmentSetSizeLimitExceeded(let message):
-            return "AttachmentSetSizeLimitExceeded: \(message ?? "")"
-        case .caseCreationLimitExceeded(let message):
-            return "CaseCreationLimitExceeded: \(message ?? "")"
-        case .caseIdNotFound(let message):
-            return "CaseIdNotFound: \(message ?? "")"
-        case .describeAttachmentLimitExceeded(let message):
-            return "DescribeAttachmentLimitExceeded: \(message ?? "")"
-        case .internalServerError(let message):
-            return "InternalServerError: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

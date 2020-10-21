@@ -17,75 +17,58 @@
 import SotoCore
 
 /// Error enum for AppMesh
-public enum AppMeshErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case conflictException(message: String?)
-    case forbiddenException(message: String?)
-    case internalServerErrorException(message: String?)
-    case limitExceededException(message: String?)
-    case notFoundException(message: String?)
-    case resourceInUseException(message: String?)
-    case serviceUnavailableException(message: String?)
-    case tooManyRequestsException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct AppMeshErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case conflictException = "ConflictException"
+        case forbiddenException = "ForbiddenException"
+        case internalServerErrorException = "InternalServerErrorException"
+        case limitExceededException = "LimitExceededException"
+        case notFoundException = "NotFoundException"
+        case resourceInUseException = "ResourceInUseException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case tooManyRequestsException = "TooManyRequestsException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension AppMeshErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "ConflictException":
-            self = .conflictException(message: message)
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "InternalServerErrorException":
-            self = .internalServerErrorException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ServiceUnavailableException":
-            self = .serviceUnavailableException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var conflictException: Self { .init(.conflictException) }
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var internalServerErrorException: Self { .init(.internalServerErrorException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension AppMeshErrorType: Equatable {
+    public static func == (lhs: AppMeshErrorType, rhs: AppMeshErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AppMeshErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .conflictException(let message):
-            return "ConflictException: \(message ?? "")"
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .internalServerErrorException(let message):
-            return "InternalServerErrorException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .serviceUnavailableException(let message):
-            return "ServiceUnavailableException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

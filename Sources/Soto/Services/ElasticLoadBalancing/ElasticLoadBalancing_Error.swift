@@ -17,135 +17,82 @@
 import SotoCore
 
 /// Error enum for ElasticLoadBalancing
-public enum ElasticLoadBalancingErrorType: AWSErrorType {
-    case accessPointNotFoundException(message: String?)
-    case certificateNotFoundException(message: String?)
-    case dependencyThrottleException(message: String?)
-    case duplicateAccessPointNameException(message: String?)
-    case duplicateListenerException(message: String?)
-    case duplicatePolicyNameException(message: String?)
-    case duplicateTagKeysException(message: String?)
-    case invalidConfigurationRequestException(message: String?)
-    case invalidEndPointException(message: String?)
-    case invalidSchemeException(message: String?)
-    case invalidSecurityGroupException(message: String?)
-    case invalidSubnetException(message: String?)
-    case listenerNotFoundException(message: String?)
-    case loadBalancerAttributeNotFoundException(message: String?)
-    case operationNotPermittedException(message: String?)
-    case policyNotFoundException(message: String?)
-    case policyTypeNotFoundException(message: String?)
-    case subnetNotFoundException(message: String?)
-    case tooManyAccessPointsException(message: String?)
-    case tooManyPoliciesException(message: String?)
-    case tooManyTagsException(message: String?)
-    case unsupportedProtocolException(message: String?)
-}
+public struct ElasticLoadBalancingErrorType: AWSErrorType {
+    enum Code: String {
+        case accessPointNotFoundException = "LoadBalancerNotFound"
+        case certificateNotFoundException = "CertificateNotFound"
+        case dependencyThrottleException = "DependencyThrottle"
+        case duplicateAccessPointNameException = "DuplicateLoadBalancerName"
+        case duplicateListenerException = "DuplicateListener"
+        case duplicatePolicyNameException = "DuplicatePolicyName"
+        case duplicateTagKeysException = "DuplicateTagKeys"
+        case invalidConfigurationRequestException = "InvalidConfigurationRequest"
+        case invalidEndPointException = "InvalidInstance"
+        case invalidSchemeException = "InvalidScheme"
+        case invalidSecurityGroupException = "InvalidSecurityGroup"
+        case invalidSubnetException = "InvalidSubnet"
+        case listenerNotFoundException = "ListenerNotFound"
+        case loadBalancerAttributeNotFoundException = "LoadBalancerAttributeNotFound"
+        case operationNotPermittedException = "OperationNotPermitted"
+        case policyNotFoundException = "PolicyNotFound"
+        case policyTypeNotFoundException = "PolicyTypeNotFound"
+        case subnetNotFoundException = "SubnetNotFound"
+        case tooManyAccessPointsException = "TooManyLoadBalancers"
+        case tooManyPoliciesException = "TooManyPolicies"
+        case tooManyTagsException = "TooManyTags"
+        case unsupportedProtocolException = "UnsupportedProtocol"
+    }
 
-extension ElasticLoadBalancingErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "LoadBalancerNotFound":
-            self = .accessPointNotFoundException(message: message)
-        case "CertificateNotFound":
-            self = .certificateNotFoundException(message: message)
-        case "DependencyThrottle":
-            self = .dependencyThrottleException(message: message)
-        case "DuplicateLoadBalancerName":
-            self = .duplicateAccessPointNameException(message: message)
-        case "DuplicateListener":
-            self = .duplicateListenerException(message: message)
-        case "DuplicatePolicyName":
-            self = .duplicatePolicyNameException(message: message)
-        case "DuplicateTagKeys":
-            self = .duplicateTagKeysException(message: message)
-        case "InvalidConfigurationRequest":
-            self = .invalidConfigurationRequestException(message: message)
-        case "InvalidInstance":
-            self = .invalidEndPointException(message: message)
-        case "InvalidScheme":
-            self = .invalidSchemeException(message: message)
-        case "InvalidSecurityGroup":
-            self = .invalidSecurityGroupException(message: message)
-        case "InvalidSubnet":
-            self = .invalidSubnetException(message: message)
-        case "ListenerNotFound":
-            self = .listenerNotFoundException(message: message)
-        case "LoadBalancerAttributeNotFound":
-            self = .loadBalancerAttributeNotFoundException(message: message)
-        case "OperationNotPermitted":
-            self = .operationNotPermittedException(message: message)
-        case "PolicyNotFound":
-            self = .policyNotFoundException(message: message)
-        case "PolicyTypeNotFound":
-            self = .policyTypeNotFoundException(message: message)
-        case "SubnetNotFound":
-            self = .subnetNotFoundException(message: message)
-        case "TooManyLoadBalancers":
-            self = .tooManyAccessPointsException(message: message)
-        case "TooManyPolicies":
-            self = .tooManyPoliciesException(message: message)
-        case "TooManyTags":
-            self = .tooManyTagsException(message: message)
-        case "UnsupportedProtocol":
-            self = .unsupportedProtocolException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessPointNotFoundException: Self { .init(.accessPointNotFoundException) }
+    public static var certificateNotFoundException: Self { .init(.certificateNotFoundException) }
+    public static var dependencyThrottleException: Self { .init(.dependencyThrottleException) }
+    public static var duplicateAccessPointNameException: Self { .init(.duplicateAccessPointNameException) }
+    public static var duplicateListenerException: Self { .init(.duplicateListenerException) }
+    public static var duplicatePolicyNameException: Self { .init(.duplicatePolicyNameException) }
+    public static var duplicateTagKeysException: Self { .init(.duplicateTagKeysException) }
+    public static var invalidConfigurationRequestException: Self { .init(.invalidConfigurationRequestException) }
+    public static var invalidEndPointException: Self { .init(.invalidEndPointException) }
+    public static var invalidSchemeException: Self { .init(.invalidSchemeException) }
+    public static var invalidSecurityGroupException: Self { .init(.invalidSecurityGroupException) }
+    public static var invalidSubnetException: Self { .init(.invalidSubnetException) }
+    public static var listenerNotFoundException: Self { .init(.listenerNotFoundException) }
+    public static var loadBalancerAttributeNotFoundException: Self { .init(.loadBalancerAttributeNotFoundException) }
+    public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
+    public static var policyNotFoundException: Self { .init(.policyNotFoundException) }
+    public static var policyTypeNotFoundException: Self { .init(.policyTypeNotFoundException) }
+    public static var subnetNotFoundException: Self { .init(.subnetNotFoundException) }
+    public static var tooManyAccessPointsException: Self { .init(.tooManyAccessPointsException) }
+    public static var tooManyPoliciesException: Self { .init(.tooManyPoliciesException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+    public static var unsupportedProtocolException: Self { .init(.unsupportedProtocolException) }
+}
+
+extension ElasticLoadBalancingErrorType: Equatable {
+    public static func == (lhs: ElasticLoadBalancingErrorType, rhs: ElasticLoadBalancingErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ElasticLoadBalancingErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessPointNotFoundException(let message):
-            return "LoadBalancerNotFound: \(message ?? "")"
-        case .certificateNotFoundException(let message):
-            return "CertificateNotFound: \(message ?? "")"
-        case .dependencyThrottleException(let message):
-            return "DependencyThrottle: \(message ?? "")"
-        case .duplicateAccessPointNameException(let message):
-            return "DuplicateLoadBalancerName: \(message ?? "")"
-        case .duplicateListenerException(let message):
-            return "DuplicateListener: \(message ?? "")"
-        case .duplicatePolicyNameException(let message):
-            return "DuplicatePolicyName: \(message ?? "")"
-        case .duplicateTagKeysException(let message):
-            return "DuplicateTagKeys: \(message ?? "")"
-        case .invalidConfigurationRequestException(let message):
-            return "InvalidConfigurationRequest: \(message ?? "")"
-        case .invalidEndPointException(let message):
-            return "InvalidInstance: \(message ?? "")"
-        case .invalidSchemeException(let message):
-            return "InvalidScheme: \(message ?? "")"
-        case .invalidSecurityGroupException(let message):
-            return "InvalidSecurityGroup: \(message ?? "")"
-        case .invalidSubnetException(let message):
-            return "InvalidSubnet: \(message ?? "")"
-        case .listenerNotFoundException(let message):
-            return "ListenerNotFound: \(message ?? "")"
-        case .loadBalancerAttributeNotFoundException(let message):
-            return "LoadBalancerAttributeNotFound: \(message ?? "")"
-        case .operationNotPermittedException(let message):
-            return "OperationNotPermitted: \(message ?? "")"
-        case .policyNotFoundException(let message):
-            return "PolicyNotFound: \(message ?? "")"
-        case .policyTypeNotFoundException(let message):
-            return "PolicyTypeNotFound: \(message ?? "")"
-        case .subnetNotFoundException(let message):
-            return "SubnetNotFound: \(message ?? "")"
-        case .tooManyAccessPointsException(let message):
-            return "TooManyLoadBalancers: \(message ?? "")"
-        case .tooManyPoliciesException(let message):
-            return "TooManyPolicies: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTags: \(message ?? "")"
-        case .unsupportedProtocolException(let message):
-            return "UnsupportedProtocol: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

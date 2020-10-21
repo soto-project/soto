@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for Budgets
-public enum BudgetsErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case creationLimitExceededException(message: String?)
-    case duplicateRecordException(message: String?)
-    case expiredNextTokenException(message: String?)
-    case internalErrorException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case notFoundException(message: String?)
-}
+public struct BudgetsErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case creationLimitExceededException = "CreationLimitExceededException"
+        case duplicateRecordException = "DuplicateRecordException"
+        case expiredNextTokenException = "ExpiredNextTokenException"
+        case internalErrorException = "InternalErrorException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case notFoundException = "NotFoundException"
+    }
 
-extension BudgetsErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "CreationLimitExceededException":
-            self = .creationLimitExceededException(message: message)
-        case "DuplicateRecordException":
-            self = .duplicateRecordException(message: message)
-        case "ExpiredNextTokenException":
-            self = .expiredNextTokenException(message: message)
-        case "InternalErrorException":
-            self = .internalErrorException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "NotFoundException":
-            self = .notFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var creationLimitExceededException: Self { .init(.creationLimitExceededException) }
+    public static var duplicateRecordException: Self { .init(.duplicateRecordException) }
+    public static var expiredNextTokenException: Self { .init(.expiredNextTokenException) }
+    public static var internalErrorException: Self { .init(.internalErrorException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var notFoundException: Self { .init(.notFoundException) }
+}
+
+extension BudgetsErrorType: Equatable {
+    public static func == (lhs: BudgetsErrorType, rhs: BudgetsErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension BudgetsErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .creationLimitExceededException(let message):
-            return "CreationLimitExceededException: \(message ?? "")"
-        case .duplicateRecordException(let message):
-            return "DuplicateRecordException: \(message ?? "")"
-        case .expiredNextTokenException(let message):
-            return "ExpiredNextTokenException: \(message ?? "")"
-        case .internalErrorException(let message):
-            return "InternalErrorException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .notFoundException(let message):
-            return "NotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

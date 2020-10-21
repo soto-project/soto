@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for QLDBSession
-public enum QLDBSessionErrorType: AWSErrorType {
-    case badRequestException(message: String?)
-    case invalidSessionException(message: String?)
-    case limitExceededException(message: String?)
-    case occConflictException(message: String?)
-    case rateExceededException(message: String?)
-}
+public struct QLDBSessionErrorType: AWSErrorType {
+    enum Code: String {
+        case badRequestException = "BadRequestException"
+        case invalidSessionException = "InvalidSessionException"
+        case limitExceededException = "LimitExceededException"
+        case occConflictException = "OccConflictException"
+        case rateExceededException = "RateExceededException"
+    }
 
-extension QLDBSessionErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BadRequestException":
-            self = .badRequestException(message: message)
-        case "InvalidSessionException":
-            self = .invalidSessionException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "OccConflictException":
-            self = .occConflictException(message: message)
-        case "RateExceededException":
-            self = .rateExceededException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var badRequestException: Self { .init(.badRequestException) }
+    public static var invalidSessionException: Self { .init(.invalidSessionException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var occConflictException: Self { .init(.occConflictException) }
+    public static var rateExceededException: Self { .init(.rateExceededException) }
+}
+
+extension QLDBSessionErrorType: Equatable {
+    public static func == (lhs: QLDBSessionErrorType, rhs: QLDBSessionErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension QLDBSessionErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .badRequestException(let message):
-            return "BadRequestException: \(message ?? "")"
-        case .invalidSessionException(let message):
-            return "InvalidSessionException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .occConflictException(let message):
-            return "OccConflictException: \(message ?? "")"
-        case .rateExceededException(let message):
-            return "RateExceededException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

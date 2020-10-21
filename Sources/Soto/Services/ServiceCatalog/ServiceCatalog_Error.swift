@@ -17,65 +17,54 @@
 import SotoCore
 
 /// Error enum for ServiceCatalog
-public enum ServiceCatalogErrorType: AWSErrorType {
-    case duplicateResourceException(message: String?)
-    case invalidParametersException(message: String?)
-    case invalidStateException(message: String?)
-    case limitExceededException(message: String?)
-    case operationNotSupportedException(message: String?)
-    case resourceInUseException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tagOptionNotMigratedException(message: String?)
-}
+public struct ServiceCatalogErrorType: AWSErrorType {
+    enum Code: String {
+        case duplicateResourceException = "DuplicateResourceException"
+        case invalidParametersException = "InvalidParametersException"
+        case invalidStateException = "InvalidStateException"
+        case limitExceededException = "LimitExceededException"
+        case operationNotSupportedException = "OperationNotSupportedException"
+        case resourceInUseException = "ResourceInUseException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tagOptionNotMigratedException = "TagOptionNotMigratedException"
+    }
 
-extension ServiceCatalogErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DuplicateResourceException":
-            self = .duplicateResourceException(message: message)
-        case "InvalidParametersException":
-            self = .invalidParametersException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "OperationNotSupportedException":
-            self = .operationNotSupportedException(message: message)
-        case "ResourceInUseException":
-            self = .resourceInUseException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TagOptionNotMigratedException":
-            self = .tagOptionNotMigratedException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var duplicateResourceException: Self { .init(.duplicateResourceException) }
+    public static var invalidParametersException: Self { .init(.invalidParametersException) }
+    public static var invalidStateException: Self { .init(.invalidStateException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var operationNotSupportedException: Self { .init(.operationNotSupportedException) }
+    public static var resourceInUseException: Self { .init(.resourceInUseException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tagOptionNotMigratedException: Self { .init(.tagOptionNotMigratedException) }
+}
+
+extension ServiceCatalogErrorType: Equatable {
+    public static func == (lhs: ServiceCatalogErrorType, rhs: ServiceCatalogErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ServiceCatalogErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .duplicateResourceException(let message):
-            return "DuplicateResourceException: \(message ?? "")"
-        case .invalidParametersException(let message):
-            return "InvalidParametersException: \(message ?? "")"
-        case .invalidStateException(let message):
-            return "InvalidStateException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .operationNotSupportedException(let message):
-            return "OperationNotSupportedException: \(message ?? "")"
-        case .resourceInUseException(let message):
-            return "ResourceInUseException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tagOptionNotMigratedException(let message):
-            return "TagOptionNotMigratedException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

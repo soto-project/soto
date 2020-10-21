@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for AutoScaling
-public enum AutoScalingErrorType: AWSErrorType {
-    case activeInstanceRefreshNotFoundFault(message: String?)
-    case alreadyExistsFault(message: String?)
-    case instanceRefreshInProgressFault(message: String?)
-    case invalidNextToken(message: String?)
-    case limitExceededFault(message: String?)
-    case resourceContentionFault(message: String?)
-    case resourceInUseFault(message: String?)
-    case scalingActivityInProgressFault(message: String?)
-    case serviceLinkedRoleFailure(message: String?)
-}
+public struct AutoScalingErrorType: AWSErrorType {
+    enum Code: String {
+        case activeInstanceRefreshNotFoundFault = "ActiveInstanceRefreshNotFound"
+        case alreadyExistsFault = "AlreadyExists"
+        case instanceRefreshInProgressFault = "InstanceRefreshInProgress"
+        case invalidNextToken = "InvalidNextToken"
+        case limitExceededFault = "LimitExceeded"
+        case resourceContentionFault = "ResourceContention"
+        case resourceInUseFault = "ResourceInUse"
+        case scalingActivityInProgressFault = "ScalingActivityInProgress"
+        case serviceLinkedRoleFailure = "ServiceLinkedRoleFailure"
+    }
 
-extension AutoScalingErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ActiveInstanceRefreshNotFound":
-            self = .activeInstanceRefreshNotFoundFault(message: message)
-        case "AlreadyExists":
-            self = .alreadyExistsFault(message: message)
-        case "InstanceRefreshInProgress":
-            self = .instanceRefreshInProgressFault(message: message)
-        case "InvalidNextToken":
-            self = .invalidNextToken(message: message)
-        case "LimitExceeded":
-            self = .limitExceededFault(message: message)
-        case "ResourceContention":
-            self = .resourceContentionFault(message: message)
-        case "ResourceInUse":
-            self = .resourceInUseFault(message: message)
-        case "ScalingActivityInProgress":
-            self = .scalingActivityInProgressFault(message: message)
-        case "ServiceLinkedRoleFailure":
-            self = .serviceLinkedRoleFailure(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var activeInstanceRefreshNotFoundFault: Self { .init(.activeInstanceRefreshNotFoundFault) }
+    public static var alreadyExistsFault: Self { .init(.alreadyExistsFault) }
+    public static var instanceRefreshInProgressFault: Self { .init(.instanceRefreshInProgressFault) }
+    public static var invalidNextToken: Self { .init(.invalidNextToken) }
+    public static var limitExceededFault: Self { .init(.limitExceededFault) }
+    public static var resourceContentionFault: Self { .init(.resourceContentionFault) }
+    public static var resourceInUseFault: Self { .init(.resourceInUseFault) }
+    public static var scalingActivityInProgressFault: Self { .init(.scalingActivityInProgressFault) }
+    public static var serviceLinkedRoleFailure: Self { .init(.serviceLinkedRoleFailure) }
+}
+
+extension AutoScalingErrorType: Equatable {
+    public static func == (lhs: AutoScalingErrorType, rhs: AutoScalingErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AutoScalingErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .activeInstanceRefreshNotFoundFault(let message):
-            return "ActiveInstanceRefreshNotFound: \(message ?? "")"
-        case .alreadyExistsFault(let message):
-            return "AlreadyExists: \(message ?? "")"
-        case .instanceRefreshInProgressFault(let message):
-            return "InstanceRefreshInProgress: \(message ?? "")"
-        case .invalidNextToken(let message):
-            return "InvalidNextToken: \(message ?? "")"
-        case .limitExceededFault(let message):
-            return "LimitExceeded: \(message ?? "")"
-        case .resourceContentionFault(let message):
-            return "ResourceContention: \(message ?? "")"
-        case .resourceInUseFault(let message):
-            return "ResourceInUse: \(message ?? "")"
-        case .scalingActivityInProgressFault(let message):
-            return "ScalingActivityInProgress: \(message ?? "")"
-        case .serviceLinkedRoleFailure(let message):
-            return "ServiceLinkedRoleFailure: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

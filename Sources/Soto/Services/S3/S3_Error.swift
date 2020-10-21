@@ -17,60 +17,52 @@
 import SotoCore
 
 /// Error enum for S3
-public enum S3ErrorType: AWSErrorType {
-    case bucketAlreadyExists(message: String?)
-    case bucketAlreadyOwnedByYou(message: String?)
-    case noSuchBucket(message: String?)
-    case noSuchKey(message: String?)
-    case noSuchUpload(message: String?)
-    case objectAlreadyInActiveTierError(message: String?)
-    case objectNotInActiveTierError(message: String?)
-}
+public struct S3ErrorType: AWSErrorType {
+    enum Code: String {
+        case bucketAlreadyExists = "BucketAlreadyExists"
+        case bucketAlreadyOwnedByYou = "BucketAlreadyOwnedByYou"
+        case noSuchBucket = "NoSuchBucket"
+        case noSuchKey = "NoSuchKey"
+        case noSuchUpload = "NoSuchUpload"
+        case objectAlreadyInActiveTierError = "ObjectAlreadyInActiveTierError"
+        case objectNotInActiveTierError = "ObjectNotInActiveTierError"
+    }
 
-extension S3ErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "BucketAlreadyExists":
-            self = .bucketAlreadyExists(message: message)
-        case "BucketAlreadyOwnedByYou":
-            self = .bucketAlreadyOwnedByYou(message: message)
-        case "NoSuchBucket":
-            self = .noSuchBucket(message: message)
-        case "NoSuchKey":
-            self = .noSuchKey(message: message)
-        case "NoSuchUpload":
-            self = .noSuchUpload(message: message)
-        case "ObjectAlreadyInActiveTierError":
-            self = .objectAlreadyInActiveTierError(message: message)
-        case "ObjectNotInActiveTierError":
-            self = .objectNotInActiveTierError(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var bucketAlreadyExists: Self { .init(.bucketAlreadyExists) }
+    public static var bucketAlreadyOwnedByYou: Self { .init(.bucketAlreadyOwnedByYou) }
+    public static var noSuchBucket: Self { .init(.noSuchBucket) }
+    public static var noSuchKey: Self { .init(.noSuchKey) }
+    public static var noSuchUpload: Self { .init(.noSuchUpload) }
+    public static var objectAlreadyInActiveTierError: Self { .init(.objectAlreadyInActiveTierError) }
+    public static var objectNotInActiveTierError: Self { .init(.objectNotInActiveTierError) }
+}
+
+extension S3ErrorType: Equatable {
+    public static func == (lhs: S3ErrorType, rhs: S3ErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension S3ErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .bucketAlreadyExists(let message):
-            return "BucketAlreadyExists: \(message ?? "")"
-        case .bucketAlreadyOwnedByYou(let message):
-            return "BucketAlreadyOwnedByYou: \(message ?? "")"
-        case .noSuchBucket(let message):
-            return "NoSuchBucket: \(message ?? "")"
-        case .noSuchKey(let message):
-            return "NoSuchKey: \(message ?? "")"
-        case .noSuchUpload(let message):
-            return "NoSuchUpload: \(message ?? "")"
-        case .objectAlreadyInActiveTierError(let message):
-            return "ObjectAlreadyInActiveTierError: \(message ?? "")"
-        case .objectNotInActiveTierError(let message):
-            return "ObjectNotInActiveTierError: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

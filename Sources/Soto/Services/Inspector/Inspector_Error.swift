@@ -17,80 +17,60 @@
 import SotoCore
 
 /// Error enum for Inspector
-public enum InspectorErrorType: AWSErrorType {
-    case accessDeniedException(message: String?)
-    case agentsAlreadyRunningAssessmentException(message: String?)
-    case assessmentRunInProgressException(message: String?)
-    case internalException(message: String?)
-    case invalidCrossAccountRoleException(message: String?)
-    case invalidInputException(message: String?)
-    case limitExceededException(message: String?)
-    case noSuchEntityException(message: String?)
-    case previewGenerationInProgressException(message: String?)
-    case serviceTemporarilyUnavailableException(message: String?)
-    case unsupportedFeatureException(message: String?)
-}
+public struct InspectorErrorType: AWSErrorType {
+    enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
+        case agentsAlreadyRunningAssessmentException = "AgentsAlreadyRunningAssessmentException"
+        case assessmentRunInProgressException = "AssessmentRunInProgressException"
+        case internalException = "InternalException"
+        case invalidCrossAccountRoleException = "InvalidCrossAccountRoleException"
+        case invalidInputException = "InvalidInputException"
+        case limitExceededException = "LimitExceededException"
+        case noSuchEntityException = "NoSuchEntityException"
+        case previewGenerationInProgressException = "PreviewGenerationInProgressException"
+        case serviceTemporarilyUnavailableException = "ServiceTemporarilyUnavailableException"
+        case unsupportedFeatureException = "UnsupportedFeatureException"
+    }
 
-extension InspectorErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "AccessDeniedException":
-            self = .accessDeniedException(message: message)
-        case "AgentsAlreadyRunningAssessmentException":
-            self = .agentsAlreadyRunningAssessmentException(message: message)
-        case "AssessmentRunInProgressException":
-            self = .assessmentRunInProgressException(message: message)
-        case "InternalException":
-            self = .internalException(message: message)
-        case "InvalidCrossAccountRoleException":
-            self = .invalidCrossAccountRoleException(message: message)
-        case "InvalidInputException":
-            self = .invalidInputException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "NoSuchEntityException":
-            self = .noSuchEntityException(message: message)
-        case "PreviewGenerationInProgressException":
-            self = .previewGenerationInProgressException(message: message)
-        case "ServiceTemporarilyUnavailableException":
-            self = .serviceTemporarilyUnavailableException(message: message)
-        case "UnsupportedFeatureException":
-            self = .unsupportedFeatureException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
+    public static var agentsAlreadyRunningAssessmentException: Self { .init(.agentsAlreadyRunningAssessmentException) }
+    public static var assessmentRunInProgressException: Self { .init(.assessmentRunInProgressException) }
+    public static var internalException: Self { .init(.internalException) }
+    public static var invalidCrossAccountRoleException: Self { .init(.invalidCrossAccountRoleException) }
+    public static var invalidInputException: Self { .init(.invalidInputException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var noSuchEntityException: Self { .init(.noSuchEntityException) }
+    public static var previewGenerationInProgressException: Self { .init(.previewGenerationInProgressException) }
+    public static var serviceTemporarilyUnavailableException: Self { .init(.serviceTemporarilyUnavailableException) }
+    public static var unsupportedFeatureException: Self { .init(.unsupportedFeatureException) }
+}
+
+extension InspectorErrorType: Equatable {
+    public static func == (lhs: InspectorErrorType, rhs: InspectorErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension InspectorErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .accessDeniedException(let message):
-            return "AccessDeniedException: \(message ?? "")"
-        case .agentsAlreadyRunningAssessmentException(let message):
-            return "AgentsAlreadyRunningAssessmentException: \(message ?? "")"
-        case .assessmentRunInProgressException(let message):
-            return "AssessmentRunInProgressException: \(message ?? "")"
-        case .internalException(let message):
-            return "InternalException: \(message ?? "")"
-        case .invalidCrossAccountRoleException(let message):
-            return "InvalidCrossAccountRoleException: \(message ?? "")"
-        case .invalidInputException(let message):
-            return "InvalidInputException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .noSuchEntityException(let message):
-            return "NoSuchEntityException: \(message ?? "")"
-        case .previewGenerationInProgressException(let message):
-            return "PreviewGenerationInProgressException: \(message ?? "")"
-        case .serviceTemporarilyUnavailableException(let message):
-            return "ServiceTemporarilyUnavailableException: \(message ?? "")"
-        case .unsupportedFeatureException(let message):
-            return "UnsupportedFeatureException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

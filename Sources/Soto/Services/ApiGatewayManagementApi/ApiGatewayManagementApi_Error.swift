@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for ApiGatewayManagementApi
-public enum ApiGatewayManagementApiErrorType: AWSErrorType {
-    case forbiddenException(message: String?)
-    case goneException(message: String?)
-    case limitExceededException(message: String?)
-    case payloadTooLargeException(message: String?)
-}
+public struct ApiGatewayManagementApiErrorType: AWSErrorType {
+    enum Code: String {
+        case forbiddenException = "ForbiddenException"
+        case goneException = "GoneException"
+        case limitExceededException = "LimitExceededException"
+        case payloadTooLargeException = "PayloadTooLargeException"
+    }
 
-extension ApiGatewayManagementApiErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ForbiddenException":
-            self = .forbiddenException(message: message)
-        case "GoneException":
-            self = .goneException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "PayloadTooLargeException":
-            self = .payloadTooLargeException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var forbiddenException: Self { .init(.forbiddenException) }
+    public static var goneException: Self { .init(.goneException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var payloadTooLargeException: Self { .init(.payloadTooLargeException) }
+}
+
+extension ApiGatewayManagementApiErrorType: Equatable {
+    public static func == (lhs: ApiGatewayManagementApiErrorType, rhs: ApiGatewayManagementApiErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ApiGatewayManagementApiErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .forbiddenException(let message):
-            return "ForbiddenException: \(message ?? "")"
-        case .goneException(let message):
-            return "GoneException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .payloadTooLargeException(let message):
-            return "PayloadTooLargeException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

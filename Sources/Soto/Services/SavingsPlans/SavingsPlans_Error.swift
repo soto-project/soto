@@ -17,45 +17,46 @@
 import SotoCore
 
 /// Error enum for SavingsPlans
-public enum SavingsPlansErrorType: AWSErrorType {
-    case internalServerException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case serviceQuotaExceededException(message: String?)
-    case validationException(message: String?)
-}
+public struct SavingsPlansErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerException = "InternalServerException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case validationException = "ValidationException"
+    }
 
-extension SavingsPlansErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "ServiceQuotaExceededException":
-            self = .serviceQuotaExceededException(message: message)
-        case "ValidationException":
-            self = .validationException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    public static var validationException: Self { .init(.validationException) }
+}
+
+extension SavingsPlansErrorType: Equatable {
+    public static func == (lhs: SavingsPlansErrorType, rhs: SavingsPlansErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SavingsPlansErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .serviceQuotaExceededException(let message):
-            return "ServiceQuotaExceededException: \(message ?? "")"
-        case .validationException(let message):
-            return "ValidationException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

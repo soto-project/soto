@@ -17,85 +17,62 @@
 import SotoCore
 
 /// Error enum for SecretsManager
-public enum SecretsManagerErrorType: AWSErrorType {
-    case decryptionFailure(message: String?)
-    case encryptionFailure(message: String?)
-    case internalServiceError(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidParameterException(message: String?)
-    case invalidRequestException(message: String?)
-    case limitExceededException(message: String?)
-    case malformedPolicyDocumentException(message: String?)
-    case preconditionNotMetException(message: String?)
-    case publicPolicyException(message: String?)
-    case resourceExistsException(message: String?)
-    case resourceNotFoundException(message: String?)
-}
+public struct SecretsManagerErrorType: AWSErrorType {
+    enum Code: String {
+        case decryptionFailure = "DecryptionFailure"
+        case encryptionFailure = "EncryptionFailure"
+        case internalServiceError = "InternalServiceError"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidParameterException = "InvalidParameterException"
+        case invalidRequestException = "InvalidRequestException"
+        case limitExceededException = "LimitExceededException"
+        case malformedPolicyDocumentException = "MalformedPolicyDocumentException"
+        case preconditionNotMetException = "PreconditionNotMetException"
+        case publicPolicyException = "PublicPolicyException"
+        case resourceExistsException = "ResourceExistsException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+    }
 
-extension SecretsManagerErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "DecryptionFailure":
-            self = .decryptionFailure(message: message)
-        case "EncryptionFailure":
-            self = .encryptionFailure(message: message)
-        case "InternalServiceError":
-            self = .internalServiceError(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidParameterException":
-            self = .invalidParameterException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "MalformedPolicyDocumentException":
-            self = .malformedPolicyDocumentException(message: message)
-        case "PreconditionNotMetException":
-            self = .preconditionNotMetException(message: message)
-        case "PublicPolicyException":
-            self = .publicPolicyException(message: message)
-        case "ResourceExistsException":
-            self = .resourceExistsException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var decryptionFailure: Self { .init(.decryptionFailure) }
+    public static var encryptionFailure: Self { .init(.encryptionFailure) }
+    public static var internalServiceError: Self { .init(.internalServiceError) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidParameterException: Self { .init(.invalidParameterException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var malformedPolicyDocumentException: Self { .init(.malformedPolicyDocumentException) }
+    public static var preconditionNotMetException: Self { .init(.preconditionNotMetException) }
+    public static var publicPolicyException: Self { .init(.publicPolicyException) }
+    public static var resourceExistsException: Self { .init(.resourceExistsException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+}
+
+extension SecretsManagerErrorType: Equatable {
+    public static func == (lhs: SecretsManagerErrorType, rhs: SecretsManagerErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension SecretsManagerErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .decryptionFailure(let message):
-            return "DecryptionFailure: \(message ?? "")"
-        case .encryptionFailure(let message):
-            return "EncryptionFailure: \(message ?? "")"
-        case .internalServiceError(let message):
-            return "InternalServiceError: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidParameterException(let message):
-            return "InvalidParameterException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .malformedPolicyDocumentException(let message):
-            return "MalformedPolicyDocumentException: \(message ?? "")"
-        case .preconditionNotMetException(let message):
-            return "PreconditionNotMetException: \(message ?? "")"
-        case .publicPolicyException(let message):
-            return "PublicPolicyException: \(message ?? "")"
-        case .resourceExistsException(let message):
-            return "ResourceExistsException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

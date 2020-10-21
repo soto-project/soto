@@ -17,50 +17,48 @@
 import SotoCore
 
 /// Error enum for Athena
-public enum AthenaErrorType: AWSErrorType {
-    case internalServerException(message: String?)
-    case invalidRequestException(message: String?)
-    case metadataException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyRequestsException(message: String?)
-}
+public struct AthenaErrorType: AWSErrorType {
+    enum Code: String {
+        case internalServerException = "InternalServerException"
+        case invalidRequestException = "InvalidRequestException"
+        case metadataException = "MetadataException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyRequestsException = "TooManyRequestsException"
+    }
 
-extension AthenaErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "InternalServerException":
-            self = .internalServerException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "MetadataException":
-            self = .metadataException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyRequestsException":
-            self = .tooManyRequestsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var internalServerException: Self { .init(.internalServerException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var metadataException: Self { .init(.metadataException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
+}
+
+extension AthenaErrorType: Equatable {
+    public static func == (lhs: AthenaErrorType, rhs: AthenaErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension AthenaErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .internalServerException(let message):
-            return "InternalServerException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .metadataException(let message):
-            return "MetadataException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyRequestsException(let message):
-            return "TooManyRequestsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

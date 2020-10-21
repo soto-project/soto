@@ -17,120 +17,76 @@
 import SotoCore
 
 /// Error enum for ACMPCA
-public enum ACMPCAErrorType: AWSErrorType {
-    case certificateMismatchException(message: String?)
-    case concurrentModificationException(message: String?)
-    case invalidArgsException(message: String?)
-    case invalidArnException(message: String?)
-    case invalidNextTokenException(message: String?)
-    case invalidPolicyException(message: String?)
-    case invalidRequestException(message: String?)
-    case invalidStateException(message: String?)
-    case invalidTagException(message: String?)
-    case limitExceededException(message: String?)
-    case lockoutPreventedException(message: String?)
-    case malformedCSRException(message: String?)
-    case malformedCertificateException(message: String?)
-    case permissionAlreadyExistsException(message: String?)
-    case requestAlreadyProcessedException(message: String?)
-    case requestFailedException(message: String?)
-    case requestInProgressException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case tooManyTagsException(message: String?)
-}
+public struct ACMPCAErrorType: AWSErrorType {
+    enum Code: String {
+        case certificateMismatchException = "CertificateMismatchException"
+        case concurrentModificationException = "ConcurrentModificationException"
+        case invalidArgsException = "InvalidArgsException"
+        case invalidArnException = "InvalidArnException"
+        case invalidNextTokenException = "InvalidNextTokenException"
+        case invalidPolicyException = "InvalidPolicyException"
+        case invalidRequestException = "InvalidRequestException"
+        case invalidStateException = "InvalidStateException"
+        case invalidTagException = "InvalidTagException"
+        case limitExceededException = "LimitExceededException"
+        case lockoutPreventedException = "LockoutPreventedException"
+        case malformedCSRException = "MalformedCSRException"
+        case malformedCertificateException = "MalformedCertificateException"
+        case permissionAlreadyExistsException = "PermissionAlreadyExistsException"
+        case requestAlreadyProcessedException = "RequestAlreadyProcessedException"
+        case requestFailedException = "RequestFailedException"
+        case requestInProgressException = "RequestInProgressException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyTagsException = "TooManyTagsException"
+    }
 
-extension ACMPCAErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "CertificateMismatchException":
-            self = .certificateMismatchException(message: message)
-        case "ConcurrentModificationException":
-            self = .concurrentModificationException(message: message)
-        case "InvalidArgsException":
-            self = .invalidArgsException(message: message)
-        case "InvalidArnException":
-            self = .invalidArnException(message: message)
-        case "InvalidNextTokenException":
-            self = .invalidNextTokenException(message: message)
-        case "InvalidPolicyException":
-            self = .invalidPolicyException(message: message)
-        case "InvalidRequestException":
-            self = .invalidRequestException(message: message)
-        case "InvalidStateException":
-            self = .invalidStateException(message: message)
-        case "InvalidTagException":
-            self = .invalidTagException(message: message)
-        case "LimitExceededException":
-            self = .limitExceededException(message: message)
-        case "LockoutPreventedException":
-            self = .lockoutPreventedException(message: message)
-        case "MalformedCSRException":
-            self = .malformedCSRException(message: message)
-        case "MalformedCertificateException":
-            self = .malformedCertificateException(message: message)
-        case "PermissionAlreadyExistsException":
-            self = .permissionAlreadyExistsException(message: message)
-        case "RequestAlreadyProcessedException":
-            self = .requestAlreadyProcessedException(message: message)
-        case "RequestFailedException":
-            self = .requestFailedException(message: message)
-        case "RequestInProgressException":
-            self = .requestInProgressException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "TooManyTagsException":
-            self = .tooManyTagsException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var certificateMismatchException: Self { .init(.certificateMismatchException) }
+    public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    public static var invalidArgsException: Self { .init(.invalidArgsException) }
+    public static var invalidArnException: Self { .init(.invalidArnException) }
+    public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
+    public static var invalidPolicyException: Self { .init(.invalidPolicyException) }
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
+    public static var invalidStateException: Self { .init(.invalidStateException) }
+    public static var invalidTagException: Self { .init(.invalidTagException) }
+    public static var limitExceededException: Self { .init(.limitExceededException) }
+    public static var lockoutPreventedException: Self { .init(.lockoutPreventedException) }
+    public static var malformedCSRException: Self { .init(.malformedCSRException) }
+    public static var malformedCertificateException: Self { .init(.malformedCertificateException) }
+    public static var permissionAlreadyExistsException: Self { .init(.permissionAlreadyExistsException) }
+    public static var requestAlreadyProcessedException: Self { .init(.requestAlreadyProcessedException) }
+    public static var requestFailedException: Self { .init(.requestFailedException) }
+    public static var requestInProgressException: Self { .init(.requestInProgressException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
+}
+
+extension ACMPCAErrorType: Equatable {
+    public static func == (lhs: ACMPCAErrorType, rhs: ACMPCAErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension ACMPCAErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .certificateMismatchException(let message):
-            return "CertificateMismatchException: \(message ?? "")"
-        case .concurrentModificationException(let message):
-            return "ConcurrentModificationException: \(message ?? "")"
-        case .invalidArgsException(let message):
-            return "InvalidArgsException: \(message ?? "")"
-        case .invalidArnException(let message):
-            return "InvalidArnException: \(message ?? "")"
-        case .invalidNextTokenException(let message):
-            return "InvalidNextTokenException: \(message ?? "")"
-        case .invalidPolicyException(let message):
-            return "InvalidPolicyException: \(message ?? "")"
-        case .invalidRequestException(let message):
-            return "InvalidRequestException: \(message ?? "")"
-        case .invalidStateException(let message):
-            return "InvalidStateException: \(message ?? "")"
-        case .invalidTagException(let message):
-            return "InvalidTagException: \(message ?? "")"
-        case .limitExceededException(let message):
-            return "LimitExceededException: \(message ?? "")"
-        case .lockoutPreventedException(let message):
-            return "LockoutPreventedException: \(message ?? "")"
-        case .malformedCSRException(let message):
-            return "MalformedCSRException: \(message ?? "")"
-        case .malformedCertificateException(let message):
-            return "MalformedCertificateException: \(message ?? "")"
-        case .permissionAlreadyExistsException(let message):
-            return "PermissionAlreadyExistsException: \(message ?? "")"
-        case .requestAlreadyProcessedException(let message):
-            return "RequestAlreadyProcessedException: \(message ?? "")"
-        case .requestFailedException(let message):
-            return "RequestFailedException: \(message ?? "")"
-        case .requestInProgressException(let message):
-            return "RequestInProgressException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .tooManyTagsException(let message):
-            return "TooManyTagsException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }

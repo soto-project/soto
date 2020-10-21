@@ -17,70 +17,56 @@
 import SotoCore
 
 /// Error enum for KinesisVideoArchivedMedia
-public enum KinesisVideoArchivedMediaErrorType: AWSErrorType {
-    case clientLimitExceededException(message: String?)
-    case invalidArgumentException(message: String?)
-    case invalidCodecPrivateDataException(message: String?)
-    case invalidMediaFrameException(message: String?)
-    case missingCodecPrivateDataException(message: String?)
-    case noDataRetentionException(message: String?)
-    case notAuthorizedException(message: String?)
-    case resourceNotFoundException(message: String?)
-    case unsupportedStreamMediaTypeException(message: String?)
-}
+public struct KinesisVideoArchivedMediaErrorType: AWSErrorType {
+    enum Code: String {
+        case clientLimitExceededException = "ClientLimitExceededException"
+        case invalidArgumentException = "InvalidArgumentException"
+        case invalidCodecPrivateDataException = "InvalidCodecPrivateDataException"
+        case invalidMediaFrameException = "InvalidMediaFrameException"
+        case missingCodecPrivateDataException = "MissingCodecPrivateDataException"
+        case noDataRetentionException = "NoDataRetentionException"
+        case notAuthorizedException = "NotAuthorizedException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case unsupportedStreamMediaTypeException = "UnsupportedStreamMediaTypeException"
+    }
 
-extension KinesisVideoArchivedMediaErrorType {
+    private var error: Code
+    public var message: String?
+
     public init?(errorCode: String, message: String?) {
         var errorCode = errorCode
         if let index = errorCode.firstIndex(of: "#") {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
-        switch errorCode {
-        case "ClientLimitExceededException":
-            self = .clientLimitExceededException(message: message)
-        case "InvalidArgumentException":
-            self = .invalidArgumentException(message: message)
-        case "InvalidCodecPrivateDataException":
-            self = .invalidCodecPrivateDataException(message: message)
-        case "InvalidMediaFrameException":
-            self = .invalidMediaFrameException(message: message)
-        case "MissingCodecPrivateDataException":
-            self = .missingCodecPrivateDataException(message: message)
-        case "NoDataRetentionException":
-            self = .noDataRetentionException(message: message)
-        case "NotAuthorizedException":
-            self = .notAuthorizedException(message: message)
-        case "ResourceNotFoundException":
-            self = .resourceNotFoundException(message: message)
-        case "UnsupportedStreamMediaTypeException":
-            self = .unsupportedStreamMediaTypeException(message: message)
-        default:
-            return nil
-        }
+        guard let error = Code(rawValue: errorCode) else { return nil }
+        self.error = error
+        self.message = message
+    }
+
+    internal init(_ error: Code) {
+        self.error = error
+        self.message = nil
+    }
+
+    public static var clientLimitExceededException: Self { .init(.clientLimitExceededException) }
+    public static var invalidArgumentException: Self { .init(.invalidArgumentException) }
+    public static var invalidCodecPrivateDataException: Self { .init(.invalidCodecPrivateDataException) }
+    public static var invalidMediaFrameException: Self { .init(.invalidMediaFrameException) }
+    public static var missingCodecPrivateDataException: Self { .init(.missingCodecPrivateDataException) }
+    public static var noDataRetentionException: Self { .init(.noDataRetentionException) }
+    public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    public static var unsupportedStreamMediaTypeException: Self { .init(.unsupportedStreamMediaTypeException) }
+}
+
+extension KinesisVideoArchivedMediaErrorType: Equatable {
+    public static func == (lhs: KinesisVideoArchivedMediaErrorType, rhs: KinesisVideoArchivedMediaErrorType) -> Bool {
+        lhs.error == rhs.error
     }
 }
 
 extension KinesisVideoArchivedMediaErrorType: CustomStringConvertible {
     public var description: String {
-        switch self {
-        case .clientLimitExceededException(let message):
-            return "ClientLimitExceededException: \(message ?? "")"
-        case .invalidArgumentException(let message):
-            return "InvalidArgumentException: \(message ?? "")"
-        case .invalidCodecPrivateDataException(let message):
-            return "InvalidCodecPrivateDataException: \(message ?? "")"
-        case .invalidMediaFrameException(let message):
-            return "InvalidMediaFrameException: \(message ?? "")"
-        case .missingCodecPrivateDataException(let message):
-            return "MissingCodecPrivateDataException: \(message ?? "")"
-        case .noDataRetentionException(let message):
-            return "NoDataRetentionException: \(message ?? "")"
-        case .notAuthorizedException(let message):
-            return "NotAuthorizedException: \(message ?? "")"
-        case .resourceNotFoundException(let message):
-            return "ResourceNotFoundException: \(message ?? "")"
-        case .unsupportedStreamMediaTypeException(let message):
-            return "UnsupportedStreamMediaTypeException: \(message ?? "")"
-        }
+        return "\(self.error.rawValue): \(self.message ?? "")"
     }
 }
