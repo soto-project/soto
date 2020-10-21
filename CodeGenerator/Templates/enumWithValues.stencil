@@ -19,7 +19,8 @@
 {%endfor %}
         case {{member.variable}}({{member.type}})
 {%endfor %}
-        
+{%if enumWithValues.isDecodable %}
+
         public init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
             guard container.allKeys.count == 1, let key = container.allKeys.first else {
@@ -37,7 +38,9 @@
 {%endfor %}
             }
         }
-        
+{%endif %}
+{%if enumWithValues.isEncodable %}
+
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
             switch self {
@@ -47,7 +50,8 @@
 {%endfor %}
             }
         }
-        
+{%endif %}
+
 {# validate() function #}
 {%if enumWithValues.validation.count > 0 %}
         public func validate(name: String) throws {
@@ -90,8 +94,10 @@
                 try validate(value, name: "{{v.name}}", parent: name, {{req}}: {{var}})
 {%endfor %}
 {%endfor %}
+{%if enumWithValues.validation.count != enumWithValues.members.count %}
             default:
                 break
+{%endif %}
             }
         }
 

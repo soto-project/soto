@@ -226,6 +226,8 @@ extension AWSService {
         let payload: String?
         var payloadOptions: String?
         let namespace: String?
+        let isEncodable: Bool
+        let isDecodable: Bool
         let encoding: [EncodingPropertiesContext]
         let members: [MemberContext]
         let awsShapeMembers: [AWSShapeMemberContext]
@@ -830,6 +832,8 @@ extension AWSService {
             payload: shape.payload?.toSwiftLabelCase(),
             payloadOptions: shapePayloadOptions.count > 0 ? shapePayloadOptions.map { ".\($0)" }.joined(separator: ", ") : nil,
             namespace: shape.xmlNamespace?.uri,
+            isEncodable: shape.usedInInput,
+            isDecodable: shape.usedInOutput,
             encoding: encodingContexts,
             members: memberContexts,
             awsShapeMembers: awsShapeMemberContexts,

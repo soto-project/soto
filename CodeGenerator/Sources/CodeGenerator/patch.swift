@@ -39,6 +39,7 @@ extension API {
         ],
         "DynamoDB": [
             ReplacePatch(PatchKeyPath3(\.shapes["AttributeValue"], \.type.structure, \.isEnum), value: true, originalValue: false),
+            ReplacePatch(PatchKeyPath3(\.shapes["TransactWriteItem"], \.type.structure, \.isEnum), value: true, originalValue: false),
         ],
         "EC2": [
             ReplacePatch(PatchKeyPath3(\.shapes["PlatformValues"], \.type.enum, \.cases[0]), value: "windows", originalValue: "Windows"),

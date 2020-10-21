@@ -350,6 +350,51 @@ extension DynamoDB {
         }
     }
 
+    public enum TransactWriteItem: AWSEncodableShape {
+        /// A request to perform a check item operation.
+        case conditionCheck(ConditionCheck)
+        /// A request to perform a DeleteItem operation.
+        case delete(Delete)
+        /// A request to perform a PutItem operation.
+        case put(Put)
+        /// A request to perform an UpdateItem operation.
+        case update(Update)
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            switch self {
+            case .conditionCheck(let value):
+                try container.encode(value, forKey: .conditionCheck)
+            case .delete(let value):
+                try container.encode(value, forKey: .delete)
+            case .put(let value):
+                try container.encode(value, forKey: .put)
+            case .update(let value):
+                try container.encode(value, forKey: .update)
+            }
+        }
+
+        public func validate(name: String) throws {
+            switch self {
+            case .conditionCheck(let value):
+                try value.validate(name: "\(name).conditionCheck")
+            case .delete(let value):
+                try value.validate(name: "\(name).delete")
+            case .put(let value):
+                try value.validate(name: "\(name).put")
+            case .update(let value):
+                try value.validate(name: "\(name).update")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionCheck = "ConditionCheck"
+            case delete = "Delete"
+            case put = "Put"
+            case update = "Update"
+        }
+    }
+
     // MARK: Shapes
 
     public struct ArchivalSummary: AWSDecodableShape {
@@ -4120,38 +4165,6 @@ extension DynamoDB {
         }
     }
 
-    public struct TransactWriteItem: AWSEncodableShape {
-        /// A request to perform a check item operation.
-        public let conditionCheck: ConditionCheck?
-        /// A request to perform a DeleteItem operation.
-        public let delete: Delete?
-        /// A request to perform a PutItem operation.
-        public let put: Put?
-        /// A request to perform an UpdateItem operation.
-        public let update: Update?
-
-        public init(conditionCheck: ConditionCheck? = nil, delete: Delete? = nil, put: Put? = nil, update: Update? = nil) {
-            self.conditionCheck = conditionCheck
-            self.delete = delete
-            self.put = put
-            self.update = update
-        }
-
-        public func validate(name: String) throws {
-            try self.conditionCheck?.validate(name: "\(name).conditionCheck")
-            try self.delete?.validate(name: "\(name).delete")
-            try self.put?.validate(name: "\(name).put")
-            try self.update?.validate(name: "\(name).update")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case conditionCheck = "ConditionCheck"
-            case delete = "Delete"
-            case put = "Put"
-            case update = "Update"
-        }
-    }
-
     public struct TransactWriteItemsInput: AWSEncodableShape {
         /// Providing a ClientRequestToken makes the call to TransactWriteItems idempotent, meaning that multiple identical calls have the same effect as one single call. Although multiple identical calls using the same client request token produce the same result on the server (no side effects), the responses to the calls might not be the same. If the ReturnConsumedCapacity&gt; parameter is set, then the initial TransactWriteItems call returns the amount of write capacity units consumed in making the changes. Subsequent TransactWriteItems calls with the same client token return the number of read capacity units consumed in reading the item. A client request token is valid for 10 minutes after the first request that uses it is completed. After 10 minutes, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 10 minutes, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 10-minute idempotency window, DynamoDB returns an IdempotentParameterMismatch exception.
         public let clientRequestToken: String?
@@ -4810,35 +4823,6 @@ extension DynamoDB {
         private enum CodingKeys: String, CodingKey {
             case deleteRequest = "DeleteRequest"
             case putRequest = "PutRequest"
-        }
-    }
-}
-
-extension DynamoDB.AttributeValue: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
-        switch (lhs, rhs) {
-        case (.b(let lhs), .b(let rhs)):
-            return lhs == rhs
-        case (.bool(let lhs), .bool(let rhs)):
-            return lhs == rhs
-        case (.bs(let lhs), .bs(let rhs)):
-            return lhs == rhs
-        case (.l(let lhs), .l(let rhs)):
-            return lhs == rhs
-        case (.m(let lhs), .m(let rhs)):
-            return lhs == rhs
-        case (.n(let lhs), .n(let rhs)):
-            return lhs == rhs
-        case (.ns(let lhs), .ns(let rhs)):
-            return lhs == rhs
-        case (.null(let lhs), .null(let rhs)):
-            return lhs == rhs
-        case (.s(let lhs), .s(let rhs)):
-            return lhs == rhs
-        case (.ss(let lhs), .ss(let rhs)):
-            return lhs == rhs
-        default:
-            return false
         }
     }
 }
