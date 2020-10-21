@@ -42,7 +42,7 @@ class IAMTests: XCTestCase {
 
     func createUser(userName: String, tags: [String: String] = [:]) -> EventLoopFuture<Void> {
         let request = IAM.CreateUserRequest(tags: tags.map { return IAM.Tag(key: $0.key, value: $0.value) }, userName: userName)
-        return Self.iam.createUser(request)
+        return Self.iam.createUser(request, logger: TestEnvironment.logger)
             .map { response in
                 XCTAssertEqual(response.user?.userName, userName)
             }
@@ -60,13 +60,13 @@ class IAMTests: XCTestCase {
     func deleteUser(userName: String) -> EventLoopFuture<Void> {
         let eventLoop = Self.iam.client.eventLoopGroup.next()
         let request = IAM.ListUserPoliciesRequest(userName: userName)
-        return Self.iam.listUserPolicies(request)
+        return Self.iam.listUserPolicies(request, logger: TestEnvironment.logger)
             .flatMap { response -> EventLoopFuture<Void> in
                 let futures = response.policyNames.map { (policyName) -> EventLoopFuture<Void> in
                     let deletePolicy = IAM.DeleteUserPolicyRequest(policyName: policyName, userName: userName)
                     // add stall to avoid throttling errors.
                     return eventLoop.flatScheduleTask(deadline: .now() + .seconds(2)) {
-                        return Self.iam.deleteUserPolicy(deletePolicy)
+                        return Self.iam.deleteUserPolicy(deletePolicy, logger: TestEnvironment.logger)
                     }.futureResult
                 }
                 return EventLoopFuture.andAllComplete(futures, on: Self.iam.client.eventLoopGroup.next())
@@ -77,7 +77,7 @@ class IAMTests: XCTestCase {
                 return scheduled.futureResult
             }
             .flatMap { _ in
-                return Self.iam.deleteUser(.init(userName: userName)).map { _ in }
+                return Self.iam.deleteUser(.init(userName: userName), logger: TestEnvironment.logger).map { _ in }
             }
     }
 
@@ -111,7 +111,7 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
             .flatMap { (user) -> EventLoopFuture<Void> in
                 let request = IAM.PutUserPolicyRequest(
@@ -119,11 +119,11 @@ class IAMTests: XCTestCase {
                     policyName: "testSetGetPolicy",
                     userName: user.user.userName
                 )
-                return Self.iam.putUserPolicy(request)
+                return Self.iam.putUserPolicy(request, logger: TestEnvironment.logger)
             }
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserPolicyResponse> in
                 let request = IAM.GetUserPolicyRequest(policyName: "testSetGetPolicy", userName: username)
-                return Self.iam.getUserPolicy(request)
+                return Self.iam.getUserPolicy(request, logger: TestEnvironment.logger)
             }
             .map { response in
                 let responsePolicyDocument = response.policyDocument.removingPercentEncoding?.filter { $0 != " " && $0 != "\n" }
@@ -140,39 +140,16 @@ class IAMTests: XCTestCase {
         guard !TestEnvironment.isUsingLocalstack else { return }
         // put a policy on the user
         let policyDocument = """
-        {
-            "Version": "2012-10-17",
-            "Statement": [
-                {
-                    "Effect": "Allow",
-                    "Action": [
-                        "sns:*",
-                        "s3:*",
-                        "sqs:*"
-                    ],
-                    "Resource": "*"
-                }
-            ]
-        }
+        {"Version": "2012-10-17","Statement": [{"Effect": "Allow","Action": ["sns:*","s3:*","sqs:*"],"Resource": "*"}]}
         """
         let username = TestEnvironment.generateResourceName()
-        var userArn: String!
         let response = self.createUser(userName: username)
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
-            .flatMap { (user) -> EventLoopFuture<Void> in
-                userArn = user.user.arn
-                let request = IAM.PutUserPolicyRequest(
-                    policyDocument: policyDocument,
-                    policyName: "testSetGetPolicy",
-                    userName: user.user.userName
-                )
-                return Self.iam.putUserPolicy(request)
-            }
-            .flatMap { (_) -> EventLoopFuture<IAM.SimulatePolicyResponse> in
-                let request = IAM.SimulatePrincipalPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], policySourceArn: userArn)
-                return Self.iam.simulatePrincipalPolicy(request)
+            .flatMap { (user) -> EventLoopFuture<IAM.SimulatePolicyResponse> in
+                let request = IAM.SimulateCustomPolicyRequest(actionNames: ["sns:*", "sqs:*", "dynamodb:*"], callerArn: user.user.arn, policyInputList: [policyDocument])
+                return Self.iam.simulateCustomPolicy(request, logger: TestEnvironment.logger)
             }
             .map { response -> Void in
                 XCTAssertEqual(response.evaluationResults?[0].evalDecision, .allowed)
@@ -203,7 +180,7 @@ class IAMTests: XCTestCase {
         let username = TestEnvironment.generateResourceName()
         let response = self.createUser(userName: username, tags: ["test": "tag"])
             .flatMap { (_) -> EventLoopFuture<IAM.GetUserResponse> in
-                return Self.iam.getUser(.init(userName: username))
+                return Self.iam.getUser(.init(userName: username), logger: TestEnvironment.logger)
             }
             .map { response in
                 XCTAssertEqual(response.user.tags?.first?.key, "test")
@@ -218,7 +195,7 @@ class IAMTests: XCTestCase {
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"))
+        let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
             case IAMErrorType.noSuchEntityException(let message):
