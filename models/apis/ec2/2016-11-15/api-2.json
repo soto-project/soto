@@ -3571,7 +3571,8 @@
         "method":"POST",
         "requestUri":"/"
       },
-      "input":{"shape":"RevokeSecurityGroupEgressRequest"}
+      "input":{"shape":"RevokeSecurityGroupEgressRequest"},
+      "output":{"shape":"RevokeSecurityGroupEgressResult"}
     },
     "RevokeSecurityGroupIngress":{
       "name":"RevokeSecurityGroupIngress",
@@ -3579,7 +3580,8 @@
         "method":"POST",
         "requestUri":"/"
       },
-      "input":{"shape":"RevokeSecurityGroupIngressRequest"}
+      "input":{"shape":"RevokeSecurityGroupIngressRequest"},
+      "output":{"shape":"RevokeSecurityGroupIngressResult"}
     },
     "RunInstances":{
       "name":"RunInstances",
@@ -14609,6 +14611,14 @@
         "locationName":"item"
       }
     },
+    "EphemeralNvmeSupport":{
+      "type":"string",
+      "enum":[
+        "unsupported",
+        "supported",
+        "required"
+      ]
+    },
     "ErrorSet":{
       "type":"list",
       "member":{
@@ -18495,6 +18505,10 @@
         "Disks":{
           "shape":"DiskInfoList",
           "locationName":"disks"
+        },
+        "NvmeSupport":{
+          "shape":"EphemeralNvmeSupport",
+          "locationName":"nvmeSupport"
         }
       }
     },
@@ -20574,6 +20588,10 @@
           "shape":"Integer",
           "locationName":"peerBgpAsn"
         },
+        "OwnerId":{
+          "shape":"String",
+          "locationName":"ownerId"
+        },
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
@@ -20594,6 +20612,10 @@
         "LocalGatewayId":{
           "shape":"String",
           "locationName":"localGatewayId"
+        },
+        "OwnerId":{
+          "shape":"String",
+          "locationName":"ownerId"
         },
         "Tags":{
           "shape":"TagList",
@@ -25452,6 +25474,19 @@
         }
       }
     },
+    "RevokeSecurityGroupEgressResult":{
+      "type":"structure",
+      "members":{
+        "Return":{
+          "shape":"Boolean",
+          "locationName":"return"
+        },
+        "UnknownIpPermissions":{
+          "shape":"IpPermissionList",
+          "locationName":"unknownIpPermissionSet"
+        }
+      }
+    },
     "RevokeSecurityGroupIngressRequest":{
       "type":"structure",
       "members":{
@@ -25467,6 +25502,19 @@
         "DryRun":{
           "shape":"Boolean",
           "locationName":"dryRun"
+        }
+      }
+    },
+    "RevokeSecurityGroupIngressResult":{
+      "type":"structure",
+      "members":{
+        "Return":{
+          "shape":"Boolean",
+          "locationName":"return"
+        },
+        "UnknownIpPermissions":{
+          "shape":"IpPermissionList",
+          "locationName":"unknownIpPermissionSet"
         }
       }
     },
