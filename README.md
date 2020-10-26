@@ -127,6 +127,7 @@ Additional user guides for specific elements of Soto are available
 - [Upgrading to Soto v5](documentation/Upgrading%20to%20v5.md)
 - [AWSClient and Service Objects](documentation/AWSClient%20and%20Services.md)
 - [Credential Providers](documentation/Credential%20Providers.md)
+- [Error Handling](documentation/Error%20Handling.md)
 - [Streaming Payloads](documentation/Streaming%20Payloads.md)
 - [DynamoDB and Codable](documentation/DynamoDB%20and%20Codable.md)
 - [S3 Multipart Upload](documentation/S3%20Multipart%20Upload.md)
