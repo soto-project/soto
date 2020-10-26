@@ -68,13 +68,19 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 urlHost = host
             }
             // add percent encoding back into path as converting from URL to String has removed it
-            let percentEncodedUrlPath = urlPath.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? urlPath
+            let percentEncodedUrlPath = Self.urlEncodePath(urlPath)
             var urlString = "\(request.url.scheme ?? "https")://\(urlHost)/\(percentEncodedUrlPath)"
             if let query = request.url.query {
                 urlString += "?\(query)"
             }
             request.url = URL(string: urlString)!
         }
+    }
+
+    static let pathAllowedCharacters = CharacterSet.urlPathAllowed.subtracting(.init(charactersIn: "+"))
+    /// percent encode path value.
+    private static func urlEncodePath(_ value: String) -> String {
+        return value.addingPercentEncoding(withAllowedCharacters: Self.pathAllowedCharacters) ?? value
     }
 
     func createBucketFixup(request: inout AWSRequest) {

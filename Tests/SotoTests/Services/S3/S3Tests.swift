@@ -108,6 +108,7 @@ class S3Tests: XCTestCase {
 
     func testPutGetObject() {
         let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
         let response = Self.createBucket(name: name, s3: Self.s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
@@ -116,7 +117,7 @@ class S3Tests: XCTestCase {
                     body: .string(contents),
                     bucket: name,
                     contentLength: Int64(contents.utf8.count),
-                    key: name
+                    key: filename
                 )
                 return Self.s3.putObject(putRequest)
             }
@@ -124,7 +125,38 @@ class S3Tests: XCTestCase {
                 XCTAssertNotNil(response.eTag)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-                return Self.s3.getObject(.init(bucket: name, key: name))
+                return Self.s3.getObject(.init(bucket: name, key: filename))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.body?.asString(), contents)
+                XCTAssertNotNil(response.lastModified)
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testPutGetObjectWithSpecialName() {
+        let name = TestEnvironment.generateResourceName()
+        let filename = "test $filé+!@£$%^&*()_=-[]{}\\|';:\",./?><~`.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    acl: .publicRead,
+                    body: .string(contents),
+                    bucket: name,
+                    contentLength: Int64(contents.utf8.count),
+                    key: filename
+                )
+                return Self.s3.putObject(putRequest)
+            }
+            .map { response -> Void in
+                XCTAssertNotNil(response.eTag)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return Self.s3.getObject(.init(bucket: name, key: filename))
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asString(), contents)
