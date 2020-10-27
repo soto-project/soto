@@ -130,7 +130,7 @@ class S3Tests: XCTestCase {
     }
 
     func testMultiPartUpload() {
-        attempt {
+        /*attempt {
             let testData = try TestData(#function, client: client)
 
             let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
@@ -154,7 +154,7 @@ class S3Tests: XCTestCase {
 
             XCTAssertEqual(object.body, data)
             try FileManager.default.removeItem(atPath: filename)
-        }
+        }*/
     }
 
     /// test uploaded objects are returned in ListObjects
