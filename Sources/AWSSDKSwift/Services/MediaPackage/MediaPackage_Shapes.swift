@@ -126,8 +126,10 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
@@ -135,24 +137,30 @@ extension MediaPackage {
         public let arn: String?
         /// A short text description of the Channel.
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         /// The ID of the Channel.
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }
@@ -250,6 +258,70 @@ extension MediaPackage {
         }
     }
 
+    public struct ConfigureLogsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .uri(locationName: "id"), required: true, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure)
+        ]
+
+        public let egressAccessLogs: EgressAccessLogs?
+        public let id: String
+        public let ingressAccessLogs: IngressAccessLogs?
+
+        public init(egressAccessLogs: EgressAccessLogs? = nil, id: String, ingressAccessLogs: IngressAccessLogs? = nil) {
+            self.egressAccessLogs = egressAccessLogs
+            self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressAccessLogs = "egressAccessLogs"
+            case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
+        }
+    }
+
+    public struct ConfigureLogsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
+            AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
+            AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
+            AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
+        ]
+
+        public let arn: String?
+        public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
+        public let hlsIngest: HlsIngest?
+        public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.egressAccessLogs = egressAccessLogs
+            self.hlsIngest = hlsIngest
+            self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+            case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
+            case hlsIngest = "hlsIngest"
+            case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
+            case tags = "tags"
+        }
+    }
+
     public struct CreateChannelRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
@@ -278,30 +350,38 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }
@@ -706,30 +786,38 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }
@@ -887,6 +975,23 @@ extension MediaPackage {
             case timeDelaySeconds = "timeDelaySeconds"
             case url = "url"
             case whitelist = "whitelist"
+        }
+    }
+
+    public struct EgressAccessLogs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogGroupName", location: .body(locationName: "logGroupName"), required: false, type: .string)
+        ]
+
+        /// Customize the log group name.
+        public let logGroupName: String?
+
+        public init(logGroupName: String? = nil) {
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
         }
     }
 
@@ -1261,6 +1366,23 @@ extension MediaPackage {
         }
     }
 
+    public struct IngressAccessLogs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LogGroupName", location: .body(locationName: "logGroupName"), required: false, type: .string)
+        ]
+
+        /// Customize the log group name.
+        public let logGroupName: String?
+
+        public init(logGroupName: String? = nil) {
+            self.logGroupName = logGroupName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupName = "logGroupName"
+        }
+    }
+
     public struct ListChannelsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -1596,30 +1718,38 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }
@@ -1648,30 +1778,38 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }
@@ -1834,30 +1972,38 @@ extension MediaPackage {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "EgressAccessLogs", location: .body(locationName: "egressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "HlsIngest", location: .body(locationName: "hlsIngest"), required: false, type: .structure), 
             AWSShapeMember(label: "Id", location: .body(locationName: "id"), required: false, type: .string), 
+            AWSShapeMember(label: "IngressAccessLogs", location: .body(locationName: "ingressAccessLogs"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let arn: String?
         public let description: String?
+        public let egressAccessLogs: EgressAccessLogs?
         public let hlsIngest: HlsIngest?
         public let id: String?
+        public let ingressAccessLogs: IngressAccessLogs?
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, description: String? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, egressAccessLogs: EgressAccessLogs? = nil, hlsIngest: HlsIngest? = nil, id: String? = nil, ingressAccessLogs: IngressAccessLogs? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.description = description
+            self.egressAccessLogs = egressAccessLogs
             self.hlsIngest = hlsIngest
             self.id = id
+            self.ingressAccessLogs = ingressAccessLogs
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case description = "description"
+            case egressAccessLogs = "egressAccessLogs"
             case hlsIngest = "hlsIngest"
             case id = "id"
+            case ingressAccessLogs = "ingressAccessLogs"
             case tags = "tags"
         }
     }

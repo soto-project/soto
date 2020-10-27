@@ -133,6 +133,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
@@ -157,6 +158,8 @@ extension ApiGatewayV2 {
         public let createdDate: TimeStamp?
         /// The description of the API.
         public let description: String?
+        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+        public let disableExecuteApiEndpoint: Bool?
         /// Avoid validating models when creating a deployment. Supported only for WebSocket APIs.
         public let disableSchemaValidation: Bool?
         /// The validation information during API import. This may include particular properties of your OpenAPI definition which are ignored during import. Supported only for HTTP APIs.
@@ -174,7 +177,7 @@ extension ApiGatewayV2 {
         /// The warning messages reported when failonwarnings is turned on during API import.
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String, protocolType: ProtocolType, routeSelectionExpression: String, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -182,6 +185,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -200,6 +204,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -420,6 +425,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: true, type: .string), 
             AWSShapeMember(label: "ProtocolType", location: .body(locationName: "protocolType"), required: true, type: .enum), 
@@ -434,6 +440,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let credentialsArn: String?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let name: String
         public let protocolType: ProtocolType
@@ -443,11 +450,12 @@ extension ApiGatewayV2 {
         public let target: String?
         public let version: String?
 
-        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String, protocolType: ProtocolType, routeKey: String? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, target: String? = nil, version: String? = nil) {
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.name = name
             self.protocolType = protocolType
@@ -467,6 +475,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case credentialsArn = "credentialsArn"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case name = "name"
             case protocolType = "protocolType"
@@ -487,6 +496,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -504,6 +514,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let createdDate: TimeStamp?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -513,7 +524,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -521,6 +532,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -539,6 +551,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -731,22 +744,26 @@ extension ApiGatewayV2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         public let tags: [String: String]?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, tags: [String: String]? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case tags = "tags"
         }
     }
@@ -756,18 +773,21 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -775,6 +795,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case tags = "tags"
         }
     }
@@ -1859,6 +1880,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: true, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
@@ -1868,13 +1890,16 @@ extension ApiGatewayV2 {
         public let domainName: String
         /// The domain name configurations.
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        /// The mutual TLS authentication configuration for a custom domain name.
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         /// The collection of tags associated with a domain name.
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -1882,6 +1907,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case tags = "tags"
         }
     }
@@ -2114,6 +2140,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -2131,6 +2158,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let createdDate: TimeStamp?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -2140,7 +2168,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -2148,6 +2176,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -2166,6 +2195,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -2458,18 +2488,21 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -2477,6 +2510,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case tags = "tags"
         }
     }
@@ -3446,6 +3480,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -3463,6 +3498,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let createdDate: TimeStamp?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -3472,7 +3508,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3480,6 +3516,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -3498,6 +3535,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -3719,6 +3757,55 @@ extension ApiGatewayV2 {
         }
     }
 
+    public struct MutualTlsAuthentication: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TruststoreUri", location: .body(locationName: "truststoreUri"), required: false, type: .string), 
+            AWSShapeMember(label: "TruststoreVersion", location: .body(locationName: "truststoreVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "TruststoreWarnings", location: .body(locationName: "truststoreWarnings"), required: false, type: .list)
+        ]
+
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+        /// A list of warnings that API Gateway returns while processing your truststore. Invalid certificates produce warnings. Mutual TLS is still enabled, but some clients might not be able to access your API. To resolve warnings, upload a new truststore to S3, and then update you domain name to use the new version.
+        public let truststoreWarnings: [String]?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil, truststoreWarnings: [String]? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+            self.truststoreWarnings = truststoreWarnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+            case truststoreWarnings = "truststoreWarnings"
+        }
+    }
+
+    public struct MutualTlsAuthenticationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TruststoreUri", location: .body(locationName: "truststoreUri"), required: false, type: .string), 
+            AWSShapeMember(label: "TruststoreVersion", location: .body(locationName: "truststoreVersion"), required: false, type: .string)
+        ]
+
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+        }
+    }
+
     public struct ParameterConstraints: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Required", location: .body(locationName: "required"), required: false, type: .boolean)
@@ -3773,6 +3860,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -3790,6 +3878,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let createdDate: TimeStamp?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -3799,7 +3888,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -3807,6 +3896,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -3825,6 +3915,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -4238,6 +4329,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CredentialsArn", location: .body(locationName: "credentialsArn"), required: false, type: .string), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
             AWSShapeMember(label: "RouteKey", location: .body(locationName: "routeKey"), required: false, type: .string), 
@@ -4251,6 +4343,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let credentialsArn: String?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let name: String?
         public let routeKey: String?
@@ -4258,12 +4351,13 @@ extension ApiGatewayV2 {
         public let target: String?
         public let version: String?
 
-        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
+        public init(apiId: String, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, credentialsArn: String? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, name: String? = nil, routeKey: String? = nil, routeSelectionExpression: String? = nil, target: String? = nil, version: String? = nil) {
             self.apiId = apiId
             self.apiKeySelectionExpression = apiKeySelectionExpression
             self.corsConfiguration = corsConfiguration
             self.credentialsArn = credentialsArn
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.name = name
             self.routeKey = routeKey
@@ -4282,6 +4376,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case credentialsArn = "credentialsArn"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case name = "name"
             case routeKey = "routeKey"
@@ -4300,6 +4395,7 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "CorsConfiguration", location: .body(locationName: "corsConfiguration"), required: false, type: .structure), 
             AWSShapeMember(label: "CreatedDate", location: .body(locationName: "createdDate"), required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", location: .body(locationName: "description"), required: false, type: .string), 
+            AWSShapeMember(label: "DisableExecuteApiEndpoint", location: .body(locationName: "disableExecuteApiEndpoint"), required: false, type: .boolean), 
             AWSShapeMember(label: "DisableSchemaValidation", location: .body(locationName: "disableSchemaValidation"), required: false, type: .boolean), 
             AWSShapeMember(label: "ImportInfo", location: .body(locationName: "importInfo"), required: false, type: .list), 
             AWSShapeMember(label: "Name", location: .body(locationName: "name"), required: false, type: .string), 
@@ -4317,6 +4413,7 @@ extension ApiGatewayV2 {
         public let corsConfiguration: Cors?
         public let createdDate: TimeStamp?
         public let description: String?
+        public let disableExecuteApiEndpoint: Bool?
         public let disableSchemaValidation: Bool?
         public let importInfo: [String]?
         public let name: String?
@@ -4326,7 +4423,7 @@ extension ApiGatewayV2 {
         public let version: String?
         public let warnings: [String]?
 
-        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
+        public init(apiEndpoint: String? = nil, apiGatewayManaged: Bool? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: Cors? = nil, createdDate: TimeStamp? = nil, description: String? = nil, disableExecuteApiEndpoint: Bool? = nil, disableSchemaValidation: Bool? = nil, importInfo: [String]? = nil, name: String? = nil, protocolType: ProtocolType? = nil, routeSelectionExpression: String? = nil, tags: [String: String]? = nil, version: String? = nil, warnings: [String]? = nil) {
             self.apiEndpoint = apiEndpoint
             self.apiGatewayManaged = apiGatewayManaged
             self.apiId = apiId
@@ -4334,6 +4431,7 @@ extension ApiGatewayV2 {
             self.corsConfiguration = corsConfiguration
             self.createdDate = createdDate
             self.description = description
+            self.disableExecuteApiEndpoint = disableExecuteApiEndpoint
             self.disableSchemaValidation = disableSchemaValidation
             self.importInfo = importInfo
             self.name = name
@@ -4352,6 +4450,7 @@ extension ApiGatewayV2 {
             case corsConfiguration = "corsConfiguration"
             case createdDate = "createdDate"
             case description = "description"
+            case disableExecuteApiEndpoint = "disableExecuteApiEndpoint"
             case disableSchemaValidation = "disableSchemaValidation"
             case importInfo = "importInfo"
             case name = "name"
@@ -4547,20 +4646,24 @@ extension ApiGatewayV2 {
     public struct UpdateDomainNameRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", location: .uri(locationName: "domainName"), required: true, type: .string), 
-            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list)
+            AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure)
         ]
 
         public let domainName: String
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
 
-        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil) {
+        public init(domainName: String, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil) {
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
         }
     }
 
@@ -4569,18 +4672,21 @@ extension ApiGatewayV2 {
             AWSShapeMember(label: "ApiMappingSelectionExpression", location: .body(locationName: "apiMappingSelectionExpression"), required: false, type: .string), 
             AWSShapeMember(label: "DomainName", location: .body(locationName: "domainName"), required: false, type: .string), 
             AWSShapeMember(label: "DomainNameConfigurations", location: .body(locationName: "domainNameConfigurations"), required: false, type: .list), 
+            AWSShapeMember(label: "MutualTlsAuthentication", location: .body(locationName: "mutualTlsAuthentication"), required: false, type: .structure), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tags"), required: false, type: .map)
         ]
 
         public let apiMappingSelectionExpression: String?
         public let domainName: String?
         public let domainNameConfigurations: [DomainNameConfiguration]?
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         public let tags: [String: String]?
 
-        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, tags: [String: String]? = nil) {
+        public init(apiMappingSelectionExpression: String? = nil, domainName: String? = nil, domainNameConfigurations: [DomainNameConfiguration]? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, tags: [String: String]? = nil) {
             self.apiMappingSelectionExpression = apiMappingSelectionExpression
             self.domainName = domainName
             self.domainNameConfigurations = domainNameConfigurations
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.tags = tags
         }
 
@@ -4588,6 +4694,7 @@ extension ApiGatewayV2 {
             case apiMappingSelectionExpression = "apiMappingSelectionExpression"
             case domainName = "domainName"
             case domainNameConfigurations = "domainNameConfigurations"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case tags = "tags"
         }
     }

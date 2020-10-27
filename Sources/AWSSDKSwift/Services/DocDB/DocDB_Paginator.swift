@@ -6,6 +6,26 @@ import NIO
 
 extension DocDB {
 
+    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this AWS account.
+    public func describeCertificatesPaginator(_ input: DescribeCertificatesMessage, onPage: @escaping (CertificateMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeCertificates, tokenKey: \CertificateMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list contains only the description of the specified cluster parameter group. 
+    public func describeDBClusterParameterGroupsPaginator(_ input: DescribeDBClusterParameterGroupsMessage, onPage: @escaping (DBClusterParameterGroupsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterParameterGroups, tokenKey: \DBClusterParameterGroupsMessage.marker, onPage: onPage)
+    }
+
+    ///  Returns the detailed parameter list for a particular cluster parameter group.
+    public func describeDBClusterParametersPaginator(_ input: DescribeDBClusterParametersMessage, onPage: @escaping (DBClusterParameterGroupDetails, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterParameters, tokenKey: \DBClusterParameterGroupDetails.marker, onPage: onPage)
+    }
+
+    ///  Returns information about cluster snapshots. This API operation supports pagination.
+    public func describeDBClusterSnapshotsPaginator(_ input: DescribeDBClusterSnapshotsMessage, onPage: @escaping (DBClusterSnapshotMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterSnapshots, tokenKey: \DBClusterSnapshotMessage.marker, onPage: onPage)
+    }
+
     ///  Returns information about provisioned Amazon DocumentDB clusters. This API operation supports pagination. For certain management features such as cluster and instance lifecycle management, Amazon DocumentDB leverages operational technology that is shared with Amazon RDS and Amazon Neptune. Use the filterName=engine,Values=docdb filter parameter to return only Amazon DocumentDB clusters.
     public func describeDBClustersPaginator(_ input: DescribeDBClustersMessage, onPage: @escaping (DBClusterMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBClusters, tokenKey: \DBClusterMessage.marker, onPage: onPage)
@@ -36,6 +56,64 @@ extension DocDB {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
 
+    ///  Returns a list of resources (for example, instances) that have at least one pending maintenance action.
+    public func describePendingMaintenanceActionsPaginator(_ input: DescribePendingMaintenanceActionsMessage, onPage: @escaping (PendingMaintenanceActionsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describePendingMaintenanceActions, tokenKey: \PendingMaintenanceActionsMessage.marker, onPage: onPage)
+    }
+
+}
+
+extension DocDB.DescribeCertificatesMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeCertificatesMessage {
+        return .init(
+            certificateIdentifier: self.certificateIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension DocDB.DescribeDBClusterParameterGroupsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterParameterGroupsMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
+}
+
+extension DocDB.DescribeDBClusterParametersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterParametersMessage {
+        return .init(
+            dBClusterParameterGroupName: self.dBClusterParameterGroupName, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            source: self.source
+        )
+
+    }
+}
+
+extension DocDB.DescribeDBClusterSnapshotsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterSnapshotsMessage {
+        return .init(
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier, 
+            filters: self.filters, 
+            includePublic: self.includePublic, 
+            includeShared: self.includeShared, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            snapshotType: self.snapshotType
+        )
+
+    }
 }
 
 extension DocDB.DescribeDBClustersMessage: AWSPaginateStringToken {
@@ -119,6 +197,18 @@ extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateStringToke
             marker: token, 
             maxRecords: self.maxRecords, 
             vpc: self.vpc
+        )
+
+    }
+}
+
+extension DocDB.DescribePendingMaintenanceActionsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> DocDB.DescribePendingMaintenanceActionsMessage {
+        return .init(
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            resourceIdentifier: self.resourceIdentifier
         )
 
     }

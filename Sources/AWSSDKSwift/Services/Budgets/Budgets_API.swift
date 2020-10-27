@@ -52,6 +52,11 @@ public struct Budgets {
         return client.send(operation: "CreateBudget", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Creates a budget action. 
+    public func createBudgetAction(_ input: CreateBudgetActionRequest) -> EventLoopFuture<CreateBudgetActionResponse> {
+        return client.send(operation: "CreateBudgetAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a notification. You must create the budget before you create the associated notification.
     public func createNotification(_ input: CreateNotificationRequest) -> EventLoopFuture<CreateNotificationResponse> {
         return client.send(operation: "CreateNotification", path: "/", httpMethod: "POST", input: input)
@@ -67,6 +72,11 @@ public struct Budgets {
         return client.send(operation: "DeleteBudget", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Deletes a budget action. 
+    public func deleteBudgetAction(_ input: DeleteBudgetActionRequest) -> EventLoopFuture<DeleteBudgetActionResponse> {
+        return client.send(operation: "DeleteBudgetAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a notification.  Deleting a notification also deletes the subscribers that are associated with the notification. 
     public func deleteNotification(_ input: DeleteNotificationRequest) -> EventLoopFuture<DeleteNotificationResponse> {
         return client.send(operation: "DeleteNotification", path: "/", httpMethod: "POST", input: input)
@@ -80,6 +90,26 @@ public struct Budgets {
     ///  Describes a budget.  The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func describeBudget(_ input: DescribeBudgetRequest) -> EventLoopFuture<DescribeBudgetResponse> {
         return client.send(operation: "DescribeBudget", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Describes a budget action detail. 
+    public func describeBudgetAction(_ input: DescribeBudgetActionRequest) -> EventLoopFuture<DescribeBudgetActionResponse> {
+        return client.send(operation: "DescribeBudgetAction", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Describes a budget action history detail. 
+    public func describeBudgetActionHistories(_ input: DescribeBudgetActionHistoriesRequest) -> EventLoopFuture<DescribeBudgetActionHistoriesResponse> {
+        return client.send(operation: "DescribeBudgetActionHistories", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Describes all of the budget actions for an account. 
+    public func describeBudgetActionsForAccount(_ input: DescribeBudgetActionsForAccountRequest) -> EventLoopFuture<DescribeBudgetActionsForAccountResponse> {
+        return client.send(operation: "DescribeBudgetActionsForAccount", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Describes all of the budget actions for a budget. 
+    public func describeBudgetActionsForBudget(_ input: DescribeBudgetActionsForBudgetRequest) -> EventLoopFuture<DescribeBudgetActionsForBudgetResponse> {
+        return client.send(operation: "DescribeBudgetActionsForBudget", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
@@ -102,9 +132,19 @@ public struct Budgets {
         return client.send(operation: "DescribeSubscribersForNotification", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///   Executes a budget action. 
+    public func executeBudgetAction(_ input: ExecuteBudgetActionRequest) -> EventLoopFuture<ExecuteBudgetActionResponse> {
+        return client.send(operation: "ExecuteBudgetAction", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates a budget. You can change every part of a budget except for the budgetName and the calculatedSpend. When you modify a budget, the calculatedSpend drops to zero until AWS has new usage data to use for forecasting.  Only one of BudgetLimit or PlannedBudgetLimits can be present in the syntax at one time. Use the syntax that matches your case. The Request Syntax section shows the BudgetLimit syntax. For PlannedBudgetLimits, see the Examples section.  
     public func updateBudget(_ input: UpdateBudgetRequest) -> EventLoopFuture<UpdateBudgetResponse> {
         return client.send(operation: "UpdateBudget", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Updates a budget action. 
+    public func updateBudgetAction(_ input: UpdateBudgetActionRequest) -> EventLoopFuture<UpdateBudgetActionResponse> {
+        return client.send(operation: "UpdateBudgetAction", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a notification.

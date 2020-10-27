@@ -81,6 +81,16 @@ extension ElastiCache {
         return client.paginate(input: input, command: describeUpdateActions, tokenKey: \UpdateActionsMessage.marker, onPage: onPage)
     }
 
+    ///  Returns a list of user groups.
+    public func describeUserGroupsPaginator(_ input: DescribeUserGroupsMessage, onPage: @escaping (DescribeUserGroupsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeUserGroups, tokenKey: \DescribeUserGroupsResult.marker, onPage: onPage)
+    }
+
+    ///  Returns a list of users.
+    public func describeUsersPaginator(_ input: DescribeUsersMessage, onPage: @escaping (DescribeUsersResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeUsers, tokenKey: \DescribeUsersResult.marker, onPage: onPage)
+    }
+
 }
 
 extension ElastiCache.DescribeCacheClustersMessage: AWSPaginateStringToken {
@@ -275,6 +285,30 @@ extension ElastiCache.DescribeUpdateActionsMessage: AWSPaginateStringToken {
             serviceUpdateTimeRange: self.serviceUpdateTimeRange, 
             showNodeLevelUpdateStatus: self.showNodeLevelUpdateStatus, 
             updateActionStatus: self.updateActionStatus
+        )
+
+    }
+}
+
+extension ElastiCache.DescribeUserGroupsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeUserGroupsMessage {
+        return .init(
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            userGroupId: self.userGroupId
+        )
+
+    }
+}
+
+extension ElastiCache.DescribeUsersMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ElastiCache.DescribeUsersMessage {
+        return .init(
+            engine: self.engine, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords, 
+            userId: self.userId
         )
 
     }

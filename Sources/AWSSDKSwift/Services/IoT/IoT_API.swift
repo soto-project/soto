@@ -642,7 +642,7 @@ public struct IoT {
         return client.send(operation: "ListAttachedPolicies", path: "/attached-policies/{target}", httpMethod: "POST", input: input)
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
+    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
     public func listAuditFindings(_ input: ListAuditFindingsRequest) -> EventLoopFuture<ListAuditFindingsResponse> {
         return client.send(operation: "ListAuditFindings", path: "/audit/findings", httpMethod: "POST", input: input)
     }

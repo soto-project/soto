@@ -590,6 +590,66 @@ extension Schemas {
         }
     }
 
+    public struct ExportSchemaRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RegistryName", location: .uri(locationName: "registryName"), required: true, type: .string), 
+            AWSShapeMember(label: "SchemaName", location: .uri(locationName: "schemaName"), required: true, type: .string), 
+            AWSShapeMember(label: "SchemaVersion", location: .querystring(locationName: "schemaVersion"), required: false, type: .string), 
+            AWSShapeMember(label: "Type", location: .querystring(locationName: "type"), required: true, type: .string)
+        ]
+
+        public let registryName: String
+        public let schemaName: String
+        public let schemaVersion: String?
+        public let `type`: String
+
+        public init(registryName: String, schemaName: String, schemaVersion: String? = nil, type: String) {
+            self.registryName = registryName
+            self.schemaName = schemaName
+            self.schemaVersion = schemaVersion
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryName = "registryName"
+            case schemaName = "schemaName"
+            case schemaVersion = "schemaVersion"
+            case `type` = "type"
+        }
+    }
+
+    public struct ExportSchemaResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Content", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaName", required: false, type: .string), 
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        public let content: String?
+        public let schemaArn: String?
+        public let schemaName: String?
+        public let schemaVersion: String?
+        public let `type`: String?
+
+        public init(content: String? = nil, schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
+            self.content = content
+            self.schemaArn = schemaArn
+            self.schemaName = schemaName
+            self.schemaVersion = schemaVersion
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case content = "Content"
+            case schemaArn = "SchemaArn"
+            case schemaName = "SchemaName"
+            case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
+        }
+    }
+
     public struct GetCodeBindingSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Language", location: .uri(locationName: "language"), required: true, type: .string), 
@@ -1109,7 +1169,8 @@ extension Schemas {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "SchemaArn", required: false, type: .string), 
             AWSShapeMember(label: "SchemaName", required: false, type: .string), 
-            AWSShapeMember(label: "SchemaVersion", required: false, type: .string)
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
         /// The ARN of the schema version.
@@ -1118,17 +1179,20 @@ extension Schemas {
         public let schemaName: String?
         /// The version number of the schema.
         public let schemaVersion: String?
+        public let `type`: String?
 
-        public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil) {
+        public init(schemaArn: String? = nil, schemaName: String? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.schemaArn = schemaArn
             self.schemaName = schemaName
             self.schemaVersion = schemaVersion
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case schemaArn = "SchemaArn"
             case schemaName = "SchemaName"
             case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
         }
     }
 
@@ -1167,22 +1231,26 @@ extension Schemas {
     public struct SearchSchemaVersionSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedDate", required: false, type: .timestamp), 
-            AWSShapeMember(label: "SchemaVersion", required: false, type: .string)
+            AWSShapeMember(label: "SchemaVersion", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
         ]
 
         /// The date the schema version was created.
         public let createdDate: TimeStamp?
         /// The version number of the schema
         public let schemaVersion: String?
+        public let `type`: String?
 
-        public init(createdDate: TimeStamp? = nil, schemaVersion: String? = nil) {
+        public init(createdDate: TimeStamp? = nil, schemaVersion: String? = nil, type: String? = nil) {
             self.createdDate = createdDate
             self.schemaVersion = schemaVersion
+            self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
             case schemaVersion = "SchemaVersion"
+            case `type` = "Type"
         }
     }
 

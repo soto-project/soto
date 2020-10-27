@@ -49,4 +49,14 @@ public struct PersonalizeEvents {
     @discardableResult public func putEvents(_ input: PutEventsRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "PutEvents", path: "/events", httpMethod: "POST", input: input)
     }
+
+    ///  Adds one or more items to an Items dataset. For more information see importing-items.
+    @discardableResult public func putItems(_ input: PutItemsRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "PutItems", path: "/items", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds one or more users to a Users dataset. For more information see importing-users.
+    @discardableResult public func putUsers(_ input: PutUsersRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "PutUsers", path: "/users", httpMethod: "POST", input: input)
+    }
 }

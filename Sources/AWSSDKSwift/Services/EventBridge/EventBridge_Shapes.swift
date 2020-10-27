@@ -303,6 +303,28 @@ extension EventBridge {
         }
     }
 
+    public struct DeadLetterConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string)
+        ]
+
+        /// The ARN of the SQS queue specified as the target for the dead-letter queue.
+        public let arn: String?
+
+        public init(arn: String? = nil) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+        }
+    }
+
     public struct DeleteEventBusRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string)
@@ -1931,6 +1953,64 @@ extension EventBridge {
         }
     }
 
+    public struct RedshiftDataParameters: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Database", required: true, type: .string), 
+            AWSShapeMember(label: "DbUser", required: false, type: .string), 
+            AWSShapeMember(label: "SecretManagerArn", required: false, type: .string), 
+            AWSShapeMember(label: "Sql", required: true, type: .string), 
+            AWSShapeMember(label: "StatementName", required: false, type: .string), 
+            AWSShapeMember(label: "WithEvent", required: false, type: .boolean)
+        ]
+
+        /// The name of the database. Required when authenticating using temporary credentials.
+        public let database: String
+        /// The database user name. Required when authenticating using temporary credentials.
+        public let dbUser: String?
+        /// The name or ARN of the secret that enables access to the database. Required when authenticating using AWS Secrets Manager.
+        public let secretManagerArn: String?
+        /// The SQL statement text to run.
+        public let sql: String
+        /// The name of the SQL statement. You can name the SQL statement when you create it to identify the query.
+        public let statementName: String?
+        /// Indicates whether to send an event back to EventBridge after the SQL statement runs.
+        public let withEvent: Bool?
+
+        public init(database: String, dbUser: String? = nil, secretManagerArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil) {
+            self.database = database
+            self.dbUser = dbUser
+            self.secretManagerArn = secretManagerArn
+            self.sql = sql
+            self.statementName = statementName
+            self.withEvent = withEvent
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.database, name:"database", parent: name, max: 64)
+            try validate(self.database, name:"database", parent: name, min: 1)
+            try validate(self.database, name:"database", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try validate(self.dbUser, name:"dbUser", parent: name, max: 128)
+            try validate(self.dbUser, name:"dbUser", parent: name, min: 1)
+            try validate(self.dbUser, name:"dbUser", parent: name, pattern: "([a-zA-Z0-9]+)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try validate(self.secretManagerArn, name:"secretManagerArn", parent: name, max: 1600)
+            try validate(self.secretManagerArn, name:"secretManagerArn", parent: name, min: 1)
+            try validate(self.secretManagerArn, name:"secretManagerArn", parent: name, pattern: "(^arn:aws([a-z]|\\-)*:secretsmanager:[a-z0-9-.]+:.*)|(\\$(\\.[\\w_-]+(\\[(\\d+|\\*)\\])*)*)")
+            try validate(self.sql, name:"sql", parent: name, max: 100000)
+            try validate(self.sql, name:"sql", parent: name, min: 1)
+            try validate(self.statementName, name:"statementName", parent: name, max: 500)
+            try validate(self.statementName, name:"statementName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case dbUser = "DbUser"
+            case secretManagerArn = "SecretManagerArn"
+            case sql = "Sql"
+            case statementName = "StatementName"
+            case withEvent = "WithEvent"
+        }
+    }
+
     public struct RemovePermissionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "EventBusName", required: false, type: .string), 
@@ -2056,6 +2136,35 @@ extension EventBridge {
             case errorCode = "ErrorCode"
             case errorMessage = "ErrorMessage"
             case targetId = "TargetId"
+        }
+    }
+
+    public struct RetryPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaximumEventAgeInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "MaximumRetryAttempts", required: false, type: .integer)
+        ]
+
+        /// The maximum amount of time, in seconds, to continue to make retry attempts.
+        public let maximumEventAgeInSeconds: Int?
+        /// The maximum number of retry attempts to make before the request fails. Retry attempts continue until either the maximum number of attempts is made or until the duration of the MaximumEventAgeInSeconds is met.
+        public let maximumRetryAttempts: Int?
+
+        public init(maximumEventAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil) {
+            self.maximumEventAgeInSeconds = maximumEventAgeInSeconds
+            self.maximumRetryAttempts = maximumRetryAttempts
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, max: 86400)
+            try validate(self.maximumEventAgeInSeconds, name:"maximumEventAgeInSeconds", parent: name, min: 60)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, max: 185)
+            try validate(self.maximumRetryAttempts, name:"maximumRetryAttempts", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
+            case maximumRetryAttempts = "MaximumRetryAttempts"
         }
     }
 
@@ -2263,6 +2372,7 @@ extension EventBridge {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Arn", required: true, type: .string), 
             AWSShapeMember(label: "BatchParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "DeadLetterConfig", required: false, type: .structure), 
             AWSShapeMember(label: "EcsParameters", required: false, type: .structure), 
             AWSShapeMember(label: "HttpParameters", required: false, type: .structure), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
@@ -2270,6 +2380,8 @@ extension EventBridge {
             AWSShapeMember(label: "InputPath", required: false, type: .string), 
             AWSShapeMember(label: "InputTransformer", required: false, type: .structure), 
             AWSShapeMember(label: "KinesisParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RedshiftDataParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "RetryPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "RunCommandParameters", required: false, type: .structure), 
             AWSShapeMember(label: "SqsParameters", required: false, type: .structure)
@@ -2279,6 +2391,8 @@ extension EventBridge {
         public let arn: String
         /// If the event target is an AWS Batch job, this contains the job definition, job name, and other parameters. For more information, see Jobs in the AWS Batch User Guide.
         public let batchParameters: BatchParameters?
+        /// The DeadLetterConfig that defines the target queue to send dead-letter queue events to.
+        public let deadLetterConfig: DeadLetterConfig?
         /// Contains the Amazon ECS task definition and task count to be used, if the event target is an Amazon ECS task. For more information about Amazon ECS tasks, see Task Definitions  in the Amazon EC2 Container Service Developer Guide.
         public let ecsParameters: EcsParameters?
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint. If you specify an API Gateway REST API as a target, you can use this parameter to specify headers, path parameter, query string keys/values as part of your target invoking request.
@@ -2293,6 +2407,10 @@ extension EventBridge {
         public let inputTransformer: InputTransformer?
         /// The custom parameter you can use to control the shard assignment, when the target is a Kinesis data stream. If you do not include this parameter, the default is to use the eventId as the partition key.
         public let kinesisParameters: KinesisParameters?
+        /// Contains the Redshift Data API parameters to use when the target is a Redshift cluster. If you specify a Redshift Cluster as a Target, you can use this to specify parameters to invoke the Redshift Data API ExecuteStatement based on EventBridge events.
+        public let redshiftDataParameters: RedshiftDataParameters?
+        /// The RetryPolicy object that contains the retry policy configuration to use for the dead-letter queue.
+        public let retryPolicy: RetryPolicy?
         /// The Amazon Resource Name (ARN) of the IAM role to be used for this target when the rule is triggered. If one rule triggers multiple targets, you can use a different IAM role for each target.
         public let roleArn: String?
         /// Parameters used when you are using the rule to invoke Amazon EC2 Run Command.
@@ -2300,9 +2418,10 @@ extension EventBridge {
         /// Contains the message group ID to use when the target is a FIFO queue. If you specify an SQS FIFO queue as a target, the queue must have content-based deduplication enabled.
         public let sqsParameters: SqsParameters?
 
-        public init(arn: String, batchParameters: BatchParameters? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
+        public init(arn: String, batchParameters: BatchParameters? = nil, deadLetterConfig: DeadLetterConfig? = nil, ecsParameters: EcsParameters? = nil, httpParameters: HttpParameters? = nil, id: String, input: String? = nil, inputPath: String? = nil, inputTransformer: InputTransformer? = nil, kinesisParameters: KinesisParameters? = nil, redshiftDataParameters: RedshiftDataParameters? = nil, retryPolicy: RetryPolicy? = nil, roleArn: String? = nil, runCommandParameters: RunCommandParameters? = nil, sqsParameters: SqsParameters? = nil) {
             self.arn = arn
             self.batchParameters = batchParameters
+            self.deadLetterConfig = deadLetterConfig
             self.ecsParameters = ecsParameters
             self.httpParameters = httpParameters
             self.id = id
@@ -2310,6 +2429,8 @@ extension EventBridge {
             self.inputPath = inputPath
             self.inputTransformer = inputTransformer
             self.kinesisParameters = kinesisParameters
+            self.redshiftDataParameters = redshiftDataParameters
+            self.retryPolicy = retryPolicy
             self.roleArn = roleArn
             self.runCommandParameters = runCommandParameters
             self.sqsParameters = sqsParameters
@@ -2318,6 +2439,7 @@ extension EventBridge {
         public func validate(name: String) throws {
             try validate(self.arn, name:"arn", parent: name, max: 1600)
             try validate(self.arn, name:"arn", parent: name, min: 1)
+            try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.ecsParameters?.validate(name: "\(name).ecsParameters")
             try self.httpParameters?.validate(name: "\(name).httpParameters")
             try validate(self.id, name:"id", parent: name, max: 64)
@@ -2327,6 +2449,8 @@ extension EventBridge {
             try validate(self.inputPath, name:"inputPath", parent: name, max: 256)
             try self.inputTransformer?.validate(name: "\(name).inputTransformer")
             try self.kinesisParameters?.validate(name: "\(name).kinesisParameters")
+            try self.redshiftDataParameters?.validate(name: "\(name).redshiftDataParameters")
+            try self.retryPolicy?.validate(name: "\(name).retryPolicy")
             try validate(self.roleArn, name:"roleArn", parent: name, max: 1600)
             try validate(self.roleArn, name:"roleArn", parent: name, min: 1)
             try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
@@ -2335,6 +2459,7 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case batchParameters = "BatchParameters"
+            case deadLetterConfig = "DeadLetterConfig"
             case ecsParameters = "EcsParameters"
             case httpParameters = "HttpParameters"
             case id = "Id"
@@ -2342,6 +2467,8 @@ extension EventBridge {
             case inputPath = "InputPath"
             case inputTransformer = "InputTransformer"
             case kinesisParameters = "KinesisParameters"
+            case redshiftDataParameters = "RedshiftDataParameters"
+            case retryPolicy = "RetryPolicy"
             case roleArn = "RoleArn"
             case runCommandParameters = "RunCommandParameters"
             case sqsParameters = "SqsParameters"

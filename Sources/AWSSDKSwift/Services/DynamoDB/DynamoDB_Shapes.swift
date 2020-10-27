@@ -126,6 +126,7 @@ extension DynamoDB {
         case updating = "UPDATING"
         case deleting = "DELETING"
         case active = "ACTIVE"
+        case regionDisabled = "REGION_DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -1114,7 +1115,7 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]
         /// Represents attributes that are copied (projected) from the table into an index. These are in addition to the primary key attributes and index key attributes, which are automatically projected.
         public let projection: Projection
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
         public init(indexName: String, keySchema: [KeySchemaElement], projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
@@ -1271,7 +1272,7 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]
         /// One or more local secondary indexes (the maximum is 5) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained. Each local secondary index in the array includes the following:    IndexName - The name of the local secondary index. Must be unique only for this table.     KeySchema - Specifies the key schema for the local secondary index. The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 100. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.    
         public let localSecondaryIndexes: [LocalSecondaryIndex]?
-        /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.  If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property.  For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation.  If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
         /// Represents the settings used to enable server-side encryption.
         public let sSESpecification: SSESpecification?
@@ -2324,7 +2325,7 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput?
 
         public init(indexName: String, keySchema: [KeySchemaElement], projection: Projection, provisionedThroughput: ProvisionedThroughput? = nil) {
@@ -2412,7 +2413,7 @@ extension DynamoDB {
         public let keySchema: [KeySchemaElement]?
         /// Represents attributes that are copied (projected) from the table into the global secondary index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. 
         public let projection: Projection?
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughputDescription?
 
         public init(backfilling: Bool? = nil, indexArn: String? = nil, indexName: String? = nil, indexSizeBytes: Int64? = nil, indexStatus: IndexStatus? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, projection: Projection? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil) {
@@ -3161,7 +3162,7 @@ extension DynamoDB {
 
         /// Represents the non-key attribute names which will be projected into the index. For local secondary indexes, the total count of NonKeyAttributes summed across all of the local secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.
         public let nonKeyAttributes: [String]?
-        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.  
+        /// The set of attributes that are projected into the index:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.  
         public let projectionType: ProjectionType?
 
         public init(nonKeyAttributes: [String]? = nil, projectionType: ProjectionType? = nil) {
@@ -3224,7 +3225,7 @@ extension DynamoDB {
         public let lastDecreaseDateTime: TimeStamp?
         /// The date and time of the last provisioned throughput increase for this table.
         public let lastIncreaseDateTime: TimeStamp?
-        /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Limits in the Amazon DynamoDB Developer Guide.
+        /// The number of provisioned throughput decreases for this table during this UTC calendar day. For current maximums on provisioned throughput decreases, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let numberOfDecreasesToday: Int64?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. Eventually consistent reads require less effort than strongly consistent reads, so a setting of 50 ReadCapacityUnits per second provides 100 eventually consistent ReadCapacityUnits per second.
         public let readCapacityUnits: Int64?
@@ -3715,6 +3716,7 @@ extension DynamoDB {
             AWSShapeMember(label: "KMSMasterKeyId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedThroughputOverride", required: false, type: .structure), 
             AWSShapeMember(label: "RegionName", required: false, type: .string), 
+            AWSShapeMember(label: "ReplicaInaccessibleDateTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "ReplicaStatus", required: false, type: .enum), 
             AWSShapeMember(label: "ReplicaStatusDescription", required: false, type: .string), 
             AWSShapeMember(label: "ReplicaStatusPercentProgress", required: false, type: .string)
@@ -3728,18 +3730,21 @@ extension DynamoDB {
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The name of the Region.
         public let regionName: String?
-        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.  
+        /// The time at which the replica was first detected as inaccessible. To determine cause of inaccessibility check the ReplicaStatus property.
+        public let replicaInaccessibleDateTime: TimeStamp?
+        /// The current state of the replica:    CREATING - The replica is being created.    UPDATING - The replica is being updated.    DELETING - The replica is being deleted.    ACTIVE - The replica is ready for use.    REGION_DISABLED - The replica is inaccessible because the AWS Region has been disabled.  If the AWS Region remains inaccessible for more than 20 hours, DynamoDB will remove this replica from the replication group. The replica will not be deleted and replication will stop from and to this region.   
         public let replicaStatus: ReplicaStatus?
         /// Detailed information about the replica status.
         public let replicaStatusDescription: String?
         /// Specifies the progress of a Create, Update, or Delete action on the replica as a percentage.
         public let replicaStatusPercentProgress: String?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kMSMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: TimeStamp? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kMSMasterKeyId = kMSMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
+            self.replicaInaccessibleDateTime = replicaInaccessibleDateTime
             self.replicaStatus = replicaStatus
             self.replicaStatusDescription = replicaStatusDescription
             self.replicaStatusPercentProgress = replicaStatusPercentProgress
@@ -3750,6 +3755,7 @@ extension DynamoDB {
             case kMSMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
+            case replicaInaccessibleDateTime = "ReplicaInaccessibleDateTime"
             case replicaStatus = "ReplicaStatus"
             case replicaStatusDescription = "ReplicaStatusDescription"
             case replicaStatusPercentProgress = "ReplicaStatusPercentProgress"
@@ -4691,7 +4697,7 @@ extension DynamoDB {
         public let billingModeSummary: BillingModeSummary?
         /// The date and time when the table was created, in UNIX epoch time format.
         public let creationDateTime: TimeStamp?
-        /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)   You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - Only the specified table attributes are projected into the index. The list of projected attributes is in NonKeyAttributes.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
+        /// The global secondary indexes, if any, on the table. Each index is scoped to a given partition key value. Each element is composed of:    Backfilling - If true, then the index is currently in the backfilling phase. Backfilling occurs only when a new global secondary index is added to the table. It is the process by which DynamoDB populates the new index with data from the table. (This attribute does not appear for indexes that were created during a CreateTable operation.)   You can delete an index that is being created during the Backfilling phase when IndexStatus is set to CREATING and Backfilling is true. You can't delete the index that is being created when IndexStatus is set to CREATING and Backfilling is false. (This attribute does not appear for indexes that were created during a CreateTable operation.)    IndexName - The name of the global secondary index.    IndexSizeBytes - The total size of the global secondary index, in bytes. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     IndexStatus - The current status of the global secondary index:    CREATING - The index is being created.    UPDATING - The index is being updated.    DELETING - The index is being deleted.    ACTIVE - The index is ready for use.      ItemCount - The number of items in the global secondary index. DynamoDB updates this value approximately every six hours. Recent changes might not be reflected in this value.     KeySchema - Specifies the complete index key schema. The attribute names in the key schema must be between 1 and 255 characters (inclusive). The key schema must begin with the same partition key as the table.    Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:    ProjectionType - One of the following:    KEYS_ONLY - Only the index and primary keys are projected into the index.    INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.    ALL - All of the table attributes are projected into the index.      NonKeyAttributes - A list of one or more non-key attribute names that are projected into the secondary index. The total count of attributes provided in NonKeyAttributes, summed across all of the secondary indexes, must not exceed 20. If you project the same attribute into two different indexes, this counts as two distinct attributes when determining the total.      ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units, along with data about increases and decreases.    If the table is in the DELETING state, no information about indexes will be returned.
         public let globalSecondaryIndexes: [GlobalSecondaryIndexDescription]?
         /// Represents the version of global tables in use, if the table is replicated across AWS Regions.
         public let globalTableVersion: String?
@@ -5268,7 +5274,7 @@ extension DynamoDB {
 
         /// The name of the global secondary index to be updated.
         public let indexName: String
-        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Limits in the Amazon DynamoDB Developer Guide.
+        /// Represents the provisioned throughput settings for the specified global secondary index. For current minimum and maximum provisioned throughput values, see Service, Account, and Table Quotas in the Amazon DynamoDB Developer Guide.
         public let provisionedThroughput: ProvisionedThroughput
 
         public init(indexName: String, provisionedThroughput: ProvisionedThroughput) {

@@ -19,6 +19,7 @@ public enum RekognitionErrorType: AWSErrorType {
     case resourceInUseException(message: String?)
     case resourceNotFoundException(message: String?)
     case resourceNotReadyException(message: String?)
+    case serviceQuotaExceededException(message: String?)
     case throttlingException(message: String?)
     case videoTooLargeException(message: String?)
 }
@@ -60,6 +61,8 @@ extension RekognitionErrorType {
             self = .resourceNotFoundException(message: message)
         case "ResourceNotReadyException":
             self = .resourceNotReadyException(message: message)
+        case "ServiceQuotaExceededException":
+            self = .serviceQuotaExceededException(message: message)
         case "ThrottlingException":
             self = .throttlingException(message: message)
         case "VideoTooLargeException":
@@ -103,6 +106,8 @@ extension RekognitionErrorType : CustomStringConvertible {
             return "ResourceNotFoundException: \(message ?? "")"
         case .resourceNotReadyException(let message):
             return "ResourceNotReadyException: \(message ?? "")"
+        case .serviceQuotaExceededException(let message):
+            return "ServiceQuotaExceededException: \(message ?? "")"
         case .throttlingException(let message):
             return "ThrottlingException: \(message ?? "")"
         case .videoTooLargeException(let message):

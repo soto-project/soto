@@ -1494,7 +1494,7 @@ extension ConfigService {
             AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
             AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
             AWSShapeMember(label: "CreatedBy", required: false, type: .string), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "LastUpdateRequestedTime", required: false, type: .timestamp)
         ]
@@ -1510,13 +1510,13 @@ extension ConfigService {
         /// AWS service that created the conformance pack.
         public let createdBy: String?
         /// Conformance pack template that is used to create a pack. The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*".
-        public let deliveryS3Bucket: String
+        public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket.
         public let deliveryS3KeyPrefix: String?
         /// Last time when conformation pack update was requested. 
         public let lastUpdateRequestedTime: TimeStamp?
 
-        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: TimeStamp? = nil) {
+        public init(conformancePackArn: String, conformancePackId: String, conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, createdBy: String? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, lastUpdateRequestedTime: TimeStamp? = nil) {
             self.conformancePackArn = conformancePackArn
             self.conformancePackId = conformancePackId
             self.conformancePackInputParameters = conformancePackInputParameters
@@ -5059,7 +5059,7 @@ extension ConfigService {
     public struct OrganizationConformancePack: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
             AWSShapeMember(label: "LastUpdateTime", required: true, type: .timestamp), 
@@ -5070,7 +5070,7 @@ extension ConfigService {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results and conformance pack template that is used to create a pack. 
-        public let deliveryS3Bucket: String
+        public let deliveryS3Bucket: String?
         /// Any folder structure you want to add to an Amazon S3 bucket.
         public let deliveryS3KeyPrefix: String?
         /// A comma-separated list of accounts excluded from organization conformance pack.
@@ -5082,7 +5082,7 @@ extension ConfigService {
         /// The name you assign to an organization conformance pack.
         public let organizationConformancePackName: String
 
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp, organizationConformancePackArn: String, organizationConformancePackName: String) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, lastUpdateTime: TimeStamp, organizationConformancePackArn: String, organizationConformancePackName: String) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
@@ -5558,7 +5558,7 @@ extension ConfigService {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
             AWSShapeMember(label: "ConformancePackName", required: true, type: .string), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "TemplateBody", required: false, type: .string), 
             AWSShapeMember(label: "TemplateS3Uri", required: false, type: .string)
@@ -5569,7 +5569,7 @@ extension ConfigService {
         /// Name of the conformance pack you want to create.
         public let conformancePackName: String
         /// AWS Config stores intermediate files while processing conformance pack template.
-        public let deliveryS3Bucket: String
+        public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket. 
         public let deliveryS3KeyPrefix: String?
         /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can only use a YAML template with one resource type, that is, config rule and a remediation action.  
@@ -5577,7 +5577,7 @@ extension ConfigService {
         /// Location of file containing the template body (s3://bucketname/prefix). The uri must point to the conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.   You must have access to read Amazon S3 bucket. 
         public let templateS3Uri: String?
 
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, conformancePackName: String, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, templateBody: String? = nil, templateS3Uri: String? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.conformancePackName = conformancePackName
             self.deliveryS3Bucket = deliveryS3Bucket
@@ -5596,9 +5596,9 @@ extension ConfigService {
             try validate(self.conformancePackName, name:"conformancePackName", parent: name, min: 1)
             try validate(self.conformancePackName, name:"conformancePackName", parent: name, pattern: "[a-zA-Z][-a-zA-Z0-9]*")
             try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, max: 63)
-            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 3)
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 0)
             try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, max: 1024)
-            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 1)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 0)
             try validate(self.templateBody, name:"templateBody", parent: name, max: 51200)
             try validate(self.templateBody, name:"templateBody", parent: name, min: 1)
             try validate(self.templateS3Uri, name:"templateS3Uri", parent: name, max: 1024)
@@ -5771,7 +5771,7 @@ extension ConfigService {
     public struct PutOrganizationConformancePackRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ConformancePackInputParameters", required: false, type: .list), 
-            AWSShapeMember(label: "DeliveryS3Bucket", required: true, type: .string), 
+            AWSShapeMember(label: "DeliveryS3Bucket", required: false, type: .string), 
             AWSShapeMember(label: "DeliveryS3KeyPrefix", required: false, type: .string), 
             AWSShapeMember(label: "ExcludedAccounts", required: false, type: .list), 
             AWSShapeMember(label: "OrganizationConformancePackName", required: true, type: .string), 
@@ -5782,7 +5782,7 @@ extension ConfigService {
         /// A list of ConformancePackInputParameter objects.
         public let conformancePackInputParameters: [ConformancePackInputParameter]?
         /// Location of an Amazon S3 bucket where AWS Config can deliver evaluation results. AWS Config stores intermediate files while processing conformance pack template.  The delivery bucket name should start with awsconfigconforms. For example: "Resource": "arn:aws:s3:::your_bucket_name/*". For more information, see Permissions for cross account bucket access.
-        public let deliveryS3Bucket: String
+        public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket.
         public let deliveryS3KeyPrefix: String?
         /// A list of AWS accounts to be excluded from an organization conformance pack while deploying a conformance pack.
@@ -5794,7 +5794,7 @@ extension ConfigService {
         /// Location of file containing the template body. The uri must point to the conformance pack template (max size: 300 KB).  You must have access to read Amazon S3 bucket. 
         public let templateS3Uri: String?
 
-        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
+        public init(conformancePackInputParameters: [ConformancePackInputParameter]? = nil, deliveryS3Bucket: String? = nil, deliveryS3KeyPrefix: String? = nil, excludedAccounts: [String]? = nil, organizationConformancePackName: String, templateBody: String? = nil, templateS3Uri: String? = nil) {
             self.conformancePackInputParameters = conformancePackInputParameters
             self.deliveryS3Bucket = deliveryS3Bucket
             self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
@@ -5811,9 +5811,9 @@ extension ConfigService {
             try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, max: 60)
             try validate(self.conformancePackInputParameters, name:"conformancePackInputParameters", parent: name, min: 0)
             try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, max: 63)
-            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 3)
+            try validate(self.deliveryS3Bucket, name:"deliveryS3Bucket", parent: name, min: 0)
             try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, max: 1024)
-            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 1)
+            try validate(self.deliveryS3KeyPrefix, name:"deliveryS3KeyPrefix", parent: name, min: 0)
             try self.excludedAccounts?.forEach {
                 try validate($0, name: "excludedAccounts[]", parent: name, pattern: "\\d{12}")
             }

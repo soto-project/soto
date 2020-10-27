@@ -45,9 +45,34 @@ public struct MediaLive {
     
     //MARK: API Calls
 
+    ///  Accept an incoming input device transfer. The ownership of the device will transfer to your AWS account.
+    public func acceptInputDeviceTransfer(_ input: AcceptInputDeviceTransferRequest) -> EventLoopFuture<AcceptInputDeviceTransferResponse> {
+        return client.send(operation: "AcceptInputDeviceTransfer", path: "/prod/inputDevices/{inputDeviceId}/accept", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts delete of resources.
+    public func batchDelete(_ input: BatchDeleteRequest) -> EventLoopFuture<BatchDeleteResponse> {
+        return client.send(operation: "BatchDelete", path: "/prod/batch/delete", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts existing resources
+    public func batchStart(_ input: BatchStartRequest) -> EventLoopFuture<BatchStartResponse> {
+        return client.send(operation: "BatchStart", path: "/prod/batch/start", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops running resources
+    public func batchStop(_ input: BatchStopRequest) -> EventLoopFuture<BatchStopResponse> {
+        return client.send(operation: "BatchStop", path: "/prod/batch/stop", httpMethod: "POST", input: input)
+    }
+
     ///  Update a channel schedule
     public func batchUpdateSchedule(_ input: BatchUpdateScheduleRequest) -> EventLoopFuture<BatchUpdateScheduleResponse> {
         return client.send(operation: "BatchUpdateSchedule", path: "/prod/channels/{channelId}/schedule", httpMethod: "PUT", input: input)
+    }
+
+    ///  Cancel an input device transfer that you have requested.
+    public func cancelInputDeviceTransfer(_ input: CancelInputDeviceTransferRequest) -> EventLoopFuture<CancelInputDeviceTransferResponse> {
+        return client.send(operation: "CancelInputDeviceTransfer", path: "/prod/inputDevices/{inputDeviceId}/cancel", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new channel
@@ -175,6 +200,11 @@ public struct MediaLive {
         return client.send(operation: "ListChannels", path: "/prod/channels", httpMethod: "GET", input: input)
     }
 
+    ///  List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+    public func listInputDeviceTransfers(_ input: ListInputDeviceTransfersRequest) -> EventLoopFuture<ListInputDeviceTransfersResponse> {
+        return client.send(operation: "ListInputDeviceTransfers", path: "/prod/inputDeviceTransfers", httpMethod: "GET", input: input)
+    }
+
     ///  List input devices
     public func listInputDevices(_ input: ListInputDevicesRequest) -> EventLoopFuture<ListInputDevicesResponse> {
         return client.send(operation: "ListInputDevices", path: "/prod/inputDevices", httpMethod: "GET", input: input)
@@ -220,6 +250,11 @@ public struct MediaLive {
         return client.send(operation: "PurchaseOffering", path: "/prod/offerings/{offeringId}/purchase", httpMethod: "POST", input: input)
     }
 
+    ///  Reject the transfer of the specified input device to your AWS account.
+    public func rejectInputDeviceTransfer(_ input: RejectInputDeviceTransferRequest) -> EventLoopFuture<RejectInputDeviceTransferResponse> {
+        return client.send(operation: "RejectInputDeviceTransfer", path: "/prod/inputDevices/{inputDeviceId}/reject", httpMethod: "POST", input: input)
+    }
+
     ///  Starts an existing channel
     public func startChannel(_ input: StartChannelRequest) -> EventLoopFuture<StartChannelResponse> {
         return client.send(operation: "StartChannel", path: "/prod/channels/{channelId}/start", httpMethod: "POST", input: input)
@@ -238,6 +273,11 @@ public struct MediaLive {
     ///  Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     public func stopMultiplex(_ input: StopMultiplexRequest) -> EventLoopFuture<StopMultiplexResponse> {
         return client.send(operation: "StopMultiplex", path: "/prod/multiplexes/{multiplexId}/stop", httpMethod: "POST", input: input)
+    }
+
+    ///  Start an input device transfer to another AWS account. After you make the request, the other account must accept or reject the transfer.
+    public func transferInputDevice(_ input: TransferInputDeviceRequest) -> EventLoopFuture<TransferInputDeviceResponse> {
+        return client.send(operation: "TransferInputDevice", path: "/prod/inputDevices/{inputDeviceId}/transfer", httpMethod: "POST", input: input)
     }
 
     ///  Updates a channel.

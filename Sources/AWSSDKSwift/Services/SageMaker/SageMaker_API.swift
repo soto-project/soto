@@ -67,6 +67,11 @@ public struct SageMaker {
         return client.send(operation: "CreateApp", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a configuration for running an Amazon SageMaker image as a KernelGateway app.
+    public func createAppImageConfig(_ input: CreateAppImageConfigRequest) -> EventLoopFuture<CreateAppImageConfigResponse> {
+        return client.send(operation: "CreateAppImageConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates an Autopilot job. Find the best performing model after you run an Autopilot job by calling . Deploy that model by following the steps described in Step 6.1: Deploy the Model to Amazon SageMaker Hosting Services. For information about how to use Autopilot, see  Automate Model Development with Amazon SageMaker Autopilot.
     public func createAutoMLJob(_ input: CreateAutoMLJobRequest) -> EventLoopFuture<CreateAutoMLJobResponse> {
         return client.send(operation: "CreateAutoMLJob", path: "/", httpMethod: "POST", input: input)
@@ -82,7 +87,7 @@ public struct SageMaker {
         return client.send(operation: "CreateCompilationJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a Domain used by SageMaker Studio. A domain consists of an associated directory, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an Amazon Elastic File System (EFS) volume is also created for use by all of the users within the domain. Each user receives a private home directory within the EFS for notebooks, Git repositories, and data files. All traffic between the domain and the EFS volume is communicated through the specified subnet IDs. All other traffic goes over the Internet through an Amazon SageMaker system VPC. The EFS traffic uses the NFS/TCP protocol over port 2049.  NFS traffic over TCP on port 2049 needs to be allowed in both inbound and outbound rules in order to launch a SageMaker Studio app successfully. 
+    ///  Creates a Domain used by Amazon SageMaker Studio. A domain consists of an associated Amazon Elastic File System (EFS) volume, a list of authorized users, and a variety of security, application, policy, and Amazon Virtual Private Cloud (VPC) configurations. An AWS account is limited to one domain per region. Users within a domain can share notebook files and other artifacts with each other. When a domain is created, an EFS volume is created for use by all of the users within the domain. Each user receives a private home directory within the EFS volume for notebooks, Git repositories, and data files.  VPC configuration  All SageMaker Studio traffic between the domain and the EFS volume is through the specified VPC and subnets. For other Studio traffic, you can specify the AppNetworkAccessType parameter. AppNetworkAccessType corresponds to the network access type that you choose when you onboard to Studio. The following options are available:    PublicInternetOnly - Non-EFS traffic goes through a VPC managed by Amazon SageMaker, which allows internet access. This is the default value.    VpcOnly - All Studio traffic is through the specified VPC and subnets. Internet access is disabled by default. To allow internet access, you must specify a NAT gateway. When internet access is disabled, you won't be able to run a Studio notebook or to train or host models unless your VPC has an interface endpoint to the SageMaker API and runtime or a NAT gateway and your security groups allow outbound connections.   For more information, see Connect SageMaker Studio Notebooks to Resources in a VPC.
     public func createDomain(_ input: CreateDomainRequest) -> EventLoopFuture<CreateDomainResponse> {
         return client.send(operation: "CreateDomain", path: "/", httpMethod: "POST", input: input)
     }
@@ -117,6 +122,16 @@ public struct SageMaker {
         return client.send(operation: "CreateHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a SageMaker Image. A SageMaker image represents a set of container images. Each of these container images is represented by a SageMaker ImageVersion.
+    public func createImage(_ input: CreateImageRequest) -> EventLoopFuture<CreateImageResponse> {
+        return client.send(operation: "CreateImage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a version of the SageMaker image specified by ImageName. The version represents the Amazon Container Registry (ECR) container image specified by BaseImage.
+    public func createImageVersion(_ input: CreateImageVersionRequest) -> EventLoopFuture<CreateImageVersionResponse> {
+        return client.send(operation: "CreateImageVersion", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a job that uses workers to label the data objects in your input dataset. You can use the labeled data to train machine learning models. You can select your workforce from one of three providers:   A private workforce that you create. It can include employees, contractors, and outside experts. Use a private workforce when want the data to stay within your organization or when a specific set of skills is required.   One or more vendors that you select from the AWS Marketplace. Vendors provide expertise in specific areas.    The Amazon Mechanical Turk workforce. This is the largest workforce, but it should only be used for public data or data that has been stripped of any personally identifiable information.   You can also use automated data labeling to reduce the number of data objects that need to be labeled by a human. Automated data labeling uses active learning to determine if a data object can be labeled by machine or if it needs to be sent to a human worker. For more information, see Using Automated Data Labeling. The data objects to be labeled are contained in an Amazon S3 bucket. You create a manifest file that describes the location of each object. For more information, see Using Input and Output Data. The output can be used as the manifest file for another labeling job or as training data for your machine learning models.
     public func createLabelingJob(_ input: CreateLabelingJobRequest) -> EventLoopFuture<CreateLabelingJobResponse> {
         return client.send(operation: "CreateLabelingJob", path: "/", httpMethod: "POST", input: input)
@@ -147,7 +162,7 @@ public struct SageMaker {
         return client.send(operation: "CreateNotebookInstanceLifecycleConfig", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM. 
+    ///  Creates a URL for a specified UserProfile in a Domain. When accessed in a web browser, the user will be automatically signed in to Amazon SageMaker Studio, and granted access to all of the Apps and files associated with the Domain's Amazon Elastic File System (EFS) volume. This operation can only be called when the authentication mode equals IAM.   The URL that you get from a call to CreatePresignedDomainUrl is valid only for 5 minutes. If you try to use the URL after the 5-minute limit expires, you are directed to the AWS console sign-in page. 
     public func createPresignedDomainUrl(_ input: CreatePresignedDomainUrlRequest) -> EventLoopFuture<CreatePresignedDomainUrlResponse> {
         return client.send(operation: "CreatePresignedDomainUrl", path: "/", httpMethod: "POST", input: input)
     }
@@ -207,6 +222,11 @@ public struct SageMaker {
         return client.send(operation: "DeleteApp", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an AppImageConfig.
+    @discardableResult public func deleteAppImageConfig(_ input: DeleteAppImageConfigRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteAppImageConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified Git repository from your account.
     @discardableResult public func deleteCodeRepository(_ input: DeleteCodeRepositoryInput) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteCodeRepository", path: "/", httpMethod: "POST", input: input)
@@ -240,6 +260,16 @@ public struct SageMaker {
     ///  Use this operation to delete a human task user interface (worker task template).  To see a list of human task user interfaces (work task templates) in your account, use . When you delete a worker task template, it no longer appears when you call ListHumanTaskUis.
     public func deleteHumanTaskUi(_ input: DeleteHumanTaskUiRequest) -> EventLoopFuture<DeleteHumanTaskUiResponse> {
         return client.send(operation: "DeleteHumanTaskUi", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a SageMaker image and all versions of the image. The container images aren't deleted.
+    public func deleteImage(_ input: DeleteImageRequest) -> EventLoopFuture<DeleteImageResponse> {
+        return client.send(operation: "DeleteImage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a version of a SageMaker image. The container image the version represents isn't deleted.
+    public func deleteImageVersion(_ input: DeleteImageVersionRequest) -> EventLoopFuture<DeleteImageVersionResponse> {
+        return client.send(operation: "DeleteImageVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a model. The DeleteModel API deletes only the model entry that was created in Amazon SageMaker when you called the CreateModel API. It does not delete model artifacts, inference code, or the IAM role that you specified when creating the model. 
@@ -307,6 +337,11 @@ public struct SageMaker {
         return client.send(operation: "DescribeApp", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Describes an AppImageConfig.
+    public func describeAppImageConfig(_ input: DescribeAppImageConfigRequest) -> EventLoopFuture<DescribeAppImageConfigResponse> {
+        return client.send(operation: "DescribeAppImageConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Returns information about an Amazon SageMaker job.
     public func describeAutoMLJob(_ input: DescribeAutoMLJobRequest) -> EventLoopFuture<DescribeAutoMLJobResponse> {
         return client.send(operation: "DescribeAutoMLJob", path: "/", httpMethod: "POST", input: input)
@@ -355,6 +390,16 @@ public struct SageMaker {
     ///  Gets a description of a hyperparameter tuning job.
     public func describeHyperParameterTuningJob(_ input: DescribeHyperParameterTuningJobRequest) -> EventLoopFuture<DescribeHyperParameterTuningJobResponse> {
         return client.send(operation: "DescribeHyperParameterTuningJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a SageMaker image.
+    public func describeImage(_ input: DescribeImageRequest) -> EventLoopFuture<DescribeImageResponse> {
+        return client.send(operation: "DescribeImage", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes a version of a SageMaker image.
+    public func describeImageVersion(_ input: DescribeImageVersionRequest) -> EventLoopFuture<DescribeImageVersionResponse> {
+        return client.send(operation: "DescribeImageVersion", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets information about a labeling job.
@@ -447,6 +492,11 @@ public struct SageMaker {
         return client.send(operation: "ListAlgorithms", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the AppImageConfigs in your account and their properties. The list can be filtered by creation time or modified time, and whether the AppImageConfig name contains a specified string.
+    public func listAppImageConfigs(_ input: ListAppImageConfigsRequest) -> EventLoopFuture<ListAppImageConfigsResponse> {
+        return client.send(operation: "ListAppImageConfigs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists apps.
     public func listApps(_ input: ListAppsRequest) -> EventLoopFuture<ListAppsResponse> {
         return client.send(operation: "ListApps", path: "/", httpMethod: "POST", input: input)
@@ -505,6 +555,16 @@ public struct SageMaker {
     ///  Gets a list of HyperParameterTuningJobSummary objects that describe the hyperparameter tuning jobs launched in your account.
     public func listHyperParameterTuningJobs(_ input: ListHyperParameterTuningJobsRequest) -> EventLoopFuture<ListHyperParameterTuningJobsResponse> {
         return client.send(operation: "ListHyperParameterTuningJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
+    public func listImageVersions(_ input: ListImageVersionsRequest) -> EventLoopFuture<ListImageVersionsResponse> {
+        return client.send(operation: "ListImageVersions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
+    public func listImages(_ input: ListImagesRequest) -> EventLoopFuture<ListImagesResponse> {
+        return client.send(operation: "ListImages", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Gets a list of labeling jobs.
@@ -667,6 +727,11 @@ public struct SageMaker {
         return client.send(operation: "StopTransformJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Updates the properties of an AppImageConfig.
+    public func updateAppImageConfig(_ input: UpdateAppImageConfigRequest) -> EventLoopFuture<UpdateAppImageConfigResponse> {
+        return client.send(operation: "UpdateAppImageConfig", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Updates the specified Git repository with the specified values.
     public func updateCodeRepository(_ input: UpdateCodeRepositoryInput) -> EventLoopFuture<UpdateCodeRepositoryOutput> {
         return client.send(operation: "UpdateCodeRepository", path: "/", httpMethod: "POST", input: input)
@@ -690,6 +755,11 @@ public struct SageMaker {
     ///  Adds, updates, or removes the description of an experiment. Updates the display name of an experiment.
     public func updateExperiment(_ input: UpdateExperimentRequest) -> EventLoopFuture<UpdateExperimentResponse> {
         return client.send(operation: "UpdateExperiment", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the properties of a SageMaker image. To change the image's tags, use the AddTags and DeleteTags APIs.
+    public func updateImage(_ input: UpdateImageRequest) -> EventLoopFuture<UpdateImageResponse> {
+        return client.send(operation: "UpdateImage", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates a previously created schedule.

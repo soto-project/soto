@@ -36,7 +36,7 @@ public struct Route53 {
             serviceProtocol: ServiceProtocol(type: .restxml),
             apiVersion: "2013-04-01",
             endpoint: endpoint,
-            serviceEndpoints: ["aws-global": "route53.amazonaws.com"],
+            serviceEndpoints: ["aws-global": "route53.amazonaws.com", "fips-aws-global": "route53-fips.amazonaws.com"],
             partitionEndpoint: "aws-global",
             middlewares: middlewares,
             possibleErrorTypes: [Route53ErrorType.self],

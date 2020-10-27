@@ -76,11 +76,43 @@ extension AWSBackup {
 
     //MARK: Shapes
 
+    public struct AdvancedBackupSetting: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupOptions", required: false, type: .map), 
+            AWSShapeMember(label: "ResourceType", required: false, type: .string)
+        ]
+
+        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default. If you specify an invalid option, you get an InvalidParameterValueException exception. For more information about Windows VSS backups, see Creating a VSS-Enabled Windows Backup.
+        public let backupOptions: [String: String]?
+        /// The type of AWS resource to be backed up. For VSS Windows backups, the only supported resource type is Amazon EC2. Valid values: EC2.
+        public let resourceType: String?
+
+        public init(backupOptions: [String: String]? = nil, resourceType: String? = nil) {
+            self.backupOptions = backupOptions
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.backupOptions?.forEach {
+                try validate($0.key, name:"backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+                try validate($0.value, name:"backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            }
+            try validate(self.resourceType, name:"resourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backupOptions = "BackupOptions"
+            case resourceType = "ResourceType"
+        }
+    }
+
     public struct BackupJob: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "BackupJobId", required: false, type: .string), 
+            AWSShapeMember(label: "BackupOptions", required: false, type: .map), 
             AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "BackupType", required: false, type: .string), 
             AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
             AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
@@ -102,8 +134,12 @@ extension AWSBackup {
         public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
+        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. If you specify an invalid option, you get an InvalidParameterValueException exception.
+        public let backupOptions: [String: String]?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
+        /// Represents the type of backup for a backup job.
+        public let backupType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -126,7 +162,7 @@ extension AWSBackup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of AWS resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// Specifies the time in Unix format and Coordinated Universal Time (UTC) when a backup job must be started before it is canceled. The value is calculated by adding the start window to the scheduled time. So if the scheduled time were 6:00 PM and the start window is 2 hours, the StartBy time would be 8:00 PM on the date specified. The value of StartBy is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let startBy: TimeStamp?
@@ -135,10 +171,12 @@ extension AWSBackup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
+            self.backupOptions = backupOptions
             self.backupSizeInBytes = backupSizeInBytes
+            self.backupType = backupType
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.bytesTransferred = bytesTransferred
@@ -159,7 +197,9 @@ extension AWSBackup {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case backupJobId = "BackupJobId"
+            case backupOptions = "BackupOptions"
             case backupSizeInBytes = "BackupSizeInBytes"
+            case backupType = "BackupType"
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case bytesTransferred = "BytesTransferred"
@@ -180,21 +220,26 @@ extension AWSBackup {
 
     public struct BackupPlan: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlanName", required: true, type: .string), 
             AWSShapeMember(label: "Rules", required: true, type: .list)
         ]
 
+        /// Contains a list of BackupOptions for each resource type.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// The display name of a backup plan.
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources. 
         public let rules: [BackupRule]
 
-        public init(backupPlanName: String, rules: [BackupRule]) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRule]) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanName = "BackupPlanName"
             case rules = "Rules"
         }
@@ -202,27 +247,35 @@ extension AWSBackup {
 
     public struct BackupPlanInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlanName", required: true, type: .string), 
             AWSShapeMember(label: "Rules", required: true, type: .list)
         ]
 
+        /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows VSS backup jobs.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// The optional display name of a backup plan.
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
 
-        public init(backupPlanName: String, rules: [BackupRuleInput]) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanName: String, rules: [BackupRuleInput]) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanName = backupPlanName
             self.rules = rules
         }
 
         public func validate(name: String) throws {
+            try self.advancedBackupSettings?.forEach {
+                try $0.validate(name: "\(name).advancedBackupSettings[]")
+            }
             try self.rules.forEach {
                 try $0.validate(name: "\(name).rules[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanName = "BackupPlanName"
             case rules = "Rules"
         }
@@ -252,6 +305,7 @@ extension AWSBackup {
 
     public struct BackupPlansListMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
             AWSShapeMember(label: "BackupPlanName", required: false, type: .string), 
@@ -262,6 +316,8 @@ extension AWSBackup {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// Contains a list of BackupOptions for a resource type.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
@@ -270,16 +326,17 @@ extension AWSBackup {
         public let backupPlanName: String?
         /// The date and time a resource backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: TimeStamp?
-        /// The last time a job to back up resources was executed with this rule. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The last time a job to back up resources was run with this rule. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastExecutionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, backupPlanName: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.backupPlanName = backupPlanName
@@ -291,6 +348,7 @@ extension AWSBackup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanArn = "BackupPlanArn"
             case backupPlanId = "BackupPlanId"
             case backupPlanName = "BackupPlanName"
@@ -327,7 +385,7 @@ extension AWSBackup {
         public let ruleId: String?
         /// An optional display name for a backup rule.
         public let ruleName: String
-        /// A CRON expression specifying when AWS Backup initiates a backup job.
+        /// A CRON expression specifying when AWS Backup initiates a backup job. For more information about cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Prior to specifying a value for this parameter, we recommend testing your cron expression using one of the many available cron generator and testing tools.
         public let scheduleExpression: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
         public let startWindowMinutes: Int64?
@@ -401,7 +459,7 @@ extension AWSBackup {
 
         public func validate(name: String) throws {
             try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
-            try validate(self.targetBackupVaultName, name:"targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.targetBackupVaultName, name:"targetBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -466,7 +524,7 @@ extension AWSBackup {
         public let backupPlanId: String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// Specifies the IAM role Amazon Resource Name (ARN) to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
@@ -510,7 +568,7 @@ extension AWSBackup {
         public let backupVaultName: String?
         /// The date and time a resource backup is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
@@ -644,7 +702,7 @@ extension AWSBackup {
         public let iamRoleArn: String?
         /// The AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
         public let resourceArn: String?
-        /// The type of AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of AWS resource to be copied; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. 
         public let resourceType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a source copy vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault. 
         public let sourceBackupVaultArn: String?
@@ -703,7 +761,7 @@ extension AWSBackup {
         public let backupPlan: BackupPlanInput
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair. The specified tags are assigned to all backups created with this plan.
         public let backupPlanTags: [String: String]?
-        /// Identifies the request and allows failed requests to be retried without the risk of executing the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional.
+        /// Identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional.
         public let creatorRequestId: String?
 
         public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = nil) {
@@ -725,12 +783,15 @@ extension AWSBackup {
 
     public struct CreateBackupPlanOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// A list of BackupOptions settings for a resource type. This option is only available for Windows VSS backup jobs.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
@@ -740,7 +801,8 @@ extension AWSBackup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. They cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -748,6 +810,7 @@ extension AWSBackup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanArn = "BackupPlanArn"
             case backupPlanId = "BackupPlanId"
             case creationDate = "CreationDate"
@@ -766,7 +829,7 @@ extension AWSBackup {
         public let backupPlanId: String
         /// Specifies the body of a request to assign a set of resources to a backup plan.
         public let backupSelection: BackupSelection
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
 
         public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = nil) {
@@ -825,7 +888,7 @@ extension AWSBackup {
         public let backupVaultName: String
         /// Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
         public let backupVaultTags: [String: String]?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
@@ -838,7 +901,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -907,7 +970,7 @@ extension AWSBackup {
         public let backupPlanId: String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: TimeStamp?
-        /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
+        /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
         public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, deletionDate: TimeStamp? = nil, versionId: String? = nil) {
@@ -960,7 +1023,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -998,7 +1061,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1023,7 +1086,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1053,7 +1116,9 @@ extension AWSBackup {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "BackupJobId", required: false, type: .string), 
+            AWSShapeMember(label: "BackupOptions", required: false, type: .map), 
             AWSShapeMember(label: "BackupSizeInBytes", required: false, type: .long), 
+            AWSShapeMember(label: "BackupType", required: false, type: .string), 
             AWSShapeMember(label: "BackupVaultArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupVaultName", required: false, type: .string), 
             AWSShapeMember(label: "BytesTransferred", required: false, type: .long), 
@@ -1075,8 +1140,12 @@ extension AWSBackup {
         public let accountId: String?
         /// Uniquely identifies a request to AWS Backup to back up a resource.
         public let backupJobId: String?
+        /// Represents the options specified as part of backup plan or on-demand backup job.
+        public let backupOptions: [String: String]?
         /// The size, in bytes, of a backup.
         public let backupSizeInBytes: Int64?
+        /// Represents the actual backup type selected for a backup job. For example, if a successful WindowsVSS backup was taken, BackupType returns “WindowsVSS”. If BackupType is empty, then it is a regular backup.
+        public let backupType: String?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup vault; for example, arn:aws:backup:us-east-1:123456789012:vault:aBackupVault.
         public let backupVaultArn: String?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1108,10 +1177,12 @@ extension AWSBackup {
         /// A detailed message explaining the status of the job to back up a resource.
         public let statusMessage: String?
 
-        public init(accountId: String? = nil, backupJobId: String? = nil, backupSizeInBytes: Int64? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
+        public init(accountId: String? = nil, backupJobId: String? = nil, backupOptions: [String: String]? = nil, backupSizeInBytes: Int64? = nil, backupType: String? = nil, backupVaultArn: String? = nil, backupVaultName: String? = nil, bytesTransferred: Int64? = nil, completionDate: TimeStamp? = nil, createdBy: RecoveryPointCreator? = nil, creationDate: TimeStamp? = nil, expectedCompletionDate: TimeStamp? = nil, iamRoleArn: String? = nil, percentDone: String? = nil, recoveryPointArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil, startBy: TimeStamp? = nil, state: BackupJobState? = nil, statusMessage: String? = nil) {
             self.accountId = accountId
             self.backupJobId = backupJobId
+            self.backupOptions = backupOptions
             self.backupSizeInBytes = backupSizeInBytes
+            self.backupType = backupType
             self.backupVaultArn = backupVaultArn
             self.backupVaultName = backupVaultName
             self.bytesTransferred = bytesTransferred
@@ -1132,7 +1203,9 @@ extension AWSBackup {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case backupJobId = "BackupJobId"
+            case backupOptions = "BackupOptions"
             case backupSizeInBytes = "BackupSizeInBytes"
+            case backupType = "BackupType"
             case backupVaultArn = "BackupVaultArn"
             case backupVaultName = "BackupVaultName"
             case bytesTransferred = "BytesTransferred"
@@ -1184,7 +1257,7 @@ extension AWSBackup {
         public let backupVaultName: String?
         /// The date and time that a backup vault is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
@@ -1305,7 +1378,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1424,7 +1497,7 @@ extension AWSBackup {
             AWSShapeMember(label: "ResourceTypeOptInPreference", required: false, type: .map)
         ]
 
-        /// Returns a list of all services along with the opt-in preferences in the region.
+        /// Returns a list of all services along with the opt-in preferences in the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
         public init(resourceTypeOptInPreference: [String: Bool]? = nil) {
@@ -1656,6 +1729,7 @@ extension AWSBackup {
 
     public struct GetBackupPlanOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlan", required: false, type: .structure), 
             AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
@@ -1666,6 +1740,8 @@ extension AWSBackup {
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// Contains a list of BackupOptions for each resource type. The list is populated only if the advanced option is set for the backup plan.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// Specifies the body of a backup plan. Includes a BackupPlanName and one or more sets of Rules.
         public let backupPlan: BackupPlan?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
@@ -1674,16 +1750,17 @@ extension AWSBackup {
         public let backupPlanId: String?
         /// The date and time that a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// The date and time that a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: TimeStamp?
-        /// The last time a job to back up resources was executed with this backup plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
+        /// The last time a job to back up resources was run with this backup plan. A date and time, in Unix format and Coordinated Universal Time (UTC). The value of LastExecutionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let lastExecutionDate: TimeStamp?
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version IDs cannot be edited.
         public let versionId: String?
 
-        public init(backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlan: BackupPlan? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, creatorRequestId: String? = nil, deletionDate: TimeStamp? = nil, lastExecutionDate: TimeStamp? = nil, versionId: String? = nil) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlan = backupPlan
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
@@ -1695,6 +1772,7 @@ extension AWSBackup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlan = "BackupPlan"
             case backupPlanArn = "BackupPlanArn"
             case backupPlanId = "BackupPlanId"
@@ -1743,7 +1821,7 @@ extension AWSBackup {
         public let backupSelection: BackupSelection?
         /// The date and time a backup selection is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: TimeStamp?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of executing the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
         public let creatorRequestId: String?
         /// Uniquely identifies the body of a request to assign a set of resources to a backup plan.
         public let selectionId: String?
@@ -1778,7 +1856,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1826,7 +1904,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1883,7 +1961,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1903,7 +1981,7 @@ extension AWSBackup {
         public let backupVaultArn: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        /// The set of metadata key-value pairs that describes the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
+        /// The set of metadata key-value pairs that describe the original configuration of the backed-up resource. These values vary depending on the service that is being restored.
         public let restoreMetadata: [String: String]?
 
         public init(backupVaultArn: String? = nil, recoveryPointArn: String? = nil, restoreMetadata: [String: String]? = nil) {
@@ -2004,7 +2082,7 @@ extension AWSBackup {
 
         public func validate(name: String) throws {
             try validate(self.byAccountId, name:"byAccountId", parent: name, pattern: "^[0-9]{12}$")
-            try validate(self.byBackupVaultName, name:"byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.byBackupVaultName, name:"byBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
             try validate(self.byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
@@ -2481,7 +2559,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
             try validate(self.byResourceType, name:"byResourceType", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
@@ -2710,7 +2788,7 @@ extension AWSBackup {
         public let lastBackupTime: TimeStamp?
         /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of AWS resource; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
 
         public init(lastBackupTime: TimeStamp? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
@@ -2743,7 +2821,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2773,7 +2851,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2831,7 +2909,7 @@ extension AWSBackup {
         public let recoveryPointArn: String?
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the resource type.
         public let resourceArn: String?
-        /// The type of AWS resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The type of AWS resource saved as a recovery point; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// A status code specifying the state of the recovery point.
         public let status: RecoveryPointStatus?
@@ -2984,7 +3062,7 @@ extension AWSBackup {
         public let percentDone: String?
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String?
-        /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
+        /// The resource type of the listed restore jobs; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database. For VSS Windows backups, the only supported resource type is Amazon EC2.
         public let resourceType: String?
         /// Uniquely identifies the job that restores a recovery point.
         public let restoreJobId: String?
@@ -3028,6 +3106,7 @@ extension AWSBackup {
 
     public struct StartBackupJobInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BackupOptions", required: false, type: .map), 
             AWSShapeMember(label: "BackupVaultName", required: true, type: .string), 
             AWSShapeMember(label: "CompleteWindowMinutes", required: false, type: .long), 
             AWSShapeMember(label: "IamRoleArn", required: true, type: .string), 
@@ -3038,6 +3117,8 @@ extension AWSBackup {
             AWSShapeMember(label: "StartWindowMinutes", required: false, type: .long)
         ]
 
+        /// Specifies the backup option for a selected resource. This option is only available for Windows VSS backup jobs. Valid values: Set to "WindowsVSS”:“enabled" to enable WindowsVSS backup option and create a VSS Windows backup. Set to “WindowsVSS”:”disabled” to create a regular backup. The WindowsVSS option is not enabled by default.
+        public let backupOptions: [String: String]?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the AWS Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// A value in minutes after a backup job is successfully started before it must be completed or it will be canceled by AWS Backup. This value is optional.
@@ -3055,7 +3136,8 @@ extension AWSBackup {
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
         public let startWindowMinutes: Int64?
 
-        public init(backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
+        public init(backupOptions: [String: String]? = nil, backupVaultName: String, completeWindowMinutes: Int64? = nil, iamRoleArn: String, idempotencyToken: String? = nil, lifecycle: Lifecycle? = nil, recoveryPointTags: [String: String]? = nil, resourceArn: String, startWindowMinutes: Int64? = nil) {
+            self.backupOptions = backupOptions
             self.backupVaultName = backupVaultName
             self.completeWindowMinutes = completeWindowMinutes
             self.iamRoleArn = iamRoleArn
@@ -3067,10 +3149,15 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try self.backupOptions?.forEach {
+                try validate($0.key, name:"backupOptions.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+                try validate($0.value, name:"backupOptions[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            }
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backupOptions = "BackupOptions"
             case backupVaultName = "BackupVaultName"
             case completeWindowMinutes = "CompleteWindowMinutes"
             case iamRoleArn = "IamRoleArn"
@@ -3141,7 +3228,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.sourceBackupVaultName, name:"sourceBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.sourceBackupVaultName, name:"sourceBackupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3189,7 +3276,7 @@ extension AWSBackup {
         public let iamRoleArn: String
         /// A customer chosen string that can be used to distinguish between calls to StartRestoreJob.
         public let idempotencyToken: String?
-        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.  
+        /// A set of metadata key-value pairs. Contains information, such as a resource name, required to restore a recovery point.  You can get configuration metadata about a resource at the time it was backed up by calling GetRecoveryPointRestoreMetadata. However, values in addition to those provided by GetRecoveryPointRestoreMetadata might be required to restore a resource. For example, you might need to provide a new resource name if the original already exists. You need to specify specific metadata to restore an Amazon Elastic File System (Amazon EFS) instance:    file-system-id: The ID of the Amazon EFS file system that is backed up by AWS Backup. Returned in GetRecoveryPointRestoreMetadata.    Encrypted: A Boolean value that, if true, specifies that the file system is encrypted. If KmsKeyId is specified, Encrypted must be set to true.    KmsKeyId: Specifies the AWS KMS key that is used to encrypt the restored file system. You can specify a key from another AWS account provided that key it is properly shared with your account via AWS KMS.    PerformanceMode: Specifies the throughput mode of the file system.    CreationToken: A user-supplied value that ensures the uniqueness (idempotency) of the request.    newFileSystem: A Boolean value that, if true, specifies that the recovery point is restored to a new Amazon EFS file system.    ItemsToRestore : A serialized list of up to five strings where each string is a file path. Use ItemsToRestore to restore specific files or directories rather than the entire file system. This parameter is optional.  
         public let metadata: [String: String]
         /// An ARN that uniquely identifies a recovery point; for example, arn:aws:backup:us-east-1:123456789012:recovery-point:1EB3B5E7-9EB0-435A-A80B-108B488B0D45.
         public let recoveryPointArn: String
@@ -3323,12 +3410,15 @@ extension AWSBackup {
 
     public struct UpdateBackupPlanOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvancedBackupSettings", required: false, type: .list), 
             AWSShapeMember(label: "BackupPlanArn", required: false, type: .string), 
             AWSShapeMember(label: "BackupPlanId", required: false, type: .string), 
             AWSShapeMember(label: "CreationDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "VersionId", required: false, type: .string)
         ]
 
+        /// Contains a list of BackupOptions for each resource type.
+        public let advancedBackupSettings: [AdvancedBackupSetting]?
         /// An Amazon Resource Name (ARN) that uniquely identifies a backup plan; for example, arn:aws:backup:us-east-1:123456789012:plan:8F81F553-3A74-4A3F-B93D-B3360DC80C50.
         public let backupPlanArn: String?
         /// Uniquely identifies a backup plan.
@@ -3338,7 +3428,8 @@ extension AWSBackup {
         /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most 1,024 bytes long. Version Ids cannot be edited.
         public let versionId: String?
 
-        public init(backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+        public init(advancedBackupSettings: [AdvancedBackupSetting]? = nil, backupPlanArn: String? = nil, backupPlanId: String? = nil, creationDate: TimeStamp? = nil, versionId: String? = nil) {
+            self.advancedBackupSettings = advancedBackupSettings
             self.backupPlanArn = backupPlanArn
             self.backupPlanId = backupPlanId
             self.creationDate = creationDate
@@ -3346,6 +3437,7 @@ extension AWSBackup {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedBackupSettings = "AdvancedBackupSettings"
             case backupPlanArn = "BackupPlanArn"
             case backupPlanId = "BackupPlanId"
             case creationDate = "CreationDate"
@@ -3374,7 +3466,7 @@ extension AWSBackup {
         }
 
         public func validate(name: String) throws {
-            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            try validate(self.backupVaultName, name:"backupVaultName", parent: name, pattern: "^[a-zA-Z0-9\\-\\_]{2,50}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3421,7 +3513,7 @@ extension AWSBackup {
             AWSShapeMember(label: "ResourceTypeOptInPreference", required: false, type: .map)
         ]
 
-        /// Updates the list of services along with the opt-in preferences for the region.
+        /// Updates the list of services along with the opt-in preferences for the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
         public init(resourceTypeOptInPreference: [String: Bool]? = nil) {

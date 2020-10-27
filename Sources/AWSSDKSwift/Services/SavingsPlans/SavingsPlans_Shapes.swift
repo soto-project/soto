@@ -72,7 +72,6 @@ extension SavingsPlans {
     public enum SavingsPlanRateServiceCode: String, CustomStringConvertible, Codable {
         case amazonec2 = "AmazonEC2"
         case amazonecs = "AmazonECS"
-        case amazoneks = "AmazonEKS"
         case awslambda = "AWSLambda"
         public var description: String { return self.rawValue }
     }
@@ -89,6 +88,8 @@ extension SavingsPlans {
         case paymentFailed = "payment-failed"
         case active = "active"
         case retired = "retired"
+        case queued = "queued"
+        case queuedDeleted = "queued-deleted"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +118,7 @@ extension SavingsPlans {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
             AWSShapeMember(label: "commitment", required: true, type: .string), 
+            AWSShapeMember(label: "purchaseTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "savingsPlanOfferingId", required: true, type: .string), 
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "upfrontPaymentAmount", required: false, type: .string)
@@ -126,6 +128,8 @@ extension SavingsPlans {
         public let clientToken: String?
         /// The hourly commitment, in USD. This is a value between 0.001 and 1 million. You cannot specify more than three digits after the decimal point.
         public let commitment: String
+        /// The time at which to purchase the Savings Plan, in UTC format (YYYY-MM-DDTHH:MM:SSZ).
+        public let purchaseTime: TimeStamp?
         /// The ID of the offering.
         public let savingsPlanOfferingId: String
         /// One or more tags.
@@ -133,9 +137,10 @@ extension SavingsPlans {
         /// The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.
         public let upfrontPaymentAmount: String?
 
-        public init(clientToken: String? = CreateSavingsPlanRequest.idempotencyToken(), commitment: String, savingsPlanOfferingId: String, tags: [String: String]? = nil, upfrontPaymentAmount: String? = nil) {
+        public init(clientToken: String? = CreateSavingsPlanRequest.idempotencyToken(), commitment: String, purchaseTime: TimeStamp? = nil, savingsPlanOfferingId: String, tags: [String: String]? = nil, upfrontPaymentAmount: String? = nil) {
             self.clientToken = clientToken
             self.commitment = commitment
+            self.purchaseTime = purchaseTime
             self.savingsPlanOfferingId = savingsPlanOfferingId
             self.tags = tags
             self.upfrontPaymentAmount = upfrontPaymentAmount
@@ -144,6 +149,7 @@ extension SavingsPlans {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
             case commitment = "commitment"
+            case purchaseTime = "purchaseTime"
             case savingsPlanOfferingId = "savingsPlanOfferingId"
             case tags = "tags"
             case upfrontPaymentAmount = "upfrontPaymentAmount"
@@ -165,6 +171,31 @@ extension SavingsPlans {
         private enum CodingKeys: String, CodingKey {
             case savingsPlanId = "savingsPlanId"
         }
+    }
+
+    public struct DeleteQueuedSavingsPlanRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "savingsPlanId", required: true, type: .string)
+        ]
+
+        /// The ID of the Savings Plan.
+        public let savingsPlanId: String
+
+        public init(savingsPlanId: String) {
+            self.savingsPlanId = savingsPlanId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case savingsPlanId = "savingsPlanId"
+        }
+    }
+
+    public struct DeleteQueuedSavingsPlanResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DescribeSavingsPlanRatesRequest: AWSShape {

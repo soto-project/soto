@@ -50,7 +50,7 @@ public struct ELBV2 {
         return client.send(operation: "AddListenerCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, and your target groups. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
+    ///  Adds the specified tags to the specified Elastic Load Balancing resource. You can tag your Application Load Balancers, Network Load Balancers, target groups, listeners, and rules. Each tag consists of a key and an optional value. If a resource already has a tag with the same key, AddTags updates its value. To list the current tags for your resources, use DescribeTags. To remove tags from your resources, use RemoveTags.
     public func addTags(_ input: AddTagsInput) -> EventLoopFuture<AddTagsOutput> {
         return client.send(operation: "AddTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -135,7 +135,7 @@ public struct ELBV2 {
         return client.send(operation: "DescribeSSLPolicies", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Describes the tags for the specified resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, and target groups.
+    ///  Describes the tags for the specified Elastic Load Balancing resources. You can describe the tags for one or more Application Load Balancers, Network Load Balancers, target groups, listeners, or rules.
     public func describeTags(_ input: DescribeTagsInput) -> EventLoopFuture<DescribeTagsOutput> {
         return client.send(operation: "DescribeTags", path: "/", httpMethod: "POST", input: input)
     }
@@ -190,7 +190,7 @@ public struct ELBV2 {
         return client.send(operation: "RemoveListenerCertificates", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified tags from the specified Elastic Load Balancing resource. To list the current tags for your resources, use DescribeTags.
+    ///  Removes the specified tags from the specified Elastic Load Balancing resources. You can remove the tags for one or more Application Load Balancers, Network Load Balancers, target groups, listeners, or rules. To list the current tags for your resources, use DescribeTags.
     public func removeTags(_ input: RemoveTagsInput) -> EventLoopFuture<RemoveTagsOutput> {
         return client.send(operation: "RemoveTags", path: "/", httpMethod: "POST", input: input)
     }

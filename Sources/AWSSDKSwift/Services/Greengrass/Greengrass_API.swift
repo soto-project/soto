@@ -314,6 +314,11 @@ public struct Greengrass {
         return client.send(operation: "GetSubscriptionDefinitionVersion", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}/versions/{SubscriptionDefinitionVersionId}", httpMethod: "GET", input: input)
     }
 
+    ///  Get the runtime configuration of a thing.
+    public func getThingRuntimeConfiguration(_ input: GetThingRuntimeConfigurationRequest) -> EventLoopFuture<GetThingRuntimeConfigurationResponse> {
+        return client.send(operation: "GetThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: "GET", input: input)
+    }
+
     ///  Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
     public func listBulkDeploymentDetailedReports(_ input: ListBulkDeploymentDetailedReportsRequest) -> EventLoopFuture<ListBulkDeploymentDetailedReportsResponse> {
         return client.send(operation: "ListBulkDeploymentDetailedReports", path: "/greengrass/bulk/deployments/{BulkDeploymentId}/detailed-reports", httpMethod: "GET", input: input)
@@ -492,5 +497,10 @@ public struct Greengrass {
     ///  Updates a subscription definition.
     public func updateSubscriptionDefinition(_ input: UpdateSubscriptionDefinitionRequest) -> EventLoopFuture<UpdateSubscriptionDefinitionResponse> {
         return client.send(operation: "UpdateSubscriptionDefinition", path: "/greengrass/definition/subscriptions/{SubscriptionDefinitionId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates the runtime configuration of a thing.
+    public func updateThingRuntimeConfiguration(_ input: UpdateThingRuntimeConfigurationRequest) -> EventLoopFuture<UpdateThingRuntimeConfigurationResponse> {
+        return client.send(operation: "UpdateThingRuntimeConfiguration", path: "/greengrass/things/{ThingName}/runtimeconfig", httpMethod: "PUT", input: input)
     }
 }

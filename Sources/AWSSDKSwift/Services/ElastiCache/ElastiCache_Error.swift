@@ -21,6 +21,9 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case cacheSubnetGroupQuotaExceededFault(message: String?)
     case cacheSubnetQuotaExceededFault(message: String?)
     case clusterQuotaForCustomerExceededFault(message: String?)
+    case defaultUserAssociatedToUserGroupFault(message: String?)
+    case defaultUserRequired(message: String?)
+    case duplicateUserNameFault(message: String?)
     case globalReplicationGroupAlreadyExistsFault(message: String?)
     case globalReplicationGroupNotFoundFault(message: String?)
     case insufficientCacheClusterCapacityFault(message: String?)
@@ -35,6 +38,8 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case invalidReplicationGroupStateFault(message: String?)
     case invalidSnapshotStateFault(message: String?)
     case invalidSubnet(message: String?)
+    case invalidUserGroupStateFault(message: String?)
+    case invalidUserStateFault(message: String?)
     case invalidVPCNetworkStateFault(message: String?)
     case noOperationFault(message: String?)
     case nodeGroupNotFoundFault(message: String?)
@@ -56,9 +61,16 @@ public enum ElastiCacheErrorType: AWSErrorType {
     case snapshotNotFoundFault(message: String?)
     case snapshotQuotaExceededFault(message: String?)
     case subnetInUse(message: String?)
+    case subnetNotAllowedFault(message: String?)
     case tagNotFoundFault(message: String?)
     case tagQuotaPerResourceExceeded(message: String?)
     case testFailoverNotAvailableFault(message: String?)
+    case userAlreadyExistsFault(message: String?)
+    case userGroupAlreadyExistsFault(message: String?)
+    case userGroupNotFoundFault(message: String?)
+    case userGroupQuotaExceededFault(message: String?)
+    case userNotFoundFault(message: String?)
+    case userQuotaExceededFault(message: String?)
 }
 
 extension ElastiCacheErrorType {
@@ -102,6 +114,12 @@ extension ElastiCacheErrorType {
             self = .cacheSubnetQuotaExceededFault(message: message)
         case "ClusterQuotaForCustomerExceeded":
             self = .clusterQuotaForCustomerExceededFault(message: message)
+        case "DefaultUserAssociatedToUserGroup":
+            self = .defaultUserAssociatedToUserGroupFault(message: message)
+        case "DefaultUserRequired":
+            self = .defaultUserRequired(message: message)
+        case "DuplicateUserName":
+            self = .duplicateUserNameFault(message: message)
         case "GlobalReplicationGroupAlreadyExistsFault":
             self = .globalReplicationGroupAlreadyExistsFault(message: message)
         case "GlobalReplicationGroupNotFoundFault":
@@ -130,6 +148,10 @@ extension ElastiCacheErrorType {
             self = .invalidSnapshotStateFault(message: message)
         case "InvalidSubnet":
             self = .invalidSubnet(message: message)
+        case "InvalidUserGroupState":
+            self = .invalidUserGroupStateFault(message: message)
+        case "InvalidUserState":
+            self = .invalidUserStateFault(message: message)
         case "InvalidVPCNetworkStateFault":
             self = .invalidVPCNetworkStateFault(message: message)
         case "NoOperationFault":
@@ -172,12 +194,26 @@ extension ElastiCacheErrorType {
             self = .snapshotQuotaExceededFault(message: message)
         case "SubnetInUse":
             self = .subnetInUse(message: message)
+        case "SubnetNotAllowedFault":
+            self = .subnetNotAllowedFault(message: message)
         case "TagNotFound":
             self = .tagNotFoundFault(message: message)
         case "TagQuotaPerResourceExceeded":
             self = .tagQuotaPerResourceExceeded(message: message)
         case "TestFailoverNotAvailableFault":
             self = .testFailoverNotAvailableFault(message: message)
+        case "UserAlreadyExists":
+            self = .userAlreadyExistsFault(message: message)
+        case "UserGroupAlreadyExists":
+            self = .userGroupAlreadyExistsFault(message: message)
+        case "UserGroupNotFound":
+            self = .userGroupNotFoundFault(message: message)
+        case "UserGroupQuotaExceeded":
+            self = .userGroupQuotaExceededFault(message: message)
+        case "UserNotFound":
+            self = .userNotFoundFault(message: message)
+        case "UserQuotaExceeded":
+            self = .userQuotaExceededFault(message: message)
         default:
             return nil
         }
@@ -221,6 +257,12 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "CacheSubnetQuotaExceededFault: \(message ?? "")"
         case .clusterQuotaForCustomerExceededFault(let message):
             return "ClusterQuotaForCustomerExceeded: \(message ?? "")"
+        case .defaultUserAssociatedToUserGroupFault(let message):
+            return "DefaultUserAssociatedToUserGroup: \(message ?? "")"
+        case .defaultUserRequired(let message):
+            return "DefaultUserRequired: \(message ?? "")"
+        case .duplicateUserNameFault(let message):
+            return "DuplicateUserName: \(message ?? "")"
         case .globalReplicationGroupAlreadyExistsFault(let message):
             return "GlobalReplicationGroupAlreadyExistsFault: \(message ?? "")"
         case .globalReplicationGroupNotFoundFault(let message):
@@ -249,6 +291,10 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "InvalidSnapshotState: \(message ?? "")"
         case .invalidSubnet(let message):
             return "InvalidSubnet: \(message ?? "")"
+        case .invalidUserGroupStateFault(let message):
+            return "InvalidUserGroupState: \(message ?? "")"
+        case .invalidUserStateFault(let message):
+            return "InvalidUserState: \(message ?? "")"
         case .invalidVPCNetworkStateFault(let message):
             return "InvalidVPCNetworkStateFault: \(message ?? "")"
         case .noOperationFault(let message):
@@ -291,12 +337,26 @@ extension ElastiCacheErrorType : CustomStringConvertible {
             return "SnapshotQuotaExceededFault: \(message ?? "")"
         case .subnetInUse(let message):
             return "SubnetInUse: \(message ?? "")"
+        case .subnetNotAllowedFault(let message):
+            return "SubnetNotAllowedFault: \(message ?? "")"
         case .tagNotFoundFault(let message):
             return "TagNotFound: \(message ?? "")"
         case .tagQuotaPerResourceExceeded(let message):
             return "TagQuotaPerResourceExceeded: \(message ?? "")"
         case .testFailoverNotAvailableFault(let message):
             return "TestFailoverNotAvailableFault: \(message ?? "")"
+        case .userAlreadyExistsFault(let message):
+            return "UserAlreadyExists: \(message ?? "")"
+        case .userGroupAlreadyExistsFault(let message):
+            return "UserGroupAlreadyExists: \(message ?? "")"
+        case .userGroupNotFoundFault(let message):
+            return "UserGroupNotFound: \(message ?? "")"
+        case .userGroupQuotaExceededFault(let message):
+            return "UserGroupQuotaExceeded: \(message ?? "")"
+        case .userNotFoundFault(let message):
+            return "UserNotFound: \(message ?? "")"
+        case .userQuotaExceededFault(let message):
+            return "UserQuotaExceeded: \(message ?? "")"
         }
     }
 }

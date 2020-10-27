@@ -81,6 +81,11 @@ public struct CloudFront {
         return client.send(operation: "CreateInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a key group that you can use with CloudFront signed URLs and signed cookies. To create a key group, you must specify at least one public key for the key group. After you create a key group, you can reference it from one or more cache behaviors. When you reference a key group in a cache behavior, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+    public func createKeyGroup(_ input: CreateKeyGroupRequest) -> EventLoopFuture<CreateKeyGroupResult> {
+        return client.send(operation: "CreateKeyGroup2020_05_31", path: "/2020-05-31/key-group", httpMethod: "POST", input: input)
+    }
+
     ///  Enables additional CloudWatch metrics for the specified CloudFront distribution. The additional metrics incur an additional cost. For more information, see Viewing additional CloudFront distribution metrics in the Amazon CloudFront Developer Guide.
     public func createMonitoringSubscription(_ input: CreateMonitoringSubscriptionRequest) -> EventLoopFuture<CreateMonitoringSubscriptionResult> {
         return client.send(operation: "CreateMonitoringSubscription2020_05_31", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: "POST", input: input)
@@ -91,7 +96,7 @@ public struct CloudFront {
         return client.send(operation: "CreateOriginRequestPolicy2020_05_31", path: "/2020-05-31/origin-request-policy", httpMethod: "POST", input: input)
     }
 
-    ///  Add a new public key to CloudFront to use, for example, for field-level encryption. You can add a maximum of 10 public keys with one AWS account.
+    ///  Uploads a public key to CloudFront that you can use with signed URLs and signed cookies, or with field-level encryption.
     public func createPublicKey(_ input: CreatePublicKeyRequest) -> EventLoopFuture<CreatePublicKeyResult> {
         return client.send(operation: "CreatePublicKey2020_05_31", path: "/2020-05-31/public-key", httpMethod: "POST", input: input)
     }
@@ -134,6 +139,11 @@ public struct CloudFront {
     ///  Remove a field-level encryption profile.
     @discardableResult public func deleteFieldLevelEncryptionProfile(_ input: DeleteFieldLevelEncryptionProfileRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Deletes a key group. You cannot delete a key group that is referenced in a cache behavior. First update your distributions to remove the key group from all cache behaviors, then delete the key group. To delete a key group, you must provide the key group’s identifier and version. To get these values, use ListKeyGroups followed by GetKeyGroup or GetKeyGroupConfig.
+    @discardableResult public func deleteKeyGroup(_ input: DeleteKeyGroupRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DeleteKeyGroup2020_05_31", path: "/2020-05-31/key-group/{Id}", httpMethod: "DELETE", input: input)
     }
 
     ///  Disables additional CloudWatch metrics for the specified CloudFront distribution.
@@ -216,6 +226,16 @@ public struct CloudFront {
         return client.send(operation: "GetInvalidation2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation/{Id}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets a key group, including the date and time when the key group was last modified. To get a key group, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+    public func getKeyGroup(_ input: GetKeyGroupRequest) -> EventLoopFuture<GetKeyGroupResult> {
+        return client.send(operation: "GetKeyGroup2020_05_31", path: "/2020-05-31/key-group/{Id}", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a key group configuration. To get a key group configuration, you must provide the key group’s identifier. If the key group is referenced in a distribution’s cache behavior, you can get the key group’s identifier using ListDistributions or GetDistribution. If the key group is not referenced in a cache behavior, you can get the identifier using ListKeyGroups.
+    public func getKeyGroupConfig(_ input: GetKeyGroupConfigRequest) -> EventLoopFuture<GetKeyGroupConfigResult> {
+        return client.send(operation: "GetKeyGroupConfig2020_05_31", path: "/2020-05-31/key-group/{Id}/config", httpMethod: "GET", input: input)
+    }
+
     ///  Gets information about whether additional CloudWatch metrics are enabled for the specified CloudFront distribution.
     public func getMonitoringSubscription(_ input: GetMonitoringSubscriptionRequest) -> EventLoopFuture<GetMonitoringSubscriptionResult> {
         return client.send(operation: "GetMonitoringSubscription2020_05_31", path: "/2020-05-31/distributions/{DistributionId}/monitoring-subscription", httpMethod: "GET", input: input)
@@ -231,12 +251,12 @@ public struct CloudFront {
         return client.send(operation: "GetOriginRequestPolicyConfig2020_05_31", path: "/2020-05-31/origin-request-policy/{Id}/config", httpMethod: "GET", input: input)
     }
 
-    ///  Get the public key information.
+    ///  Gets a public key.
     public func getPublicKey(_ input: GetPublicKeyRequest) -> EventLoopFuture<GetPublicKeyResult> {
         return client.send(operation: "GetPublicKey2020_05_31", path: "/2020-05-31/public-key/{Id}", httpMethod: "GET", input: input)
     }
 
-    ///  Return public key configuration informaation
+    ///  Gets a public key configuration.
     public func getPublicKeyConfig(_ input: GetPublicKeyConfigRequest) -> EventLoopFuture<GetPublicKeyConfigResult> {
         return client.send(operation: "GetPublicKeyConfig2020_05_31", path: "/2020-05-31/public-key/{Id}/config", httpMethod: "GET", input: input)
     }
@@ -276,6 +296,11 @@ public struct CloudFront {
         return client.send(operation: "ListDistributionsByCachePolicyId2020_05_31", path: "/2020-05-31/distributionsByCachePolicyId/{CachePolicyId}", httpMethod: "GET", input: input)
     }
 
+    ///  Gets a list of distribution IDs for distributions that have a cache behavior that references the specified key group. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listDistributionsByKeyGroup(_ input: ListDistributionsByKeyGroupRequest) -> EventLoopFuture<ListDistributionsByKeyGroupResult> {
+        return client.send(operation: "ListDistributionsByKeyGroup2020_05_31", path: "/2020-05-31/distributionsByKeyGroupId/{KeyGroupId}", httpMethod: "GET", input: input)
+    }
+
     ///  Gets a list of distribution IDs for distributions that have a cache behavior that’s associated with the specified origin request policy. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
     public func listDistributionsByOriginRequestPolicyId(_ input: ListDistributionsByOriginRequestPolicyIdRequest) -> EventLoopFuture<ListDistributionsByOriginRequestPolicyIdResult> {
         return client.send(operation: "ListDistributionsByOriginRequestPolicyId2020_05_31", path: "/2020-05-31/distributionsByOriginRequestPolicyId/{OriginRequestPolicyId}", httpMethod: "GET", input: input)
@@ -304,6 +329,11 @@ public struct CloudFront {
     ///  Lists invalidation batches. 
     public func listInvalidations(_ input: ListInvalidationsRequest) -> EventLoopFuture<ListInvalidationsResult> {
         return client.send(operation: "ListInvalidations2020_05_31", path: "/2020-05-31/distribution/{DistributionId}/invalidation", httpMethod: "GET", input: input)
+    }
+
+    ///  Gets a list of key groups. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
+    public func listKeyGroups(_ input: ListKeyGroupsRequest) -> EventLoopFuture<ListKeyGroupsResult> {
+        return client.send(operation: "ListKeyGroups2020_05_31", path: "/2020-05-31/key-group", httpMethod: "GET", input: input)
     }
 
     ///  Gets a list of origin request policies. You can optionally apply a filter to return only the managed policies created by AWS, or only the custom policies created in your AWS account. You can optionally specify the maximum number of items to receive in the response. If the total number of items in the list exceeds the maximum that you specify, or the default maximum, the response is paginated. To get the next page of items, send a subsequent request that specifies the NextMarker value from the current response as the Marker value in the subsequent request.
@@ -364,6 +394,11 @@ public struct CloudFront {
     ///  Update a field-level encryption profile. 
     public func updateFieldLevelEncryptionProfile(_ input: UpdateFieldLevelEncryptionProfileRequest) -> EventLoopFuture<UpdateFieldLevelEncryptionProfileResult> {
         return client.send(operation: "UpdateFieldLevelEncryptionProfile2020_05_31", path: "/2020-05-31/field-level-encryption-profile/{Id}/config", httpMethod: "PUT", input: input)
+    }
+
+    ///  Updates a key group. When you update a key group, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update a key group:   Get the current key group with GetKeyGroup or GetKeyGroupConfig.   Locally modify the fields in the key group that you want to update. For example, add or remove public key IDs.   Call UpdateKeyGroup with the entire key group object, including the fields that you modified and those that you didn’t.  
+    public func updateKeyGroup(_ input: UpdateKeyGroupRequest) -> EventLoopFuture<UpdateKeyGroupResult> {
+        return client.send(operation: "UpdateKeyGroup2020_05_31", path: "/2020-05-31/key-group/{Id}", httpMethod: "PUT", input: input)
     }
 
     ///  Updates an origin request policy configuration. When you update an origin request policy configuration, all the fields are updated with the values provided in the request. You cannot update some fields independent of others. To update an origin request policy configuration:   Use GetOriginRequestPolicyConfig to get the current configuration.   Locally modify the fields in the origin request policy configuration that you want to update.   Call UpdateOriginRequestPolicy by providing the entire origin request policy configuration, including the fields that you modified and those that you didn’t.  

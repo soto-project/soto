@@ -16,6 +16,11 @@ extension MediaLive {
         return client.paginate(input: input, command: listChannels, tokenKey: \ListChannelsResponse.nextToken, onPage: onPage)
     }
 
+    ///  List input devices that are currently being transferred. List input devices that you are transferring from your AWS account or input devices that another AWS account is transferring to you.
+    public func listInputDeviceTransfersPaginator(_ input: ListInputDeviceTransfersRequest, onPage: @escaping (ListInputDeviceTransfersResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listInputDeviceTransfers, tokenKey: \ListInputDeviceTransfersResponse.nextToken, onPage: onPage)
+    }
+
     ///  List input devices
     public func listInputDevicesPaginator(_ input: ListInputDevicesRequest, onPage: @escaping (ListInputDevicesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInputDevices, tokenKey: \ListInputDevicesResponse.nextToken, onPage: onPage)
@@ -69,6 +74,17 @@ extension MediaLive.ListChannelsRequest: AWSPaginateStringToken {
         return .init(
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension MediaLive.ListInputDeviceTransfersRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> MediaLive.ListInputDeviceTransfersRequest {
+        return .init(
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            transferType: self.transferType
         )
 
     }

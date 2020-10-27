@@ -295,6 +295,563 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsApiGatewayAccessLogSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationArn", required: false, type: .string), 
+            AWSShapeMember(label: "Format", required: false, type: .string)
+        ]
+
+        /// The ARN of the CloudWatch Logs log group that receives the access logs.
+        public let destinationArn: String?
+        /// A single-line format of the access logs of data, as specified by selected $context variables. The format must include at least $context.requestId.
+        public let format: String?
+
+        public init(destinationArn: String? = nil, format: String? = nil) {
+            self.destinationArn = destinationArn
+            self.format = format
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.destinationArn, name:"destinationArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.format, name:"format", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationArn = "DestinationArn"
+            case format = "Format"
+        }
+    }
+
+    public struct AwsApiGatewayCanarySettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "PercentTraffic", required: false, type: .double), 
+            AWSShapeMember(label: "StageVariableOverrides", required: false, type: .map), 
+            AWSShapeMember(label: "UseStageCache", required: false, type: .boolean)
+        ]
+
+        /// The deployment identifier for the canary deployment.
+        public let deploymentId: String?
+        /// The percentage of traffic that is diverted to a canary deployment.
+        public let percentTraffic: Double?
+        /// Stage variables that are overridden in the canary release deployment. The variables include new stage variables that are introduced in the canary. Each variable is represented as a string-to-string map between the stage variable name and the variable value.
+        public let stageVariableOverrides: [String: String]?
+        /// Indicates whether the canary deployment uses the stage cache.
+        public let useStageCache: Bool?
+
+        public init(deploymentId: String? = nil, percentTraffic: Double? = nil, stageVariableOverrides: [String: String]? = nil, useStageCache: Bool? = nil) {
+            self.deploymentId = deploymentId
+            self.percentTraffic = percentTraffic
+            self.stageVariableOverrides = stageVariableOverrides
+            self.useStageCache = useStageCache
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.deploymentId, name:"deploymentId", parent: name, pattern: ".*\\S.*")
+            try self.stageVariableOverrides?.forEach {
+                try validate($0.key, name:"stageVariableOverrides.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name:"stageVariableOverrides[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId = "DeploymentId"
+            case percentTraffic = "PercentTraffic"
+            case stageVariableOverrides = "StageVariableOverrides"
+            case useStageCache = "UseStageCache"
+        }
+    }
+
+    public struct AwsApiGatewayEndpointConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Types", required: false, type: .list)
+        ]
+
+        /// A list of endpoint types for the REST API. For an edge-optimized API, the endpoint type is EDGE. For a Regional API, the endpoint type is REGIONAL. For a private API, the endpoint type is PRIVATE.
+        public let types: [String]?
+
+        public init(types: [String]? = nil) {
+            self.types = types
+        }
+
+        public func validate(name: String) throws {
+            try self.types?.forEach {
+                try validate($0, name: "types[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case types = "Types"
+        }
+    }
+
+    public struct AwsApiGatewayMethodSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheDataEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheTtlInSeconds", required: false, type: .integer), 
+            AWSShapeMember(label: "CachingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DataTraceEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "HttpMethod", required: false, type: .string), 
+            AWSShapeMember(label: "LoggingLevel", required: false, type: .string), 
+            AWSShapeMember(label: "MetricsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "RequireAuthorizationForCacheControl", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResourcePath", required: false, type: .string), 
+            AWSShapeMember(label: "ThrottlingBurstLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ThrottlingRateLimit", required: false, type: .double), 
+            AWSShapeMember(label: "UnauthorizedCacheControlHeaderStrategy", required: false, type: .string)
+        ]
+
+        /// Indicates whether the cached responses are encrypted. 
+        public let cacheDataEncrypted: Bool?
+        /// Specifies the time to live (TTL), in seconds, for cached responses. The higher the TTL, the longer the response is cached.
+        public let cacheTtlInSeconds: Int?
+        /// Indicates whether responses are cached and returned for requests. For responses to be cached, a cache cluster must be enabled on the stage.
+        public let cachingEnabled: Bool?
+        /// Indicates whether data trace logging is enabled for the method. Data trace logging affects the log entries that are pushed to CloudWatch Logs.
+        public let dataTraceEnabled: Bool?
+        /// The HTTP method. You can use an asterisk (*) as a wildcard to apply method settings to multiple methods.
+        public let httpMethod: String?
+        /// The logging level for this method. The logging level affects the log entries that are pushed to CloudWatch Logs. If the logging level is ERROR, then the logs only include error-level entries. If the logging level is INFO, then the logs include both ERROR events and extra informational events. Valid values: OFF | ERROR | INFO 
+        public let loggingLevel: String?
+        /// Indicates whether CloudWatch metrics are enabled for the method. 
+        public let metricsEnabled: Bool?
+        /// Indicates whether authorization is required for a cache invalidation request.
+        public let requireAuthorizationForCacheControl: Bool?
+        /// The resource path for this method. Forward slashes (/) are encoded as ~1 . The initial slash must include a forward slash. For example, the path value /resource/subresource must be encoded as /~1resource~1subresource. To specify the root path, use only a slash (/). You can use an asterisk (*) as a wildcard to apply method settings to multiple methods.
+        public let resourcePath: String?
+        /// The throttling burst limit for the method.
+        public let throttlingBurstLimit: Int?
+        /// The throttling rate limit for the method.
+        public let throttlingRateLimit: Double?
+        /// Indicates how to handle unauthorized requests for cache invalidation. Valid values: FAIL_WITH_403 | SUCCEED_WITH_RESPONSE_HEADER | SUCCEED_WITHOUT_RESPONSE_HEADER 
+        public let unauthorizedCacheControlHeaderStrategy: String?
+
+        public init(cacheDataEncrypted: Bool? = nil, cacheTtlInSeconds: Int? = nil, cachingEnabled: Bool? = nil, dataTraceEnabled: Bool? = nil, httpMethod: String? = nil, loggingLevel: String? = nil, metricsEnabled: Bool? = nil, requireAuthorizationForCacheControl: Bool? = nil, resourcePath: String? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil, unauthorizedCacheControlHeaderStrategy: String? = nil) {
+            self.cacheDataEncrypted = cacheDataEncrypted
+            self.cacheTtlInSeconds = cacheTtlInSeconds
+            self.cachingEnabled = cachingEnabled
+            self.dataTraceEnabled = dataTraceEnabled
+            self.httpMethod = httpMethod
+            self.loggingLevel = loggingLevel
+            self.metricsEnabled = metricsEnabled
+            self.requireAuthorizationForCacheControl = requireAuthorizationForCacheControl
+            self.resourcePath = resourcePath
+            self.throttlingBurstLimit = throttlingBurstLimit
+            self.throttlingRateLimit = throttlingRateLimit
+            self.unauthorizedCacheControlHeaderStrategy = unauthorizedCacheControlHeaderStrategy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.httpMethod, name:"httpMethod", parent: name, pattern: ".*\\S.*")
+            try validate(self.loggingLevel, name:"loggingLevel", parent: name, pattern: ".*\\S.*")
+            try validate(self.resourcePath, name:"resourcePath", parent: name, pattern: ".*\\S.*")
+            try validate(self.unauthorizedCacheControlHeaderStrategy, name:"unauthorizedCacheControlHeaderStrategy", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cacheDataEncrypted = "CacheDataEncrypted"
+            case cacheTtlInSeconds = "CacheTtlInSeconds"
+            case cachingEnabled = "CachingEnabled"
+            case dataTraceEnabled = "DataTraceEnabled"
+            case httpMethod = "HttpMethod"
+            case loggingLevel = "LoggingLevel"
+            case metricsEnabled = "MetricsEnabled"
+            case requireAuthorizationForCacheControl = "RequireAuthorizationForCacheControl"
+            case resourcePath = "ResourcePath"
+            case throttlingBurstLimit = "ThrottlingBurstLimit"
+            case throttlingRateLimit = "ThrottlingRateLimit"
+            case unauthorizedCacheControlHeaderStrategy = "UnauthorizedCacheControlHeaderStrategy"
+        }
+    }
+
+    public struct AwsApiGatewayRestApiDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiKeySource", required: false, type: .string), 
+            AWSShapeMember(label: "BinaryMediaTypes", required: false, type: .list), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "MinimumCompressionSize", required: false, type: .integer), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The source of the API key for metering requests according to a usage plan.  HEADER indicates whether to read the API key from the X-API-Key header of a request.  AUTHORIZER indicates whether to read the API key from the UsageIdentifierKey from a custom authorizer.
+        public let apiKeySource: String?
+        /// The list of binary media types supported by the REST API.
+        public let binaryMediaTypes: [String]?
+        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdDate: String?
+        /// A description of the REST API.
+        public let description: String?
+        /// The endpoint configuration of the REST API.
+        public let endpointConfiguration: AwsApiGatewayEndpointConfiguration?
+        /// The identifier of the REST API.
+        public let id: String?
+        /// The minimum size in bytes of a payload before compression is enabled. If null, then compression is disabled. If 0, then all payloads are compressed.
+        public let minimumCompressionSize: Int?
+        /// The name of the REST API.
+        public let name: String?
+        /// The version identifier for the REST API.
+        public let version: String?
+
+        public init(apiKeySource: String? = nil, binaryMediaTypes: [String]? = nil, createdDate: String? = nil, description: String? = nil, endpointConfiguration: AwsApiGatewayEndpointConfiguration? = nil, id: String? = nil, minimumCompressionSize: Int? = nil, name: String? = nil, version: String? = nil) {
+            self.apiKeySource = apiKeySource
+            self.binaryMediaTypes = binaryMediaTypes
+            self.createdDate = createdDate
+            self.description = description
+            self.endpointConfiguration = endpointConfiguration
+            self.id = id
+            self.minimumCompressionSize = minimumCompressionSize
+            self.name = name
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.apiKeySource, name:"apiKeySource", parent: name, pattern: ".*\\S.*")
+            try self.binaryMediaTypes?.forEach {
+                try validate($0, name: "binaryMediaTypes[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.createdDate, name:"createdDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try self.endpointConfiguration?.validate(name: "\(name).endpointConfiguration")
+            try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.version, name:"version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKeySource = "ApiKeySource"
+            case binaryMediaTypes = "BinaryMediaTypes"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case endpointConfiguration = "EndpointConfiguration"
+            case id = "Id"
+            case minimumCompressionSize = "MinimumCompressionSize"
+            case name = "Name"
+            case version = "Version"
+        }
+    }
+
+    public struct AwsApiGatewayStageDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessLogSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "CacheClusterEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "CacheClusterSize", required: false, type: .string), 
+            AWSShapeMember(label: "CacheClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "CanarySettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ClientCertificateId", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DocumentationVersion", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "MethodSettings", required: false, type: .list), 
+            AWSShapeMember(label: "StageName", required: false, type: .string), 
+            AWSShapeMember(label: "TracingEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Variables", required: false, type: .map), 
+            AWSShapeMember(label: "WebAclArn", required: false, type: .string)
+        ]
+
+        /// Settings for logging access for the stage.
+        public let accessLogSettings: AwsApiGatewayAccessLogSettings?
+        /// Indicates whether a cache cluster is enabled for the stage.
+        public let cacheClusterEnabled: Bool?
+        /// If a cache cluster is enabled, the size of the cache cluster.
+        public let cacheClusterSize: String?
+        /// If a cache cluster is enabled, the status of the cache cluster.
+        public let cacheClusterStatus: String?
+        /// Information about settings for canary deployment in the stage.
+        public let canarySettings: AwsApiGatewayCanarySettings?
+        /// The identifier of the client certificate for the stage.
+        public let clientCertificateId: String?
+        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdDate: String?
+        /// The identifier of the deployment that the stage points to.
+        public let deploymentId: String?
+        /// A description of the stage.
+        public let description: String?
+        /// The version of the API documentation that is associated with the stage.
+        public let documentationVersion: String?
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let lastUpdatedDate: String?
+        /// Defines the method settings for the stage.
+        public let methodSettings: [AwsApiGatewayMethodSettings]?
+        /// The name of the stage.
+        public let stageName: String?
+        /// Indicates whether active tracing with AWS X-Ray is enabled for the stage.
+        public let tracingEnabled: Bool?
+        /// A map that defines the stage variables for the stage. Variable names can have alphanumeric and underscore characters. Variable values can contain the following characters:   Uppercase and lowercase letters   Numbers   Special characters -._~:/?#&amp;=,  
+        public let variables: [String: String]?
+        /// The ARN of the web ACL associated with the stage.
+        public let webAclArn: String?
+
+        public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, cacheClusterEnabled: Bool? = nil, cacheClusterSize: String? = nil, cacheClusterStatus: String? = nil, canarySettings: AwsApiGatewayCanarySettings? = nil, clientCertificateId: String? = nil, createdDate: String? = nil, deploymentId: String? = nil, description: String? = nil, documentationVersion: String? = nil, lastUpdatedDate: String? = nil, methodSettings: [AwsApiGatewayMethodSettings]? = nil, stageName: String? = nil, tracingEnabled: Bool? = nil, variables: [String: String]? = nil, webAclArn: String? = nil) {
+            self.accessLogSettings = accessLogSettings
+            self.cacheClusterEnabled = cacheClusterEnabled
+            self.cacheClusterSize = cacheClusterSize
+            self.cacheClusterStatus = cacheClusterStatus
+            self.canarySettings = canarySettings
+            self.clientCertificateId = clientCertificateId
+            self.createdDate = createdDate
+            self.deploymentId = deploymentId
+            self.description = description
+            self.documentationVersion = documentationVersion
+            self.lastUpdatedDate = lastUpdatedDate
+            self.methodSettings = methodSettings
+            self.stageName = stageName
+            self.tracingEnabled = tracingEnabled
+            self.variables = variables
+            self.webAclArn = webAclArn
+        }
+
+        public func validate(name: String) throws {
+            try self.accessLogSettings?.validate(name: "\(name).accessLogSettings")
+            try validate(self.cacheClusterSize, name:"cacheClusterSize", parent: name, pattern: ".*\\S.*")
+            try validate(self.cacheClusterStatus, name:"cacheClusterStatus", parent: name, pattern: ".*\\S.*")
+            try self.canarySettings?.validate(name: "\(name).canarySettings")
+            try validate(self.clientCertificateId, name:"clientCertificateId", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdDate, name:"createdDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.deploymentId, name:"deploymentId", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.documentationVersion, name:"documentationVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastUpdatedDate, name:"lastUpdatedDate", parent: name, pattern: ".*\\S.*")
+            try self.methodSettings?.forEach {
+                try $0.validate(name: "\(name).methodSettings[]")
+            }
+            try validate(self.stageName, name:"stageName", parent: name, pattern: ".*\\S.*")
+            try self.variables?.forEach {
+                try validate($0.key, name:"variables.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name:"variables[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.webAclArn, name:"webAclArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogSettings = "AccessLogSettings"
+            case cacheClusterEnabled = "CacheClusterEnabled"
+            case cacheClusterSize = "CacheClusterSize"
+            case cacheClusterStatus = "CacheClusterStatus"
+            case canarySettings = "CanarySettings"
+            case clientCertificateId = "ClientCertificateId"
+            case createdDate = "CreatedDate"
+            case deploymentId = "DeploymentId"
+            case description = "Description"
+            case documentationVersion = "DocumentationVersion"
+            case lastUpdatedDate = "LastUpdatedDate"
+            case methodSettings = "MethodSettings"
+            case stageName = "StageName"
+            case tracingEnabled = "TracingEnabled"
+            case variables = "Variables"
+            case webAclArn = "WebAclArn"
+        }
+    }
+
+    public struct AwsApiGatewayV2ApiDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApiEndpoint", required: false, type: .string), 
+            AWSShapeMember(label: "ApiId", required: false, type: .string), 
+            AWSShapeMember(label: "ApiKeySelectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "CorsConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "ProtocolType", required: false, type: .string), 
+            AWSShapeMember(label: "RouteSelectionExpression", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
+        ]
+
+        /// The URI of the API.  Uses the format  &lt;api-id&gt;.execute-api.&lt;region&gt;.amazonaws.com  The stage name is typically appended to the URI to form a complete path to a deployed API stage.
+        public let apiEndpoint: String?
+        /// The identifier of the API.
+        public let apiId: String?
+        /// An API key selection expression. Supported only for WebSocket APIs. 
+        public let apiKeySelectionExpression: String?
+        /// A cross-origin resource sharing (CORS) configuration. Supported only for HTTP APIs.
+        public let corsConfiguration: AwsCorsConfiguration?
+        /// Indicates when the API was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdDate: String?
+        /// A description of the API.
+        public let description: String?
+        /// The name of the API.
+        public let name: String?
+        /// The API protocol for the API. Valid values: WEBSOCKET | HTTP 
+        public let protocolType: String?
+        /// The route selection expression for the API. For HTTP APIs, must be ${request.method} ${request.path}. This is the default value for HTTP APIs. For WebSocket APIs, there is no default value.
+        public let routeSelectionExpression: String?
+        /// The version identifier for the API.
+        public let version: String?
+
+        public init(apiEndpoint: String? = nil, apiId: String? = nil, apiKeySelectionExpression: String? = nil, corsConfiguration: AwsCorsConfiguration? = nil, createdDate: String? = nil, description: String? = nil, name: String? = nil, protocolType: String? = nil, routeSelectionExpression: String? = nil, version: String? = nil) {
+            self.apiEndpoint = apiEndpoint
+            self.apiId = apiId
+            self.apiKeySelectionExpression = apiKeySelectionExpression
+            self.corsConfiguration = corsConfiguration
+            self.createdDate = createdDate
+            self.description = description
+            self.name = name
+            self.protocolType = protocolType
+            self.routeSelectionExpression = routeSelectionExpression
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.apiEndpoint, name:"apiEndpoint", parent: name, pattern: ".*\\S.*")
+            try validate(self.apiId, name:"apiId", parent: name, pattern: ".*\\S.*")
+            try validate(self.apiKeySelectionExpression, name:"apiKeySelectionExpression", parent: name, pattern: ".*\\S.*")
+            try self.corsConfiguration?.validate(name: "\(name).corsConfiguration")
+            try validate(self.createdDate, name:"createdDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.protocolType, name:"protocolType", parent: name, pattern: ".*\\S.*")
+            try validate(self.routeSelectionExpression, name:"routeSelectionExpression", parent: name, pattern: ".*\\S.*")
+            try validate(self.version, name:"version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiEndpoint = "ApiEndpoint"
+            case apiId = "ApiId"
+            case apiKeySelectionExpression = "ApiKeySelectionExpression"
+            case corsConfiguration = "CorsConfiguration"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case name = "Name"
+            case protocolType = "ProtocolType"
+            case routeSelectionExpression = "RouteSelectionExpression"
+            case version = "Version"
+        }
+    }
+
+    public struct AwsApiGatewayV2RouteSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataTraceEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "DetailedMetricsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "LoggingLevel", required: false, type: .string), 
+            AWSShapeMember(label: "ThrottlingBurstLimit", required: false, type: .integer), 
+            AWSShapeMember(label: "ThrottlingRateLimit", required: false, type: .double)
+        ]
+
+        /// Indicates whether data trace logging is enabled. Data trace logging affects the log entries that are pushed to CloudWatch Logs. Supported only for WebSocket APIs.
+        public let dataTraceEnabled: Bool?
+        /// Indicates whether detailed metrics are enabled.
+        public let detailedMetricsEnabled: Bool?
+        /// The logging level. The logging level affects the log entries that are pushed to CloudWatch Logs. Supported only for WebSocket APIs. If the logging level is ERROR, then the logs only include error-level entries. If the logging level is INFO, then the logs include both ERROR events and extra informational events. Valid values: OFF | ERROR | INFO 
+        public let loggingLevel: String?
+        /// The throttling burst limit.
+        public let throttlingBurstLimit: Int?
+        /// The throttling rate limit.
+        public let throttlingRateLimit: Double?
+
+        public init(dataTraceEnabled: Bool? = nil, detailedMetricsEnabled: Bool? = nil, loggingLevel: String? = nil, throttlingBurstLimit: Int? = nil, throttlingRateLimit: Double? = nil) {
+            self.dataTraceEnabled = dataTraceEnabled
+            self.detailedMetricsEnabled = detailedMetricsEnabled
+            self.loggingLevel = loggingLevel
+            self.throttlingBurstLimit = throttlingBurstLimit
+            self.throttlingRateLimit = throttlingRateLimit
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.loggingLevel, name:"loggingLevel", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTraceEnabled = "DataTraceEnabled"
+            case detailedMetricsEnabled = "DetailedMetricsEnabled"
+            case loggingLevel = "LoggingLevel"
+            case throttlingBurstLimit = "ThrottlingBurstLimit"
+            case throttlingRateLimit = "ThrottlingRateLimit"
+        }
+    }
+
+    public struct AwsApiGatewayV2StageDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessLogSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "ApiGatewayManaged", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutoDeploy", required: false, type: .boolean), 
+            AWSShapeMember(label: "CreatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultRouteSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "DeploymentId", required: false, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "LastDeploymentStatusMessage", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "RouteSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "StageName", required: false, type: .string), 
+            AWSShapeMember(label: "StageVariables", required: false, type: .map)
+        ]
+
+        /// Information about settings for logging access for the stage.
+        public let accessLogSettings: AwsApiGatewayAccessLogSettings?
+        /// Indicates whether the stage is managed by API Gateway.
+        public let apiGatewayManaged: Bool?
+        /// Indicates whether updates to an API automatically trigger a new deployment.
+        public let autoDeploy: Bool?
+        /// Indicates when the stage was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdDate: String?
+        /// Default route settings for the stage.
+        public let defaultRouteSettings: AwsApiGatewayV2RouteSettings?
+        /// The identifier of the deployment that the stage is associated with. 
+        public let deploymentId: String?
+        /// The description of the stage.
+        public let description: String?
+        /// The status of the last deployment of a stage. Supported only if the stage has automatic deployment enabled.
+        public let lastDeploymentStatusMessage: String?
+        /// Indicates when the stage was most recently updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let lastUpdatedDate: String?
+        /// The route settings for the stage.
+        public let routeSettings: AwsApiGatewayV2RouteSettings?
+        /// The name of the stage.
+        public let stageName: String?
+        /// A map that defines the stage variables for the stage. Variable names can have alphanumeric and underscore characters. Variable values can contain the following characters:   Uppercase and lowercase letters   Numbers   Special characters -._~:/?#&amp;=,  
+        public let stageVariables: [String: String]?
+
+        public init(accessLogSettings: AwsApiGatewayAccessLogSettings? = nil, apiGatewayManaged: Bool? = nil, autoDeploy: Bool? = nil, createdDate: String? = nil, defaultRouteSettings: AwsApiGatewayV2RouteSettings? = nil, deploymentId: String? = nil, description: String? = nil, lastDeploymentStatusMessage: String? = nil, lastUpdatedDate: String? = nil, routeSettings: AwsApiGatewayV2RouteSettings? = nil, stageName: String? = nil, stageVariables: [String: String]? = nil) {
+            self.accessLogSettings = accessLogSettings
+            self.apiGatewayManaged = apiGatewayManaged
+            self.autoDeploy = autoDeploy
+            self.createdDate = createdDate
+            self.defaultRouteSettings = defaultRouteSettings
+            self.deploymentId = deploymentId
+            self.description = description
+            self.lastDeploymentStatusMessage = lastDeploymentStatusMessage
+            self.lastUpdatedDate = lastUpdatedDate
+            self.routeSettings = routeSettings
+            self.stageName = stageName
+            self.stageVariables = stageVariables
+        }
+
+        public func validate(name: String) throws {
+            try self.accessLogSettings?.validate(name: "\(name).accessLogSettings")
+            try validate(self.createdDate, name:"createdDate", parent: name, pattern: ".*\\S.*")
+            try self.defaultRouteSettings?.validate(name: "\(name).defaultRouteSettings")
+            try validate(self.deploymentId, name:"deploymentId", parent: name, pattern: ".*\\S.*")
+            try validate(self.description, name:"description", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastDeploymentStatusMessage, name:"lastDeploymentStatusMessage", parent: name, pattern: ".*\\S.*")
+            try validate(self.lastUpdatedDate, name:"lastUpdatedDate", parent: name, pattern: ".*\\S.*")
+            try self.routeSettings?.validate(name: "\(name).routeSettings")
+            try validate(self.stageName, name:"stageName", parent: name, pattern: ".*\\S.*")
+            try self.stageVariables?.forEach {
+                try validate($0.key, name:"stageVariables.key", parent: name, pattern: ".*\\S.*")
+                try validate($0.value, name:"stageVariables[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLogSettings = "AccessLogSettings"
+            case apiGatewayManaged = "ApiGatewayManaged"
+            case autoDeploy = "AutoDeploy"
+            case createdDate = "CreatedDate"
+            case defaultRouteSettings = "DefaultRouteSettings"
+            case deploymentId = "DeploymentId"
+            case description = "Description"
+            case lastDeploymentStatusMessage = "LastDeploymentStatusMessage"
+            case lastUpdatedDate = "LastUpdatedDate"
+            case routeSettings = "RouteSettings"
+            case stageName = "StageName"
+            case stageVariables = "StageVariables"
+        }
+    }
+
     public struct AwsAutoScalingAutoScalingGroupDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTime", required: false, type: .string), 
@@ -341,17 +898,451 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsCertificateManagerCertificateDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateAuthorityArn", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeMember(label: "ExtendedKeyUsages", required: false, type: .list), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "ImportedAt", required: false, type: .string), 
+            AWSShapeMember(label: "InUseBy", required: false, type: .list), 
+            AWSShapeMember(label: "IssuedAt", required: false, type: .string), 
+            AWSShapeMember(label: "Issuer", required: false, type: .string), 
+            AWSShapeMember(label: "KeyAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "KeyUsages", required: false, type: .list), 
+            AWSShapeMember(label: "NotAfter", required: false, type: .string), 
+            AWSShapeMember(label: "NotBefore", required: false, type: .string), 
+            AWSShapeMember(label: "Options", required: false, type: .structure), 
+            AWSShapeMember(label: "RenewalEligibility", required: false, type: .string), 
+            AWSShapeMember(label: "RenewalSummary", required: false, type: .structure), 
+            AWSShapeMember(label: "Serial", required: false, type: .string), 
+            AWSShapeMember(label: "SignatureAlgorithm", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "Subject", required: false, type: .string), 
+            AWSShapeMember(label: "SubjectAlternativeNames", required: false, type: .list), 
+            AWSShapeMember(label: "Type", required: false, type: .string)
+        ]
+
+        /// The ARN of the private certificate authority (CA) that will be used to issue the certificate.
+        public let certificateAuthorityArn: String?
+        /// Indicates when the certificate was requested. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdAt: String?
+        /// The fully qualified domain name (FQDN), such as www.example.com, that is secured by the certificate.
+        public let domainName: String?
+        /// Contains information about the initial validation of each domain name that occurs as a result of the RequestCertificate request. Only provided if the certificate type is AMAZON_ISSUED.
+        public let domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]?
+        /// Contains a list of Extended Key Usage X.509 v3 extension objects. Each object specifies a purpose for which the certificate public key can be used and consists of a name and an object identifier (OID).
+        public let extendedKeyUsages: [AwsCertificateManagerCertificateExtendedKeyUsage]?
+        /// For a failed certificate request, the reason for the failure. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER 
+        public let failureReason: String?
+        /// Indicates when the certificate was imported. Provided if the certificate type is IMPORTED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let importedAt: String?
+        /// The list of ARNs for the AWS resources that use the certificate.
+        public let inUseBy: [String]?
+        /// Indicates when the certificate was issued. Provided if the certificate type is AMAZON_ISSUED. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let issuedAt: String?
+        /// The name of the certificate authority that issued and signed the certificate.
+        public let issuer: String?
+        /// The algorithm that was used to generate the public-private key pair. Valid values: RSA_2048 | RSA_1024 | RSA_4096 | EC_prime256v1 | EC_secp384r1 | EC_secp521r1 
+        public let keyAlgorithm: String?
+        /// A list of key usage X.509 v3 extension objects.
+        public let keyUsages: [AwsCertificateManagerCertificateKeyUsage]?
+        /// The time after which the certificate becomes invalid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let notAfter: String?
+        /// The time before which the certificate is not valid. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let notBefore: String?
+        /// Provides a value that specifies whether to add the certificate to a transparency log.
+        public let options: AwsCertificateManagerCertificateOptions?
+        /// Whether the certificate is eligible for renewal. Valid values: ELIGIBLE | INELIGIBLE 
+        public let renewalEligibility: String?
+        /// Information about the status of the AWS Certificate Manager managed renewal for the certificate. Provided only when the certificate type is AMAZON_ISSUED.
+        public let renewalSummary: AwsCertificateManagerCertificateRenewalSummary?
+        /// The serial number of the certificate.
+        public let serial: String?
+        /// The algorithm that was used to sign the certificate.
+        public let signatureAlgorithm: String?
+        /// The status of the certificate. Valid values: PENDING_VALIDATION | ISSUED | INACTIVE | EXPIRED | VALIDATION_TIMED_OUT | REVOKED | FAILED 
+        public let status: String?
+        /// The name of the entity that is associated with the public key contained in the certificate.
+        public let subject: String?
+        /// One or more domain names (subject alternative names) included in the certificate. This list contains the domain names that are bound to the public key that is contained in the certificate. The subject alternative names include the canonical domain name (CN) of the certificate and additional domain names that can be used to connect to the website.
+        public let subjectAlternativeNames: [String]?
+        /// The source of the certificate. For certificates that AWS Certificate Manager provides, Type is AMAZON_ISSUED. For certificates that are imported with ImportCertificate, Type is IMPORTED. Valid values: IMPORTED | AMAZON_ISSUED | PRIVATE 
+        public let `type`: String?
+
+        public init(certificateAuthorityArn: String? = nil, createdAt: String? = nil, domainName: String? = nil, domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, extendedKeyUsages: [AwsCertificateManagerCertificateExtendedKeyUsage]? = nil, failureReason: String? = nil, importedAt: String? = nil, inUseBy: [String]? = nil, issuedAt: String? = nil, issuer: String? = nil, keyAlgorithm: String? = nil, keyUsages: [AwsCertificateManagerCertificateKeyUsage]? = nil, notAfter: String? = nil, notBefore: String? = nil, options: AwsCertificateManagerCertificateOptions? = nil, renewalEligibility: String? = nil, renewalSummary: AwsCertificateManagerCertificateRenewalSummary? = nil, serial: String? = nil, signatureAlgorithm: String? = nil, status: String? = nil, subject: String? = nil, subjectAlternativeNames: [String]? = nil, type: String? = nil) {
+            self.certificateAuthorityArn = certificateAuthorityArn
+            self.createdAt = createdAt
+            self.domainName = domainName
+            self.domainValidationOptions = domainValidationOptions
+            self.extendedKeyUsages = extendedKeyUsages
+            self.failureReason = failureReason
+            self.importedAt = importedAt
+            self.inUseBy = inUseBy
+            self.issuedAt = issuedAt
+            self.issuer = issuer
+            self.keyAlgorithm = keyAlgorithm
+            self.keyUsages = keyUsages
+            self.notAfter = notAfter
+            self.notBefore = notBefore
+            self.options = options
+            self.renewalEligibility = renewalEligibility
+            self.renewalSummary = renewalSummary
+            self.serial = serial
+            self.signatureAlgorithm = signatureAlgorithm
+            self.status = status
+            self.subject = subject
+            self.subjectAlternativeNames = subjectAlternativeNames
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateAuthorityArn, name:"certificateAuthorityArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
+            try self.domainValidationOptions?.forEach {
+                try $0.validate(name: "\(name).domainValidationOptions[]")
+            }
+            try self.extendedKeyUsages?.forEach {
+                try $0.validate(name: "\(name).extendedKeyUsages[]")
+            }
+            try validate(self.failureReason, name:"failureReason", parent: name, pattern: ".*\\S.*")
+            try validate(self.importedAt, name:"importedAt", parent: name, pattern: ".*\\S.*")
+            try self.inUseBy?.forEach {
+                try validate($0, name: "inUseBy[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.issuedAt, name:"issuedAt", parent: name, pattern: ".*\\S.*")
+            try validate(self.issuer, name:"issuer", parent: name, pattern: ".*\\S.*")
+            try validate(self.keyAlgorithm, name:"keyAlgorithm", parent: name, pattern: ".*\\S.*")
+            try self.keyUsages?.forEach {
+                try $0.validate(name: "\(name).keyUsages[]")
+            }
+            try validate(self.notAfter, name:"notAfter", parent: name, pattern: ".*\\S.*")
+            try validate(self.notBefore, name:"notBefore", parent: name, pattern: ".*\\S.*")
+            try self.options?.validate(name: "\(name).options")
+            try validate(self.renewalEligibility, name:"renewalEligibility", parent: name, pattern: ".*\\S.*")
+            try self.renewalSummary?.validate(name: "\(name).renewalSummary")
+            try validate(self.serial, name:"serial", parent: name, pattern: ".*\\S.*")
+            try validate(self.signatureAlgorithm, name:"signatureAlgorithm", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+            try validate(self.subject, name:"subject", parent: name, pattern: ".*\\S.*")
+            try self.subjectAlternativeNames?.forEach {
+                try validate($0, name: "subjectAlternativeNames[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateAuthorityArn = "CertificateAuthorityArn"
+            case createdAt = "CreatedAt"
+            case domainName = "DomainName"
+            case domainValidationOptions = "DomainValidationOptions"
+            case extendedKeyUsages = "ExtendedKeyUsages"
+            case failureReason = "FailureReason"
+            case importedAt = "ImportedAt"
+            case inUseBy = "InUseBy"
+            case issuedAt = "IssuedAt"
+            case issuer = "Issuer"
+            case keyAlgorithm = "KeyAlgorithm"
+            case keyUsages = "KeyUsages"
+            case notAfter = "NotAfter"
+            case notBefore = "NotBefore"
+            case options = "Options"
+            case renewalEligibility = "RenewalEligibility"
+            case renewalSummary = "RenewalSummary"
+            case serial = "Serial"
+            case signatureAlgorithm = "SignatureAlgorithm"
+            case status = "Status"
+            case subject = "Subject"
+            case subjectAlternativeNames = "SubjectAlternativeNames"
+            case `type` = "Type"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateDomainValidationOption: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRecord", required: false, type: .structure), 
+            AWSShapeMember(label: "ValidationDomain", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationEmails", required: false, type: .list), 
+            AWSShapeMember(label: "ValidationMethod", required: false, type: .string), 
+            AWSShapeMember(label: "ValidationStatus", required: false, type: .string)
+        ]
+
+        /// A fully qualified domain name (FQDN) in the certificate.
+        public let domainName: String?
+        /// The CNAME record that is added to the DNS database for domain validation.
+        public let resourceRecord: AwsCertificateManagerCertificateResourceRecord?
+        /// The domain name that AWS Certificate Manager uses to send domain validation emails.
+        public let validationDomain: String?
+        /// A list of email addresses that AWS Certificate Manager uses to send domain validation emails.
+        public let validationEmails: [String]?
+        /// The method used to validate the domain name.
+        public let validationMethod: String?
+        /// The validation status of the domain name.
+        public let validationStatus: String?
+
+        public init(domainName: String? = nil, resourceRecord: AwsCertificateManagerCertificateResourceRecord? = nil, validationDomain: String? = nil, validationEmails: [String]? = nil, validationMethod: String? = nil, validationStatus: String? = nil) {
+            self.domainName = domainName
+            self.resourceRecord = resourceRecord
+            self.validationDomain = validationDomain
+            self.validationEmails = validationEmails
+            self.validationMethod = validationMethod
+            self.validationStatus = validationStatus
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
+            try self.resourceRecord?.validate(name: "\(name).resourceRecord")
+            try validate(self.validationDomain, name:"validationDomain", parent: name, pattern: ".*\\S.*")
+            try self.validationEmails?.forEach {
+                try validate($0, name: "validationEmails[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.validationMethod, name:"validationMethod", parent: name, pattern: ".*\\S.*")
+            try validate(self.validationStatus, name:"validationStatus", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case resourceRecord = "ResourceRecord"
+            case validationDomain = "ValidationDomain"
+            case validationEmails = "ValidationEmails"
+            case validationMethod = "ValidationMethod"
+            case validationStatus = "ValidationStatus"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateExtendedKeyUsage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "OId", required: false, type: .string)
+        ]
+
+        /// The name of an extension value. Indicates the purpose for which the certificate public key can be used.
+        public let name: String?
+        /// An object identifier (OID) for the extension value. The format is numbers separated by periods.
+        public let oId: String?
+
+        public init(name: String? = nil, oId: String? = nil) {
+            self.name = name
+            self.oId = oId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.oId, name:"oId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case oId = "OId"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateKeyUsage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string)
+        ]
+
+        /// The key usage extension name.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateOptions: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CertificateTransparencyLoggingPreference", required: false, type: .string)
+        ]
+
+        /// Whether to add the certificate to a transparency log. Valid values: DISABLED | ENABLED 
+        public let certificateTransparencyLoggingPreference: String?
+
+        public init(certificateTransparencyLoggingPreference: String? = nil) {
+            self.certificateTransparencyLoggingPreference = certificateTransparencyLoggingPreference
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.certificateTransparencyLoggingPreference, name:"certificateTransparencyLoggingPreference", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateTransparencyLoggingPreference = "CertificateTransparencyLoggingPreference"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateRenewalSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainValidationOptions", required: false, type: .list), 
+            AWSShapeMember(label: "RenewalStatus", required: false, type: .string), 
+            AWSShapeMember(label: "RenewalStatusReason", required: false, type: .string), 
+            AWSShapeMember(label: "UpdatedAt", required: false, type: .string)
+        ]
+
+        /// Information about the validation of each domain name in the certificate, as it pertains to AWS Certificate Manager managed renewal. Provided only when the certificate type is AMAZON_ISSUED.
+        public let domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]?
+        /// The status of the AWS Certificate Manager managed renewal of the certificate. Valid values: PENDING_AUTO_RENEWAL | PENDING_VALIDATION | SUCCESS | FAILED 
+        public let renewalStatus: String?
+        /// The reason that a renewal request was unsuccessful. Valid values: NO_AVAILABLE_CONTACTS | ADDITIONAL_VERIFICATION_REQUIRED | DOMAIN_NOT_ALLOWED | INVALID_PUBLIC_DOMAIN | DOMAIN_VALIDATION_DENIED | CAA_ERROR | PCA_LIMIT_EXCEEDED | PCA_INVALID_ARN | PCA_INVALID_STATE | PCA_REQUEST_FAILED | PCA_NAME_CONSTRAINTS_VALIDATION | PCA_RESOURCE_NOT_FOUND | PCA_INVALID_ARGS | PCA_INVALID_DURATION | PCA_ACCESS_DENIED | SLR_NOT_FOUND | OTHER 
+        public let renewalStatusReason: String?
+        /// Indicates when the renewal summary was last updated. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let updatedAt: String?
+
+        public init(domainValidationOptions: [AwsCertificateManagerCertificateDomainValidationOption]? = nil, renewalStatus: String? = nil, renewalStatusReason: String? = nil, updatedAt: String? = nil) {
+            self.domainValidationOptions = domainValidationOptions
+            self.renewalStatus = renewalStatus
+            self.renewalStatusReason = renewalStatusReason
+            self.updatedAt = updatedAt
+        }
+
+        public func validate(name: String) throws {
+            try self.domainValidationOptions?.forEach {
+                try $0.validate(name: "\(name).domainValidationOptions[]")
+            }
+            try validate(self.renewalStatus, name:"renewalStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.renewalStatusReason, name:"renewalStatusReason", parent: name, pattern: ".*\\S.*")
+            try validate(self.updatedAt, name:"updatedAt", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainValidationOptions = "DomainValidationOptions"
+            case renewalStatus = "RenewalStatus"
+            case renewalStatusReason = "RenewalStatusReason"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct AwsCertificateManagerCertificateResourceRecord: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "Value", required: false, type: .string)
+        ]
+
+        /// The name of the resource.
+        public let name: String?
+        /// The type of resource.
+        public let `type`: String?
+        /// The value of the resource.
+        public let value: String?
+
+        public init(name: String? = nil, type: String? = nil, value: String? = nil) {
+            self.name = name
+            self.`type` = `type`
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+            try validate(self.value, name:"value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `type` = "Type"
+            case value = "Value"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionCacheBehavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: false, type: .string)
+        ]
+
+        /// The protocol that viewers can use to access the files in an origin. You can specify the following options:    allow-all - Viewers can use HTTP or HTTPS.    redirect-to-https - CloudFront responds to HTTP requests with an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer then uses the new URL to resubmit.    https-only - CloudFront responds to HTTP request with an HTTP status code of 403 (Forbidden).  
+        public let viewerProtocolPolicy: String?
+
+        public init(viewerProtocolPolicy: String? = nil) {
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.viewerProtocolPolicy, name:"viewerProtocolPolicy", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionCacheBehaviors: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list)
+        ]
+
+        /// The cache behaviors for the distribution.
+        public let items: [AwsCloudFrontDistributionCacheBehavior]?
+
+        public init(items: [AwsCloudFrontDistributionCacheBehavior]? = nil) {
+            self.items = items
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionDefaultCacheBehavior: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ViewerProtocolPolicy", required: false, type: .string)
+        ]
+
+        /// The protocol that viewers can use to access the files in an origin. You can specify the following options:    allow-all - Viewers can use HTTP or HTTPS.    redirect-to-https - CloudFront responds to HTTP requests with an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer then uses the new URL to resubmit.    https-only - CloudFront responds to HTTP request with an HTTP status code of 403 (Forbidden).  
+        public let viewerProtocolPolicy: String?
+
+        public init(viewerProtocolPolicy: String? = nil) {
+            self.viewerProtocolPolicy = viewerProtocolPolicy
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.viewerProtocolPolicy, name:"viewerProtocolPolicy", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case viewerProtocolPolicy = "ViewerProtocolPolicy"
+        }
+    }
+
     public struct AwsCloudFrontDistributionDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CacheBehaviors", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultCacheBehavior", required: false, type: .structure), 
+            AWSShapeMember(label: "DefaultRootObject", required: false, type: .string), 
             AWSShapeMember(label: "DomainName", required: false, type: .string), 
             AWSShapeMember(label: "ETag", required: false, type: .string), 
             AWSShapeMember(label: "LastModifiedTime", required: false, type: .string), 
             AWSShapeMember(label: "Logging", required: false, type: .structure), 
+            AWSShapeMember(label: "OriginGroups", required: false, type: .structure), 
             AWSShapeMember(label: "Origins", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "WebAclId", required: false, type: .string)
         ]
 
+        /// Provides information about the cache configuration for the distribution.
+        public let cacheBehaviors: AwsCloudFrontDistributionCacheBehaviors?
+        /// The default cache behavior for the configuration.
+        public let defaultCacheBehavior: AwsCloudFrontDistributionDefaultCacheBehavior?
+        /// The object that CloudFront sends in response to requests from the origin (for example, index.html) when a viewer requests the root URL for the distribution (http://www.example.com) instead of an object in your distribution (http://www.example.com/product-description.html). 
+        public let defaultRootObject: String?
         /// The domain name corresponding to the distribution.
         public let domainName: String?
         /// The entity tag is a hash of the object.
@@ -360,6 +1351,8 @@ extension SecurityHub {
         public let lastModifiedTime: String?
         /// A complex type that controls whether access logs are written for the distribution.
         public let logging: AwsCloudFrontDistributionLogging?
+        /// Provides information about the origin groups in the distribution.
+        public let originGroups: AwsCloudFrontDistributionOriginGroups?
         /// A complex type that contains information about origins for this distribution.
         public let origins: AwsCloudFrontDistributionOrigins?
         /// Indicates the current status of the distribution.
@@ -367,17 +1360,24 @@ extension SecurityHub {
         /// A unique identifier that specifies the AWS WAF web ACL, if any, to associate with this distribution.
         public let webAclId: String?
 
-        public init(domainName: String? = nil, eTag: String? = nil, lastModifiedTime: String? = nil, logging: AwsCloudFrontDistributionLogging? = nil, origins: AwsCloudFrontDistributionOrigins? = nil, status: String? = nil, webAclId: String? = nil) {
+        public init(cacheBehaviors: AwsCloudFrontDistributionCacheBehaviors? = nil, defaultCacheBehavior: AwsCloudFrontDistributionDefaultCacheBehavior? = nil, defaultRootObject: String? = nil, domainName: String? = nil, eTag: String? = nil, lastModifiedTime: String? = nil, logging: AwsCloudFrontDistributionLogging? = nil, originGroups: AwsCloudFrontDistributionOriginGroups? = nil, origins: AwsCloudFrontDistributionOrigins? = nil, status: String? = nil, webAclId: String? = nil) {
+            self.cacheBehaviors = cacheBehaviors
+            self.defaultCacheBehavior = defaultCacheBehavior
+            self.defaultRootObject = defaultRootObject
             self.domainName = domainName
             self.eTag = eTag
             self.lastModifiedTime = lastModifiedTime
             self.logging = logging
+            self.originGroups = originGroups
             self.origins = origins
             self.status = status
             self.webAclId = webAclId
         }
 
         public func validate(name: String) throws {
+            try self.cacheBehaviors?.validate(name: "\(name).cacheBehaviors")
+            try self.defaultCacheBehavior?.validate(name: "\(name).defaultCacheBehavior")
+            try validate(self.defaultRootObject, name:"defaultRootObject", parent: name, pattern: ".*\\S.*")
             try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
             try validate(self.eTag, name:"eTag", parent: name, pattern: ".*\\S.*")
             try validate(self.lastModifiedTime, name:"lastModifiedTime", parent: name, pattern: ".*\\S.*")
@@ -388,10 +1388,14 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case cacheBehaviors = "CacheBehaviors"
+            case defaultCacheBehavior = "DefaultCacheBehavior"
+            case defaultRootObject = "DefaultRootObject"
             case domainName = "DomainName"
             case eTag = "ETag"
             case lastModifiedTime = "LastModifiedTime"
             case logging = "Logging"
+            case originGroups = "OriginGroups"
             case origins = "Origins"
             case status = "Status"
             case webAclId = "WebAclId"
@@ -435,11 +1439,85 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsCloudFrontDistributionOriginGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FailoverCriteria", required: false, type: .structure)
+        ]
+
+        /// Provides the criteria for an origin group to fail over.
+        public let failoverCriteria: AwsCloudFrontDistributionOriginGroupFailover?
+
+        public init(failoverCriteria: AwsCloudFrontDistributionOriginGroupFailover? = nil) {
+            self.failoverCriteria = failoverCriteria
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverCriteria = "FailoverCriteria"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginGroupFailover: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "StatusCodes", required: false, type: .structure)
+        ]
+
+        /// Information about the status codes that cause an origin group to fail over.
+        public let statusCodes: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes?
+
+        public init(statusCodes: AwsCloudFrontDistributionOriginGroupFailoverStatusCodes? = nil) {
+            self.statusCodes = statusCodes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCodes = "StatusCodes"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginGroupFailoverStatusCodes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list), 
+            AWSShapeMember(label: "Quantity", required: false, type: .integer)
+        ]
+
+        /// The list of status code values that can cause a failover to the next origin.
+        public let items: [Int]?
+        /// The number of status codes that can cause a failover.
+        public let quantity: Int?
+
+        public init(items: [Int]? = nil, quantity: Int? = nil) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list)
+        ]
+
+        /// The list of origin groups.
+        public let items: [AwsCloudFrontDistributionOriginGroup]?
+
+        public init(items: [AwsCloudFrontDistributionOriginGroup]? = nil) {
+            self.items = items
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+        }
+    }
+
     public struct AwsCloudFrontDistributionOriginItem: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DomainName", required: false, type: .string), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
-            AWSShapeMember(label: "OriginPath", required: false, type: .string)
+            AWSShapeMember(label: "OriginPath", required: false, type: .string), 
+            AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure)
         ]
 
         /// Amazon S3 origins: The DNS name of the Amazon S3 bucket from which you want CloudFront to get objects for this origin.
@@ -448,23 +1526,49 @@ extension SecurityHub {
         public let id: String?
         /// An optional element that causes CloudFront to request your content from a directory in your Amazon S3 bucket or your custom origin.
         public let originPath: String?
+        /// An origin that is an S3 bucket that is not configured with static website hosting.
+        public let s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig?
 
-        public init(domainName: String? = nil, id: String? = nil, originPath: String? = nil) {
+        public init(domainName: String? = nil, id: String? = nil, originPath: String? = nil, s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig? = nil) {
             self.domainName = domainName
             self.id = id
             self.originPath = originPath
+            self.s3OriginConfig = s3OriginConfig
         }
 
         public func validate(name: String) throws {
             try validate(self.domainName, name:"domainName", parent: name, pattern: ".*\\S.*")
             try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
             try validate(self.originPath, name:"originPath", parent: name, pattern: ".*\\S.*")
+            try self.s3OriginConfig?.validate(name: "\(name).s3OriginConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainName = "DomainName"
             case id = "Id"
             case originPath = "OriginPath"
+            case s3OriginConfig = "S3OriginConfig"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginS3OriginConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OriginAccessIdentity", required: false, type: .string)
+        ]
+
+        /// The CloudFront origin access identity to associate with the origin.
+        public let originAccessIdentity: String?
+
+        public init(originAccessIdentity: String? = nil) {
+            self.originAccessIdentity = originAccessIdentity
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.originAccessIdentity, name:"originAccessIdentity", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originAccessIdentity = "OriginAccessIdentity"
         }
     }
 
@@ -488,6 +1592,106 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
+        }
+    }
+
+    public struct AwsCloudTrailTrailDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CloudWatchLogsLogGroupArn", required: false, type: .string), 
+            AWSShapeMember(label: "CloudWatchLogsRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "HasCustomEventSelectors", required: false, type: .boolean), 
+            AWSShapeMember(label: "HomeRegion", required: false, type: .string), 
+            AWSShapeMember(label: "IncludeGlobalServiceEvents", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsMultiRegionTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "IsOrganizationTrail", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "LogFileValidationEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3KeyPrefix", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string), 
+            AWSShapeMember(label: "SnsTopicName", required: false, type: .string), 
+            AWSShapeMember(label: "TrailArn", required: false, type: .string)
+        ]
+
+        /// The ARN of the log group that CloudTrail logs are delivered to.
+        public let cloudWatchLogsLogGroupArn: String?
+        /// The ARN of the role that the CloudWatch Logs endpoint assumes when it writes to the log group.
+        public let cloudWatchLogsRoleArn: String?
+        /// Indicates whether the trail has custom event selectors.
+        public let hasCustomEventSelectors: Bool?
+        /// The Region where the trail was created.
+        public let homeRegion: String?
+        /// Indicates whether the trail publishes events from global services such as IAM to the log files.
+        public let includeGlobalServiceEvents: Bool?
+        /// Indicates whether the trail applies only to the current Region or to all Regions.
+        public let isMultiRegionTrail: Bool?
+        /// Whether the trail is created for all accounts in an organization in AWS Organizations, or only for the current AWS account.
+        public let isOrganizationTrail: Bool?
+        /// The AWS KMS key ID to use to encrypt the logs.
+        public let kmsKeyId: String?
+        /// Indicates whether CloudTrail log file validation is enabled.
+        public let logFileValidationEnabled: Bool?
+        /// The name of the trail.
+        public let name: String?
+        /// The name of the S3 bucket where the log files are published.
+        public let s3BucketName: String?
+        /// The S3 key prefix. The key prefix is added after the name of the S3 bucket where the log files are published.
+        public let s3KeyPrefix: String?
+        /// The ARN of the SNS topic that is used for notifications of log file delivery.
+        public let snsTopicArn: String?
+        /// The name of the SNS topic that is used for notifications of log file delivery.
+        public let snsTopicName: String?
+        /// The ARN of the trail.
+        public let trailArn: String?
+
+        public init(cloudWatchLogsLogGroupArn: String? = nil, cloudWatchLogsRoleArn: String? = nil, hasCustomEventSelectors: Bool? = nil, homeRegion: String? = nil, includeGlobalServiceEvents: Bool? = nil, isMultiRegionTrail: Bool? = nil, isOrganizationTrail: Bool? = nil, kmsKeyId: String? = nil, logFileValidationEnabled: Bool? = nil, name: String? = nil, s3BucketName: String? = nil, s3KeyPrefix: String? = nil, snsTopicArn: String? = nil, snsTopicName: String? = nil, trailArn: String? = nil) {
+            self.cloudWatchLogsLogGroupArn = cloudWatchLogsLogGroupArn
+            self.cloudWatchLogsRoleArn = cloudWatchLogsRoleArn
+            self.hasCustomEventSelectors = hasCustomEventSelectors
+            self.homeRegion = homeRegion
+            self.includeGlobalServiceEvents = includeGlobalServiceEvents
+            self.isMultiRegionTrail = isMultiRegionTrail
+            self.isOrganizationTrail = isOrganizationTrail
+            self.kmsKeyId = kmsKeyId
+            self.logFileValidationEnabled = logFileValidationEnabled
+            self.name = name
+            self.s3BucketName = s3BucketName
+            self.s3KeyPrefix = s3KeyPrefix
+            self.snsTopicArn = snsTopicArn
+            self.snsTopicName = snsTopicName
+            self.trailArn = trailArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.cloudWatchLogsLogGroupArn, name:"cloudWatchLogsLogGroupArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.cloudWatchLogsRoleArn, name:"cloudWatchLogsRoleArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.homeRegion, name:"homeRegion", parent: name, pattern: ".*\\S.*")
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.name, name:"name", parent: name, pattern: ".*\\S.*")
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, pattern: ".*\\S.*")
+            try validate(self.s3KeyPrefix, name:"s3KeyPrefix", parent: name, pattern: ".*\\S.*")
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, pattern: ".*\\S.*")
+            try validate(self.snsTopicName, name:"snsTopicName", parent: name, pattern: ".*\\S.*")
+            try validate(self.trailArn, name:"trailArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsLogGroupArn = "CloudWatchLogsLogGroupArn"
+            case cloudWatchLogsRoleArn = "CloudWatchLogsRoleArn"
+            case hasCustomEventSelectors = "HasCustomEventSelectors"
+            case homeRegion = "HomeRegion"
+            case includeGlobalServiceEvents = "IncludeGlobalServiceEvents"
+            case isMultiRegionTrail = "IsMultiRegionTrail"
+            case isOrganizationTrail = "IsOrganizationTrail"
+            case kmsKeyId = "KmsKeyId"
+            case logFileValidationEnabled = "LogFileValidationEnabled"
+            case name = "Name"
+            case s3BucketName = "S3BucketName"
+            case s3KeyPrefix = "S3KeyPrefix"
+            case snsTopicArn = "SnsTopicArn"
+            case snsTopicName = "SnsTopicName"
+            case trailArn = "TrailArn"
         }
     }
 
@@ -679,6 +1883,63 @@ extension SecurityHub {
             case securityGroupIds = "SecurityGroupIds"
             case subnets = "Subnets"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsCorsConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowCredentials", required: false, type: .boolean), 
+            AWSShapeMember(label: "AllowHeaders", required: false, type: .list), 
+            AWSShapeMember(label: "AllowMethods", required: false, type: .list), 
+            AWSShapeMember(label: "AllowOrigins", required: false, type: .list), 
+            AWSShapeMember(label: "ExposeHeaders", required: false, type: .list), 
+            AWSShapeMember(label: "MaxAge", required: false, type: .integer)
+        ]
+
+        /// Indicates whether the CORS request includes credentials.
+        public let allowCredentials: Bool?
+        /// The allowed headers for CORS requests.
+        public let allowHeaders: [String]?
+        /// The allowed methods for CORS requests.
+        public let allowMethods: [String]?
+        /// The allowed origins for CORS requests.
+        public let allowOrigins: [String]?
+        /// The exposed headers for CORS requests.
+        public let exposeHeaders: [String]?
+        /// The number of seconds for which the browser caches preflight request results.
+        public let maxAge: Int?
+
+        public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
+            self.allowCredentials = allowCredentials
+            self.allowHeaders = allowHeaders
+            self.allowMethods = allowMethods
+            self.allowOrigins = allowOrigins
+            self.exposeHeaders = exposeHeaders
+            self.maxAge = maxAge
+        }
+
+        public func validate(name: String) throws {
+            try self.allowHeaders?.forEach {
+                try validate($0, name: "allowHeaders[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.allowMethods?.forEach {
+                try validate($0, name: "allowMethods[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.allowOrigins?.forEach {
+                try validate($0, name: "allowOrigins[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.exposeHeaders?.forEach {
+                try validate($0, name: "exposeHeaders[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCredentials = "AllowCredentials"
+            case allowHeaders = "AllowHeaders"
+            case allowMethods = "AllowMethods"
+            case allowOrigins = "AllowOrigins"
+            case exposeHeaders = "ExposeHeaders"
+            case maxAge = "MaxAge"
         }
     }
 
@@ -2109,6 +3370,545 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsElbAppCookieStickinessPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieName", required: false, type: .string), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+
+        /// The name of the application cookie used for stickiness.
+        public let cookieName: String?
+        /// The mnemonic name for the policy being created. The name must be unique within the set of policies for the load balancer.
+        public let policyName: String?
+
+        public init(cookieName: String? = nil, policyName: String? = nil) {
+            self.cookieName = cookieName
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.cookieName, name:"cookieName", parent: name, pattern: ".*\\S.*")
+            try validate(self.policyName, name:"policyName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookieName = "CookieName"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct AwsElbLbCookieStickinessPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CookieExpirationPeriod", required: false, type: .long), 
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+
+        /// The amount of time, in seconds, after which the cookie is considered stale. If an expiration period is not specified, the stickiness session lasts for the duration of the browser session.
+        public let cookieExpirationPeriod: Int64?
+        /// The name of the policy. The name must be unique within the set of policies for the load balancer.
+        public let policyName: String?
+
+        public init(cookieExpirationPeriod: Int64? = nil, policyName: String? = nil) {
+            self.cookieExpirationPeriod = cookieExpirationPeriod
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.policyName, name:"policyName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cookieExpirationPeriod = "CookieExpirationPeriod"
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct AwsElbLoadBalancerAccessLog: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EmitInterval", required: false, type: .integer), 
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketPrefix", required: false, type: .string)
+        ]
+
+        /// The interval in minutes for publishing the access logs. You can publish access logs either every 5 minutes or every 60 minutes.
+        public let emitInterval: Int?
+        /// Indicates whether access logs are enabled for the load balancer.
+        public let enabled: Bool?
+        /// The name of the S3 bucket where the access logs are stored.
+        public let s3BucketName: String?
+        /// The logical hierarchy that was created for the S3 bucket. If a prefix is not provided, the log is placed at the root level of the bucket.
+        public let s3BucketPrefix: String?
+
+        public init(emitInterval: Int? = nil, enabled: Bool? = nil, s3BucketName: String? = nil, s3BucketPrefix: String? = nil) {
+            self.emitInterval = emitInterval
+            self.enabled = enabled
+            self.s3BucketName = s3BucketName
+            self.s3BucketPrefix = s3BucketPrefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, pattern: ".*\\S.*")
+            try validate(self.s3BucketPrefix, name:"s3BucketPrefix", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case emitInterval = "EmitInterval"
+            case enabled = "Enabled"
+            case s3BucketName = "S3BucketName"
+            case s3BucketPrefix = "S3BucketPrefix"
+        }
+    }
+
+    public struct AwsElbLoadBalancerAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessLog", required: false, type: .structure), 
+            AWSShapeMember(label: "ConnectionDraining", required: false, type: .structure), 
+            AWSShapeMember(label: "ConnectionSettings", required: false, type: .structure), 
+            AWSShapeMember(label: "CrossZoneLoadBalancing", required: false, type: .structure)
+        ]
+
+        /// Information about the access log configuration for the load balancer. If the access log is enabled, the load balancer captures detailed information about all requests. It delivers the information to a specified S3 bucket.
+        public let accessLog: AwsElbLoadBalancerAccessLog?
+        /// Information about the connection draining configuration for the load balancer. If connection draining is enabled, the load balancer allows existing requests to complete before it shifts traffic away from a deregistered or unhealthy instance.
+        public let connectionDraining: AwsElbLoadBalancerConnectionDraining?
+        /// Connection settings for the load balancer. If an idle timeout is configured, the load balancer allows connections to remain idle for the specified duration. When a connection is idle, no data is sent over the connection.
+        public let connectionSettings: AwsElbLoadBalancerConnectionSettings?
+        /// Cross-zone load balancing settings for the load balancer. If cross-zone load balancing is enabled, the load balancer routes the request traffic evenly across all instances regardless of the Availability Zones.
+        public let crossZoneLoadBalancing: AwsElbLoadBalancerCrossZoneLoadBalancing?
+
+        public init(accessLog: AwsElbLoadBalancerAccessLog? = nil, connectionDraining: AwsElbLoadBalancerConnectionDraining? = nil, connectionSettings: AwsElbLoadBalancerConnectionSettings? = nil, crossZoneLoadBalancing: AwsElbLoadBalancerCrossZoneLoadBalancing? = nil) {
+            self.accessLog = accessLog
+            self.connectionDraining = connectionDraining
+            self.connectionSettings = connectionSettings
+            self.crossZoneLoadBalancing = crossZoneLoadBalancing
+        }
+
+        public func validate(name: String) throws {
+            try self.accessLog?.validate(name: "\(name).accessLog")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessLog = "AccessLog"
+            case connectionDraining = "ConnectionDraining"
+            case connectionSettings = "ConnectionSettings"
+            case crossZoneLoadBalancing = "CrossZoneLoadBalancing"
+        }
+    }
+
+    public struct AwsElbLoadBalancerBackendServerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
+        ]
+
+        /// The port on which the EC2 instance is listening.
+        public let instancePort: Int?
+        /// The names of the policies that are enabled for the EC2 instance.
+        public let policyNames: [String]?
+
+        public init(instancePort: Int? = nil, policyNames: [String]? = nil) {
+            self.instancePort = instancePort
+            self.policyNames = policyNames
+        }
+
+        public func validate(name: String) throws {
+            try self.policyNames?.forEach {
+                try validate($0, name: "policyNames[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancePort = "InstancePort"
+            case policyNames = "PolicyNames"
+        }
+    }
+
+    public struct AwsElbLoadBalancerConnectionDraining: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer)
+        ]
+
+        /// Indicates whether connection draining is enabled for the load balancer.
+        public let enabled: Bool?
+        /// The maximum time, in seconds, to keep the existing connections open before deregistering the instances.
+        public let timeout: Int?
+
+        public init(enabled: Bool? = nil, timeout: Int? = nil) {
+            self.enabled = enabled
+            self.timeout = timeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case timeout = "Timeout"
+        }
+    }
+
+    public struct AwsElbLoadBalancerConnectionSettings: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IdleTimeout", required: false, type: .integer)
+        ]
+
+        /// The time, in seconds, that the connection can be idle (no data is sent over the connection) before it is closed by the load balancer.
+        public let idleTimeout: Int?
+
+        public init(idleTimeout: Int? = nil) {
+            self.idleTimeout = idleTimeout
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case idleTimeout = "IdleTimeout"
+        }
+    }
+
+    public struct AwsElbLoadBalancerCrossZoneLoadBalancing: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: false, type: .boolean)
+        ]
+
+        /// Indicates whether cross-zone load balancing is enabled for the load balancer.
+        public let enabled: Bool?
+
+        public init(enabled: Bool? = nil) {
+            self.enabled = enabled
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsElbLoadBalancerDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
+            AWSShapeMember(label: "BackendServerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "CanonicalHostedZoneName", required: false, type: .string), 
+            AWSShapeMember(label: "CanonicalHostedZoneNameID", required: false, type: .string), 
+            AWSShapeMember(label: "CreatedTime", required: false, type: .string), 
+            AWSShapeMember(label: "DnsName", required: false, type: .string), 
+            AWSShapeMember(label: "HealthCheck", required: false, type: .structure), 
+            AWSShapeMember(label: "Instances", required: false, type: .list), 
+            AWSShapeMember(label: "ListenerDescriptions", required: false, type: .list), 
+            AWSShapeMember(label: "LoadBalancerAttributes", required: false, type: .structure), 
+            AWSShapeMember(label: "LoadBalancerName", required: false, type: .string), 
+            AWSShapeMember(label: "Policies", required: false, type: .structure), 
+            AWSShapeMember(label: "Scheme", required: false, type: .string), 
+            AWSShapeMember(label: "SecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "SourceSecurityGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "Subnets", required: false, type: .list), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string)
+        ]
+
+        /// The list of Availability Zones for the load balancer.
+        public let availabilityZones: [String]?
+        /// Information about the configuration of the EC2 instances.
+        public let backendServerDescriptions: [AwsElbLoadBalancerBackendServerDescription]?
+        /// The name of the Amazon Route 53 hosted zone for the load balancer.
+        public let canonicalHostedZoneName: String?
+        /// The ID of the Amazon Route 53 hosted zone for the load balancer.
+        public let canonicalHostedZoneNameID: String?
+        /// Indicates when the load balancer was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createdTime: String?
+        /// The DNS name of the load balancer.
+        public let dnsName: String?
+        /// Information about the health checks that are conducted on the load balancer.
+        public let healthCheck: AwsElbLoadBalancerHealthCheck?
+        /// List of EC2 instances for the load balancer.
+        public let instances: [AwsElbLoadBalancerInstance]?
+        /// The policies that are enabled for the load balancer listeners.
+        public let listenerDescriptions: [AwsElbLoadBalancerListenerDescription]?
+        /// The attributes for a load balancer.
+        public let loadBalancerAttributes: AwsElbLoadBalancerAttributes?
+        /// The name of the load balancer.
+        public let loadBalancerName: String?
+        /// The policies for a load balancer.
+        public let policies: AwsElbLoadBalancerPolicies?
+        /// The type of load balancer. Only provided if the load balancer is in a VPC. If Scheme is internet-facing, the load balancer has a public DNS name that resolves to a public IP address. If Scheme is internal, the load balancer has a public DNS name that resolves to a private IP address.
+        public let scheme: String?
+        /// The security groups for the load balancer. Only provided if the load balancer is in a VPC.
+        public let securityGroups: [String]?
+        /// Information about the security group for the load balancer. This is the security group that is used for inbound rules.
+        public let sourceSecurityGroup: AwsElbLoadBalancerSourceSecurityGroup?
+        /// The list of subnet identifiers for the load balancer.
+        public let subnets: [String]?
+        /// The identifier of the VPC for the load balancer.
+        public let vpcId: String?
+
+        public init(availabilityZones: [String]? = nil, backendServerDescriptions: [AwsElbLoadBalancerBackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: String? = nil, dnsName: String? = nil, healthCheck: AwsElbLoadBalancerHealthCheck? = nil, instances: [AwsElbLoadBalancerInstance]? = nil, listenerDescriptions: [AwsElbLoadBalancerListenerDescription]? = nil, loadBalancerAttributes: AwsElbLoadBalancerAttributes? = nil, loadBalancerName: String? = nil, policies: AwsElbLoadBalancerPolicies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: AwsElbLoadBalancerSourceSecurityGroup? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
+            self.availabilityZones = availabilityZones
+            self.backendServerDescriptions = backendServerDescriptions
+            self.canonicalHostedZoneName = canonicalHostedZoneName
+            self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
+            self.createdTime = createdTime
+            self.dnsName = dnsName
+            self.healthCheck = healthCheck
+            self.instances = instances
+            self.listenerDescriptions = listenerDescriptions
+            self.loadBalancerAttributes = loadBalancerAttributes
+            self.loadBalancerName = loadBalancerName
+            self.policies = policies
+            self.scheme = scheme
+            self.securityGroups = securityGroups
+            self.sourceSecurityGroup = sourceSecurityGroup
+            self.subnets = subnets
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.availabilityZones?.forEach {
+                try validate($0, name: "availabilityZones[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.backendServerDescriptions?.forEach {
+                try $0.validate(name: "\(name).backendServerDescriptions[]")
+            }
+            try validate(self.canonicalHostedZoneName, name:"canonicalHostedZoneName", parent: name, pattern: ".*\\S.*")
+            try validate(self.canonicalHostedZoneNameID, name:"canonicalHostedZoneNameID", parent: name, pattern: ".*\\S.*")
+            try validate(self.createdTime, name:"createdTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.dnsName, name:"dnsName", parent: name, pattern: ".*\\S.*")
+            try self.healthCheck?.validate(name: "\(name).healthCheck")
+            try self.instances?.forEach {
+                try $0.validate(name: "\(name).instances[]")
+            }
+            try self.listenerDescriptions?.forEach {
+                try $0.validate(name: "\(name).listenerDescriptions[]")
+            }
+            try self.loadBalancerAttributes?.validate(name: "\(name).loadBalancerAttributes")
+            try validate(self.loadBalancerName, name:"loadBalancerName", parent: name, pattern: ".*\\S.*")
+            try self.policies?.validate(name: "\(name).policies")
+            try validate(self.scheme, name:"scheme", parent: name, pattern: ".*\\S.*")
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.sourceSecurityGroup?.validate(name: "\(name).sourceSecurityGroup")
+            try self.subnets?.forEach {
+                try validate($0, name: "subnets[]", parent: name, pattern: ".*\\S.*")
+            }
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
+            case backendServerDescriptions = "BackendServerDescriptions"
+            case canonicalHostedZoneName = "CanonicalHostedZoneName"
+            case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
+            case createdTime = "CreatedTime"
+            case dnsName = "DnsName"
+            case healthCheck = "HealthCheck"
+            case instances = "Instances"
+            case listenerDescriptions = "ListenerDescriptions"
+            case loadBalancerAttributes = "LoadBalancerAttributes"
+            case loadBalancerName = "LoadBalancerName"
+            case policies = "Policies"
+            case scheme = "Scheme"
+            case securityGroups = "SecurityGroups"
+            case sourceSecurityGroup = "SourceSecurityGroup"
+            case subnets = "Subnets"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsElbLoadBalancerHealthCheck: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HealthyThreshold", required: false, type: .integer), 
+            AWSShapeMember(label: "Interval", required: false, type: .integer), 
+            AWSShapeMember(label: "Target", required: false, type: .string), 
+            AWSShapeMember(label: "Timeout", required: false, type: .integer), 
+            AWSShapeMember(label: "UnhealthyThreshold", required: false, type: .integer)
+        ]
+
+        /// The number of consecutive health check successes required before the instance is moved to the Healthy state.
+        public let healthyThreshold: Int?
+        /// The approximate interval, in seconds, between health checks of an individual instance.
+        public let interval: Int?
+        /// The instance that is being checked. The target specifies the protocol and port. The available protocols are TCP, SSL, HTTP, and HTTPS. The range of valid ports is 1 through 65535. For the HTTP and HTTPS protocols, the target also specifies the ping path. For the TCP protocol, the target is specified as TCP: &lt;port&gt; . For the SSL protocol, the target is specified as SSL.&lt;port&gt; . For the HTTP and HTTPS protocols, the target is specified as  &lt;protocol&gt;:&lt;port&gt;/&lt;path to ping&gt; .
+        public let target: String?
+        /// The amount of time, in seconds, during which no response means a failed health check.
+        public let timeout: Int?
+        /// The number of consecutive health check failures that must occur before the instance is moved to the Unhealthy state.
+        public let unhealthyThreshold: Int?
+
+        public init(healthyThreshold: Int? = nil, interval: Int? = nil, target: String? = nil, timeout: Int? = nil, unhealthyThreshold: Int? = nil) {
+            self.healthyThreshold = healthyThreshold
+            self.interval = interval
+            self.target = target
+            self.timeout = timeout
+            self.unhealthyThreshold = unhealthyThreshold
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.target, name:"target", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthyThreshold = "HealthyThreshold"
+            case interval = "Interval"
+            case target = "Target"
+            case timeout = "Timeout"
+            case unhealthyThreshold = "UnhealthyThreshold"
+        }
+    }
+
+    public struct AwsElbLoadBalancerInstance: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstanceId", required: false, type: .string)
+        ]
+
+        /// The instance identifier.
+        public let instanceId: String?
+
+        public init(instanceId: String? = nil) {
+            self.instanceId = instanceId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceId, name:"instanceId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct AwsElbLoadBalancerListener: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "InstancePort", required: false, type: .integer), 
+            AWSShapeMember(label: "InstanceProtocol", required: false, type: .string), 
+            AWSShapeMember(label: "LoadBalancerPort", required: false, type: .integer), 
+            AWSShapeMember(label: "Protocol", required: false, type: .string), 
+            AWSShapeMember(label: "SslCertificateId", required: false, type: .string)
+        ]
+
+        /// The port on which the instance is listening.
+        public let instancePort: Int?
+        /// The protocol to use to route traffic to instances. Valid values: HTTP | HTTPS | TCP | SSL 
+        public let instanceProtocol: String?
+        /// The port on which the load balancer is listening. On EC2-VPC, you can specify any port from the range 1-65535. On EC2-Classic, you can specify any port from the following list: 25, 80, 443, 465, 587, 1024-65535.
+        public let loadBalancerPort: Int?
+        /// The load balancer transport protocol to use for routing. Valid values: HTTP | HTTPS | TCP | SSL 
+        public let `protocol`: String?
+        /// The ARN of the server certificate.
+        public let sslCertificateId: String?
+
+        public init(instancePort: Int? = nil, instanceProtocol: String? = nil, loadBalancerPort: Int? = nil, protocol: String? = nil, sslCertificateId: String? = nil) {
+            self.instancePort = instancePort
+            self.instanceProtocol = instanceProtocol
+            self.loadBalancerPort = loadBalancerPort
+            self.`protocol` = `protocol`
+            self.sslCertificateId = sslCertificateId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.instanceProtocol, name:"instanceProtocol", parent: name, pattern: ".*\\S.*")
+            try validate(self.`protocol`, name:"`protocol`", parent: name, pattern: ".*\\S.*")
+            try validate(self.sslCertificateId, name:"sslCertificateId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancePort = "InstancePort"
+            case instanceProtocol = "InstanceProtocol"
+            case loadBalancerPort = "LoadBalancerPort"
+            case `protocol` = "Protocol"
+            case sslCertificateId = "SslCertificateId"
+        }
+    }
+
+    public struct AwsElbLoadBalancerListenerDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Listener", required: false, type: .structure), 
+            AWSShapeMember(label: "PolicyNames", required: false, type: .list)
+        ]
+
+        /// Information about the listener.
+        public let listener: AwsElbLoadBalancerListener?
+        /// The policies enabled for the listener.
+        public let policyNames: [String]?
+
+        public init(listener: AwsElbLoadBalancerListener? = nil, policyNames: [String]? = nil) {
+            self.listener = listener
+            self.policyNames = policyNames
+        }
+
+        public func validate(name: String) throws {
+            try self.listener?.validate(name: "\(name).listener")
+            try self.policyNames?.forEach {
+                try validate($0, name: "policyNames[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case listener = "Listener"
+            case policyNames = "PolicyNames"
+        }
+    }
+
+    public struct AwsElbLoadBalancerPolicies: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppCookieStickinessPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "LbCookieStickinessPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "OtherPolicies", required: false, type: .list)
+        ]
+
+        /// The stickiness policies that are created using CreateAppCookieStickinessPolicy.
+        public let appCookieStickinessPolicies: [AwsElbAppCookieStickinessPolicy]?
+        /// The stickiness policies that are created using CreateLBCookieStickinessPolicy.
+        public let lbCookieStickinessPolicies: [AwsElbLbCookieStickinessPolicy]?
+        /// The policies other than the stickiness policies.
+        public let otherPolicies: [String]?
+
+        public init(appCookieStickinessPolicies: [AwsElbAppCookieStickinessPolicy]? = nil, lbCookieStickinessPolicies: [AwsElbLbCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
+            self.appCookieStickinessPolicies = appCookieStickinessPolicies
+            self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
+            self.otherPolicies = otherPolicies
+        }
+
+        public func validate(name: String) throws {
+            try self.appCookieStickinessPolicies?.forEach {
+                try $0.validate(name: "\(name).appCookieStickinessPolicies[]")
+            }
+            try self.lbCookieStickinessPolicies?.forEach {
+                try $0.validate(name: "\(name).lbCookieStickinessPolicies[]")
+            }
+            try self.otherPolicies?.forEach {
+                try validate($0, name: "otherPolicies[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appCookieStickinessPolicies = "AppCookieStickinessPolicies"
+            case lbCookieStickinessPolicies = "LbCookieStickinessPolicies"
+            case otherPolicies = "OtherPolicies"
+        }
+    }
+
+    public struct AwsElbLoadBalancerSourceSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "OwnerAlias", required: false, type: .string)
+        ]
+
+        /// The name of the security group.
+        public let groupName: String?
+        /// The owner of the security group.
+        public let ownerAlias: String?
+
+        public init(groupName: String? = nil, ownerAlias: String? = nil) {
+            self.groupName = groupName
+            self.ownerAlias = ownerAlias
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+            try validate(self.ownerAlias, name:"ownerAlias", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupName = "GroupName"
+            case ownerAlias = "OwnerAlias"
+        }
+    }
+
     public struct AwsElbv2LoadBalancerDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list), 
@@ -2190,13 +3990,20 @@ extension SecurityHub {
 
     public struct AwsIamAccessKeyDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccessKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
             AWSShapeMember(label: "CreatedAt", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalName", required: false, type: .string), 
             AWSShapeMember(label: "PrincipalType", required: false, type: .string), 
+            AWSShapeMember(label: "SessionContext", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .enum)
         ]
 
+        /// The identifier of the access key.
+        public let accessKeyId: String?
+        /// The AWS account ID of the account for the key.
+        public let accountId: String?
         /// Indicates when the IAM access key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdAt: String?
         /// The ID of the principal associated with an access key.
@@ -2205,30 +4012,139 @@ extension SecurityHub {
         public let principalName: String?
         /// The type of principal associated with an access key.
         public let principalType: String?
+        /// Information about the session that the key was used for.
+        public let sessionContext: AwsIamAccessKeySessionContext?
         /// The status of the IAM access key related to a finding.
         public let status: AwsIamAccessKeyStatus?
 
-        public init(createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, status: AwsIamAccessKeyStatus? = nil) {
+        public init(accessKeyId: String? = nil, accountId: String? = nil, createdAt: String? = nil, principalId: String? = nil, principalName: String? = nil, principalType: String? = nil, sessionContext: AwsIamAccessKeySessionContext? = nil, status: AwsIamAccessKeyStatus? = nil) {
+            self.accessKeyId = accessKeyId
+            self.accountId = accountId
             self.createdAt = createdAt
             self.principalId = principalId
             self.principalName = principalName
             self.principalType = principalType
+            self.sessionContext = sessionContext
             self.status = status
         }
 
         public func validate(name: String) throws {
+            try validate(self.accessKeyId, name:"accessKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
             try validate(self.createdAt, name:"createdAt", parent: name, pattern: ".*\\S.*")
             try validate(self.principalId, name:"principalId", parent: name, pattern: ".*\\S.*")
             try validate(self.principalName, name:"principalName", parent: name, pattern: ".*\\S.*")
             try validate(self.principalType, name:"principalType", parent: name, pattern: ".*\\S.*")
+            try self.sessionContext?.validate(name: "\(name).sessionContext")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case accountId = "AccountId"
             case createdAt = "CreatedAt"
             case principalId = "PrincipalId"
             case principalName = "PrincipalName"
             case principalType = "PrincipalType"
+            case sessionContext = "SessionContext"
             case status = "Status"
+        }
+    }
+
+    public struct AwsIamAccessKeySessionContext: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Attributes", required: false, type: .structure), 
+            AWSShapeMember(label: "SessionIssuer", required: false, type: .structure)
+        ]
+
+        /// Attributes of the session that the key was used for.
+        public let attributes: AwsIamAccessKeySessionContextAttributes?
+        /// Information about the entity that created the session.
+        public let sessionIssuer: AwsIamAccessKeySessionContextSessionIssuer?
+
+        public init(attributes: AwsIamAccessKeySessionContextAttributes? = nil, sessionIssuer: AwsIamAccessKeySessionContextSessionIssuer? = nil) {
+            self.attributes = attributes
+            self.sessionIssuer = sessionIssuer
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.validate(name: "\(name).attributes")
+            try self.sessionIssuer?.validate(name: "\(name).sessionIssuer")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case sessionIssuer = "SessionIssuer"
+        }
+    }
+
+    public struct AwsIamAccessKeySessionContextAttributes: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "MfaAuthenticated", required: false, type: .boolean)
+        ]
+
+        /// Indicates when the session was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let creationDate: String?
+        /// Indicates whether the session used multi-factor authentication (MFA).
+        public let mfaAuthenticated: Bool?
+
+        public init(creationDate: String? = nil, mfaAuthenticated: Bool? = nil) {
+            self.creationDate = creationDate
+            self.mfaAuthenticated = mfaAuthenticated
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.creationDate, name:"creationDate", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case mfaAuthenticated = "MfaAuthenticated"
+        }
+    }
+
+    public struct AwsIamAccessKeySessionContextSessionIssuer: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "PrincipalId", required: false, type: .string), 
+            AWSShapeMember(label: "Type", required: false, type: .string), 
+            AWSShapeMember(label: "UserName", required: false, type: .string)
+        ]
+
+        /// The identifier of the AWS account that created the session.
+        public let accountId: String?
+        /// The ARN of the session.
+        public let arn: String?
+        /// The principal ID of the principal (user, role, or group) that created the session.
+        public let principalId: String?
+        /// The type of principal (user, role, or group) that created the session.
+        public let `type`: String?
+        /// The name of the principal that created the session.
+        public let userName: String?
+
+        public init(accountId: String? = nil, arn: String? = nil, principalId: String? = nil, type: String? = nil, userName: String? = nil) {
+            self.accountId = accountId
+            self.arn = arn
+            self.principalId = principalId
+            self.`type` = `type`
+            self.userName = userName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, pattern: ".*\\S.*")
+            try validate(self.arn, name:"arn", parent: name, pattern: ".*\\S.*")
+            try validate(self.principalId, name:"principalId", parent: name, pattern: ".*\\S.*")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: ".*\\S.*")
+            try validate(self.userName, name:"userName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case arn = "Arn"
+            case principalId = "PrincipalId"
+            case `type` = "Type"
+            case userName = "UserName"
         }
     }
 
@@ -2259,13 +4175,195 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsIamGroupDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .string), 
+            AWSShapeMember(label: "GroupId", required: false, type: .string), 
+            AWSShapeMember(label: "GroupName", required: false, type: .string), 
+            AWSShapeMember(label: "GroupPolicyList", required: false, type: .list), 
+            AWSShapeMember(label: "Path", required: false, type: .string)
+        ]
+
+        /// A list of the managed policies that are attached to the IAM group.
+        public let attachedManagedPolicies: [AwsIamAttachedManagedPolicy]?
+        /// Indicates when the IAM group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createDate: String?
+        /// The identifier of the IAM group.
+        public let groupId: String?
+        /// The name of the IAM group.
+        public let groupName: String?
+        /// The list of inline policies that are embedded in the group.
+        public let groupPolicyList: [AwsIamGroupPolicy]?
+        /// The path to the group.
+        public let path: String?
+
+        public init(attachedManagedPolicies: [AwsIamAttachedManagedPolicy]? = nil, createDate: String? = nil, groupId: String? = nil, groupName: String? = nil, groupPolicyList: [AwsIamGroupPolicy]? = nil, path: String? = nil) {
+            self.attachedManagedPolicies = attachedManagedPolicies
+            self.createDate = createDate
+            self.groupId = groupId
+            self.groupName = groupName
+            self.groupPolicyList = groupPolicyList
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.attachedManagedPolicies?.forEach {
+                try $0.validate(name: "\(name).attachedManagedPolicies[]")
+            }
+            try validate(self.createDate, name:"createDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupId, name:"groupId", parent: name, pattern: ".*\\S.*")
+            try validate(self.groupName, name:"groupName", parent: name, pattern: ".*\\S.*")
+            try self.groupPolicyList?.forEach {
+                try $0.validate(name: "\(name).groupPolicyList[]")
+            }
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachedManagedPolicies = "AttachedManagedPolicies"
+            case createDate = "CreateDate"
+            case groupId = "GroupId"
+            case groupName = "GroupName"
+            case groupPolicyList = "GroupPolicyList"
+            case path = "Path"
+        }
+    }
+
+    public struct AwsIamGroupPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+
+        /// The name of the policy.
+        public let policyName: String?
+
+        public init(policyName: String? = nil) {
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.policyName, name:"policyName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
+        }
+    }
+
+    public struct AwsIamInstanceProfile: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileId", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileName", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "Roles", required: false, type: .list)
+        ]
+
+        /// The ARN of the instance profile.
+        public let arn: String?
+        /// Indicates when the instance profile was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createDate: String?
+        /// The identifier of the instance profile.
+        public let instanceProfileId: String?
+        /// The name of the instance profile.
+        public let instanceProfileName: String?
+        /// The path to the instance profile.
+        public let path: String?
+        /// The roles associated with the instance profile.
+        public let roles: [AwsIamInstanceProfileRole]?
+
+        public init(arn: String? = nil, createDate: String? = nil, instanceProfileId: String? = nil, instanceProfileName: String? = nil, path: String? = nil, roles: [AwsIamInstanceProfileRole]? = nil) {
+            self.arn = arn
+            self.createDate = createDate
+            self.instanceProfileId = instanceProfileId
+            self.instanceProfileName = instanceProfileName
+            self.path = path
+            self.roles = roles
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, pattern: ".*\\S.*")
+            try validate(self.createDate, name:"createDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceProfileId, name:"instanceProfileId", parent: name, pattern: ".*\\S.*")
+            try validate(self.instanceProfileName, name:"instanceProfileName", parent: name, pattern: ".*\\S.*")
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+            try self.roles?.forEach {
+                try $0.validate(name: "\(name).roles[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createDate = "CreateDate"
+            case instanceProfileId = "InstanceProfileId"
+            case instanceProfileName = "InstanceProfileName"
+            case path = "Path"
+            case roles = "Roles"
+        }
+    }
+
+    public struct AwsIamInstanceProfileRole: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Arn", required: false, type: .string), 
+            AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "CreateDate", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "RoleId", required: false, type: .string), 
+            AWSShapeMember(label: "RoleName", required: false, type: .string)
+        ]
+
+        /// The ARN of the role.
+        public let arn: String?
+        /// The policy that grants an entity permission to assume the role.
+        public let assumeRolePolicyDocument: String?
+        /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let createDate: String?
+        /// The path to the role.
+        public let path: String?
+        /// The identifier of the role.
+        public let roleId: String?
+        /// The name of the role.
+        public let roleName: String?
+
+        public init(arn: String? = nil, assumeRolePolicyDocument: String? = nil, createDate: String? = nil, path: String? = nil, roleId: String? = nil, roleName: String? = nil) {
+            self.arn = arn
+            self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.createDate = createDate
+            self.path = path
+            self.roleId = roleId
+            self.roleName = roleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, pattern: ".*\\S.*")
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, max: 131072)
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, min: 1)
+            try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try validate(self.createDate, name:"createDate", parent: name, pattern: ".*\\S.*")
+            try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+            try validate(self.roleId, name:"roleId", parent: name, pattern: ".*\\S.*")
+            try validate(self.roleName, name:"roleName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case createDate = "CreateDate"
+            case path = "Path"
+            case roleId = "RoleId"
+            case roleName = "RoleName"
+        }
+    }
+
     public struct AwsIamPermissionsBoundary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "PermissionsBoundaryArn", required: false, type: .string), 
             AWSShapeMember(label: "PermissionsBoundaryType", required: false, type: .string)
         ]
 
-        /// The ARN of the policy used to set the permissions boundary for the user.
+        /// The ARN of the policy used to set the permissions boundary.
         public let permissionsBoundaryArn: String?
         /// The usage type for the permissions boundary.
         public let permissionsBoundaryType: String?
@@ -2401,52 +4499,102 @@ extension SecurityHub {
     public struct AwsIamRoleDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AssumeRolePolicyDocument", required: false, type: .string), 
+            AWSShapeMember(label: "AttachedManagedPolicies", required: false, type: .list), 
             AWSShapeMember(label: "CreateDate", required: false, type: .string), 
+            AWSShapeMember(label: "InstanceProfileList", required: false, type: .list), 
             AWSShapeMember(label: "MaxSessionDuration", required: false, type: .integer), 
             AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "PermissionsBoundary", required: false, type: .structure), 
             AWSShapeMember(label: "RoleId", required: false, type: .string), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "RolePolicyList", required: false, type: .list)
         ]
 
         /// The trust policy that grants permission to assume the role.
         public let assumeRolePolicyDocument: String?
+        /// The list of the managed policies that are attached to the role.
+        public let attachedManagedPolicies: [AwsIamAttachedManagedPolicy]?
         /// Indicates when the role was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createDate: String?
+        /// The list of instance profiles that contain this role.
+        public let instanceProfileList: [AwsIamInstanceProfile]?
         /// The maximum session duration (in seconds) that you want to set for the specified role.
         public let maxSessionDuration: Int?
         /// The path to the role.
         public let path: String?
+        public let permissionsBoundary: AwsIamPermissionsBoundary?
         /// The stable and unique string identifying the role.
         public let roleId: String?
         /// The friendly name that identifies the role.
         public let roleName: String?
+        /// The list of inline policies that are embedded in the role.
+        public let rolePolicyList: [AwsIamRolePolicy]?
 
-        public init(assumeRolePolicyDocument: String? = nil, createDate: String? = nil, maxSessionDuration: Int? = nil, path: String? = nil, roleId: String? = nil, roleName: String? = nil) {
+        public init(assumeRolePolicyDocument: String? = nil, attachedManagedPolicies: [AwsIamAttachedManagedPolicy]? = nil, createDate: String? = nil, instanceProfileList: [AwsIamInstanceProfile]? = nil, maxSessionDuration: Int? = nil, path: String? = nil, permissionsBoundary: AwsIamPermissionsBoundary? = nil, roleId: String? = nil, roleName: String? = nil, rolePolicyList: [AwsIamRolePolicy]? = nil) {
             self.assumeRolePolicyDocument = assumeRolePolicyDocument
+            self.attachedManagedPolicies = attachedManagedPolicies
             self.createDate = createDate
+            self.instanceProfileList = instanceProfileList
             self.maxSessionDuration = maxSessionDuration
             self.path = path
+            self.permissionsBoundary = permissionsBoundary
             self.roleId = roleId
             self.roleName = roleName
+            self.rolePolicyList = rolePolicyList
         }
 
         public func validate(name: String) throws {
             try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, max: 131072)
             try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, min: 1)
             try validate(self.assumeRolePolicyDocument, name:"assumeRolePolicyDocument", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u00A1-\\u00FF]+")
+            try self.attachedManagedPolicies?.forEach {
+                try $0.validate(name: "\(name).attachedManagedPolicies[]")
+            }
             try validate(self.createDate, name:"createDate", parent: name, pattern: ".*\\S.*")
+            try self.instanceProfileList?.forEach {
+                try $0.validate(name: "\(name).instanceProfileList[]")
+            }
             try validate(self.path, name:"path", parent: name, pattern: ".*\\S.*")
+            try self.permissionsBoundary?.validate(name: "\(name).permissionsBoundary")
             try validate(self.roleId, name:"roleId", parent: name, pattern: ".*\\S.*")
             try validate(self.roleName, name:"roleName", parent: name, pattern: ".*\\S.*")
+            try self.rolePolicyList?.forEach {
+                try $0.validate(name: "\(name).rolePolicyList[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case assumeRolePolicyDocument = "AssumeRolePolicyDocument"
+            case attachedManagedPolicies = "AttachedManagedPolicies"
             case createDate = "CreateDate"
+            case instanceProfileList = "InstanceProfileList"
             case maxSessionDuration = "MaxSessionDuration"
             case path = "Path"
+            case permissionsBoundary = "PermissionsBoundary"
             case roleId = "RoleId"
             case roleName = "RoleName"
+            case rolePolicyList = "RolePolicyList"
+        }
+    }
+
+    public struct AwsIamRolePolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyName", required: false, type: .string)
+        ]
+
+        /// The name of the policy.
+        public let policyName: String?
+
+        public init(policyName: String? = nil) {
+            self.policyName = policyName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.policyName, name:"policyName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyName = "PolicyName"
         }
     }
 
@@ -4383,6 +6531,773 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case logTypesToDisable = "LogTypesToDisable"
             case logTypesToEnable = "LogTypesToEnable"
+        }
+    }
+
+    public struct AwsRedshiftClusterClusterNode: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NodeRole", required: false, type: .string), 
+            AWSShapeMember(label: "PrivateIpAddress", required: false, type: .string), 
+            AWSShapeMember(label: "PublicIpAddress", required: false, type: .string)
+        ]
+
+        /// The role of the node. A node might be a leader node or a compute node.
+        public let nodeRole: String?
+        /// The private IP address of the node.
+        public let privateIpAddress: String?
+        /// The public IP address of the node.
+        public let publicIpAddress: String?
+
+        public init(nodeRole: String? = nil, privateIpAddress: String? = nil, publicIpAddress: String? = nil) {
+            self.nodeRole = nodeRole
+            self.privateIpAddress = privateIpAddress
+            self.publicIpAddress = publicIpAddress
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.nodeRole, name:"nodeRole", parent: name, pattern: ".*\\S.*")
+            try validate(self.privateIpAddress, name:"privateIpAddress", parent: name, pattern: ".*\\S.*")
+            try validate(self.publicIpAddress, name:"publicIpAddress", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nodeRole = "NodeRole"
+            case privateIpAddress = "PrivateIpAddress"
+            case publicIpAddress = "PublicIpAddress"
+        }
+    }
+
+    public struct AwsRedshiftClusterClusterParameterGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterParameterStatusList", required: false, type: .list), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterGroupName", required: false, type: .string)
+        ]
+
+        /// The list of parameter statuses.
+        public let clusterParameterStatusList: [AwsRedshiftClusterClusterParameterStatus]?
+        /// The status of updates to the parameters.
+        public let parameterApplyStatus: String?
+        /// The name of the parameter group.
+        public let parameterGroupName: String?
+
+        public init(clusterParameterStatusList: [AwsRedshiftClusterClusterParameterStatus]? = nil, parameterApplyStatus: String? = nil, parameterGroupName: String? = nil) {
+            self.clusterParameterStatusList = clusterParameterStatusList
+            self.parameterApplyStatus = parameterApplyStatus
+            self.parameterGroupName = parameterGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.clusterParameterStatusList?.forEach {
+                try $0.validate(name: "\(name).clusterParameterStatusList[]")
+            }
+            try validate(self.parameterApplyStatus, name:"parameterApplyStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.parameterGroupName, name:"parameterGroupName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterParameterStatusList = "ClusterParameterStatusList"
+            case parameterApplyStatus = "ParameterApplyStatus"
+            case parameterGroupName = "ParameterGroupName"
+        }
+    }
+
+    public struct AwsRedshiftClusterClusterParameterStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ParameterApplyErrorDescription", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ParameterName", required: false, type: .string)
+        ]
+
+        /// The error that prevented the parameter from being applied to the database.
+        public let parameterApplyErrorDescription: String?
+        /// The status of the parameter. Indicates whether the parameter is in sync with the database, waiting for a cluster reboot, or encountered an error when it was applied. Valid values: in-sync | pending-reboot | applying | invalid-parameter | apply-deferred | apply-error | unknown-error 
+        public let parameterApplyStatus: String?
+        /// The name of the parameter.
+        public let parameterName: String?
+
+        public init(parameterApplyErrorDescription: String? = nil, parameterApplyStatus: String? = nil, parameterName: String? = nil) {
+            self.parameterApplyErrorDescription = parameterApplyErrorDescription
+            self.parameterApplyStatus = parameterApplyStatus
+            self.parameterName = parameterName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.parameterApplyErrorDescription, name:"parameterApplyErrorDescription", parent: name, pattern: ".*\\S.*")
+            try validate(self.parameterApplyStatus, name:"parameterApplyStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.parameterName, name:"parameterName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameterApplyErrorDescription = "ParameterApplyErrorDescription"
+            case parameterApplyStatus = "ParameterApplyStatus"
+            case parameterName = "ParameterName"
+        }
+    }
+
+    public struct AwsRedshiftClusterClusterSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClusterSecurityGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The name of the cluster security group.
+        public let clusterSecurityGroupName: String?
+        /// The status of the cluster security group.
+        public let status: String?
+
+        public init(clusterSecurityGroupName: String? = nil, status: String? = nil) {
+            self.clusterSecurityGroupName = clusterSecurityGroupName
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clusterSecurityGroupName, name:"clusterSecurityGroupName", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterSecurityGroupName = "ClusterSecurityGroupName"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsRedshiftClusterClusterSnapshotCopyStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DestinationRegion", required: false, type: .string), 
+            AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "RetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "SnapshotCopyGrantName", required: false, type: .string)
+        ]
+
+        /// The destination Region that snapshots are automatically copied to when cross-Region snapshot copy is enabled.
+        public let destinationRegion: String?
+        /// The number of days that manual snapshots are retained in the destination region after they are copied from a source region. If the value is -1, then the manual snapshot is retained indefinitely. Valid values: Either -1 or an integer between 1 and 3,653
+        public let manualSnapshotRetentionPeriod: Int?
+        /// The number of days to retain automated snapshots in the destination Region after they are copied from a source Region.
+        public let retentionPeriod: Int?
+        /// The name of the snapshot copy grant.
+        public let snapshotCopyGrantName: String?
+
+        public init(destinationRegion: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, retentionPeriod: Int? = nil, snapshotCopyGrantName: String? = nil) {
+            self.destinationRegion = destinationRegion
+            self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+            self.retentionPeriod = retentionPeriod
+            self.snapshotCopyGrantName = snapshotCopyGrantName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.destinationRegion, name:"destinationRegion", parent: name, pattern: ".*\\S.*")
+            try validate(self.snapshotCopyGrantName, name:"snapshotCopyGrantName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationRegion = "DestinationRegion"
+            case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+            case retentionPeriod = "RetentionPeriod"
+            case snapshotCopyGrantName = "SnapshotCopyGrantName"
+        }
+    }
+
+    public struct AwsRedshiftClusterDeferredMaintenanceWindow: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeferMaintenanceEndTime", required: false, type: .string), 
+            AWSShapeMember(label: "DeferMaintenanceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DeferMaintenanceStartTime", required: false, type: .string)
+        ]
+
+        /// The end of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let deferMaintenanceEndTime: String?
+        /// The identifier of the maintenance window.
+        public let deferMaintenanceIdentifier: String?
+        /// The start of the time window for which maintenance was deferred. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let deferMaintenanceStartTime: String?
+
+        public init(deferMaintenanceEndTime: String? = nil, deferMaintenanceIdentifier: String? = nil, deferMaintenanceStartTime: String? = nil) {
+            self.deferMaintenanceEndTime = deferMaintenanceEndTime
+            self.deferMaintenanceIdentifier = deferMaintenanceIdentifier
+            self.deferMaintenanceStartTime = deferMaintenanceStartTime
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.deferMaintenanceEndTime, name:"deferMaintenanceEndTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.deferMaintenanceIdentifier, name:"deferMaintenanceIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.deferMaintenanceStartTime, name:"deferMaintenanceStartTime", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deferMaintenanceEndTime = "DeferMaintenanceEndTime"
+            case deferMaintenanceIdentifier = "DeferMaintenanceIdentifier"
+            case deferMaintenanceStartTime = "DeferMaintenanceStartTime"
+        }
+    }
+
+    public struct AwsRedshiftClusterDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowVersionUpgrade", required: false, type: .boolean), 
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "AvailabilityZone", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterAvailabilityStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterCreateTime", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterNodes", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterParameterGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterPublicKey", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterRevisionNumber", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSecurityGroups", required: false, type: .list), 
+            AWSShapeMember(label: "ClusterSnapshotCopyStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "ClusterStatus", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterSubnetGroupName", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "DBName", required: false, type: .string), 
+            AWSShapeMember(label: "DeferredMaintenanceWindows", required: false, type: .list), 
+            AWSShapeMember(label: "ElasticIpStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "ElasticResizeNumberOfNodeOptions", required: false, type: .string), 
+            AWSShapeMember(label: "Encrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .structure), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExpectedNextSnapshotScheduleTime", required: false, type: .string), 
+            AWSShapeMember(label: "ExpectedNextSnapshotScheduleTimeStatus", required: false, type: .string), 
+            AWSShapeMember(label: "HsmStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "IamRoles", required: false, type: .list), 
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
+            AWSShapeMember(label: "ManualSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
+            AWSShapeMember(label: "NextMaintenanceWindowStartTime", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "PendingActions", required: false, type: .list), 
+            AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
+            AWSShapeMember(label: "PreferredMaintenanceWindow", required: false, type: .string), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResizeInfo", required: false, type: .structure), 
+            AWSShapeMember(label: "RestoreStatus", required: false, type: .structure), 
+            AWSShapeMember(label: "SnapshotScheduleIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "SnapshotScheduleState", required: false, type: .string), 
+            AWSShapeMember(label: "VpcId", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list)
+        ]
+
+        /// Indicates whether major version upgrades are applied automatically to the cluster during the maintenance window.
+        public let allowVersionUpgrade: Bool?
+        /// The number of days that automatic cluster snapshots are retained.
+        public let automatedSnapshotRetentionPeriod: Int?
+        /// The name of the Availability Zone in which the cluster is located.
+        public let availabilityZone: String?
+        /// The availability status of the cluster for queries. Possible values are the following:    Available - The cluster is available for queries.    Unavailable - The cluster is not available for queries.    Maintenance - The cluster is intermittently available for queries due to maintenance activities.    Modifying -The cluster is intermittently available for queries due to changes that modify the cluster.    Failed - The cluster failed and is not available for queries.  
+        public let clusterAvailabilityStatus: String?
+        /// Indicates when the cluster was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let clusterCreateTime: String?
+        /// The unique identifier of the cluster.
+        public let clusterIdentifier: String?
+        /// The nodes in the cluster.
+        public let clusterNodes: [AwsRedshiftClusterClusterNode]?
+        /// The list of cluster parameter groups that are associated with this cluster.
+        public let clusterParameterGroups: [AwsRedshiftClusterClusterParameterGroup]?
+        /// The public key for the cluster.
+        public let clusterPublicKey: String?
+        /// The specific revision number of the database in the cluster.
+        public let clusterRevisionNumber: String?
+        /// A list of cluster security groups that are associated with the cluster.
+        public let clusterSecurityGroups: [AwsRedshiftClusterClusterSecurityGroup]?
+        /// Information about the destination Region and retention period for the cross-Region snapshot copy.
+        public let clusterSnapshotCopyStatus: AwsRedshiftClusterClusterSnapshotCopyStatus?
+        /// The current status of the cluster. Valid values: available | available, prep-for-resize | available, resize-cleanup | cancelling-resize | creating | deleting | final-snapshot | hardware-failure | incompatible-hsm | incompatible-network | incompatible-parameters | incompatible-restore | modifying | paused | rebooting | renaming | resizing | rotating-keys | storage-full | updating-hsm 
+        public let clusterStatus: String?
+        /// The name of the subnet group that is associated with the cluster. This parameter is valid only when the cluster is in a VPC.
+        public let clusterSubnetGroupName: String?
+        /// The version ID of the Amazon Redshift engine that runs on the cluster.
+        public let clusterVersion: String?
+        /// The name of the initial database that was created when the cluster was created. The same name is returned for the life of the cluster. If an initial database is not specified, a database named devdev is created by default.
+        public let dBName: String?
+        /// List of time windows during which maintenance was deferred.
+        public let deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]?
+        /// Information about the status of the Elastic IP (EIP) address.
+        public let elasticIpStatus: AwsRedshiftClusterElasticIpStatus?
+        /// The number of nodes that you can use the elastic resize method to resize the cluster to.
+        public let elasticResizeNumberOfNodeOptions: String?
+        /// Indicates whether the data in the cluster is encrypted at rest.
+        public let encrypted: Bool?
+        /// The connection endpoint.
+        public let endpoint: AwsRedshiftClusterEndpoint?
+        /// Indicates whether to create the cluster with enhanced VPC routing enabled.
+        public let enhancedVpcRouting: Bool?
+        /// Indicates when the next snapshot is expected to be taken. The cluster must have a valid snapshot schedule and have backups enabled. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let expectedNextSnapshotScheduleTime: String?
+        /// The status of the next expected snapshot. Valid values: OnTrack | Pending 
+        public let expectedNextSnapshotScheduleTimeStatus: String?
+        /// Information about whether the Amazon Redshift cluster finished applying any changes to hardware security module (HSM) settings that were specified in a modify cluster command.
+        public let hsmStatus: AwsRedshiftClusterHsmStatus?
+        /// A list of IAM roles that the cluster can use to access other AWS services.
+        public let iamRoles: [AwsRedshiftClusterIamRole]?
+        /// The identifier of the AWS KMS encryption key that is used to encrypt data in the cluster.
+        public let kmsKeyId: String?
+        /// The name of the maintenance track for the cluster.
+        public let maintenanceTrackName: String?
+        /// The default number of days to retain a manual snapshot. If the value is -1, the snapshot is retained indefinitely. This setting doesn't change the retention period of existing snapshots. Valid values: Either -1 or an integer between 1 and 3,653
+        public let manualSnapshotRetentionPeriod: Int?
+        /// The master user name for the cluster. This name is used to connect to the database that is specified in as the value of DBName.
+        public let masterUsername: String?
+        /// Indicates the start of the next maintenance window. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
+        public let nextMaintenanceWindowStartTime: String?
+        /// The node type for the nodes in the cluster.
+        public let nodeType: String?
+        /// The number of compute nodes in the cluster.
+        public let numberOfNodes: Int?
+        /// A list of cluster operations that are waiting to start.
+        public let pendingActions: [String]?
+        /// A list of changes to the cluster that are currently pending.
+        public let pendingModifiedValues: AwsRedshiftClusterPendingModifiedValues?
+        /// The weekly time range, in Universal Coordinated Time (UTC), during which system maintenance can occur. Format:  &lt;day&gt;:HH:MM-&lt;day&gt;:HH:MM  For the day values, use mon | tue | wed | thu | fri | sat | sun  For example, sun:09:32-sun:10:02 
+        public let preferredMaintenanceWindow: String?
+        /// Whether the cluster can be accessed from a public network.
+        public let publiclyAccessible: Bool?
+        /// Information about the resize operation for the cluster.
+        public let resizeInfo: AwsRedshiftClusterResizeInfo?
+        /// Information about the status of a cluster restore action. Only applies to a cluster that was created by restoring a snapshot.
+        public let restoreStatus: AwsRedshiftClusterRestoreStatus?
+        /// A unique identifier for the cluster snapshot schedule.
+        public let snapshotScheduleIdentifier: String?
+        /// The current state of the cluster snapshot schedule. Valid values: MODIFYING | ACTIVE | FAILED 
+        public let snapshotScheduleState: String?
+        /// The identifier of the VPC that the cluster is in, if the cluster is in a VPC.
+        public let vpcId: String?
+        /// The list of VPC security groups that the cluster belongs to, if the cluster is in a VPC.
+        public let vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]?
+
+        public init(allowVersionUpgrade: Bool? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: String? = nil, clusterIdentifier: String? = nil, clusterNodes: [AwsRedshiftClusterClusterNode]? = nil, clusterParameterGroups: [AwsRedshiftClusterClusterParameterGroup]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [AwsRedshiftClusterClusterSecurityGroup]? = nil, clusterSnapshotCopyStatus: AwsRedshiftClusterClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, deferredMaintenanceWindows: [AwsRedshiftClusterDeferredMaintenanceWindow]? = nil, elasticIpStatus: AwsRedshiftClusterElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: AwsRedshiftClusterEndpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: String? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: AwsRedshiftClusterHsmStatus? = nil, iamRoles: [AwsRedshiftClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nextMaintenanceWindowStartTime: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: AwsRedshiftClusterPendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: AwsRedshiftClusterResizeInfo? = nil, restoreStatus: AwsRedshiftClusterRestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: String? = nil, vpcId: String? = nil, vpcSecurityGroups: [AwsRedshiftClusterVpcSecurityGroup]? = nil) {
+            self.allowVersionUpgrade = allowVersionUpgrade
+            self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
+            self.availabilityZone = availabilityZone
+            self.clusterAvailabilityStatus = clusterAvailabilityStatus
+            self.clusterCreateTime = clusterCreateTime
+            self.clusterIdentifier = clusterIdentifier
+            self.clusterNodes = clusterNodes
+            self.clusterParameterGroups = clusterParameterGroups
+            self.clusterPublicKey = clusterPublicKey
+            self.clusterRevisionNumber = clusterRevisionNumber
+            self.clusterSecurityGroups = clusterSecurityGroups
+            self.clusterSnapshotCopyStatus = clusterSnapshotCopyStatus
+            self.clusterStatus = clusterStatus
+            self.clusterSubnetGroupName = clusterSubnetGroupName
+            self.clusterVersion = clusterVersion
+            self.dBName = dBName
+            self.deferredMaintenanceWindows = deferredMaintenanceWindows
+            self.elasticIpStatus = elasticIpStatus
+            self.elasticResizeNumberOfNodeOptions = elasticResizeNumberOfNodeOptions
+            self.encrypted = encrypted
+            self.endpoint = endpoint
+            self.enhancedVpcRouting = enhancedVpcRouting
+            self.expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime
+            self.expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus
+            self.hsmStatus = hsmStatus
+            self.iamRoles = iamRoles
+            self.kmsKeyId = kmsKeyId
+            self.maintenanceTrackName = maintenanceTrackName
+            self.manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod
+            self.masterUsername = masterUsername
+            self.nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime
+            self.nodeType = nodeType
+            self.numberOfNodes = numberOfNodes
+            self.pendingActions = pendingActions
+            self.pendingModifiedValues = pendingModifiedValues
+            self.preferredMaintenanceWindow = preferredMaintenanceWindow
+            self.publiclyAccessible = publiclyAccessible
+            self.resizeInfo = resizeInfo
+            self.restoreStatus = restoreStatus
+            self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
+            self.snapshotScheduleState = snapshotScheduleState
+            self.vpcId = vpcId
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.availabilityZone, name:"availabilityZone", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterAvailabilityStatus, name:"clusterAvailabilityStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterCreateTime, name:"clusterCreateTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterIdentifier, name:"clusterIdentifier", parent: name, pattern: ".*\\S.*")
+            try self.clusterNodes?.forEach {
+                try $0.validate(name: "\(name).clusterNodes[]")
+            }
+            try self.clusterParameterGroups?.forEach {
+                try $0.validate(name: "\(name).clusterParameterGroups[]")
+            }
+            try validate(self.clusterPublicKey, name:"clusterPublicKey", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterRevisionNumber, name:"clusterRevisionNumber", parent: name, pattern: ".*\\S.*")
+            try self.clusterSecurityGroups?.forEach {
+                try $0.validate(name: "\(name).clusterSecurityGroups[]")
+            }
+            try self.clusterSnapshotCopyStatus?.validate(name: "\(name).clusterSnapshotCopyStatus")
+            try validate(self.clusterStatus, name:"clusterStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterSubnetGroupName, name:"clusterSubnetGroupName", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterVersion, name:"clusterVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.dBName, name:"dBName", parent: name, pattern: ".*\\S.*")
+            try self.deferredMaintenanceWindows?.forEach {
+                try $0.validate(name: "\(name).deferredMaintenanceWindows[]")
+            }
+            try self.elasticIpStatus?.validate(name: "\(name).elasticIpStatus")
+            try validate(self.elasticResizeNumberOfNodeOptions, name:"elasticResizeNumberOfNodeOptions", parent: name, pattern: ".*\\S.*")
+            try self.endpoint?.validate(name: "\(name).endpoint")
+            try validate(self.expectedNextSnapshotScheduleTime, name:"expectedNextSnapshotScheduleTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.expectedNextSnapshotScheduleTimeStatus, name:"expectedNextSnapshotScheduleTimeStatus", parent: name, pattern: ".*\\S.*")
+            try self.hsmStatus?.validate(name: "\(name).hsmStatus")
+            try self.iamRoles?.forEach {
+                try $0.validate(name: "\(name).iamRoles[]")
+            }
+            try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*\\S.*")
+            try validate(self.maintenanceTrackName, name:"maintenanceTrackName", parent: name, pattern: ".*\\S.*")
+            try validate(self.masterUsername, name:"masterUsername", parent: name, pattern: ".*\\S.*")
+            try validate(self.nextMaintenanceWindowStartTime, name:"nextMaintenanceWindowStartTime", parent: name, pattern: ".*\\S.*")
+            try validate(self.nodeType, name:"nodeType", parent: name, pattern: ".*\\S.*")
+            try self.pendingActions?.forEach {
+                try validate($0, name: "pendingActions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.pendingModifiedValues?.validate(name: "\(name).pendingModifiedValues")
+            try validate(self.preferredMaintenanceWindow, name:"preferredMaintenanceWindow", parent: name, pattern: ".*\\S.*")
+            try self.resizeInfo?.validate(name: "\(name).resizeInfo")
+            try self.restoreStatus?.validate(name: "\(name).restoreStatus")
+            try validate(self.snapshotScheduleIdentifier, name:"snapshotScheduleIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.snapshotScheduleState, name:"snapshotScheduleState", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcId, name:"vpcId", parent: name, pattern: ".*\\S.*")
+            try self.vpcSecurityGroups?.forEach {
+                try $0.validate(name: "\(name).vpcSecurityGroups[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowVersionUpgrade = "AllowVersionUpgrade"
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case availabilityZone = "AvailabilityZone"
+            case clusterAvailabilityStatus = "ClusterAvailabilityStatus"
+            case clusterCreateTime = "ClusterCreateTime"
+            case clusterIdentifier = "ClusterIdentifier"
+            case clusterNodes = "ClusterNodes"
+            case clusterParameterGroups = "ClusterParameterGroups"
+            case clusterPublicKey = "ClusterPublicKey"
+            case clusterRevisionNumber = "ClusterRevisionNumber"
+            case clusterSecurityGroups = "ClusterSecurityGroups"
+            case clusterSnapshotCopyStatus = "ClusterSnapshotCopyStatus"
+            case clusterStatus = "ClusterStatus"
+            case clusterSubnetGroupName = "ClusterSubnetGroupName"
+            case clusterVersion = "ClusterVersion"
+            case dBName = "DBName"
+            case deferredMaintenanceWindows = "DeferredMaintenanceWindows"
+            case elasticIpStatus = "ElasticIpStatus"
+            case elasticResizeNumberOfNodeOptions = "ElasticResizeNumberOfNodeOptions"
+            case encrypted = "Encrypted"
+            case endpoint = "Endpoint"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case expectedNextSnapshotScheduleTime = "ExpectedNextSnapshotScheduleTime"
+            case expectedNextSnapshotScheduleTimeStatus = "ExpectedNextSnapshotScheduleTimeStatus"
+            case hsmStatus = "HsmStatus"
+            case iamRoles = "IamRoles"
+            case kmsKeyId = "KmsKeyId"
+            case maintenanceTrackName = "MaintenanceTrackName"
+            case manualSnapshotRetentionPeriod = "ManualSnapshotRetentionPeriod"
+            case masterUsername = "MasterUsername"
+            case nextMaintenanceWindowStartTime = "NextMaintenanceWindowStartTime"
+            case nodeType = "NodeType"
+            case numberOfNodes = "NumberOfNodes"
+            case pendingActions = "PendingActions"
+            case pendingModifiedValues = "PendingModifiedValues"
+            case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
+            case publiclyAccessible = "PubliclyAccessible"
+            case resizeInfo = "ResizeInfo"
+            case restoreStatus = "RestoreStatus"
+            case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
+            case snapshotScheduleState = "SnapshotScheduleState"
+            case vpcId = "VpcId"
+            case vpcSecurityGroups = "VpcSecurityGroups"
+        }
+    }
+
+    public struct AwsRedshiftClusterElasticIpStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ElasticIp", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The elastic IP address for the cluster.
+        public let elasticIp: String?
+        /// The status of the elastic IP address.
+        public let status: String?
+
+        public init(elasticIp: String? = nil, status: String? = nil) {
+            self.elasticIp = elasticIp
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.elasticIp, name:"elasticIp", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elasticIp = "ElasticIp"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsRedshiftClusterEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Port", required: false, type: .integer)
+        ]
+
+        /// The DNS address of the cluster.
+        public let address: String?
+        /// The port that the database engine listens on.
+        public let port: Int?
+
+        public init(address: String? = nil, port: Int? = nil) {
+            self.address = address
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.address, name:"address", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case port = "Port"
+        }
+    }
+
+    public struct AwsRedshiftClusterHsmStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "HsmClientCertificateIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "HsmConfigurationIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The name of the HSM client certificate that the Amazon Redshift cluster uses to retrieve the data encryption keys that are stored in an HSM.
+        public let hsmClientCertificateIdentifier: String?
+        /// The name of the HSM configuration that contains the information that the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
+        public let hsmConfigurationIdentifier: String?
+        /// Indicates whether the Amazon Redshift cluster has finished applying any HSM settings changes specified in a modify cluster command. Type: String Valid values: active | applying 
+        public let status: String?
+
+        public init(hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, status: String? = nil) {
+            self.hsmClientCertificateIdentifier = hsmClientCertificateIdentifier
+            self.hsmConfigurationIdentifier = hsmConfigurationIdentifier
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.hsmClientCertificateIdentifier, name:"hsmClientCertificateIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.hsmConfigurationIdentifier, name:"hsmConfigurationIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hsmClientCertificateIdentifier = "HsmClientCertificateIdentifier"
+            case hsmConfigurationIdentifier = "HsmConfigurationIdentifier"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsRedshiftClusterIamRole: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ApplyStatus", required: false, type: .string), 
+            AWSShapeMember(label: "IamRoleArn", required: false, type: .string)
+        ]
+
+        /// The status of the IAM role's association with the cluster. Valid values: in-sync | adding | removing 
+        public let applyStatus: String?
+        /// The ARN of the IAM role.
+        public let iamRoleArn: String?
+
+        public init(applyStatus: String? = nil, iamRoleArn: String? = nil) {
+            self.applyStatus = applyStatus
+            self.iamRoleArn = iamRoleArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.applyStatus, name:"applyStatus", parent: name, pattern: ".*\\S.*")
+            try validate(self.iamRoleArn, name:"iamRoleArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applyStatus = "ApplyStatus"
+            case iamRoleArn = "IamRoleArn"
+        }
+    }
+
+    public struct AwsRedshiftClusterPendingModifiedValues: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AutomatedSnapshotRetentionPeriod", required: false, type: .integer), 
+            AWSShapeMember(label: "ClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterType", required: false, type: .string), 
+            AWSShapeMember(label: "ClusterVersion", required: false, type: .string), 
+            AWSShapeMember(label: "EncryptionType", required: false, type: .string), 
+            AWSShapeMember(label: "EnhancedVpcRouting", required: false, type: .boolean), 
+            AWSShapeMember(label: "MaintenanceTrackName", required: false, type: .string), 
+            AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "NodeType", required: false, type: .string), 
+            AWSShapeMember(label: "NumberOfNodes", required: false, type: .integer), 
+            AWSShapeMember(label: "PubliclyAccessible", required: false, type: .boolean)
+        ]
+
+        /// The pending or in-progress change to the automated snapshot retention period.
+        public let automatedSnapshotRetentionPeriod: Int?
+        /// The pending or in-progress change to the identifier for the cluster.
+        public let clusterIdentifier: String?
+        /// The pending or in-progress change to the cluster type.
+        public let clusterType: String?
+        /// The pending or in-progress change to the service version.
+        public let clusterVersion: String?
+        /// The encryption type for a cluster.
+        public let encryptionType: String?
+        /// Indicates whether to create the cluster with enhanced VPC routing enabled.
+        public let enhancedVpcRouting: Bool?
+        /// The name of the maintenance track that the cluster changes to during the next maintenance window.
+        public let maintenanceTrackName: String?
+        /// The pending or in-progress change to the master user password for the cluster.
+        public let masterUserPassword: String?
+        /// The pending or in-progress change to the cluster's node type.
+        public let nodeType: String?
+        /// The pending or in-progress change to the number of nodes in the cluster.
+        public let numberOfNodes: Int?
+        /// The pending or in-progress change to whether the cluster can be connected to from the public network.
+        public let publiclyAccessible: Bool?
+
+        public init(automatedSnapshotRetentionPeriod: Int? = nil, clusterIdentifier: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, encryptionType: String? = nil, enhancedVpcRouting: Bool? = nil, maintenanceTrackName: String? = nil, masterUserPassword: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, publiclyAccessible: Bool? = nil) {
+            self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
+            self.clusterIdentifier = clusterIdentifier
+            self.clusterType = clusterType
+            self.clusterVersion = clusterVersion
+            self.encryptionType = encryptionType
+            self.enhancedVpcRouting = enhancedVpcRouting
+            self.maintenanceTrackName = maintenanceTrackName
+            self.masterUserPassword = masterUserPassword
+            self.nodeType = nodeType
+            self.numberOfNodes = numberOfNodes
+            self.publiclyAccessible = publiclyAccessible
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clusterIdentifier, name:"clusterIdentifier", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterType, name:"clusterType", parent: name, pattern: ".*\\S.*")
+            try validate(self.clusterVersion, name:"clusterVersion", parent: name, pattern: ".*\\S.*")
+            try validate(self.encryptionType, name:"encryptionType", parent: name, pattern: ".*\\S.*")
+            try validate(self.maintenanceTrackName, name:"maintenanceTrackName", parent: name, pattern: ".*\\S.*")
+            try validate(self.masterUserPassword, name:"masterUserPassword", parent: name, pattern: ".*\\S.*")
+            try validate(self.nodeType, name:"nodeType", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case automatedSnapshotRetentionPeriod = "AutomatedSnapshotRetentionPeriod"
+            case clusterIdentifier = "ClusterIdentifier"
+            case clusterType = "ClusterType"
+            case clusterVersion = "ClusterVersion"
+            case encryptionType = "EncryptionType"
+            case enhancedVpcRouting = "EnhancedVpcRouting"
+            case maintenanceTrackName = "MaintenanceTrackName"
+            case masterUserPassword = "MasterUserPassword"
+            case nodeType = "NodeType"
+            case numberOfNodes = "NumberOfNodes"
+            case publiclyAccessible = "PubliclyAccessible"
+        }
+    }
+
+    public struct AwsRedshiftClusterResizeInfo: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AllowCancelResize", required: false, type: .boolean), 
+            AWSShapeMember(label: "ResizeType", required: false, type: .string)
+        ]
+
+        /// Indicates whether the resize operation can be canceled.
+        public let allowCancelResize: Bool?
+        /// The type of resize operation. Valid values: ClassicResize 
+        public let resizeType: String?
+
+        public init(allowCancelResize: Bool? = nil, resizeType: String? = nil) {
+            self.allowCancelResize = allowCancelResize
+            self.resizeType = resizeType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.resizeType, name:"resizeType", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCancelResize = "AllowCancelResize"
+            case resizeType = "ResizeType"
+        }
+    }
+
+    public struct AwsRedshiftClusterRestoreStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentRestoreRateInMegaBytesPerSecond", required: false, type: .double), 
+            AWSShapeMember(label: "ElapsedTimeInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "EstimatedTimeToCompletionInSeconds", required: false, type: .long), 
+            AWSShapeMember(label: "ProgressInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "SnapshotSizeInMegaBytes", required: false, type: .long), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The number of megabytes per second being transferred from the backup storage. Returns the average rate for a completed backup. This field is only updated when you restore to DC2 and DS2 node types.
+        public let currentRestoreRateInMegaBytesPerSecond: Double?
+        /// The amount of time an in-progress restore has been running, or the amount of time it took a completed restore to finish. This field is only updated when you restore to DC2 and DS2 node types.
+        public let elapsedTimeInSeconds: Int64?
+        /// The estimate of the time remaining before the restore is complete. Returns 0 for a completed restore. This field is only updated when you restore to DC2 and DS2 node types.
+        public let estimatedTimeToCompletionInSeconds: Int64?
+        /// The number of megabytes that were transferred from snapshot storage. This field is only updated when you restore to DC2 and DS2 node types.
+        public let progressInMegaBytes: Int64?
+        /// The size of the set of snapshot data that was used to restore the cluster. This field is only updated when you restore to DC2 and DS2 node types.
+        public let snapshotSizeInMegaBytes: Int64?
+        /// The status of the restore action. Valid values: starting | restoring | completed | failed 
+        public let status: String?
+
+        public init(currentRestoreRateInMegaBytesPerSecond: Double? = nil, elapsedTimeInSeconds: Int64? = nil, estimatedTimeToCompletionInSeconds: Int64? = nil, progressInMegaBytes: Int64? = nil, snapshotSizeInMegaBytes: Int64? = nil, status: String? = nil) {
+            self.currentRestoreRateInMegaBytesPerSecond = currentRestoreRateInMegaBytesPerSecond
+            self.elapsedTimeInSeconds = elapsedTimeInSeconds
+            self.estimatedTimeToCompletionInSeconds = estimatedTimeToCompletionInSeconds
+            self.progressInMegaBytes = progressInMegaBytes
+            self.snapshotSizeInMegaBytes = snapshotSizeInMegaBytes
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentRestoreRateInMegaBytesPerSecond = "CurrentRestoreRateInMegaBytesPerSecond"
+            case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
+            case estimatedTimeToCompletionInSeconds = "EstimatedTimeToCompletionInSeconds"
+            case progressInMegaBytes = "ProgressInMegaBytes"
+            case snapshotSizeInMegaBytes = "SnapshotSizeInMegaBytes"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsRedshiftClusterVpcSecurityGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Status", required: false, type: .string), 
+            AWSShapeMember(label: "VpcSecurityGroupId", required: false, type: .string)
+        ]
+
+        /// The status of the VPC security group.
+        public let status: String?
+        /// The identifier of the VPC security group.
+        public let vpcSecurityGroupId: String?
+
+        public init(status: String? = nil, vpcSecurityGroupId: String? = nil) {
+            self.status = status
+            self.vpcSecurityGroupId = vpcSecurityGroupId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.status, name:"status", parent: name, pattern: ".*\\S.*")
+            try validate(self.vpcSecurityGroupId, name:"vpcSecurityGroupId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case vpcSecurityGroupId = "VpcSecurityGroupId"
         }
     }
 
@@ -7035,7 +9950,7 @@ extension SecurityHub {
             AWSShapeMember(label: "SortCriteria", required: false, type: .list)
         ]
 
-        /// The finding attributes used to define a condition to filter the returned findings. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
+        /// The finding attributes used to define a condition to filter the returned findings. You can filter by up to 10 finding attributes. For each attribute, you can provide up to 20 filter values. Note that in the available filter fields, WorkflowState is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public let filters: AwsSecurityFindingFilters?
         /// The maximum number of findings to return.
         public let maxResults: Int?
@@ -7839,7 +10754,7 @@ extension SecurityHub {
         public let invitedAt: TimeStamp?
         /// The AWS account ID of the Security Hub master account associated with this member account.
         public let masterId: String?
-        /// The status of the relationship between the member account and its master account. 
+        /// The status of the relationship between the member account and its master account.  The status can have one of the following values:    CREATED - Indicates that the master account added the member account, but has not yet invited the member account.    INVITED - Indicates that the master account invited the member account. The member account has not yet responded to the invitation.    ASSOCIATED - Indicates that the member account accepted the invitation.    REMOVED - Indicates that the master account disassociated the member account.    RESIGNED - Indicates that the member account disassociated themselves from the master account.    DELETED - Indicates that the master account deleted the member account.  
         public let memberStatus: String?
         /// The timestamp for the date and time when the member account was updated.
         public let updatedAt: TimeStamp?
@@ -8156,7 +11071,7 @@ extension SecurityHub {
         public let installedCount: Int?
         /// The number of installed patches that are not part of the compliance standard.
         public let installedOtherCount: Int?
-        /// The number of patches that were installed since the last time the instance was rebooted.
+        /// The number of patches that were applied, but that require the instance to be rebooted in order to be marked as installed.
         public let installedPendingReboot: Int?
         /// The number of patches that are installed but are also on a list of patches that the customer rejected.
         public let installedRejectedCount: Int?
@@ -8417,6 +11332,7 @@ extension SecurityHub {
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "Partition", required: false, type: .enum), 
             AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "ResourceRole", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .map), 
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
@@ -8429,16 +11345,18 @@ extension SecurityHub {
         public let partition: Partition?
         /// The canonical AWS external Region name where this resource is located.
         public let region: String?
+        public let resourceRole: String?
         /// A list of AWS tags associated with a resource at the time the finding was processed.
         public let tags: [String: String]?
         /// The type of the resource that details are provided for. If possible, set Type to one of the supported resource types. For example, if the resource is an EC2 instance, then set Type to AwsEc2Instance. If the resource does not match any of the provided types, then set Type to Other. 
         public let `type`: String
 
-        public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, tags: [String: String]? = nil, type: String) {
+        public init(details: ResourceDetails? = nil, id: String, partition: Partition? = nil, region: String? = nil, resourceRole: String? = nil, tags: [String: String]? = nil, type: String) {
             self.details = details
             self.id = id
             self.partition = partition
             self.region = region
+            self.resourceRole = resourceRole
             self.tags = tags
             self.`type` = `type`
         }
@@ -8447,6 +11365,7 @@ extension SecurityHub {
             try self.details?.validate(name: "\(name).details")
             try validate(self.id, name:"id", parent: name, pattern: ".*\\S.*")
             try validate(self.region, name:"region", parent: name, pattern: ".*\\S.*")
+            try validate(self.resourceRole, name:"resourceRole", parent: name, pattern: ".*\\S.*")
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, pattern: ".*\\S.*")
                 try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, pattern: ".*\\S.*")
@@ -8459,6 +11378,7 @@ extension SecurityHub {
             case id = "Id"
             case partition = "Partition"
             case region = "Region"
+            case resourceRole = "ResourceRole"
             case tags = "Tags"
             case `type` = "Type"
         }
@@ -8466,8 +11386,14 @@ extension SecurityHub {
 
     public struct ResourceDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AwsApiGatewayRestApi", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsApiGatewayStage", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsApiGatewayV2Api", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsApiGatewayV2Stage", required: false, type: .structure), 
             AWSShapeMember(label: "AwsAutoScalingAutoScalingGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsCertificateManagerCertificate", required: false, type: .structure), 
             AWSShapeMember(label: "AwsCloudFrontDistribution", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsCloudTrailTrail", required: false, type: .structure), 
             AWSShapeMember(label: "AwsCodeBuildProject", required: false, type: .structure), 
             AWSShapeMember(label: "AwsDynamoDbTable", required: false, type: .structure), 
             AWSShapeMember(label: "AwsEc2Eip", required: false, type: .structure), 
@@ -8477,8 +11403,10 @@ extension SecurityHub {
             AWSShapeMember(label: "AwsEc2Volume", required: false, type: .structure), 
             AWSShapeMember(label: "AwsEc2Vpc", required: false, type: .structure), 
             AWSShapeMember(label: "AwsElasticsearchDomain", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsElbLoadBalancer", required: false, type: .structure), 
             AWSShapeMember(label: "AwsElbv2LoadBalancer", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamAccessKey", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsIamGroup", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamRole", required: false, type: .structure), 
             AWSShapeMember(label: "AwsIamUser", required: false, type: .structure), 
@@ -8489,6 +11417,7 @@ extension SecurityHub {
             AWSShapeMember(label: "AwsRdsDbClusterSnapshot", required: false, type: .structure), 
             AWSShapeMember(label: "AwsRdsDbInstance", required: false, type: .structure), 
             AWSShapeMember(label: "AwsRdsDbSnapshot", required: false, type: .structure), 
+            AWSShapeMember(label: "AwsRedshiftCluster", required: false, type: .structure), 
             AWSShapeMember(label: "AwsS3Bucket", required: false, type: .structure), 
             AWSShapeMember(label: "AwsS3Object", required: false, type: .structure), 
             AWSShapeMember(label: "AwsSecretsManagerSecret", required: false, type: .structure), 
@@ -8499,10 +11428,16 @@ extension SecurityHub {
             AWSShapeMember(label: "Other", required: false, type: .map)
         ]
 
+        public let awsApiGatewayRestApi: AwsApiGatewayRestApiDetails?
+        public let awsApiGatewayStage: AwsApiGatewayStageDetails?
+        public let awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails?
+        public let awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails?
         /// Details for an autoscaling group.
         public let awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails?
+        public let awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails?
         /// Details about a CloudFront distribution.
         public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
+        public let awsCloudTrailTrail: AwsCloudTrailTrailDetails?
         /// Details for an AWS CodeBuild project.
         public let awsCodeBuildProject: AwsCodeBuildProjectDetails?
         /// Details about a DynamoDB table.
@@ -8521,10 +11456,12 @@ extension SecurityHub {
         public let awsEc2Vpc: AwsEc2VpcDetails?
         /// Details for an Elasticsearch domain.
         public let awsElasticsearchDomain: AwsElasticsearchDomainDetails?
+        public let awsElbLoadBalancer: AwsElbLoadBalancerDetails?
         /// Details about a load balancer.
         public let awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails?
         /// Details about an IAM access key related to a finding.
         public let awsIamAccessKey: AwsIamAccessKeyDetails?
+        public let awsIamGroup: AwsIamGroupDetails?
         /// Details about an IAM permissions policy.
         public let awsIamPolicy: AwsIamPolicyDetails?
         /// Details about an IAM role.
@@ -8545,6 +11482,7 @@ extension SecurityHub {
         public let awsRdsDbInstance: AwsRdsDbInstanceDetails?
         /// Details about an Amazon RDS database snapshot.
         public let awsRdsDbSnapshot: AwsRdsDbSnapshotDetails?
+        public let awsRedshiftCluster: AwsRedshiftClusterDetails?
         /// Details about an Amazon S3 bucket related to a finding.
         public let awsS3Bucket: AwsS3BucketDetails?
         /// Details about an Amazon S3 object related to a finding.
@@ -8562,9 +11500,15 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.   
         public let other: [String: String]?
 
-        public init(awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+            self.awsApiGatewayRestApi = awsApiGatewayRestApi
+            self.awsApiGatewayStage = awsApiGatewayStage
+            self.awsApiGatewayV2Api = awsApiGatewayV2Api
+            self.awsApiGatewayV2Stage = awsApiGatewayV2Stage
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
+            self.awsCertificateManagerCertificate = awsCertificateManagerCertificate
             self.awsCloudFrontDistribution = awsCloudFrontDistribution
+            self.awsCloudTrailTrail = awsCloudTrailTrail
             self.awsCodeBuildProject = awsCodeBuildProject
             self.awsDynamoDbTable = awsDynamoDbTable
             self.awsEc2Eip = awsEc2Eip
@@ -8574,8 +11518,10 @@ extension SecurityHub {
             self.awsEc2Volume = awsEc2Volume
             self.awsEc2Vpc = awsEc2Vpc
             self.awsElasticsearchDomain = awsElasticsearchDomain
+            self.awsElbLoadBalancer = awsElbLoadBalancer
             self.awsElbv2LoadBalancer = awsElbv2LoadBalancer
             self.awsIamAccessKey = awsIamAccessKey
+            self.awsIamGroup = awsIamGroup
             self.awsIamPolicy = awsIamPolicy
             self.awsIamRole = awsIamRole
             self.awsIamUser = awsIamUser
@@ -8586,6 +11532,7 @@ extension SecurityHub {
             self.awsRdsDbClusterSnapshot = awsRdsDbClusterSnapshot
             self.awsRdsDbInstance = awsRdsDbInstance
             self.awsRdsDbSnapshot = awsRdsDbSnapshot
+            self.awsRedshiftCluster = awsRedshiftCluster
             self.awsS3Bucket = awsS3Bucket
             self.awsS3Object = awsS3Object
             self.awsSecretsManagerSecret = awsSecretsManagerSecret
@@ -8597,8 +11544,14 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.awsApiGatewayRestApi?.validate(name: "\(name).awsApiGatewayRestApi")
+            try self.awsApiGatewayStage?.validate(name: "\(name).awsApiGatewayStage")
+            try self.awsApiGatewayV2Api?.validate(name: "\(name).awsApiGatewayV2Api")
+            try self.awsApiGatewayV2Stage?.validate(name: "\(name).awsApiGatewayV2Stage")
             try self.awsAutoScalingAutoScalingGroup?.validate(name: "\(name).awsAutoScalingAutoScalingGroup")
+            try self.awsCertificateManagerCertificate?.validate(name: "\(name).awsCertificateManagerCertificate")
             try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
+            try self.awsCloudTrailTrail?.validate(name: "\(name).awsCloudTrailTrail")
             try self.awsCodeBuildProject?.validate(name: "\(name).awsCodeBuildProject")
             try self.awsDynamoDbTable?.validate(name: "\(name).awsDynamoDbTable")
             try self.awsEc2Eip?.validate(name: "\(name).awsEc2Eip")
@@ -8608,8 +11561,10 @@ extension SecurityHub {
             try self.awsEc2Volume?.validate(name: "\(name).awsEc2Volume")
             try self.awsEc2Vpc?.validate(name: "\(name).awsEc2Vpc")
             try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
+            try self.awsElbLoadBalancer?.validate(name: "\(name).awsElbLoadBalancer")
             try self.awsElbv2LoadBalancer?.validate(name: "\(name).awsElbv2LoadBalancer")
             try self.awsIamAccessKey?.validate(name: "\(name).awsIamAccessKey")
+            try self.awsIamGroup?.validate(name: "\(name).awsIamGroup")
             try self.awsIamPolicy?.validate(name: "\(name).awsIamPolicy")
             try self.awsIamRole?.validate(name: "\(name).awsIamRole")
             try self.awsIamUser?.validate(name: "\(name).awsIamUser")
@@ -8620,6 +11575,7 @@ extension SecurityHub {
             try self.awsRdsDbClusterSnapshot?.validate(name: "\(name).awsRdsDbClusterSnapshot")
             try self.awsRdsDbInstance?.validate(name: "\(name).awsRdsDbInstance")
             try self.awsRdsDbSnapshot?.validate(name: "\(name).awsRdsDbSnapshot")
+            try self.awsRedshiftCluster?.validate(name: "\(name).awsRedshiftCluster")
             try self.awsS3Bucket?.validate(name: "\(name).awsS3Bucket")
             try self.awsS3Object?.validate(name: "\(name).awsS3Object")
             try self.awsSecretsManagerSecret?.validate(name: "\(name).awsSecretsManagerSecret")
@@ -8634,8 +11590,14 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case awsApiGatewayRestApi = "AwsApiGatewayRestApi"
+            case awsApiGatewayStage = "AwsApiGatewayStage"
+            case awsApiGatewayV2Api = "AwsApiGatewayV2Api"
+            case awsApiGatewayV2Stage = "AwsApiGatewayV2Stage"
             case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
+            case awsCertificateManagerCertificate = "AwsCertificateManagerCertificate"
             case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
+            case awsCloudTrailTrail = "AwsCloudTrailTrail"
             case awsCodeBuildProject = "AwsCodeBuildProject"
             case awsDynamoDbTable = "AwsDynamoDbTable"
             case awsEc2Eip = "AwsEc2Eip"
@@ -8645,8 +11607,10 @@ extension SecurityHub {
             case awsEc2Volume = "AwsEc2Volume"
             case awsEc2Vpc = "AwsEc2Vpc"
             case awsElasticsearchDomain = "AwsElasticsearchDomain"
+            case awsElbLoadBalancer = "AwsElbLoadBalancer"
             case awsElbv2LoadBalancer = "AwsElbv2LoadBalancer"
             case awsIamAccessKey = "AwsIamAccessKey"
+            case awsIamGroup = "AwsIamGroup"
             case awsIamPolicy = "AwsIamPolicy"
             case awsIamRole = "AwsIamRole"
             case awsIamUser = "AwsIamUser"
@@ -8657,6 +11621,7 @@ extension SecurityHub {
             case awsRdsDbClusterSnapshot = "AwsRdsDbClusterSnapshot"
             case awsRdsDbInstance = "AwsRdsDbInstance"
             case awsRdsDbSnapshot = "AwsRdsDbSnapshot"
+            case awsRedshiftCluster = "AwsRedshiftCluster"
             case awsS3Bucket = "AwsS3Bucket"
             case awsS3Object = "AwsS3Object"
             case awsSecretsManagerSecret = "AwsSecretsManagerSecret"

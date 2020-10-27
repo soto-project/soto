@@ -44,6 +44,11 @@ public struct MediaPackage {
     
     //MARK: API Calls
 
+    ///  Changes the Channel's properities to configure log subscription
+    public func configureLogs(_ input: ConfigureLogsRequest) -> EventLoopFuture<ConfigureLogsResponse> {
+        return client.send(operation: "ConfigureLogs", path: "/channels/{id}/configure_logs", httpMethod: "PUT", input: input)
+    }
+
     ///  Creates a new Channel.
     public func createChannel(_ input: CreateChannelRequest) -> EventLoopFuture<CreateChannelResponse> {
         return client.send(operation: "CreateChannel", path: "/channels", httpMethod: "POST", input: input)

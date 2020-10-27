@@ -13,6 +13,10 @@ extension ComputeOptimizer {
         case finding = "Finding"
         case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
         case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
+        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
+        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
+        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
         case lookbackperiodindays = "LookbackPeriodInDays"
         case currentconfigurationinstancetype = "CurrentConfigurationInstanceType"
         case currentconfigurationdesiredcapacity = "CurrentConfigurationDesiredCapacity"
@@ -52,6 +56,10 @@ extension ComputeOptimizer {
         case currentinstancetype = "CurrentInstanceType"
         case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
         case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
+        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
+        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
+        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
         case currentondemandprice = "CurrentOnDemandPrice"
         case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
         case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
@@ -112,6 +120,10 @@ extension ComputeOptimizer {
     public enum MetricName: String, CustomStringConvertible, Codable {
         case cpu = "Cpu"
         case memory = "Memory"
+        case ebsReadOpsPerSecond = "EBS_READ_OPS_PER_SECOND"
+        case ebsWriteOpsPerSecond = "EBS_WRITE_OPS_PER_SECOND"
+        case ebsReadBytesPerSecond = "EBS_READ_BYTES_PER_SECOND"
+        case ebsWriteBytesPerSecond = "EBS_WRITE_BYTES_PER_SECOND"
         public var description: String { return self.rawValue }
     }
 
@@ -244,7 +256,7 @@ extension ComputeOptimizer {
         public let configuration: AutoScalingGroupConfiguration?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk is the likelihood of the recommended instance type not meeting the performance requirement of your workload. The lowest performance risk is categorized as 0, and the highest as 5.
         public let performanceRisk: Double?
-        /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option.
+        /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option.  The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let projectedUtilizationMetrics: [UtilizationMetric]?
         /// The rank of the Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
@@ -330,7 +342,7 @@ extension ComputeOptimizer {
 
         /// The IDs of the AWS accounts for which to export Auto Scaling group recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
-        /// The recommendations data to include in the export file.
+        /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableAutoScalingGroupField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
@@ -411,7 +423,7 @@ extension ComputeOptimizer {
 
         /// The IDs of the AWS accounts for which to export instance recommendations. If your account is the master account of an organization, use this parameter to specify the member accounts for which you want to export recommendations. This parameter cannot be specified together with the include member accounts parameter. The parameters are mutually exclusive. Recommendations for member accounts are not included in the export if this parameter, or the include member accounts parameter, is omitted. You can specify multiple account IDs per request.
         public let accountIds: [String]?
-        /// The recommendations data to include in the export file.
+        /// The recommendations data to include in the export file. For more information about the fields that can be exported, see Exported files in the Compute Optimizer User Guide.
         public let fieldsToExport: [ExportableInstanceField]?
         /// The format of the export file. The only export file format currently supported is Csv.
         public let fileFormat: FileFormat?
@@ -852,7 +864,7 @@ extension ComputeOptimizer {
         public let instanceType: String?
         /// The performance risk of the instance recommendation option. Performance risk is the likelihood of the recommended instance type not meeting the performance requirement of your workload. The lowest performance risk is categorized as 0, and the highest as 5.
         public let performanceRisk: Double?
-        /// An array of objects that describe the projected utilization metrics of the instance recommendation option.
+        /// An array of objects that describe the projected utilization metrics of the instance recommendation option.  The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let projectedUtilizationMetrics: [UtilizationMetric]?
         /// The rank of the instance recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
@@ -901,7 +913,7 @@ extension ComputeOptimizer {
             AWSShapeMember(label: "values", required: false, type: .list)
         ]
 
-        /// The name of the projected utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
+        /// The name of the projected utilization metric.
         public let name: MetricName?
         /// The time stamps of the projected utilization metric.
         public let timestamps: [TimeStamp]?
@@ -1166,7 +1178,7 @@ extension ComputeOptimizer {
             AWSShapeMember(label: "value", required: false, type: .double)
         ]
 
-        /// The name of the utilization metric.  Memory metrics are only returned for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
+        /// The name of the utilization metric.  The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
         public let name: MetricName?
         /// The statistic of the utilization metric.
         public let statistic: MetricStatistic?

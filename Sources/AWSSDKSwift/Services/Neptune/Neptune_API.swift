@@ -85,6 +85,11 @@ public struct Neptune {
         return client.send(operation: "CreateDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Creates a new custom endpoint and associates it with an Amazon Neptune DB cluster.
+    public func createDBClusterEndpoint(_ input: CreateDBClusterEndpointMessage) -> EventLoopFuture<CreateDBClusterEndpointOutput> {
+        return client.send(operation: "CreateDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new DB cluster parameter group. Parameters in a DB cluster parameter group apply to all of the instances in a DB cluster.  A DB cluster parameter group is initially created with the default parameters for the database engine used by instances in the DB cluster. To provide custom values for any of the parameters, you must modify the group after creating it using ModifyDBClusterParameterGroup. Once you've created a DB cluster parameter group, you need to associate it with your DB cluster using ModifyDBCluster. When you associate a new DB cluster parameter group with a running DB cluster, you need to reboot the DB instances in the DB cluster without failover for the new DB cluster parameter group and associated settings to take effect.  After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the DB cluster parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified. 
     public func createDBClusterParameterGroup(_ input: CreateDBClusterParameterGroupMessage) -> EventLoopFuture<CreateDBClusterParameterGroupResult> {
         return client.send(operation: "CreateDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
@@ -120,6 +125,11 @@ public struct Neptune {
         return client.send(operation: "DeleteDBCluster", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes a custom endpoint and removes it from an Amazon Neptune DB cluster.
+    public func deleteDBClusterEndpoint(_ input: DeleteDBClusterEndpointMessage) -> EventLoopFuture<DeleteDBClusterEndpointOutput> {
+        return client.send(operation: "DeleteDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes a specified DB cluster parameter group. The DB cluster parameter group to be deleted can't be associated with any DB clusters.
     @discardableResult public func deleteDBClusterParameterGroup(_ input: DeleteDBClusterParameterGroupMessage) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteDBClusterParameterGroup", path: "/", httpMethod: "POST", input: input)
@@ -148,6 +158,11 @@ public struct Neptune {
     ///  Deletes an event notification subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage) -> EventLoopFuture<DeleteEventSubscriptionResult> {
         return client.send(operation: "DeleteEventSubscription", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters. 
+    public func describeDBClusterEndpoints(_ input: DescribeDBClusterEndpointsMessage) -> EventLoopFuture<DBClusterEndpointMessage> {
+        return client.send(operation: "DescribeDBClusterEndpoints", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.
@@ -253,6 +268,11 @@ public struct Neptune {
     ///  Modify a setting for a DB cluster. You can change one or more database configuration parameters by specifying these parameters and the new values in the request.
     public func modifyDBCluster(_ input: ModifyDBClusterMessage) -> EventLoopFuture<ModifyDBClusterResult> {
         return client.send(operation: "ModifyDBCluster", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
+    public func modifyDBClusterEndpoint(_ input: ModifyDBClusterEndpointMessage) -> EventLoopFuture<ModifyDBClusterEndpointOutput> {
+        return client.send(operation: "ModifyDBClusterEndpoint", path: "/", httpMethod: "POST", input: input)
     }
 
     ///   Modifies the parameters of a DB cluster parameter group. To modify more than one parameter, submit a list of the following: ParameterName, ParameterValue, and ApplyMethod. A maximum of 20 parameters can be modified in a single request.  Changes to dynamic parameters are applied immediately. Changes to static parameters require a reboot without failover to the DB cluster associated with the parameter group before the change can take effect.   After you create a DB cluster parameter group, you should wait at least 5 minutes before creating your first DB cluster that uses that DB cluster parameter group as the default parameter group. This allows Amazon Neptune to fully complete the create action before the parameter group is used as the default for a new DB cluster. This is especially important for parameters that are critical when creating the default database for a DB cluster, such as the character set for the default database defined by the character_set_database parameter. You can use the Parameter Groups option of the Amazon Neptune console or the DescribeDBClusterParameters command to verify that your DB cluster parameter group has been created or modified. 

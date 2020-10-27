@@ -16,7 +16,7 @@ extension ResourceGroups {
         return client.paginate(input: input, command: listGroups, tokenKey: \ListGroupsOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns a list of AWS resource identifiers that matches tne specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
+    ///  Returns a list of AWS resource identifiers that matches the specified query. The query uses the same format as a resource query in a CreateGroup or UpdateGroupQuery operation.
     public func searchResourcesPaginator(_ input: SearchResourcesInput, onPage: @escaping (SearchResourcesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: searchResources, tokenKey: \SearchResourcesOutput.nextToken, onPage: onPage)
     }

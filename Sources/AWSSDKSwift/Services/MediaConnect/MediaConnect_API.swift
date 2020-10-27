@@ -74,6 +74,16 @@ public struct MediaConnect {
         return client.send(operation: "DescribeFlow", path: "/v1/flows/{flowArn}", httpMethod: "GET", input: input)
     }
 
+    ///  Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
+    public func describeOffering(_ input: DescribeOfferingRequest) -> EventLoopFuture<DescribeOfferingResponse> {
+        return client.send(operation: "DescribeOffering", path: "/v1/offerings/{offeringArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
+    public func describeReservation(_ input: DescribeReservationRequest) -> EventLoopFuture<DescribeReservationResponse> {
+        return client.send(operation: "DescribeReservation", path: "/v1/reservations/{reservationArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Grants entitlements to an existing flow.
     public func grantFlowEntitlements(_ input: GrantFlowEntitlementsRequest) -> EventLoopFuture<GrantFlowEntitlementsResponse> {
         return client.send(operation: "GrantFlowEntitlements", path: "/v1/flows/{flowArn}/entitlements", httpMethod: "POST", input: input)
@@ -89,9 +99,24 @@ public struct MediaConnect {
         return client.send(operation: "ListFlows", path: "/v1/flows", httpMethod: "GET", input: input)
     }
 
+    ///  Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    public func listOfferings(_ input: ListOfferingsRequest) -> EventLoopFuture<ListOfferingsResponse> {
+        return client.send(operation: "ListOfferings", path: "/v1/offerings", httpMethod: "GET", input: input)
+    }
+
+    ///  Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    public func listReservations(_ input: ListReservationsRequest) -> EventLoopFuture<ListReservationsResponse> {
+        return client.send(operation: "ListReservations", path: "/v1/reservations", httpMethod: "GET", input: input)
+    }
+
     ///  List all tags on an AWS Elemental MediaConnect resource
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
+    ///  Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+    public func purchaseOffering(_ input: PurchaseOfferingRequest) -> EventLoopFuture<PurchaseOfferingResponse> {
+        return client.send(operation: "PurchaseOffering", path: "/v1/offerings/{offeringArn}", httpMethod: "POST", input: input)
     }
 
     ///  Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.

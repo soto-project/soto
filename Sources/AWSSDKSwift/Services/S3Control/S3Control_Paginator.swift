@@ -6,14 +6,19 @@ import NIO
 
 extension S3Control {
 
-    ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.
+    ///  Returns a list of the access points currently associated with the specified bucket. You can retrieve up to 1000 access points per call. If the specified bucket has more than 1,000 access points (or the number specified in maxResults, whichever is less), the response will include a continuation token that you can use to list the additional access points.  All Amazon S3 on Outposts REST API requests for this action require an additional parameter of outpost-id to be passed with the request and an S3 on Outposts endpoint hostname prefix instead of s3-control. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and the outpost-id derived using the access point ARN, see the  Example section below. The following actions are related to ListAccessPoints:    CreateAccessPoint     DeleteAccessPoint     GetAccessPoint   
     public func listAccessPointsPaginator(_ input: ListAccessPointsRequest, onPage: @escaping (ListAccessPointsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAccessPoints, tokenKey: \ListAccessPointsResult.nextToken, onPage: onPage)
     }
 
-    ///  Lists current Amazon S3 Batch Operations jobs and jobs that have ended within the last 30 days for the AWS account making the request. For more information, see Amazon S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus   
+    ///  Lists current S3 Batch Operations jobs and jobs that have ended within the last 30 days for the AWS account making the request. For more information, see S3 Batch Operations in the Amazon Simple Storage Service Developer Guide. Related actions include:     CreateJob     DescribeJob     UpdateJobPriority     UpdateJobStatus   
     public func listJobsPaginator(_ input: ListJobsRequest, onPage: @escaping (ListJobsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listJobs, tokenKey: \ListJobsResult.nextToken, onPage: onPage)
+    }
+
+    ///  Returns a list of all Outposts buckets in an Outposts that are owned by the authenticated sender of the request. For more information, see Using Amazon S3 on Outposts in the Amazon Simple Storage Service Developer Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and outpost-id in your API request, see the  Example section below.
+    public func listRegionalBucketsPaginator(_ input: ListRegionalBucketsRequest, onPage: @escaping (ListRegionalBucketsResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listRegionalBuckets, tokenKey: \ListRegionalBucketsResult.nextToken, onPage: onPage)
     }
 
 }
@@ -37,6 +42,18 @@ extension S3Control.ListJobsRequest: AWSPaginateStringToken {
             jobStatuses: self.jobStatuses, 
             maxResults: self.maxResults, 
             nextToken: token
+        )
+
+    }
+}
+
+extension S3Control.ListRegionalBucketsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> S3Control.ListRegionalBucketsRequest {
+        return .init(
+            accountId: self.accountId, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            outpostId: self.outpostId
         )
 
     }

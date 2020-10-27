@@ -11,7 +11,7 @@ extension S3 {
         return client.paginate(input: input, command: listMultipartUploads, tokenKey: \ListMultipartUploadsOutput.nextKeyMarker, onPage: onPage)
     }
 
-    ///  Returns metadata about all of the versions of objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions.    A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately.  To use this operation, you must have READ access to the bucket. The following operations are related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject     DeleteObject   
+    ///  Returns metadata about all versions of the objects in a bucket. You can also use request parameters as selection criteria to return metadata about a subset of all the object versions.    A 200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately.  To use this operation, you must have READ access to the bucket. This action is not supported by Amazon S3 on Outposts. The following operations are related to ListObjectVersions:    ListObjectsV2     GetObject     PutObject     DeleteObject   
     public func listObjectVersionsPaginator(_ input: ListObjectVersionsRequest, onPage: @escaping (ListObjectVersionsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listObjectVersions, tokenKey: \ListObjectVersionsOutput.nextKeyMarker, onPage: onPage)
     }

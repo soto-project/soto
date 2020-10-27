@@ -12,6 +12,7 @@ public enum BudgetsErrorType: AWSErrorType {
     case invalidNextTokenException(message: String?)
     case invalidParameterException(message: String?)
     case notFoundException(message: String?)
+    case resourceLockedException(message: String?)
 }
 
 extension BudgetsErrorType {
@@ -37,6 +38,8 @@ extension BudgetsErrorType {
             self = .invalidParameterException(message: message)
         case "NotFoundException":
             self = .notFoundException(message: message)
+        case "ResourceLockedException":
+            self = .resourceLockedException(message: message)
         default:
             return nil
         }
@@ -62,6 +65,8 @@ extension BudgetsErrorType : CustomStringConvertible {
             return "InvalidParameterException: \(message ?? "")"
         case .notFoundException(let message):
             return "NotFoundException: \(message ?? "")"
+        case .resourceLockedException(let message):
+            return "ResourceLockedException: \(message ?? "")"
         }
     }
 }

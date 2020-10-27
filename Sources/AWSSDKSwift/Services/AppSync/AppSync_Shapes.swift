@@ -162,7 +162,7 @@ extension AppSync {
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
 
-        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.  
         public let apiCachingBehavior: ApiCachingBehavior?
         /// At rest encryption flag for cache. This setting cannot be updated after creation.
         public let atRestEncryptionEnabled: Bool?
@@ -172,7 +172,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64?
-        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType?
 
         public init(apiCachingBehavior: ApiCachingBehavior? = nil, atRestEncryptionEnabled: Bool? = nil, status: ApiCacheStatus? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64? = nil, type: ApiCacheType? = nil) {
@@ -196,11 +196,14 @@ extension AppSync {
 
     public struct ApiKey: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "deletes", required: false, type: .long), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "expires", required: false, type: .long), 
             AWSShapeMember(label: "id", required: false, type: .string)
         ]
 
+        /// The time after which the API key is deleted. The date is represented as seconds since the epoch, rounded down to the nearest hour.
+        public let deletes: Int64?
         /// A description of the purpose of the API key.
         public let description: String?
         /// The time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour.
@@ -208,13 +211,15 @@ extension AppSync {
         /// The API key ID.
         public let id: String?
 
-        public init(description: String? = nil, expires: Int64? = nil, id: String? = nil) {
+        public init(deletes: Int64? = nil, description: String? = nil, expires: Int64? = nil, id: String? = nil) {
+            self.deletes = deletes
             self.description = description
             self.expires = expires
             self.id = id
         }
 
         private enum CodingKeys: String, CodingKey {
+            case deletes = "deletes"
             case description = "description"
             case expires = "expires"
             case id = "id"
@@ -324,7 +329,7 @@ extension AppSync {
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
-        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.  
         public let apiCachingBehavior: ApiCachingBehavior
         /// The GraphQL API Id.
         public let apiId: String
@@ -334,7 +339,7 @@ extension AppSync {
         public let transitEncryptionEnabled: Bool?
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, atRestEncryptionEnabled: Bool? = nil, transitEncryptionEnabled: Bool? = nil, ttl: Int64, type: ApiCacheType) {
@@ -1611,6 +1616,7 @@ extension AppSync {
             AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "uris", required: false, type: .map), 
             AWSShapeMember(label: "userPoolConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "wafWebAclArn", required: false, type: .string), 
             AWSShapeMember(label: "xrayEnabled", required: false, type: .boolean)
         ]
 
@@ -1634,10 +1640,12 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
+        /// The ARN of the AWS Web Application Firewall (WAF) ACL associated with this GraphqlApi, if one exists.
+        public let wafWebAclArn: String?
         /// A flag representing whether X-Ray tracing is enabled for this GraphqlApi.
         public let xrayEnabled: Bool?
 
-        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
+        public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
             self.additionalAuthenticationProviders = additionalAuthenticationProviders
             self.apiId = apiId
             self.arn = arn
@@ -1648,6 +1656,7 @@ extension AppSync {
             self.tags = tags
             self.uris = uris
             self.userPoolConfig = userPoolConfig
+            self.wafWebAclArn = wafWebAclArn
             self.xrayEnabled = xrayEnabled
         }
 
@@ -1662,6 +1671,7 @@ extension AppSync {
             case tags = "tags"
             case uris = "uris"
             case userPoolConfig = "userPoolConfig"
+            case wafWebAclArn = "wafWebAclArn"
             case xrayEnabled = "xrayEnabled"
         }
     }
@@ -2564,13 +2574,13 @@ extension AppSync {
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
-        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resovlers that you specify are cached.  
+        /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.  
         public let apiCachingBehavior: ApiCachingBehavior
         /// The GraphQL API Id.
         public let apiId: String
         /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
         public let ttl: Int64
-        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are avaible, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
+        /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.  
         public let `type`: ApiCacheType
 
         public init(apiCachingBehavior: ApiCachingBehavior, apiId: String, ttl: Int64, type: ApiCacheType) {

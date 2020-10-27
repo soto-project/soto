@@ -15,6 +15,7 @@ extension CodeStarconnections {
 
     public enum ProviderType: String, CustomStringConvertible, Codable {
         case bitbucket = "Bitbucket"
+        case github = "GitHub"
         case githubenterpriseserver = "GitHubEnterpriseServer"
         public var description: String { return self.rawValue }
     }

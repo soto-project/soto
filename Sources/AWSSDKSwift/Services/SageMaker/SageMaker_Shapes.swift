@@ -21,6 +21,13 @@ extension SageMaker {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppImageConfigSortKey: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
+        case lastmodifiedtime = "LastModifiedTime"
+        case name = "Name"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppInstanceType: String, CustomStringConvertible, Codable {
         case system = "system"
         case mlT3Micro = "ml.t3.micro"
@@ -54,6 +61,12 @@ extension SageMaker {
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
         case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
         case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AppNetworkAccessType: String, CustomStringConvertible, Codable {
+        case publicinternetonly = "PublicInternetOnly"
+        case vpconly = "VpcOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -268,6 +281,9 @@ extension SageMaker {
         case failed = "Failed"
         case inservice = "InService"
         case pending = "Pending"
+        case updating = "Updating"
+        case updateFailed = "Update_Failed"
+        case deleteFailed = "Delete_Failed"
         public var description: String { return self.rawValue }
     }
 
@@ -335,6 +351,7 @@ extension SageMaker {
         case pytorch = "PYTORCH"
         case xgboost = "XGBOOST"
         case tflite = "TFLITE"
+        case darknet = "DARKNET"
         public var description: String { return self.rawValue }
     }
 
@@ -383,6 +400,52 @@ extension SageMaker {
     public enum HyperParameterTuningJobWarmStartType: String, CustomStringConvertible, Codable {
         case identicaldataandalgorithm = "IdenticalDataAndAlgorithm"
         case transferlearning = "TransferLearning"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageSortBy: String, CustomStringConvertible, Codable {
+        case creationTime = "CREATION_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case imageName = "IMAGE_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
+        case updating = "UPDATING"
+        case updateFailed = "UPDATE_FAILED"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageVersionSortBy: String, CustomStringConvertible, Codable {
+        case creationTime = "CREATION_TIME"
+        case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageVersionSortOrder: String, CustomStringConvertible, Codable {
+        case ascending = "ASCENDING"
+        case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageVersionStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case created = "CREATED"
+        case createFailed = "CREATE_FAILED"
+        case deleting = "DELETING"
+        case deleteFailed = "DELETE_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -912,6 +975,7 @@ extension SageMaker {
         case ambaCv22 = "amba_cv22"
         case x86Win32 = "x86_win32"
         case x86Win64 = "x86_win64"
+        case coreml = "coreml"
         public var description: String { return self.rawValue }
     }
 
@@ -972,6 +1036,7 @@ extension SageMaker {
         case mlP38Xlarge = "ml.p3.8xlarge"
         case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlP4D24Xlarge = "ml.p4d.24xlarge"
         case mlC5Xlarge = "ml.c5.xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
@@ -1067,6 +1132,9 @@ extension SageMaker {
         case failed = "Failed"
         case inservice = "InService"
         case pending = "Pending"
+        case updating = "Updating"
+        case updateFailed = "Update_Failed"
+        case deleteFailed = "Delete_Failed"
         public var description: String { return self.rawValue }
     }
 
@@ -1396,6 +1464,43 @@ extension SageMaker {
         }
     }
 
+    public struct AppImageConfigDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigArn", required: false, type: .string), 
+            AWSShapeMember(label: "AppImageConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KernelGatewayImageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the AppImageConfig.
+        public let appImageConfigArn: String?
+        /// The name of the AppImageConfig.
+        public let appImageConfigName: String?
+        /// When the AppImageConfig was created.
+        public let creationTime: TimeStamp?
+        /// The KernelGateway app.
+        public let kernelGatewayImageConfig: KernelGatewayImageConfig?
+        /// When the AppImageConfig was last modified.
+        public let lastModifiedTime: TimeStamp?
+
+        public init(appImageConfigArn: String? = nil, appImageConfigName: String? = nil, creationTime: TimeStamp? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, lastModifiedTime: TimeStamp? = nil) {
+            self.appImageConfigArn = appImageConfigArn
+            self.appImageConfigName = appImageConfigName
+            self.creationTime = creationTime
+            self.kernelGatewayImageConfig = kernelGatewayImageConfig
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigArn = "AppImageConfigArn"
+            case appImageConfigName = "AppImageConfigName"
+            case creationTime = "CreationTime"
+            case kernelGatewayImageConfig = "KernelGatewayImageConfig"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct AppSpecification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContainerArguments", required: false, type: .list), 
@@ -1457,10 +1562,10 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -1645,7 +1750,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3DataSource", required: true, type: .structure)
         ]
 
-        /// The Amazon S3 location of the input data.  The input data must be in CSV format and contain at least 1000 rows. 
+        /// The Amazon S3 location of the input data.  The input data must be in CSV format and contain at least 500 rows. 
         public let s3DataSource: AutoMLS3DataSource
 
         public init(s3DataSource: AutoMLS3DataSource) {
@@ -2377,13 +2482,13 @@ extension SageMaker {
         public let containerHostname: String?
         /// The environment variables to set in the Docker container. Each key and value in the Environment string to string map can have length of up to 1024. We support up to 16 entries in the map. 
         public let environment: [String: String]?
-        /// The Amazon EC2 Container Registry (Amazon ECR) path where inference code is stored. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker 
+        /// The path where inference code is stored. This can be either in Amazon EC2 Container Registry or in a Docker registry that is accessible from the same VPC that you configure for your endpoint. If you are using your own custom algorithm instead of an algorithm provided by Amazon SageMaker, the inference code must meet Amazon SageMaker requirements. Amazon SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker 
         public let image: String?
-        /// Specifies whether the model container is in Amazon ECR or a private Docker registry in your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers 
+        /// Specifies whether the model container is in Amazon ECR or a private Docker registry accessible from your Amazon Virtual Private Cloud (VPC). For information about storing containers in a private Docker registry, see Use a Private Docker Registry for Real-Time Inference Containers 
         public let imageConfig: ImageConfig?
         /// Whether the container hosts a single model or multiple models.
         public let mode: ContainerMode?
-        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl. 
+        /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix). The S3 path is required for Amazon SageMaker built-in algorithms, but not if you use your own algorithms. For more information on built-in algorithms, see Common Parameters.   The model artifacts must be in an S3 bucket that is in the same region as the model or endpoint you are creating.  If you provide a value for this parameter, Amazon SageMaker uses AWS Security Token Service to download model artifacts from the S3 path you provide. AWS STS is activated in your IAM user account by default. If you previously deactivated AWS STS for a region, you need to reactivate AWS STS for that region. For more information, see Activating and Deactivating AWS STS in an AWS Region in the AWS Identity and Access Management User Guide.  If you use a built-in algorithm to create a model, Amazon SageMaker requires that you provide a S3 path to the model artifacts in ModelDataUrl. 
         public let modelDataUrl: String?
         /// The name or Amazon Resource Name (ARN) of the model package to use to create the model.
         public let modelPackageName: String?
@@ -2411,9 +2516,9 @@ extension SageMaker {
             try validate(self.image, name:"image", parent: name, pattern: "[\\S]+")
             try validate(self.modelDataUrl, name:"modelDataUrl", parent: name, max: 1024)
             try validate(self.modelDataUrl, name:"modelDataUrl", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 170)
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 176)
             try validate(self.modelPackageName, name:"modelPackageName", parent: name, min: 1)
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)(\\/[0-9]{1,5})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2567,6 +2672,61 @@ extension SageMaker {
         }
     }
 
+    public struct CreateAppImageConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "KernelGatewayImageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The name of the AppImageConfig. Must be unique to your account.
+        public let appImageConfigName: String
+        /// The KernelGatewayImageConfig.
+        public let kernelGatewayImageConfig: KernelGatewayImageConfig?
+        /// A list of tags to apply to the AppImageConfig.
+        public let tags: [Tag]?
+
+        public init(appImageConfigName: String, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, tags: [Tag]? = nil) {
+            self.appImageConfigName = appImageConfigName
+            self.kernelGatewayImageConfig = kernelGatewayImageConfig
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, max: 63)
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.kernelGatewayImageConfig?.validate(name: "\(name).kernelGatewayImageConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigName = "AppImageConfigName"
+            case kernelGatewayImageConfig = "KernelGatewayImageConfig"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateAppImageConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the AppImageConfig.
+        public let appImageConfigArn: String?
+
+        public init(appImageConfigArn: String? = nil) {
+            self.appImageConfigArn = appImageConfigArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigArn = "AppImageConfigArn"
+        }
+    }
+
     public struct CreateAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppName", required: true, type: .string), 
@@ -2628,7 +2788,7 @@ extension SageMaker {
             AWSShapeMember(label: "AppArn", required: false, type: .string)
         ]
 
-        /// The App's Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the app.
         public let appArn: String?
 
         public init(appArn: String? = nil) {
@@ -2661,7 +2821,7 @@ extension SageMaker {
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training a model. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 1000 rows.
+        /// Similar to InputDataConfig supported by Tuning. Format(s) supported: CSV. Minimum of 500 rows.
         public let inputDataConfig: [AutoMLChannel]
         /// Similar to OutputDataConfig supported by Tuning. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
@@ -2787,7 +2947,8 @@ extension SageMaker {
             AWSShapeMember(label: "InputConfig", required: true, type: .structure), 
             AWSShapeMember(label: "OutputConfig", required: true, type: .structure), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
-            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure)
+            AWSShapeMember(label: "StoppingCondition", required: true, type: .structure), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// A name for the model compilation job. The name must be unique within the AWS Region and within your AWS account. 
@@ -2800,13 +2961,16 @@ extension SageMaker {
         public let roleArn: String
         /// Specifies a limit to how long a model compilation job can run. When the job reaches the time limit, Amazon SageMaker ends the compilation job. Use this API to cap model training costs.
         public let stoppingCondition: StoppingCondition
+        /// An array of key-value pairs that you want to use to organize and track your AWS resource costs. For more information, see Using Cost Allocation Tags in the AWS Billing and Cost Management User Guide. 
+        public let tags: [Tag]?
 
-        public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition) {
+        public init(compilationJobName: String, inputConfig: InputConfig, outputConfig: OutputConfig, roleArn: String, stoppingCondition: StoppingCondition, tags: [Tag]? = nil) {
             self.compilationJobName = compilationJobName
             self.inputConfig = inputConfig
             self.outputConfig = outputConfig
             self.roleArn = roleArn
             self.stoppingCondition = stoppingCondition
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -2819,6 +2983,11 @@ extension SageMaker {
             try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
             try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
             try self.stoppingCondition.validate(name: "\(name).stoppingCondition")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2827,6 +2996,7 @@ extension SageMaker {
             case outputConfig = "OutputConfig"
             case roleArn = "RoleArn"
             case stoppingCondition = "StoppingCondition"
+            case tags = "Tags"
         }
     }
 
@@ -2849,6 +3019,7 @@ extension SageMaker {
 
     public struct CreateDomainRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppNetworkAccessType", required: false, type: .enum), 
             AWSShapeMember(label: "AuthMode", required: true, type: .enum), 
             AWSShapeMember(label: "DefaultUserSettings", required: true, type: .structure), 
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
@@ -2858,6 +3029,8 @@ extension SageMaker {
             AWSShapeMember(label: "VpcId", required: true, type: .string)
         ]
 
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets  
+        public let appNetworkAccessType: AppNetworkAccessType?
         /// The mode of authentication that members use to access the domain.
         public let authMode: AuthMode
         /// The default user settings.
@@ -2866,14 +3039,15 @@ extension SageMaker {
         public let domainName: String
         /// The AWS Key Management Service (KMS) encryption key ID. Encryption with a customer master key (CMK) is not supported.
         public let homeEfsFileSystemKmsKeyId: String?
-        /// The VPC subnets to use for communication with the EFS volume.
+        /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]
         /// Tags to associated with the Domain. Each tag consists of a key and an optional value. Tag keys must be unique per resource. Tags are searchable using the Search API.
         public let tags: [Tag]?
-        /// The ID of the Amazon Virtual Private Cloud (VPC) to use for communication with the EFS volume.
+        /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String
 
-        public init(authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode, defaultUserSettings: UserSettings, domainName: String, homeEfsFileSystemKmsKeyId: String? = nil, subnetIds: [String], tags: [Tag]? = nil, vpcId: String) {
+            self.appNetworkAccessType = appNetworkAccessType
             self.authMode = authMode
             self.defaultUserSettings = defaultUserSettings
             self.domainName = domainName
@@ -2905,6 +3079,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appNetworkAccessType = "AppNetworkAccessType"
             case authMode = "AuthMode"
             case defaultUserSettings = "DefaultUserSettings"
             case domainName = "DomainName"
@@ -3017,7 +3192,7 @@ extension SageMaker {
 
         /// The name of an endpoint configuration. For more information, see CreateEndpointConfig. 
         public let endpointConfigName: String
-        /// The name of the endpoint. The name must be unique within an AWS Region in your AWS account.
+        /// The name of the endpoint.The name must be unique within an AWS Region in your AWS account. The name is case-insensitive in CreateEndpoint, but the case is preserved and must be matched in .
         public let endpointName: String
         /// An array of key-value pairs. For more information, see Using Cost Allocation Tagsin the AWS Billing and Cost Management User Guide. 
         public let tags: [Tag]?
@@ -3091,10 +3266,10 @@ extension SageMaker {
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 3072)
             try validate(self.description, name:"description", parent: name, pattern: ".*")
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.tags?.forEach {
@@ -3277,7 +3452,7 @@ extension SageMaker {
 
         /// The HyperParameterTuningJobConfig object that describes the tuning job, including the search strategy, the objective metric used to evaluate training jobs, ranges of parameters to search, and resource limits for the tuning job. For more information, see How Hyperparameter Tuning Works.
         public let hyperParameterTuningJobConfig: HyperParameterTuningJobConfig
-        /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. The name must have { } to { } characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
+        /// The name of the tuning job. This name is the prefix for the names of all training jobs that this tuning job launches. The name must be unique within the same AWS account and AWS Region. The name must have 1 to 32 characters. Valid characters are a-z, A-Z, 0-9, and : + = @ _ % - (hyphen). The name is not case sensitive.
         public let hyperParameterTuningJobName: String
         /// An array of key-value pairs. You can use tags to categorize your AWS resources in different ways, for example, by purpose, owner, or environment. For more information, see AWS Tagging Strategies. Tags that you specify for the tuning job are also added to all training jobs that the tuning job launches.
         public let tags: [Tag]?
@@ -3343,6 +3518,136 @@ extension SageMaker {
         }
     }
 
+    public struct CreateImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
+        ]
+
+        /// The description of the image.
+        public let description: String?
+        /// The display name of the image. When the image is added to a domain, DisplayName must be unique to the domain.
+        public let displayName: String?
+        /// The name of the image. Must be unique to your account.
+        public let imageName: String
+        /// The Amazon Resource Name (ARN) of an IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        public let roleArn: String
+        /// A list of tags to apply to the image.
+        public let tags: [Tag]?
+
+        public init(description: String? = nil, displayName: String? = nil, imageName: String, roleArn: String, tags: [Tag]? = nil) {
+            self.description = description
+            self.displayName = displayName
+            self.imageName = imageName
+            self.roleArn = roleArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.displayName, name:"displayName", parent: name, max: 128)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, max: 50)
+            try validate(self.tags, name:"tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case displayName = "DisplayName"
+            case imageName = "ImageName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the image.
+        public let imageArn: String?
+
+        public init(imageArn: String? = nil) {
+            self.imageArn = imageArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageArn = "ImageArn"
+        }
+    }
+
+    public struct CreateImageVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaseImage", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string)
+        ]
+
+        /// The registry path of the container image to use as the starting point for this version. The path is an Amazon Container Registry (ECR) URI in the following format:  &lt;acct-id&gt;.dkr.ecr.&lt;region&gt;.amazonaws.com/&lt;repo-name[:tag] or [@digest]&gt; 
+        public let baseImage: String
+        /// A unique ID. If not specified, the AWS CLI and AWS SDKs, such as the SDK for Python (Boto3), add a unique value to the call.
+        public let clientToken: String
+        /// The ImageName of the Image to create a version of.
+        public let imageName: String
+
+        public init(baseImage: String, clientToken: String = CreateImageVersionRequest.idempotencyToken(), imageName: String) {
+            self.baseImage = baseImage
+            self.clientToken = clientToken
+            self.imageName = imageName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.baseImage, name:"baseImage", parent: name, max: 255)
+            try validate(self.baseImage, name:"baseImage", parent: name, min: 1)
+            try validate(self.baseImage, name:"baseImage", parent: name, pattern: ".*")
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 36)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseImage = "BaseImage"
+            case clientToken = "ClientToken"
+            case imageName = "ImageName"
+        }
+    }
+
+    public struct CreateImageVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageVersionArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the image version.
+        public let imageVersionArn: String?
+
+        public init(imageVersionArn: String? = nil) {
+            self.imageVersionArn = imageVersionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageVersionArn = "ImageVersionArn"
+        }
+    }
+
     public struct CreateLabelingJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "HumanTaskConfig", required: true, type: .structure), 
@@ -3363,7 +3668,7 @@ extension SageMaker {
         public let inputConfig: LabelingJobInputConfig
         /// The attribute name to use for the label in the output manifest file. This is the key for the key/value pair formed with the label that a worker assigns to the object. The name can't end with "-metadata". If you are running a semantic segmentation labeling job, the attribute name must end with "-ref". If you are running any other kind of labeling job, the attribute name must not end with "-ref".
         public let labelAttributeName: String
-        /// The S3 URL of the file that defines the categories used to label the data objects. For 3D point cloud task types, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28"    "labels": [    {    "label": "label_1"    },    {    "label": "label_2"    },    ...    {    "label": "label_n"    }    ]   } 
+        /// The S3 URI of the file that defines the categories used to label the data objects. For 3D point cloud task types, see Create a Labeling Category Configuration File for 3D Point Cloud Labeling Jobs.  For all other built-in task types and custom tasks, your label category configuration file must be a JSON file in the following format. Identify the labels you want to use by replacing label_1, label_2,...,label_n with your label categories.  {    "document-version": "2018-11-28"    "labels": [    {    "label": "label_1"    },    {    "label": "label_2"    },    ...    {    "label": "label_n"    }    ]   } 
         public let labelCategoryConfigS3Uri: String?
         /// Configures the information required to perform automated data labeling.
         public let labelingJobAlgorithmsConfig: LabelingJobAlgorithmsConfig?
@@ -3534,7 +3839,7 @@ extension SageMaker {
             AWSShapeMember(label: "CertifyForMarketplace", required: false, type: .boolean), 
             AWSShapeMember(label: "InferenceSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "ModelPackageDescription", required: false, type: .string), 
-            AWSShapeMember(label: "ModelPackageName", required: true, type: .string), 
+            AWSShapeMember(label: "ModelPackageName", required: false, type: .string), 
             AWSShapeMember(label: "SourceAlgorithmSpecification", required: false, type: .structure), 
             AWSShapeMember(label: "ValidationSpecification", required: false, type: .structure)
         ]
@@ -3546,13 +3851,13 @@ extension SageMaker {
         /// A description of the model package.
         public let modelPackageDescription: String?
         /// The name of the model package. The name must have 1 to 63 characters. Valid characters are a-z, A-Z, 0-9, and - (hyphen).
-        public let modelPackageName: String
+        public let modelPackageName: String?
         /// Details about the algorithm that was used to create the model package.
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
         /// Specifies configurations for one or more transform jobs that Amazon SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
 
-        public init(certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, modelPackageDescription: String? = nil, modelPackageName: String, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
+        public init(certifyForMarketplace: Bool? = nil, inferenceSpecification: InferenceSpecification? = nil, modelPackageDescription: String? = nil, modelPackageName: String? = nil, sourceAlgorithmSpecification: SourceAlgorithmSpecification? = nil, validationSpecification: ModelPackageValidationSpecification? = nil) {
             self.certifyForMarketplace = certifyForMarketplace
             self.inferenceSpecification = inferenceSpecification
             self.modelPackageDescription = modelPackageDescription
@@ -4148,7 +4453,7 @@ extension SageMaker {
             try self.hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"hyperParameters.key", parent: name, pattern: ".*")
-                try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, max: 2500)
                 try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try self.inputDataConfig?.forEach {
@@ -4378,7 +4683,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.inputArtifacts?.forEach {
@@ -4402,7 +4707,7 @@ extension SageMaker {
             }
             try validate(self.tags, name:"tags", parent: name, max: 50)
             try validate(self.tags, name:"tags", parent: name, min: 0)
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -4462,10 +4767,10 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.tags?.forEach {
@@ -4473,7 +4778,7 @@ extension SageMaker {
             }
             try validate(self.tags, name:"tags", parent: name, max: 50)
             try validate(self.tags, name:"tags", parent: name, min: 0)
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -4722,6 +5027,42 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case workteamArn = "WorkteamArn"
+        }
+    }
+
+    public struct CustomImage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "ImageVersionNumber", required: false, type: .integer)
+        ]
+
+        /// The name of the AppImageConfig.
+        public let appImageConfigName: String
+        /// The name of the CustomImage. Must be unique to your account.
+        public let imageName: String
+        /// The version number of the CustomImage.
+        public let imageVersionNumber: Int?
+
+        public init(appImageConfigName: String, imageName: String, imageVersionNumber: Int? = nil) {
+            self.appImageConfigName = appImageConfigName
+            self.imageName = imageName
+            self.imageVersionNumber = imageVersionNumber
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, max: 63)
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.imageVersionNumber, name:"imageVersionNumber", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigName = "AppImageConfigName"
+            case imageName = "ImageName"
+            case imageVersionNumber = "ImageVersionNumber"
         }
     }
 
@@ -5044,6 +5385,28 @@ extension SageMaker {
         }
     }
 
+    public struct DeleteAppImageConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigName", required: true, type: .string)
+        ]
+
+        /// The name of the AppImageConfig to delete.
+        public let appImageConfigName: String
+
+        public init(appImageConfigName: String) {
+            self.appImageConfigName = appImageConfigName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, max: 63)
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigName = "AppImageConfigName"
+        }
+    }
+
     public struct DeleteAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppName", required: true, type: .string), 
@@ -5190,7 +5553,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -5279,6 +5642,74 @@ extension SageMaker {
 
     }
 
+    public struct DeleteImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageName", required: true, type: .string)
+        ]
+
+        /// The name of the image to delete.
+        public let imageName: String
+
+        public init(imageName: String) {
+            self.imageName = imageName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageName = "ImageName"
+        }
+    }
+
+    public struct DeleteImageResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteImageVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: true, type: .integer)
+        ]
+
+        /// The name of the image.
+        public let imageName: String
+        /// The version to delete.
+        public let version: Int
+
+        public init(imageName: String, version: Int) {
+            self.imageName = imageName
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.version, name:"version", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageName = "ImageName"
+            case version = "Version"
+        }
+    }
+
+    public struct DeleteImageVersionResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct DeleteModelInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ModelName", required: true, type: .string)
@@ -5314,9 +5745,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 63)
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 176)
             try validate(self.modelPackageName, name:"modelPackageName", parent: name, min: 1)
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)(\\/[0-9]{1,5})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5446,7 +5877,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -5486,7 +5917,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -5729,6 +6160,65 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeAppImageConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigName", required: true, type: .string)
+        ]
+
+        /// The name of the AppImageConfig to describe.
+        public let appImageConfigName: String
+
+        public init(appImageConfigName: String) {
+            self.appImageConfigName = appImageConfigName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, max: 63)
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigName = "AppImageConfigName"
+        }
+    }
+
+    public struct DescribeAppImageConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigArn", required: false, type: .string), 
+            AWSShapeMember(label: "AppImageConfigName", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "KernelGatewayImageConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the AppImageConfig.
+        public let appImageConfigArn: String?
+        /// The name of the AppImageConfig.
+        public let appImageConfigName: String?
+        /// When the AppImageConfig was created.
+        public let creationTime: TimeStamp?
+        /// The KernelGateway app.
+        public let kernelGatewayImageConfig: KernelGatewayImageConfig?
+        /// When the AppImageConfig was last modified.
+        public let lastModifiedTime: TimeStamp?
+
+        public init(appImageConfigArn: String? = nil, appImageConfigName: String? = nil, creationTime: TimeStamp? = nil, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil, lastModifiedTime: TimeStamp? = nil) {
+            self.appImageConfigArn = appImageConfigArn
+            self.appImageConfigName = appImageConfigName
+            self.creationTime = creationTime
+            self.kernelGatewayImageConfig = kernelGatewayImageConfig
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigArn = "AppImageConfigArn"
+            case appImageConfigName = "AppImageConfigName"
+            case creationTime = "CreationTime"
+            case kernelGatewayImageConfig = "KernelGatewayImageConfig"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct DescribeAppRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AppName", required: true, type: .string), 
@@ -5784,7 +6274,7 @@ extension SageMaker {
             AWSShapeMember(label: "UserProfileName", required: false, type: .string)
         ]
 
-        /// The app's Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the app.
         public let appArn: String?
         /// The name of the app.
         public let appName: String?
@@ -6144,6 +6634,7 @@ extension SageMaker {
 
     public struct DescribeDomainResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppNetworkAccessType", required: false, type: .enum), 
             AWSShapeMember(label: "AuthMode", required: false, type: .enum), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "DefaultUserSettings", required: false, type: .structure), 
@@ -6161,6 +6652,8 @@ extension SageMaker {
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
+        /// Specifies the VPC used for non-EFS traffic. The default value is PublicInternetOnly.    PublicInternetOnly - Non-EFS traffic is through a VPC managed by Amazon SageMaker, which allows direct internet access    VpcOnly - All Studio traffic is through the specified VPC and subnets  
+        public let appNetworkAccessType: AppNetworkAccessType?
         /// The domain's authentication mode.
         public let authMode: AuthMode?
         /// The creation time.
@@ -6185,14 +6678,15 @@ extension SageMaker {
         public let singleSignOnManagedApplicationInstanceId: String?
         /// The status.
         public let status: DomainStatus?
-        /// Security setting to limit to a set of subnets.
+        /// The VPC subnets that Studio uses for communication.
         public let subnetIds: [String]?
         /// The domain's URL.
         public let url: String?
-        /// The ID of the Amazon Virtual Private Cloud.
+        /// The ID of the Amazon Virtual Private Cloud (VPC) that Studio uses for communication.
         public let vpcId: String?
 
-        public init(authMode: AuthMode? = nil, creationTime: TimeStamp? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+        public init(appNetworkAccessType: AppNetworkAccessType? = nil, authMode: AuthMode? = nil, creationTime: TimeStamp? = nil, defaultUserSettings: UserSettings? = nil, domainArn: String? = nil, domainId: String? = nil, domainName: String? = nil, failureReason: String? = nil, homeEfsFileSystemId: String? = nil, homeEfsFileSystemKmsKeyId: String? = nil, lastModifiedTime: TimeStamp? = nil, singleSignOnManagedApplicationInstanceId: String? = nil, status: DomainStatus? = nil, subnetIds: [String]? = nil, url: String? = nil, vpcId: String? = nil) {
+            self.appNetworkAccessType = appNetworkAccessType
             self.authMode = authMode
             self.creationTime = creationTime
             self.defaultUserSettings = defaultUserSettings
@@ -6211,6 +6705,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appNetworkAccessType = "AppNetworkAccessType"
             case authMode = "AuthMode"
             case creationTime = "CreationTime"
             case defaultUserSettings = "DefaultUserSettings"
@@ -6383,7 +6878,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -6704,6 +7199,172 @@ extension SageMaker {
         }
     }
 
+    public struct DescribeImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageName", required: true, type: .string)
+        ]
+
+        /// The name of the image to describe.
+        public let imageName: String
+
+        public init(imageName: String) {
+            self.imageName = imageName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageName = "ImageName"
+        }
+    }
+
+    public struct DescribeImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+
+        /// When the image was created.
+        public let creationTime: TimeStamp?
+        /// The description of the image.
+        public let description: String?
+        /// The name of the image as displayed.
+        public let displayName: String?
+        /// When a create, update, or delete operation fails, the reason for the failure.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the image.
+        public let imageArn: String?
+        /// The name of the image.
+        public let imageName: String?
+        /// The status of the image.
+        public let imageStatus: ImageStatus?
+        /// When the image was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The Amazon Resource Name (ARN) of the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        public let roleArn: String?
+
+        public init(creationTime: TimeStamp? = nil, description: String? = nil, displayName: String? = nil, failureReason: String? = nil, imageArn: String? = nil, imageName: String? = nil, imageStatus: ImageStatus? = nil, lastModifiedTime: TimeStamp? = nil, roleArn: String? = nil) {
+            self.creationTime = creationTime
+            self.description = description
+            self.displayName = displayName
+            self.failureReason = failureReason
+            self.imageArn = imageArn
+            self.imageName = imageName
+            self.imageStatus = imageStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case failureReason = "FailureReason"
+            case imageArn = "ImageArn"
+            case imageName = "ImageName"
+            case imageStatus = "ImageStatus"
+            case lastModifiedTime = "LastModifiedTime"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct DescribeImageVersionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .integer)
+        ]
+
+        /// The name of the image.
+        public let imageName: String
+        /// The version of the image. If not specified, the latest version is described.
+        public let version: Int?
+
+        public init(imageName: String, version: Int? = nil) {
+            self.imageName = imageName
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.version, name:"version", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageName = "ImageName"
+            case version = "Version"
+        }
+    }
+
+    public struct DescribeImageVersionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BaseImage", required: false, type: .string), 
+            AWSShapeMember(label: "ContainerImage", required: false, type: .string), 
+            AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "ImageVersionArn", required: false, type: .string), 
+            AWSShapeMember(label: "ImageVersionStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Version", required: false, type: .integer)
+        ]
+
+        /// The registry path of the container image on which this image version is based.
+        public let baseImage: String?
+        /// The registry path of the container image that contains this image version.
+        public let containerImage: String?
+        /// When the version was created.
+        public let creationTime: TimeStamp?
+        /// When a create or delete operation fails, the reason for the failure.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the image the version is based on.
+        public let imageArn: String?
+        /// The ARN of the version.
+        public let imageVersionArn: String?
+        /// The status of the version.
+        public let imageVersionStatus: ImageVersionStatus?
+        /// When the version was last modified.
+        public let lastModifiedTime: TimeStamp?
+        /// The version number.
+        public let version: Int?
+
+        public init(baseImage: String? = nil, containerImage: String? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, imageArn: String? = nil, imageVersionArn: String? = nil, imageVersionStatus: ImageVersionStatus? = nil, lastModifiedTime: TimeStamp? = nil, version: Int? = nil) {
+            self.baseImage = baseImage
+            self.containerImage = containerImage
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.imageArn = imageArn
+            self.imageVersionArn = imageVersionArn
+            self.imageVersionStatus = imageVersionStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseImage = "BaseImage"
+            case containerImage = "ContainerImage"
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case imageArn = "ImageArn"
+            case imageVersionArn = "ImageVersionArn"
+            case imageVersionStatus = "ImageVersionStatus"
+            case lastModifiedTime = "LastModifiedTime"
+            case version = "Version"
+        }
+    }
+
     public struct DescribeLabelingJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LabelingJobName", required: true, type: .string)
@@ -6916,9 +7577,9 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 170)
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, max: 176)
             try validate(self.modelPackageName, name:"modelPackageName", parent: name, min: 1)
-            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)$")
+            try validate(self.modelPackageName, name:"modelPackageName", parent: name, pattern: "(arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:[a-z\\-]*\\/)?([a-zA-Z0-9]([a-zA-Z0-9-]){0,62})(?<!-)(\\/[0-9]{1,5})?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7792,7 +8453,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -7902,7 +8563,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -8195,10 +8856,10 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -8461,13 +9122,13 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, max: 82)
+            try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, max: 120)
             try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, min: 1)
             try validate(self.trialComponentDisplayName, name:"trialComponentDisplayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -8539,6 +9200,42 @@ extension SageMaker {
             case experimentName = "ExperimentName"
             case experimentSource = "ExperimentSource"
             case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct FileSystemConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DefaultGid", required: false, type: .integer), 
+            AWSShapeMember(label: "DefaultUid", required: false, type: .integer), 
+            AWSShapeMember(label: "MountPath", required: false, type: .string)
+        ]
+
+        /// The default POSIX group ID. If not specified, defaults to 100.
+        public let defaultGid: Int?
+        /// The default POSIX user ID. If not specified, defaults to 1000.
+        public let defaultUid: Int?
+        /// The path within the image to mount the user's EFS home directory. The directory should be empty. If not specified, defaults to /home/sagemaker-user.
+        public let mountPath: String?
+
+        public init(defaultGid: Int? = nil, defaultUid: Int? = nil, mountPath: String? = nil) {
+            self.defaultGid = defaultGid
+            self.defaultUid = defaultUid
+            self.mountPath = mountPath
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.defaultGid, name:"defaultGid", parent: name, max: 65535)
+            try validate(self.defaultGid, name:"defaultGid", parent: name, min: 0)
+            try validate(self.defaultUid, name:"defaultUid", parent: name, max: 65535)
+            try validate(self.defaultUid, name:"defaultUid", parent: name, min: 0)
+            try validate(self.mountPath, name:"mountPath", parent: name, max: 1024)
+            try validate(self.mountPath, name:"mountPath", parent: name, pattern: "^\\/.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultGid = "DefaultGid"
+            case defaultUid = "DefaultUid"
+            case mountPath = "MountPath"
         }
     }
 
@@ -8898,7 +9595,7 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the human task user interface.
         public let humanTaskUiArn: String
         public let publicWorkforceTaskPrice: PublicWorkforceTaskPrice?
-        /// The length of time that a task remains available for labeling by human workers.
+        /// The length of time that a task remains available for review by human workers.
         public let taskAvailabilityLifetimeInSeconds: Int?
         /// The number of distinct workers who will perform the same task on each object. For example, if TaskCount is set to 3 for an image classification labeling job, three workers will classify each input image. Increasing TaskCount can improve label accuracy.
         public let taskCount: Int
@@ -8906,7 +9603,7 @@ extension SageMaker {
         public let taskDescription: String
         /// Keywords used to describe the task so that workers can discover the task.
         public let taskKeywords: [String]?
-        /// The amount of time that a worker has to complete a task.
+        /// The amount of time that a worker has to complete a task. The default value is 3,600 seconds (1 hour)
         public let taskTimeLimitInSeconds: Int?
         /// A title for the human worker task.
         public let taskTitle: String
@@ -9194,7 +9891,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.defaultValue, name:"defaultValue", parent: name, max: 256)
+            try validate(self.defaultValue, name:"defaultValue", parent: name, max: 2500)
             try validate(self.defaultValue, name:"defaultValue", parent: name, pattern: ".*")
             try validate(self.description, name:"description", parent: name, max: 1024)
             try validate(self.description, name:"description", parent: name, pattern: "[\\p{L}\\p{M}\\p{Z}\\p{S}\\p{N}\\p{P}]*")
@@ -9299,7 +9996,7 @@ extension SageMaker {
             try self.staticHyperParameters?.forEach {
                 try validate($0.key, name:"staticHyperParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"staticHyperParameters.key", parent: name, pattern: ".*")
-                try validate($0.value, name:"staticHyperParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"staticHyperParameters[\"\($0.key)\"]", parent: name, max: 2500)
                 try validate($0.value, name:"staticHyperParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try self.stoppingCondition.validate(name: "\(name).stoppingCondition")
@@ -9566,12 +10263,64 @@ extension SageMaker {
         }
     }
 
+    public struct Image: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: true, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "ImageStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+
+        /// When the image was created.
+        public let creationTime: TimeStamp
+        /// The description of the image.
+        public let description: String?
+        /// The name of the image as displayed.
+        public let displayName: String?
+        /// When a create, update, or delete operation fails, the reason for the failure.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the image.
+        public let imageArn: String
+        /// The name of the image.
+        public let imageName: String
+        /// The status of the image.
+        public let imageStatus: ImageStatus
+        /// When the image was last modified.
+        public let lastModifiedTime: TimeStamp
+
+        public init(creationTime: TimeStamp, description: String? = nil, displayName: String? = nil, failureReason: String? = nil, imageArn: String, imageName: String, imageStatus: ImageStatus, lastModifiedTime: TimeStamp) {
+            self.creationTime = creationTime
+            self.description = description
+            self.displayName = displayName
+            self.failureReason = failureReason
+            self.imageArn = imageArn
+            self.imageName = imageName
+            self.imageStatus = imageStatus
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case failureReason = "FailureReason"
+            case imageArn = "ImageArn"
+            case imageName = "ImageName"
+            case imageStatus = "ImageStatus"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct ImageConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "RepositoryAccessMode", required: true, type: .enum)
         ]
 
-        /// Set this to one of the following values:    Platform - The model image is hosted in Amazon ECR.    VPC - The model image is hosted in a private Docker registry in your VPC.  
+        /// Set this to one of the following values:    Platform - The model image is hosted in Amazon ECR.    Vpc - The model image is hosted in a private Docker registry in your VPC.  
         public let repositoryAccessMode: RepositoryAccessMode
 
         public init(repositoryAccessMode: RepositoryAccessMode) {
@@ -9580,6 +10329,53 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case repositoryAccessMode = "RepositoryAccessMode"
+        }
+    }
+
+    public struct ImageVersion: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "ImageArn", required: true, type: .string), 
+            AWSShapeMember(label: "ImageVersionArn", required: true, type: .string), 
+            AWSShapeMember(label: "ImageVersionStatus", required: true, type: .enum), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp), 
+            AWSShapeMember(label: "Version", required: true, type: .integer)
+        ]
+
+        /// When the version was created.
+        public let creationTime: TimeStamp
+        /// When a create or delete operation fails, the reason for the failure.
+        public let failureReason: String?
+        /// The Amazon Resource Name (ARN) of the image the version is based on.
+        public let imageArn: String
+        /// The ARN of the version.
+        public let imageVersionArn: String
+        /// The status of the version.
+        public let imageVersionStatus: ImageVersionStatus
+        /// When the version was last modified.
+        public let lastModifiedTime: TimeStamp
+        /// The version number.
+        public let version: Int
+
+        public init(creationTime: TimeStamp, failureReason: String? = nil, imageArn: String, imageVersionArn: String, imageVersionStatus: ImageVersionStatus, lastModifiedTime: TimeStamp, version: Int) {
+            self.creationTime = creationTime
+            self.failureReason = failureReason
+            self.imageArn = imageArn
+            self.imageVersionArn = imageVersionArn
+            self.imageVersionStatus = imageVersionStatus
+            self.lastModifiedTime = lastModifiedTime
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case failureReason = "FailureReason"
+            case imageArn = "ImageArn"
+            case imageVersionArn = "ImageVersionArn"
+            case imageVersionStatus = "ImageVersionStatus"
+            case lastModifiedTime = "LastModifiedTime"
+            case version = "Version"
         }
     }
 
@@ -9644,7 +10440,7 @@ extension SageMaker {
             AWSShapeMember(label: "S3Uri", required: true, type: .string)
         ]
 
-        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.  
+        /// Specifies the name and shape of the expected data inputs for your trained model with a JSON dictionary form. The data inputs are InputConfig$Framework specific.     TensorFlow: You must specify the name and shape (NHWC format) of the expected data inputs using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input":[1,1024,1024,3]}    If using the CLI, {\"input\":[1,1024,1024,3]}      Examples for two inputs:   If using the console, {"data1": [1,28,28,1], "data2":[1,28,28,1]}    If using the CLI, {\"data1\": [1,28,28,1], \"data2\":[1,28,28,1]}         KERAS: You must specify the name and shape (NCHW format) of expected data inputs using a dictionary format for your trained model. Note that while Keras model artifacts should be uploaded in NHWC (channel-last) format, DataInputConfig should be specified in NCHW (channel-first) format. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"input_1":[1,3,224,224]}    If using the CLI, {\"input_1\":[1,3,224,224]}      Examples for two inputs:   If using the console, {"input_1": [1,3,224,224], "input_2":[1,3,224,224]}     If using the CLI, {\"input_1\": [1,3,224,224], \"input_2\":[1,3,224,224]}         MXNET/ONNX: You must specify the name and shape (NCHW format) of the expected data inputs in order using a dictionary format for your trained model. The dictionary formats required for the console and CLI are different.   Examples for one input:   If using the console, {"data":[1,3,1024,1024]}    If using the CLI, {\"data\":[1,3,1024,1024]}      Examples for two inputs:   If using the console, {"var1": [1,1,28,28], "var2":[1,1,28,28]}     If using the CLI, {\"var1\": [1,1,28,28], \"var2\":[1,1,28,28]}         PyTorch: You can either specify the name and shape (NCHW format) of expected data inputs in order using a dictionary format for your trained model or you can specify the shape only using a list format. The dictionary formats required for the console and CLI are different. The list formats for the console and CLI are the same.   Examples for one input in dictionary format:   If using the console, {"input0":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224]}      Example for one input in list format: [[1,3,224,224]]    Examples for two inputs in dictionary format:   If using the console, {"input0":[1,3,224,224], "input1":[1,3,224,224]}    If using the CLI, {\"input0\":[1,3,224,224], \"input1\":[1,3,224,224]}       Example for two inputs in list format: [[1,3,224,224], [1,3,224,224]]       XGBOOST: input data name and shape are not needed.    DataInputConfig supports the following parameters for CoreML OutputConfig$TargetDevice (ML Model format):    shape: Input shape, for example {"input_1": {"shape": [1,224,224,3]}}. In addition to static input shapes, CoreML converter supports Flexible input shapes:   Range Dimension. You can use the Range Dimension feature if you know the input shape will be within some specific interval in that dimension, for example: {"input_1": {"shape": ["1..10", 224, 224, 3]}}    Enumerated shapes. Sometimes, the models are trained to work only on a select set of inputs. You can enumerate all supported input shapes, for example: {"input_1": {"shape": [[1, 224, 224, 3], [1, 160, 160, 3]]}}       default_shape: Default input shape. You can set a default shape during conversion for both Range Dimension and Enumerated Shapes. For example {"input_1": {"shape": ["1..10", 224, 224, 3], "default_shape": [1, 224, 224, 3]}}     type: Input type. Allowed values: Image and Tensor. By default, the converter generates an ML Model with inputs of type Tensor (MultiArray). User can set input type to be Image. Image input type requires additional input parameters such as bias and scale.    bias: If the input type is an Image, you need to provide the bias vector.    scale: If the input type is an Image, you need to provide a scale factor.   CoreML ClassifierConfig parameters can be specified using OutputConfig$CompilerOptions. CoreML converter supports Tensorflow and PyTorch models. CoreML conversion examples:   Tensor type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3]}}      Tensor type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224]}]      Image type input:    "DataInputConfig": {"input_1": {"shape": [[1,224,224,3], [1,160,160,3]], "default_shape": [1,224,224,3], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}}     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}      Image type input without input name (PyTorch):    "DataInputConfig": [{"shape": [[1,3,224,224], [1,3,160,160]], "default_shape": [1,3,224,224], "type": "Image", "bias": [-1,-1,-1], "scale": 0.007843137255}]     "CompilerOptions": {"class_labels": "imagenet_labels_1000.txt"}     
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
@@ -9765,22 +10561,89 @@ extension SageMaker {
 
     public struct KernelGatewayAppSettings: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomImages", required: false, type: .list), 
             AWSShapeMember(label: "DefaultResourceSpec", required: false, type: .structure)
         ]
 
-        /// The default instance type and the Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// A list of custom images that are configured to run as a KernelGateway app.
+        public let customImages: [CustomImage]?
+        /// The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app.
         public let defaultResourceSpec: ResourceSpec?
 
-        public init(defaultResourceSpec: ResourceSpec? = nil) {
+        public init(customImages: [CustomImage]? = nil, defaultResourceSpec: ResourceSpec? = nil) {
+            self.customImages = customImages
             self.defaultResourceSpec = defaultResourceSpec
         }
 
         public func validate(name: String) throws {
+            try self.customImages?.forEach {
+                try $0.validate(name: "\(name).customImages[]")
+            }
+            try validate(self.customImages, name:"customImages", parent: name, max: 30)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customImages = "CustomImages"
             case defaultResourceSpec = "DefaultResourceSpec"
+        }
+    }
+
+    public struct KernelGatewayImageConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FileSystemConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "KernelSpecs", required: true, type: .list)
+        ]
+
+        /// The file system configuration.
+        public let fileSystemConfig: FileSystemConfig?
+        /// Defines how a kernel is started and the arguments, environment variables, and metadata that are available to the kernel.
+        public let kernelSpecs: [KernelSpec]
+
+        public init(fileSystemConfig: FileSystemConfig? = nil, kernelSpecs: [KernelSpec]) {
+            self.fileSystemConfig = fileSystemConfig
+            self.kernelSpecs = kernelSpecs
+        }
+
+        public func validate(name: String) throws {
+            try self.fileSystemConfig?.validate(name: "\(name).fileSystemConfig")
+            try self.kernelSpecs.forEach {
+                try $0.validate(name: "\(name).kernelSpecs[]")
+            }
+            try validate(self.kernelSpecs, name:"kernelSpecs", parent: name, max: 1)
+            try validate(self.kernelSpecs, name:"kernelSpecs", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemConfig = "FileSystemConfig"
+            case kernelSpecs = "KernelSpecs"
+        }
+    }
+
+    public struct KernelSpec: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// The display name of the kernel.
+        public let displayName: String?
+        /// The name of the kernel. Must be unique to your account.
+        public let name: String
+
+        public init(displayName: String? = nil, name: String) {
+            self.displayName = displayName
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.displayName, name:"displayName", parent: name, max: 1024)
+            try validate(self.name, name:"name", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayName = "DisplayName"
+            case name = "Name"
         }
     }
 
@@ -9855,7 +10718,7 @@ extension SageMaker {
             AWSShapeMember(label: "LabelingJobResourceConfig", required: false, type: .structure)
         ]
 
-        /// At the end of an auto-label job Amazon SageMaker Ground Truth sends the Amazon Resource Nam (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here. 
+        /// At the end of an auto-label job Ground Truth sends the Amazon Resource Name (ARN) of the final model used for auto-labeling. You can use this model as the starting point for subsequent similar jobs by providing the ARN of the model here. 
         public let initialActiveLearningModelArn: String?
         /// Specifies the Amazon Resource Name (ARN) of the algorithm used for auto-labeling. You must select one of the following ARNs:    Image classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/image-classification     Text classification   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/text-classification     Object detection   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/object-detection     Semantic Segmentation   arn:aws:sagemaker:region:027400017018:labeling-job-algorithm-specification/semantic-segmentation   
         public let labelingJobAlgorithmSpecificationArn: String
@@ -9907,22 +10770,28 @@ extension SageMaker {
 
     public struct LabelingJobDataSource: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "S3DataSource", required: false, type: .structure)
+            AWSShapeMember(label: "S3DataSource", required: false, type: .structure), 
+            AWSShapeMember(label: "SnsDataSource", required: false, type: .structure)
         ]
 
         /// The Amazon S3 location of the input data objects.
         public let s3DataSource: LabelingJobS3DataSource?
+        /// An Amazon SNS data source used for streaming labeling jobs.
+        public let snsDataSource: LabelingJobSnsDataSource?
 
-        public init(s3DataSource: LabelingJobS3DataSource? = nil) {
+        public init(s3DataSource: LabelingJobS3DataSource? = nil, snsDataSource: LabelingJobSnsDataSource? = nil) {
             self.s3DataSource = s3DataSource
+            self.snsDataSource = snsDataSource
         }
 
         public func validate(name: String) throws {
             try self.s3DataSource?.validate(name: "\(name).s3DataSource")
+            try self.snsDataSource?.validate(name: "\(name).snsDataSource")
         }
 
         private enum CodingKeys: String, CodingKey {
             case s3DataSource = "S3DataSource"
+            case snsDataSource = "SnsDataSource"
         }
     }
 
@@ -10019,17 +10888,21 @@ extension SageMaker {
     public struct LabelingJobOutputConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
-            AWSShapeMember(label: "S3OutputPath", required: true, type: .string)
+            AWSShapeMember(label: "S3OutputPath", required: true, type: .string), 
+            AWSShapeMember(label: "SnsTopicArn", required: false, type: .string)
         ]
 
         /// The AWS Key Management Service ID of the key used to encrypt the output data, if any. If you use a KMS key ID or an alias of your master key, the Amazon SageMaker execution role must include permissions to call kms:Encrypt. If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. Amazon SageMaker uses server-side encryption with KMS-managed keys for LabelingJobOutputConfig. If you use a bucket policy with an s3:PutObject permission that only allows objects with server-side encryption, set the condition key of s3:x-amz-server-side-encryption to "aws:kms". For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateLabelingJob request. For more information, see Using Key Policies in AWS KMS in the AWS Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 location to write output data.
         public let s3OutputPath: String
+        /// An Amazon Simple Notification Service (Amazon SNS) output topic ARN. When workers complete labeling tasks, Ground Truth will send labeling task output data to the SNS output topic you specify here. You must provide a value for this parameter if you provide an Amazon SNS input topic in SnsDataSource in InputConfig.
+        public let snsTopicArn: String?
 
-        public init(kmsKeyId: String? = nil, s3OutputPath: String) {
+        public init(kmsKeyId: String? = nil, s3OutputPath: String, snsTopicArn: String? = nil) {
             self.kmsKeyId = kmsKeyId
             self.s3OutputPath = s3OutputPath
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
@@ -10037,11 +10910,14 @@ extension SageMaker {
             try validate(self.kmsKeyId, name:"kmsKeyId", parent: name, pattern: ".*")
             try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, max: 1024)
             try validate(self.s3OutputPath, name:"s3OutputPath", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, max: 2048)
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3OutputPath = "S3OutputPath"
+            case snsTopicArn = "SnsTopicArn"
         }
     }
 
@@ -10086,6 +10962,28 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case manifestS3Uri = "ManifestS3Uri"
+        }
+    }
+
+    public struct LabelingJobSnsDataSource: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SnsTopicArn", required: true, type: .string)
+        ]
+
+        /// The Amazon SNS input topic Amazon Resource Name (ARN). Specify the ARN of the input topic you will use to send new data objects to a streaming labeling job. If you specify an input topic for SnsTopicArn in InputConfig, you must specify a value for SnsTopicArn in OutputConfig.
+        public let snsTopicArn: String
+
+        public init(snsTopicArn: String) {
+            self.snsTopicArn = snsTopicArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, max: 2048)
+            try validate(self.snsTopicArn, name:"snsTopicArn", parent: name, pattern: "arn:aws[a-z\\-]*:sns:[a-z0-9\\-]*:[0-9]{12}:[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case snsTopicArn = "SnsTopicArn"
         }
     }
 
@@ -10263,6 +11161,94 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case algorithmSummaryList = "AlgorithmSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAppImageConfigsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "ModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only AppImageConfigs created on or after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only AppImageConfigs created on or before the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// The maximum number of AppImageConfigs to return in the response. The default value is 10. 
+        public let maxResults: Int?
+        /// A filter that returns only AppImageConfigs modified on or after the specified time.
+        public let modifiedTimeAfter: TimeStamp?
+        /// A filter that returns only AppImageConfigs modified on or before the specified time.
+        public let modifiedTimeBefore: TimeStamp?
+        /// A filter that returns only AppImageConfigs whose name contains the specified string.
+        public let nameContains: String?
+        /// If the previous call to ListImages didn't return the full set of AppImageConfigs, the call returns a token for getting the next set of AppImageConfigs.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CreationTime.
+        public let sortBy: AppImageConfigSortKey?
+        /// The sort order. The default value is Descending.
+        public let sortOrder: SortOrder?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, modifiedTimeAfter: TimeStamp? = nil, modifiedTimeBefore: TimeStamp? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: AppImageConfigSortKey? = nil, sortOrder: SortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.maxResults = maxResults
+            self.modifiedTimeAfter = modifiedTimeAfter
+            self.modifiedTimeBefore = modifiedTimeBefore
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, max: 63)
+            try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case maxResults = "MaxResults"
+            case modifiedTimeAfter = "ModifiedTimeAfter"
+            case modifiedTimeBefore = "ModifiedTimeBefore"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListAppImageConfigsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of AppImageConfigs and their properties.
+        public let appImageConfigs: [AppImageConfigDetails]?
+        /// A token for getting the next set of AppImageConfigs, if there are any.
+        public let nextToken: String?
+
+        public init(appImageConfigs: [AppImageConfigDetails]? = nil, nextToken: String? = nil) {
+            self.appImageConfigs = appImageConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigs = "AppImageConfigs"
             case nextToken = "NextToken"
         }
     }
@@ -11210,6 +12196,183 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case hyperParameterTuningJobSummaries = "HyperParameterTuningJobSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListImageVersionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only versions created on or after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only versions created on or before the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// The name of the image to list the versions of.
+        public let imageName: String
+        /// A filter that returns only versions modified on or after the specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only versions modified on or before the specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// The maximum number of versions to return in the response. The default value is 10. 
+        public let maxResults: Int?
+        /// If the previous call to ListImageVersions didn't return the full set of versions, the call returns a token for getting the next set of versions.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CREATION_TIME.
+        public let sortBy: ImageVersionSortBy?
+        /// The sort order. The default value is DESCENDING.
+        public let sortOrder: ImageVersionSortOrder?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, imageName: String, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImageVersionSortBy? = nil, sortOrder: ImageVersionSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.imageName = imageName
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case imageName = "ImageName"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListImageVersionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageVersions", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of versions and their properties.
+        public let imageVersions: [ImageVersion]?
+        /// A token for getting the next set of versions, if there are any.
+        public let nextToken: String?
+
+        public init(imageVersions: [ImageVersion]? = nil, nextToken: String? = nil) {
+            self.imageVersions = imageVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageVersions = "ImageVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListImagesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "CreationTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LastModifiedTimeBefore", required: false, type: .timestamp), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NameContains", required: false, type: .string), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "SortBy", required: false, type: .enum), 
+            AWSShapeMember(label: "SortOrder", required: false, type: .enum)
+        ]
+
+        /// A filter that returns only images created on or after the specified time.
+        public let creationTimeAfter: TimeStamp?
+        /// A filter that returns only images created on or before the specified time.
+        public let creationTimeBefore: TimeStamp?
+        /// A filter that returns only images modified on or after the specified time.
+        public let lastModifiedTimeAfter: TimeStamp?
+        /// A filter that returns only images modified on or before the specified time.
+        public let lastModifiedTimeBefore: TimeStamp?
+        /// The maximum number of images to return in the response. The default value is 10. 
+        public let maxResults: Int?
+        /// A filter that returns only images whose name contains the specified string.
+        public let nameContains: String?
+        /// If the previous call to ListImages didn't return the full set of images, the call returns a token for getting the next set of images.
+        public let nextToken: String?
+        /// The property used to sort results. The default value is CREATION_TIME.
+        public let sortBy: ImageSortBy?
+        /// The sort order. The default value is DESCENDING.
+        public let sortOrder: ImageSortOrder?
+
+        public init(creationTimeAfter: TimeStamp? = nil, creationTimeBefore: TimeStamp? = nil, lastModifiedTimeAfter: TimeStamp? = nil, lastModifiedTimeBefore: TimeStamp? = nil, maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, sortBy: ImageSortBy? = nil, sortOrder: ImageSortOrder? = nil) {
+            self.creationTimeAfter = creationTimeAfter
+            self.creationTimeBefore = creationTimeBefore
+            self.lastModifiedTimeAfter = lastModifiedTimeAfter
+            self.lastModifiedTimeBefore = lastModifiedTimeBefore
+            self.maxResults = maxResults
+            self.nameContains = nameContains
+            self.nextToken = nextToken
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nameContains, name:"nameContains", parent: name, max: 63)
+            try validate(self.nameContains, name:"nameContains", parent: name, pattern: "^[a-zA-Z0-9\\-.]+$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTimeAfter = "CreationTimeAfter"
+            case creationTimeBefore = "CreationTimeBefore"
+            case lastModifiedTimeAfter = "LastModifiedTimeAfter"
+            case lastModifiedTimeBefore = "LastModifiedTimeBefore"
+            case maxResults = "MaxResults"
+            case nameContains = "NameContains"
+            case nextToken = "NextToken"
+            case sortBy = "SortBy"
+            case sortOrder = "SortOrder"
+        }
+    }
+
+    public struct ListImagesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Images", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// A list of images and their properties.
+        public let images: [Image]?
+        /// A token for getting the next set of images, if there are any.
+        public let nextToken: String?
+
+        public init(images: [Image]? = nil, nextToken: String? = nil) {
+            self.images = images
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
             case nextToken = "NextToken"
         }
     }
@@ -12475,7 +13638,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
@@ -12483,7 +13646,7 @@ extension SageMaker {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
             try validate(self.sourceArn, name:"sourceArn", parent: name, max: 256)
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -12564,14 +13727,14 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 8192)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -12968,7 +14131,7 @@ extension SageMaker {
         public let image: String
         /// An MD5 hash of the training algorithm that identifies the Docker image used for training.
         public let imageDigest: String?
-        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
+        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the model package. 
         public let modelDataUrl: String?
         /// The AWS Marketplace product ID of the model package.
         public let productId: String?
@@ -14083,7 +15246,7 @@ extension SageMaker {
             AWSShapeMember(label: "TargetPlatform", required: false, type: .structure)
         ]
 
-        /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compliations. For any other cases, it is optional to specify CompilerOptions.     CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.    
+        /// Specifies additional parameters for compiler options in JSON format. The compiler options are TargetPlatform specific. It is required for NVIDIA accelerators and highly recommended for CPU compilations. For any other cases, it is optional to specify CompilerOptions.     CPU: Compilation for CPU supports the following compiler options.    mcpu: CPU micro-architecture. For example, {'mcpu': 'skylake-avx512'}     mattr: CPU flags. For example, {'mattr': ['+neon', '+vfpv4']}       ARM: Details of ARM CPU compilations.    NEON: NEON is an implementation of the Advanced SIMD extension used in ARMv7 processors. For example, add {'mattr': ['+neon']} to the compiler options if compiling for ARM 32-bit platform with the NEON support.      NVIDIA: Compilation for NVIDIA GPU supports the following compiler options.    gpu_code: Specifies the targeted architecture.    trt-ver: Specifies the TensorRT versions in x.y.z. format.    cuda-ver: Specifies the CUDA version in x.y format.   For example, {'gpu-code': 'sm_72', 'trt-ver': '6.0.1', 'cuda-ver': '10.1'}     ANDROID: Compilation for the Android OS supports the following compiler options:    ANDROID_PLATFORM: Specifies the Android API levels. Available levels range from 21 to 29. For example, {'ANDROID_PLATFORM': 28}.    mattr: Add {'mattr': ['+neon']} to compiler options if compiling for ARM 32-bit platform with NEON support.      INFERENTIA: Compilation for target ml_inf1 uses compiler options passed in as a JSON string. For example, "CompilerOptions": "\"--verbose 1 --num-neuroncores 2 -O2\"".  For information about supported compiler options, see  Neuron Compiler CLI.     CoreML: Compilation for the CoreML OutputConfig$TargetDevice supports the following compiler options:    class_labels: Specifies the classification labels file name inside input tar.gz file. For example, {"class_labels": "imagenet_labels_1000.txt"}. Labels inside the txt file should be separated by newlines.    
         public let compilerOptions: String?
         /// Identifies the S3 bucket where you want Amazon SageMaker to store the model artifacts. For example, s3://bucket-name/key-name-prefix.
         public let s3OutputLocation: String
@@ -14101,8 +15264,8 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try validate(self.compilerOptions, name:"compilerOptions", parent: name, max: 1024)
-            try validate(self.compilerOptions, name:"compilerOptions", parent: name, min: 7)
-            try validate(self.compilerOptions, name:"compilerOptions", parent: name, pattern: "^\\{.+\\}$")
+            try validate(self.compilerOptions, name:"compilerOptions", parent: name, min: 3)
+            try validate(self.compilerOptions, name:"compilerOptions", parent: name, pattern: ".*")
             try validate(self.s3OutputLocation, name:"s3OutputLocation", parent: name, max: 1024)
             try validate(self.s3OutputLocation, name:"s3OutputLocation", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
         }
@@ -15043,27 +16206,34 @@ extension SageMaker {
     public struct ResourceSpec: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "InstanceType", required: false, type: .enum), 
-            AWSShapeMember(label: "SageMakerImageArn", required: false, type: .string)
+            AWSShapeMember(label: "SageMakerImageArn", required: false, type: .string), 
+            AWSShapeMember(label: "SageMakerImageVersionArn", required: false, type: .string)
         ]
 
-        /// The instance type.
+        /// The instance type that the image version runs on.
         public let instanceType: AppInstanceType?
-        /// The Amazon Resource Name (ARN) of the SageMaker image created on the instance.
+        /// The ARN of the SageMaker image that the image version belongs to.
         public let sageMakerImageArn: String?
+        /// The ARN of the image version created on the instance.
+        public let sageMakerImageVersionArn: String?
 
-        public init(instanceType: AppInstanceType? = nil, sageMakerImageArn: String? = nil) {
+        public init(instanceType: AppInstanceType? = nil, sageMakerImageArn: String? = nil, sageMakerImageVersionArn: String? = nil) {
             self.instanceType = instanceType
             self.sageMakerImageArn = sageMakerImageArn
+            self.sageMakerImageVersionArn = sageMakerImageVersionArn
         }
 
         public func validate(name: String) throws {
             try validate(self.sageMakerImageArn, name:"sageMakerImageArn", parent: name, max: 256)
             try validate(self.sageMakerImageArn, name:"sageMakerImageArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$")
+            try validate(self.sageMakerImageVersionArn, name:"sageMakerImageVersionArn", parent: name, max: 256)
+            try validate(self.sageMakerImageVersionArn, name:"sageMakerImageVersionArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:sagemaker:.+:[0-9]{12}:image-version/[a-z0-9]([-.]?[a-z0-9])*/[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case instanceType = "InstanceType"
             case sageMakerImageArn = "SageMakerImageArn"
+            case sageMakerImageVersionArn = "SageMakerImageVersionArn"
         }
     }
 
@@ -15349,7 +16519,7 @@ extension SageMaker {
         public let notebookOutputOption: NotebookOutputOption?
         /// When NotebookOutputOption is Allowed, the AWS Key Management Service (KMS) encryption key ID used to encrypt the notebook cell output in the Amazon S3 bucket.
         public let s3KmsKeyId: String?
-        /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to save the notebook cell output. If S3OutputPath isn't specified, a default bucket is used.
+        /// When NotebookOutputOption is Allowed, the Amazon S3 bucket used to save the notebook cell output.
         public let s3OutputPath: String?
 
         public init(notebookOutputOption: NotebookOutputOption? = nil, s3KmsKeyId: String? = nil, s3OutputPath: String? = nil) {
@@ -15397,7 +16567,7 @@ extension SageMaker {
 
         /// The name of an algorithm that was used to create the model package. The algorithm must be either an algorithm resource in your Amazon SageMaker account or an algorithm in AWS Marketplace that you are subscribed to.
         public let algorithmName: String
-        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
+        /// The Amazon S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).  The model artifacts must be in an S3 bucket that is in the same region as the algorithm. 
         public let modelDataUrl: String?
 
         public init(algorithmName: String, modelDataUrl: String? = nil) {
@@ -16132,7 +17302,7 @@ extension SageMaker {
             try self.hyperParameters?.forEach {
                 try validate($0.key, name:"hyperParameters.key", parent: name, max: 256)
                 try validate($0.key, name:"hyperParameters.key", parent: name, pattern: ".*")
-                try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, max: 2500)
                 try validate($0.value, name:"hyperParameters[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try self.inputDataConfig.forEach {
@@ -16871,7 +18041,7 @@ extension SageMaker {
 
         public func validate(name: String) throws {
             try validate(self.mediaType, name:"mediaType", parent: name, max: 64)
-            try validate(self.mediaType, name:"mediaType", parent: name, pattern: "^[\\w]+\\/[\\w+]+$")
+            try validate(self.mediaType, name:"mediaType", parent: name, pattern: "^[-\\w]+\\/[-\\w+]+$")
             try validate(self.value, name:"value", parent: name, max: 2048)
             try validate(self.value, name:"value", parent: name, pattern: ".*")
         }
@@ -17037,7 +18207,7 @@ extension SageMaker {
         public let sourceArn: String?
         /// Information about a training job that's the source of a trial component.
         public let trainingJob: TrainingJob?
-        /// Information about a transform job that's the source of the trial component.
+        /// Information about a transform job that's the source of a trial component.
         public let transformJob: TransformJob?
 
         public init(processingJob: ProcessingJob? = nil, sourceArn: String? = nil, trainingJob: TrainingJob? = nil, transformJob: TransformJob? = nil) {
@@ -17338,6 +18508,51 @@ extension SageMaker {
         }
     }
 
+    public struct UpdateAppImageConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigName", required: true, type: .string), 
+            AWSShapeMember(label: "KernelGatewayImageConfig", required: false, type: .structure)
+        ]
+
+        /// The name of the AppImageConfig to update.
+        public let appImageConfigName: String
+        /// The new KernelGateway app to run on the image.
+        public let kernelGatewayImageConfig: KernelGatewayImageConfig?
+
+        public init(appImageConfigName: String, kernelGatewayImageConfig: KernelGatewayImageConfig? = nil) {
+            self.appImageConfigName = appImageConfigName
+            self.kernelGatewayImageConfig = kernelGatewayImageConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, max: 63)
+            try validate(self.appImageConfigName, name:"appImageConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            try self.kernelGatewayImageConfig?.validate(name: "\(name).kernelGatewayImageConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigName = "AppImageConfigName"
+            case kernelGatewayImageConfig = "KernelGatewayImageConfig"
+        }
+    }
+
+    public struct UpdateAppImageConfigResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AppImageConfigArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) for the AppImageConfig.
+        public let appImageConfigArn: String?
+
+        public init(appImageConfigArn: String? = nil) {
+            self.appImageConfigArn = appImageConfigArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appImageConfigArn = "AppImageConfigArn"
+        }
+    }
+
     public struct UpdateCodeRepositoryInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CodeRepositoryName", required: true, type: .string), 
@@ -17557,10 +18772,10 @@ extension SageMaker {
         public func validate(name: String) throws {
             try validate(self.description, name:"description", parent: name, max: 3072)
             try validate(self.description, name:"description", parent: name, pattern: ".*")
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.experimentName, name:"experimentName", parent: name, max: 82)
+            try validate(self.experimentName, name:"experimentName", parent: name, max: 120)
             try validate(self.experimentName, name:"experimentName", parent: name, min: 1)
             try validate(self.experimentName, name:"experimentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -17586,6 +18801,81 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case experimentArn = "ExperimentArn"
+        }
+    }
+
+    public struct UpdateImageRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DeleteProperties", required: false, type: .list), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "DisplayName", required: false, type: .string), 
+            AWSShapeMember(label: "ImageName", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string)
+        ]
+
+        /// A list of properties to delete. Only the Description and DisplayName properties can be deleted.
+        public let deleteProperties: [String]?
+        /// The new description for the image.
+        public let description: String?
+        /// The new display name for the image.
+        public let displayName: String?
+        /// The name of the image to update.
+        public let imageName: String
+        /// The new Amazon Resource Name (ARN) for the IAM role that enables Amazon SageMaker to perform tasks on your behalf.
+        public let roleArn: String?
+
+        public init(deleteProperties: [String]? = nil, description: String? = nil, displayName: String? = nil, imageName: String, roleArn: String? = nil) {
+            self.deleteProperties = deleteProperties
+            self.description = description
+            self.displayName = displayName
+            self.imageName = imageName
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.deleteProperties?.forEach {
+                try validate($0, name: "deleteProperties[]", parent: name, max: 11)
+                try validate($0, name: "deleteProperties[]", parent: name, min: 1)
+                try validate($0, name: "deleteProperties[]", parent: name, pattern: "(^DisplayName$)|(^Description$)")
+            }
+            try validate(self.deleteProperties, name:"deleteProperties", parent: name, max: 2)
+            try validate(self.description, name:"description", parent: name, max: 512)
+            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.displayName, name:"displayName", parent: name, max: 128)
+            try validate(self.displayName, name:"displayName", parent: name, min: 1)
+            try validate(self.displayName, name:"displayName", parent: name, pattern: "^\\S(.*\\S)?$")
+            try validate(self.imageName, name:"imageName", parent: name, max: 63)
+            try validate(self.imageName, name:"imageName", parent: name, min: 1)
+            try validate(self.imageName, name:"imageName", parent: name, pattern: "^[a-zA-Z0-9]([-.]?[a-zA-Z0-9])*$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.roleArn, name:"roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteProperties = "DeleteProperties"
+            case description = "Description"
+            case displayName = "DisplayName"
+            case imageName = "ImageName"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct UpdateImageResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ImageArn", required: false, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the image.
+        public let imageArn: String?
+
+        public init(imageArn: String? = nil) {
+            self.imageArn = imageArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageArn = "ImageArn"
         }
     }
 
@@ -17842,7 +19132,7 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
             try self.inputArtifacts?.forEach {
@@ -17873,7 +19163,7 @@ extension SageMaker {
                 try validate($0, name: "parametersToRemove[]", parent: name, pattern: ".*")
             }
             try self.status?.validate(name: "\(name).status")
-            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 82)
+            try validate(self.trialComponentName, name:"trialComponentName", parent: name, max: 120)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, min: 1)
             try validate(self.trialComponentName, name:"trialComponentName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -17927,10 +19217,10 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
-            try validate(self.displayName, name:"displayName", parent: name, max: 82)
+            try validate(self.displayName, name:"displayName", parent: name, max: 120)
             try validate(self.displayName, name:"displayName", parent: name, min: 1)
             try validate(self.displayName, name:"displayName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
-            try validate(self.trialName, name:"trialName", parent: name, max: 82)
+            try validate(self.trialName, name:"trialName", parent: name, max: 120)
             try validate(self.trialName, name:"trialName", parent: name, min: 1)
             try validate(self.trialName, name:"trialName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
         }
@@ -18205,7 +19495,7 @@ extension SageMaker {
         public let jupyterServerAppSettings: JupyterServerAppSettings?
         /// The kernel gateway app settings.
         public let kernelGatewayAppSettings: KernelGatewayAppSettings?
-        /// The security groups.
+        /// The security groups for the Amazon Virtual Private Cloud (VPC) that Studio uses for communication. Optional when the CreateDomain.AppNetworkAccessType parameter is set to PublicInternetOnly. Required when the CreateDomain.AppNetworkAccessType parameter is set to VpcOnly.
         public let securityGroups: [String]?
         /// The sharing settings.
         public let sharingSettings: SharingSettings?

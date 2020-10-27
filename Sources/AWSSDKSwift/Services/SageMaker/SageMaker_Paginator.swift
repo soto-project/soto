@@ -71,6 +71,16 @@ extension SageMaker {
         return client.paginate(input: input, command: listHyperParameterTuningJobs, tokenKey: \ListHyperParameterTuningJobsResponse.nextToken, onPage: onPage)
     }
 
+    ///  Lists the versions of a specified image and their properties. The list can be filtered by creation time or modified time.
+    public func listImageVersionsPaginator(_ input: ListImageVersionsRequest, onPage: @escaping (ListImageVersionsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImageVersions, tokenKey: \ListImageVersionsResponse.nextToken, onPage: onPage)
+    }
+
+    ///  Lists the images in your account and their properties. The list can be filtered by creation time or modified time, and whether the image name contains a specified string.
+    public func listImagesPaginator(_ input: ListImagesRequest, onPage: @escaping (ListImagesResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listImages, tokenKey: \ListImagesResponse.nextToken, onPage: onPage)
+    }
+
     ///  Gets a list of labeling jobs.
     public func listLabelingJobsPaginator(_ input: ListLabelingJobsRequest, onPage: @escaping (ListLabelingJobsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listLabelingJobs, tokenKey: \ListLabelingJobsResponse.nextToken, onPage: onPage)
@@ -366,6 +376,40 @@ extension SageMaker.ListHyperParameterTuningJobsRequest: AWSPaginateStringToken 
             sortBy: self.sortBy, 
             sortOrder: self.sortOrder, 
             statusEquals: self.statusEquals
+        )
+
+    }
+}
+
+extension SageMaker.ListImageVersionsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListImageVersionsRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            imageName: self.imageName, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nextToken: token, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
+        )
+
+    }
+}
+
+extension SageMaker.ListImagesRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> SageMaker.ListImagesRequest {
+        return .init(
+            creationTimeAfter: self.creationTimeAfter, 
+            creationTimeBefore: self.creationTimeBefore, 
+            lastModifiedTimeAfter: self.lastModifiedTimeAfter, 
+            lastModifiedTimeBefore: self.lastModifiedTimeBefore, 
+            maxResults: self.maxResults, 
+            nameContains: self.nameContains, 
+            nextToken: token, 
+            sortBy: self.sortBy, 
+            sortOrder: self.sortOrder
         )
 
     }

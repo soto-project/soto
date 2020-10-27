@@ -37,6 +37,7 @@ public struct WorkSpaces {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2015-04-08",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-1": "workspaces-fips.us-east-1.amazonaws.com", "fips-us-west-2": "workspaces-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [WorkSpacesErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -60,7 +61,7 @@ public struct WorkSpaces {
         return client.send(operation: "AuthorizeIpRules", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies the specified image from the specified Region to the current Region.
+    ///  Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image.  Before copying a shared image, be sure to verify that it has been shared from the correct AWS account. To determine if an image has been shared and to see the AWS account ID that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.  
     public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest) -> EventLoopFuture<CopyWorkspaceImageResult> {
         return client.send(operation: "CopyWorkspaceImage", path: "/", httpMethod: "POST", input: input)
     }
@@ -195,7 +196,7 @@ public struct WorkSpaces {
         return client.send(operation: "ImportWorkspaceImage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
+    ///  Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  This operation can be run only by AWS accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     public func listAvailableManagementCidrRanges(_ input: ListAvailableManagementCidrRangesRequest) -> EventLoopFuture<ListAvailableManagementCidrRangesResult> {
         return client.send(operation: "ListAvailableManagementCidrRanges", path: "/", httpMethod: "POST", input: input)
     }
@@ -275,7 +276,7 @@ public struct WorkSpaces {
         return client.send(operation: "StopWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Terminates the specified WorkSpaces. Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services before terminating the WorkSpace. You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated.
+    ///  Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact AWS Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
     public func terminateWorkspaces(_ input: TerminateWorkspacesRequest) -> EventLoopFuture<TerminateWorkspacesResult> {
         return client.send(operation: "TerminateWorkspaces", path: "/", httpMethod: "POST", input: input)
     }
@@ -290,7 +291,7 @@ public struct WorkSpaces {
         return client.send(operation: "UpdateRulesOfIpGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
+    ///  Shares or unshares an image with one account by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across AWS accounts isn't supported at this time in the AWS GovCloud (US-West) Region. To share BYOL images across accounts in the AWS GovCloud (US-West) Region, contact AWS Support.   
     public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest) -> EventLoopFuture<UpdateWorkspaceImagePermissionResult> {
         return client.send(operation: "UpdateWorkspaceImagePermission", path: "/", httpMethod: "POST", input: input)
     }

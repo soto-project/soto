@@ -141,6 +141,11 @@ public struct Comprehend {
         return client.send(operation: "DescribeKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets the properties associated with a PII entities detection job. For example, you can use this operation to get the job status.
+    public func describePiiEntitiesDetectionJob(_ input: DescribePiiEntitiesDetectionJobRequest) -> EventLoopFuture<DescribePiiEntitiesDetectionJobResponse> {
+        return client.send(operation: "DescribePiiEntitiesDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     public func describeSentimentDetectionJob(_ input: DescribeSentimentDetectionJobRequest) -> EventLoopFuture<DescribeSentimentDetectionJobResponse> {
         return client.send(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: "POST", input: input)
@@ -164,6 +169,11 @@ public struct Comprehend {
     ///  Detects the key noun phrases found in the text. 
     public func detectKeyPhrases(_ input: DetectKeyPhrasesRequest) -> EventLoopFuture<DetectKeyPhrasesResponse> {
         return client.send(operation: "DetectKeyPhrases", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Inspects the input text for entities that contain personally identifiable information (PII) and returns information about them.
+    public func detectPiiEntities(_ input: DetectPiiEntitiesRequest) -> EventLoopFuture<DetectPiiEntitiesResponse> {
+        return client.send(operation: "DetectPiiEntities", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Inspects text and returns an inference of the prevailing sentiment (POSITIVE, NEUTRAL, MIXED, or NEGATIVE). 
@@ -211,6 +221,11 @@ public struct Comprehend {
         return client.send(operation: "ListKeyPhrasesDetectionJobs", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Gets a list of the PII entity detection jobs that you have submitted.
+    public func listPiiEntitiesDetectionJobs(_ input: ListPiiEntitiesDetectionJobsRequest) -> EventLoopFuture<ListPiiEntitiesDetectionJobsResponse> {
+        return client.send(operation: "ListPiiEntitiesDetectionJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Gets a list of sentiment detection jobs that you have submitted.
     public func listSentimentDetectionJobs(_ input: ListSentimentDetectionJobsRequest) -> EventLoopFuture<ListSentimentDetectionJobsResponse> {
         return client.send(operation: "ListSentimentDetectionJobs", path: "/", httpMethod: "POST", input: input)
@@ -246,6 +261,11 @@ public struct Comprehend {
         return client.send(operation: "StartKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Starts an asynchronous PII entity detection job for a collection of documents.
+    public func startPiiEntitiesDetectionJob(_ input: StartPiiEntitiesDetectionJobRequest) -> EventLoopFuture<StartPiiEntitiesDetectionJobResponse> {
+        return client.send(operation: "StartPiiEntitiesDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Starts an asynchronous sentiment detection job for a collection of documents. use the operation to track the status of a job.
     public func startSentimentDetectionJob(_ input: StartSentimentDetectionJobRequest) -> EventLoopFuture<StartSentimentDetectionJobResponse> {
         return client.send(operation: "StartSentimentDetectionJob", path: "/", httpMethod: "POST", input: input)
@@ -269,6 +289,11 @@ public struct Comprehend {
     ///  Stops a key phrases detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopKeyPhrasesDetectionJob(_ input: StopKeyPhrasesDetectionJobRequest) -> EventLoopFuture<StopKeyPhrasesDetectionJobResponse> {
         return client.send(operation: "StopKeyPhrasesDetectionJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Stops a PII entities detection job in progress.
+    public func stopPiiEntitiesDetectionJob(_ input: StopPiiEntitiesDetectionJobRequest) -> EventLoopFuture<StopPiiEntitiesDetectionJobResponse> {
+        return client.send(operation: "StopPiiEntitiesDetectionJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.

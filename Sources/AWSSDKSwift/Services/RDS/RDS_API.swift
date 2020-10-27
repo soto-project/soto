@@ -100,7 +100,7 @@ public struct RDS {
         return client.send(operation: "CopyDBParameterGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Copies the specified DB snapshot. The source DB snapshot must be in the "available" state. You can copy a snapshot from one AWS Region to another. In that case, the AWS Region where you call the CopyDBSnapshot action is the destination AWS Region for the DB snapshot copy.  For more information about copying snapshots, see Copying a DB Snapshot in the Amazon RDS User Guide. 
+    ///  Copies the specified DB snapshot. The source DB snapshot must be in the available state. You can copy a snapshot from one AWS Region to another. In that case, the AWS Region where you call the CopyDBSnapshot action is the destination AWS Region for the DB snapshot copy.  For more information about copying snapshots, see Copying a DB Snapshot in the Amazon RDS User Guide. 
     public func copyDBSnapshot(_ input: CopyDBSnapshotMessage) -> EventLoopFuture<CopyDBSnapshotResult> {
         return client.send(operation: "CopyDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -160,7 +160,7 @@ public struct RDS {
         return client.send(operation: "CreateDBSecurityGroup", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a DBSnapshot. The source DBInstance must be in "available" state.
+    ///  Creates a snapshot of a DB instance. The source DB instance must be in the available or storage-optimizationstate.
     public func createDBSnapshot(_ input: CreateDBSnapshotMessage) -> EventLoopFuture<CreateDBSnapshotResult> {
         return client.send(operation: "CreateDBSnapshot", path: "/", httpMethod: "POST", input: input)
     }
@@ -175,7 +175,7 @@ public struct RDS {
         return client.send(operation: "CreateEventSubscription", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///   Creates an Aurora global database spread across multiple regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
+    ///   Creates an Aurora global database spread across multiple AWS Regions. The global database contains a single primary cluster with read-write capability, and a read-only secondary cluster that receives data from the primary cluster through high-speed replication performed by the Aurora storage subsystem.   You can create a global database that is initially empty, and then add a primary cluster and a secondary cluster to it. Or you can specify an existing Aurora cluster during the create operation, and this cluster becomes the primary cluster of the global database.   This action only applies to Aurora DB clusters. 
     public func createGlobalCluster(_ input: CreateGlobalClusterMessage) -> EventLoopFuture<CreateGlobalClusterResult> {
         return client.send(operation: "CreateGlobalCluster", path: "/", httpMethod: "POST", input: input)
     }
@@ -405,7 +405,7 @@ public struct RDS {
         return client.send(operation: "DescribeEventSubscriptions", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter.  By default, the past hour of events are returned. 
     public func describeEvents(_ input: DescribeEventsMessage) -> EventLoopFuture<EventsMessage> {
         return client.send(operation: "DescribeEvents", path: "/", httpMethod: "POST", input: input)
     }

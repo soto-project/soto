@@ -570,7 +570,7 @@ extension FraudDetector {
         public let name: String
         /// A collection of key and value pairs.
         public let tags: [Tag]?
-        /// The variable type. For more information see Variable types.  Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
+        /// The variable type. For more information see Variable types.  Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT 
         public let variableType: String?
 
         public init(dataSource: DataSource, dataType: DataType, defaultValue: String, description: String? = nil, name: String, tags: [Tag]? = nil, variableType: String? = nil) {
@@ -1502,7 +1502,7 @@ extension FraudDetector {
             try self.eventVariables.forEach {
                 try validate($0.key, name:"eventVariables.key", parent: name, max: 64)
                 try validate($0.key, name:"eventVariables.key", parent: name, min: 1)
-                try validate($0.value, name:"eventVariables[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name:"eventVariables[\"\($0.key)\"]", parent: name, max: 1024)
                 try validate($0.value, name:"eventVariables[\"\($0.key)\"]", parent: name, min: 1)
             }
             try self.externalModelEndpointDataBlobs?.forEach {
@@ -2784,9 +2784,9 @@ extension FraudDetector {
         }
 
         public func validate(name: String) throws {
-            try validate(self.kmsEncryptionKeyArn, name:"kmsEncryptionKeyArn", parent: name, max: 80)
+            try validate(self.kmsEncryptionKeyArn, name:"kmsEncryptionKeyArn", parent: name, max: 90)
             try validate(self.kmsEncryptionKeyArn, name:"kmsEncryptionKeyArn", parent: name, min: 7)
-            try validate(self.kmsEncryptionKeyArn, name:"kmsEncryptionKeyArn", parent: name, pattern: "^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$|DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\\d{12}:key:[a-zA-Z0-9-_]+|[a-zA-Z0-9-_]\\S+")
+            try validate(self.kmsEncryptionKeyArn, name:"kmsEncryptionKeyArn", parent: name, pattern: "^\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}|DEFAULT|arn:[a-zA-Z0-9-]+:kms:[a-zA-Z0-9-]+:\\d{12}:key\\/\\w{8}-\\w{4}-\\w{4}-\\w{4}-\\w{12}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3715,7 +3715,7 @@ extension FraudDetector {
         public let lastUpdatedTime: String?
         /// The name of the variable.
         public let name: String?
-        /// The variable type of the variable. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
+        /// The variable type of the variable. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT  
         public let variableType: String?
 
         public init(arn: String? = nil, createdTime: String? = nil, dataSource: DataSource? = nil, dataType: DataType? = nil, defaultValue: String? = nil, description: String? = nil, lastUpdatedTime: String? = nil, name: String? = nil, variableType: String? = nil) {
@@ -3763,7 +3763,7 @@ extension FraudDetector {
         public let description: String?
         /// The name of the variable.
         public let name: String?
-        /// The type of the variable. For more information see Variable types. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT | SHIPPING_ZIP | USERAGENT 
+        /// The type of the variable. For more information see Variable types. Valid Values: AUTH_CODE | AVS | BILLING_ADDRESS_L1 | BILLING_ADDRESS_L2 | BILLING_CITY | BILLING_COUNTRY | BILLING_NAME | BILLING_PHONE | BILLING_STATE | BILLING_ZIP | CARD_BIN | CATEGORICAL | CURRENCY_CODE | EMAIL_ADDRESS | FINGERPRINT | FRAUD_LABEL | FREE_FORM_TEXT | IP_ADDRESS | NUMERIC | ORDER_ID | PAYMENT_TYPE | PHONE_NUMBER | PRICE | PRODUCT_CATEGORY | SHIPPING_ADDRESS_L1 | SHIPPING_ADDRESS_L2 | SHIPPING_CITY | SHIPPING_COUNTRY | SHIPPING_NAME | SHIPPING_PHONE | SHIPPING_STATE | SHIPPING_ZIP | USERAGENT  
         public let variableType: String?
 
         public init(dataSource: String? = nil, dataType: String? = nil, defaultValue: String? = nil, description: String? = nil, name: String? = nil, variableType: String? = nil) {

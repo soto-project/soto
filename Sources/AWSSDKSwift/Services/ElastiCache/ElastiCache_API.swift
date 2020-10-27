@@ -110,6 +110,16 @@ public struct ElastiCache {
         return client.send(operation: "CreateSnapshot", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  For Redis engine version 6.04 onwards: Creates a Redis user. For more information, see Using Role Based Access Control (RBAC).
+    public func createUser(_ input: CreateUserMessage) -> EventLoopFuture<User> {
+        return client.send(operation: "CreateUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For Redis engine version 6.04 onwards: Creates a Redis user group. For more information, see Using Role Based Access Control (RBAC) 
+    public func createUserGroup(_ input: CreateUserGroupMessage) -> EventLoopFuture<UserGroup> {
+        return client.send(operation: "CreateUserGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Decreases the number of node groups in a Global Datastore
     public func decreaseNodeGroupsInGlobalReplicationGroup(_ input: DecreaseNodeGroupsInGlobalReplicationGroupMessage) -> EventLoopFuture<DecreaseNodeGroupsInGlobalReplicationGroupResult> {
         return client.send(operation: "DecreaseNodeGroupsInGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
@@ -153,6 +163,16 @@ public struct ElastiCache {
     ///  Deletes an existing snapshot. When you receive a successful response from this operation, ElastiCache immediately begins deleting the snapshot; you cannot cancel or revert this operation.  This operation is valid for Redis only. 
     public func deleteSnapshot(_ input: DeleteSnapshotMessage) -> EventLoopFuture<DeleteSnapshotResult> {
         return client.send(operation: "DeleteSnapshot", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For Redis engine version 6.04 onwards: Deletes a user. The user will be removed from all user groups and in turn removed from all replication groups. For more information, see Using Role Based Access Control (RBAC). 
+    public func deleteUser(_ input: DeleteUserMessage) -> EventLoopFuture<User> {
+        return client.send(operation: "DeleteUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  For Redis engine version 6.04 onwards: Deletes a ser group. The user group must first be disassociated from the replcation group before it can be deleted. For more information, see Using Role Based Access Control (RBAC). 
+    public func deleteUserGroup(_ input: DeleteUserGroupMessage) -> EventLoopFuture<UserGroup> {
+        return client.send(operation: "DeleteUserGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cache cluster if a cluster identifier is supplied. By default, abbreviated information about the clusters is returned. You can use the optional ShowCacheNodeInfo flag to retrieve detailed information about the cache nodes associated with the clusters. These details include the DNS address and port for the cache node endpoint. If the cluster is in the creating state, only cluster-level information is displayed until all of the nodes are successfully provisioned. If the cluster is in the deleting state, only cluster-level information is displayed. If cache nodes are currently being added to the cluster, node endpoint information and creation time for the additional nodes are not displayed until they are completely provisioned. When the cluster state is available, the cluster is ready for use. If cache nodes are currently being removed from the cluster, no endpoint information for the removed nodes is displayed.
@@ -230,6 +250,16 @@ public struct ElastiCache {
         return client.send(operation: "DescribeUpdateActions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Returns a list of user groups.
+    public func describeUserGroups(_ input: DescribeUserGroupsMessage) -> EventLoopFuture<DescribeUserGroupsResult> {
+        return client.send(operation: "DescribeUserGroups", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a list of users.
+    public func describeUsers(_ input: DescribeUsersMessage) -> EventLoopFuture<DescribeUsersResult> {
+        return client.send(operation: "DescribeUsers", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Remove a secondary cluster from the Global Datastore using the Global Datastore name. The secondary cluster will no longer receive updates from the primary cluster, but will remain as a standalone cluster in that AWS region.
     public func disassociateGlobalReplicationGroup(_ input: DisassociateGlobalReplicationGroupMessage) -> EventLoopFuture<DisassociateGlobalReplicationGroupResult> {
         return client.send(operation: "DisassociateGlobalReplicationGroup", path: "/", httpMethod: "POST", input: input)
@@ -288,6 +318,16 @@ public struct ElastiCache {
     ///  Modifies a replication group's shards (node groups) by allowing you to add shards, remove shards, or rebalance the keyspaces among exisiting shards.
     public func modifyReplicationGroupShardConfiguration(_ input: ModifyReplicationGroupShardConfigurationMessage) -> EventLoopFuture<ModifyReplicationGroupShardConfigurationResult> {
         return client.send(operation: "ModifyReplicationGroupShardConfiguration", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes user password(s) and/or access string.
+    public func modifyUser(_ input: ModifyUserMessage) -> EventLoopFuture<User> {
+        return client.send(operation: "ModifyUser", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Changes the list of users that belong to the user group.
+    public func modifyUserGroup(_ input: ModifyUserGroupMessage) -> EventLoopFuture<UserGroup> {
+        return client.send(operation: "ModifyUserGroup", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Allows you to purchase a reserved cache node offering.

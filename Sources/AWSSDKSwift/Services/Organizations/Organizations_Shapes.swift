@@ -290,7 +290,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
-        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of this child entity. The regex pattern for a child ID string requires one of the following:    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let id: String?
         /// The type of this child entity.
         public let `type`: ChildType?
@@ -311,7 +311,8 @@ extension Organizations {
             AWSShapeMember(label: "AccountName", required: true, type: .string), 
             AWSShapeMember(label: "Email", required: true, type: .string), 
             AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The friendly name of the member account.
@@ -320,14 +321,17 @@ extension Organizations {
         public let email: String
         /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:    Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:    Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide    Steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide    The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
+        /// A list of tags that you want to attach to the newly created account. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and the account is not created. 
+        public let tags: [Tag]?
 
-        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
+        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
             self.iamUserAccessToBilling = iamUserAccessToBilling
             self.roleName = roleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -339,6 +343,9 @@ extension Organizations {
             try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
             try validate(self.roleName, name:"roleName", parent: name, max: 64)
             try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -346,6 +353,7 @@ extension Organizations {
             case email = "Email"
             case iamUserAccessToBilling = "IamUserAccessToBilling"
             case roleName = "RoleName"
+            case tags = "Tags"
         }
     }
 
@@ -384,11 +392,11 @@ extension Organizations {
         public let accountName: String?
         /// The date and time that the account was created and the request completed.
         public let completedTimestamp: TimeStamp?
-        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the master account with a valid payment method, such as a credit card.  
+        /// If the request failed, a description of the reason for the failure.   ACCOUNT_LIMIT_EXCEEDED: The account could not be created because you have reached the limit on the number of accounts in your organization.   CONCURRENT_ACCOUNT_MODIFICATION: You already submitted a request with the same information.   EMAIL_ALREADY_EXISTS: The account could not be created because another AWS account with that email address already exists.   GOVCLOUD_ACCOUNT_ALREADY_EXISTS: The account in the AWS GovCloud (US) Region could not be created because this Region already includes an account with that email address.   INVALID_ADDRESS: The account could not be created because the address you provided is not valid.   INVALID_EMAIL: The account could not be created because the email address you provided is not valid.   INTERNAL_FAILURE: The account could not be created because of an internal failure. Try again later. If the problem persists, contact Customer Support.   MISSING_BUSINESS_VALIDATION: The AWS account that owns your organization has not received Business Validation.    MISSING_PAYMENT_INSTRUMENT: You must configure the management account with a valid payment method, such as a credit card.  
         public let failureReason: CreateAccountFailureReason?
         /// If the account was created successfully, the unique identifier (ID) of the new account in the AWS GovCloud (US) Region.
         public let govCloudAccountId: String?
-        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) that references this request. You get this value from the response of the initial CreateAccount request to create the account. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public let id: String?
         /// The date and time that the request was made for the account creation.
         public let requestedTimestamp: TimeStamp?
@@ -423,7 +431,8 @@ extension Organizations {
             AWSShapeMember(label: "AccountName", required: true, type: .string), 
             AWSShapeMember(label: "Email", required: true, type: .string), 
             AWSShapeMember(label: "IamUserAccessToBilling", required: false, type: .enum), 
-            AWSShapeMember(label: "RoleName", required: false, type: .string)
+            AWSShapeMember(label: "RoleName", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The friendly name of the member account.
@@ -432,14 +441,17 @@ extension Organizations {
         public let email: String
         /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see Activating Access to the Billing and Cost Management Console in the AWS Billing and Cost Management User Guide.  If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
         public let iamUserAccessToBilling: IAMUserAccessToBilling?
-        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the master account, allowing users in the master account to assume the role, as permitted by the master account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+        /// (Optional) The name of an IAM role that AWS Organizations automatically preconfigures in the new member accounts in both the AWS GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see Accessing and Administering the Member Accounts in Your Organization in the AWS Organizations User Guide and steps 2 and 3 in Tutorial: Delegate Access Across AWS Accounts Using IAM Roles in the IAM User Guide.  The regex pattern that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
         public let roleName: String?
+        /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the TagResource operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and the account is not created. 
+        public let tags: [Tag]?
 
-        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil) {
+        public init(accountName: String, email: String, iamUserAccessToBilling: IAMUserAccessToBilling? = nil, roleName: String? = nil, tags: [Tag]? = nil) {
             self.accountName = accountName
             self.email = email
             self.iamUserAccessToBilling = iamUserAccessToBilling
             self.roleName = roleName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -451,6 +463,9 @@ extension Organizations {
             try validate(self.email, name:"email", parent: name, pattern: "[^\\s@]+@[^\\s@]+\\.[^\\s@]+")
             try validate(self.roleName, name:"roleName", parent: name, max: 64)
             try validate(self.roleName, name:"roleName", parent: name, pattern: "[\\w+=,.@-]{1,64}")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -458,6 +473,7 @@ extension Organizations {
             case email = "Email"
             case iamUserAccessToBilling = "IamUserAccessToBilling"
             case roleName = "RoleName"
+            case tags = "Tags"
         }
     }
 
@@ -482,7 +498,7 @@ extension Organizations {
             AWSShapeMember(label: "FeatureSet", required: false, type: .enum)
         ]
 
-        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the master account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the master account can also apply any policy type to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
+        /// Specifies the feature set supported by the new organization. Each feature set supports different levels of functionality.    CONSOLIDATED_BILLING: All member accounts have their bills consolidated to and paid by the management account. For more information, see Consolidated billing in the AWS Organizations User Guide.   The consolidated billing feature subset isn't available for organizations in the AWS GovCloud (US) Region.    ALL: In addition to all the features supported by the consolidated billing feature set, the management account can also apply any policy type to any member account in the organization. For more information, see All features in the AWS Organizations User Guide.   
         public let featureSet: OrganizationFeatureSet?
 
         public init(featureSet: OrganizationFeatureSet? = nil) {
@@ -514,17 +530,21 @@ extension Organizations {
     public struct CreateOrganizationalUnitRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "ParentId", required: true, type: .string)
+            AWSShapeMember(label: "ParentId", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
         /// The friendly name to assign to the new OU.
         public let name: String
         /// The unique identifier (ID) of the parent root or OU that you want to create the new OU in. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let parentId: String
+        /// A list of tags that you want to attach to the newly created OU. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for an OU, then the entire request fails and the OU is not created. 
+        public let tags: [Tag]?
 
-        public init(name: String, parentId: String) {
+        public init(name: String, parentId: String, tags: [Tag]? = nil) {
             self.name = name
             self.parentId = parentId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -533,11 +553,15 @@ extension Organizations {
             try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
             try validate(self.parentId, name:"parentId", parent: name, max: 100)
             try validate(self.parentId, name:"parentId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case parentId = "ParentId"
+            case tags = "Tags"
         }
     }
 
@@ -563,6 +587,7 @@ extension Organizations {
             AWSShapeMember(label: "Content", required: true, type: .string), 
             AWSShapeMember(label: "Description", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
@@ -572,13 +597,16 @@ extension Organizations {
         public let description: String
         /// The friendly name to assign to the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String
+        /// A list of tags that you want to attach to the newly created policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  If any one of the tags is invalid or if you exceed the allowed number of tags for a policy, then the entire request fails and the policy is not created. 
+        public let tags: [Tag]?
         /// The type of policy to create. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     SERVICE_CONTROL_POLICY     TAG_POLICY   
         public let `type`: PolicyType
 
-        public init(content: String, description: String, name: String, type: PolicyType) {
+        public init(content: String, description: String, name: String, tags: [Tag]? = nil, type: PolicyType) {
             self.content = content
             self.description = description
             self.name = name
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -591,12 +619,16 @@ extension Organizations {
             try validate(self.name, name:"name", parent: name, max: 128)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
             case description = "Description"
             case name = "Name"
+            case tags = "Tags"
             case `type` = "Type"
         }
     }
@@ -849,7 +881,7 @@ extension Organizations {
             AWSShapeMember(label: "CreateAccountRequestId", required: true, type: .string)
         ]
 
-        /// Specifies the operationId that uniquely identifies the request. You can get the ID from the response to an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
+        /// Specifies the Id value that uniquely identifies the CreateAccount request. You can get the value from the CreateAccountStatus.Id response in an earlier CreateAccount request, or from the ListCreateAccountStatus operation. The regex pattern for a create account request ID string requires "car-" followed by from 8 to 32 lowercase letters or digits.
         public let createAccountRequestId: String
 
         public init(createAccountRequestId: String) {
@@ -891,7 +923,7 @@ extension Organizations {
 
         /// The type of policy that you want information about. You can specify one of the following values:    AISERVICES_OPT_OUT_POLICY     BACKUP_POLICY     TAG_POLICY   
         public let policyType: EffectivePolicyType
-        /// When you're signed in as the master account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported. 
+        /// When you're signed in as the management account, specify the ID of the account that you want details about. Specifying an organization root or organizational unit (OU) as the target is not supported.
         public let targetId: String?
 
         public init(policyType: EffectivePolicyType, targetId: String? = nil) {
@@ -1315,13 +1347,13 @@ extension Organizations {
             AWSShapeMember(label: "State", required: false, type: .enum)
         ]
 
-        /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the master account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the master account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's master account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the master account and signals the master that it can finalize the process to enable all features.  
+        /// The type of handshake, indicating what action occurs when the recipient accepts the handshake. The following handshake types are supported:    INVITE: This type of handshake represents a request to join an organization. It is always sent from the management account to only non-member accounts.    ENABLE_ALL_FEATURES: This type of handshake represents a request to enable all features in an organization. It is always sent from the management account to only invited member accounts. Created accounts do not receive this because those accounts were created by the organization's management account and approval is inferred.    APPROVE_ALL_FEATURES: This type of handshake is sent from the Organizations service when all member accounts have approved the ENABLE_ALL_FEATURES invitation. It is sent only to the management account and signals the master that it can finalize the process to enable all features.  
         public let action: ActionType?
         /// The Amazon Resource Name (ARN) of a handshake. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
         /// The date and time that the handshake expires. If the recipient of the handshake request fails to respond before the specified date and time, the handshake becomes inactive and is no longer valid.
         public let expirationTimestamp: TimeStamp?
-        /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of a handshake. The originating account creates the ID when it initiates the handshake. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let id: String?
         /// Information about the two accounts that are participating in the handshake.
         public let parties: [HandshakeParty]?
@@ -1363,7 +1395,7 @@ extension Organizations {
 
         /// Specifies the type of handshake action. If you specify ActionType, you cannot also specify ParentHandshakeId.
         public let actionType: ActionType?
-        /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// Specifies the parent handshake. Only used for handshake types that are a child of another type. If you specify ParentHandshakeId, you cannot also specify ActionType. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let parentHandshakeId: String?
 
         public init(actionType: ActionType? = nil, parentHandshakeId: String? = nil) {
@@ -1388,7 +1420,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) for the party. The regex pattern for handshake ID string requires "h-" followed by from 8 to 32 lowercase letters or digits.
         public let id: String
         /// The type of party.
         public let `type`: HandshakePartyType
@@ -1419,7 +1451,7 @@ extension Organizations {
 
         /// When needed, contains an additional array of HandshakeResource objects.
         public let resources: [HandshakeResource]?
-        /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the master account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the master account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
+        /// The type of information being passed, specifying how the value is to be interpreted by the other party:    ACCOUNT - Specifies an AWS account ID number.    ORGANIZATION - Specifies an organization ID number.    EMAIL - Specifies the email address that is associated with the account that receives the handshake.     OWNER_EMAIL - Specifies the email address associated with the management account. Included as information about an organization.     OWNER_NAME - Specifies the name associated with the management account. Included as information about an organization.     NOTES - Additional text provided by the handshake initiator and intended for the recipient to read.  
         public let `type`: HandshakeResourceType?
         /// The information that is passed to the other party in the handshake. The format of the value string must match the requirements of the specified type.
         public let value: String?
@@ -1440,27 +1472,35 @@ extension Organizations {
     public struct InviteAccountToOrganizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Notes", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Target", required: true, type: .structure)
         ]
 
         /// Additional information that you want to include in the generated email to the recipient account owner.
         public let notes: String?
-        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:   { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL 
+        /// A list of tags that you want to attach to the account when it becomes a member of the organization. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see Tagging AWS Organizations resources in the AWS Organizations User Guide.  Any tags in the request are checked for compliance with any applicable tag policies when the request is made. The request is rejected if the tags in the request don't match the requirements of the policy at that time. Tag policy compliance is  not  checked again when the invitation is accepted and the tags are actually attached to the account. That means that if the tag policy changes between the invitation and the acceptance, then that tags could potentially be non-compliant.   If any one of the tags is invalid or if you exceed the allowed number of tags for an account, then the entire request fails and invitations are not sent. 
+        public let tags: [Tag]?
+        /// The identifier (ID) of the AWS account that you want to invite to join your organization. This is a JSON object that contains the following elements:  { "Type": "ACCOUNT", "Id": "&lt; account id number &gt;" }  If you use the AWS CLI, you can submit this as a single string, similar to the following example:  --target Id=123456789012,Type=ACCOUNT  If you specify "Type": "ACCOUNT", you must provide the AWS account ID number as the Id. If you specify "Type": "EMAIL", you must specify the email address that is associated with the account.  --target Id=diego@example.com,Type=EMAIL 
         public let target: HandshakeParty
 
-        public init(notes: String? = nil, target: HandshakeParty) {
+        public init(notes: String? = nil, tags: [Tag]? = nil, target: HandshakeParty) {
             self.notes = notes
+            self.tags = tags
             self.target = target
         }
 
         public func validate(name: String) throws {
             try validate(self.notes, name:"notes", parent: name, max: 1024)
             try validate(self.notes, name:"notes", parent: name, pattern: "[\\s\\S]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try self.target.validate(name: "\(name).target")
         }
 
         private enum CodingKeys: String, CodingKey {
             case notes = "Notes"
+            case tags = "Tags"
             case target = "Target"
         }
     }
@@ -2286,7 +2326,7 @@ extension Organizations {
 
         /// The parameter for receiving additional results if you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
         public let nextToken: String?
-        /// The ID of the resource that you want to retrieve tags for. 
+        /// The ID of the resource with the tags to list. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3    
         public let resourceId: String
 
         public init(nextToken: String? = nil, resourceId: String) {
@@ -2297,8 +2337,8 @@ extension Organizations {
         public func validate(name: String) throws {
             try validate(self.nextToken, name:"nextToken", parent: name, max: 100000)
             try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\s\\S]*")
-            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 130)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2440,13 +2480,13 @@ extension Organizations {
         public let availablePolicyTypes: [PolicyTypeSummary]?
         /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see Enabling All Features in Your Organization in the AWS Organizations User Guide.
         public let featureSet: OrganizationFeatureSet?
-        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) of an organization. The regex pattern for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits.
         public let id: String?
-        /// The Amazon Resource Name (ARN) of the account that is designated as the master account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
+        /// The Amazon Resource Name (ARN) of the account that is designated as the management account for the organization. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let masterAccountArn: String?
-        /// The email address that is associated with the AWS account that is designated as the master account for the organization.
+        /// The email address that is associated with the AWS account that is designated as the management account for the organization.
         public let masterAccountEmail: String?
-        /// The unique identifier (ID) of the master account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
+        /// The unique identifier (ID) of the management account of an organization. The regex pattern for an account ID string requires exactly 12 digits.
         public let masterAccountId: String?
 
         public init(arn: String? = nil, availablePolicyTypes: [PolicyTypeSummary]? = nil, featureSet: OrganizationFeatureSet? = nil, id: String? = nil, masterAccountArn: String? = nil, masterAccountEmail: String? = nil, masterAccountId: String? = nil) {
@@ -2479,7 +2519,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of this OU. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.
+        /// The unique identifier (ID) associated with this OU. The regex pattern for an organizational unit ID string requires "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that contains the OU). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.
         public let id: String?
         /// The friendly name of this OU. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2503,7 +2543,7 @@ extension Organizations {
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
-        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the parent entity. The regex pattern for a parent ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let id: String?
         /// The type of the parent entity.
         public let `type`: ParentType?
@@ -2557,7 +2597,7 @@ extension Organizations {
         public let awsManaged: Bool?
         /// The description of the policy.
         public let description: String?
-        /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lower-case letters or digits.
+        /// The unique identifier (ID) of the policy. The regex pattern for a policy ID string requires "p-" followed by from 8 to 128 lowercase or uppercase letters, digits, or the underscore character (_).
         public let id: String?
         /// The friendly name of the policy. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2595,7 +2635,7 @@ extension Organizations {
         public let arn: String?
         /// The friendly name of the policy target. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
-        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:   Root: A string that begins with "r-" followed by from 4 to 32 lower-case letters or digits.   Account: A string that consists of exactly 12 digits.   Organizational unit (OU): A string that begins with "ou-" followed by from 4 to 32 lower-case letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lower-case letters or digits.  
+        /// The unique identifier (ID) of the policy target. The regex pattern for a target ID string requires one of the following:    Root - A string that begins with "r-" followed by from 4 to 32 lowercase letters or digits.    Account - A string that consists of exactly 12 digits.    Organizational unit (OU) - A string that begins with "ou-" followed by from 4 to 32 lowercase letters or digits (the ID of the root that the OU is in). This string is followed by a second "-" dash and from 8 to 32 additional lowercase letters or digits.  
         public let targetId: String?
         /// The type of the policy target.
         public let `type`: TargetType?
@@ -2699,7 +2739,7 @@ extension Organizations {
 
         /// The Amazon Resource Name (ARN) of the root. For more information about ARNs in Organizations, see ARN Formats Supported by Organizations in the AWS Organizations User Guide.
         public let arn: String?
-        /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lower-case letters or digits.
+        /// The unique identifier (ID) for the root. The regex pattern for a root ID string requires "r-" followed by from 4 to 32 lowercase letters or digits.
         public let id: String?
         /// The friendly name of the root. The regex pattern that is used to validate this parameter is a string of any of the characters in the ASCII character range.
         public let name: String?
@@ -2760,7 +2800,7 @@ extension Organizations {
 
         /// The ID of the resource to add a tag to.
         public let resourceId: String
-        /// The tag to add to the specified resource. You must specify both a tag key and value. You can set the value of a tag to an empty string, but you can't set it to null.
+        /// A list of tags to add to the specified resource. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3     For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null.  If any one of the tags is invalid or if you exceed the allowed number of tags for an account user, then the entire request fails and the account is not created. 
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -2769,8 +2809,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 130)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2788,9 +2828,9 @@ extension Organizations {
             AWSShapeMember(label: "TagKeys", required: true, type: .list)
         ]
 
-        /// The ID of the resource to remove the tag from.
+        /// The ID of the resource to remove a tag from. You can specify any of the following taggable resources.   AWS account – specify the account ID number.   Organizational unit – specify the OU ID that begins with ou- and looks similar to: ou-1a2b-34uvwxyz     Root – specify the root ID that begins with r- and looks similar to: r-1a2b     Policy – specify the policy ID that begins with p- andlooks similar to: p-12abcdefg3    
         public let resourceId: String
-        /// The tag to remove from the specified resource.
+        /// The list of keys for tags to remove from the specified resource.
         public let tagKeys: [String]
 
         public init(resourceId: String, tagKeys: [String]) {
@@ -2799,8 +2839,8 @@ extension Organizations {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceId, name:"resourceId", parent: name, max: 12)
-            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^\\d{12}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 130)
+            try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^(r-[0-9a-z]{4,32})|(\\d{12})|(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32})|(^p-[0-9a-zA-Z_]{8,128})$")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)

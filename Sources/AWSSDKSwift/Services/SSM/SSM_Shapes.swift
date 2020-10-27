@@ -480,15 +480,25 @@ extension SSM {
     }
 
     public enum PatchFilterKey: String, CustomStringConvertible, Codable {
+        case arch = "ARCH"
+        case advisoryId = "ADVISORY_ID"
+        case bugzillaId = "BUGZILLA_ID"
         case patchSet = "PATCH_SET"
         case product = "PRODUCT"
         case productFamily = "PRODUCT_FAMILY"
         case classification = "CLASSIFICATION"
+        case cveId = "CVE_ID"
+        case epoch = "EPOCH"
         case msrcSeverity = "MSRC_SEVERITY"
+        case name = "NAME"
         case patchId = "PATCH_ID"
         case section = "SECTION"
         case priority = "PRIORITY"
+        case repository = "REPOSITORY"
+        case release = "RELEASE"
         case severity = "SEVERITY"
+        case security = "SECURITY"
+        case version = "VERSION"
         public var description: String { return self.rawValue }
     }
 
@@ -1326,7 +1336,7 @@ extension SSM {
         public let key: AttachmentsSourceKey?
         /// The name of the document attachment file.
         public let name: String?
-        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://my-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://my-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]   
+        /// The value of a key-value pair that identifies the location of an attachment to a document. The format for Value depends on the type of key you specify.   For the key SourceUrl, the value is an S3 bucket location. For example:  "Values": [ "s3://doc-example-bucket/my-folder" ]    For the key S3FileUrl, the value is a file in an S3 bucket. For example:  "Values": [ "s3://doc-example-bucket/my-folder/my-file.py" ]    For the key AttachmentReference, the value is constructed from the name of another SSM document in your account, a version number of that document, and a file attached to that document version that you want to reuse. For example:  "Values": [ "MyOtherDocument/3/my-other-file.py" ]  However, if the SSM document is shared with you from another account, the full SSM document ARN must be specified instead of the document name only. For example:  "Values": [ "arn:aws:ssm:us-east-2:111122223333:document/OtherAccountDocument/3/their-file.py" ]   
         public let values: [String]?
 
         public init(key: AttachmentsSourceKey? = nil, name: String? = nil, values: [String]? = nil) {
@@ -2019,9 +2029,9 @@ extension SSM {
         public let name: String?
         /// Output of the plugin execution.
         public let output: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response: doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript  doc-example-bucket is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-02573cafcfEXAMPLE is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  test_folder/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-1234567876543/awsrunShellScript  test_folder is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-1234567876543 is the instance ID; awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response: doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript  doc-example-bucket is the name of the S3 bucket; ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix; i-02573cafcfEXAMPLE is the instance ID; awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Systems Manager automatically determines the S3 bucket region.
         public let outputS3Region: String?
@@ -2130,7 +2140,7 @@ extension SSM {
         public let resourceType: String?
         /// The severity of the compliance status. Severity can be one of the following: Critical, High, Medium, Low, Informational, Unspecified.
         public let severity: ComplianceSeverity?
-        /// The status of the compliance item. An item is either COMPLIANT or NON_COMPLIANT.
+        /// The status of the compliance item. An item is either COMPLIANT, NON_COMPLIANT, or an empty string (for Windows patches that aren't applicable).
         public let status: ComplianceStatus?
         /// A title for the compliance item. For example, if the compliance item is a Windows patch, the title could be the title of the KB article for the patch; for example: Security Update for Active Directory Federation Services.
         public let title: String?
@@ -7428,7 +7438,7 @@ extension SSM {
 
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
-        /// The name of a parameter you want to query.
+        /// The name of the parameter for which you want to review history.
         public let name: String
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -8067,7 +8077,7 @@ extension SSM {
         public let lastSuccessfulAssociationExecutionDate: TimeStamp?
         /// The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed instance by specifying the Activation Code and Activation ID when you install SSM Agent on the instance, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances action. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the AWS CLI Command Reference.
         public let name: String?
-        /// Connection status of SSM Agent. 
+        /// Connection status of SSM Agent.   The status Inactive has been deprecated and is no longer in use. 
         public let pingStatus: PingStatus?
         /// The name of the operating system platform running on your instance. 
         public let platformName: String?
@@ -9448,7 +9458,7 @@ extension SSM {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results. 
         public let nextToken: String?
-        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 buckets. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions. 
+        /// View a list of resource data syncs according to the sync type. Specify SyncToDestination to view resource data syncs that synchronize data to an Amazon S3 bucket. Specify SyncFromSource to view resource data syncs from AWS Organizations or from multiple AWS Regions.
         public let syncType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, syncType: String? = nil) {
@@ -11054,78 +11064,128 @@ extension SSM {
 
     public struct Patch: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdvisoryIds", required: false, type: .list), 
+            AWSShapeMember(label: "Arch", required: false, type: .string), 
+            AWSShapeMember(label: "BugzillaIds", required: false, type: .list), 
             AWSShapeMember(label: "Classification", required: false, type: .string), 
             AWSShapeMember(label: "ContentUrl", required: false, type: .string), 
+            AWSShapeMember(label: "CVEIds", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "Epoch", required: false, type: .integer), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "KbNumber", required: false, type: .string), 
             AWSShapeMember(label: "Language", required: false, type: .string), 
             AWSShapeMember(label: "MsrcNumber", required: false, type: .string), 
             AWSShapeMember(label: "MsrcSeverity", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Product", required: false, type: .string), 
             AWSShapeMember(label: "ProductFamily", required: false, type: .string), 
+            AWSShapeMember(label: "Release", required: false, type: .string), 
             AWSShapeMember(label: "ReleaseDate", required: false, type: .timestamp), 
+            AWSShapeMember(label: "Repository", required: false, type: .string), 
+            AWSShapeMember(label: "Severity", required: false, type: .string), 
             AWSShapeMember(label: "Title", required: false, type: .string), 
-            AWSShapeMember(label: "Vendor", required: false, type: .string)
+            AWSShapeMember(label: "Vendor", required: false, type: .string), 
+            AWSShapeMember(label: "Version", required: false, type: .string)
         ]
 
-        /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
+        /// The Advisory ID of the patch. For example, RHSA-2020:3779. Applies to Linux-based instances only.
+        public let advisoryIds: [String]?
+        /// The architecture of the patch. For example, in example-pkg-0.710.10-2.7.abcd.x86_64, the architecture is indicated by x86_64. Applies to Linux-based instances only.
+        public let arch: String?
+        /// The Bugzilla ID of the patch. For example, 1600646. Applies to Linux-based instances only.
+        public let bugzillaIds: [String]?
+        /// The classification of the patch. For example, SecurityUpdates, Updates, or CriticalUpdates.
         public let classification: String?
         /// The URL where more information can be obtained about the patch.
         public let contentUrl: String?
+        /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-1999-0067. Applies to Linux-based instances only.
+        public let cVEIds: [String]?
         /// The description of the patch.
         public let description: String?
-        /// The ID of the patch (this is different than the Microsoft Knowledge Base ID).
+        /// The epoch of the patch. For example in pkg-example-EE-20180914-2.2.amzn1.noarch, the epoch value is 20180914-2. Applies to Linux-based instances only.
+        public let epoch: Int?
+        /// The ID of the patch. Applies to Windows patches only.  This ID is not the same as the Microsoft Knowledge Base ID. 
         public let id: String?
-        /// The Microsoft Knowledge Base ID of the patch.
+        /// The Microsoft Knowledge Base ID of the patch. Applies to Windows patches only.
         public let kbNumber: String?
         /// The language of the patch if it's language-specific.
         public let language: String?
-        /// The ID of the MSRC bulletin the patch is related to.
+        /// The ID of the Microsoft Security Response Center (MSRC) bulletin the patch is related to. For example, MS14-045. Applies to Windows patches only.
         public let msrcNumber: String?
-        /// The severity of the patch (for example Critical, Important, Moderate).
+        /// The severity of the patch, such as Critical, Important, or Moderate. Applies to Windows patches only.
         public let msrcSeverity: String?
-        /// The specific product the patch is applicable for (for example, WindowsServer2016).
+        /// The name of the patch. Applies to Linux-based instances only.
+        public let name: String?
+        /// The specific product the patch is applicable for. For example, WindowsServer2016 or AmazonLinux2018.03.
         public let product: String?
-        /// The product family the patch is applicable for (for example, Windows).
+        /// The product family the patch is applicable for. For example, Windows or Amazon Linux 2.
         public let productFamily: String?
+        /// The particular release of a patch. For example, in pkg-example-EE-20180914-2.2.amzn1.noarch, the release is 2.amaz1. Applies to Linux-based instances only.
+        public let release: String?
         /// The date the patch was released.
         public let releaseDate: TimeStamp?
+        /// The source patch repository for the operating system and version, such as trusty-security for Ubuntu Server 14.04 LTE and focal-security for Ubuntu Server 20.04 LTE. Applies to Linux-based instances only.
+        public let repository: String?
+        /// The severity level of the patch. For example, CRITICAL or MODERATE.
+        public let severity: String?
         /// The title of the patch.
         public let title: String?
         /// The name of the vendor providing the patch.
         public let vendor: String?
+        /// The version number of the patch. For example, in example-pkg-1.710.10-2.7.abcd.x86_64, the version number is indicated by -1. Applies to Linux-based instances only.
+        public let version: String?
 
-        public init(classification: String? = nil, contentUrl: String? = nil, description: String? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, product: String? = nil, productFamily: String? = nil, releaseDate: TimeStamp? = nil, title: String? = nil, vendor: String? = nil) {
+        public init(advisoryIds: [String]? = nil, arch: String? = nil, bugzillaIds: [String]? = nil, classification: String? = nil, contentUrl: String? = nil, cVEIds: [String]? = nil, description: String? = nil, epoch: Int? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, name: String? = nil, product: String? = nil, productFamily: String? = nil, release: String? = nil, releaseDate: TimeStamp? = nil, repository: String? = nil, severity: String? = nil, title: String? = nil, vendor: String? = nil, version: String? = nil) {
+            self.advisoryIds = advisoryIds
+            self.arch = arch
+            self.bugzillaIds = bugzillaIds
             self.classification = classification
             self.contentUrl = contentUrl
+            self.cVEIds = cVEIds
             self.description = description
+            self.epoch = epoch
             self.id = id
             self.kbNumber = kbNumber
             self.language = language
             self.msrcNumber = msrcNumber
             self.msrcSeverity = msrcSeverity
+            self.name = name
             self.product = product
             self.productFamily = productFamily
+            self.release = release
             self.releaseDate = releaseDate
+            self.repository = repository
+            self.severity = severity
             self.title = title
             self.vendor = vendor
+            self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advisoryIds = "AdvisoryIds"
+            case arch = "Arch"
+            case bugzillaIds = "BugzillaIds"
             case classification = "Classification"
             case contentUrl = "ContentUrl"
+            case cVEIds = "CVEIds"
             case description = "Description"
+            case epoch = "Epoch"
             case id = "Id"
             case kbNumber = "KbNumber"
             case language = "Language"
             case msrcNumber = "MsrcNumber"
             case msrcSeverity = "MsrcSeverity"
+            case name = "Name"
             case product = "Product"
             case productFamily = "ProductFamily"
+            case release = "Release"
             case releaseDate = "ReleaseDate"
+            case repository = "Repository"
+            case severity = "Severity"
             case title = "Title"
             case vendor = "Vendor"
+            case version = "Version"
         }
     }
 
@@ -11169,6 +11229,7 @@ extension SSM {
     public struct PatchComplianceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Classification", required: true, type: .string), 
+            AWSShapeMember(label: "CVEIds", required: false, type: .string), 
             AWSShapeMember(label: "InstalledTime", required: true, type: .timestamp), 
             AWSShapeMember(label: "KBId", required: true, type: .string), 
             AWSShapeMember(label: "Severity", required: true, type: .string), 
@@ -11178,6 +11239,8 @@ extension SSM {
 
         /// The classification of the patch (for example, SecurityUpdates, Updates, CriticalUpdates).
         public let classification: String
+        /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that are resolved by the patch.
+        public let cVEIds: String?
         /// The date/time the patch was installed on the instance. Note that not all operating systems provide this level of information.
         public let installedTime: TimeStamp
         /// The operating system-specific ID of the patch.
@@ -11189,8 +11252,9 @@ extension SSM {
         /// The title of the patch.
         public let title: String
 
-        public init(classification: String, installedTime: TimeStamp, kBId: String, severity: String, state: PatchComplianceDataState, title: String) {
+        public init(classification: String, cVEIds: String? = nil, installedTime: TimeStamp, kBId: String, severity: String, state: PatchComplianceDataState, title: String) {
             self.classification = classification
+            self.cVEIds = cVEIds
             self.installedTime = installedTime
             self.kBId = kBId
             self.severity = severity
@@ -11200,6 +11264,7 @@ extension SSM {
 
         private enum CodingKeys: String, CodingKey {
             case classification = "Classification"
+            case cVEIds = "CVEIds"
             case installedTime = "InstalledTime"
             case kBId = "KBId"
             case severity = "Severity"
@@ -11643,7 +11708,7 @@ extension SSM {
         public let tags: [Tag]?
         /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an AWS account. Standard parameters are offered at no additional cost.  Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an AWS account. Advanced parameters incur a charge. For more information, see Standard and advanced parameter tiers in the AWS Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters.  If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter.   Using the Default Tier Configuration  In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you do not specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:    Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.     Intelligent-Tiering: With this option, Parameter Store evaluates each request to determine if the parameter is standard or advanced.  If the request doesn't include any options that require an advanced parameter, the parameter is created in the standard-parameter tier. If one or more options requiring an advanced parameter are included in the request, Parameter Store create a parameter in the advanced-parameter tier. This approach helps control your parameter-related costs by always creating standard parameters unless an advanced parameter is necessary.    Options that require an advanced parameter include the following:   The content size of the parameter is more than 4 KB.   The parameter uses a parameter policy.   More than 10,000 parameters already exist in your AWS account in the current Region.   For more information about configuring the default tier option, see Specifying a default parameter tier in the AWS Systems Manager User Guide.
         public let tier: ParameterTier?
-        /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates or in the China Regions.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter. 
+        /// The type of parameter that you want to add to the system.   SecureString is not currently supported for AWS CloudFormation templates.  Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type.  Specifying a parameter type is not required when updating a parameter. You must specify a parameter type when creating a parameter. 
         public let `type`: ParameterType?
         /// The parameter value that you want to add to the system. Standard parameters have a value limit of 4 KB. Advanced parameters have a value limit of 8 KB.  Parameters can't be referenced or nested in the values of other parameters. You can't include {{}} or {{ssm:parameter-name}} in a parameter value. 
         public let value: String

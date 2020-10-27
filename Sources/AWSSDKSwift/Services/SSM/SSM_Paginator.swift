@@ -161,7 +161,7 @@ extension SSM {
         return client.paginate(input: input, command: getOpsSummary, tokenKey: \GetOpsSummaryResult.nextToken, onPage: onPage)
     }
 
-    ///  Query a list of all parameters used by the AWS account.
+    ///  Retrieves the history of all changes to a parameter.
     public func getParameterHistoryPaginator(_ input: GetParameterHistoryRequest, onPage: @escaping (GetParameterHistoryResult, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: getParameterHistory, tokenKey: \GetParameterHistoryResult.nextToken, onPage: onPage)
     }

@@ -6,6 +6,11 @@ import NIO
 
 extension ServiceCatalog {
 
+    ///  This API takes either a ProvisonedProductId or a ProvisionedProductName, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
+    public func getProvisionedProductOutputsPaginator(_ input: GetProvisionedProductOutputsInput, onPage: @escaping (GetProvisionedProductOutputsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: getProvisionedProductOutputs, tokenKey: \GetProvisionedProductOutputsOutput.nextPageToken, onPage: onPage)
+    }
+
     ///  Lists all portfolios for which sharing was accepted by this account.
     public func listAcceptedPortfolioSharesPaginator(_ input: ListAcceptedPortfolioSharesInput, onPage: @escaping (ListAcceptedPortfolioSharesOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAcceptedPortfolioShares, tokenKey: \ListAcceptedPortfolioSharesOutput.nextPageToken, onPage: onPage)
@@ -26,7 +31,7 @@ extension ServiceCatalog {
         return client.paginate(input: input, command: listLaunchPaths, tokenKey: \ListLaunchPathsOutput.nextPageToken, onPage: onPage)
     }
 
-    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the master account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
+    ///  Lists the organization nodes that have access to the specified portfolio. This API can only be called by the management account in the organization or by a delegated admin. If a delegated admin is de-registered, they can no longer perform this operation.
     public func listOrganizationPortfolioAccessPaginator(_ input: ListOrganizationPortfolioAccessInput, onPage: @escaping (ListOrganizationPortfolioAccessOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationPortfolioAccess, tokenKey: \ListOrganizationPortfolioAccessOutput.nextPageToken, onPage: onPage)
     }
@@ -91,6 +96,20 @@ extension ServiceCatalog {
         return client.paginate(input: input, command: searchProvisionedProducts, tokenKey: \SearchProvisionedProductsOutput.nextPageToken, onPage: onPage)
     }
 
+}
+
+extension ServiceCatalog.GetProvisionedProductOutputsInput: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> ServiceCatalog.GetProvisionedProductOutputsInput {
+        return .init(
+            acceptLanguage: self.acceptLanguage, 
+            outputKeys: self.outputKeys, 
+            pageSize: self.pageSize, 
+            pageToken: token, 
+            provisionedProductId: self.provisionedProductId, 
+            provisionedProductName: self.provisionedProductName
+        )
+
+    }
 }
 
 extension ServiceCatalog.ListAcceptedPortfolioSharesInput: AWSPaginateStringToken {

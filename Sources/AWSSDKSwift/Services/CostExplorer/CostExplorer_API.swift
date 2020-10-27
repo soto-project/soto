@@ -47,9 +47,29 @@ public struct CostExplorer {
     
     //MARK: API Calls
 
+    ///  Creates a new cost anomaly detection monitor with the requested type and monitor specification. 
+    public func createAnomalyMonitor(_ input: CreateAnomalyMonitorRequest) -> EventLoopFuture<CreateAnomalyMonitorResponse> {
+        return client.send(operation: "CreateAnomalyMonitor", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Adds a subscription to a cost anomaly detection monitor. You can use each subscription to define subscribers with email or SNS notifications. Email subscribers can set a dollar threshold and a time frequency for receiving notifications. 
+    public func createAnomalySubscription(_ input: CreateAnomalySubscriptionRequest) -> EventLoopFuture<CreateAnomalySubscriptionResponse> {
+        return client.send(operation: "CreateAnomalySubscription", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Creates a new Cost Category with the requested name and rules.
     public func createCostCategoryDefinition(_ input: CreateCostCategoryDefinitionRequest) -> EventLoopFuture<CreateCostCategoryDefinitionResponse> {
         return client.send(operation: "CreateCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a cost anomaly monitor. 
+    public func deleteAnomalyMonitor(_ input: DeleteAnomalyMonitorRequest) -> EventLoopFuture<DeleteAnomalyMonitorResponse> {
+        return client.send(operation: "DeleteAnomalyMonitor", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes a cost anomaly subscription. 
+    public func deleteAnomalySubscription(_ input: DeleteAnomalySubscriptionRequest) -> EventLoopFuture<DeleteAnomalySubscriptionResponse> {
+        return client.send(operation: "DeleteAnomalySubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Deletes a Cost Category. Expenses from this month going forward will no longer be categorized with this Cost Category.
@@ -62,12 +82,27 @@ public struct CostExplorer {
         return client.send(operation: "DescribeCostCategoryDefinition", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master accounts in an organization in AWS Organizations have access to all member accounts.
+    ///  Retrieves all of the cost anomalies detected on your account, during the time period specified by the DateInterval object. 
+    public func getAnomalies(_ input: GetAnomaliesRequest) -> EventLoopFuture<GetAnomaliesResponse> {
+        return client.send(operation: "GetAnomalies", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the cost anomaly monitor definitions for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs). 
+    public func getAnomalyMonitors(_ input: GetAnomalyMonitorsRequest) -> EventLoopFuture<GetAnomalyMonitorsResponse> {
+        return client.send(operation: "GetAnomalyMonitors", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves the cost anomaly subscription objects for your account. You can filter using a list of cost anomaly monitor Amazon Resource Names (ARNs). 
+    public func getAnomalySubscriptions(_ input: GetAnomalySubscriptionsRequest) -> EventLoopFuture<GetAnomalySubscriptionsResponse> {
+        return client.send(operation: "GetAnomalySubscriptions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Retrieves cost and usage metrics for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master account in an organization in AWS Organizations have access to all member accounts.
     public func getCostAndUsage(_ input: GetCostAndUsageRequest) -> EventLoopFuture<GetCostAndUsageResponse> {
         return client.send(operation: "GetCostAndUsage", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master accounts in an organization in AWS Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only.  This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information on how to access the Settings page, see Controlling Access for Cost Explorer in the AWS Billing and Cost Management User Guide. 
+    ///  Retrieves cost and usage metrics with resources for your account. You can specify which cost and usage-related metric, such as BlendedCosts or UsageQuantity, that you want the request to return. You can also filter and group your data by various dimensions, such as SERVICE or AZ, in a specific time range. For a complete list of valid dimensions, see the GetDimensionValues operation. Master account in an organization in AWS Organizations have access to all member accounts. This API is currently available for the Amazon Elastic Compute Cloud – Compute service only.  This is an opt-in only feature. You can enable this feature from the Cost Explorer Settings page. For information on how to access the Settings page, see Controlling Access for Cost Explorer in the AWS Billing and Cost Management User Guide. 
     public func getCostAndUsageWithResources(_ input: GetCostAndUsageWithResourcesRequest) -> EventLoopFuture<GetCostAndUsageWithResourcesResponse> {
         return client.send(operation: "GetCostAndUsageWithResources", path: "/", httpMethod: "POST", input: input)
     }
@@ -92,7 +127,7 @@ public struct CostExplorer {
         return client.send(operation: "GetReservationPurchaseRecommendation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the reservation utilization for your account. Master accounts in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID. 
+    ///  Retrieves the reservation utilization for your account. Master account in an organization have access to member accounts. You can filter data by dimensions in a time period. You can use GetDimensionValues to determine the possible dimension values. Currently, you can group only by SUBSCRIPTION_ID. 
     public func getReservationUtilization(_ input: GetReservationUtilizationRequest) -> EventLoopFuture<GetReservationUtilizationResponse> {
         return client.send(operation: "GetReservationUtilization", path: "/", httpMethod: "POST", input: input)
     }
@@ -112,7 +147,7 @@ public struct CostExplorer {
         return client.send(operation: "GetSavingsPlansPurchaseRecommendation", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Master accounts in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.  You cannot group by any dimension values for GetSavingsPlansUtilization. 
+    ///  Retrieves the Savings Plans utilization for your account across date ranges with daily or monthly granularity. Master account in an organization have access to member accounts. You can use GetDimensionValues in SAVINGS_PLANS to determine the possible dimension values.  You cannot group by any dimension values for GetSavingsPlansUtilization. 
     public func getSavingsPlansUtilization(_ input: GetSavingsPlansUtilizationRequest) -> EventLoopFuture<GetSavingsPlansUtilizationResponse> {
         return client.send(operation: "GetSavingsPlansUtilization", path: "/", httpMethod: "POST", input: input)
     }
@@ -135,6 +170,21 @@ public struct CostExplorer {
     ///  Returns the name, ARN, NumberOfRules and effective dates of all Cost Categories defined in the account. You have the option to use EffectiveOn to return a list of Cost Categories that were active on a specific date. If there is no EffectiveOn specified, you’ll see Cost Categories that are effective on the current date. If Cost Category is still effective, EffectiveEnd is omitted in the response. ListCostCategoryDefinitions supports pagination. The request can have a MaxResults range up to 100.
     public func listCostCategoryDefinitions(_ input: ListCostCategoryDefinitionsRequest) -> EventLoopFuture<ListCostCategoryDefinitionsResponse> {
         return client.send(operation: "ListCostCategoryDefinitions", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Modifies the feedback property of a given cost anomaly. 
+    public func provideAnomalyFeedback(_ input: ProvideAnomalyFeedbackRequest) -> EventLoopFuture<ProvideAnomalyFeedbackResponse> {
+        return client.send(operation: "ProvideAnomalyFeedback", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates an existing cost anomaly monitor. The changes made are applied going forward, and does not change anomalies detected in the past. 
+    public func updateAnomalyMonitor(_ input: UpdateAnomalyMonitorRequest) -> EventLoopFuture<UpdateAnomalyMonitorResponse> {
+        return client.send(operation: "UpdateAnomalyMonitor", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///   Updates an existing cost anomaly monitor subscription. 
+    public func updateAnomalySubscription(_ input: UpdateAnomalySubscriptionRequest) -> EventLoopFuture<UpdateAnomalySubscriptionResponse> {
+        return client.send(operation: "UpdateAnomalySubscription", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Updates an existing Cost Category. Changes made to the Cost Category rules will be used to categorize the current month’s expenses and future expenses. This won’t change categorization for the previous months.

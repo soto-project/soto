@@ -104,6 +104,11 @@ public struct Schemas {
         return client.send(operation: "DescribeSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}", httpMethod: "GET", input: input)
     }
 
+    ///  Exports a schema to a different specification.
+    public func exportSchema(_ input: ExportSchemaRequest) -> EventLoopFuture<ExportSchemaResponse> {
+        return client.send(operation: "ExportSchema", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/export", httpMethod: "GET", input: input)
+    }
+
     ///  Get the code binding source URI.
     public func getCodeBindingSource(_ input: GetCodeBindingSourceRequest) -> EventLoopFuture<GetCodeBindingSourceResponse> {
         return client.send(operation: "GetCodeBindingSource", path: "/v1/registries/name/{registryName}/schemas/name/{schemaName}/language/{language}/source", httpMethod: "GET", input: input)

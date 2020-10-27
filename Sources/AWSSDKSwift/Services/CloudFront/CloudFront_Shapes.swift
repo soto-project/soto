@@ -160,6 +160,33 @@ extension CloudFront {
 
     //MARK: Shapes
 
+    public struct ActiveTrustedKeyGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"KeyGroup")), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// This field is true if any of the key groups have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        public let enabled: Bool
+        /// A list of key groups, including the identifiers of the public keys in each key group that CloudFront can use to verify the signatures of signed URLs and signed cookies.
+        public let items: [KGKeyPairIds]?
+        /// The number of key groups in the list.
+        public let quantity: Int
+
+        public init(enabled: Bool, items: [KGKeyPairIds]? = nil, quantity: Int) {
+            self.enabled = enabled
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
     public struct ActiveTrustedSigners: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
@@ -167,11 +194,11 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// Enabled is true if any of the AWS accounts listed in the TrustedSigners complex type for this distribution have active CloudFront key pairs. If not, Enabled is false.
+        /// This field is true if any of the AWS accounts in the list have active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        /// A complex type that contains one Signer complex type for each trusted signer that is specified in the TrustedSigners complex type.
+        /// A list of AWS accounts and the identifiers of active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs and signed cookies.
         public let items: [Signer]?
-        /// The number of trusted signers specified in the TrustedSigners complex type.
+        /// The number of AWS accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [Signer]? = nil, quantity: Int) {
@@ -269,7 +296,8 @@ extension CloudFront {
             AWSShapeMember(label: "RealtimeLogConfigArn", required: false, type: .string), 
             AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedKeyGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: false, type: .structure), 
             AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum)
         ]
 
@@ -292,12 +320,14 @@ extension CloudFront {
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they match this cache behavior.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content with Signed URLs and Signed Cookies in the Amazon CloudFront Developer Guide.  If you don’t want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it’s currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public let trustedSigners: TrustedSigners
+        /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        public let trustedKeyGroups: TrustedKeyGroups?
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of AWS account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in the trusted signer’s AWS account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.     https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).    For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, pathPattern: String, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -308,6 +338,7 @@ extension CloudFront {
             self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
+            self.trustedKeyGroups = trustedKeyGroups
             self.trustedSigners = trustedSigners
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
@@ -323,6 +354,7 @@ extension CloudFront {
             case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
+            case trustedKeyGroups = "TrustedKeyGroups"
             case trustedSigners = "TrustedSigners"
             case viewerProtocolPolicy = "ViewerProtocolPolicy"
         }
@@ -1121,6 +1153,55 @@ extension CloudFront {
         }
     }
 
+    public struct CreateKeyGroupRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroupConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyGroupConfig", location: .body(locationName: "KeyGroupConfig"), required: true, type: .structure)
+        ]
+
+        /// A key group configuration.
+        public let keyGroupConfig: KeyGroupConfig
+
+        public init(keyGroupConfig: KeyGroupConfig) {
+            self.keyGroupConfig = keyGroupConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyGroupConfig = "KeyGroupConfig"
+        }
+    }
+
+    public struct CreateKeyGroupResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroup"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyGroup", required: false, type: .structure), 
+            AWSShapeMember(label: "Location", location: .header(locationName: "Location"), required: false, type: .string)
+        ]
+
+        /// The identifier for this version of the key group.
+        public let eTag: String?
+        /// The key group that was just created.
+        public let keyGroup: KeyGroup?
+        /// The URL of the key group.
+        public let location: String?
+
+        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil, location: String? = nil) {
+            self.eTag = eTag
+            self.keyGroup = keyGroup
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case keyGroup = "KeyGroup"
+            case location = "Location"
+        }
+    }
+
     public struct CreateMonitoringSubscriptionRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "MonitoringSubscription"
@@ -1222,7 +1303,7 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
         ]
 
-        /// The request to add a public key to CloudFront.
+        /// A CloudFront public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
         public init(publicKeyConfig: PublicKeyConfig) {
@@ -1243,11 +1324,11 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKey", required: false, type: .structure)
         ]
 
-        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
+        /// The identifier for this version of the public key.
         public let eTag: String?
-        /// The fully qualified URI of the new public key resource just created.
+        /// The URL of the public key.
         public let location: String?
-        /// Returned when you add a public key.
+        /// The public key.
         public let publicKey: PublicKey?
 
         public init(eTag: String? = nil, location: String? = nil, publicKey: PublicKey? = nil) {
@@ -1543,7 +1624,8 @@ extension CloudFront {
             AWSShapeMember(label: "RealtimeLogConfigArn", required: false, type: .string), 
             AWSShapeMember(label: "SmoothStreaming", required: false, type: .boolean), 
             AWSShapeMember(label: "TargetOriginId", required: true, type: .string), 
-            AWSShapeMember(label: "TrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "TrustedKeyGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "TrustedSigners", required: false, type: .structure), 
             AWSShapeMember(label: "ViewerProtocolPolicy", required: true, type: .enum)
         ]
 
@@ -1564,12 +1646,14 @@ extension CloudFront {
         public let smoothStreaming: Bool?
         /// The value of ID for the origin that you want CloudFront to route requests to when they use the default cache behavior.
         public let targetOriginId: String
-        /// A complex type that specifies the AWS accounts, if any, that you want to allow to create signed URLs for private content. If you want to require signed URLs in requests for objects in the target origin that match the PathPattern for this cache behavior, specify true for Enabled, and specify the applicable values for Quantity and Items. For more information, see Serving Private Content with Signed URLs and Signed Cookies in the Amazon CloudFront Developer Guide. If you don’t want to require signed URLs in requests for objects that match PathPattern, specify false for Enabled and 0 for Quantity. Omit Items. To add, change, or remove one or more trusted signers, change Enabled to true (if it’s currently false), change Quantity as applicable, and specify all of the trusted signers that you want to include in the updated distribution.
-        public let trustedSigners: TrustedSigners
+        /// A list of key groups that CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted key groups, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with a private key whose corresponding public key is in the key group. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        public let trustedKeyGroups: TrustedKeyGroups?
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  A list of AWS account IDs whose public keys CloudFront can use to validate signed URLs or signed cookies. When a cache behavior contains trusted signers, CloudFront requires signed URLs or signed cookies for all requests that match the cache behavior. The URLs or cookies must be signed with the private key of a CloudFront key pair in a trusted signer’s AWS account. The signed URL or cookie contains information about which public key CloudFront should use to verify the signature. For more information, see Serving private content in the Amazon CloudFront Developer Guide.
+        public let trustedSigners: TrustedSigners?
         /// The protocol that viewers can use to access the files in the origin specified by TargetOriginId when a request matches the path pattern in PathPattern. You can specify the following options:    allow-all: Viewers can use HTTP or HTTPS.    redirect-to-https: If a viewer submits an HTTP request, CloudFront returns an HTTP status code of 301 (Moved Permanently) to the viewer along with the HTTPS URL. The viewer then resubmits the request using the new URL.    https-only: If a viewer sends an HTTP request, CloudFront returns an HTTP status code of 403 (Forbidden).   For more information about requiring the HTTPS protocol, see Requiring HTTPS Between Viewers and CloudFront in the Amazon CloudFront Developer Guide.  The only way to guarantee that viewers retrieve an object that was fetched from the origin using HTTPS is never to use any other protocol to fetch the object. If you have recently changed from HTTP to HTTPS, we recommend that you clear your objects’ cache because cached objects are protocol agnostic. That means that an edge location will return an object from the cache regardless of whether the current request protocol matches the protocol used previously. For more information, see Managing Cache Expiration in the Amazon CloudFront Developer Guide. 
         public let viewerProtocolPolicy: ViewerProtocolPolicy
 
-        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedSigners: TrustedSigners, viewerProtocolPolicy: ViewerProtocolPolicy) {
+        public init(allowedMethods: AllowedMethods? = nil, cachePolicyId: String? = nil, compress: Bool? = nil, fieldLevelEncryptionId: String? = nil, lambdaFunctionAssociations: LambdaFunctionAssociations? = nil, originRequestPolicyId: String? = nil, realtimeLogConfigArn: String? = nil, smoothStreaming: Bool? = nil, targetOriginId: String, trustedKeyGroups: TrustedKeyGroups? = nil, trustedSigners: TrustedSigners? = nil, viewerProtocolPolicy: ViewerProtocolPolicy) {
             self.allowedMethods = allowedMethods
             self.cachePolicyId = cachePolicyId
             self.compress = compress
@@ -1579,6 +1663,7 @@ extension CloudFront {
             self.realtimeLogConfigArn = realtimeLogConfigArn
             self.smoothStreaming = smoothStreaming
             self.targetOriginId = targetOriginId
+            self.trustedKeyGroups = trustedKeyGroups
             self.trustedSigners = trustedSigners
             self.viewerProtocolPolicy = viewerProtocolPolicy
         }
@@ -1593,6 +1678,7 @@ extension CloudFront {
             case realtimeLogConfigArn = "RealtimeLogConfigArn"
             case smoothStreaming = "SmoothStreaming"
             case targetOriginId = "TargetOriginId"
+            case trustedKeyGroups = "TrustedKeyGroups"
             case trustedSigners = "TrustedSigners"
             case viewerProtocolPolicy = "ViewerProtocolPolicy"
         }
@@ -1695,6 +1781,28 @@ extension CloudFront {
         /// Request the ID of the profile you want to delete from CloudFront.
         public let id: String
         /// The value of the ETag header that you received when retrieving the profile to delete. For example: E2QWRUHAPOMQZL.
+        public let ifMatch: String?
+
+        public init(id: String, ifMatch: String? = nil) {
+            self.id = id
+            self.ifMatch = ifMatch
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+        }
+    }
+
+    public struct DeleteKeyGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string)
+        ]
+
+        /// The identifier of the key group that you are deleting. To get the identifier, use ListKeyGroups.
+        public let id: String
+        /// The version of the key group that you are deleting. The version is the key group’s ETag value. To get the ETag, use GetKeyGroup or GetKeyGroupConfig.
         public let ifMatch: String?
 
         public init(id: String, ifMatch: String? = nil) {
@@ -1823,7 +1931,8 @@ extension CloudFront {
 
     public struct Distribution: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "ActiveTrustedSigners", required: true, type: .structure), 
+            AWSShapeMember(label: "ActiveTrustedKeyGroups", required: false, type: .structure), 
+            AWSShapeMember(label: "ActiveTrustedSigners", required: false, type: .structure), 
             AWSShapeMember(label: "AliasICPRecordals", required: false, type: .list, encoding: .list(member:"AliasICPRecordal")), 
             AWSShapeMember(label: "ARN", required: true, type: .string), 
             AWSShapeMember(label: "DistributionConfig", required: true, type: .structure), 
@@ -1834,8 +1943,10 @@ extension CloudFront {
             AWSShapeMember(label: "Status", required: true, type: .string)
         ]
 
-        /// CloudFront automatically adds this element to the response only if you've set up the distribution to serve private content with signed URLs. The element lists the key pair IDs that CloudFront is aware of for each trusted signer. The Signer child element lists the AWS account number of the trusted signer (or an empty Self element if the signer is you). The Signer element also includes the IDs of any active key pairs associated with the trusted signer's AWS account. If no KeyPairId element appears for a Signer, that signer can't create working signed URLs.
-        public let activeTrustedSigners: ActiveTrustedSigners
+        /// CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using key groups. This field contains a list of key groups and the public keys in each key group that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        public let activeTrustedKeyGroups: ActiveTrustedKeyGroups?
+        ///  We recommend using TrustedKeyGroups instead of TrustedSigners.  CloudFront automatically adds this field to the response if you’ve configured a cache behavior in this distribution to serve private content using trusted signers. This field contains a list of AWS account IDs and the active CloudFront key pairs in each account that CloudFront can use to verify the signatures of signed URLs or signed cookies.
+        public let activeTrustedSigners: ActiveTrustedSigners?
         /// AWS services in China customers must file for an Internet Content Provider (ICP) recordal if they want to serve content publicly on an alternate domain name, also known as a CNAME, that they've added to CloudFront. AliasICPRecordal provides the ICP recordal status for CNAMEs associated with distributions. For more information about ICP recordals, see  Signup, Accounts, and Credentials in Getting Started with AWS services in China.
         public let aliasICPRecordals: [AliasICPRecordal]?
         /// The ARN (Amazon Resource Name) for the distribution. For example: arn:aws:cloudfront::123456789012:distribution/EDFDVBD632BHDS5, where 123456789012 is your AWS account ID.
@@ -1853,7 +1964,8 @@ extension CloudFront {
         /// This response element indicates the current status of the distribution. When the status is Deployed, the distribution's information is fully propagated to all CloudFront edge locations. 
         public let status: String
 
-        public init(activeTrustedSigners: ActiveTrustedSigners, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: TimeStamp, status: String) {
+        public init(activeTrustedKeyGroups: ActiveTrustedKeyGroups? = nil, activeTrustedSigners: ActiveTrustedSigners? = nil, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, distributionConfig: DistributionConfig, domainName: String, id: String, inProgressInvalidationBatches: Int, lastModifiedTime: TimeStamp, status: String) {
+            self.activeTrustedKeyGroups = activeTrustedKeyGroups
             self.activeTrustedSigners = activeTrustedSigners
             self.aliasICPRecordals = aliasICPRecordals
             self.arn = arn
@@ -1866,6 +1978,7 @@ extension CloudFront {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeTrustedKeyGroups = "ActiveTrustedKeyGroups"
             case activeTrustedSigners = "ActiveTrustedSigners"
             case aliasICPRecordals = "AliasICPRecordals"
             case arn = "ARN"
@@ -1925,7 +2038,7 @@ extension CloudFront {
         public let originGroups: OriginGroups?
         /// A complex type that contains information about origins for this distribution. 
         public let origins: Origins
-        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing. For price class information, scroll down to see the table at the bottom of the page.
+        /// The price class that corresponds with the maximum price that you want to pay for CloudFront service. If you specify PriceClass_All, CloudFront responds to requests for your objects from all CloudFront edge locations. If you specify a price class other than PriceClass_All, CloudFront serves your objects from the CloudFront edge location that has the lowest latency among the edge locations in your price class. Viewers who are in or near regions that are excluded from your specified price class may encounter slower performance. For more information about price classes, see Choosing the Price Class for a CloudFront Distribution in the Amazon CloudFront Developer Guide. For information about CloudFront pricing, including how price classes (such as Price Class 100) map to CloudFront regions, see Amazon CloudFront Pricing.
         public let priceClass: PriceClass?
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         public let restrictions: Restrictions?
@@ -3030,6 +3143,88 @@ extension CloudFront {
         }
     }
 
+    public struct GetKeyGroupConfigRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The identifier of the key group whose configuration you are getting. To get the identifier, use ListKeyGroups.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetKeyGroupConfigResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroupConfig"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyGroupConfig", required: false, type: .structure)
+        ]
+
+        /// The identifier for this version of the key group.
+        public let eTag: String?
+        /// The key group configuration.
+        public let keyGroupConfig: KeyGroupConfig?
+
+        public init(eTag: String? = nil, keyGroupConfig: KeyGroupConfig? = nil) {
+            self.eTag = eTag
+            self.keyGroupConfig = keyGroupConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case keyGroupConfig = "KeyGroupConfig"
+        }
+    }
+
+    public struct GetKeyGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
+        ]
+
+        /// The identifier of the key group that you are getting. To get the identifier, use ListKeyGroups.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct GetKeyGroupResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroup"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyGroup", required: false, type: .structure)
+        ]
+
+        /// The identifier for this version of the key group.
+        public let eTag: String?
+        /// The key group.
+        public let keyGroup: KeyGroup?
+
+        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil) {
+            self.eTag = eTag
+            self.keyGroup = keyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case keyGroup = "KeyGroup"
+        }
+    }
+
     public struct GetMonitoringSubscriptionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DistributionId", location: .uri(locationName: "DistributionId"), required: true, type: .string)
@@ -3153,7 +3348,7 @@ extension CloudFront {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
 
-        /// Request the ID for the public key configuration.
+        /// The identifier of the public key whose configuration you are getting.
         public let id: String
 
         public init(id: String) {
@@ -3173,9 +3368,9 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKeyConfig", required: false, type: .structure)
         ]
 
-        /// The current version of the public key configuration. For example: E2QWRUHAPOMQZL.
+        /// The identifier for this version of the public key configuration.
         public let eTag: String?
-        /// Return the result for the public key configuration.
+        /// A public key configuration.
         public let publicKeyConfig: PublicKeyConfig?
 
         public init(eTag: String? = nil, publicKeyConfig: PublicKeyConfig? = nil) {
@@ -3194,7 +3389,7 @@ extension CloudFront {
             AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string)
         ]
 
-        /// Request the ID for the public key.
+        /// The identifier of the public key you are getting.
         public let id: String
 
         public init(id: String) {
@@ -3214,9 +3409,9 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKey", required: false, type: .structure)
         ]
 
-        /// The current version of the public key. For example: E2QWRUHAPOMQZL.
+        /// The identifier for this version of the public key.
         public let eTag: String?
-        /// Return the public key.
+        /// The public key.
         public let publicKey: PublicKey?
 
         public init(eTag: String? = nil, publicKey: PublicKey? = nil) {
@@ -3496,15 +3691,139 @@ extension CloudFront {
         }
     }
 
+    public struct KGKeyPairIds: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyGroupId", required: false, type: .string), 
+            AWSShapeMember(label: "KeyPairIds", required: false, type: .structure)
+        ]
+
+        /// The identifier of the key group that contains the public keys.
+        public let keyGroupId: String?
+        public let keyPairIds: KeyPairIds?
+
+        public init(keyGroupId: String? = nil, keyPairIds: KeyPairIds? = nil) {
+            self.keyGroupId = keyGroupId
+            self.keyPairIds = keyPairIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyGroupId = "KeyGroupId"
+            case keyPairIds = "KeyPairIds"
+        }
+    }
+
+    public struct KeyGroup: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", required: true, type: .string), 
+            AWSShapeMember(label: "KeyGroupConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "LastModifiedTime", required: true, type: .timestamp)
+        ]
+
+        /// The identifier for the key group.
+        public let id: String
+        /// The key group configuration.
+        public let keyGroupConfig: KeyGroupConfig
+        /// The date and time when the key group was last modified.
+        public let lastModifiedTime: TimeStamp
+
+        public init(id: String, keyGroupConfig: KeyGroupConfig, lastModifiedTime: TimeStamp) {
+            self.id = id
+            self.keyGroupConfig = keyGroupConfig
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case keyGroupConfig = "KeyGroupConfig"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct KeyGroupConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Comment", required: false, type: .string), 
+            AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"PublicKey")), 
+            AWSShapeMember(label: "Name", required: true, type: .string)
+        ]
+
+        /// A comment to describe the key group.
+        public let comment: String?
+        /// A list of the identifiers of the public keys in the key group.
+        public let items: [String]
+        /// A name to identify the key group.
+        public let name: String
+
+        public init(comment: String? = nil, items: [String], name: String) {
+            self.comment = comment
+            self.items = items
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comment = "Comment"
+            case items = "Items"
+            case name = "Name"
+        }
+    }
+
+    public struct KeyGroupList: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"KeyGroupSummary")), 
+            AWSShapeMember(label: "MaxItems", required: true, type: .integer), 
+            AWSShapeMember(label: "NextMarker", required: false, type: .string), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// A list of key groups.
+        public let items: [KeyGroupSummary]?
+        /// The maximum number of key groups requested.
+        public let maxItems: Int
+        /// If there are more items in the list than are in this response, this element is present. It contains the value that you should use in the Marker field of a subsequent request to continue listing key groups.
+        public let nextMarker: String?
+        /// The number of key groups returned in the response.
+        public let quantity: Int
+
+        public init(items: [KeyGroupSummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
+            self.items = items
+            self.maxItems = maxItems
+            self.nextMarker = nextMarker
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case maxItems = "MaxItems"
+            case nextMarker = "NextMarker"
+            case quantity = "Quantity"
+        }
+    }
+
+    public struct KeyGroupSummary: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyGroup", required: true, type: .structure)
+        ]
+
+        /// A key group.
+        public let keyGroup: KeyGroup
+
+        public init(keyGroup: KeyGroup) {
+            self.keyGroup = keyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyGroup = "KeyGroup"
+        }
+    }
+
     public struct KeyPairIds: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"KeyPairId")), 
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber. For more information, see ActiveTrustedSigners.
+        /// A list of CloudFront key pair identifiers.
         public let items: [String]?
-        /// The number of active CloudFront key pairs for AwsAccountNumber. For more information, see ActiveTrustedSigners.
+        /// The number of key pair identifiers in the list.
         public let quantity: Int
 
         public init(items: [String]? = nil, quantity: Int) {
@@ -3711,6 +4030,51 @@ extension CloudFront {
         ]
 
         /// A list of distribution IDs.
+        public let distributionIdList: DistributionIdList?
+
+        public init(distributionIdList: DistributionIdList? = nil) {
+            self.distributionIdList = distributionIdList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case distributionIdList = "DistributionIdList"
+        }
+    }
+
+    public struct ListDistributionsByKeyGroupRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyGroupId", location: .uri(locationName: "KeyGroupId"), required: true, type: .string), 
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+
+        /// The ID of the key group whose associated distribution IDs you are listing.
+        public let keyGroupId: String
+        /// Use this field when paginating results to indicate where to begin in your list of distribution IDs. The response includes distribution IDs in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of distribution IDs that you want in the response.
+        public let maxItems: String?
+
+        public init(keyGroupId: String, marker: String? = nil, maxItems: String? = nil) {
+            self.keyGroupId = keyGroupId
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyGroupId = "KeyGroupId"
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListDistributionsByKeyGroupResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "DistributionIdList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DistributionIdList", required: false, type: .structure)
+        ]
+
         public let distributionIdList: DistributionIdList?
 
         public init(distributionIdList: DistributionIdList? = nil) {
@@ -4033,6 +4397,47 @@ extension CloudFront {
         }
     }
 
+    public struct ListKeyGroupsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
+            AWSShapeMember(label: "MaxItems", location: .querystring(locationName: "MaxItems"), required: false, type: .string)
+        ]
+
+        /// Use this field when paginating results to indicate where to begin in your list of key groups. The response includes key groups in the list that occur after the marker. To get the next page of the list, set this field’s value to the value of NextMarker from the current page’s response.
+        public let marker: String?
+        /// The maximum number of key groups that you want in the response.
+        public let maxItems: String?
+
+        public init(marker: String? = nil, maxItems: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+        }
+    }
+
+    public struct ListKeyGroupsResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroupList"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KeyGroupList", required: false, type: .structure)
+        ]
+
+        /// A list of key groups.
+        public let keyGroupList: KeyGroupList?
+
+        public init(keyGroupList: KeyGroupList? = nil) {
+            self.keyGroupList = keyGroupList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyGroupList = "KeyGroupList"
+        }
+    }
+
     public struct ListOriginRequestPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Marker", location: .querystring(locationName: "Marker"), required: false, type: .string), 
@@ -4300,6 +4705,7 @@ extension CloudFront {
             AWSShapeMember(label: "DomainName", required: true, type: .string), 
             AWSShapeMember(label: "Id", required: true, type: .string), 
             AWSShapeMember(label: "OriginPath", required: false, type: .string), 
+            AWSShapeMember(label: "OriginShield", required: false, type: .structure), 
             AWSShapeMember(label: "S3OriginConfig", required: false, type: .structure)
         ]
 
@@ -4307,9 +4713,9 @@ extension CloudFront {
         public let connectionAttempts: Int?
         /// The number of seconds that CloudFront waits when trying to establish a connection to the origin. The minimum timeout is 1 second, the maximum is 10 seconds, and the default (if you don’t specify otherwise) is 10 seconds. For more information, see Origin Connection Timeout in the Amazon CloudFront Developer Guide.
         public let connectionTimeout: Int?
-        /// A list of HTTP header names and values that CloudFront adds to requests it sends to the origin. For more information, see Adding Custom Headers to Origin Requests in the Amazon CloudFront Developer Guide.
+        /// A list of HTTP header names and values that CloudFront adds to the requests that it sends to the origin. For more information, see Adding Custom Headers to Origin Requests in the Amazon CloudFront Developer Guide.
         public let customHeaders: CustomHeaders?
-        /// Use this type to specify an origin that is a content container or HTTP server, including an Amazon S3 bucket that is configured with static website hosting. To specify an Amazon S3 bucket that is  not  configured with static website hosting, use the S3OriginConfig type instead.
+        /// Use this type to specify an origin that is not an Amazon S3 bucket, with one exception. If the Amazon S3 bucket is configured with static website hosting, use this type. If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
         public let customOriginConfig: CustomOriginConfig?
         /// The domain name for the origin. For more information, see Origin Domain Name in the Amazon CloudFront Developer Guide.
         public let domainName: String
@@ -4317,10 +4723,12 @@ extension CloudFront {
         public let id: String
         /// An optional path that CloudFront appends to the origin domain name when CloudFront requests content from the origin. For more information, see Origin Path in the Amazon CloudFront Developer Guide.
         public let originPath: String?
-        /// Use this type to specify an origin that is an Amazon S3 bucket that is  not  configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
+        /// CloudFront Origin Shield. Using Origin Shield can help reduce the load on your origin. For more information, see Using Origin Shield in the Amazon CloudFront Developer Guide.
+        public let originShield: OriginShield?
+        /// Use this type to specify an origin that is an Amazon S3 bucket that is not configured with static website hosting. To specify any other type of origin, including an Amazon S3 bucket that is configured with static website hosting, use the CustomOriginConfig type instead.
         public let s3OriginConfig: S3OriginConfig?
 
-        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, s3OriginConfig: S3OriginConfig? = nil) {
+        public init(connectionAttempts: Int? = nil, connectionTimeout: Int? = nil, customHeaders: CustomHeaders? = nil, customOriginConfig: CustomOriginConfig? = nil, domainName: String, id: String, originPath: String? = nil, originShield: OriginShield? = nil, s3OriginConfig: S3OriginConfig? = nil) {
             self.connectionAttempts = connectionAttempts
             self.connectionTimeout = connectionTimeout
             self.customHeaders = customHeaders
@@ -4328,7 +4736,12 @@ extension CloudFront {
             self.domainName = domainName
             self.id = id
             self.originPath = originPath
+            self.originShield = originShield
             self.s3OriginConfig = s3OriginConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.originShield?.validate(name: "\(name).originShield")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4339,6 +4752,7 @@ extension CloudFront {
             case domainName = "DomainName"
             case id = "Id"
             case originPath = "OriginPath"
+            case originShield = "OriginShield"
             case s3OriginConfig = "S3OriginConfig"
         }
     }
@@ -4672,6 +5086,34 @@ extension CloudFront {
         }
     }
 
+    public struct OriginShield: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "OriginShieldRegion", required: false, type: .string)
+        ]
+
+        /// A flag that specifies whether Origin Shield is enabled. When it’s enabled, CloudFront routes all requests through Origin Shield, which can help protect your origin. When it’s disabled, CloudFront might send requests directly to your origin from multiple edge locations or regional edge caches.
+        public let enabled: Bool
+        /// The AWS Region for Origin Shield. Specify the AWS Region that has the lowest latency to your origin. To specify a region, use the region code, not the region name. For example, specify the US East (Ohio) region as us-east-2. When you enable CloudFront Origin Shield, you must specify the AWS Region for Origin Shield. For the list of AWS Regions that you can specify, and for help choosing the best Region for your origin, see Choosing the AWS Region for Origin Shield in the Amazon CloudFront Developer Guide.
+        public let originShieldRegion: String?
+
+        public init(enabled: Bool, originShieldRegion: String? = nil) {
+            self.enabled = enabled
+            self.originShieldRegion = originShieldRegion
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.originShieldRegion, name:"originShieldRegion", parent: name, max: 32)
+            try validate(self.originShieldRegion, name:"originShieldRegion", parent: name, min: 1)
+            try validate(self.originShieldRegion, name:"originShieldRegion", parent: name, pattern: "[a-z]{2}-[a-z]+-\\d")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case originShieldRegion = "OriginShieldRegion"
+        }
+    }
+
     public struct OriginSslProtocols: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Items", required: true, type: .list, encoding: .list(member:"SslProtocol")), 
@@ -4700,9 +5142,9 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// A complex type that contains origins or origin groups for this distribution.
+        /// A list of origins.
         public let items: [Origin]
-        /// The number of origins or origin groups for this distribution.
+        /// The number of origins for this distribution.
         public let quantity: Int
 
         public init(items: [Origin], quantity: Int) {
@@ -4711,6 +5153,9 @@ extension CloudFront {
         }
 
         public func validate(name: String) throws {
+            try self.items.forEach {
+                try $0.validate(name: "\(name).items[]")
+            }
             try validate(self.items, name:"items", parent: name, min: 1)
         }
 
@@ -4731,9 +5176,9 @@ extension CloudFront {
 
         /// An object that determines whether any cookies in viewer requests (and if so, which cookies) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         public let cookiesConfig: CachePolicyCookiesConfig
-        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingGzip field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is necessary   For more information, see Compression support in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public let enableAcceptEncodingBrotli: Bool?
-        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin   If one or both of these fields are true, you should not whitelist the Accept-Encoding header in the cache policy or in an origin request policy attached to the same cache behavior. For more information, see Cache compressed objects in the Amazon CloudFront Developer Guide. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
+        /// A flag that can affect whether the Accept-Encoding HTTP header is included in the cache key and included in requests that CloudFront sends to the origin. This field is related to the EnableAcceptEncodingBrotli field. If one or both of these fields is true and the viewer request includes the Accept-Encoding header, then CloudFront does the following:   Normalizes the value of the viewer’s Accept-Encoding header   Includes the normalized header in the cache key   Includes the normalized header in the request to the origin, if a request is necessary   For more information, see Compression support in the Amazon CloudFront Developer Guide. If you set this value to true, and this cache behavior also has an origin request policy attached, do not include the Accept-Encoding header in the origin request policy. CloudFront always includes the Accept-Encoding header in origin requests when the value of this field is true, so including this header in an origin request policy has no effect. If both of these fields are false, then CloudFront treats the Accept-Encoding header the same as any other HTTP header in the viewer request. By default, it’s not included in the cache key and it’s not included in origin requests. In this case, you can manually add Accept-Encoding to the headers whitelist like any other HTTP header.
         public let enableAcceptEncodingGzip: Bool
         /// An object that determines whether any HTTP headers (and if so, which headers) are included in the cache key and automatically included in requests that CloudFront sends to the origin.
         public let headersConfig: CachePolicyHeadersConfig
@@ -4786,11 +5231,11 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKeyConfig", required: true, type: .structure)
         ]
 
-        /// A time you added a public key to CloudFront.
+        /// The date and time when the public key was uploaded.
         public let createdTime: TimeStamp
-        /// A unique ID assigned to a public key you've added to CloudFront.
+        /// The identifier of the public key.
         public let id: String
-        /// A complex data type for a public key you add to CloudFront to use with features like field-level encryption.
+        /// Configuration information about a public key that you can use with signed URLs and signed cookies, or with field-level encryption.
         public let publicKeyConfig: PublicKeyConfig
 
         public init(createdTime: TimeStamp, id: String, publicKeyConfig: PublicKeyConfig) {
@@ -4814,13 +5259,13 @@ extension CloudFront {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        /// A unique number that ensures that the request can't be replayed.
+        /// A string included in the request to help make sure that the request can’t be replayed.
         public let callerReference: String
-        /// An optional comment about a public key.
+        /// A comment to describe the public key.
         public let comment: String?
-        /// The encoded public key that you want to add to CloudFront to use with features like field-level encryption.
+        /// The public key that you can use with signed URLs and signed cookies, or with field-level encryption.
         public let encodedKey: String
-        /// The name for a public key you add to CloudFront to use with features like field-level encryption.
+        /// A name to help identify the public key.
         public let name: String
 
         public init(callerReference: String, comment: String? = nil, encodedKey: String, name: String) {
@@ -4846,13 +5291,13 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// An array of information about a public key you add to CloudFront to use with features like field-level encryption.
+        /// A list of public keys.
         public let items: [PublicKeySummary]?
-        /// The maximum number of public keys you want in the response body. 
+        /// The maximum number of public keys you want in the response.
         public let maxItems: Int
         /// If there are more elements to be listed, this element is present and contains the value that you can use for the Marker request parameter to continue listing your public keys where you left off.
         public let nextMarker: String?
-        /// The number of public keys you added to CloudFront to use with features like field-level encryption.
+        /// The number of public keys in the list.
         public let quantity: Int
 
         public init(items: [PublicKeySummary]? = nil, maxItems: Int, nextMarker: String? = nil, quantity: Int) {
@@ -4879,15 +5324,15 @@ extension CloudFront {
             AWSShapeMember(label: "Name", required: true, type: .string)
         ]
 
-        ///  Comment for public key information summary. 
+        /// A comment to describe the public key.
         public let comment: String?
-        ///  Creation time for public key information summary. 
+        /// The date and time when the public key was uploaded.
         public let createdTime: TimeStamp
-        ///  Encoded key for public key information summary. 
+        /// The public key.
         public let encodedKey: String
-        ///  ID for public key information summary. 
+        /// The identifier of the public key.
         public let id: String
-        ///  Name for public key information summary. 
+        /// A name to help identify the public key.
         public let name: String
 
         public init(comment: String? = nil, createdTime: TimeStamp, encodedKey: String, id: String, name: String) {
@@ -5148,9 +5593,9 @@ extension CloudFront {
             AWSShapeMember(label: "KeyPairIds", required: false, type: .structure)
         ]
 
-        /// An AWS account that is included in the TrustedSigners complex type for this distribution. Valid values include:    self, which is the AWS account used to create the distribution.   An AWS account number.  
+        /// An AWS account number that contains active CloudFront key pairs that CloudFront can use to verify the signatures of signed URLs and signed cookies. If the AWS account that owns the key pairs is the same account that owns the CloudFront distribution, the value of this field is self.
         public let awsAccountNumber: String?
-        /// A complex type that lists the active CloudFront key pairs, if any, that are associated with AwsAccountNumber.
+        /// A list of CloudFront key pair identifiers.
         public let keyPairIds: KeyPairIds?
 
         public init(awsAccountNumber: String? = nil, keyPairIds: KeyPairIds? = nil) {
@@ -5560,6 +6005,33 @@ extension CloudFront {
         }
     }
 
+    public struct TrustedKeyGroups: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
+            AWSShapeMember(label: "Items", required: false, type: .list, encoding: .list(member:"KeyGroup")), 
+            AWSShapeMember(label: "Quantity", required: true, type: .integer)
+        ]
+
+        /// This field is true if any of the key groups in the list have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
+        public let enabled: Bool
+        /// A list of key groups identifiers.
+        public let items: [String]?
+        /// The number of key groups in the list.
+        public let quantity: Int
+
+        public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
+            self.enabled = enabled
+            self.items = items
+            self.quantity = quantity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case items = "Items"
+            case quantity = "Quantity"
+        }
+    }
+
     public struct TrustedSigners: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Enabled", required: true, type: .boolean), 
@@ -5567,11 +6039,11 @@ extension CloudFront {
             AWSShapeMember(label: "Quantity", required: true, type: .integer)
         ]
 
-        /// Specifies whether you want to require viewers to use signed URLs to access the files specified by PathPattern and TargetOriginId.
+        /// This field is true if any of the AWS accounts have public keys that CloudFront can use to verify the signatures of signed URLs and signed cookies. If not, this field is false.
         public let enabled: Bool
-        ///  Optional: A complex type that contains trusted signers for this cache behavior. If Quantity is 0, you can omit Items.
+        /// A list of AWS account identifiers.
         public let items: [String]?
-        /// The number of trusted signers for this cache behavior.
+        /// The number of AWS accounts in the list.
         public let quantity: Int
 
         public init(enabled: Bool, items: [String]? = nil, quantity: Int) {
@@ -5891,6 +6363,60 @@ extension CloudFront {
         }
     }
 
+    public struct UpdateKeyGroupRequest: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroupConfig"
+        public static let _xmlNamespace: String? = "http://cloudfront.amazonaws.com/doc/2020-05-31/"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Id", location: .uri(locationName: "Id"), required: true, type: .string), 
+            AWSShapeMember(label: "IfMatch", location: .header(locationName: "If-Match"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyGroupConfig", location: .body(locationName: "KeyGroupConfig"), required: true, type: .structure)
+        ]
+
+        /// The identifier of the key group that you are updating.
+        public let id: String
+        /// The version of the key group that you are updating. The version is the key group’s ETag value.
+        public let ifMatch: String?
+        /// The key group configuration.
+        public let keyGroupConfig: KeyGroupConfig
+
+        public init(id: String, ifMatch: String? = nil, keyGroupConfig: KeyGroupConfig) {
+            self.id = id
+            self.ifMatch = ifMatch
+            self.keyGroupConfig = keyGroupConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case ifMatch = "If-Match"
+            case keyGroupConfig = "KeyGroupConfig"
+        }
+    }
+
+    public struct UpdateKeyGroupResult: AWSShape {
+        /// The key for the payload
+        public static let payloadPath: String? = "KeyGroup"
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ETag", location: .header(locationName: "ETag"), required: false, type: .string), 
+            AWSShapeMember(label: "KeyGroup", required: false, type: .structure)
+        ]
+
+        /// The identifier for this version of the key group.
+        public let eTag: String?
+        /// The key group that was just updated.
+        public let keyGroup: KeyGroup?
+
+        public init(eTag: String? = nil, keyGroup: KeyGroup? = nil) {
+            self.eTag = eTag
+            self.keyGroup = keyGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case keyGroup = "KeyGroup"
+        }
+    }
+
     public struct UpdateOriginRequestPolicyRequest: AWSShape {
         /// The key for the payload
         public static let payloadPath: String? = "OriginRequestPolicyConfig"
@@ -5955,11 +6481,11 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKeyConfig", location: .body(locationName: "PublicKeyConfig"), required: true, type: .structure)
         ]
 
-        /// ID of the public key to be updated.
+        /// The identifier of the public key that you are updating.
         public let id: String
         /// The value of the ETag header that you received when retrieving the public key to update. For example: E2QWRUHAPOMQZL.
         public let ifMatch: String?
-        /// Request to update public key information.
+        /// A public key configuration.
         public let publicKeyConfig: PublicKeyConfig
 
         public init(id: String, ifMatch: String? = nil, publicKeyConfig: PublicKeyConfig) {
@@ -5983,9 +6509,9 @@ extension CloudFront {
             AWSShapeMember(label: "PublicKey", required: false, type: .structure)
         ]
 
-        /// The current version of the update public key result. For example: E2QWRUHAPOMQZL.
+        /// The identifier of the current version of the public key.
         public let eTag: String?
-        /// Return the results of updating the public key.
+        /// The public key.
         public let publicKey: PublicKey?
 
         public init(eTag: String? = nil, publicKey: PublicKey? = nil) {

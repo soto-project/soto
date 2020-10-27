@@ -12,6 +12,20 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable {
+        case yes = "YES"
+        case no = "NO"
+        case plannedActivity = "PLANNED_ACTIVITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AnomalySubscriptionFrequency: String, CustomStringConvertible, Codable {
+        case daily = "DAILY"
+        case immediate = "IMMEDIATE"
+        case weekly = "WEEKLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Context: String, CustomStringConvertible, Codable {
         case costAndUsage = "COST_AND_USAGE"
         case reservations = "RESERVATIONS"
@@ -21,6 +35,17 @@ extension CostExplorer {
 
     public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
         case costcategoryexpressionV1 = "CostCategoryExpression.v1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CostCategoryStatus: String, CustomStringConvertible, Codable {
+        case processing = "PROCESSING"
+        case applied = "APPLIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CostCategoryStatusComponent: String, CustomStringConvertible, Codable {
+        case costExplorer = "COST_EXPLORER"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +124,27 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum MonitorDimension: String, CustomStringConvertible, Codable {
+        case service = "SERVICE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MonitorType: String, CustomStringConvertible, Codable {
+        case dimensional = "DIMENSIONAL"
+        case custom = "CUSTOM"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NumericOperator: String, CustomStringConvertible, Codable {
+        case equal = "EQUAL"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
+        case greaterThan = "GREATER_THAN"
+        case lessThan = "LESS_THAN"
+        case between = "BETWEEN"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OfferingClass: String, CustomStringConvertible, Codable {
         case standard = "STANDARD"
         case convertible = "CONVERTIBLE"
@@ -127,6 +173,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum SubscriberStatus: String, CustomStringConvertible, Codable {
+        case confirmed = "CONFIRMED"
+        case declined = "DECLINED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SubscriberType: String, CustomStringConvertible, Codable {
+        case email = "EMAIL"
+        case sns = "SNS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SupportedSavingsPlansType: String, CustomStringConvertible, Codable {
         case computeSp = "COMPUTE_SP"
         case ec2InstanceSp = "EC2_INSTANCE_SP"
@@ -141,12 +199,267 @@ extension CostExplorer {
 
     //MARK: Shapes
 
+    public struct Anomaly: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyEndDate", required: false, type: .string), 
+            AWSShapeMember(label: "AnomalyId", required: true, type: .string), 
+            AWSShapeMember(label: "AnomalyScore", required: true, type: .structure), 
+            AWSShapeMember(label: "AnomalyStartDate", required: false, type: .string), 
+            AWSShapeMember(label: "DimensionValue", required: false, type: .string), 
+            AWSShapeMember(label: "Feedback", required: false, type: .enum), 
+            AWSShapeMember(label: "Impact", required: true, type: .structure), 
+            AWSShapeMember(label: "MonitorArn", required: true, type: .string), 
+            AWSShapeMember(label: "RootCauses", required: false, type: .list)
+        ]
+
+        ///  The last day the anomaly is detected. 
+        public let anomalyEndDate: String?
+        ///  The unique identifier for the anomaly. 
+        public let anomalyId: String
+        ///  The latest and maximum score for the anomaly. 
+        public let anomalyScore: AnomalyScore
+        ///  The first day the anomaly is detected. 
+        public let anomalyStartDate: String?
+        ///  The dimension for the anomaly. For example, an AWS service in a service monitor. 
+        public let dimensionValue: String?
+        ///  The feedback value. 
+        public let feedback: AnomalyFeedbackType?
+        ///  The dollar impact for the anomaly. 
+        public let impact: Impact
+        ///  The Amazon Resource Name (ARN) for the cost monitor that generated this anomaly. 
+        public let monitorArn: String
+        ///  The list of identified root causes for the anomaly. 
+        public let rootCauses: [RootCause]?
+
+        public init(anomalyEndDate: String? = nil, anomalyId: String, anomalyScore: AnomalyScore, anomalyStartDate: String? = nil, dimensionValue: String? = nil, feedback: AnomalyFeedbackType? = nil, impact: Impact, monitorArn: String, rootCauses: [RootCause]? = nil) {
+            self.anomalyEndDate = anomalyEndDate
+            self.anomalyId = anomalyId
+            self.anomalyScore = anomalyScore
+            self.anomalyStartDate = anomalyStartDate
+            self.dimensionValue = dimensionValue
+            self.feedback = feedback
+            self.impact = impact
+            self.monitorArn = monitorArn
+            self.rootCauses = rootCauses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyEndDate = "AnomalyEndDate"
+            case anomalyId = "AnomalyId"
+            case anomalyScore = "AnomalyScore"
+            case anomalyStartDate = "AnomalyStartDate"
+            case dimensionValue = "DimensionValue"
+            case feedback = "Feedback"
+            case impact = "Impact"
+            case monitorArn = "MonitorArn"
+            case rootCauses = "RootCauses"
+        }
+    }
+
+    public struct AnomalyDateInterval: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndDate", required: false, type: .string), 
+            AWSShapeMember(label: "StartDate", required: true, type: .string)
+        ]
+
+        ///  The last date an anomaly was observed. 
+        public let endDate: String?
+        ///  The first date an anomaly was observed. 
+        public let startDate: String
+
+        public init(endDate: String? = nil, startDate: String) {
+            self.endDate = endDate
+            self.startDate = startDate
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endDate, name:"endDate", parent: name, max: 40)
+            try validate(self.endDate, name:"endDate", parent: name, min: 0)
+            try validate(self.endDate, name:"endDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.startDate, name:"startDate", parent: name, max: 40)
+            try validate(self.startDate, name:"startDate", parent: name, min: 0)
+            try validate(self.startDate, name:"startDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDate = "EndDate"
+            case startDate = "StartDate"
+        }
+    }
+
+    public struct AnomalyMonitor: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CreationDate", required: false, type: .string), 
+            AWSShapeMember(label: "DimensionalValueCount", required: false, type: .integer), 
+            AWSShapeMember(label: "LastEvaluatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "LastUpdatedDate", required: false, type: .string), 
+            AWSShapeMember(label: "MonitorArn", required: false, type: .string), 
+            AWSShapeMember(label: "MonitorDimension", required: false, type: .enum), 
+            AWSShapeMember(label: "MonitorName", required: true, type: .string), 
+            AWSShapeMember(label: "MonitorSpecification", required: false, type: .structure), 
+            AWSShapeMember(label: "MonitorType", required: true, type: .enum)
+        ]
+
+        ///  The date when the monitor was created. 
+        public let creationDate: String?
+        ///  The value for evaluated dimensions. 
+        public let dimensionalValueCount: Int?
+        ///  The date when the monitor last evaluated for anomalies. 
+        public let lastEvaluatedDate: String?
+        ///  The date when the monitor was last updated. 
+        public let lastUpdatedDate: String?
+        ///  The Amazon Resource Name (ARN) value. 
+        public let monitorArn: String?
+        ///  The dimensions to evaluate. 
+        public let monitorDimension: MonitorDimension?
+        ///  The name of the monitor. 
+        public let monitorName: String
+        public let monitorSpecification: Expression?
+        ///  The possible type values. 
+        public let monitorType: MonitorType
+
+        public init(creationDate: String? = nil, dimensionalValueCount: Int? = nil, lastEvaluatedDate: String? = nil, lastUpdatedDate: String? = nil, monitorArn: String? = nil, monitorDimension: MonitorDimension? = nil, monitorName: String, monitorSpecification: Expression? = nil, monitorType: MonitorType) {
+            self.creationDate = creationDate
+            self.dimensionalValueCount = dimensionalValueCount
+            self.lastEvaluatedDate = lastEvaluatedDate
+            self.lastUpdatedDate = lastUpdatedDate
+            self.monitorArn = monitorArn
+            self.monitorDimension = monitorDimension
+            self.monitorName = monitorName
+            self.monitorSpecification = monitorSpecification
+            self.monitorType = monitorType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.creationDate, name:"creationDate", parent: name, max: 40)
+            try validate(self.creationDate, name:"creationDate", parent: name, min: 0)
+            try validate(self.creationDate, name:"creationDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.dimensionalValueCount, name:"dimensionalValueCount", parent: name, min: 0)
+            try validate(self.lastEvaluatedDate, name:"lastEvaluatedDate", parent: name, max: 40)
+            try validate(self.lastEvaluatedDate, name:"lastEvaluatedDate", parent: name, min: 0)
+            try validate(self.lastEvaluatedDate, name:"lastEvaluatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.lastUpdatedDate, name:"lastUpdatedDate", parent: name, max: 40)
+            try validate(self.lastUpdatedDate, name:"lastUpdatedDate", parent: name, min: 0)
+            try validate(self.lastUpdatedDate, name:"lastUpdatedDate", parent: name, pattern: "(\\d{4}-\\d{2}-\\d{2})(T\\d{2}:\\d{2}:\\d{2}Z)?")
+            try validate(self.monitorArn, name:"monitorArn", parent: name, max: 1024)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, min: 0)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.monitorName, name:"monitorName", parent: name, max: 1024)
+            try validate(self.monitorName, name:"monitorName", parent: name, min: 0)
+            try validate(self.monitorName, name:"monitorName", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorSpecification?.validate(name: "\(name).monitorSpecification")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationDate = "CreationDate"
+            case dimensionalValueCount = "DimensionalValueCount"
+            case lastEvaluatedDate = "LastEvaluatedDate"
+            case lastUpdatedDate = "LastUpdatedDate"
+            case monitorArn = "MonitorArn"
+            case monitorDimension = "MonitorDimension"
+            case monitorName = "MonitorName"
+            case monitorSpecification = "MonitorSpecification"
+            case monitorType = "MonitorType"
+        }
+    }
+
+    public struct AnomalyScore: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrentScore", required: true, type: .double), 
+            AWSShapeMember(label: "MaxScore", required: true, type: .double)
+        ]
+
+        ///  The last observed score. 
+        public let currentScore: Double
+        ///  The maximum score observed during the AnomalyDateInterval. 
+        public let maxScore: Double
+
+        public init(currentScore: Double, maxScore: Double) {
+            self.currentScore = currentScore
+            self.maxScore = maxScore
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currentScore = "CurrentScore"
+            case maxScore = "MaxScore"
+        }
+    }
+
+    public struct AnomalySubscription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: false, type: .string), 
+            AWSShapeMember(label: "Frequency", required: true, type: .enum), 
+            AWSShapeMember(label: "MonitorArnList", required: true, type: .list), 
+            AWSShapeMember(label: "Subscribers", required: true, type: .list), 
+            AWSShapeMember(label: "SubscriptionArn", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: true, type: .string), 
+            AWSShapeMember(label: "Threshold", required: true, type: .double)
+        ]
+
+        ///  Your unique account identifier. 
+        public let accountId: String?
+        ///  The frequency at which anomaly reports are sent over email. 
+        public let frequency: AnomalySubscriptionFrequency
+        ///  A list of cost anomaly monitors. 
+        public let monitorArnList: [String]
+        ///  A list of subscribers to notify. 
+        public let subscribers: [Subscriber]
+        ///  The AnomalySubscription Amazon Resource Name (ARN). 
+        public let subscriptionArn: String?
+        ///  The name for the subscription. 
+        public let subscriptionName: String
+        ///  The dollar value that triggers a notification if the threshold is exceeded. 
+        public let threshold: Double
+
+        public init(accountId: String? = nil, frequency: AnomalySubscriptionFrequency, monitorArnList: [String], subscribers: [Subscriber], subscriptionArn: String? = nil, subscriptionName: String, threshold: Double) {
+            self.accountId = accountId
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 1024)
+            try validate(self.accountId, name:"accountId", parent: name, min: 0)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "[\\S\\s]*")
+            try self.monitorArnList.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.subscribers.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, max: 1024)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, min: 0)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, max: 1024)
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, min: 0)
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.threshold, name:"threshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case frequency = "Frequency"
+            case monitorArnList = "MonitorArnList"
+            case subscribers = "Subscribers"
+            case subscriptionArn = "SubscriptionArn"
+            case subscriptionName = "SubscriptionName"
+            case threshold = "Threshold"
+        }
+    }
+
     public struct CostCategory: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CostCategoryArn", required: true, type: .string), 
             AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
             AWSShapeMember(label: "EffectiveStart", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "ProcessingStatus", required: false, type: .list), 
             AWSShapeMember(label: "Rules", required: true, type: .list), 
             AWSShapeMember(label: "RuleVersion", required: true, type: .enum)
         ]
@@ -158,15 +471,18 @@ extension CostExplorer {
         ///  The Cost Category's effective start date.
         public let effectiveStart: String
         public let name: String
+        ///  The list of processing statuses for Cost Management products for a specific cost category. 
+        public let processingStatus: [CostCategoryProcessingStatus]?
         ///  Rules are processed in order. If there are multiple rules that match the line item, then the first rule to match is used to determine that Cost Category value. 
         public let rules: [CostCategoryRule]
         public let ruleVersion: CostCategoryRuleVersion
 
-        public init(costCategoryArn: String, effectiveEnd: String? = nil, effectiveStart: String, name: String, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
+        public init(costCategoryArn: String, effectiveEnd: String? = nil, effectiveStart: String, name: String, processingStatus: [CostCategoryProcessingStatus]? = nil, rules: [CostCategoryRule], ruleVersion: CostCategoryRuleVersion) {
             self.costCategoryArn = costCategoryArn
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
+            self.processingStatus = processingStatus
             self.rules = rules
             self.ruleVersion = ruleVersion
         }
@@ -176,8 +492,31 @@ extension CostExplorer {
             case effectiveEnd = "EffectiveEnd"
             case effectiveStart = "EffectiveStart"
             case name = "Name"
+            case processingStatus = "ProcessingStatus"
             case rules = "Rules"
             case ruleVersion = "RuleVersion"
+        }
+    }
+
+    public struct CostCategoryProcessingStatus: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Component", required: false, type: .enum), 
+            AWSShapeMember(label: "Status", required: false, type: .enum)
+        ]
+
+        ///  The Cost Management product name of the applied status. 
+        public let component: CostCategoryStatusComponent?
+        ///  The process status for a specific cost category. 
+        public let status: CostCategoryStatus?
+
+        public init(component: CostCategoryStatusComponent? = nil, status: CostCategoryStatus? = nil) {
+            self.component = component
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component = "Component"
+            case status = "Status"
         }
     }
 
@@ -187,7 +526,9 @@ extension CostExplorer {
             AWSShapeMember(label: "EffectiveEnd", required: false, type: .string), 
             AWSShapeMember(label: "EffectiveStart", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
-            AWSShapeMember(label: "NumberOfRules", required: false, type: .integer)
+            AWSShapeMember(label: "NumberOfRules", required: false, type: .integer), 
+            AWSShapeMember(label: "ProcessingStatus", required: false, type: .list), 
+            AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
         ///  The unique identifier for your Cost Category. 
@@ -199,13 +540,19 @@ extension CostExplorer {
         public let name: String?
         ///  The number of rules associated with a specific Cost Category. 
         public let numberOfRules: Int?
+        ///  The list of processing statuses for Cost Management products for a specific cost category. 
+        public let processingStatus: [CostCategoryProcessingStatus]?
+        ///  A list of unique cost category values in a specific cost category. 
+        public let values: [String]?
 
-        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil) {
+        public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil, effectiveStart: String? = nil, name: String? = nil, numberOfRules: Int? = nil, processingStatus: [CostCategoryProcessingStatus]? = nil, values: [String]? = nil) {
             self.costCategoryArn = costCategoryArn
             self.effectiveEnd = effectiveEnd
             self.effectiveStart = effectiveStart
             self.name = name
             self.numberOfRules = numberOfRules
+            self.processingStatus = processingStatus
+            self.values = values
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -214,6 +561,8 @@ extension CostExplorer {
             case effectiveStart = "EffectiveStart"
             case name = "Name"
             case numberOfRules = "NumberOfRules"
+            case processingStatus = "ProcessingStatus"
+            case values = "Values"
         }
     }
 
@@ -223,7 +572,7 @@ extension CostExplorer {
             AWSShapeMember(label: "Value", required: true, type: .string)
         ]
 
-        /// An Expression object used to categorize costs. This supports dimensions, Tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
+        /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR is not supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the AWS Billing and Cost Management User Guide.
         public let rule: Expression
         public let value: String
 
@@ -248,15 +597,19 @@ extension CostExplorer {
     public struct CostCategoryValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
+            AWSShapeMember(label: "MatchOptions", required: false, type: .list), 
             AWSShapeMember(label: "Values", required: false, type: .list)
         ]
 
         public let key: String?
+        ///  The match options that you can use to filter your results. MatchOptions is only applicable for only applicable for actions related to cost category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE. 
+        public let matchOptions: [MatchOption]?
         /// The specific value of the Cost Category.
         public let values: [String]?
 
-        public init(key: String? = nil, values: [String]? = nil) {
+        public init(key: String? = nil, matchOptions: [MatchOption]? = nil, values: [String]? = nil) {
             self.key = key
+            self.matchOptions = matchOptions
             self.values = values
         }
 
@@ -273,6 +626,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
+            case matchOptions = "MatchOptions"
             case values = "Values"
         }
     }
@@ -412,6 +766,82 @@ extension CostExplorer {
         }
     }
 
+    public struct CreateAnomalyMonitorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyMonitor", required: true, type: .structure)
+        ]
+
+        ///  The cost anomaly detection monitor object that you want to create.
+        public let anomalyMonitor: AnomalyMonitor
+
+        public init(anomalyMonitor: AnomalyMonitor) {
+            self.anomalyMonitor = anomalyMonitor
+        }
+
+        public func validate(name: String) throws {
+            try self.anomalyMonitor.validate(name: "\(name).anomalyMonitor")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyMonitor = "AnomalyMonitor"
+        }
+    }
+
+    public struct CreateAnomalyMonitorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitorArn", required: true, type: .string)
+        ]
+
+        ///  The unique identifier of your newly created cost anomaly detection monitor.
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct CreateAnomalySubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalySubscription", required: true, type: .structure)
+        ]
+
+        ///  The cost anomaly subscription object that you want to create. 
+        public let anomalySubscription: AnomalySubscription
+
+        public init(anomalySubscription: AnomalySubscription) {
+            self.anomalySubscription = anomalySubscription
+        }
+
+        public func validate(name: String) throws {
+            try self.anomalySubscription.validate(name: "\(name).anomalySubscription")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalySubscription = "AnomalySubscription"
+        }
+    }
+
+    public struct CreateAnomalySubscriptionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+
+        ///  The unique identifier of your newly created cost anomaly subscription. 
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
     public struct CreateCostCategoryDefinitionRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -485,13 +915,13 @@ extension CostExplorer {
             AWSShapeMember(label: "TotalRunningHoursInLookbackPeriod", required: false, type: .string)
         ]
 
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
         /// The name you've given an instance. This field will show as blank if you haven't given the instance a name.
         public let instanceName: String?
-        ///  Current On Demand cost of operating this instance on a monthly basis.
+        ///  Current On-Demand cost of operating this instance on a monthly basis.
         public let monthlyCost: String?
-        ///  Number of hours during the lookback period billed at On Demand rates.
+        ///  Number of hours during the lookback period billed at On-Demand rates.
         public let onDemandHoursInLookbackPeriod: String?
         ///  Number of hours during the lookback period covered by reservations.
         public let reservationCoveredHoursInLookbackPeriod: String?
@@ -566,6 +996,68 @@ extension CostExplorer {
             case end = "End"
             case start = "Start"
         }
+    }
+
+    public struct DeleteAnomalyMonitorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitorArn", required: true, type: .string)
+        ]
+
+        ///  The unique identifier of the cost anomaly monitor that you want to delete. 
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitorArn, name:"monitorArn", parent: name, max: 1024)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, min: 0)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct DeleteAnomalyMonitorResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct DeleteAnomalySubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+
+        ///  The unique identifier of the cost anomaly subscription that you want to delete. 
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, max: 1024)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, min: 0)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
+        }
+    }
+
+    public struct DeleteAnomalySubscriptionResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct DeleteCostCategoryDefinitionRequest: AWSShape {
@@ -669,7 +1161,7 @@ extension CostExplorer {
 
         /// The names of the metadata types that you can use to filter and group your results. For example, AZ returns a list of Availability Zones.
         public let key: Dimension?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The metadata values that you can use to filter and group your results. You can use GetDimensionValues to find specific values.
         public let values: [String]?
@@ -714,6 +1206,38 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case value = "Value"
+        }
+    }
+
+    public struct EBSResourceUtilization: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EbsReadBytesPerSecond", required: false, type: .string), 
+            AWSShapeMember(label: "EbsReadOpsPerSecond", required: false, type: .string), 
+            AWSShapeMember(label: "EbsWriteBytesPerSecond", required: false, type: .string), 
+            AWSShapeMember(label: "EbsWriteOpsPerSecond", required: false, type: .string)
+        ]
+
+        ///  The maximum size of read operations per second 
+        public let ebsReadBytesPerSecond: String?
+        ///  The maximum number of read operations per second. 
+        public let ebsReadOpsPerSecond: String?
+        ///  The maximum size of write operations per second. 
+        public let ebsWriteBytesPerSecond: String?
+        ///  The maximum number of write operations per second. 
+        public let ebsWriteOpsPerSecond: String?
+
+        public init(ebsReadBytesPerSecond: String? = nil, ebsReadOpsPerSecond: String? = nil, ebsWriteBytesPerSecond: String? = nil, ebsWriteOpsPerSecond: String? = nil) {
+            self.ebsReadBytesPerSecond = ebsReadBytesPerSecond
+            self.ebsReadOpsPerSecond = ebsReadOpsPerSecond
+            self.ebsWriteBytesPerSecond = ebsWriteBytesPerSecond
+            self.ebsWriteOpsPerSecond = ebsWriteOpsPerSecond
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ebsReadBytesPerSecond = "EbsReadBytesPerSecond"
+            case ebsReadOpsPerSecond = "EbsReadOpsPerSecond"
+            case ebsWriteBytesPerSecond = "EbsWriteBytesPerSecond"
+            case ebsWriteOpsPerSecond = "EbsWriteOpsPerSecond"
         }
     }
 
@@ -782,23 +1306,23 @@ extension CostExplorer {
             AWSShapeMember(label: "Vcpu", required: false, type: .string)
         ]
 
-        ///  Hourly public On Demand rate for the instance type.
+        ///  Hourly public On-Demand rate for the instance type.
         public let hourlyOnDemandRate: String?
-        ///  The type of Amazon Web Services instance.
+        ///  The type of AWS instance.
         public let instanceType: String?
-        ///  Memory capacity of Amazon Web Services instance.
+        ///  Memory capacity of the AWS instance.
         public let memory: String?
-        ///  Network performance capacity of the Amazon Web Services instance.
+        ///  Network performance capacity of the AWS instance.
         public let networkPerformance: String?
-        ///  The platform of the Amazon Web Services instance. The platform is the specific combination of operating system, license model, and software on an instance.
+        ///  The platform of the AWS instance. The platform is the specific combination of operating system, license model, and software on an instance.
         public let platform: String?
-        ///  The Amazon Web Services Region of the instance.
+        ///  The AWS Region of the instance.
         public let region: String?
         ///  The SKU of the product.
         public let sku: String?
-        ///  The disk storage of the Amazon Web Services instance (Not EBS storage).
+        ///  The disk storage of the AWS instance (not EBS storage).
         public let storage: String?
-        ///  Number of VCPU cores in the Amazon Web Services instance type.
+        ///  Number of VCPU cores in the AWS instance type.
         public let vcpu: String?
 
         public init(hourlyOnDemandRate: String? = nil, instanceType: String? = nil, memory: String? = nil, networkPerformance: String? = nil, platform: String? = nil, region: String? = nil, sku: String? = nil, storage: String? = nil, vcpu: String? = nil) {
@@ -828,11 +1352,14 @@ extension CostExplorer {
 
     public struct EC2ResourceUtilization: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EBSResourceUtilization", required: false, type: .structure), 
             AWSShapeMember(label: "MaxCpuUtilizationPercentage", required: false, type: .string), 
             AWSShapeMember(label: "MaxMemoryUtilizationPercentage", required: false, type: .string), 
             AWSShapeMember(label: "MaxStorageUtilizationPercentage", required: false, type: .string)
         ]
 
+        ///  The EBS field that contains a list of EBS metrics associated with the current instance. 
+        public let eBSResourceUtilization: EBSResourceUtilization?
         ///  Maximum observed or expected CPU utilization of the instance.
         public let maxCpuUtilizationPercentage: String?
         ///  Maximum observed or expected memory utilization of the instance.
@@ -840,13 +1367,15 @@ extension CostExplorer {
         ///  Maximum observed or expected storage utilization of the instance (does not measure EBS storage).
         public let maxStorageUtilizationPercentage: String?
 
-        public init(maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil) {
+        public init(eBSResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil) {
+            self.eBSResourceUtilization = eBSResourceUtilization
             self.maxCpuUtilizationPercentage = maxCpuUtilizationPercentage
             self.maxMemoryUtilizationPercentage = maxMemoryUtilizationPercentage
             self.maxStorageUtilizationPercentage = maxStorageUtilizationPercentage
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eBSResourceUtilization = "EBSResourceUtilization"
             case maxCpuUtilizationPercentage = "MaxCpuUtilizationPercentage"
             case maxMemoryUtilizationPercentage = "MaxMemoryUtilizationPercentage"
             case maxStorageUtilizationPercentage = "MaxStorageUtilizationPercentage"
@@ -1036,12 +1565,214 @@ extension CostExplorer {
         }
     }
 
+    public struct GetAnomaliesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DateInterval", required: true, type: .structure), 
+            AWSShapeMember(label: "Feedback", required: false, type: .enum), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MonitorArn", required: false, type: .string), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "TotalImpact", required: false, type: .structure)
+        ]
+
+        /// Assigns the start and end dates for retrieving cost anomalies. The returned anomaly object will have an AnomalyEndDate in the specified time range. 
+        public let dateInterval: AnomalyDateInterval
+        /// Filters anomaly results by the feedback field on the anomaly object. 
+        public let feedback: AnomalyFeedbackType?
+        ///  The number of entries a paginated response contains. 
+        public let maxResults: Int?
+        /// Retrieves all of the cost anomalies detected for a specific cost anomaly monitor Amazon Resource Name (ARN). 
+        public let monitorArn: String?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+        /// Filters anomaly results by the total impact field on the anomaly object. For example, you can filter anomalies GREATER_THAN 200.00 to retrieve anomalies, with an estimated dollar impact greater than 200. 
+        public let totalImpact: TotalImpactFilter?
+
+        public init(dateInterval: AnomalyDateInterval, feedback: AnomalyFeedbackType? = nil, maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, totalImpact: TotalImpactFilter? = nil) {
+            self.dateInterval = dateInterval
+            self.feedback = feedback
+            self.maxResults = maxResults
+            self.monitorArn = monitorArn
+            self.nextPageToken = nextPageToken
+            self.totalImpact = totalImpact
+        }
+
+        public func validate(name: String) throws {
+            try self.dateInterval.validate(name: "\(name).dateInterval")
+            try validate(self.monitorArn, name:"monitorArn", parent: name, max: 1024)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, min: 0)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateInterval = "DateInterval"
+            case feedback = "Feedback"
+            case maxResults = "MaxResults"
+            case monitorArn = "MonitorArn"
+            case nextPageToken = "NextPageToken"
+            case totalImpact = "TotalImpact"
+        }
+    }
+
+    public struct GetAnomaliesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Anomalies", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+
+        ///  A list of cost anomalies. 
+        public let anomalies: [Anomaly]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+
+        public init(anomalies: [Anomaly], nextPageToken: String? = nil) {
+            self.anomalies = anomalies
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalies = "Anomalies"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalyMonitorsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MonitorArnList", required: false, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+
+        ///  The number of entries a paginated response contains. 
+        public let maxResults: Int?
+        ///  A list of cost anomaly monitor ARNs. 
+        public let monitorArnList: [String]?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+
+        public init(maxResults: Int? = nil, monitorArnList: [String]? = nil, nextPageToken: String? = nil) {
+            self.maxResults = maxResults
+            self.monitorArnList = monitorArnList
+            self.nextPageToken = nextPageToken
+        }
+
+        public func validate(name: String) throws {
+            try self.monitorArnList?.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case monitorArnList = "MonitorArnList"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalyMonitorsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyMonitors", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+
+        ///  A list of cost anomaly monitors that includes the detailed metadata for each monitor. 
+        public let anomalyMonitors: [AnomalyMonitor]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+
+        public init(anomalyMonitors: [AnomalyMonitor], nextPageToken: String? = nil) {
+            self.anomalyMonitors = anomalyMonitors
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyMonitors = "AnomalyMonitors"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
+    public struct GetAnomalySubscriptionsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "MonitorArn", required: false, type: .string), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "SubscriptionArnList", required: false, type: .list)
+        ]
+
+        ///  The number of entries a paginated response contains. 
+        public let maxResults: Int?
+        ///  Cost anomaly monitor ARNs. 
+        public let monitorArn: String?
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+        ///  A list of cost anomaly subscription ARNs. 
+        public let subscriptionArnList: [String]?
+
+        public init(maxResults: Int? = nil, monitorArn: String? = nil, nextPageToken: String? = nil, subscriptionArnList: [String]? = nil) {
+            self.maxResults = maxResults
+            self.monitorArn = monitorArn
+            self.nextPageToken = nextPageToken
+            self.subscriptionArnList = subscriptionArnList
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitorArn, name:"monitorArn", parent: name, max: 1024)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, min: 0)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, max: 8192)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, min: 0)
+            try validate(self.nextPageToken, name:"nextPageToken", parent: name, pattern: "[\\S\\s]*")
+            try self.subscriptionArnList?.forEach {
+                try validate($0, name: "subscriptionArnList[]", parent: name, max: 1024)
+                try validate($0, name: "subscriptionArnList[]", parent: name, min: 0)
+                try validate($0, name: "subscriptionArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case monitorArn = "MonitorArn"
+            case nextPageToken = "NextPageToken"
+            case subscriptionArnList = "SubscriptionArnList"
+        }
+    }
+
+    public struct GetAnomalySubscriptionsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalySubscriptions", required: true, type: .list), 
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string)
+        ]
+
+        ///  A list of cost anomaly subscriptions that includes the detailed metadata for each one. 
+        public let anomalySubscriptions: [AnomalySubscription]
+        ///  The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size. 
+        public let nextPageToken: String?
+
+        public init(anomalySubscriptions: [AnomalySubscription], nextPageToken: String? = nil) {
+            self.anomalySubscriptions = anomalySubscriptions
+            self.nextPageToken = nextPageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalySubscriptions = "AnomalySubscriptions"
+            case nextPageToken = "NextPageToken"
+        }
+    }
+
     public struct GetCostAndUsageRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
             AWSShapeMember(label: "Granularity", required: false, type: .enum), 
             AWSShapeMember(label: "GroupBy", required: false, type: .list), 
-            AWSShapeMember(label: "Metrics", required: false, type: .list), 
+            AWSShapeMember(label: "Metrics", required: true, type: .list), 
             AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
@@ -1050,16 +1781,16 @@ extension CostExplorer {
         public let filter: Expression?
         /// Sets the AWS cost granularity to MONTHLY or DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, either MONTHLY or DAILY, or HOURLY. 
         public let granularity: Granularity?
-        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, or both. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
+        /// You can group AWS costs using up to two different groups, either dimensions, tag keys, cost categories, or any two group by types. When you group by tag key, you get all tag values, including empty strings. Valid values are AZ, INSTANCE_TYPE, LEGAL_ENTITY_NAME, LINKED_ACCOUNT, OPERATION, PLATFORM, PURCHASE_TYPE, SERVICE, TAGS, TENANCY, RECORD_TYPE, and USAGE_TYPE.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking into account the units. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsage requests.
-        public let metrics: [String]?
+        public let metrics: [String]
         /// The token to retrieve the next set of results. AWS provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// Sets the start and end dates for retrieving AWS costs. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String], nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -1073,7 +1804,7 @@ extension CostExplorer {
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
-            try self.metrics?.forEach {
+            try self.metrics.forEach {
                 try validate($0, name: "metrics[]", parent: name, max: 1024)
                 try validate($0, name: "metrics[]", parent: name, min: 0)
                 try validate($0, name: "metrics[]", parent: name, pattern: "[\\S\\s]*")
@@ -1123,7 +1854,7 @@ extension CostExplorer {
 
     public struct GetCostAndUsageWithResourcesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "Filter", required: true, type: .structure), 
             AWSShapeMember(label: "Granularity", required: false, type: .enum), 
             AWSShapeMember(label: "GroupBy", required: false, type: .list), 
             AWSShapeMember(label: "Metrics", required: false, type: .list), 
@@ -1131,11 +1862,11 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
 
-        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId.
-        public let filter: Expression?
+        /// Filters Amazon Web Services costs by different dimensions. For example, you can specify SERVICE and LINKED_ACCOUNT and get the costs that are associated with that account's usage of that service. You can nest Expression objects to define any combination of dimension filters. For more information, see Expression.  The GetCostAndUsageWithResources operation requires that you either group by or filter by a ResourceId. It requires the Expression "SERVICE = Amazon Elastic Compute Cloud - Compute" in the filter.
+        public let filter: Expression
         /// Sets the AWS cost granularity to MONTHLY, DAILY, or HOURLY. If Granularity isn't set, the response object doesn't include the Granularity, MONTHLY, DAILY, or HOURLY. 
         public let granularity: Granularity?
-        /// You can group Amazon Web Services costs using up to two different groups: either dimensions, tag keys, or both.
+        /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
         public let groupBy: [GroupDefinition]?
         /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
         public let metrics: [String]?
@@ -1144,7 +1875,7 @@ extension CostExplorer {
         /// Sets the start and end dates for retrieving Amazon Web Services costs. The range must be within the last 14 days (the start date cannot be earlier than 14 days ago). The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
-        public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
+        public init(filter: Expression, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, metrics: [String]? = nil, nextPageToken: String? = nil, timePeriod: DateInterval) {
             self.filter = filter
             self.granularity = granularity
             self.groupBy = groupBy
@@ -1154,7 +1885,7 @@ extension CostExplorer {
         }
 
         public func validate(name: String) throws {
-            try self.filter?.validate(name: "\(name).filter")
+            try self.filter.validate(name: "\(name).filter")
             try self.groupBy?.forEach {
                 try $0.validate(name: "\(name).groupBy[]")
             }
@@ -1223,7 +1954,7 @@ extension CostExplorer {
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
-        /// The period of time that you want the forecast to cover.
+        /// The period of time that you want the forecast to cover. The start date must be equal to or no later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
@@ -1281,7 +2012,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TimePeriod", required: true, type: .structure)
         ]
 
-        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
+        /// The context for the call to GetDimensionValues. This can be RESERVATIONS or COST_AND_USAGE. The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE, the resulting dimension values can be used in the GetCostAndUsage operation. If you set the context to COST_AND_USAGE, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LEGAL_ENTITY_NAME - The name of the organization that sells you AWS services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand Instances and Standard Reserved Instances.   SERVICE - The AWS service such as Amazon DynamoDB.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this operation includes a unit attribute.   REGION - The AWS Region.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The AWS Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The AWS Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value field contains the AWS ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plan  
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context. For more information, see Context. 
         public let dimension: Dimension
@@ -1451,7 +2182,7 @@ extension CostExplorer {
 
         /// The account ID that is associated with the recommendation. 
         public let accountId: String?
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// The number of previous days that you want AWS to consider when it calculates your recommendations.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -1790,7 +2521,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TermInYears", required: true, type: .enum)
         ]
 
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// You can filter your recommendations by Account ID with the LINKED_ACCOUNT dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are not supported.
         public let filter: Expression?
@@ -2085,7 +2816,7 @@ extension CostExplorer {
         public let metric: Metric
         /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
-        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
@@ -2181,6 +2912,28 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case `type` = "Type"
+        }
+    }
+
+    public struct Impact: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxImpact", required: true, type: .double), 
+            AWSShapeMember(label: "TotalImpact", required: false, type: .double)
+        ]
+
+        ///  The maximum dollar value observed for an anomaly. 
+        public let maxImpact: Double
+        ///  The cumulative dollar value observed for an anomaly. 
+        public let totalImpact: Double?
+
+        public init(maxImpact: Double, totalImpact: Double? = nil) {
+            self.maxImpact = maxImpact
+            self.totalImpact = totalImpact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxImpact = "MaxImpact"
+            case totalImpact = "TotalImpact"
         }
     }
 
@@ -2308,7 +3061,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TargetInstances", required: false, type: .list)
         ]
 
-        /// Identifies whether this instance type is the Amazon Web Services default recommendation.
+        /// Identifies whether this instance type is the AWS default recommendation.
         public let targetInstances: [TargetInstance]?
 
         public init(targetInstances: [TargetInstance]? = nil) {
@@ -2317,6 +3070,51 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case targetInstances = "TargetInstances"
+        }
+    }
+
+    public struct ProvideAnomalyFeedbackRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyId", required: true, type: .string), 
+            AWSShapeMember(label: "Feedback", required: true, type: .enum)
+        ]
+
+        ///  A cost anomaly ID. 
+        public let anomalyId: String
+        /// Describes whether the cost anomaly was a planned activity or you considered it an anomaly. 
+        public let feedback: AnomalyFeedbackType
+
+        public init(anomalyId: String, feedback: AnomalyFeedbackType) {
+            self.anomalyId = anomalyId
+            self.feedback = feedback
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.anomalyId, name:"anomalyId", parent: name, max: 1024)
+            try validate(self.anomalyId, name:"anomalyId", parent: name, min: 0)
+            try validate(self.anomalyId, name:"anomalyId", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyId = "AnomalyId"
+            case feedback = "Feedback"
+        }
+    }
+
+    public struct ProvideAnomalyFeedbackResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AnomalyId", required: true, type: .string)
+        ]
+
+        ///  The ID of the modified cost anomaly. 
+        public let anomalyId: String
+
+        public init(anomalyId: String) {
+            self.anomalyId = anomalyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyId = "AnomalyId"
         }
     }
 
@@ -2775,7 +3573,7 @@ extension CostExplorer {
             AWSShapeMember(label: "EC2ResourceUtilization", required: false, type: .structure)
         ]
 
-        /// Utilization of current Amazon EC2 Instance 
+        /// Utilization of current Amazon EC2 instance. 
         public let eC2ResourceUtilization: EC2ResourceUtilization?
 
         public init(eC2ResourceUtilization: EC2ResourceUtilization? = nil) {
@@ -2885,9 +3683,9 @@ extension CostExplorer {
             AWSShapeMember(label: "RecommendationId", required: false, type: .string)
         ]
 
-        ///  The timestamp for when Amazon Web Services made this recommendation.
+        ///  The timestamp for when AWS made this recommendation.
         public let generationTimestamp: String?
-        ///  How many days of previous usage that Amazon Web Services considers when making this recommendation.
+        ///  How many days of previous usage that AWS considers when making this recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
         ///  The ID for this specific recommendation.
         public let recommendationId: String?
@@ -2915,7 +3713,7 @@ extension CostExplorer {
 
         ///  Estimated total savings resulting from modifications, on a monthly basis.
         public let estimatedTotalMonthlySavingsAmount: String?
-        ///  The currency code that Amazon Web Services used to calculate the savings.
+        ///  The currency code that AWS used to calculate the savings.
         public let savingsCurrencyCode: String?
         ///  Savings percentage based on the recommended modifications, relative to the total On-Demand costs associated with these instances.
         public let savingsPercentage: String?
@@ -2934,6 +3732,38 @@ extension CostExplorer {
             case savingsCurrencyCode = "SavingsCurrencyCode"
             case savingsPercentage = "SavingsPercentage"
             case totalRecommendationCount = "TotalRecommendationCount"
+        }
+    }
+
+    public struct RootCause: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LinkedAccount", required: false, type: .string), 
+            AWSShapeMember(label: "Region", required: false, type: .string), 
+            AWSShapeMember(label: "Service", required: false, type: .string), 
+            AWSShapeMember(label: "UsageType", required: false, type: .string)
+        ]
+
+        ///  The linked account value associated with the cost anomaly. 
+        public let linkedAccount: String?
+        ///  The AWS Region associated with the cost anomaly. 
+        public let region: String?
+        ///  The AWS service name associated with the cost anomaly. 
+        public let service: String?
+        ///  The UsageType value associated with the cost anomaly. 
+        public let usageType: String?
+
+        public init(linkedAccount: String? = nil, region: String? = nil, service: String? = nil, usageType: String? = nil) {
+            self.linkedAccount = linkedAccount
+            self.region = region
+            self.service = service
+            self.usageType = usageType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linkedAccount = "LinkedAccount"
+            case region = "Region"
+            case service = "Service"
+            case usageType = "UsageType"
         }
     }
 
@@ -3000,11 +3830,11 @@ extension CostExplorer {
 
         /// The percentage of your existing Savings Plans covered usage, divided by all of your eligible Savings Plans usage in an account(or set of accounts).
         public let coveragePercentage: String?
-        /// The cost of your Amazon Web Services usage at the public On-Demand rate.
+        /// The cost of your AWS usage at the public On-Demand rate.
         public let onDemandCost: String?
-        /// The amount of your Amazon Web Services usage that is covered by a Savings Plans.
+        /// The amount of your AWS usage that is covered by a Savings Plans.
         public let spendCoveredBySavingsPlans: String?
-        /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
+        /// The total cost of your AWS usage, regardless of your purchase option.
         public let totalCost: String?
 
         public init(coveragePercentage: String? = nil, onDemandCost: String? = nil, spendCoveredBySavingsPlans: String? = nil, totalCost: String? = nil) {
@@ -3060,7 +3890,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TermInYears", required: false, type: .enum)
         ]
 
-        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the payer account and linked accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual linked accounts only.
+        /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the master account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
         /// The lookback period in days, used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
@@ -3118,7 +3948,7 @@ extension CostExplorer {
 
         /// The AccountID the recommendation is generated for.
         public let accountId: String?
-        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        /// The currency code AWS used to generate the recommendations and present potential savings.
         public let currencyCode: String?
         /// The average value of hourly On-Demand spend over the lookback period of the applicable usage type.
         public let currentAverageHourlyOnDemandSpend: String?
@@ -3225,7 +4055,7 @@ extension CostExplorer {
             AWSShapeMember(label: "TotalRecommendationCount", required: false, type: .string)
         ]
 
-        /// The currency code Amazon Web Services used to generate the recommendations and present potential savings.
+        /// The currency code AWS used to generate the recommendations and present potential savings.
         public let currencyCode: String?
         /// The current total on demand spend of the applicable usage types over the lookback period.
         public let currentOnDemandSpend: String?
@@ -3443,6 +4273,39 @@ extension CostExplorer {
         }
     }
 
+    public struct Subscriber: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Address", required: false, type: .string), 
+            AWSShapeMember(label: "Status", required: false, type: .enum), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        ///  The email address or SNS Amazon Resource Name (ARN), depending on the Type. 
+        public let address: String?
+        ///  Indicates if the subscriber accepts the notifications. 
+        public let status: SubscriberStatus?
+        ///  The notification delivery channel. 
+        public let `type`: SubscriberType?
+
+        public init(address: String? = nil, status: SubscriberStatus? = nil, type: SubscriberType? = nil) {
+            self.address = address
+            self.status = status
+            self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.address, name:"address", parent: name, max: 302)
+            try validate(self.address, name:"address", parent: name, min: 6)
+            try validate(self.address, name:"address", parent: name, pattern: "(^[a-zA-Z0-9.!#$%&'*+=?^_‘{|}~-]+@[a-zA-Z0-9_-]+(\\.[a-zA-Z0-9_-]+)+$)|(^arn:(aws[a-zA-Z-]*):sns:[a-zA-Z0-9-]+:[0-9]{12}:[a-zA-Z0-9_-]+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case address = "Address"
+            case status = "Status"
+            case `type` = "Type"
+        }
+    }
+
     public struct TagValues: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Key", required: false, type: .string), 
@@ -3452,7 +4315,7 @@ extension CostExplorer {
 
         /// The key for the tag.
         public let key: String?
-        /// The match options that you can use to filter your results. MatchOptions is only applicable for only applicable for actions related to Cost Category. The default values for MatchOptions is EQUALS and CASE_SENSITIVE.
+        /// The match options that you can use to filter your results. MatchOptions is only applicable for actions related to Cost Category. The default values for MatchOptions are EQUALS and CASE_SENSITIVE.
         public let matchOptions: [MatchOption]?
         /// The specific value of the tag.
         public let values: [String]?
@@ -3491,9 +4354,9 @@ extension CostExplorer {
             AWSShapeMember(label: "ResourceDetails", required: false, type: .structure)
         ]
 
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
-        ///  Indicates whether or not this recommendation is the defaulted Amazon Web Services recommendation.
+        ///  Indicates whether this recommendation is the defaulted AWS recommendation.
         public let defaultTargetInstance: Bool?
         ///  Expected cost to operate this instance type on a monthly basis.
         public let estimatedMonthlyCost: String?
@@ -3529,7 +4392,7 @@ extension CostExplorer {
             AWSShapeMember(label: "EstimatedMonthlySavings", required: false, type: .string)
         ]
 
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        ///  The currency code that AWS used to calculate the costs for this instance.
         public let currencyCode: String?
         ///  Estimated savings resulting from modification, on a monthly basis.
         public let estimatedMonthlySavings: String?
@@ -3542,6 +4405,158 @@ extension CostExplorer {
         private enum CodingKeys: String, CodingKey {
             case currencyCode = "CurrencyCode"
             case estimatedMonthlySavings = "EstimatedMonthlySavings"
+        }
+    }
+
+    public struct TotalImpactFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndValue", required: false, type: .double), 
+            AWSShapeMember(label: "NumericOperator", required: true, type: .enum), 
+            AWSShapeMember(label: "StartValue", required: true, type: .double)
+        ]
+
+        ///  The upper bound dollar value used in the filter. 
+        public let endValue: Double?
+        ///  The comparing value used in the filter. 
+        public let numericOperator: NumericOperator
+        ///  The lower bound dollar value used in the filter. 
+        public let startValue: Double
+
+        public init(endValue: Double? = nil, numericOperator: NumericOperator, startValue: Double) {
+            self.endValue = endValue
+            self.numericOperator = numericOperator
+            self.startValue = startValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endValue = "EndValue"
+            case numericOperator = "NumericOperator"
+            case startValue = "StartValue"
+        }
+    }
+
+    public struct UpdateAnomalyMonitorRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitorArn", required: true, type: .string), 
+            AWSShapeMember(label: "MonitorName", required: false, type: .string)
+        ]
+
+        ///  Cost anomaly monitor Amazon Resource Names (ARNs). 
+        public let monitorArn: String
+        ///  The new name for the cost anomaly monitor. 
+        public let monitorName: String?
+
+        public init(monitorArn: String, monitorName: String? = nil) {
+            self.monitorArn = monitorArn
+            self.monitorName = monitorName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.monitorArn, name:"monitorArn", parent: name, max: 1024)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, min: 0)
+            try validate(self.monitorArn, name:"monitorArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.monitorName, name:"monitorName", parent: name, max: 1024)
+            try validate(self.monitorName, name:"monitorName", parent: name, min: 0)
+            try validate(self.monitorName, name:"monitorName", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+            case monitorName = "MonitorName"
+        }
+    }
+
+    public struct UpdateAnomalyMonitorResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MonitorArn", required: true, type: .string)
+        ]
+
+        ///  A cost anomaly monitor ARN. 
+        public let monitorArn: String
+
+        public init(monitorArn: String) {
+            self.monitorArn = monitorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monitorArn = "MonitorArn"
+        }
+    }
+
+    public struct UpdateAnomalySubscriptionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Frequency", required: false, type: .enum), 
+            AWSShapeMember(label: "MonitorArnList", required: false, type: .list), 
+            AWSShapeMember(label: "Subscribers", required: false, type: .list), 
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string), 
+            AWSShapeMember(label: "SubscriptionName", required: false, type: .string), 
+            AWSShapeMember(label: "Threshold", required: false, type: .double)
+        ]
+
+        ///  The update to the frequency value at which subscribers will receive notifications. 
+        public let frequency: AnomalySubscriptionFrequency?
+        ///  A list of cost anomaly subscription ARNs. 
+        public let monitorArnList: [String]?
+        ///  The update to the subscriber list. 
+        public let subscribers: [Subscriber]?
+        ///  A cost anomaly subscription Amazon Resource Name (ARN). 
+        public let subscriptionArn: String
+        ///  The subscription's new name. 
+        public let subscriptionName: String?
+        ///  The update to the threshold value for receiving notifications. 
+        public let threshold: Double?
+
+        public init(frequency: AnomalySubscriptionFrequency? = nil, monitorArnList: [String]? = nil, subscribers: [Subscriber]? = nil, subscriptionArn: String, subscriptionName: String? = nil, threshold: Double? = nil) {
+            self.frequency = frequency
+            self.monitorArnList = monitorArnList
+            self.subscribers = subscribers
+            self.subscriptionArn = subscriptionArn
+            self.subscriptionName = subscriptionName
+            self.threshold = threshold
+        }
+
+        public func validate(name: String) throws {
+            try self.monitorArnList?.forEach {
+                try validate($0, name: "monitorArnList[]", parent: name, max: 1024)
+                try validate($0, name: "monitorArnList[]", parent: name, min: 0)
+                try validate($0, name: "monitorArnList[]", parent: name, pattern: "[\\S\\s]*")
+            }
+            try self.subscribers?.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, max: 1024)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, min: 0)
+            try validate(self.subscriptionArn, name:"subscriptionArn", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, max: 1024)
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, min: 0)
+            try validate(self.subscriptionName, name:"subscriptionName", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.threshold, name:"threshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case frequency = "Frequency"
+            case monitorArnList = "MonitorArnList"
+            case subscribers = "Subscribers"
+            case subscriptionArn = "SubscriptionArn"
+            case subscriptionName = "SubscriptionName"
+            case threshold = "Threshold"
+        }
+    }
+
+    public struct UpdateAnomalySubscriptionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "SubscriptionArn", required: true, type: .string)
+        ]
+
+        ///  A cost anomaly subscription ARN. 
+        public let subscriptionArn: String
+
+        public init(subscriptionArn: String) {
+            self.subscriptionArn = subscriptionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subscriptionArn = "SubscriptionArn"
         }
     }
 

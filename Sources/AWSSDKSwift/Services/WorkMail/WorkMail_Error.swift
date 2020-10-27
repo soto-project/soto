@@ -4,6 +4,7 @@ import AWSSDKSwiftCore
 
 /// Error enum for WorkMail
 public enum WorkMailErrorType: AWSErrorType {
+    case directoryInUseException(message: String?)
     case directoryServiceAuthenticationFailedException(message: String?)
     case directoryUnavailableException(message: String?)
     case emailAddressInUseException(message: String?)
@@ -32,6 +33,8 @@ extension WorkMailErrorType {
             errorCode = String(errorCode[errorCode.index(index, offsetBy: 1)...])
         }
         switch errorCode {
+        case "DirectoryInUseException":
+            self = .directoryInUseException(message: message)
         case "DirectoryServiceAuthenticationFailedException":
             self = .directoryServiceAuthenticationFailedException(message: message)
         case "DirectoryUnavailableException":
@@ -79,6 +82,8 @@ extension WorkMailErrorType {
 extension WorkMailErrorType : CustomStringConvertible {
     public var description : String {
         switch self {
+        case .directoryInUseException(let message):
+            return "DirectoryInUseException: \(message ?? "")"
         case .directoryServiceAuthenticationFailedException(let message):
             return "DirectoryServiceAuthenticationFailedException: \(message ?? "")"
         case .directoryUnavailableException(let message):

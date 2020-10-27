@@ -7,6 +7,9 @@ public enum NeptuneErrorType: AWSErrorType {
     case authorizationNotFoundFault(message: String?)
     case certificateNotFoundFault(message: String?)
     case dBClusterAlreadyExistsFault(message: String?)
+    case dBClusterEndpointAlreadyExistsFault(message: String?)
+    case dBClusterEndpointNotFoundFault(message: String?)
+    case dBClusterEndpointQuotaExceededFault(message: String?)
     case dBClusterNotFoundFault(message: String?)
     case dBClusterParameterGroupNotFoundFault(message: String?)
     case dBClusterQuotaExceededFault(message: String?)
@@ -35,6 +38,7 @@ public enum NeptuneErrorType: AWSErrorType {
     case insufficientDBClusterCapacityFault(message: String?)
     case insufficientDBInstanceCapacityFault(message: String?)
     case insufficientStorageClusterCapacityFault(message: String?)
+    case invalidDBClusterEndpointStateFault(message: String?)
     case invalidDBClusterSnapshotStateFault(message: String?)
     case invalidDBClusterStateFault(message: String?)
     case invalidDBInstanceStateFault(message: String?)
@@ -78,6 +82,12 @@ extension NeptuneErrorType {
             self = .certificateNotFoundFault(message: message)
         case "DBClusterAlreadyExistsFault":
             self = .dBClusterAlreadyExistsFault(message: message)
+        case "DBClusterEndpointAlreadyExistsFault":
+            self = .dBClusterEndpointAlreadyExistsFault(message: message)
+        case "DBClusterEndpointNotFoundFault":
+            self = .dBClusterEndpointNotFoundFault(message: message)
+        case "DBClusterEndpointQuotaExceededFault":
+            self = .dBClusterEndpointQuotaExceededFault(message: message)
         case "DBClusterNotFoundFault":
             self = .dBClusterNotFoundFault(message: message)
         case "DBClusterParameterGroupNotFound":
@@ -134,6 +144,8 @@ extension NeptuneErrorType {
             self = .insufficientDBInstanceCapacityFault(message: message)
         case "InsufficientStorageClusterCapacity":
             self = .insufficientStorageClusterCapacityFault(message: message)
+        case "InvalidDBClusterEndpointStateFault":
+            self = .invalidDBClusterEndpointStateFault(message: message)
         case "InvalidDBClusterSnapshotStateFault":
             self = .invalidDBClusterSnapshotStateFault(message: message)
         case "InvalidDBClusterStateFault":
@@ -205,6 +217,12 @@ extension NeptuneErrorType : CustomStringConvertible {
             return "CertificateNotFound: \(message ?? "")"
         case .dBClusterAlreadyExistsFault(let message):
             return "DBClusterAlreadyExistsFault: \(message ?? "")"
+        case .dBClusterEndpointAlreadyExistsFault(let message):
+            return "DBClusterEndpointAlreadyExistsFault: \(message ?? "")"
+        case .dBClusterEndpointNotFoundFault(let message):
+            return "DBClusterEndpointNotFoundFault: \(message ?? "")"
+        case .dBClusterEndpointQuotaExceededFault(let message):
+            return "DBClusterEndpointQuotaExceededFault: \(message ?? "")"
         case .dBClusterNotFoundFault(let message):
             return "DBClusterNotFoundFault: \(message ?? "")"
         case .dBClusterParameterGroupNotFoundFault(let message):
@@ -261,6 +279,8 @@ extension NeptuneErrorType : CustomStringConvertible {
             return "InsufficientDBInstanceCapacity: \(message ?? "")"
         case .insufficientStorageClusterCapacityFault(let message):
             return "InsufficientStorageClusterCapacity: \(message ?? "")"
+        case .invalidDBClusterEndpointStateFault(let message):
+            return "InvalidDBClusterEndpointStateFault: \(message ?? "")"
         case .invalidDBClusterSnapshotStateFault(let message):
             return "InvalidDBClusterSnapshotStateFault: \(message ?? "")"
         case .invalidDBClusterStateFault(let message):

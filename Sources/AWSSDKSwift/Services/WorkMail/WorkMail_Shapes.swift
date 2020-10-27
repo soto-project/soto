@@ -28,6 +28,14 @@ extension WorkMail {
         public var description: String { return self.rawValue }
     }
 
+    public enum MailboxExportJobState: String, CustomStringConvertible, Codable {
+        case running = "RUNNING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case cancelled = "CANCELLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MemberType: String, CustomStringConvertible, Codable {
         case group = "GROUP"
         case user = "USER"
@@ -153,7 +161,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 34)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 34)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }
 
@@ -197,6 +209,8 @@ extension WorkMail {
             try validate(self.groupId, name:"groupId", parent: name, min: 12)
             try validate(self.memberId, name:"memberId", parent: name, max: 256)
             try validate(self.memberId, name:"memberId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -242,6 +256,53 @@ extension WorkMail {
         }
     }
 
+    public struct CancelMailboxExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+
+        /// The idempotency token for the client request.
+        public let clientToken: String
+        /// The job ID.
+        public let jobId: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(clientToken: String = CancelMailboxExportJobRequest.idempotencyToken(), jobId: String, organizationId: String) {
+            self.clientToken = clientToken
+            self.jobId = jobId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 128)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try validate(self.jobId, name:"jobId", parent: name, max: 63)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[A-Za-z0-9-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case jobId = "JobId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct CancelMailboxExportJobResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
     public struct CreateAliasRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: true, type: .string), 
@@ -265,9 +326,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.alias, name:"alias", parent: name, max: 254)
             try validate(self.alias, name:"alias", parent: name, min: 1)
-            try validate(self.alias, name:"alias", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(self.alias, name:"alias", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -306,6 +369,8 @@ extension WorkMail {
             try validate(self.name, name:"name", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[\\u0020-\\u00FF]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -332,6 +397,85 @@ extension WorkMail {
         }
     }
 
+    public struct CreateOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Alias", required: true, type: .string), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "DirectoryId", required: false, type: .string), 
+            AWSShapeMember(label: "Domains", required: false, type: .list), 
+            AWSShapeMember(label: "EnableInteroperability", required: false, type: .boolean), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string)
+        ]
+
+        /// The organization alias.
+        public let alias: String
+        /// The idempotency token associated with the request.
+        public let clientToken: String?
+        /// The AWS Directory Service directory ID.
+        public let directoryId: String?
+        /// The email domains to associate with the organization.
+        public let domains: [Domain]?
+        /// When true, allows organization interoperability between Amazon WorkMail and Microsoft Exchange. Can only be set to true if an AD Connector directory ID is included in the request.
+        public let enableInteroperability: Bool?
+        /// The Amazon Resource Name (ARN) of a customer managed master key from AWS KMS.
+        public let kmsKeyArn: String?
+
+        public init(alias: String, clientToken: String? = CreateOrganizationRequest.idempotencyToken(), directoryId: String? = nil, domains: [Domain]? = nil, enableInteroperability: Bool? = nil, kmsKeyArn: String? = nil) {
+            self.alias = alias
+            self.clientToken = clientToken
+            self.directoryId = directoryId
+            self.domains = domains
+            self.enableInteroperability = enableInteroperability
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.alias, name:"alias", parent: name, max: 62)
+            try validate(self.alias, name:"alias", parent: name, min: 1)
+            try validate(self.alias, name:"alias", parent: name, pattern: "^(?!d-)([\\da-zA-Z]+)([-][\\da-zA-Z]+)*")
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 128)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try validate(self.directoryId, name:"directoryId", parent: name, max: 12)
+            try validate(self.directoryId, name:"directoryId", parent: name, min: 12)
+            try validate(self.directoryId, name:"directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
+            try self.domains?.forEach {
+                try $0.validate(name: "\(name).domains[]")
+            }
+            try validate(self.domains, name:"domains", parent: name, max: 5)
+            try validate(self.domains, name:"domains", parent: name, min: 0)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, max: 2048)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, min: 20)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: "arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case clientToken = "ClientToken"
+            case directoryId = "DirectoryId"
+            case domains = "Domains"
+            case enableInteroperability = "EnableInteroperability"
+            case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct CreateOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string)
+        ]
+
+        /// The organization ID.
+        public let organizationId: String?
+
+        public init(organizationId: String? = nil) {
+            self.organizationId = organizationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
     public struct CreateResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Name", required: true, type: .string), 
@@ -355,7 +499,9 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 20)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -411,7 +557,9 @@ extension WorkMail {
             try validate(self.displayName, name:"displayName", parent: name, max: 256)
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.password, name:"password", parent: name, max: 256)
             try validate(self.password, name:"password", parent: name, pattern: "[\\u0020-\\u00FF]+")
@@ -484,6 +632,8 @@ extension WorkMail {
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -524,9 +674,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.alias, name:"alias", parent: name, max: 254)
             try validate(self.alias, name:"alias", parent: name, min: 1)
-            try validate(self.alias, name:"alias", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(self.alias, name:"alias", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -564,6 +716,8 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.groupId, name:"groupId", parent: name, max: 256)
             try validate(self.groupId, name:"groupId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -588,7 +742,7 @@ extension WorkMail {
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
         ]
 
-        /// The identifier of the member (user or group)that owns the mailbox.
+        /// The identifier of the member (user or group) that owns the mailbox.
         public let entityId: String
         /// The identifier of the member (user or group) for which to delete granted permissions.
         public let granteeId: String
@@ -606,6 +760,8 @@ extension WorkMail {
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
             try validate(self.granteeId, name:"granteeId", parent: name, max: 256)
             try validate(self.granteeId, name:"granteeId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -622,6 +778,64 @@ extension WorkMail {
         public init() {
         }
 
+    }
+
+    public struct DeleteOrganizationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "DeleteDirectory", required: true, type: .boolean), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+
+        /// The idempotency token associated with the request.
+        public let clientToken: String?
+        /// If true, deletes the AWS Directory Service directory associated with the organization.
+        public let deleteDirectory: Bool
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(clientToken: String? = DeleteOrganizationRequest.idempotencyToken(), deleteDirectory: Bool, organizationId: String) {
+            self.clientToken = clientToken
+            self.deleteDirectory = deleteDirectory
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 128)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case deleteDirectory = "DeleteDirectory"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteOrganizationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
+            AWSShapeMember(label: "State", required: false, type: .string)
+        ]
+
+        /// The organization ID.
+        public let organizationId: String?
+        /// The state of the organization.
+        public let state: String?
+
+        public init(organizationId: String? = nil, state: String? = nil) {
+            self.organizationId = organizationId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+            case state = "State"
+        }
     }
 
     public struct DeleteResourceRequest: AWSShape {
@@ -641,7 +855,11 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 34)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 34)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }
 
@@ -679,6 +897,8 @@ extension WorkMail {
             try validate(self.id, name:"id", parent: name, max: 64)
             try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -713,6 +933,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.userId, name:"userId", parent: name, max: 256)
             try validate(self.userId, name:"userId", parent: name, min: 12)
@@ -751,6 +973,8 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -787,6 +1011,8 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.groupId, name:"groupId", parent: name, max: 256)
             try validate(self.groupId, name:"groupId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -838,6 +1064,109 @@ extension WorkMail {
         }
     }
 
+    public struct DescribeMailboxExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+
+        /// The mailbox export job ID.
+        public let jobId: String
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(jobId: String, organizationId: String) {
+            self.jobId = jobId
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 63)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "[A-Za-z0-9-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeMailboxExportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EntityId", required: false, type: .string), 
+            AWSShapeMember(label: "ErrorInfo", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedProgress", required: false, type: .integer), 
+            AWSShapeMember(label: "KmsKeyArn", required: false, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Path", required: false, type: .string), 
+            AWSShapeMember(label: "S3Prefix", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The mailbox export job description.
+        public let description: String?
+        /// The mailbox export job end timestamp.
+        public let endTime: TimeStamp?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String?
+        /// Error information for failed mailbox export jobs.
+        public let errorInfo: String?
+        /// The estimated progress of the mailbox export job, in percentage points.
+        public let estimatedProgress: Int?
+        /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
+        public let kmsKeyArn: String?
+        /// The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the Amazon Simple Storage Service (Amazon S3) bucket.
+        public let roleArn: String?
+        /// The name of the S3 bucket.
+        public let s3BucketName: String?
+        /// The path to the S3 bucket and file that the mailbox export job is exporting to.
+        public let s3Path: String?
+        /// The S3 bucket prefix.
+        public let s3Prefix: String?
+        /// The mailbox export job start timestamp.
+        public let startTime: TimeStamp?
+        /// The state of the mailbox export job.
+        public let state: MailboxExportJobState?
+
+        public init(description: String? = nil, endTime: TimeStamp? = nil, entityId: String? = nil, errorInfo: String? = nil, estimatedProgress: Int? = nil, kmsKeyArn: String? = nil, roleArn: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, s3Prefix: String? = nil, startTime: TimeStamp? = nil, state: MailboxExportJobState? = nil) {
+            self.description = description
+            self.endTime = endTime
+            self.entityId = entityId
+            self.errorInfo = errorInfo
+            self.estimatedProgress = estimatedProgress
+            self.kmsKeyArn = kmsKeyArn
+            self.roleArn = roleArn
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+            self.s3Prefix = s3Prefix
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endTime = "EndTime"
+            case entityId = "EntityId"
+            case errorInfo = "ErrorInfo"
+            case estimatedProgress = "EstimatedProgress"
+            case kmsKeyArn = "KmsKeyArn"
+            case roleArn = "RoleArn"
+            case s3BucketName = "S3BucketName"
+            case s3Path = "S3Path"
+            case s3Prefix = "S3Prefix"
+            case startTime = "StartTime"
+            case state = "State"
+        }
+    }
+
     public struct DescribeOrganizationRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "OrganizationId", required: true, type: .string)
@@ -851,6 +1180,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -933,7 +1264,11 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 34)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 34)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }
 
@@ -1012,6 +1347,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.userId, name:"userId", parent: name, max: 256)
             try validate(self.userId, name:"userId", parent: name, min: 12)
@@ -1098,7 +1435,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 34)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 34)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }
 
@@ -1142,6 +1483,8 @@ extension WorkMail {
             try validate(self.groupId, name:"groupId", parent: name, min: 12)
             try validate(self.memberId, name:"memberId", parent: name, max: 256)
             try validate(self.memberId, name:"memberId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1158,6 +1501,37 @@ extension WorkMail {
         public init() {
         }
 
+    }
+
+    public struct Domain: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DomainName", required: false, type: .string), 
+            AWSShapeMember(label: "HostedZoneId", required: false, type: .string)
+        ]
+
+        /// The fully qualified domain name.
+        public let domainName: String?
+        /// The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53.
+        public let hostedZoneId: String?
+
+        public init(domainName: String? = nil, hostedZoneId: String? = nil) {
+            self.domainName = domainName
+            self.hostedZoneId = hostedZoneId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.domainName, name:"domainName", parent: name, max: 255)
+            try validate(self.domainName, name:"domainName", parent: name, min: 3)
+            try validate(self.domainName, name:"domainName", parent: name, pattern: "[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
+            try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, max: 32)
+            try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, min: 1)
+            try validate(self.hostedZoneId, name:"hostedZoneId", parent: name, pattern: "[\\S\\s]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case hostedZoneId = "HostedZoneId"
+        }
     }
 
     public struct FolderConfiguration: AWSShape {
@@ -1223,6 +1597,8 @@ extension WorkMail {
             try validate(self.ipAddress, name:"ipAddress", parent: name, max: 15)
             try validate(self.ipAddress, name:"ipAddress", parent: name, min: 1)
             try validate(self.ipAddress, name:"ipAddress", parent: name, pattern: "^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.userId, name:"userId", parent: name, max: 256)
             try validate(self.userId, name:"userId", parent: name, min: 12)
@@ -1271,6 +1647,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1328,6 +1706,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.userId, name:"userId", parent: name, max: 256)
             try validate(self.userId, name:"userId", parent: name, min: 12)
@@ -1416,6 +1796,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1472,6 +1854,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1536,6 +1921,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1594,6 +1982,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1622,6 +2013,66 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case groups = "Groups"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListMailboxExportJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string)
+        ]
+
+        /// The maximum number of results to return in a single call.
+        public let maxResults: Int?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+        /// The organization ID.
+        public let organizationId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, organizationId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct ListMailboxExportJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Jobs", required: false, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// The mailbox export job details.
+        public let jobs: [MailboxExportJob]?
+        /// The token to use to retrieve the next page of results.
+        public let nextToken: String?
+
+        public init(jobs: [MailboxExportJob]? = nil, nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs = "Jobs"
             case nextToken = "NextToken"
         }
     }
@@ -1657,6 +2108,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1711,6 +2165,7 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1770,6 +2225,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.resourceId, name:"resourceId", parent: name, max: 256)
             try validate(self.resourceId, name:"resourceId", parent: name, min: 12)
@@ -1830,6 +2288,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1926,6 +2387,9 @@ extension WorkMail {
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.nextToken, name:"nextToken", parent: name, max: 1024)
             try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "[\\S\\s]*|[a-zA-Z0-9/+=]{1,1024}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -1955,6 +2419,63 @@ extension WorkMail {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case users = "Users"
+        }
+    }
+
+    public struct MailboxExportJob: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "EntityId", required: false, type: .string), 
+            AWSShapeMember(label: "EstimatedProgress", required: false, type: .integer), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: false, type: .string), 
+            AWSShapeMember(label: "S3Path", required: false, type: .string), 
+            AWSShapeMember(label: "StartTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "State", required: false, type: .enum)
+        ]
+
+        /// The mailbox export job description.
+        public let description: String?
+        /// The mailbox export job end timestamp.
+        public let endTime: TimeStamp?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String?
+        /// The estimated progress of the mailbox export job, in percentage points.
+        public let estimatedProgress: Int?
+        /// The identifier of the mailbox export job.
+        public let jobId: String?
+        /// The name of the S3 bucket.
+        public let s3BucketName: String?
+        /// The path to the S3 bucket and file that the mailbox export job exports to.
+        public let s3Path: String?
+        /// The mailbox export job start timestamp.
+        public let startTime: TimeStamp?
+        /// The state of the mailbox export job.
+        public let state: MailboxExportJobState?
+
+        public init(description: String? = nil, endTime: TimeStamp? = nil, entityId: String? = nil, estimatedProgress: Int? = nil, jobId: String? = nil, s3BucketName: String? = nil, s3Path: String? = nil, startTime: TimeStamp? = nil, state: MailboxExportJobState? = nil) {
+            self.description = description
+            self.endTime = endTime
+            self.entityId = entityId
+            self.estimatedProgress = estimatedProgress
+            self.jobId = jobId
+            self.s3BucketName = s3BucketName
+            self.s3Path = s3Path
+            self.startTime = startTime
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case endTime = "EndTime"
+            case entityId = "EntityId"
+            case estimatedProgress = "EstimatedProgress"
+            case jobId = "JobId"
+            case s3BucketName = "S3BucketName"
+            case s3Path = "S3Path"
+            case startTime = "StartTime"
+            case state = "State"
         }
     }
 
@@ -2003,6 +2524,7 @@ extension WorkMail {
     public struct OrganizationSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Alias", required: false, type: .string), 
+            AWSShapeMember(label: "DefaultMailDomain", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
             AWSShapeMember(label: "OrganizationId", required: false, type: .string), 
             AWSShapeMember(label: "State", required: false, type: .string)
@@ -2010,6 +2532,8 @@ extension WorkMail {
 
         /// The alias associated with the organization.
         public let alias: String?
+        /// The default email domain associated with the organization.
+        public let defaultMailDomain: String?
         /// The error message associated with the organization. It is only present if unexpected behavior has occurred with regards to the organization. It provides insight or solutions regarding unexpected behavior.
         public let errorMessage: String?
         /// The identifier associated with the organization.
@@ -2017,8 +2541,9 @@ extension WorkMail {
         /// The state associated with the organization.
         public let state: String?
 
-        public init(alias: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
+        public init(alias: String? = nil, defaultMailDomain: String? = nil, errorMessage: String? = nil, organizationId: String? = nil, state: String? = nil) {
             self.alias = alias
+            self.defaultMailDomain = defaultMailDomain
             self.errorMessage = errorMessage
             self.organizationId = organizationId
             self.state = state
@@ -2026,6 +2551,7 @@ extension WorkMail {
 
         private enum CodingKeys: String, CodingKey {
             case alias = "Alias"
+            case defaultMailDomain = "DefaultMailDomain"
             case errorMessage = "ErrorMessage"
             case organizationId = "OrganizationId"
             case state = "State"
@@ -2148,6 +2674,8 @@ extension WorkMail {
             }
             try validate(self.notUserIds, name:"notUserIds", parent: name, max: 10)
             try validate(self.notUserIds, name:"notUserIds", parent: name, min: 0)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try self.userIds?.forEach {
                 try validate($0, name: "userIds[]", parent: name, max: 256)
@@ -2208,6 +2736,8 @@ extension WorkMail {
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
             try validate(self.granteeId, name:"granteeId", parent: name, max: 256)
             try validate(self.granteeId, name:"granteeId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -2267,6 +2797,8 @@ extension WorkMail {
             try validate(self.name, name:"name", parent: name, max: 64)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9_-]+")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -2310,9 +2842,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.email, name:"email", parent: name, max: 254)
             try validate(self.email, name:"email", parent: name, min: 1)
-            try validate(self.email, name:"email", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(self.email, name:"email", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -2352,6 +2886,8 @@ extension WorkMail {
         }
 
         public func validate(name: String) throws {
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.password, name:"password", parent: name, max: 256)
             try validate(self.password, name:"password", parent: name, pattern: "[\\u0020-\\u00FF]+")
@@ -2418,6 +2954,100 @@ extension WorkMail {
             case name = "Name"
             case state = "State"
             case `type` = "Type"
+        }
+    }
+
+    public struct StartMailboxExportJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: true, type: .string), 
+            AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "EntityId", required: true, type: .string), 
+            AWSShapeMember(label: "KmsKeyArn", required: true, type: .string), 
+            AWSShapeMember(label: "OrganizationId", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "S3BucketName", required: true, type: .string), 
+            AWSShapeMember(label: "S3Prefix", required: true, type: .string)
+        ]
+
+        /// The idempotency token for the client request.
+        public let clientToken: String
+        /// The mailbox export job description.
+        public let description: String?
+        /// The identifier of the user or resource associated with the mailbox.
+        public let entityId: String
+        /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
+        public let kmsKeyArn: String
+        /// The identifier associated with the organization.
+        public let organizationId: String
+        /// The ARN of the AWS Identity and Access Management (IAM) role that grants write permission to the S3 bucket.
+        public let roleArn: String
+        /// The name of the S3 bucket.
+        public let s3BucketName: String
+        /// The S3 bucket prefix.
+        public let s3Prefix: String
+
+        public init(clientToken: String = StartMailboxExportJobRequest.idempotencyToken(), description: String? = nil, entityId: String, kmsKeyArn: String, organizationId: String, roleArn: String, s3BucketName: String, s3Prefix: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.entityId = entityId
+            self.kmsKeyArn = kmsKeyArn
+            self.organizationId = organizationId
+            self.roleArn = roleArn
+            self.s3BucketName = s3BucketName
+            self.s3Prefix = s3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 128)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try validate(self.clientToken, name:"clientToken", parent: name, pattern: "[\\x21-\\x7e]+")
+            try validate(self.description, name:"description", parent: name, max: 1023)
+            try validate(self.description, name:"description", parent: name, min: 0)
+            try validate(self.description, name:"description", parent: name, pattern: "[\\S\\s]*")
+            try validate(self.entityId, name:"entityId", parent: name, max: 256)
+            try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, max: 2048)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, min: 20)
+            try validate(self.kmsKeyArn, name:"kmsKeyArn", parent: name, pattern: "arn:aws:kms:[a-z0-9-]*:[a-z0-9-]+:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.roleArn, name:"roleArn", parent: name, max: 2048)
+            try validate(self.roleArn, name:"roleArn", parent: name, min: 20)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, max: 63)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, min: 1)
+            try validate(self.s3BucketName, name:"s3BucketName", parent: name, pattern: "[A-Za-z0-9.-]+")
+            try validate(self.s3Prefix, name:"s3Prefix", parent: name, max: 1023)
+            try validate(self.s3Prefix, name:"s3Prefix", parent: name, min: 1)
+            try validate(self.s3Prefix, name:"s3Prefix", parent: name, pattern: "[A-Za-z0-9!_.*'()/-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case entityId = "EntityId"
+            case kmsKeyArn = "KmsKeyArn"
+            case organizationId = "OrganizationId"
+            case roleArn = "RoleArn"
+            case s3BucketName = "S3BucketName"
+            case s3Prefix = "S3Prefix"
+        }
+    }
+
+    public struct StartMailboxExportJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string)
+        ]
+
+        /// The job ID.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
         }
     }
 
@@ -2553,6 +3183,8 @@ extension WorkMail {
 
         public func validate(name: String) throws {
             try validate(self.mailboxQuota, name:"mailboxQuota", parent: name, min: 1)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
             try validate(self.userId, name:"userId", parent: name, max: 256)
             try validate(self.userId, name:"userId", parent: name, min: 12)
@@ -2596,9 +3228,11 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.email, name:"email", parent: name, max: 254)
             try validate(self.email, name:"email", parent: name, min: 1)
-            try validate(self.email, name:"email", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}")
+            try validate(self.email, name:"email", parent: name, pattern: "[a-zA-Z0-9._%+-]{1,64}@[a-zA-Z0-9.-]+\\.[a-zA-Z-]{2,}")
             try validate(self.entityId, name:"entityId", parent: name, max: 256)
             try validate(self.entityId, name:"entityId", parent: name, min: 12)
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
         }
 
@@ -2644,8 +3278,12 @@ extension WorkMail {
         public func validate(name: String) throws {
             try validate(self.name, name:"name", parent: name, max: 20)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9]{2,})?")
+            try validate(self.name, name:"name", parent: name, pattern: "[\\w\\-.]+(@[a-zA-Z0-9.\\-]+\\.[a-zA-Z0-9-]{2,})?")
+            try validate(self.organizationId, name:"organizationId", parent: name, max: 34)
+            try validate(self.organizationId, name:"organizationId", parent: name, min: 34)
             try validate(self.organizationId, name:"organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try validate(self.resourceId, name:"resourceId", parent: name, max: 34)
+            try validate(self.resourceId, name:"resourceId", parent: name, min: 34)
             try validate(self.resourceId, name:"resourceId", parent: name, pattern: "^r-[0-9a-f]{32}$")
         }
 

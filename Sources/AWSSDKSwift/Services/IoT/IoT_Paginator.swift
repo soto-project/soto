@@ -16,7 +16,7 @@ extension IoT {
         return client.paginate(input: input, command: listAttachedPolicies, tokenKey: \ListAttachedPoliciesResponse.nextMarker, onPage: onPage)
     }
 
-    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 180 days.)
+    ///  Lists the findings (results) of a Device Defender audit or of the audits performed during a specified time period. (Findings are retained for 90 days.)
     public func listAuditFindingsPaginator(_ input: ListAuditFindingsRequest, onPage: @escaping (ListAuditFindingsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listAuditFindings, tokenKey: \ListAuditFindingsResponse.nextToken, onPage: onPage)
     }

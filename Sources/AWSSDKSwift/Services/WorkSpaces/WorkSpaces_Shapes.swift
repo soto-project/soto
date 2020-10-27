@@ -670,7 +670,7 @@ extension WorkSpaces {
 
         /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
         public let resourceId: String
-        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you want to add new tags to a set of existing tags, you must submit all of the existing tags along with the new ones.
+        /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]
 
         public init(resourceId: String, tags: [Tag]) {
@@ -2971,7 +2971,7 @@ extension WorkSpaces {
         public let allowCopyImage: Bool
         /// The identifier of the image.
         public let imageId: String
-        /// The identifier of the AWS account to share or unshare the image with.
+        /// The identifier of the AWS account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct AWS account ID. 
         public let sharedAccountId: String
 
         public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
@@ -3052,7 +3052,7 @@ extension WorkSpaces {
         public let modificationStates: [ModificationState]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
-        /// The operational state of the WorkSpace.
+        /// The operational state of the WorkSpace.  After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated. 
         public let state: WorkspaceState?
         /// The identifier of the subnet for the WorkSpace.
         public let subnetId: String?
@@ -3328,7 +3328,7 @@ extension WorkSpaces {
         public let registrationCode: String?
         /// The default self-service permissions for WorkSpaces in the directory.
         public let selfservicePermissions: SelfservicePermissions?
-        /// The state of the directory's registration with Amazon WorkSpaces.
+        /// The state of the directory's registration with Amazon WorkSpaces. After a directory is deregistered, the DEREGISTERED state is returned very briefly before the directory metadata is cleaned up, so this state is rarely returned. To confirm that a directory is deregistered, check for the directory ID by using  DescribeWorkspaceDirectories. If the directory ID isn't returned, then the directory has been successfully deregistered.
         public let state: WorkspaceDirectoryState?
         /// The identifiers of the subnets used with the directory.
         public let subnetIds: [String]?

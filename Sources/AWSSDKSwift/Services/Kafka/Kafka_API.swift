@@ -44,6 +44,16 @@ public struct Kafka {
     
     //MARK: API Calls
 
+    ///  Associates one or more Scram Secrets with an Amazon MSK cluster.
+    public func batchAssociateScramSecret(_ input: BatchAssociateScramSecretRequest) -> EventLoopFuture<BatchAssociateScramSecretResponse> {
+        return client.send(operation: "BatchAssociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: "POST", input: input)
+    }
+
+    ///  Disassociates one or more Scram Secrets from an Amazon MSK cluster.
+    public func batchDisassociateScramSecret(_ input: BatchDisassociateScramSecretRequest) -> EventLoopFuture<BatchDisassociateScramSecretResponse> {
+        return client.send(operation: "BatchDisassociateScramSecret", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: "PATCH", input: input)
+    }
+
     ///  Creates a new MSK cluster.
     public func createCluster(_ input: CreateClusterRequest) -> EventLoopFuture<CreateClusterResponse> {
         return client.send(operation: "CreateCluster", path: "/v1/clusters", httpMethod: "POST", input: input)
@@ -122,6 +132,11 @@ public struct Kafka {
     ///  Returns a list of the broker nodes in the cluster.
     public func listNodes(_ input: ListNodesRequest) -> EventLoopFuture<ListNodesResponse> {
         return client.send(operation: "ListNodes", path: "/v1/clusters/{clusterArn}/nodes", httpMethod: "GET", input: input)
+    }
+
+    ///  Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    public func listScramSecrets(_ input: ListScramSecretsRequest) -> EventLoopFuture<ListScramSecretsResponse> {
+        return client.send(operation: "ListScramSecrets", path: "/v1/clusters/{clusterArn}/scram-secrets", httpMethod: "GET", input: input)
     }
 
     ///  Returns a list of the tags associated with the specified resource.

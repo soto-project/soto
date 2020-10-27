@@ -402,6 +402,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum EphemeralNvmeSupport: String, CustomStringConvertible, Codable {
+        case unsupported = "unsupported"
+        case supported = "supported"
+        case required = "required"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventCode: String, CustomStringConvertible, Codable {
         case instanceReboot = "instance-reboot"
         case systemReboot = "system-reboot"
@@ -682,6 +689,13 @@ extension EC2 {
         case t3aLarge = "t3a.large"
         case t3aXlarge = "t3a.xlarge"
         case t3a2Xlarge = "t3a.2xlarge"
+        case t4gNano = "t4g.nano"
+        case t4gMicro = "t4g.micro"
+        case t4gSmall = "t4g.small"
+        case t4gMedium = "t4g.medium"
+        case t4gLarge = "t4g.large"
+        case t4gXlarge = "t4g.xlarge"
+        case t4g2Xlarge = "t4g.2xlarge"
         case m1Small = "m1.small"
         case m1Medium = "m1.medium"
         case m1Large = "m1.large"
@@ -1711,6 +1725,7 @@ extension EC2 {
         case t2 = "t2"
         case t3 = "t3"
         case t3a = "t3a"
+        case t4g = "t4g"
         public var description: String { return self.rawValue }
     }
 
@@ -5933,11 +5948,11 @@ extension EC2 {
         public let clientVpnEndpointId: String
         /// A brief description of the route.
         public let description: String?
-        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   Route address ranges cannot overlap with the CIDR range specified for client allocation.
+        /// The IPv4 address range, in CIDR notation, of the route destination. For example:   To add a route for Internet access, enter 0.0.0.0/0    To add a route for a peered VPC, enter the peered VPC's IPv4 CIDR range   To add a route for an on-premises network, enter the AWS Site-to-Site VPN connection's IPv4 CIDR range   To add a route for the local network, enter the client CIDR range  
         public let destinationCidrBlock: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint.
+        /// The ID of the subnet through which you want to route traffic. The specified subnet must be an existing target network of the Client VPN endpoint. Alternatively, if you're adding a route for the local network, specify local.
         public let targetVpcSubnetId: String
 
         public init(clientToken: String? = CreateClientVpnRouteRequest.idempotencyToken(), clientVpnEndpointId: String, description: String? = nil, destinationCidrBlock: String, dryRun: Bool? = nil, targetVpcSubnetId: String) {
@@ -7754,11 +7769,11 @@ extension EC2 {
             AWSShapeMember(label: "Prefix", location: .body(locationName: "prefix"), required: false, type: .string)
         ]
 
-        /// The Amazon S3 bucket in which to store the Spot Instance data feed.
+        /// The name of the Amazon S3 bucket in which to store the Spot Instance data feed. For more information about bucket names, see Rules for bucket naming in the Amazon S3 Developer Guide.
         public let bucket: String
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// A prefix for the data feed file names.
+        /// The prefix for the data feed file names.
         public let prefix: String?
 
         public init(bucket: String, dryRun: Bool? = nil, prefix: String? = nil) {
@@ -13933,7 +13948,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported. (true | false)    bare-metal - Indicates whether it is a bare metal instance type. (true | false)    burstable-performance-supported - Indicates whether it is a burstable performance instance type. (true | false)    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family. (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MBps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MBps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized. (supported | unsupported | default)    ebs-info.encryption-support - Indicates whether EBS encryption is supported. (supported | unsupported)    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported or required. (required | supported | unsupported)    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier. (true | false)    hibernation-supported - Indicates whether On-Demand hibernation is supported. (true | false)    hypervisor - The hypervisor used. (nitro | xen)    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks. (hdd | ssd)    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage. (true | false)    memory-info.size-in-mib - The memory size.    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required. (required | supported | unsupported)    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA). (true | false)    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6. (true | false)    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - Describes the network performance.    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.  
+        /// One or more filters. Filter names and values are case-sensitive.    auto-recovery-supported - Indicates whether auto recovery is supported. (true | false)    bare-metal - Indicates whether it is a bare metal instance type. (true | false)    burstable-performance-supported - Indicates whether it is a burstable performance instance type. (true | false)    current-generation - Indicates whether this instance type is the latest generation instance type of an instance family. (true | false)    ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps - The baseline bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.baseline-iops - The baseline input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.baseline-throughput-in-mbps - The baseline throughput performance for an EBS-optimized instance type, in MBps.    ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps - The maximum bandwidth performance for an EBS-optimized instance type, in Mbps.    ebs-info.ebs-optimized-info.maximum-iops - The maximum input/output storage operations per second for an EBS-optimized instance type.    ebs-info.ebs-optimized-info.maximum-throughput-in-mbps - The maximum throughput performance for an EBS-optimized instance type, in MBps.    ebs-info.ebs-optimized-support - Indicates whether the instance type is EBS-optimized. (supported | unsupported | default)    ebs-info.encryption-support - Indicates whether EBS encryption is supported. (supported | unsupported)    ebs-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for EBS volumes. (required | supported | unsupported)    free-tier-eligible - Indicates whether the instance type is eligible to use in the free tier. (true | false)    hibernation-supported - Indicates whether On-Demand hibernation is supported. (true | false)    hypervisor - The hypervisor. (nitro | xen)    instance-storage-info.disk.count - The number of local disks.    instance-storage-info.disk.size-in-gb - The storage size of each instance storage disk, in GB.    instance-storage-info.disk.type - The storage technology for the local instance storage disks. (hdd | ssd)    instance-storage-info.nvme-support - Indicates whether non-volatile memory express (NVMe) is supported for instance store. (required | supported) | unsupported)    instance-storage-info.total-size-in-gb - The total amount of storage available from all local instance storage, in GB.    instance-storage-supported - Indicates whether the instance type has local instance storage. (true | false)    instance-type - The instance type (for example c5.2xlarge or c5*).    memory-info.size-in-mib - The memory size.    network-info.efa-supported - Indicates whether the instance type supports Elastic Fabric Adapter (EFA). (true | false)    network-info.ena-support - Indicates whether Elastic Network Adapter (ENA) is supported or required. (required | supported | unsupported)    network-info.ipv4-addresses-per-interface - The maximum number of private IPv4 addresses per network interface.    network-info.ipv6-addresses-per-interface - The maximum number of private IPv6 addresses per network interface.    network-info.ipv6-supported - Indicates whether the instance type supports IPv6. (true | false)    network-info.maximum-network-interfaces - The maximum number of network interfaces per instance.    network-info.network-performance - The network performance (for example, "25 Gigabit").    processor-info.supported-architecture - The CPU architecture. (arm64 | i386 | x86_64)    processor-info.sustained-clock-speed-in-ghz - The CPU clock speed, in GHz.    supported-root-device-type - The root device type. (ebs | instance-store)    supported-usage-class - The usage class. (on-demand | spot)    supported-virtualization-type - The virtualization type. (hvm | paravirtual)    vcpu-info.default-cores - The default number of cores for the instance type.    vcpu-info.default-threads-per-core - The default number of threads per core for the instance type.    vcpu-info.default-vcpus - The default number of vCPUs for the instance type.    vcpu-info.valid-cores - The number of cores that can be configured for the instance type.    vcpu-info.valid-threads-per-core - The number of threads per core that can be configured for the instance type. For example, "1" or "1,2".  
         public let filters: [Filter]?
         /// The instance types. For more information, see Instance Types in the Amazon Elastic Compute Cloud User Guide.
         public let instanceTypes: [InstanceType]?
@@ -16492,7 +16507,7 @@ extension EC2 {
         public let dryRun: Bool?
         /// The date and time, up to the current date, from which to stop retrieving the price history data, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ).
         public let endTime: TimeStamp?
-        /// One or more filters.    availability-zone - The Availability Zone for which prices should be returned.    instance-type - The type of instance (for example, m3.medium).    product-description - The product description for the Spot price (Linux/UNIX | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The Spot price. The value must match exactly (or use wildcards; greater than or less than comparison is not supported).    timestamp - The time stamp of the Spot price history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater than or less than comparison is not supported.  
+        /// One or more filters.    availability-zone - The Availability Zone for which prices should be returned.    instance-type - The type of instance (for example, m3.medium).    product-description - The product description for the Spot price (Linux/UNIX | Red Hat Enterprise Linux | SUSE Linux | Windows | Linux/UNIX (Amazon VPC) | Red Hat Enterprise Linux (Amazon VPC) | SUSE Linux (Amazon VPC) | Windows (Amazon VPC)).    spot-price - The Spot price. The value must match exactly (or use wildcards; greater than or less than comparison is not supported).    timestamp - The time stamp of the Spot price history, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). You can use wildcards (* and ?). Greater than or less than comparison is not supported.  
         public let filters: [Filter]?
         /// Filters the results by the specified instance types.
         public let instanceTypes: [InstanceType]?
@@ -25333,21 +25348,26 @@ extension EC2 {
     public struct InstanceStorageInfo: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Disks", location: .body(locationName: "disks"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "NvmeSupport", location: .body(locationName: "nvmeSupport"), required: false, type: .enum), 
             AWSShapeMember(label: "TotalSizeInGB", location: .body(locationName: "totalSizeInGB"), required: false, type: .long)
         ]
 
         /// Array describing the disks that are available for the instance type.
         public let disks: [DiskInfo]?
+        /// Indicates whether non-volatile memory express (NVMe) is supported for instance store.
+        public let nvmeSupport: EphemeralNvmeSupport?
         /// The total size of the disks, in GB.
         public let totalSizeInGB: Int64?
 
-        public init(disks: [DiskInfo]? = nil, totalSizeInGB: Int64? = nil) {
+        public init(disks: [DiskInfo]? = nil, nvmeSupport: EphemeralNvmeSupport? = nil, totalSizeInGB: Int64? = nil) {
             self.disks = disks
+            self.nvmeSupport = nvmeSupport
             self.totalSizeInGB = totalSizeInGB
         }
 
         private enum CodingKeys: String, CodingKey {
             case disks = "disks"
+            case nvmeSupport = "nvmeSupport"
             case totalSizeInGB = "totalSizeInGB"
         }
     }
@@ -27272,7 +27292,7 @@ extension EC2 {
         public let localGatewayId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
-        /// The ID of the AWS account ID that owns the local gateway.
+        /// The AWS account ID that owns the local gateway.
         public let ownerId: String?
         /// The state of the local gateway.
         public let state: String?
@@ -27299,35 +27319,45 @@ extension EC2 {
     public struct LocalGatewayRoute: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationCidrBlock", location: .body(locationName: "destinationCidrBlock"), required: false, type: .string), 
+            AWSShapeMember(label: "LocalGatewayRouteTableArn", location: .body(locationName: "localGatewayRouteTableArn"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum), 
             AWSShapeMember(label: "Type", location: .body(locationName: "type"), required: false, type: .enum)
         ]
 
         /// The CIDR block used for destination matches.
         public let destinationCidrBlock: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
+        /// The AWS account ID that owns the local gateway route.
+        public let ownerId: String?
         /// The state of the route.
         public let state: LocalGatewayRouteState?
         /// The route type.
         public let `type`: LocalGatewayRouteType?
 
-        public init(destinationCidrBlock: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
+        public init(destinationCidrBlock: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: LocalGatewayRouteState? = nil, type: LocalGatewayRouteType? = nil) {
             self.destinationCidrBlock = destinationCidrBlock
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.ownerId = ownerId
             self.state = state
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationCidrBlock = "destinationCidrBlock"
+            case localGatewayRouteTableArn = "localGatewayRouteTableArn"
             case localGatewayRouteTableId = "localGatewayRouteTableId"
             case localGatewayVirtualInterfaceGroupId = "localGatewayVirtualInterfaceGroupId"
+            case ownerId = "ownerId"
             case state = "state"
             case `type` = "type"
         }
@@ -27336,35 +27366,45 @@ extension EC2 {
     public struct LocalGatewayRouteTable: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
+            AWSShapeMember(label: "LocalGatewayRouteTableArn", location: .body(locationName: "localGatewayRouteTableArn"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId"), required: false, type: .string), 
             AWSShapeMember(label: "OutpostArn", location: .body(locationName: "outpostArn"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The Amazon Resource Name (ARN) of the Outpost.
         public let outpostArn: String?
+        /// The AWS account ID that owns the local gateway route table.
+        public let ownerId: String?
         /// The state of the local gateway route table.
         public let state: String?
         /// The tags assigned to the local gateway route table.
         public let tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, outpostArn: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, outpostArn: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.outpostArn = outpostArn
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId = "localGatewayId"
+            case localGatewayRouteTableArn = "localGatewayRouteTableArn"
             case localGatewayRouteTableId = "localGatewayRouteTableId"
             case outpostArn = "outpostArn"
+            case ownerId = "ownerId"
             case state = "state"
             case tags = "tagSet"
         }
@@ -27373,40 +27413,50 @@ extension EC2 {
     public struct LocalGatewayRouteTableVirtualInterfaceGroupAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
+            AWSShapeMember(label: "LocalGatewayRouteTableArn", location: .body(locationName: "localGatewayRouteTableArn"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableVirtualInterfaceGroupAssociationId", location: .body(locationName: "localGatewayRouteTableVirtualInterfaceGroupAssociationId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table for the virtual interface group.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the association.
         public let localGatewayRouteTableVirtualInterfaceGroupAssociationId: String?
         /// The ID of the virtual interface group.
         public let localGatewayVirtualInterfaceGroupId: String?
+        /// The AWS account ID that owns the local gateway virtual interface group association.
+        public let ownerId: String?
         /// The state of the association.
         public let state: String?
         /// The tags assigned to the association.
         public let tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVirtualInterfaceGroupAssociationId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayRouteTableVirtualInterfaceGroupAssociationId = localGatewayRouteTableVirtualInterfaceGroupAssociationId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId = "localGatewayId"
+            case localGatewayRouteTableArn = "localGatewayRouteTableArn"
             case localGatewayRouteTableId = "localGatewayRouteTableId"
             case localGatewayRouteTableVirtualInterfaceGroupAssociationId = "localGatewayRouteTableVirtualInterfaceGroupAssociationId"
             case localGatewayVirtualInterfaceGroupId = "localGatewayVirtualInterfaceGroupId"
+            case ownerId = "ownerId"
             case state = "state"
             case tags = "tagSet"
         }
@@ -27415,8 +27465,10 @@ extension EC2 {
     public struct LocalGatewayRouteTableVpcAssociation: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
+            AWSShapeMember(label: "LocalGatewayRouteTableArn", location: .body(locationName: "localGatewayRouteTableArn"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableId", location: .body(locationName: "localGatewayRouteTableId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayRouteTableVpcAssociationId", location: .body(locationName: "localGatewayRouteTableVpcAssociationId"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
             AWSShapeMember(label: "VpcId", location: .body(locationName: "vpcId"), required: false, type: .string)
@@ -27424,10 +27476,14 @@ extension EC2 {
 
         /// The ID of the local gateway.
         public let localGatewayId: String?
+        /// The Amazon Resource Name (ARN) of the local gateway route table for the association.
+        public let localGatewayRouteTableArn: String?
         /// The ID of the local gateway route table.
         public let localGatewayRouteTableId: String?
         /// The ID of the association.
         public let localGatewayRouteTableVpcAssociationId: String?
+        /// The AWS account ID that owns the local gateway route table for the association.
+        public let ownerId: String?
         /// The state of the association.
         public let state: String?
         /// The tags assigned to the association.
@@ -27435,10 +27491,12 @@ extension EC2 {
         /// The ID of the VPC.
         public let vpcId: String?
 
-        public init(localGatewayId: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVpcAssociationId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayRouteTableArn: String? = nil, localGatewayRouteTableId: String? = nil, localGatewayRouteTableVpcAssociationId: String? = nil, ownerId: String? = nil, state: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
             self.localGatewayId = localGatewayId
+            self.localGatewayRouteTableArn = localGatewayRouteTableArn
             self.localGatewayRouteTableId = localGatewayRouteTableId
             self.localGatewayRouteTableVpcAssociationId = localGatewayRouteTableVpcAssociationId
+            self.ownerId = ownerId
             self.state = state
             self.tags = tags
             self.vpcId = vpcId
@@ -27446,8 +27504,10 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case localGatewayId = "localGatewayId"
+            case localGatewayRouteTableArn = "localGatewayRouteTableArn"
             case localGatewayRouteTableId = "localGatewayRouteTableId"
             case localGatewayRouteTableVpcAssociationId = "localGatewayRouteTableVpcAssociationId"
+            case ownerId = "ownerId"
             case state = "state"
             case tags = "tagSet"
             case vpcId = "vpcId"
@@ -27460,6 +27520,7 @@ extension EC2 {
             AWSShapeMember(label: "LocalBgpAsn", location: .body(locationName: "localBgpAsn"), required: false, type: .integer), 
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceId", location: .body(locationName: "localGatewayVirtualInterfaceId"), required: false, type: .string), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "PeerAddress", location: .body(locationName: "peerAddress"), required: false, type: .string), 
             AWSShapeMember(label: "PeerBgpAsn", location: .body(locationName: "peerBgpAsn"), required: false, type: .integer), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item")), 
@@ -27474,6 +27535,8 @@ extension EC2 {
         public let localGatewayId: String?
         /// The ID of the virtual interface.
         public let localGatewayVirtualInterfaceId: String?
+        /// The AWS account ID that owns the local gateway virtual interface.
+        public let ownerId: String?
         /// The peer address.
         public let peerAddress: String?
         /// The peer BGP ASN.
@@ -27483,11 +27546,12 @@ extension EC2 {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(localAddress: String? = nil, localBgpAsn: Int? = nil, localGatewayId: String? = nil, localGatewayVirtualInterfaceId: String? = nil, peerAddress: String? = nil, peerBgpAsn: Int? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
+        public init(localAddress: String? = nil, localBgpAsn: Int? = nil, localGatewayId: String? = nil, localGatewayVirtualInterfaceId: String? = nil, ownerId: String? = nil, peerAddress: String? = nil, peerBgpAsn: Int? = nil, tags: [Tag]? = nil, vlan: Int? = nil) {
             self.localAddress = localAddress
             self.localBgpAsn = localBgpAsn
             self.localGatewayId = localGatewayId
             self.localGatewayVirtualInterfaceId = localGatewayVirtualInterfaceId
+            self.ownerId = ownerId
             self.peerAddress = peerAddress
             self.peerBgpAsn = peerBgpAsn
             self.tags = tags
@@ -27499,6 +27563,7 @@ extension EC2 {
             case localBgpAsn = "localBgpAsn"
             case localGatewayId = "localGatewayId"
             case localGatewayVirtualInterfaceId = "localGatewayVirtualInterfaceId"
+            case ownerId = "ownerId"
             case peerAddress = "peerAddress"
             case peerBgpAsn = "peerBgpAsn"
             case tags = "tagSet"
@@ -27511,6 +27576,7 @@ extension EC2 {
             AWSShapeMember(label: "LocalGatewayId", location: .body(locationName: "localGatewayId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceGroupId", location: .body(locationName: "localGatewayVirtualInterfaceGroupId"), required: false, type: .string), 
             AWSShapeMember(label: "LocalGatewayVirtualInterfaceIds", location: .body(locationName: "localGatewayVirtualInterfaceIdSet"), required: false, type: .list, encoding: .list(member:"item")), 
+            AWSShapeMember(label: "OwnerId", location: .body(locationName: "ownerId"), required: false, type: .string), 
             AWSShapeMember(label: "Tags", location: .body(locationName: "tagSet"), required: false, type: .list, encoding: .list(member:"item"))
         ]
 
@@ -27520,13 +27586,16 @@ extension EC2 {
         public let localGatewayVirtualInterfaceGroupId: String?
         /// The IDs of the virtual interfaces.
         public let localGatewayVirtualInterfaceIds: [String]?
+        /// The AWS account ID that owns the local gateway virtual interface group.
+        public let ownerId: String?
         /// The tags assigned to the virtual interface group.
         public let tags: [Tag]?
 
-        public init(localGatewayId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, tags: [Tag]? = nil) {
+        public init(localGatewayId: String? = nil, localGatewayVirtualInterfaceGroupId: String? = nil, localGatewayVirtualInterfaceIds: [String]? = nil, ownerId: String? = nil, tags: [Tag]? = nil) {
             self.localGatewayId = localGatewayId
             self.localGatewayVirtualInterfaceGroupId = localGatewayVirtualInterfaceGroupId
             self.localGatewayVirtualInterfaceIds = localGatewayVirtualInterfaceIds
+            self.ownerId = ownerId
             self.tags = tags
         }
 
@@ -27534,6 +27603,7 @@ extension EC2 {
             case localGatewayId = "localGatewayId"
             case localGatewayVirtualInterfaceGroupId = "localGatewayVirtualInterfaceGroupId"
             case localGatewayVirtualInterfaceIds = "localGatewayVirtualInterfaceIdSet"
+            case ownerId = "ownerId"
             case tags = "tagSet"
         }
     }
@@ -29808,7 +29878,7 @@ extension EC2 {
         public let remoteIpv4NetworkCidr: String?
         /// The IPv6 CIDR on the AWS side of the VPN connection. Default: ::/0 
         public let remoteIpv6NetworkCidr: String?
-        /// The ID of the Site-to-Site VPN VPN connection. 
+        /// The ID of the Site-to-Site VPN connection. 
         public let vpnConnectionId: String
 
         public init(dryRun: Bool? = nil, localIpv4NetworkCidr: String? = nil, localIpv6NetworkCidr: String? = nil, remoteIpv4NetworkCidr: String? = nil, remoteIpv6NetworkCidr: String? = nil, vpnConnectionId: String) {
@@ -33348,7 +33418,7 @@ extension EC2 {
 
         /// The user-specified name for a logical grouping of requests. When you specify an Availability Zone group in a Spot Instance request, all Spot Instances in the request are launched in the same Availability Zone. Instance proximity is maintained with this parameter, but the choice of Availability Zone is not. The group applies only to requests for Spot Instances of the same instance type. Any additional Spot Instance requests that are specified with the same Availability Zone group name are launched in that same Availability Zone, as long as at least one instance from the group is still active. If there is no active instance running in the Availability Zone group that you specify for a new Spot Instance request (all instances are terminated, the request is expired, or the maximum price you specified falls below current Spot price), then Amazon EC2 launches the instance in any Availability Zone where the constraint can be met. Consequently, the subsequent set of Spot Instances could be placed in a different zone from the original request, even if you specified the same Availability Zone group. Default: Instances are launched in any available Availability Zone.
         public let availabilityZoneGroup: String?
-        /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot Instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. You can't specify an Availability Zone group or a launch group if you specify a duration.
+        /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot Instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. You can't specify an Availability Zone group or a launch group if you specify a duration. New accounts or accounts with no previous billing history with AWS are not eligible for Spot Instances with a defined duration (also known as Spot blocks).
         public let blockDurationMinutes: Int?
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to Ensure Idempotency in the Amazon EC2 User Guide for Linux Instances.
         public let clientToken: String?
@@ -33370,7 +33440,7 @@ extension EC2 {
         public let `type`: SpotInstanceType?
         /// The start date of the request. If this is a one-time request, the request becomes active at this date and time and remains active until all instances launch, the request expires, or the request is canceled. If the request is persistent, the request becomes active at this date and time and remains active until it expires or is canceled. The specified start date and time cannot be equal to the current date and time. You must specify a start date and time that occurs after the current date and time.
         public let validFrom: TimeStamp?
-        /// The end date of the request. If this is a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ).   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.    For a one-time request, the request remains active until all instances launch, the request is canceled, or the ValidUntil date and time is reached. By default, the request is valid for 7 days from the date the request was created.  
         public let validUntil: TimeStamp?
 
         public init(availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, clientToken: String? = nil, dryRun: Bool? = nil, instanceCount: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchGroup: String? = nil, launchSpecification: RequestSpotLaunchSpecification? = nil, spotPrice: String? = nil, tagSpecifications: [TagSpecification]? = nil, type: SpotInstanceType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
@@ -34561,6 +34631,28 @@ extension EC2 {
         }
     }
 
+    public struct RevokeSecurityGroupEgressResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean), 
+            AWSShapeMember(label: "UnknownIpPermissions", location: .body(locationName: "unknownIpPermissionSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// Returns true if the request succeeds; otherwise, returns an error.
+        public let `return`: Bool?
+        /// The outbound rules that were unknown to the service. In some cases, unknownIpPermissionSet might be in a different format from the request parameter. 
+        public let unknownIpPermissions: [IpPermission]?
+
+        public init(return: Bool? = nil, unknownIpPermissions: [IpPermission]? = nil) {
+            self.`return` = `return`
+            self.unknownIpPermissions = unknownIpPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
+            case unknownIpPermissions = "unknownIpPermissionSet"
+        }
+    }
+
     public struct RevokeSecurityGroupIngressRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CidrIp", required: false, type: .string), 
@@ -34620,6 +34712,28 @@ extension EC2 {
             case sourceSecurityGroupName = "SourceSecurityGroupName"
             case sourceSecurityGroupOwnerId = "SourceSecurityGroupOwnerId"
             case toPort = "ToPort"
+        }
+    }
+
+    public struct RevokeSecurityGroupIngressResult: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Return", location: .body(locationName: "return"), required: false, type: .boolean), 
+            AWSShapeMember(label: "UnknownIpPermissions", location: .body(locationName: "unknownIpPermissionSet"), required: false, type: .list, encoding: .list(member:"item"))
+        ]
+
+        /// Returns true if the request succeeds; otherwise, returns an error.
+        public let `return`: Bool?
+        /// The inbound rules that were unknown to the service. In some cases, unknownIpPermissionSet might be in a different format from the request parameter. 
+        public let unknownIpPermissions: [IpPermission]?
+
+        public init(return: Bool? = nil, unknownIpPermissions: [IpPermission]? = nil) {
+            self.`return` = `return`
+            self.unknownIpPermissions = unknownIpPermissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `return` = "return"
+            case unknownIpPermissions = "unknownIpPermissionSet"
         }
     }
 
@@ -36517,13 +36631,13 @@ extension EC2 {
             AWSShapeMember(label: "State", location: .body(locationName: "state"), required: false, type: .enum)
         ]
 
-        /// The Amazon S3 bucket where the Spot Instance data feed is located.
+        /// The name of the Amazon S3 bucket where the Spot Instance data feed is located.
         public let bucket: String?
         /// The fault codes for the Spot Instance request, if any.
         public let fault: SpotInstanceStateFault?
         /// The AWS account ID of the account.
         public let ownerId: String?
-        /// The prefix that is prepended to data feed files.
+        /// The prefix for the data feed files.
         public let prefix: String?
         /// The state of the Spot Instance data feed subscription.
         public let state: DatafeedSubscriptionState?
@@ -36585,7 +36699,7 @@ extension EC2 {
         public let keyName: String?
         /// Enable or disable monitoring for the instances.
         public let monitoring: SpotFleetMonitoring?
-        /// One or more network interfaces. If you specify a network interface, you must specify subnet IDs and security group IDs using the network interface.
+        /// One or more network interfaces. If you specify a network interface, you must specify subnet IDs and security group IDs using the network interface.   SpotFleetLaunchSpecification currently does not support Elastic Fabric Adapter (EFA). To specify an EFA, you must use LaunchTemplateConfig. 
         public let networkInterfaces: [InstanceNetworkInterfaceSpecification]?
         /// The placement information.
         public let placement: SpotPlacement?
@@ -36921,7 +37035,7 @@ extension EC2 {
         public let `type`: SpotInstanceType?
         /// The start date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). The request becomes active at this date and time.
         public let validFrom: TimeStamp?
-        /// The end date of the request, in UTC format (for example, YYYY-MM-DDTHH:MM:SSZ). If this is a one-time request, it remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date is reached. The default end date is 7 days from the current date.
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ).   For a persistent request, the request remains active until the validUntil date and time is reached. Otherwise, the request remains active until you cancel it.    For a one-time request, the request remains active until all instances launch, the request is canceled, or the validUntil date and time is reached. By default, the request is valid for 7 days from the date the request was created.  
         public let validUntil: TimeStamp?
 
         public init(actualBlockHourlyPrice: String? = nil, availabilityZoneGroup: String? = nil, blockDurationMinutes: Int? = nil, createTime: TimeStamp? = nil, fault: SpotInstanceStateFault? = nil, instanceId: String? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, launchedAvailabilityZone: String? = nil, launchGroup: String? = nil, launchSpecification: LaunchSpecification? = nil, productDescription: RIProductDescription? = nil, spotInstanceRequestId: String? = nil, spotPrice: String? = nil, state: SpotInstanceState? = nil, status: SpotInstanceStatus? = nil, tags: [Tag]? = nil, type: SpotInstanceType? = nil, validFrom: TimeStamp? = nil, validUntil: TimeStamp? = nil) {
@@ -37027,7 +37141,7 @@ extension EC2 {
             AWSShapeMember(label: "ValidUntil", required: false, type: .timestamp)
         ]
 
-        /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360).
+        /// The required duration for the Spot Instances (also known as Spot blocks), in minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or 360). The duration period starts as soon as your Spot Instance receives its instance ID. At the end of the duration period, Amazon EC2 marks the Spot Instance for termination and provides a Spot Instance termination notice, which gives the instance a two-minute warning before it terminates. You can't specify an Availability Zone group or a launch group if you specify a duration. New accounts or accounts with no previous billing history with AWS are not eligible for Spot Instances with a defined duration (also known as Spot blocks).
         public let blockDurationMinutes: Int?
         /// The behavior when a Spot Instance is interrupted. The default is terminate.
         public let instanceInterruptionBehavior: InstanceInterruptionBehavior?
@@ -37035,7 +37149,7 @@ extension EC2 {
         public let maxPrice: String?
         /// The Spot Instance request type. For RunInstances, persistent Spot Instance requests are only supported when InstanceInterruptionBehavior is set to either hibernate or stop.
         public let spotInstanceType: SpotInstanceType?
-        /// The end date of the request. For a one-time request, the request remains active until all instances launch, the request is canceled, or this date is reached. If the request is persistent, it remains active until it is canceled or this date and time is reached. The default end date is 7 days from the current date.
+        /// The end date of the request, in UTC format (YYYY-MM-DDTHH:MM:SSZ). Supported only for persistent requests.   For a persistent request, the request remains active until the ValidUntil date and time is reached. Otherwise, the request remains active until you cancel it.   For a one-time request, ValidUntil is not supported. The request remains active until all instances launch or you cancel the request.  
         public let validUntil: TimeStamp?
 
         public init(blockDurationMinutes: Int? = nil, instanceInterruptionBehavior: InstanceInterruptionBehavior? = nil, maxPrice: String? = nil, spotInstanceType: SpotInstanceType? = nil, validUntil: TimeStamp? = nil) {

@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Connect service.
 
-Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides rich metrics and real-time reporting that allow you to optimize contact routing. You can also resolve customer issues more efficiently by putting customers in touch with the right agents. There are limits to the number of Amazon Connect resources that you can create and limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Limits in the Amazon Connect Administrator Guide.
+Amazon Connect is a cloud-based contact center solution that makes it easy to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides rich metrics and real-time reporting that allow you to optimize contact routing. You can also resolve customer issues more efficiently by putting customers in touch with the right agents. There are limits to the number of Amazon Connect resources that you can create and limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. To connect programmatically to an AWS service, you use an endpoint. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.  Working with contact flows? Check out the Amazon Connect Flow language. 
 */
 public struct Connect {
 
@@ -44,14 +44,39 @@ public struct Connect {
     
     //MARK: API Calls
 
-    ///  Creates a user account for the specified Amazon Connect instance.
+    ///  Associates a set of queues with a routing profile.
+    @discardableResult public func associateRoutingProfileQueues(_ input: AssociateRoutingProfileQueuesRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "AssociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a contact flow for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language.
+    public func createContactFlow(_ input: CreateContactFlowRequest) -> EventLoopFuture<CreateContactFlowResponse> {
+        return client.send(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a new routing profile.
+    public func createRoutingProfile(_ input: CreateRoutingProfileRequest) -> EventLoopFuture<CreateRoutingProfileResponse> {
+        return client.send(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: "PUT", input: input)
+    }
+
+    ///  Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see Add Users in the Amazon Connect Administrator Guide.
     public func createUser(_ input: CreateUserRequest) -> EventLoopFuture<CreateUserResponse> {
         return client.send(operation: "CreateUser", path: "/users/{InstanceId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Deletes a user account from the specified Amazon Connect instance.
+    ///  Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
     @discardableResult public func deleteUser(_ input: DeleteUserRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: "DELETE", input: input)
+    }
+
+    ///  Describes the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
+    public func describeContactFlow(_ input: DescribeContactFlowRequest) -> EventLoopFuture<DescribeContactFlowResponse> {
+        return client.send(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Describes the specified routing profile.
+    public func describeRoutingProfile(_ input: DescribeRoutingProfileRequest) -> EventLoopFuture<DescribeRoutingProfileResponse> {
+        return client.send(operation: "DescribeRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: "GET", input: input)
     }
 
     ///  Describes the specified user account. You can find the instance ID in the console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
@@ -69,12 +94,17 @@ public struct Connect {
         return client.send(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: "GET", input: input)
     }
 
+    ///  Disassociates a set of queues from a routing profile.
+    @discardableResult public func disassociateRoutingProfileQueues(_ input: DisassociateRoutingProfileQueuesRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "DisassociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues", httpMethod: "POST", input: input)
+    }
+
     ///  Retrieves the contact attributes for the specified contact.
     public func getContactAttributes(_ input: GetContactAttributesRequest) -> EventLoopFuture<GetContactAttributesResponse> {
         return client.send(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: "GET", input: input)
     }
 
-    ///  Gets the real-time metric data from the specified Amazon Connect instance. For more information, see Real-time Metrics Reports in the Amazon Connect Administrator Guide.
+    ///  Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
     public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest) -> EventLoopFuture<GetCurrentMetricDataResponse> {
         return client.send(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: "POST", input: input)
     }
@@ -84,47 +114,57 @@ public struct Connect {
         return client.send(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Gets historical metric data from the specified Amazon Connect instance. For more information, see Historical Metrics Reports in the Amazon Connect Administrator Guide.
+    ///  Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     public func getMetricData(_ input: GetMetricDataRequest) -> EventLoopFuture<GetMetricDataResponse> {
         return client.send(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: "POST", input: input)
     }
 
-    ///  Provides information about the contact flows for the specified Amazon Connect instance.
+    ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     public func listContactFlows(_ input: ListContactFlowsRequest) -> EventLoopFuture<ListContactFlowsResponse> {
         return client.send(operation: "ListContactFlows", path: "/contact-flows-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides information about the hours of operation for the specified Amazon Connect instance.
+    ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest) -> EventLoopFuture<ListHoursOfOperationsResponse> {
         return client.send(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides information about the phone numbers for the specified Amazon Connect instance.
+    ///  Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
     public func listPhoneNumbers(_ input: ListPhoneNumbersRequest) -> EventLoopFuture<ListPhoneNumbersResponse> {
         return client.send(operation: "ListPhoneNumbers", path: "/phone-numbers-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides information about the queues for the specified Amazon Connect instance.
+    ///  Provides information about the prompts for the specified Amazon Connect instance.
+    public func listPrompts(_ input: ListPromptsRequest) -> EventLoopFuture<ListPromptsResponse> {
+        return client.send(operation: "ListPrompts", path: "/prompts-summary/{InstanceId}", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides information about the queues for the specified Amazon Connect instance. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
     public func listQueues(_ input: ListQueuesRequest) -> EventLoopFuture<ListQueuesResponse> {
         return client.send(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides summary information about the routing profiles for the specified Amazon Connect instance.
+    ///  List the queues associated with a routing profile.
+    public func listRoutingProfileQueues(_ input: ListRoutingProfileQueuesRequest) -> EventLoopFuture<ListRoutingProfileQueuesResponse> {
+        return client.send(operation: "ListRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: "GET", input: input)
+    }
+
+    ///  Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
     public func listRoutingProfiles(_ input: ListRoutingProfilesRequest) -> EventLoopFuture<ListRoutingProfilesResponse> {
         return client.send(operation: "ListRoutingProfiles", path: "/routing-profiles-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides summary information about the security profiles for the specified Amazon Connect instance.
+    ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
     public func listSecurityProfiles(_ input: ListSecurityProfilesRequest) -> EventLoopFuture<ListSecurityProfilesResponse> {
         return client.send(operation: "ListSecurityProfiles", path: "/security-profiles-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
 
-    ///  Lists the tags for the specified resource.
+    ///  Lists the tags for the specified resource. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
         return client.send(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: "GET", input: input)
     }
 
-    ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance.
+    ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
     public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest) -> EventLoopFuture<ListUserHierarchyGroupsResponse> {
         return client.send(operation: "ListUserHierarchyGroups", path: "/user-hierarchy-groups-summary/{InstanceId}", httpMethod: "GET", input: input)
     }
@@ -139,7 +179,7 @@ public struct Connect {
         return client.send(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: "POST", input: input)
     }
 
-    ///  Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients need to subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS. 
+    ///  Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients need to subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in two situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception from the API Gateway.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   For more information about how chat works, see Chat in the Amazon Connect Administrator Guide.
     public func startChatContact(_ input: StartChatContactRequest) -> EventLoopFuture<StartChatContactResponse> {
         return client.send(operation: "StartChatContact", path: "/contact/chat", httpMethod: "PUT", input: input)
     }
@@ -149,7 +189,7 @@ public struct Connect {
         return client.send(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: "POST", input: input)
     }
 
-    ///  This API places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents are not involved in initiating the outbound API (that is, dialing the contact). If the contact flow places an outbound call to a contact, and then puts the contact in queue, that's when the call is routed to the agent, like any other inbound case. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.
+    ///  This API places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents are not involved in initiating the outbound API (that is, dialing the contact). If the contact flow places an outbound call to a contact, and then puts the contact in queue, that's when the call is routed to the agent, like any other inbound case. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.  
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
         return client.send(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: "PUT", input: input)
     }
@@ -169,7 +209,7 @@ public struct Connect {
         return client.send(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: "POST", input: input)
     }
 
-    ///  Adds the specified tags to the specified resource. The supported resource type is users.
+    ///  Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, and contact flows. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @discardableResult public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: "POST", input: input)
     }
@@ -179,9 +219,39 @@ public struct Connect {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
+    ///  Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. This operation is also available in the Amazon Connect Flow language. See UpdateContactAttributes.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
     public func updateContactAttributes(_ input: UpdateContactAttributesRequest) -> EventLoopFuture<UpdateContactAttributesResponse> {
         return client.send(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
+    @discardableResult public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: "POST", input: input)
+    }
+
+    ///  The name of the contact flow.
+    @discardableResult public func updateContactFlowName(_ input: UpdateContactFlowNameRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
+    @discardableResult public func updateRoutingProfileConcurrency(_ input: UpdateRoutingProfileConcurrencyRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRoutingProfileConcurrency", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the default outbound queue of a routing profile.
+    @discardableResult public func updateRoutingProfileDefaultOutboundQueue(_ input: UpdateRoutingProfileDefaultOutboundQueueRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRoutingProfileDefaultOutboundQueue", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
+    @discardableResult public func updateRoutingProfileName(_ input: UpdateRoutingProfileNameRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRoutingProfileName", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the properties associated with a set of queues for a routing profile.
+    @discardableResult public func updateRoutingProfileQueues(_ input: UpdateRoutingProfileQueuesRequest) -> EventLoopFuture<Void> {
+        return client.send(operation: "UpdateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: "POST", input: input)
     }
 
     ///  Assigns the specified hierarchy group to the specified user.
@@ -189,7 +259,7 @@ public struct Connect {
         return client.send(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: "POST", input: input)
     }
 
-    ///  Updates the identity information for the specified user.
+    ///  Updates the identity information for the specified user.  Someone with the ability to invoke UpdateUserIndentityInfo can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. We strongly recommend limiting who has the ability to invoke UpdateUserIndentityInfo. For more information, see Best Practices for Security Profiles in the Amazon Connect Administrator Guide. 
     @discardableResult public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: "POST", input: input)
     }

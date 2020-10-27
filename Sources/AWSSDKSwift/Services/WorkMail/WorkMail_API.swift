@@ -55,6 +55,11 @@ public struct WorkMail {
         return client.send(operation: "AssociateMemberToGroup", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Cancels a mailbox export job.  If the mailbox export job is near completion, it might not be possible to cancel it. 
+    public func cancelMailboxExportJob(_ input: CancelMailboxExportJobRequest) -> EventLoopFuture<CancelMailboxExportJobResponse> {
+        return client.send(operation: "CancelMailboxExportJob", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Adds an alias to the set of a given member (user or group) of Amazon WorkMail.
     public func createAlias(_ input: CreateAliasRequest) -> EventLoopFuture<CreateAliasResponse> {
         return client.send(operation: "CreateAlias", path: "/", httpMethod: "POST", input: input)
@@ -63,6 +68,11 @@ public struct WorkMail {
     ///  Creates a group that can be used in Amazon WorkMail by calling the RegisterToWorkMail operation.
     public func createGroup(_ input: CreateGroupRequest) -> EventLoopFuture<CreateGroupResponse> {
         return client.send(operation: "CreateGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a new Amazon WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new Amazon WorkMail directory for you. For more information, see Adding an organization in the Amazon WorkMail Administrator Guide. You can associate multiple email domains with an organization, then set your default email domain from the Amazon WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see Adding a domain and Choosing the default domain in the Amazon WorkMail Administrator Guide. Optionally, you can use a customer managed master key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, Amazon WorkMail creates a default AWS managed master key for you.
+    public func createOrganization(_ input: CreateOrganizationRequest) -> EventLoopFuture<CreateOrganizationResponse> {
+        return client.send(operation: "CreateOrganization", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Creates a new Amazon WorkMail resource. 
@@ -95,6 +105,11 @@ public struct WorkMail {
         return client.send(operation: "DeleteMailboxPermissions", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes an Amazon WorkMail organization and all underlying AWS resources managed by Amazon WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see Removing an organization in the Amazon WorkMail Administrator Guide.
+    public func deleteOrganization(_ input: DeleteOrganizationRequest) -> EventLoopFuture<DeleteOrganizationResponse> {
+        return client.send(operation: "DeleteOrganization", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Deletes the specified resource. 
     public func deleteResource(_ input: DeleteResourceRequest) -> EventLoopFuture<DeleteResourceResponse> {
         return client.send(operation: "DeleteResource", path: "/", httpMethod: "POST", input: input)
@@ -118,6 +133,11 @@ public struct WorkMail {
     ///  Returns the data available for the group.
     public func describeGroup(_ input: DescribeGroupRequest) -> EventLoopFuture<DescribeGroupResponse> {
         return client.send(operation: "DescribeGroup", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Describes the current status of a mailbox export job.
+    public func describeMailboxExportJob(_ input: DescribeMailboxExportJobRequest) -> EventLoopFuture<DescribeMailboxExportJobResponse> {
+        return client.send(operation: "DescribeMailboxExportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Provides more information regarding a given organization based on its identifier.
@@ -180,6 +200,11 @@ public struct WorkMail {
         return client.send(operation: "ListGroups", path: "/", httpMethod: "POST", input: input)
     }
 
+    ///  Lists the mailbox export jobs started for the specified organization within the last seven days.
+    public func listMailboxExportJobs(_ input: ListMailboxExportJobsRequest) -> EventLoopFuture<ListMailboxExportJobsResponse> {
+        return client.send(operation: "ListMailboxExportJobs", path: "/", httpMethod: "POST", input: input)
+    }
+
     ///  Lists the mailbox permissions associated with a user, group, or resource mailbox.
     public func listMailboxPermissions(_ input: ListMailboxPermissionsRequest) -> EventLoopFuture<ListMailboxPermissionsResponse> {
         return client.send(operation: "ListMailboxPermissions", path: "/", httpMethod: "POST", input: input)
@@ -233,6 +258,11 @@ public struct WorkMail {
     ///  Allows the administrator to reset the password for a user.
     public func resetPassword(_ input: ResetPasswordRequest) -> EventLoopFuture<ResetPasswordResponse> {
         return client.send(operation: "ResetPassword", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see Exporting mailbox content in the Amazon WorkMail Administrator Guide.
+    public func startMailboxExportJob(_ input: StartMailboxExportJobRequest) -> EventLoopFuture<StartMailboxExportJobResponse> {
+        return client.send(operation: "StartMailboxExportJob", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Applies the specified tags to the specified Amazon WorkMail organization resource.

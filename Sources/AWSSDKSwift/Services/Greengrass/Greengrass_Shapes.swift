@@ -16,6 +16,12 @@ extension Greengrass {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigurationSyncStatus: String, CustomStringConvertible, Codable {
+        case insync = "InSync"
+        case outofsync = "OutOfSync"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentType: String, CustomStringConvertible, Codable {
         case newdeployment = "NewDeployment"
         case redeployment = "Redeployment"
@@ -66,6 +72,12 @@ extension Greengrass {
     public enum SoftwareToUpdate: String, CustomStringConvertible, Codable {
         case core = "core"
         case otaAgent = "ota_agent"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Telemetry: String, CustomStringConvertible, Codable {
+        case on = "On"
+        case off = "Off"
         public var description: String { return self.rawValue }
     }
 
@@ -3455,6 +3467,39 @@ extension Greengrass {
         }
     }
 
+    public struct GetThingRuntimeConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        ]
+
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case thingName = "ThingName"
+        }
+    }
+
+    public struct GetThingRuntimeConfigurationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RuntimeConfiguration", required: false, type: .structure)
+        ]
+
+        /// Runtime configuration for a thing.
+        public let runtimeConfiguration: RuntimeConfiguration?
+
+        public init(runtimeConfiguration: RuntimeConfiguration? = nil) {
+            self.runtimeConfiguration = runtimeConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeConfiguration = "RuntimeConfiguration"
+        }
+    }
+
     public struct GroupCertificateAuthorityProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GroupCertificateAuthorityArn", required: false, type: .string), 
@@ -4741,6 +4786,23 @@ extension Greengrass {
         }
     }
 
+    public struct RuntimeConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TelemetryConfiguration", required: false, type: .structure)
+        ]
+
+        /// Configuration for telemetry service.
+        public let telemetryConfiguration: TelemetryConfiguration?
+
+        public init(telemetryConfiguration: TelemetryConfiguration? = nil) {
+            self.telemetryConfiguration = telemetryConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetryConfiguration = "TelemetryConfiguration"
+        }
+    }
+
     public struct S3MachineLearningModelResourceData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DestinationPath", required: false, type: .string), 
@@ -4957,6 +5019,45 @@ extension Greengrass {
         private enum CodingKeys: String, CodingKey {
             case resourceArn = "resource-arn"
             case tags = "tags"
+        }
+    }
+
+    public struct TelemetryConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfigurationSyncStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "Telemetry", required: true, type: .enum)
+        ]
+
+        /// Synchronization status of the device reported configuration with the desired configuration.
+        public let configurationSyncStatus: ConfigurationSyncStatus?
+        /// Configure telemetry to be on or off.
+        public let telemetry: Telemetry
+
+        public init(configurationSyncStatus: ConfigurationSyncStatus? = nil, telemetry: Telemetry) {
+            self.configurationSyncStatus = configurationSyncStatus
+            self.telemetry = telemetry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configurationSyncStatus = "ConfigurationSyncStatus"
+            case telemetry = "Telemetry"
+        }
+    }
+
+    public struct TelemetryConfigurationUpdate: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Telemetry", required: true, type: .enum)
+        ]
+
+        /// Configure telemetry to be on or off.
+        public let telemetry: Telemetry
+
+        public init(telemetry: Telemetry) {
+            self.telemetry = telemetry
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetry = "Telemetry"
         }
     }
 
@@ -5285,6 +5386,34 @@ extension Greengrass {
     }
 
     public struct UpdateSubscriptionDefinitionResponse: AWSShape {
+
+
+        public init() {
+        }
+
+    }
+
+    public struct UpdateThingRuntimeConfigurationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "TelemetryConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ThingName", location: .uri(locationName: "ThingName"), required: true, type: .string)
+        ]
+
+        public let telemetryConfiguration: TelemetryConfigurationUpdate?
+        public let thingName: String
+
+        public init(telemetryConfiguration: TelemetryConfigurationUpdate? = nil, thingName: String) {
+            self.telemetryConfiguration = telemetryConfiguration
+            self.thingName = thingName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case telemetryConfiguration = "TelemetryConfiguration"
+            case thingName = "ThingName"
+        }
+    }
+
+    public struct UpdateThingRuntimeConfigurationResponse: AWSShape {
 
 
         public init() {
