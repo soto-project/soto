@@ -1,5 +1,5 @@
 sourcekitten_sourcefile:
-  - sourcekitten/AWSSDKSwiftCore.json
+  - sourcekitten/SotoCore.json
 {%for service in services %}
   - sourcekitten/{{service}}.json
 {%endfor %}
@@ -24,7 +24,7 @@ custom_categories:
       - "DynamoDB and Codable"
       - "S3 Multipart Upload"
       - "Using Soto with Vapor"
-  - name: AWSSDKSwiftCore
+  - name: SotoCore
     children:
       - AWSClient
       - AWSShape
