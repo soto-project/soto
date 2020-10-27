@@ -23,8 +23,8 @@ class S3Tests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .euwest1,
-        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4566"/*,
-        middlewares: [AWSLoggingMiddleware()]*/
+        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4566",
+        middlewares: [AWSLoggingMiddleware()]
     )
 
     class TestData {
@@ -238,7 +238,7 @@ class S3Tests: XCTestCase {
             for i in 0..<16 {
                 let objectName = "testMultiple\(i).txt"
                 let text = "Testing, testing,1,2,1,\(i)"
-                let data = text.data(using: .utf8)!
+                let data = Data(text.utf8)
 
                 let request = S3.PutObjectRequest(body: data, bucket: testData.bucket, key: objectName)
                 let response = client.putObject(request)
