@@ -126,6 +126,8 @@ class SQSTests: XCTestCase {
     }
 
     func testError() {
+        // get wrong error with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let response = Self.sqs.addPermission(.init(actions: [], aWSAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {

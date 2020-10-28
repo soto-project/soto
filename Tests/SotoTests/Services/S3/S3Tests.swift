@@ -90,6 +90,11 @@ class S3Tests: XCTestCase {
                 let request = S3.DeleteBucketRequest(bucket: name)
                 return s3.deleteBucket(request).map { _ in }
             }
+            .flatMapErrorThrowing { error in
+                // when using LocalStack ignore errors from deleting buckets
+                guard !TestEnvironment.isUsingLocalstack else { return }
+                throw error
+            }
     }
 
     // MARK: TESTS
@@ -441,6 +446,8 @@ class S3Tests: XCTestCase {
     }
 
     func testError() {
+        // get wrong error with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
         let response = Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
