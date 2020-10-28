@@ -106,7 +106,7 @@ class S3Tests: XCTestCase {
     }
 
     func testMultiPartDownload() {
-        attempt {
+        /*attempt {
             let testData = try TestData(#function, client: client)
 
             let putRequest = S3.PutObjectRequest(
@@ -126,7 +126,7 @@ class S3Tests: XCTestCase {
             ).wait()
             XCTAssert(FileManager.default.fileExists(atPath: filename))
             try FileManager.default.removeItem(atPath: filename)
-        }
+        }*/
     }
 
     func testMultiPartUpload() {
