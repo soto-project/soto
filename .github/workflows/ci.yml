@@ -30,27 +30,12 @@ jobs:
     container:
       image: ${{ matrix.tag }}
       env:
-        APIGATEWAY_ENDPOINT : "http://localstack:4566"
-        DYNAMODB_ENDPOINT   : "http://localstack:4566"
-        S3_ENDPOINT         : "http://localstack:4566"
-        SNS_ENDPOINT        : "http://localstack:4566"
-        SQS_ENDPOINT        : "http://localstack:4566"
-        SSM_ENDPOINT        : "http://localstack:4566"
-        IAM_ENDPOINT        : "http://localstack:4566"
+        LOCALSTACK_ENDPOINT : "http://localstack:4566"
     steps:
     - name: Install dependencies
       run: |
         apt-get update -qq
         apt-get install -q -y tzdata libssl-dev zlib1g-dev
-    - name: Print endpoints
-      run: |
-        echo "APIGATEWAY: ${APIGATEWAY_ENDPOINT}"
-        echo "DYNAMODB  : ${DYNAMODB_ENDPOINT}"
-        echo "S3        : ${S3_ENDPOINT}"
-        echo "SNS       : ${SNS_ENDPOINT}"
-        echo "SQS       : ${SQS_ENDPOINT}"
-        echo "SSM       : ${SSM_ENDPOINT}"
-        echo "IAM       : ${IAM_ENDPOINT}"
     - name: Checkout
       uses: actions/checkout@v1
       with:

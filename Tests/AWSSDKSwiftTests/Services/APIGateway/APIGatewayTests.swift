@@ -20,7 +20,7 @@ class APIGatewayTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["APIGATEWAY_ENDPOINT"] ?? "http://localhost:4566"
+        endpoint: ProcessInfo.processInfo.environment["LOCALSTACK_ENDPOINT"] ?? "http://localhost:4566"
     )
 
     class TestData {
