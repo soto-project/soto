@@ -12,23 +12,11 @@
 //
 //===----------------------------------------------------------------------===//
 
-/*
-
- The testing code for the AWS Lambda function is created with the following commands:
-
- echo "exports.handler = async (event) => { return \"hello world\" };" > lambda.js
- zip lambda.zip lambda.js
- cat lambda.zip | base64
- rm lambda.zip
- rm lambda.js
-
- */
-
 import NIO
 import XCTest
 
-@testable import SotoIAM
-@testable import SotoLambda
+import SotoIAM
+import SotoLambda
 
 // testing query service
 
@@ -40,15 +28,20 @@ class LambdaTests: XCTestCase {
     static var functionName: String!
     static var functionExecutionRoleName: String!
 
-    class func randomString(length: Int) -> String {
-        let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-        return String((0..<length).map { _ in letters.randomElement()! })
-    }
+    /*
 
+     The testing code for the AWS Lambda function is created with the following commands:
+
+     echo "exports.handler = async (event) => { return \"hello world\" };" > lambda.js
+     zip lambda.zip lambda.js
+     cat lambda.zip | base64
+     rm lambda.zip
+     rm lambda.js
+
+     */
     class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Lambda.FunctionConfiguration> {
-        // create a "UnitTestSotoLambda-xxxx" function
         // use pseudo random name to avoid name conflicts
-        self.functionName = "UnitTestSotoLambda-" + Self.randomString(length: 5)
+        self.functionName = TestEnvironment.generateResourceName("UnitTestSotoLambda")
 
         // ZIPped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
@@ -73,7 +66,7 @@ class LambdaTests: XCTestCase {
     }
 
     class func createIAMRole() -> EventLoopFuture<IAM.CreateRoleResponse> {
-        self.functionExecutionRoleName = "lambda_execution_role-" + Self.randomString(length: 5)
+        self.functionExecutionRoleName = TestEnvironment.generateResourceName("UnitTestSotoLambdaRole")
 
         // as documented at https://docs.aws.amazon.com/lambda/latest/dg/lambda-intro-execution-role.html
         let assumeRolePolicyDocument = """
@@ -127,28 +120,35 @@ class LambdaTests: XCTestCase {
             client: Self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
-
-        // create a lambda function to test invoke()
-        do {
-            let response = try Self.createIAMRole().wait()
-            // IAM needs some time after Role creation, before the role can be attached to a Lambda function
-            // https://stackoverflow.com/a/37438525/663360
-            print("Sleeping 15 secs, waiting for IAM Role to be created")
-            sleep(15)
-            _ = try Self.createLambdaFunction(roleArn: response.role.arn).wait()
-        } catch {
-            XCTFail("Can not create prerequisites resources in the cloud, before to execute the tests: \(error)")
-        }
+        
+        //create an IAM role
+        let response = Self.createIAMRole()
+            .flatMap { response -> EventLoopFuture<Lambda.FunctionConfiguration> in
+                let eventLoop = Self.client.eventLoopGroup.next()
+                
+                // IAM needs some time after Role creation,
+                // before the role can be attached to a Lambda function
+                // https://stackoverflow.com/a/37438525/663360
+                print("Sleeping 15 secs, waiting for IAM Role to be created")
+                let scheduled = eventLoop.flatScheduleTask(in: .seconds(15)) {
+                    
+                    // create a Lambda function
+                    Self.createLambdaFunction(roleArn: response.role.arn)
+                }
+                return scheduled.futureResult
+            }
+        XCTAssertNoThrow(try response.wait())
     }
 
     override class func tearDown() {
-        do {
-            try Self.deleteIAMRole().wait()
-            try Self.deleteLambdaFunction().wait()
-        } catch {
-            XCTFail("Can not delete testing resources in the cloud: \(error)")
-        }
 
+        let response = Self.deleteIAMRole()
+            .flatMap { response -> EventLoopFuture<Void> in
+                Self.deleteLambdaFunction()
+            }
+        
+        XCTAssertNoThrow(try response.wait())
+        
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
