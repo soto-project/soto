@@ -120,18 +120,17 @@ class LambdaTests: XCTestCase {
             client: Self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         )
-        
-        //create an IAM role
+
+        // create an IAM role
         let response = Self.createIAMRole()
             .flatMap { response -> EventLoopFuture<Lambda.FunctionConfiguration> in
                 let eventLoop = Self.client.eventLoopGroup.next()
-                
+
                 // IAM needs some time after Role creation,
                 // before the role can be attached to a Lambda function
                 // https://stackoverflow.com/a/37438525/663360
                 print("Sleeping 15 secs, waiting for IAM Role to be created")
                 let scheduled = eventLoop.flatScheduleTask(in: .seconds(15)) {
-                    
                     // create a Lambda function
                     Self.createLambdaFunction(roleArn: response.role.arn)
                 }
@@ -141,14 +140,13 @@ class LambdaTests: XCTestCase {
     }
 
     override class func tearDown() {
-
         let response = Self.deleteIAMRole()
-            .flatMap { response -> EventLoopFuture<Void> in
+            .flatMap { _ -> EventLoopFuture<Void> in
                 Self.deleteLambdaFunction()
             }
-        
+
         XCTAssertNoThrow(try response.wait())
-        
+
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
