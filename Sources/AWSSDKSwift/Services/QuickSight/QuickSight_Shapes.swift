@@ -111,6 +111,7 @@ extension QuickSight {
         case sqlserver = "SQLSERVER"
         case teradata = "TERADATA"
         case twitter = "TWITTER"
+        case timestream = "TIMESTREAM"
         public var description: String { return self.rawValue }
     }
 
@@ -437,6 +438,7 @@ extension QuickSight {
             AWSShapeMember(label: "Errors", required: false, type: .list), 
             AWSShapeMember(label: "LastUpdatedTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "Sheets", required: false, type: .list), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ThemeArn", required: false, type: .string)
         ]
@@ -455,12 +457,14 @@ extension QuickSight {
         public let lastUpdatedTime: TimeStamp?
         /// The descriptive name of the analysis.
         public let name: String?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// Status associated with the analysis.
         public let status: ResourceStatus?
         /// The ARN of the theme of the analysis.
         public let themeArn: String?
 
-        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
+        public init(analysisId: String? = nil, arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, errors: [AnalysisError]? = nil, lastUpdatedTime: TimeStamp? = nil, name: String? = nil, sheets: [Sheet]? = nil, status: ResourceStatus? = nil, themeArn: String? = nil) {
             self.analysisId = analysisId
             self.arn = arn
             self.createdTime = createdTime
@@ -468,6 +472,7 @@ extension QuickSight {
             self.errors = errors
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.sheets = sheets
             self.status = status
             self.themeArn = themeArn
         }
@@ -480,6 +485,7 @@ extension QuickSight {
             case errors = "Errors"
             case lastUpdatedTime = "LastUpdatedTime"
             case name = "Name"
+            case sheets = "Sheets"
             case status = "Status"
             case themeArn = "ThemeArn"
         }
@@ -896,6 +902,28 @@ extension QuickSight {
         }
     }
 
+    public struct ColumnDescription: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Text", required: false, type: .string)
+        ]
+
+        /// The text of a description for a column.
+        public let text: String?
+
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.text, name:"text", parent: name, max: 500)
+            try validate(self.text, name:"text", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
     public struct ColumnGroup: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "GeoSpatialColumnGroup", required: false, type: .structure)
@@ -985,17 +1013,26 @@ extension QuickSight {
 
     public struct ColumnTag: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ColumnDescription", required: false, type: .structure), 
             AWSShapeMember(label: "ColumnGeographicRole", required: false, type: .enum)
         ]
 
+        /// A description for a column.
+        public let columnDescription: ColumnDescription?
         /// A geospatial role for a column.
         public let columnGeographicRole: GeoSpatialDataRole?
 
-        public init(columnGeographicRole: GeoSpatialDataRole? = nil) {
+        public init(columnDescription: ColumnDescription? = nil, columnGeographicRole: GeoSpatialDataRole? = nil) {
+            self.columnDescription = columnDescription
             self.columnGeographicRole = columnGeographicRole
         }
 
+        public func validate(name: String) throws {
+            try self.columnDescription?.validate(name: "\(name).columnDescription")
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case columnDescription = "ColumnDescription"
             case columnGeographicRole = "ColumnGeographicRole"
         }
     }
@@ -1008,7 +1045,7 @@ extension QuickSight {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you could add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. . Or, you could add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }. 
+        /// The QuickSight customizations you're adding in the current AWS Region. You can add these to an AWS account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }. 
         public let accountCustomization: AccountCustomization
         /// The ID for the AWS account that you want to customize QuickSight for.
         public let awsAccountId: String
@@ -2407,7 +2444,7 @@ extension QuickSight {
             AWSShapeMember(label: "Username", required: true, type: .string)
         ]
 
-        /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
+        /// A set of alternate data source parameters that you want to share for these credentials. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allow list. If the structures are an exact match, the request is allowed to use the new data source with the existing credentials. If the AlternateDataSourceParameters list is null, the DataSourceParameters originally used with these Credentials is automatically allowed.
         public let alternateDataSourceParameters: [DataSourceParameters]?
         /// Password.
         public let password: String
@@ -2710,6 +2747,7 @@ extension QuickSight {
             AWSShapeMember(label: "DataSetArns", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Errors", required: false, type: .list), 
+            AWSShapeMember(label: "Sheets", required: false, type: .list), 
             AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ThemeArn", required: false, type: .string), 
@@ -2726,6 +2764,8 @@ extension QuickSight {
         public let description: String?
         /// Errors associated with this dashboard version.
         public let errors: [DashboardError]?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// Source entity ARN.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
@@ -2735,12 +2775,13 @@ extension QuickSight {
         /// Version number for this version of the dashboard.
         public let versionNumber: Int64?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, dataSetArns: [String]? = nil, description: String? = nil, errors: [DashboardError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.dataSetArns = dataSetArns
             self.description = description
             self.errors = errors
+            self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
@@ -2753,6 +2794,7 @@ extension QuickSight {
             case dataSetArns = "DataSetArns"
             case description = "Description"
             case errors = "Errors"
+            case sheets = "Sheets"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
             case themeArn = "ThemeArn"
@@ -3046,7 +3088,7 @@ extension QuickSight {
             AWSShapeMember(label: "VpcConnectionProperties", required: false, type: .structure)
         ]
 
-        /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allowlist. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
+        /// A set of alternate data source parameters that you want to share for the credentials stored with this data source. The credentials are applied in tandem with the data source parameters when you copy a data source by using a create or update request. The API operation compares the DataSourceParameters structure that's in the request with the structures in the AlternateDataSourceParameters allow list. If the structures are an exact match, the request is allowed to use the credentials from this existing data source. If the AlternateDataSourceParameters list is null, the Credentials originally used with this DataSourceParameters are automatically allowed.
         public let alternateDataSourceParameters: [DataSourceParameters]?
         /// The Amazon Resource Name (ARN) of the data source.
         public let arn: String?
@@ -4408,7 +4450,7 @@ extension QuickSight {
             AWSShapeMember(label: "Status", required: false, type: .integer)
         ]
 
-        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. The QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it. 
+        /// The QuickSight settings for this AWS account. This information includes the edition of Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the QuickSight subscription. In the QuickSight console, the QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the QuickSight service for your AWS account. The edition that you subscribe to applies to QuickSight in every AWS Region where you use it.
         public let accountSettings: AccountSettings?
         /// The AWS request ID for this operation.
         public let requestId: String?
@@ -7913,21 +7955,26 @@ extension QuickSight {
 
     public struct OutputColumn: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Type", required: false, type: .enum)
         ]
 
+        /// A description for a column.
+        public let description: String?
         /// A display name for the dataset.
         public let name: String?
         /// Type.
         public let `type`: ColumnDataType?
 
-        public init(name: String? = nil, type: ColumnDataType? = nil) {
+        public init(description: String? = nil, name: String? = nil, type: ColumnDataType? = nil) {
+            self.description = description
             self.name = name
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case name = "Name"
             case `type` = "Type"
         }
@@ -8389,7 +8436,7 @@ extension QuickSight {
 
         /// The IAM action to grant or revoke permissions on, for example "quicksight:DescribeDashboard".
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user, group, or namespace. (This is most common.)   The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across AWS accounts. (This is less common.)   
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across AWS accounts. (This is less common.)   
         public let principal: String
 
         public init(actions: [String], principal: String) {
@@ -8752,6 +8799,28 @@ extension QuickSight {
         }
     }
 
+    public struct Sheet: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "SheetId", required: false, type: .string)
+        ]
+
+        /// The name of a sheet. This name is displayed on the sheet's tab in the QuickSight console.
+        public let name: String?
+        /// The unique identifier associated with a sheet.
+        public let sheetId: String?
+
+        public init(name: String? = nil, sheetId: String? = nil) {
+            self.name = name
+            self.sheetId = sheetId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case sheetId = "SheetId"
+        }
+    }
+
     public struct SheetControlsOption: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "VisibilityState", required: false, type: .enum)
@@ -8982,6 +9051,9 @@ extension QuickSight {
         public func validate(name: String) throws {
             try validate(self.columnName, name:"columnName", parent: name, max: 128)
             try validate(self.columnName, name:"columnName", parent: name, min: 1)
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
             try validate(self.tags, name:"tags", parent: name, max: 16)
             try validate(self.tags, name:"tags", parent: name, min: 1)
         }
@@ -9255,6 +9327,7 @@ extension QuickSight {
             AWSShapeMember(label: "DataSetConfigurations", required: false, type: .list), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Errors", required: false, type: .list), 
+            AWSShapeMember(label: "Sheets", required: false, type: .list), 
             AWSShapeMember(label: "SourceEntityArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
             AWSShapeMember(label: "ThemeArn", required: false, type: .string), 
@@ -9269,6 +9342,8 @@ extension QuickSight {
         public let description: String?
         /// Errors associated with this template version.
         public let errors: [TemplateError]?
+        /// A list of the associated sheets with the unique identifier and name of each sheet.
+        public let sheets: [Sheet]?
         /// The Amazon Resource Name (ARN) of an analysis or template that was used to create this template.
         public let sourceEntityArn: String?
         /// The HTTP status of the request.
@@ -9278,11 +9353,12 @@ extension QuickSight {
         /// The version number of the template version.
         public let versionNumber: Int64?
 
-        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
+        public init(createdTime: TimeStamp? = nil, dataSetConfigurations: [DataSetConfiguration]? = nil, description: String? = nil, errors: [TemplateError]? = nil, sheets: [Sheet]? = nil, sourceEntityArn: String? = nil, status: ResourceStatus? = nil, themeArn: String? = nil, versionNumber: Int64? = nil) {
             self.createdTime = createdTime
             self.dataSetConfigurations = dataSetConfigurations
             self.description = description
             self.errors = errors
+            self.sheets = sheets
             self.sourceEntityArn = sourceEntityArn
             self.status = status
             self.themeArn = themeArn
@@ -9294,6 +9370,7 @@ extension QuickSight {
             case dataSetConfigurations = "DataSetConfigurations"
             case description = "Description"
             case errors = "Errors"
+            case sheets = "Sheets"
             case sourceEntityArn = "SourceEntityArn"
             case status = "Status"
             case themeArn = "ThemeArn"
@@ -10000,7 +10077,7 @@ extension QuickSight {
 
         /// The ID for the AWS account that contains the QuickSight settings that you want to list.
         public let awsAccountId: String
-        /// The default namespace for this AWS Account. Currently, the default is default. IAM users who register for the first time with QuickSight provide an email that becomes associated with the default namespace.
+        /// The default namespace for this AWS account. Currently, the default is default. AWS Identity and Access Management (IAM) users that register for the first time with QuickSight provide an email that becomes associated with the default namespace.
         public let defaultNamespace: String
         /// The email address that you want QuickSight to send notifications to regarding your AWS account or QuickSight subscription.
         public let notificationEmail: String?

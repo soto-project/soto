@@ -492,6 +492,7 @@ extension ServiceDiscovery {
             AWSShapeMember(label: "HealthStatus", required: false, type: .enum), 
             AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
             AWSShapeMember(label: "NamespaceName", required: true, type: .string), 
+            AWSShapeMember(label: "OptionalParameters", required: false, type: .map), 
             AWSShapeMember(label: "QueryParameters", required: false, type: .map), 
             AWSShapeMember(label: "ServiceName", required: true, type: .string)
         ]
@@ -502,15 +503,18 @@ extension ServiceDiscovery {
         public let maxResults: Int?
         /// The name of the namespace that you specified when you registered the instance.
         public let namespaceName: String
-        /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all the specified key/value pairs will be returned.
+        /// Opportunistic filters to scope the results based on custom attributes. If there are instances that match both the filters specified in both the QueryParameters parameter and this parameter, they are returned. Otherwise, these filters are ignored and only instances that match the filters specified in the QueryParameters parameter are returned.
+        public let optionalParameters: [String: String]?
+        /// Filters to scope the results based on custom attributes for the instance. For example, {version=v1, az=1a}. Only instances that match all the specified key-value pairs will be returned.
         public let queryParameters: [String: String]?
         /// The name of the service that you specified when you registered the instance.
         public let serviceName: String
 
-        public init(healthStatus: HealthStatusFilter? = nil, maxResults: Int? = nil, namespaceName: String, queryParameters: [String: String]? = nil, serviceName: String) {
+        public init(healthStatus: HealthStatusFilter? = nil, maxResults: Int? = nil, namespaceName: String, optionalParameters: [String: String]? = nil, queryParameters: [String: String]? = nil, serviceName: String) {
             self.healthStatus = healthStatus
             self.maxResults = maxResults
             self.namespaceName = namespaceName
+            self.optionalParameters = optionalParameters
             self.queryParameters = queryParameters
             self.serviceName = serviceName
         }
@@ -519,6 +523,12 @@ extension ServiceDiscovery {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
             try validate(self.namespaceName, name:"namespaceName", parent: name, max: 1024)
+            try self.optionalParameters?.forEach {
+                try validate($0.key, name:"optionalParameters.key", parent: name, max: 255)
+                try validate($0.key, name:"optionalParameters.key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
+                try validate($0.value, name:"optionalParameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name:"optionalParameters[\"\($0.key)\"]", parent: name, pattern: "^([a-zA-Z0-9!-~][ \\ta-zA-Z0-9!-~]*){0,1}[a-zA-Z0-9!-~]{0,1}$")
+            }
             try self.queryParameters?.forEach {
                 try validate($0.key, name:"queryParameters.key", parent: name, max: 255)
                 try validate($0.key, name:"queryParameters.key", parent: name, pattern: "^[a-zA-Z0-9!-~]+$")
@@ -532,6 +542,7 @@ extension ServiceDiscovery {
             case healthStatus = "HealthStatus"
             case maxResults = "MaxResults"
             case namespaceName = "NamespaceName"
+            case optionalParameters = "OptionalParameters"
             case queryParameters = "QueryParameters"
             case serviceName = "ServiceName"
         }
@@ -910,7 +921,7 @@ extension ServiceDiscovery {
             AWSShapeMember(label: "FailureThreshold", required: false, type: .integer)
         ]
 
-        /// The number of 30-second intervals that you want AWS Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. For example, suppose you specify a value of 2 for FailureTheshold, and then your application sends an UpdateInstanceCustomHealthStatus request. AWS Cloud Map waits for approximately 60 seconds (2 x 30) before changing the status of the service instance based on that request. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before FailureThreshold x 30 seconds has passed doesn't accelerate the change. AWS Cloud Map still waits FailureThreshold x 30 seconds after the first request to make the change.
+        ///  This parameter has been deprecated and is always set to 1. AWS Cloud Map waits for approximately 30 seconds after receiving an UpdateInstanceCustomHealthStatus request before changing the status of the service instance.  The number of 30-second intervals that you want AWS Cloud Map to wait after receiving an UpdateInstanceCustomHealthStatus request before it changes the health status of a service instance. Sending a second or subsequent UpdateInstanceCustomHealthStatus request with the same value before 30 seconds has passed doesn't accelerate the change. AWS Cloud Map still waits 30 seconds after the first request to make the change.
         public let failureThreshold: Int?
 
         public init(failureThreshold: Int? = nil) {

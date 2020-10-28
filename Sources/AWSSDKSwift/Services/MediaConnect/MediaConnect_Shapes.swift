@@ -13,6 +13,11 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum DurationUnits: String, CustomStringConvertible, Codable {
+        case months = "MONTHS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EntitlementStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
         case disabled = "DISABLED"
@@ -25,12 +30,30 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum PriceUnits: String, CustomStringConvertible, Codable {
+        case hourly = "HOURLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Protocol`: String, CustomStringConvertible, Codable {
         case zixiPush = "zixi-push"
         case rtpFec = "rtp-fec"
         case rtp = "rtp"
         case zixiPull = "zixi-pull"
         case rist = "rist"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservationState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case expired = "EXPIRED"
+        case processing = "PROCESSING"
+        case canceled = "CANCELED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceType: String, CustomStringConvertible, Codable {
+        case mbpsOutboundBandwidth = "Mbps_Outbound_Bandwidth"
         public var description: String { return self.rawValue }
     }
 
@@ -396,6 +419,70 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flow = "flow"
             case messages = "messages"
+        }
+    }
+
+    public struct DescribeOfferingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OfferingArn", location: .uri(locationName: "offeringArn"), required: true, type: .string)
+        ]
+
+        public let offeringArn: String
+
+        public init(offeringArn: String) {
+            self.offeringArn = offeringArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringArn = "offeringArn"
+        }
+    }
+
+    public struct DescribeOfferingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Offering", location: .body(locationName: "offering"), required: false, type: .structure)
+        ]
+
+        public let offering: Offering?
+
+        public init(offering: Offering? = nil) {
+            self.offering = offering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offering = "offering"
+        }
+    }
+
+    public struct DescribeReservationRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservationArn", location: .uri(locationName: "reservationArn"), required: true, type: .string)
+        ]
+
+        public let reservationArn: String
+
+        public init(reservationArn: String) {
+            self.reservationArn = reservationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservationArn = "reservationArn"
+        }
+    }
+
+    public struct DescribeReservationResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
+        ]
+
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation = "reservation"
         }
     }
 
@@ -772,6 +859,100 @@ extension MediaConnect {
         }
     }
 
+    public struct ListOfferingsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListOfferingsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Offerings", location: .body(locationName: "offerings"), required: false, type: .list)
+        ]
+
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListOfferings request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListOfferings request a second time and specify the NextToken value.
+        public let nextToken: String?
+        /// A list of offerings that are available to this account in the current AWS Region.
+        public let offerings: [Offering]?
+
+        public init(nextToken: String? = nil, offerings: [Offering]? = nil) {
+            self.nextToken = nextToken
+            self.offerings = offerings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case offerings = "offerings"
+        }
+    }
+
+    public struct ListReservationsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", location: .querystring(locationName: "nextToken"), required: false, type: .string)
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 1000)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "maxResults"
+            case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListReservationsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", location: .body(locationName: "nextToken"), required: false, type: .string), 
+            AWSShapeMember(label: "Reservations", location: .body(locationName: "reservations"), required: false, type: .list)
+        ]
+
+        /// The token that identifies which batch of results that you want to see. For example, you submit a ListReservations request with MaxResults set at 5. The service returns the first batch of results (up to 5) and a NextToken value. To see the next batch of results, you can submit the ListReservations request a second time and specify the NextToken value.
+        public let nextToken: String?
+        /// A list of all reservations that have been purchased by this account in the current AWS Region.
+        public let reservations: [Reservation]?
+
+        public init(nextToken: String? = nil, reservations: [Reservation]? = nil) {
+            self.nextToken = nextToken
+            self.reservations = reservations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "nextToken"
+            case reservations = "reservations"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ResourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
@@ -891,6 +1072,58 @@ extension MediaConnect {
         }
     }
 
+    public struct Offering: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: true, type: .string), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: true, type: .integer), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: true, type: .enum), 
+            AWSShapeMember(label: "OfferingArn", location: .body(locationName: "offeringArn"), required: true, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: true, type: .string), 
+            AWSShapeMember(label: "PricePerUnit", location: .body(locationName: "pricePerUnit"), required: true, type: .string), 
+            AWSShapeMember(label: "PriceUnits", location: .body(locationName: "priceUnits"), required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: true, type: .structure)
+        ]
+
+        /// The type of currency that is used for billing. The currencyCode used for all reservations is US dollars.
+        public let currencyCode: String
+        /// The length of time that your reservation would be active.
+        public let duration: Int
+        /// The unit of measurement for the duration of the offering.
+        public let durationUnits: DurationUnits
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        public let offeringArn: String
+        /// A description of the offering.
+        public let offeringDescription: String
+        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate.
+        public let pricePerUnit: String
+        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate.
+        public let priceUnits: PriceUnits
+        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering.
+        public let resourceSpecification: ResourceSpecification
+
+        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, resourceSpecification: ResourceSpecification) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.durationUnits = durationUnits
+            self.offeringArn = offeringArn
+            self.offeringDescription = offeringDescription
+            self.pricePerUnit = pricePerUnit
+            self.priceUnits = priceUnits
+            self.resourceSpecification = resourceSpecification
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case resourceSpecification = "resourceSpecification"
+        }
+    }
+
     public struct Output: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DataTransferSubscriberFeePercent", location: .body(locationName: "dataTransferSubscriberFeePercent"), required: false, type: .integer), 
@@ -955,6 +1188,48 @@ extension MediaConnect {
             case port = "port"
             case transport = "transport"
             case vpcInterfaceAttachment = "vpcInterfaceAttachment"
+        }
+    }
+
+    public struct PurchaseOfferingRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "OfferingArn", location: .uri(locationName: "offeringArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ReservationName", location: .body(locationName: "reservationName"), required: true, type: .string), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: true, type: .string)
+        ]
+
+        public let offeringArn: String
+        /// The name that you want to use for the reservation.
+        public let reservationName: String
+        /// The date and time that you want the reservation to begin, in Coordinated Universal Time (UTC). You can specify any date and time between 12:00am on the first day of the current month to the current time on today's date, inclusive. Specify the start in a 24-hour notation. Use the following format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+        public let start: String
+
+        public init(offeringArn: String, reservationName: String, start: String) {
+            self.offeringArn = offeringArn
+            self.reservationName = reservationName
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case offeringArn = "offeringArn"
+            case reservationName = "reservationName"
+            case start = "start"
+        }
+    }
+
+    public struct PurchaseOfferingResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Reservation", location: .body(locationName: "reservation"), required: false, type: .structure)
+        ]
+
+        public let reservation: Reservation?
+
+        public init(reservation: Reservation? = nil) {
+            self.reservation = reservation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservation = "reservation"
         }
     }
 
@@ -1086,6 +1361,105 @@ extension MediaConnect {
             case flowArn = "flowArn"
             case nonDeletedNetworkInterfaceIds = "nonDeletedNetworkInterfaceIds"
             case vpcInterfaceName = "vpcInterfaceName"
+        }
+    }
+
+    public struct Reservation: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CurrencyCode", location: .body(locationName: "currencyCode"), required: true, type: .string), 
+            AWSShapeMember(label: "Duration", location: .body(locationName: "duration"), required: true, type: .integer), 
+            AWSShapeMember(label: "DurationUnits", location: .body(locationName: "durationUnits"), required: true, type: .enum), 
+            AWSShapeMember(label: "End", location: .body(locationName: "end"), required: true, type: .string), 
+            AWSShapeMember(label: "OfferingArn", location: .body(locationName: "offeringArn"), required: true, type: .string), 
+            AWSShapeMember(label: "OfferingDescription", location: .body(locationName: "offeringDescription"), required: true, type: .string), 
+            AWSShapeMember(label: "PricePerUnit", location: .body(locationName: "pricePerUnit"), required: true, type: .string), 
+            AWSShapeMember(label: "PriceUnits", location: .body(locationName: "priceUnits"), required: true, type: .enum), 
+            AWSShapeMember(label: "ReservationArn", location: .body(locationName: "reservationArn"), required: true, type: .string), 
+            AWSShapeMember(label: "ReservationName", location: .body(locationName: "reservationName"), required: true, type: .string), 
+            AWSShapeMember(label: "ReservationState", location: .body(locationName: "reservationState"), required: true, type: .enum), 
+            AWSShapeMember(label: "ResourceSpecification", location: .body(locationName: "resourceSpecification"), required: true, type: .structure), 
+            AWSShapeMember(label: "Start", location: .body(locationName: "start"), required: true, type: .string)
+        ]
+
+        /// The type of currency that is used for billing. The currencyCode used for your reservation is US dollars.
+        public let currencyCode: String
+        /// The length of time that this reservation is active. MediaConnect defines this value in the offering.
+        public let duration: Int
+        /// The unit of measurement for the duration of the reservation. MediaConnect defines this value in the offering.
+        public let durationUnits: DurationUnits
+        /// The day and time that this reservation expires. This value is calculated based on the start date and time that you set and the offering's duration.
+        public let end: String
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+        public let offeringArn: String
+        /// A description of the offering. MediaConnect defines this value in the offering.
+        public let offeringDescription: String
+        /// The cost of a single unit. This value, in combination with priceUnits, makes up the rate. MediaConnect defines this value in the offering.
+        public let pricePerUnit: String
+        /// The unit of measurement that is used for billing. This value, in combination with pricePerUnit, makes up the rate. MediaConnect defines this value in the offering.
+        public let priceUnits: PriceUnits
+        /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation when you purchase an offering.
+        public let reservationArn: String
+        /// The name that you assigned to the reservation when you purchased the offering.
+        public let reservationName: String
+        /// The status of your reservation.
+        public let reservationState: ReservationState
+        /// A definition of the amount of outbound bandwidth that you would be reserving if you purchase the offering. MediaConnect defines the values that make up the resourceSpecification in the offering.
+        public let resourceSpecification: ResourceSpecification
+        /// The day and time that the reservation becomes active. You set this value when you purchase the offering.
+        public let start: String
+
+        public init(currencyCode: String, duration: Int, durationUnits: DurationUnits, end: String, offeringArn: String, offeringDescription: String, pricePerUnit: String, priceUnits: PriceUnits, reservationArn: String, reservationName: String, reservationState: ReservationState, resourceSpecification: ResourceSpecification, start: String) {
+            self.currencyCode = currencyCode
+            self.duration = duration
+            self.durationUnits = durationUnits
+            self.end = end
+            self.offeringArn = offeringArn
+            self.offeringDescription = offeringDescription
+            self.pricePerUnit = pricePerUnit
+            self.priceUnits = priceUnits
+            self.reservationArn = reservationArn
+            self.reservationName = reservationName
+            self.reservationState = reservationState
+            self.resourceSpecification = resourceSpecification
+            self.start = start
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currencyCode = "currencyCode"
+            case duration = "duration"
+            case durationUnits = "durationUnits"
+            case end = "end"
+            case offeringArn = "offeringArn"
+            case offeringDescription = "offeringDescription"
+            case pricePerUnit = "pricePerUnit"
+            case priceUnits = "priceUnits"
+            case reservationArn = "reservationArn"
+            case reservationName = "reservationName"
+            case reservationState = "reservationState"
+            case resourceSpecification = "resourceSpecification"
+            case start = "start"
+        }
+    }
+
+    public struct ResourceSpecification: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ReservedBitrate", location: .body(locationName: "reservedBitrate"), required: false, type: .integer), 
+            AWSShapeMember(label: "ResourceType", location: .body(locationName: "resourceType"), required: true, type: .enum)
+        ]
+
+        /// The amount of outbound bandwidth that is discounted in the offering.
+        public let reservedBitrate: Int?
+        /// The type of resource and the unit that is being billed for.
+        public let resourceType: ResourceType
+
+        public init(reservedBitrate: Int? = nil, resourceType: ResourceType) {
+            self.reservedBitrate = reservedBitrate
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reservedBitrate = "reservedBitrate"
+            case resourceType = "resourceType"
         }
     }
 
@@ -1553,6 +1927,7 @@ extension MediaConnect {
             AWSShapeMember(label: "FlowArn", location: .body(locationName: "flowArn"), required: false, type: .string)
         ]
 
+        /// The new configuration of the entitlement that you updated.
         public let entitlement: Entitlement?
         /// The ARN of the flow that this entitlement was granted on.
         public let flowArn: String?
@@ -1651,6 +2026,7 @@ extension MediaConnect {
 
         /// The ARN of the flow that is associated with the updated output.
         public let flowArn: String?
+        /// The new settings of the output that you updated.
         public let output: Output?
 
         public init(flowArn: String? = nil, output: Output? = nil) {

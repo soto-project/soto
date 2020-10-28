@@ -1859,7 +1859,7 @@ public struct EC2 {
         return client.send(operation: "ModifyVpnConnection", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Modifies the connection options for your Site-to-Site VPN VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the AWS side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated.
+    ///  Modifies the connection options for your Site-to-Site VPN connection. When you modify the VPN connection options, the VPN endpoint IP addresses on the AWS side do not change, and the tunnel options do not change. Your VPN connection will be temporarily unavailable for a brief period while the VPN connection is updated.
     public func modifyVpnConnectionOptions(_ input: ModifyVpnConnectionOptionsRequest) -> EventLoopFuture<ModifyVpnConnectionOptionsResult> {
         return client.send(operation: "ModifyVpnConnectionOptions", path: "/", httpMethod: "POST", input: input)
     }
@@ -1904,7 +1904,7 @@ public struct EC2 {
         return client.send(operation: "PurchaseScheduledInstances", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within four minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Getting console output and rebooting instances in the Amazon Elastic Compute Cloud User Guide.
+    ///  Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Getting console output and rebooting instances in the Amazon Elastic Compute Cloud User Guide.
     @discardableResult public func rebootInstances(_ input: RebootInstancesRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "RebootInstances", path: "/", httpMethod: "POST", input: input)
     }
@@ -2049,13 +2049,13 @@ public struct EC2 {
         return client.send(operation: "RevokeClientVpnIngress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  [VPC only] Removes the specified egress rules from a security group for EC2-VPC. This action doesn't apply to security groups for use in EC2-Classic. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly. Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
-    @discardableResult public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest) -> EventLoopFuture<Void> {
+    ///  [VPC only] Removes the specified egress rules from a security group for EC2-VPC. This action does not apply to security groups for use in EC2-Classic. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [Default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
+    public func revokeSecurityGroupEgress(_ input: RevokeSecurityGroupEgressRequest) -> EventLoopFuture<RevokeSecurityGroupEgressResult> {
         return client.send(operation: "RevokeSecurityGroupEgress", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Removes the specified ingress rules from a security group. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [EC2-Classic only] If the values you specify do not match the existing rule's values, no error is returned. Use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
-    @discardableResult public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest) -> EventLoopFuture<Void> {
+    ///  Removes the specified ingress rules from a security group. To remove a rule, the values that you specify (for example, ports) must match the existing rule's values exactly.  [EC2-Classic , default VPC] If the values you specify do not match the existing rule's values, no error is returned, and the output describes the security group rules that were not revoked.  AWS recommends that you use DescribeSecurityGroups to verify that the rule has been removed.  Each rule consists of the protocol and the CIDR range or source security group. For the TCP and UDP protocols, you must also specify the destination port or range of ports. For the ICMP protocol, you must also specify the ICMP type and code. If the security group rule has a description, you do not have to specify the description to revoke the rule. Rule changes are propagated to instances within the security group as quickly as possible. However, a small delay might occur.
+    public func revokeSecurityGroupIngress(_ input: RevokeSecurityGroupIngressRequest) -> EventLoopFuture<RevokeSecurityGroupIngressResult> {
         return client.send(operation: "RevokeSecurityGroupIngress", path: "/", httpMethod: "POST", input: input)
     }
 

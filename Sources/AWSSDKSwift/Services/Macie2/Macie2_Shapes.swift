@@ -118,6 +118,7 @@ extension Macie2 {
         case cancelled = "CANCELLED"
         case complete = "COMPLETE"
         case idle = "IDLE"
+        case userPaused = "USER_PAUSED"
         public var description: String { return self.rawValue }
     }
 
@@ -571,23 +572,27 @@ extension Macie2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "publiclyAccessible", location: .body(locationName: "publiclyAccessible"), required: false, type: .long), 
             AWSShapeMember(label: "publiclyReadable", location: .body(locationName: "publiclyReadable"), required: false, type: .long), 
-            AWSShapeMember(label: "publiclyWritable", location: .body(locationName: "publiclyWritable"), required: false, type: .long)
+            AWSShapeMember(label: "publiclyWritable", location: .body(locationName: "publiclyWritable"), required: false, type: .long), 
+            AWSShapeMember(label: "unknown", location: .body(locationName: "unknown"), required: false, type: .long)
         ]
 
         public let publiclyAccessible: Int64?
         public let publiclyReadable: Int64?
         public let publiclyWritable: Int64?
+        public let unknown: Int64?
 
-        public init(publiclyAccessible: Int64? = nil, publiclyReadable: Int64? = nil, publiclyWritable: Int64? = nil) {
+        public init(publiclyAccessible: Int64? = nil, publiclyReadable: Int64? = nil, publiclyWritable: Int64? = nil, unknown: Int64? = nil) {
             self.publiclyAccessible = publiclyAccessible
             self.publiclyReadable = publiclyReadable
             self.publiclyWritable = publiclyWritable
+            self.unknown = unknown
         }
 
         private enum CodingKeys: String, CodingKey {
             case publiclyAccessible = "publiclyAccessible"
             case publiclyReadable = "publiclyReadable"
             case publiclyWritable = "publiclyWritable"
+            case unknown = "unknown"
         }
     }
 
@@ -619,23 +624,27 @@ extension Macie2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "external", location: .body(locationName: "external"), required: false, type: .long), 
             AWSShapeMember(label: "internal", location: .body(locationName: "internal"), required: false, type: .long), 
-            AWSShapeMember(label: "notShared", location: .body(locationName: "notShared"), required: false, type: .long)
+            AWSShapeMember(label: "notShared", location: .body(locationName: "notShared"), required: false, type: .long), 
+            AWSShapeMember(label: "unknown", location: .body(locationName: "unknown"), required: false, type: .long)
         ]
 
         public let external: Int64?
         public let `internal`: Int64?
         public let notShared: Int64?
+        public let unknown: Int64?
 
-        public init(external: Int64? = nil, internal: Int64? = nil, notShared: Int64? = nil) {
+        public init(external: Int64? = nil, internal: Int64? = nil, notShared: Int64? = nil, unknown: Int64? = nil) {
             self.external = external
             self.`internal` = `internal`
             self.notShared = notShared
+            self.unknown = unknown
         }
 
         private enum CodingKeys: String, CodingKey {
             case external = "external"
             case `internal` = "internal"
             case notShared = "notShared"
+            case unknown = "unknown"
         }
     }
 
@@ -871,6 +880,34 @@ extension Macie2 {
         }
     }
 
+    public struct Cell: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cellReference", location: .body(locationName: "cellReference"), required: false, type: .string), 
+            AWSShapeMember(label: "column", location: .body(locationName: "column"), required: false, type: .long), 
+            AWSShapeMember(label: "columnName", location: .body(locationName: "columnName"), required: false, type: .string), 
+            AWSShapeMember(label: "row", location: .body(locationName: "row"), required: false, type: .long)
+        ]
+
+        public let cellReference: String?
+        public let column: Int64?
+        public let columnName: String?
+        public let row: Int64?
+
+        public init(cellReference: String? = nil, column: Int64? = nil, columnName: String? = nil, row: Int64? = nil) {
+            self.cellReference = cellReference
+            self.column = column
+            self.columnName = columnName
+            self.row = row
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cellReference = "cellReference"
+            case column = "column"
+            case columnName = "columnName"
+            case row = "row"
+        }
+    }
+
     public struct ClassificationDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "detailedResultsLocation", location: .body(locationName: "detailedResultsLocation"), required: false, type: .string), 
@@ -917,6 +954,7 @@ extension Macie2 {
 
     public struct ClassificationResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "additionalOccurrences", location: .body(locationName: "additionalOccurrences"), required: false, type: .boolean), 
             AWSShapeMember(label: "customDataIdentifiers", location: .body(locationName: "customDataIdentifiers"), required: false, type: .structure), 
             AWSShapeMember(label: "mimeType", location: .body(locationName: "mimeType"), required: false, type: .string), 
             AWSShapeMember(label: "sensitiveData", location: .body(locationName: "sensitiveData"), required: false, type: .list), 
@@ -924,13 +962,15 @@ extension Macie2 {
             AWSShapeMember(label: "status", location: .body(locationName: "status"), required: false, type: .structure)
         ]
 
+        public let additionalOccurrences: Bool?
         public let customDataIdentifiers: CustomDataIdentifiers?
         public let mimeType: String?
         public let sensitiveData: [SensitiveDataItem]?
         public let sizeClassified: Int64?
         public let status: ClassificationResultStatus?
 
-        public init(customDataIdentifiers: CustomDataIdentifiers? = nil, mimeType: String? = nil, sensitiveData: [SensitiveDataItem]? = nil, sizeClassified: Int64? = nil, status: ClassificationResultStatus? = nil) {
+        public init(additionalOccurrences: Bool? = nil, customDataIdentifiers: CustomDataIdentifiers? = nil, mimeType: String? = nil, sensitiveData: [SensitiveDataItem]? = nil, sizeClassified: Int64? = nil, status: ClassificationResultStatus? = nil) {
+            self.additionalOccurrences = additionalOccurrences
             self.customDataIdentifiers = customDataIdentifiers
             self.mimeType = mimeType
             self.sensitiveData = sensitiveData
@@ -939,6 +979,7 @@ extension Macie2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalOccurrences = "additionalOccurrences"
             case customDataIdentifiers = "customDataIdentifiers"
             case mimeType = "mimeType"
             case sensitiveData = "sensitiveData"
@@ -1351,23 +1392,27 @@ extension Macie2 {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "arn", location: .body(locationName: "arn"), required: false, type: .string), 
             AWSShapeMember(label: "count", location: .body(locationName: "count"), required: false, type: .long), 
-            AWSShapeMember(label: "name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "occurrences", location: .body(locationName: "occurrences"), required: false, type: .structure)
         ]
 
         public let arn: String?
         public let count: Int64?
         public let name: String?
+        public let occurrences: Occurrences?
 
-        public init(arn: String? = nil, count: Int64? = nil, name: String? = nil) {
+        public init(arn: String? = nil, count: Int64? = nil, name: String? = nil, occurrences: Occurrences? = nil) {
             self.arn = arn
             self.count = count
             self.name = name
+            self.occurrences = occurrences
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "arn"
             case count = "count"
             case name = "name"
+            case occurrences = "occurrences"
         }
     }
 
@@ -1414,19 +1459,23 @@ extension Macie2 {
     public struct DefaultDetection: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "count", location: .body(locationName: "count"), required: false, type: .long), 
+            AWSShapeMember(label: "occurrences", location: .body(locationName: "occurrences"), required: false, type: .structure), 
             AWSShapeMember(label: "type", location: .body(locationName: "type"), required: false, type: .string)
         ]
 
         public let count: Int64?
+        public let occurrences: Occurrences?
         public let `type`: String?
 
-        public init(count: Int64? = nil, type: String? = nil) {
+        public init(count: Int64? = nil, occurrences: Occurrences? = nil, type: String? = nil) {
             self.count = count
+            self.occurrences = occurrences
             self.`type` = `type`
         }
 
         private enum CodingKeys: String, CodingKey {
             case count = "count"
+            case occurrences = "occurrences"
             case `type` = "type"
         }
     }
@@ -1616,7 +1665,8 @@ extension Macie2 {
             AWSShapeMember(label: "samplingPercentage", location: .body(locationName: "samplingPercentage"), required: false, type: .integer), 
             AWSShapeMember(label: "scheduleFrequency", location: .body(locationName: "scheduleFrequency"), required: false, type: .structure), 
             AWSShapeMember(label: "statistics", location: .body(locationName: "statistics"), required: false, type: .structure), 
-            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map)
+            AWSShapeMember(label: "tags", location: .body(locationName: "tags"), required: false, type: .map), 
+            AWSShapeMember(label: "userPausedDetails", location: .body(locationName: "userPausedDetails"), required: false, type: .structure)
         ]
 
         public let clientToken: String?
@@ -1635,8 +1685,9 @@ extension Macie2 {
         public let scheduleFrequency: JobScheduleFrequency?
         public let statistics: Statistics?
         public let tags: [String: String]?
+        public let userPausedDetails: UserPausedDetails?
 
-        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: TimeStamp? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunTime: TimeStamp? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = DescribeClassificationJobResponse.idempotencyToken(), createdAt: TimeStamp? = nil, customDataIdentifierIds: [String]? = nil, description: String? = nil, initialRun: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, lastRunTime: TimeStamp? = nil, name: String? = nil, s3JobDefinition: S3JobDefinition? = nil, samplingPercentage: Int? = nil, scheduleFrequency: JobScheduleFrequency? = nil, statistics: Statistics? = nil, tags: [String: String]? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.customDataIdentifierIds = customDataIdentifierIds
@@ -1653,6 +1704,7 @@ extension Macie2 {
             self.scheduleFrequency = scheduleFrequency
             self.statistics = statistics
             self.tags = tags
+            self.userPausedDetails = userPausedDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1672,6 +1724,7 @@ extension Macie2 {
             case scheduleFrequency = "scheduleFrequency"
             case statistics = "statistics"
             case tags = "tags"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
@@ -2878,7 +2931,8 @@ extension Macie2 {
             AWSShapeMember(label: "jobId", location: .body(locationName: "jobId"), required: false, type: .string), 
             AWSShapeMember(label: "jobStatus", location: .body(locationName: "jobStatus"), required: false, type: .enum), 
             AWSShapeMember(label: "jobType", location: .body(locationName: "jobType"), required: false, type: .enum), 
-            AWSShapeMember(label: "name", location: .body(locationName: "name"), required: false, type: .string)
+            AWSShapeMember(label: "name", location: .body(locationName: "name"), required: false, type: .string), 
+            AWSShapeMember(label: "userPausedDetails", location: .body(locationName: "userPausedDetails"), required: false, type: .structure)
         ]
 
         public let bucketDefinitions: [S3BucketDefinitionForJob]?
@@ -2887,14 +2941,16 @@ extension Macie2 {
         public let jobStatus: JobStatus?
         public let jobType: JobType?
         public let name: String?
+        public let userPausedDetails: UserPausedDetails?
 
-        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, name: String? = nil) {
+        public init(bucketDefinitions: [S3BucketDefinitionForJob]? = nil, createdAt: TimeStamp? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil, jobType: JobType? = nil, name: String? = nil, userPausedDetails: UserPausedDetails? = nil) {
             self.bucketDefinitions = bucketDefinitions
             self.createdAt = createdAt
             self.jobId = jobId
             self.jobStatus = jobStatus
             self.jobType = jobType
             self.name = name
+            self.userPausedDetails = userPausedDetails
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2904,6 +2960,7 @@ extension Macie2 {
             case jobStatus = "jobStatus"
             case jobType = "jobType"
             case name = "name"
+            case userPausedDetails = "userPausedDetails"
         }
     }
 
@@ -3455,6 +3512,62 @@ extension Macie2 {
         }
     }
 
+    public struct Occurrences: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "cells", location: .body(locationName: "cells"), required: false, type: .list), 
+            AWSShapeMember(label: "lineRanges", location: .body(locationName: "lineRanges"), required: false, type: .list), 
+            AWSShapeMember(label: "offsetRanges", location: .body(locationName: "offsetRanges"), required: false, type: .list), 
+            AWSShapeMember(label: "pages", location: .body(locationName: "pages"), required: false, type: .list), 
+            AWSShapeMember(label: "records", location: .body(locationName: "records"), required: false, type: .list)
+        ]
+
+        public let cells: [Cell]?
+        public let lineRanges: [Range]?
+        public let offsetRanges: [Range]?
+        public let pages: [Page]?
+        public let records: [Record]?
+
+        public init(cells: [Cell]? = nil, lineRanges: [Range]? = nil, offsetRanges: [Range]? = nil, pages: [Page]? = nil, records: [Record]? = nil) {
+            self.cells = cells
+            self.lineRanges = lineRanges
+            self.offsetRanges = offsetRanges
+            self.pages = pages
+            self.records = records
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cells = "cells"
+            case lineRanges = "lineRanges"
+            case offsetRanges = "offsetRanges"
+            case pages = "pages"
+            case records = "records"
+        }
+    }
+
+    public struct Page: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "lineRange", location: .body(locationName: "lineRange"), required: false, type: .structure), 
+            AWSShapeMember(label: "offsetRange", location: .body(locationName: "offsetRange"), required: false, type: .structure), 
+            AWSShapeMember(label: "pageNumber", location: .body(locationName: "pageNumber"), required: false, type: .long)
+        ]
+
+        public let lineRange: Range?
+        public let offsetRange: Range?
+        public let pageNumber: Int64?
+
+        public init(lineRange: Range? = nil, offsetRange: Range? = nil, pageNumber: Int64? = nil) {
+            self.lineRange = lineRange
+            self.offsetRange = offsetRange
+            self.pageNumber = pageNumber
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lineRange = "lineRange"
+            case offsetRange = "offsetRange"
+            case pageNumber = "pageNumber"
+        }
+    }
+
     public struct PolicyDetails: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "action", location: .body(locationName: "action"), required: false, type: .structure), 
@@ -3504,6 +3617,46 @@ extension Macie2 {
 
         private enum CodingKeys: String, CodingKey {
             case configuration = "configuration"
+        }
+    }
+
+    public struct Range: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "end", location: .body(locationName: "end"), required: false, type: .long), 
+            AWSShapeMember(label: "start", location: .body(locationName: "start"), required: false, type: .long), 
+            AWSShapeMember(label: "startColumn", location: .body(locationName: "startColumn"), required: false, type: .long)
+        ]
+
+        public let end: Int64?
+        public let start: Int64?
+        public let startColumn: Int64?
+
+        public init(end: Int64? = nil, start: Int64? = nil, startColumn: Int64? = nil) {
+            self.end = end
+            self.start = start
+            self.startColumn = startColumn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case end = "end"
+            case start = "start"
+            case startColumn = "startColumn"
+        }
+    }
+
+    public struct Record: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "recordIndex", location: .body(locationName: "recordIndex"), required: false, type: .long)
+        ]
+
+        public let recordIndex: Int64?
+
+        public init(recordIndex: Int64? = nil) {
+            self.recordIndex = recordIndex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordIndex = "recordIndex"
         }
     }
 
@@ -4500,6 +4653,30 @@ extension Macie2 {
             case accountId = "accountId"
             case arn = "arn"
             case principalId = "principalId"
+        }
+    }
+
+    public struct UserPausedDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobExpiresAt", location: .body(locationName: "jobExpiresAt"), required: false, type: .timestamp), 
+            AWSShapeMember(label: "jobImminentExpirationHealthEventArn", location: .body(locationName: "jobImminentExpirationHealthEventArn"), required: false, type: .string), 
+            AWSShapeMember(label: "jobPausedAt", location: .body(locationName: "jobPausedAt"), required: false, type: .timestamp)
+        ]
+
+        public let jobExpiresAt: TimeStamp?
+        public let jobImminentExpirationHealthEventArn: String?
+        public let jobPausedAt: TimeStamp?
+
+        public init(jobExpiresAt: TimeStamp? = nil, jobImminentExpirationHealthEventArn: String? = nil, jobPausedAt: TimeStamp? = nil) {
+            self.jobExpiresAt = jobExpiresAt
+            self.jobImminentExpirationHealthEventArn = jobImminentExpirationHealthEventArn
+            self.jobPausedAt = jobPausedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobExpiresAt = "jobExpiresAt"
+            case jobImminentExpirationHealthEventArn = "jobImminentExpirationHealthEventArn"
+            case jobPausedAt = "jobPausedAt"
         }
     }
 

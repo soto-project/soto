@@ -55,7 +55,7 @@ public struct Kendra {
         return client.send(operation: "BatchPutDocument", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a data source that you use to with an Amazon Kendra index.  You specify a name, connector type and description for your data source. You can choose between an S3 connector, a SharePoint Online connector, and a database connector. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+    ///  Creates a data source that you use to with an Amazon Kendra index.  You specify a name, data source connector type and description for your data source. You also specify configuration information such as document metadata (author, source URI, and so on) and user context information.  CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     public func createDataSource(_ input: CreateDataSourceRequest) -> EventLoopFuture<CreateDataSourceResponse> {
         return client.send(operation: "CreateDataSource", path: "/", httpMethod: "POST", input: input)
     }
@@ -125,7 +125,7 @@ public struct Kendra {
         return client.send(operation: "ListTagsForResource", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter.
+    ///  Searches an active index. Use this API to search your documents using query. The Query operation enables to do faceted search and to filter results based on document attributes. It also enables you to provide user context that Amazon Kendra uses to enforce document access control in the search results.  Amazon Kendra searches your index for text content and question and answer (FAQ) content. By default the response contains three types of results.   Relevant passages   Matching FAQs   Relevant documents   You can specify that the query return only one type of result using the QueryResultTypeConfig parameter. Each query returns the 100 most relevant results. 
     public func query(_ input: QueryRequest) -> EventLoopFuture<QueryResult> {
         return client.send(operation: "Query", path: "/", httpMethod: "POST", input: input)
     }

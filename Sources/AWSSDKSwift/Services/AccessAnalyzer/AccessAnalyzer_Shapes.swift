@@ -15,8 +15,8 @@ extension AccessAnalyzer {
     }
 
     public enum FindingSourceType: String, CustomStringConvertible, Codable {
-        case bucketAcl = "BUCKET_ACL"
         case policy = "POLICY"
+        case bucketAcl = "BUCKET_ACL"
         case s3AccessPoint = "S3_ACCESS_POINT"
         public var description: String { return self.rawValue }
     }
@@ -49,12 +49,12 @@ extension AccessAnalyzer {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
+        case awsS3Bucket = "AWS::S3::Bucket"
         case awsIamRole = "AWS::IAM::Role"
-        case awsKmsKey = "AWS::KMS::Key"
+        case awsSqsQueue = "AWS::SQS::Queue"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
-        case awsS3Bucket = "AWS::S3::Bucket"
-        case awsSqsQueue = "AWS::SQS::Queue"
+        case awsKmsKey = "AWS::KMS::Key"
         public var description: String { return self.rawValue }
     }
 
@@ -214,6 +214,40 @@ extension AccessAnalyzer {
             case statusReason = "statusReason"
             case tags = "tags"
             case `type` = "type"
+        }
+    }
+
+    public struct ApplyArchiveRuleRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "analyzerArn", required: true, type: .string), 
+            AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "ruleName", required: true, type: .string)
+        ]
+
+        /// The Amazon resource name (ARN) of the analyzer.
+        public let analyzerArn: String
+        /// A client token.
+        public let clientToken: String?
+        /// The name of the rule to apply.
+        public let ruleName: String
+
+        public init(analyzerArn: String, clientToken: String? = ApplyArchiveRuleRequest.idempotencyToken(), ruleName: String) {
+            self.analyzerArn = analyzerArn
+            self.clientToken = clientToken
+            self.ruleName = ruleName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.analyzerArn, name:"analyzerArn", parent: name, pattern: "^[^:]*:[^:]*:[^:]*:[^:]*:[^:]*:analyzer/.{1,255}$")
+            try validate(self.ruleName, name:"ruleName", parent: name, max: 255)
+            try validate(self.ruleName, name:"ruleName", parent: name, min: 1)
+            try validate(self.ruleName, name:"ruleName", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzerArn = "analyzerArn"
+            case clientToken = "clientToken"
+            case ruleName = "ruleName"
         }
     }
 

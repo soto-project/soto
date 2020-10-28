@@ -40,6 +40,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthMode: String, CustomStringConvertible, Codable {
+        case iam = "IAM"
+        case sso = "SSO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable {
         case resourcenotfoundexception = "ResourceNotFoundException"
         case invalidrequestexception = "InvalidRequestException"
@@ -69,6 +75,7 @@ extension IoTSiteWise {
     public enum IdentityType: String, CustomStringConvertible, Codable {
         case user = "USER"
         case group = "GROUP"
+        case iam = "IAM"
         public var description: String { return self.rawValue }
     }
 
@@ -167,7 +174,7 @@ extension IoTSiteWise {
         public let creationDate: TimeStamp?
         /// The ID of the access policy.
         public let id: String
-        /// The AWS SSO identity (a user or group).
+        /// The identity (an AWS SSO user, an AWS SSO group, or an IAM user).
         public let identity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let lastUpdateDate: TimeStamp?
@@ -299,7 +306,7 @@ extension IoTSiteWise {
 
         /// The ID of the hierarchy. This ID is a hierarchyId.
         public let id: String?
-        /// The hierarchy name provided in the CreateAssetModel or UpdateAssetModel API.
+        /// The hierarchy name provided in the CreateAssetModel or UpdateAssetModel API operation.
         public let name: String
 
         public init(id: String? = nil, name: String) {
@@ -324,7 +331,7 @@ extension IoTSiteWise {
         public let childAssetModelId: String
         /// The ID of the asset model hierarchy. This ID is a hierarchyId.
         public let id: String?
-        /// The name of the asset model hierarchy that you specify by using the CreateAssetModel or UpdateAssetModel API.
+        /// The name of the asset model hierarchy that you specify by using the CreateAssetModel or UpdateAssetModel API operation.
         public let name: String
 
         public init(childAssetModelId: String, id: String? = nil, name: String) {
@@ -360,7 +367,7 @@ extension IoTSiteWise {
 
         /// The ID of an asset model for this hierarchy.
         public let childAssetModelId: String
-        /// The name of the asset model hierarchy definition (as specified in CreateAssetModel or UpdateAssetModel).
+        /// The name of the asset model hierarchy definition (as specified in the CreateAssetModel or UpdateAssetModel API operation).
         public let name: String
 
         public init(childAssetModelId: String, name: String) {
@@ -1032,11 +1039,11 @@ extension IoTSiteWise {
             AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
-        /// The identity for this access policy. Choose either a user or a group but not both.
+        /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
-        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either portal or project but not both.
+        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
         public let accessPolicyResource: Resource
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
@@ -1419,6 +1426,7 @@ extension IoTSiteWise {
     public struct CreatePortalRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "clientToken", required: false, type: .string), 
+            AWSShapeMember(label: "portalAuthMode", required: false, type: .enum), 
             AWSShapeMember(label: "portalContactEmail", required: true, type: .string), 
             AWSShapeMember(label: "portalDescription", required: false, type: .string), 
             AWSShapeMember(label: "portalLogoImageFile", required: false, type: .structure), 
@@ -1429,6 +1437,8 @@ extension IoTSiteWise {
 
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses AWS Single Sign-On to authenticate users and manage user permissions. Before you can create a portal that uses AWS SSO, you must enable AWS SSO. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide. This option is only available in AWS Regions other than the China Regions.    IAM – The portal uses AWS Identity and Access Management (IAM) to authenticate users and manage user permissions. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO 
+        public let portalAuthMode: AuthMode?
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
         /// A description for the portal.
@@ -1442,8 +1452,9 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the portal. For more information, see Tagging your AWS IoT SiteWise resources in the AWS IoT SiteWise User Guide.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreatePortalRequest.idempotencyToken(), portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreatePortalRequest.idempotencyToken(), portalAuthMode: AuthMode? = nil, portalContactEmail: String, portalDescription: String? = nil, portalLogoImageFile: ImageFile? = nil, portalName: String, roleArn: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
+            self.portalAuthMode = portalAuthMode
             self.portalContactEmail = portalContactEmail
             self.portalDescription = portalDescription
             self.portalLogoImageFile = portalLogoImageFile
@@ -1479,6 +1490,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "clientToken"
+            case portalAuthMode = "portalAuthMode"
             case portalContactEmail = "portalContactEmail"
             case portalDescription = "portalDescription"
             case portalLogoImageFile = "portalLogoImageFile"
@@ -1501,11 +1513,11 @@ extension IoTSiteWise {
         public let portalArn: String
         /// The ID of the created portal.
         public let portalId: String
-        /// The public URL for the AWS IoT SiteWise Monitor portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The status of the portal, which contains a state (CREATING after successfully calling this operation) and any error message.
         public let portalStatus: PortalStatus
-        /// The associated AWS SSO application Id.
+        /// The associated AWS SSO application ID, if the portal uses AWS SSO.
         public let ssoApplicationId: String
 
         public init(portalArn: String, portalId: String, portalStartUrl: String, portalStatus: PortalStatus, ssoApplicationId: String) {
@@ -1522,6 +1534,53 @@ extension IoTSiteWise {
             case portalStartUrl = "portalStartUrl"
             case portalStatus = "portalStatus"
             case ssoApplicationId = "ssoApplicationId"
+        }
+    }
+
+    public struct CreatePresignedPortalUrlRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "portalId", location: .uri(locationName: "portalId"), required: true, type: .string), 
+            AWSShapeMember(label: "sessionDurationSeconds", location: .querystring(locationName: "sessionDurationSeconds"), required: false, type: .integer)
+        ]
+
+        /// The ID of the portal to access.
+        public let portalId: String
+        /// The duration (in seconds) for which the session at the URL is valid. Default: 900 seconds (15 minutes)
+        public let sessionDurationSeconds: Int?
+
+        public init(portalId: String, sessionDurationSeconds: Int? = nil) {
+            self.portalId = portalId
+            self.sessionDurationSeconds = sessionDurationSeconds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.portalId, name:"portalId", parent: name, max: 36)
+            try validate(self.portalId, name:"portalId", parent: name, min: 36)
+            try validate(self.portalId, name:"portalId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try validate(self.sessionDurationSeconds, name:"sessionDurationSeconds", parent: name, max: 43200)
+            try validate(self.sessionDurationSeconds, name:"sessionDurationSeconds", parent: name, min: 900)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case portalId = "portalId"
+            case sessionDurationSeconds = "sessionDurationSeconds"
+        }
+    }
+
+    public struct CreatePresignedPortalUrlResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "presignedPortalUrl", required: true, type: .string)
+        ]
+
+        /// The pre-signed URL to the portal. The URL contains the portal ID and a session token that lets you access the portal. The URL has the following format.  https://&lt;portal-id&gt;.app.iotsitewise.aws/auth?token=&lt;encrypted-token&gt; 
+        public let presignedPortalUrl: String
+
+        public init(presignedPortalUrl: String) {
+            self.presignedPortalUrl = presignedPortalUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case presignedPortalUrl = "presignedPortalUrl"
         }
     }
 
@@ -1966,7 +2025,7 @@ extension IoTSiteWise {
         public let accessPolicyCreationDate: TimeStamp
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The AWS SSO identity (user or group) to which this access policy applies.
+        /// The identity (AWS SSO user, AWS SSO group, or IAM user) to which this access policy applies.
         public let accessPolicyIdentity: Identity
         /// The date the access policy was last updated, in Unix epoch time.
         public let accessPolicyLastUpdateDate: TimeStamp
@@ -2478,6 +2537,7 @@ extension IoTSiteWise {
     public struct DescribePortalResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "portalArn", required: true, type: .string), 
+            AWSShapeMember(label: "portalAuthMode", required: false, type: .enum), 
             AWSShapeMember(label: "portalClientId", required: true, type: .string), 
             AWSShapeMember(label: "portalContactEmail", required: true, type: .string), 
             AWSShapeMember(label: "portalCreationDate", required: true, type: .timestamp), 
@@ -2493,7 +2553,9 @@ extension IoTSiteWise {
 
         /// The ARN of the portal, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:portal/${PortalId} 
         public let portalArn: String
-        /// The AWS SSO application generated client ID (used with AWS SSO APIs).
+        /// The service to use to authenticate users to the portal.
+        public let portalAuthMode: AuthMode?
+        /// The AWS SSO application generated client ID (used with AWS SSO APIs). AWS IoT SiteWise includes portalClientId for only portals that use AWS SSO to authenticate users.
         public let portalClientId: String
         /// The AWS administrator's contact email address.
         public let portalContactEmail: String
@@ -2509,15 +2571,16 @@ extension IoTSiteWise {
         public let portalLogoImageLocation: ImageLocation?
         /// The name of the portal.
         public let portalName: String
-        /// The public root URL for the AWS IoT AWS IoT SiteWise Monitor application portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
         public let portalStartUrl: String
         /// The current status of the portal, which contains a state and any error message.
         public let portalStatus: PortalStatus
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
 
-        public init(portalArn: String, portalClientId: String, portalContactEmail: String, portalCreationDate: TimeStamp, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: TimeStamp, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
+        public init(portalArn: String, portalAuthMode: AuthMode? = nil, portalClientId: String, portalContactEmail: String, portalCreationDate: TimeStamp, portalDescription: String? = nil, portalId: String, portalLastUpdateDate: TimeStamp, portalLogoImageLocation: ImageLocation? = nil, portalName: String, portalStartUrl: String, portalStatus: PortalStatus, roleArn: String? = nil) {
             self.portalArn = portalArn
+            self.portalAuthMode = portalAuthMode
             self.portalClientId = portalClientId
             self.portalContactEmail = portalContactEmail
             self.portalCreationDate = portalCreationDate
@@ -2533,6 +2596,7 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case portalArn = "portalArn"
+            case portalAuthMode = "portalAuthMode"
             case portalClientId = "portalClientId"
             case portalContactEmail = "portalContactEmail"
             case portalCreationDate = "portalCreationDate"
@@ -3107,29 +3171,58 @@ extension IoTSiteWise {
         }
     }
 
+    public struct IAMUserIdentity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "arn", required: true, type: .string)
+        ]
+
+        /// The ARN of the IAM user. IAM users must have the iotsitewise:CreatePresignedPortalUrl permission to sign in to the portal. For more information, see IAM ARNs in the IAM User Guide.  If you delete the IAM user, access policies that contain this identity include an empty arn. You can delete the access policy for the IAM user that no longer exists. 
+        public let arn: String
+
+        public init(arn: String) {
+            self.arn = arn
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.arn, name:"arn", parent: name, max: 1600)
+            try validate(self.arn, name:"arn", parent: name, min: 1)
+            try validate(self.arn, name:"arn", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "arn"
+        }
+    }
+
     public struct Identity: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "group", required: false, type: .structure), 
+            AWSShapeMember(label: "iamUser", required: false, type: .structure), 
             AWSShapeMember(label: "user", required: false, type: .structure)
         ]
 
-        /// A group identity.
+        /// An AWS SSO group identity.
         public let group: GroupIdentity?
-        /// A user identity.
+        /// An IAM user identity.
+        public let iamUser: IAMUserIdentity?
+        /// An AWS SSO user identity.
         public let user: UserIdentity?
 
-        public init(group: GroupIdentity? = nil, user: UserIdentity? = nil) {
+        public init(group: GroupIdentity? = nil, iamUser: IAMUserIdentity? = nil, user: UserIdentity? = nil) {
             self.group = group
+            self.iamUser = iamUser
             self.user = user
         }
 
         public func validate(name: String) throws {
             try self.group?.validate(name: "\(name).group")
+            try self.iamUser?.validate(name: "\(name).iamUser")
             try self.user?.validate(name: "\(name).user")
         }
 
         private enum CodingKeys: String, CodingKey {
             case group = "group"
+            case iamUser = "iamUser"
             case user = "user"
         }
     }
@@ -3213,6 +3306,7 @@ extension IoTSiteWise {
 
     public struct ListAccessPoliciesRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "iamArn", location: .querystring(locationName: "iamArn"), required: false, type: .string), 
             AWSShapeMember(label: "identityId", location: .querystring(locationName: "identityId"), required: false, type: .string), 
             AWSShapeMember(label: "identityType", location: .querystring(locationName: "identityType"), required: false, type: .enum), 
             AWSShapeMember(label: "maxResults", location: .querystring(locationName: "maxResults"), required: false, type: .integer), 
@@ -3221,9 +3315,11 @@ extension IoTSiteWise {
             AWSShapeMember(label: "resourceType", location: .querystring(locationName: "resourceType"), required: false, type: .enum)
         ]
 
-        /// The ID of the identity. This parameter is required if you specify identityType.
+        /// The ARN of the IAM user. For more information, see IAM ARNs in the IAM User Guide. This parameter is required if you specify IAM for identityType.
+        public let iamArn: String?
+        /// The ID of the identity. This parameter is required if you specify USER or GROUP for identityType.
         public let identityId: String?
-        /// The type of identity (user or group). This parameter is required if you specify identityId.
+        /// The type of identity (AWS SSO user, AWS SSO group, or IAM user). This parameter is required if you specify identityId.
         public let identityType: IdentityType?
         /// The maximum number of results to be returned per paginated request. Default: 50
         public let maxResults: Int?
@@ -3234,7 +3330,8 @@ extension IoTSiteWise {
         /// The type of resource (portal or project). This parameter is required if you specify resourceId.
         public let resourceType: ResourceType?
 
-        public init(identityId: String? = nil, identityType: IdentityType? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+        public init(iamArn: String? = nil, identityId: String? = nil, identityType: IdentityType? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceId: String? = nil, resourceType: ResourceType? = nil) {
+            self.iamArn = iamArn
             self.identityId = identityId
             self.identityType = identityType
             self.maxResults = maxResults
@@ -3244,6 +3341,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try validate(self.iamArn, name:"iamArn", parent: name, max: 1600)
+            try validate(self.iamArn, name:"iamArn", parent: name, min: 1)
+            try validate(self.iamArn, name:"iamArn", parent: name, pattern: ".*")
             try validate(self.identityId, name:"identityId", parent: name, max: 256)
             try validate(self.identityId, name:"identityId", parent: name, min: 1)
             try validate(self.identityId, name:"identityId", parent: name, pattern: "\\S+")
@@ -3258,6 +3358,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case iamArn = "iamArn"
             case identityId = "identityId"
             case identityType = "identityType"
             case maxResults = "maxResults"
@@ -3976,7 +4077,7 @@ extension IoTSiteWise {
         public let name: String
         /// The ARN of the service role that allows the portal's users to access your AWS IoT SiteWise resources on your behalf. For more information, see Using service roles for AWS IoT SiteWise Monitor in the AWS IoT SiteWise User Guide.
         public let roleArn: String?
-        /// The public root URL for the AWS IoT AWS IoT SiteWise Monitor application portal.
+        /// The URL for the AWS IoT SiteWise Monitor portal. You can use this URL to access portals that use AWS SSO for authentication. For portals that use IAM for authentication, you must use the CreatePresignedPortalUrl operation to create a URL that you can use to access the portal.
         public let startUrl: String
         public let status: PortalStatus
 
@@ -4453,11 +4554,11 @@ extension IoTSiteWise {
 
         /// The ID of the access policy.
         public let accessPolicyId: String
-        /// The identity for this access policy. Choose either a user or a group but not both.
+        /// The identity for this access policy. Choose an AWS SSO user, an AWS SSO group, or an IAM user.
         public let accessPolicyIdentity: Identity
         /// The permission level for this access policy. Note that a project ADMINISTRATOR is also known as a project owner.
         public let accessPolicyPermission: Permission
-        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either portal or project but not both.
+        /// The AWS IoT SiteWise Monitor resource for this access policy. Choose either a portal or a project.
         public let accessPolicyResource: Resource
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?

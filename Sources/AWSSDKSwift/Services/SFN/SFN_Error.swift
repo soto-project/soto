@@ -17,6 +17,7 @@ public enum SFNErrorType: AWSErrorType {
     case invalidName(message: String?)
     case invalidOutput(message: String?)
     case invalidToken(message: String?)
+    case invalidTracingConfiguration(message: String?)
     case missingRequiredParameter(message: String?)
     case resourceNotFound(message: String?)
     case stateMachineAlreadyExists(message: String?)
@@ -62,6 +63,8 @@ extension SFNErrorType {
             self = .invalidOutput(message: message)
         case "InvalidToken":
             self = .invalidToken(message: message)
+        case "InvalidTracingConfiguration":
+            self = .invalidTracingConfiguration(message: message)
         case "MissingRequiredParameter":
             self = .missingRequiredParameter(message: message)
         case "ResourceNotFound":
@@ -117,6 +120,8 @@ extension SFNErrorType : CustomStringConvertible {
             return "InvalidOutput: \(message ?? "")"
         case .invalidToken(let message):
             return "InvalidToken: \(message ?? "")"
+        case .invalidTracingConfiguration(let message):
+            return "InvalidTracingConfiguration: \(message ?? "")"
         case .missingRequiredParameter(let message):
             return "MissingRequiredParameter: \(message ?? "")"
         case .resourceNotFound(let message):

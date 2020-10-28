@@ -32,6 +32,7 @@ extension GroundStation {
     public enum ContactStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case awsCancelled = "AWS_CANCELLED"
+        case awsFailed = "AWS_FAILED"
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
         case completed = "COMPLETED"
@@ -540,19 +541,24 @@ extension GroundStation {
     public struct DataflowDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "destination", required: false, type: .structure), 
+            AWSShapeMember(label: "errorMessage", required: false, type: .string), 
             AWSShapeMember(label: "source", required: false, type: .structure)
         ]
 
         public let destination: Destination?
+        /// Error message for a dataflow.
+        public let errorMessage: String?
         public let source: Source?
 
-        public init(destination: Destination? = nil, source: Source? = nil) {
+        public init(destination: Destination? = nil, errorMessage: String? = nil, source: Source? = nil) {
             self.destination = destination
+            self.errorMessage = errorMessage
             self.source = source
         }
 
         private enum CodingKeys: String, CodingKey {
             case destination = "destination"
+            case errorMessage = "errorMessage"
             case source = "source"
         }
     }

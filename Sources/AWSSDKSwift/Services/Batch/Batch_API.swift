@@ -100,6 +100,11 @@ public struct Batch {
         return client.send(operation: "ListJobs", path: "/v1/listjobs", httpMethod: "POST", input: input)
     }
 
+    ///  List the tags for an AWS Batch resource. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+    public func listTagsForResource(_ input: ListTagsForResourceRequest) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return client.send(operation: "ListTagsForResource", path: "/v1/tags/{resourceArn}", httpMethod: "GET", input: input)
+    }
+
     ///  Registers an AWS Batch job definition.
     public func registerJobDefinition(_ input: RegisterJobDefinitionRequest) -> EventLoopFuture<RegisterJobDefinitionResponse> {
         return client.send(operation: "RegisterJobDefinition", path: "/v1/registerjobdefinition", httpMethod: "POST", input: input)
@@ -110,9 +115,19 @@ public struct Batch {
         return client.send(operation: "SubmitJob", path: "/v1/submitjob", httpMethod: "POST", input: input)
     }
 
+    ///  Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+    public func tagResource(_ input: TagResourceRequest) -> EventLoopFuture<TagResourceResponse> {
+        return client.send(operation: "TagResource", path: "/v1/tags/{resourceArn}", httpMethod: "POST", input: input)
+    }
+
     ///  Terminates a job in a job queue. Jobs that are in the STARTING or RUNNING state are terminated, which causes them to transition to FAILED. Jobs that have not progressed to the STARTING state are cancelled.
     public func terminateJob(_ input: TerminateJobRequest) -> EventLoopFuture<TerminateJobResponse> {
         return client.send(operation: "TerminateJob", path: "/v1/terminatejob", httpMethod: "POST", input: input)
+    }
+
+    ///  Deletes specified tags from an AWS Batch resource.
+    public func untagResource(_ input: UntagResourceRequest) -> EventLoopFuture<UntagResourceResponse> {
+        return client.send(operation: "UntagResource", path: "/v1/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
     ///  Updates an AWS Batch compute environment.

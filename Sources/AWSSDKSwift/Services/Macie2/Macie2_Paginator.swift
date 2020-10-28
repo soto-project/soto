@@ -46,7 +46,7 @@ extension Macie2 {
         return client.paginate(input: input, command: listMembers, tokenKey: \ListMembersResponse.nextToken, onPage: onPage)
     }
 
-    ///  Retrieves information about the account that's designated as the delegated administrator of Amazon Macie for an AWS organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an AWS organization.
     public func listOrganizationAdminAccountsPaginator(_ input: ListOrganizationAdminAccountsRequest, onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listOrganizationAdminAccounts, tokenKey: \ListOrganizationAdminAccountsResponse.nextToken, onPage: onPage)
     }

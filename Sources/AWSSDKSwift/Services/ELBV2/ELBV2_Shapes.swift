@@ -449,7 +449,8 @@ extension ELBV2 {
             AWSShapeMember(label: "LoadBalancerArn", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: true, type: .integer), 
             AWSShapeMember(label: "Protocol", required: true, type: .enum), 
-            AWSShapeMember(label: "SslPolicy", required: false, type: .string)
+            AWSShapeMember(label: "SslPolicy", required: false, type: .string), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
         /// [TLS listeners] The name of the Application-Layer Protocol Negotiation (ALPN) policy. You can specify one policy name. The following are the possible values:    HTTP1Only     HTTP2Only     HTTP2Optional     HTTP2Preferred     None    For more information, see ALPN Policies in the Network Load Balancers Guide.
@@ -466,8 +467,10 @@ extension ELBV2 {
         public let `protocol`: ProtocolEnum
         /// [HTTPS and TLS listeners] The security policy that defines which protocols and ciphers are supported. The following are the possible values:    ELBSecurityPolicy-2016-08     ELBSecurityPolicy-TLS-1-0-2015-04     ELBSecurityPolicy-TLS-1-1-2017-01     ELBSecurityPolicy-TLS-1-2-2017-01     ELBSecurityPolicy-TLS-1-2-Ext-2018-06     ELBSecurityPolicy-FS-2018-06     ELBSecurityPolicy-FS-1-1-2019-08     ELBSecurityPolicy-FS-1-2-2019-08     ELBSecurityPolicy-FS-1-2-Res-2019-08    For more information, see Security Policies in the Application Load Balancers Guide and Security Policies in the Network Load Balancers Guide.
         public let sslPolicy: String?
+        /// The tags to assign to the listener.
+        public let tags: [Tag]?
 
-        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil) {
+        public init(alpnPolicy: [String]? = nil, certificates: [Certificate]? = nil, defaultActions: [Action], loadBalancerArn: String, port: Int, protocol: ProtocolEnum, sslPolicy: String? = nil, tags: [Tag]? = nil) {
             self.alpnPolicy = alpnPolicy
             self.certificates = certificates
             self.defaultActions = defaultActions
@@ -475,6 +478,7 @@ extension ELBV2 {
             self.port = port
             self.`protocol` = `protocol`
             self.sslPolicy = sslPolicy
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -483,6 +487,10 @@ extension ELBV2 {
             }
             try validate(self.port, name:"port", parent: name, max: 65535)
             try validate(self.port, name:"port", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -493,6 +501,7 @@ extension ELBV2 {
             case port = "Port"
             case `protocol` = "Protocol"
             case sslPolicy = "SslPolicy"
+            case tags = "Tags"
         }
     }
 
@@ -540,7 +549,7 @@ extension ELBV2 {
         public let subnetMappings: [SubnetMapping]?
         /// The IDs of the public subnets. You can specify only one subnet per Availability Zone. You must specify either subnets or subnet mappings. [Application Load Balancers] You must specify subnets from at least two Availability Zones. [Application Load Balancers on Outposts] You must specify one Outpost subnet. [Application Load Balancers on Local Zones] You can specify subnets from one or more Local Zones. [Network Load Balancers] You can specify subnets from one or more Availability Zones.
         public let subnets: [String]?
-        /// One or more tags to assign to the load balancer.
+        /// The tags to assign to the load balancer.
         public let tags: [Tag]?
         /// The type of load balancer. The default is application.
         public let `type`: LoadBalancerTypeEnum?
@@ -601,7 +610,8 @@ extension ELBV2 {
             AWSShapeMember(label: "Actions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "Conditions", required: true, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
-            AWSShapeMember(label: "Priority", required: true, type: .integer)
+            AWSShapeMember(label: "Priority", required: true, type: .integer), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
         /// The actions. Each rule must include exactly one of the following types of actions: forward, fixed-response, or redirect, and it must be the last action to be performed. If the action type is forward, you specify one or more target groups. The protocol of the target group must be HTTP or HTTPS for an Application Load Balancer. The protocol of the target group must be TCP, TLS, UDP, or TCP_UDP for a Network Load Balancer. [HTTPS listeners] If the action type is authenticate-oidc, you authenticate users through an identity provider that is OpenID Connect (OIDC) compliant. [HTTPS listeners] If the action type is authenticate-cognito, you authenticate users through the user pools supported by Amazon Cognito. [Application Load Balancer] If the action type is redirect, you redirect specified client requests from one URL to another. [Application Load Balancer] If the action type is fixed-response, you drop specified client requests and return a custom HTTP response.
@@ -612,12 +622,15 @@ extension ELBV2 {
         public let listenerArn: String
         /// The rule priority. A listener can't have multiple rules with the same priority.
         public let priority: Int
+        /// The tags to assign to the rule.
+        public let tags: [Tag]?
 
-        public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int) {
+        public init(actions: [Action], conditions: [RuleCondition], listenerArn: String, priority: Int, tags: [Tag]? = nil) {
             self.actions = actions
             self.conditions = conditions
             self.listenerArn = listenerArn
             self.priority = priority
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -629,6 +642,10 @@ extension ELBV2 {
             }
             try validate(self.priority, name:"priority", parent: name, max: 50000)
             try validate(self.priority, name:"priority", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -636,6 +653,7 @@ extension ELBV2 {
             case conditions = "Conditions"
             case listenerArn = "ListenerArn"
             case priority = "Priority"
+            case tags = "Tags"
         }
     }
 
@@ -669,6 +687,7 @@ extension ELBV2 {
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
             AWSShapeMember(label: "Protocol", required: false, type: .enum), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "TargetType", required: false, type: .enum), 
             AWSShapeMember(label: "UnhealthyThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
@@ -696,6 +715,8 @@ extension ELBV2 {
         public let port: Int?
         /// The protocol to use for routing traffic to the targets. For Application Load Balancers, the supported protocols are HTTP and HTTPS. For Network Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A TCP_UDP listener must be associated with a TCP_UDP target group. If the target is a Lambda function, this parameter does not apply.
         public let `protocol`: ProtocolEnum?
+        /// The tags to assign to the target group.
+        public let tags: [Tag]?
         /// The type of target that you must specify when registering targets with this target group. You can't specify targets for a target group using more than one target type.    instance - Targets are specified by instance ID. This is the default value.    ip - Targets are specified by IP address. You can specify IP addresses from the subnets of the virtual private cloud (VPC) for the target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify publicly routable IP addresses.    lambda - The target groups contains a single Lambda function.  
         public let targetType: TargetTypeEnum?
         /// The number of consecutive health check failures required before considering a target unhealthy. For target groups with a protocol of HTTP or HTTPS, the default is 2. For target groups with a protocol of TCP or TLS, this value must be the same as the healthy threshold count. If the target type is lambda, the default is 2.
@@ -703,7 +724,7 @@ extension ELBV2 {
         /// The identifier of the virtual private cloud (VPC). If the target is a Lambda function, this parameter does not apply. Otherwise, this parameter is required.
         public let vpcId: String?
 
-        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, name: String, port: Int? = nil, protocol: ProtocolEnum? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
+        public init(healthCheckEnabled: Bool? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: String? = nil, healthCheckProtocol: ProtocolEnum? = nil, healthCheckTimeoutSeconds: Int? = nil, healthyThresholdCount: Int? = nil, matcher: Matcher? = nil, name: String, port: Int? = nil, protocol: ProtocolEnum? = nil, tags: [Tag]? = nil, targetType: TargetTypeEnum? = nil, unhealthyThresholdCount: Int? = nil, vpcId: String? = nil) {
             self.healthCheckEnabled = healthCheckEnabled
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
@@ -715,6 +736,7 @@ extension ELBV2 {
             self.name = name
             self.port = port
             self.`protocol` = `protocol`
+            self.tags = tags
             self.targetType = targetType
             self.unhealthyThresholdCount = unhealthyThresholdCount
             self.vpcId = vpcId
@@ -731,6 +753,10 @@ extension ELBV2 {
             try validate(self.healthyThresholdCount, name:"healthyThresholdCount", parent: name, min: 2)
             try validate(self.port, name:"port", parent: name, max: 65535)
             try validate(self.port, name:"port", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try validate(self.tags, name:"tags", parent: name, min: 1)
             try validate(self.unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, max: 10)
             try validate(self.unhealthyThresholdCount, name:"unhealthyThresholdCount", parent: name, min: 2)
         }
@@ -747,6 +773,7 @@ extension ELBV2 {
             case name = "Name"
             case port = "Port"
             case `protocol` = "Protocol"
+            case tags = "Tags"
             case targetType = "TargetType"
             case unhealthyThresholdCount = "UnhealthyThresholdCount"
             case vpcId = "VpcId"

@@ -11,6 +11,63 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfluenceAttachmentFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case contentType = "CONTENT_TYPE"
+        case createdDate = "CREATED_DATE"
+        case displayUrl = "DISPLAY_URL"
+        case fileSize = "FILE_SIZE"
+        case itemType = "ITEM_TYPE"
+        case parentId = "PARENT_ID"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceBlogFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case labels = "LABELS"
+        case publishDate = "PUBLISH_DATE"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluencePageFieldName: String, CustomStringConvertible, Codable {
+        case author = "AUTHOR"
+        case contentStatus = "CONTENT_STATUS"
+        case createdDate = "CREATED_DATE"
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case labels = "LABELS"
+        case modifiedDate = "MODIFIED_DATE"
+        case parentId = "PARENT_ID"
+        case spaceKey = "SPACE_KEY"
+        case spaceName = "SPACE_NAME"
+        case url = "URL"
+        case version = "VERSION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceSpaceFieldName: String, CustomStringConvertible, Codable {
+        case displayUrl = "DISPLAY_URL"
+        case itemType = "ITEM_TYPE"
+        case spaceKey = "SPACE_KEY"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfluenceVersion: String, CustomStringConvertible, Codable {
+        case server = "SERVER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ContentType: String, CustomStringConvertible, Codable {
         case pdf = "PDF"
         case html = "HTML"
@@ -47,6 +104,8 @@ extension Kendra {
         case salesforce = "SALESFORCE"
         case onedrive = "ONEDRIVE"
         case servicenow = "SERVICENOW"
+        case custom = "CUSTOM"
+        case confluence = "CONFLUENCE"
         public var description: String { return self.rawValue }
     }
 
@@ -69,6 +128,13 @@ extension Kendra {
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalerror = "InternalError"
         case invalidrequest = "InvalidRequest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FaqFileFormat: String, CustomStringConvertible, Codable {
+        case csv = "CSV"
+        case csvWithHeader = "CSV_WITH_HEADER"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
@@ -172,6 +238,7 @@ extension Kendra {
         case veryHigh = "VERY_HIGH"
         case high = "HIGH"
         case medium = "MEDIUM"
+        case low = "LOW"
         public var description: String { return self.rawValue }
     }
 
@@ -645,6 +712,375 @@ extension Kendra {
         }
     }
 
+    public struct ConfluenceAttachmentConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachmentFieldMappings", required: false, type: .list), 
+            AWSShapeMember(label: "CrawlAttachments", required: false, type: .boolean)
+        ]
+
+        /// Defines how attachment metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the AttachentFieldMappings parameter, you must specify at least one field mapping.
+        public let attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]?
+        /// Indicates whether Amazon Kendra indexes attachments to the pages and blogs in the Confluence data source. 
+        public let crawlAttachments: Bool?
+
+        public init(attachmentFieldMappings: [ConfluenceAttachmentToIndexFieldMapping]? = nil, crawlAttachments: Bool? = nil) {
+            self.attachmentFieldMappings = attachmentFieldMappings
+            self.crawlAttachments = crawlAttachments
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).attachmentFieldMappings[]")
+            }
+            try validate(self.attachmentFieldMappings, name:"attachmentFieldMappings", parent: name, max: 11)
+            try validate(self.attachmentFieldMappings, name:"attachmentFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentFieldMappings = "AttachmentFieldMappings"
+            case crawlAttachments = "CrawlAttachments"
+        }
+    }
+
+    public struct ConfluenceAttachmentToIndexFieldMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceFieldName", required: false, type: .enum), 
+            AWSShapeMember(label: "DateFieldFormat", required: false, type: .string), 
+            AWSShapeMember(label: "IndexFieldName", required: false, type: .string)
+        ]
+
+        /// The name of the field in the data source.  You must first create the index field using the operation. 
+        public let dataSourceFieldName: ConfluenceAttachmentFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceAttachmentFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, min: 1)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceBlogConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BlogFieldMappings", required: false, type: .list)
+        ]
+
+        /// Defines how blog metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the BlogFieldMappings parameter, you must specify at least one field mapping.
+        public let blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]?
+
+        public init(blogFieldMappings: [ConfluenceBlogToIndexFieldMapping]? = nil) {
+            self.blogFieldMappings = blogFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.blogFieldMappings?.forEach {
+                try $0.validate(name: "\(name).blogFieldMappings[]")
+            }
+            try validate(self.blogFieldMappings, name:"blogFieldMappings", parent: name, max: 9)
+            try validate(self.blogFieldMappings, name:"blogFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case blogFieldMappings = "BlogFieldMappings"
+        }
+    }
+
+    public struct ConfluenceBlogToIndexFieldMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceFieldName", required: false, type: .enum), 
+            AWSShapeMember(label: "DateFieldFormat", required: false, type: .string), 
+            AWSShapeMember(label: "IndexFieldName", required: false, type: .string)
+        ]
+
+        /// The name of the field in the data source. 
+        public let dataSourceFieldName: ConfluenceBlogFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceBlogFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, min: 1)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttachmentConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "BlogConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "ExclusionPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "InclusionPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "PageConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "SecretArn", required: true, type: .string), 
+            AWSShapeMember(label: "ServerUrl", required: true, type: .string), 
+            AWSShapeMember(label: "SpaceConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "Version", required: true, type: .enum), 
+            AWSShapeMember(label: "VpcConfiguration", required: false, type: .structure)
+        ]
+
+        /// Specifies configuration information for indexing attachments to Confluence blogs and pages.
+        public let attachmentConfiguration: ConfluenceAttachmentConfiguration?
+        ///  Specifies configuration information for indexing Confluence blogs.
+        public let blogConfiguration: ConfluenceBlogConfiguration?
+        /// A list of regular expression patterns that apply to a URL on the Confluence server. An exclusion pattern can apply to a blog post, a page, a space, or an attachment. Items that match the pattern are excluded from the index. Items that don't match the pattern are included in the index. If a item matches both an exclusion pattern and an inclusion pattern, the item isn't included in the index.
+        public let exclusionPatterns: [String]?
+        /// A list of regular expression patterns that apply to a URL on the Confluence server. An inclusion pattern can apply to a blog post, a page, a space, or an attachment. Items that match the patterns are included in the index. Items that don't match the pattern are excluded from the index. If an item matches both an inclusion pattern and an exclusion pattern, the item isn't included in the index.
+        public let inclusionPatterns: [String]?
+        /// Specifies configuration information for indexing Confluence pages.
+        public let pageConfiguration: ConfluencePageConfiguration?
+        /// The Amazon Resource Name (ARN) of an AWS Secrets Manager secret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.  
+        public let secretArn: String
+        /// The URL of your Confluence instance. Use the full URL of the server. For example, https://server.example.com:port/. You can also use an IP address, for example, https://192.168.1.113/.
+        public let serverUrl: String
+        /// Specifies configuration information for indexing Confluence spaces.
+        public let spaceConfiguration: ConfluenceSpaceConfiguration?
+        /// Specifies the version of the Confluence installation that you are connecting to.
+        public let version: ConfluenceVersion
+        /// Specifies the information for connecting to an Amazon VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+
+        public init(attachmentConfiguration: ConfluenceAttachmentConfiguration? = nil, blogConfiguration: ConfluenceBlogConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, pageConfiguration: ConfluencePageConfiguration? = nil, secretArn: String, serverUrl: String, spaceConfiguration: ConfluenceSpaceConfiguration? = nil, version: ConfluenceVersion, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+            self.attachmentConfiguration = attachmentConfiguration
+            self.blogConfiguration = blogConfiguration
+            self.exclusionPatterns = exclusionPatterns
+            self.inclusionPatterns = inclusionPatterns
+            self.pageConfiguration = pageConfiguration
+            self.secretArn = secretArn
+            self.serverUrl = serverUrl
+            self.spaceConfiguration = spaceConfiguration
+            self.version = version
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentConfiguration?.validate(name: "\(name).attachmentConfiguration")
+            try self.blogConfiguration?.validate(name: "\(name).blogConfiguration")
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
+            try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, min: 0)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, min: 0)
+            try self.pageConfiguration?.validate(name: "\(name).pageConfiguration")
+            try validate(self.secretArn, name:"secretArn", parent: name, max: 1284)
+            try validate(self.secretArn, name:"secretArn", parent: name, min: 1)
+            try validate(self.secretArn, name:"secretArn", parent: name, pattern: "arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}")
+            try validate(self.serverUrl, name:"serverUrl", parent: name, max: 2048)
+            try validate(self.serverUrl, name:"serverUrl", parent: name, min: 1)
+            try validate(self.serverUrl, name:"serverUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)")
+            try self.spaceConfiguration?.validate(name: "\(name).spaceConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentConfiguration = "AttachmentConfiguration"
+            case blogConfiguration = "BlogConfiguration"
+            case exclusionPatterns = "ExclusionPatterns"
+            case inclusionPatterns = "InclusionPatterns"
+            case pageConfiguration = "PageConfiguration"
+            case secretArn = "SecretArn"
+            case serverUrl = "ServerUrl"
+            case spaceConfiguration = "SpaceConfiguration"
+            case version = "Version"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct ConfluencePageConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PageFieldMappings", required: false, type: .list)
+        ]
+
+        /// Defines how page metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the PageFieldMappings parameter, you must specify at least one field mapping.
+        public let pageFieldMappings: [ConfluencePageToIndexFieldMapping]?
+
+        public init(pageFieldMappings: [ConfluencePageToIndexFieldMapping]? = nil) {
+            self.pageFieldMappings = pageFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.pageFieldMappings?.forEach {
+                try $0.validate(name: "\(name).pageFieldMappings[]")
+            }
+            try validate(self.pageFieldMappings, name:"pageFieldMappings", parent: name, max: 12)
+            try validate(self.pageFieldMappings, name:"pageFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageFieldMappings = "PageFieldMappings"
+        }
+    }
+
+    public struct ConfluencePageToIndexFieldMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceFieldName", required: false, type: .enum), 
+            AWSShapeMember(label: "DateFieldFormat", required: false, type: .string), 
+            AWSShapeMember(label: "IndexFieldName", required: false, type: .string)
+        ]
+
+        /// The name of the field in the data source. 
+        public let dataSourceFieldName: ConfluencePageFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluencePageFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, min: 1)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
+    public struct ConfluenceSpaceConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CrawlArchivedSpaces", required: false, type: .boolean), 
+            AWSShapeMember(label: "CrawlPersonalSpaces", required: false, type: .boolean), 
+            AWSShapeMember(label: "ExcludeSpaces", required: false, type: .list), 
+            AWSShapeMember(label: "IncludeSpaces", required: false, type: .list), 
+            AWSShapeMember(label: "SpaceFieldMappings", required: false, type: .list)
+        ]
+
+        /// Specifies whether Amazon Kendra should index archived spaces.
+        public let crawlArchivedSpaces: Bool?
+        /// Specifies whether Amazon Kendra should index personal spaces. Users can add restrictions to items in personal spaces. If personal spaces are indexed, queries without user context information may return restricted items from a personal space in their results. For more information, see Filtering on user context.
+        public let crawlPersonalSpaces: Bool?
+        /// A list of space keys of Confluence spaces. If you include a key, the blogs, documents, and attachments in the space are not indexed. If a space is in both the ExcludeSpaces and the IncludeSpaces list, the space is excluded.
+        public let excludeSpaces: [String]?
+        /// A list of space keys for Confluence spaces. If you include a key, the blogs, documents, and attachments in the space are indexed. Spaces that aren't in the list aren't indexed. A space in the list must exist. Otherwise, Amazon Kendra logs an error when the data source is synchronized. If a space is in both the IncludeSpaces and the ExcludeSpaces list, the space is excluded.
+        public let includeSpaces: [String]?
+        /// Defines how space metadata fields should be mapped to index fields. Before you can map a field, you must first create an index field with a matching type using the console or the UpdateIndex operation. If you specify the SpaceFieldMappings parameter, you must specify at least one field mapping.
+        public let spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]?
+
+        public init(crawlArchivedSpaces: Bool? = nil, crawlPersonalSpaces: Bool? = nil, excludeSpaces: [String]? = nil, includeSpaces: [String]? = nil, spaceFieldMappings: [ConfluenceSpaceToIndexFieldMapping]? = nil) {
+            self.crawlArchivedSpaces = crawlArchivedSpaces
+            self.crawlPersonalSpaces = crawlPersonalSpaces
+            self.excludeSpaces = excludeSpaces
+            self.includeSpaces = includeSpaces
+            self.spaceFieldMappings = spaceFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.excludeSpaces?.forEach {
+                try validate($0, name: "excludeSpaces[]", parent: name, max: 255)
+                try validate($0, name: "excludeSpaces[]", parent: name, min: 1)
+                try validate($0, name: "excludeSpaces[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try validate(self.excludeSpaces, name:"excludeSpaces", parent: name, min: 1)
+            try self.includeSpaces?.forEach {
+                try validate($0, name: "includeSpaces[]", parent: name, max: 255)
+                try validate($0, name: "includeSpaces[]", parent: name, min: 1)
+                try validate($0, name: "includeSpaces[]", parent: name, pattern: "^\\P{C}*$")
+            }
+            try validate(self.includeSpaces, name:"includeSpaces", parent: name, min: 1)
+            try self.spaceFieldMappings?.forEach {
+                try $0.validate(name: "\(name).spaceFieldMappings[]")
+            }
+            try validate(self.spaceFieldMappings, name:"spaceFieldMappings", parent: name, max: 4)
+            try validate(self.spaceFieldMappings, name:"spaceFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlArchivedSpaces = "CrawlArchivedSpaces"
+            case crawlPersonalSpaces = "CrawlPersonalSpaces"
+            case excludeSpaces = "ExcludeSpaces"
+            case includeSpaces = "IncludeSpaces"
+            case spaceFieldMappings = "SpaceFieldMappings"
+        }
+    }
+
+    public struct ConfluenceSpaceToIndexFieldMapping: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataSourceFieldName", required: false, type: .enum), 
+            AWSShapeMember(label: "DateFieldFormat", required: false, type: .string), 
+            AWSShapeMember(label: "IndexFieldName", required: false, type: .string)
+        ]
+
+        /// The name of the field in the data source. 
+        public let dataSourceFieldName: ConfluenceSpaceFieldName?
+        /// The format for date fields in the data source. If the field specified in DataSourceFieldName is a date field you must specify the date format. If the field is not a date field, an exception is thrown.
+        public let dateFieldFormat: String?
+        /// The name of the index field to map to the Confluence data source field. The index field type must match the Confluence field type.
+        public let indexFieldName: String?
+
+        public init(dataSourceFieldName: ConfluenceSpaceFieldName? = nil, dateFieldFormat: String? = nil, indexFieldName: String? = nil) {
+            self.dataSourceFieldName = dataSourceFieldName
+            self.dateFieldFormat = dateFieldFormat
+            self.indexFieldName = indexFieldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, max: 40)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, min: 4)
+            try validate(self.dateFieldFormat, name:"dateFieldFormat", parent: name, pattern: "^(?!\\s).*(?<!\\s)$")
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, max: 30)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, min: 1)
+            try validate(self.indexFieldName, name:"indexFieldName", parent: name, pattern: "^\\P{C}*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceFieldName = "DataSourceFieldName"
+            case dateFieldFormat = "DateFieldFormat"
+            case indexFieldName = "IndexFieldName"
+        }
+    }
+
     public struct ConnectionConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DatabaseHost", required: true, type: .string), 
@@ -700,34 +1136,38 @@ extension Kendra {
 
     public struct CreateDataSourceRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "Configuration", required: true, type: .structure), 
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
+            AWSShapeMember(label: "Configuration", required: false, type: .structure), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "IndexId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
-            AWSShapeMember(label: "RoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "Tags", required: false, type: .list), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
         ]
 
-        /// The connector configuration information that is required to access the repository.
-        public let configuration: DataSourceConfiguration
+        /// A token that you provide to identify the request to create a data source. Multiple calls to the CreateDataSource operation with the same client token will create only one data source.
+        public let clientToken: String?
+        /// The connector configuration information that is required to access the repository. You can't specify the Configuration parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter is required for all other data sources.
+        public let configuration: DataSourceConfiguration?
         /// A description for the data source.
         public let description: String?
         /// The identifier of the index that should be associated with this data source.
         public let indexId: String
         /// A unique name for the data source. A data source name can't be changed without deleting and recreating the data source.
         public let name: String
-        /// The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra.
-        public let roleArn: String
-        /// Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index.
+        /// The Amazon Resource Name (ARN) of a role with permission to access the data source. For more information, see IAM Roles for Amazon Kendra. You can't specify the RoleArn parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The RoleArn parameter is required for all other data sources.
+        public let roleArn: String?
+        /// Sets the frequency that Amazon Kendra will check the documents in your repository and update the index. If you don't set a schedule Amazon Kendra will not periodically update the index. You can call the StartDataSourceSyncJob operation to update the index. You can't specify the Schedule parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception.
         public let schedule: String?
         /// A list of key-value pairs that identify the data source. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
         /// The type of repository that contains the data source.
         public let `type`: DataSourceType
 
-        public init(configuration: DataSourceConfiguration, description: String? = nil, indexId: String, name: String, roleArn: String, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
+        public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, description: String? = nil, indexId: String, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
+            self.clientToken = clientToken
             self.configuration = configuration
             self.description = description
             self.indexId = indexId
@@ -739,9 +1179,11 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
-            try self.configuration.validate(name: "\(name).configuration")
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
+            try self.configuration?.validate(name: "\(name).configuration")
             try validate(self.description, name:"description", parent: name, max: 1000)
-            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
             try validate(self.indexId, name:"indexId", parent: name, max: 36)
             try validate(self.indexId, name:"indexId", parent: name, min: 36)
@@ -760,6 +1202,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case configuration = "Configuration"
             case description = "Description"
             case indexId = "IndexId"
@@ -790,7 +1233,9 @@ extension Kendra {
 
     public struct CreateFaqRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientToken", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
+            AWSShapeMember(label: "FileFormat", required: false, type: .enum), 
             AWSShapeMember(label: "IndexId", required: true, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string), 
@@ -798,8 +1243,12 @@ extension Kendra {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
+        /// A token that you provide to identify the request to create a FAQ. Multiple calls to the CreateFaqRequest operation with the same client token will create only one FAQ. 
+        public let clientToken: String?
         /// A description of the FAQ.
         public let description: String?
+        /// The format of the input file. You can choose between a basic CSV format, a CSV format that includes customs attributes in a header, and a JSON format that includes custom attributes. The format must match the format of the file stored in the S3 bucket identified in the S3Path parameter. For more information, see Adding questions and answers.
+        public let fileFormat: FaqFileFormat?
         /// The identifier of the index that contains the FAQ.
         public let indexId: String
         /// The name that should be associated with the FAQ.
@@ -811,8 +1260,10 @@ extension Kendra {
         /// A list of key-value pairs that identify the FAQ. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateFaqRequest.idempotencyToken(), description: String? = nil, fileFormat: FaqFileFormat? = nil, indexId: String, name: String, roleArn: String, s3Path: S3Path, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
             self.description = description
+            self.fileFormat = fileFormat
             self.indexId = indexId
             self.name = name
             self.roleArn = roleArn
@@ -821,8 +1272,10 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
+            try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 1000)
-            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
             try validate(self.indexId, name:"indexId", parent: name, max: 36)
             try validate(self.indexId, name:"indexId", parent: name, min: 36)
@@ -842,7 +1295,9 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
             case description = "Description"
+            case fileFormat = "FileFormat"
             case indexId = "IndexId"
             case name = "Name"
             case roleArn = "RoleArn"
@@ -879,15 +1334,15 @@ extension Kendra {
             AWSShapeMember(label: "Tags", required: false, type: .list)
         ]
 
-        /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.”
+        /// A token that you provide to identify the request to create an index. Multiple calls to the CreateIndex operation with the same client token will create only one index.
         public let clientToken: String?
         /// A description for the index.
         public let description: String?
-        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed. 
+        /// The Amazon Kendra edition to use for the index. Choose DEVELOPER_EDITION for indexes intended for development, testing, or proof of concept. Use ENTERPRISE_EDITION for your production databases. Once you set the edition for an index, it can't be changed.  The Edition parameter is optional. If you don't supply a value, the default is ENTERPRISE_EDITION.
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
-        /// An IAM role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
+        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument operation to index documents from an Amazon S3 bucket.
         public let roleArn: String
         /// The identifier of the AWS KMS customer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
@@ -908,7 +1363,7 @@ extension Kendra {
             try validate(self.clientToken, name:"clientToken", parent: name, max: 100)
             try validate(self.clientToken, name:"clientToken", parent: name, min: 1)
             try validate(self.description, name:"description", parent: name, max: 1000)
-            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
             try validate(self.name, name:"name", parent: name, max: 1000)
             try validate(self.name, name:"name", parent: name, min: 1)
@@ -954,6 +1409,7 @@ extension Kendra {
 
     public struct DataSourceConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConfluenceConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "DatabaseConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "OneDriveConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "S3Configuration", required: false, type: .structure), 
@@ -962,20 +1418,23 @@ extension Kendra {
             AWSShapeMember(label: "SharePointConfiguration", required: false, type: .structure)
         ]
 
-        /// Provides information necessary to create a connector for a database.
+        /// Provides configuration information for connecting to a Confluence data source.
+        public let confluenceConfiguration: ConfluenceConfiguration?
+        /// Provides information necessary to create a data source connector for a database.
         public let databaseConfiguration: DatabaseConfiguration?
         /// Provided configuration for data sources that connect to Microsoft OneDrive.
         public let oneDriveConfiguration: OneDriveConfiguration?
-        /// Provides information to create a connector for a document repository in an Amazon S3 bucket.
+        /// Provides information to create a data source connector for a document repository in an Amazon S3 bucket.
         public let s3Configuration: S3DataSourceConfiguration?
         /// Provides configuration information for data sources that connect to a Salesforce site.
         public let salesforceConfiguration: SalesforceConfiguration?
         /// Provides configuration for data sources that connect to ServiceNow instances.
         public let serviceNowConfiguration: ServiceNowConfiguration?
-        /// Provides information necessary to create a connector for a Microsoft SharePoint site.
+        /// Provides information necessary to create a data source connector for a Microsoft SharePoint site.
         public let sharePointConfiguration: SharePointConfiguration?
 
-        public init(databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil) {
+            self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
             self.s3Configuration = s3Configuration
@@ -985,6 +1444,7 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
@@ -994,6 +1454,7 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confluenceConfiguration = "ConfluenceConfiguration"
             case databaseConfiguration = "DatabaseConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
             case s3Configuration = "S3Configuration"
@@ -1067,7 +1528,7 @@ extension Kendra {
         public let errorMessage: String?
         /// A unique identifier for the synchronization job.
         public let executionId: String?
-        /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a connector.
+        /// Maps a batch delete document request to a specific data source sync job. This is optional and should only be supplied when documents are deleted by a data source connector.
         public let metrics: DataSourceSyncJobMetrics?
         /// The UNIX datetime that the synchronization job was started.
         public let startTime: TimeStamp?
@@ -1515,6 +1976,7 @@ extension Kendra {
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "ErrorMessage", required: false, type: .string), 
+            AWSShapeMember(label: "FileFormat", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "IndexId", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
@@ -1530,6 +1992,8 @@ extension Kendra {
         public let description: String?
         /// If the Status field is FAILED, the ErrorMessage field contains the reason why the FAQ failed.
         public let errorMessage: String?
+        /// The file format used by the input files for the FAQ.
+        public let fileFormat: FaqFileFormat?
         /// The identifier of the FAQ.
         public let id: String?
         /// The identifier of the index that contains the FAQ.
@@ -1544,10 +2008,11 @@ extension Kendra {
         /// The date and time that the FAQ was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(createdAt: TimeStamp? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: TimeStamp? = nil, description: String? = nil, errorMessage: String? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, s3Path: S3Path? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
             self.createdAt = createdAt
             self.description = description
             self.errorMessage = errorMessage
+            self.fileFormat = fileFormat
             self.id = id
             self.indexId = indexId
             self.name = name
@@ -1561,6 +2026,7 @@ extension Kendra {
             case createdAt = "CreatedAt"
             case description = "Description"
             case errorMessage = "ErrorMessage"
+            case fileFormat = "FileFormat"
             case id = "Id"
             case indexId = "IndexId"
             case name = "Name"
@@ -1907,22 +2373,27 @@ extension Kendra {
     public struct FacetResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DocumentAttributeKey", required: false, type: .string), 
-            AWSShapeMember(label: "DocumentAttributeValueCountPairs", required: false, type: .list)
+            AWSShapeMember(label: "DocumentAttributeValueCountPairs", required: false, type: .list), 
+            AWSShapeMember(label: "DocumentAttributeValueType", required: false, type: .enum)
         ]
 
         /// The key for the facet values. This is the same as the DocumentAttributeKey provided in the query.
         public let documentAttributeKey: String?
         /// An array of key/value pairs, where the key is the value of the attribute and the count is the number of documents that share the key value.
         public let documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]?
+        /// The data type of the facet value. This is the same as the type defined for the index field when it was created.
+        public let documentAttributeValueType: DocumentAttributeValueType?
 
-        public init(documentAttributeKey: String? = nil, documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]? = nil) {
+        public init(documentAttributeKey: String? = nil, documentAttributeValueCountPairs: [DocumentAttributeValueCountPair]? = nil, documentAttributeValueType: DocumentAttributeValueType? = nil) {
             self.documentAttributeKey = documentAttributeKey
             self.documentAttributeValueCountPairs = documentAttributeValueCountPairs
+            self.documentAttributeValueType = documentAttributeValueType
         }
 
         private enum CodingKeys: String, CodingKey {
             case documentAttributeKey = "DocumentAttributeKey"
             case documentAttributeValueCountPairs = "DocumentAttributeValueCountPairs"
+            case documentAttributeValueType = "DocumentAttributeValueType"
         }
     }
 
@@ -1946,6 +2417,7 @@ extension Kendra {
     public struct FaqSummary: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedAt", required: false, type: .timestamp), 
+            AWSShapeMember(label: "FileFormat", required: false, type: .enum), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .enum), 
@@ -1954,6 +2426,8 @@ extension Kendra {
 
         /// The UNIX datetime that the FAQ was added to the index.
         public let createdAt: TimeStamp?
+        /// The file type used to create the FAQ. 
+        public let fileFormat: FaqFileFormat?
         /// The unique identifier of the FAQ.
         public let id: String?
         /// The name that you assigned the FAQ when you created or updated the FAQ.
@@ -1963,8 +2437,9 @@ extension Kendra {
         /// The UNIX datetime that the FAQ was last updated.
         public let updatedAt: TimeStamp?
 
-        public init(createdAt: TimeStamp? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
+        public init(createdAt: TimeStamp? = nil, fileFormat: FaqFileFormat? = nil, id: String? = nil, name: String? = nil, status: FaqStatus? = nil, updatedAt: TimeStamp? = nil) {
             self.createdAt = createdAt
+            self.fileFormat = fileFormat
             self.id = id
             self.name = name
             self.status = status
@@ -1973,6 +2448,7 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case fileFormat = "FileFormat"
             case id = "Id"
             case name = "Name"
             case status = "Status"
@@ -2390,7 +2866,7 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
@@ -2401,7 +2877,7 @@ extension Kendra {
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
@@ -2583,7 +3059,7 @@ extension Kendra {
         public let queryId: String?
         /// The results of the search.
         public let resultItems: [QueryResultItem]?
-        /// The number of items returned by the search. Use this to determine when you have requested the last set of results.
+        /// The total number of items found by the search; however, you can only retrieve up to 100 items. For example, if the search found 192 items, you can only retrieve the first 100 of the items.
         public let totalNumberOfResults: Int?
 
         public init(facetResults: [FacetResult]? = nil, queryId: String? = nil, resultItems: [QueryResultItem]? = nil, totalNumberOfResults: Int? = nil) {
@@ -2628,7 +3104,7 @@ extension Kendra {
         public let documentURI: String?
         /// The unique identifier for the query result.
         public let id: String?
-        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, and MEDIUM. You can use the score to determine if a response meets the confidence needed for your application. Confidence scores are only returned for results with the Type field set to QUESTION_ANSWER or ANSWER. This field is not returned if the Type field is set to DOCUMENT.
+        /// Indicates the confidence that Amazon Kendra has that a result matches the query that you provided. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result matches the query.
         public let scoreAttributes: ScoreAttributes?
         /// The type of document. 
         public let `type`: QueryResultType?
@@ -2742,6 +3218,7 @@ extension Kendra {
             AWSShapeMember(label: "BucketName", required: true, type: .string), 
             AWSShapeMember(label: "DocumentsMetadataConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "ExclusionPatterns", required: false, type: .list), 
+            AWSShapeMember(label: "InclusionPatterns", required: false, type: .list), 
             AWSShapeMember(label: "InclusionPrefixes", required: false, type: .list)
         ]
 
@@ -2750,16 +3227,19 @@ extension Kendra {
         /// The name of the bucket that contains the documents.
         public let bucketName: String
         public let documentsMetadataConfiguration: DocumentsMetadataConfiguration?
-        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix also matches an exclusion pattern, the document is not indexed. For more information about glob patterns, see glob (programming) in Wikipedia.
+        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. For more information about glob patterns, see glob (programming) in Wikipedia.
         public let exclusionPatterns: [String]?
+        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. For more information about glob patterns, see glob (programming) in Wikipedia.
+        public let inclusionPatterns: [String]?
         /// A list of S3 prefixes for the documents that should be included in the index.
         public let inclusionPrefixes: [String]?
 
-        public init(accessControlListConfiguration: AccessControlListConfiguration? = nil, bucketName: String, documentsMetadataConfiguration: DocumentsMetadataConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPrefixes: [String]? = nil) {
+        public init(accessControlListConfiguration: AccessControlListConfiguration? = nil, bucketName: String, documentsMetadataConfiguration: DocumentsMetadataConfiguration? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, inclusionPrefixes: [String]? = nil) {
             self.accessControlListConfiguration = accessControlListConfiguration
             self.bucketName = bucketName
             self.documentsMetadataConfiguration = documentsMetadataConfiguration
             self.exclusionPatterns = exclusionPatterns
+            self.inclusionPatterns = inclusionPatterns
             self.inclusionPrefixes = inclusionPrefixes
         }
 
@@ -2770,13 +3250,19 @@ extension Kendra {
             try validate(self.bucketName, name:"bucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
             try self.documentsMetadataConfiguration?.validate(name: "\(name).documentsMetadataConfiguration")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, min: 0)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
+            try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, min: 0)
             try self.inclusionPrefixes?.forEach {
-                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPrefixes[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPrefixes[]", parent: name, min: 1)
             }
             try validate(self.inclusionPrefixes, name:"inclusionPrefixes", parent: name, max: 100)
@@ -2788,6 +3274,7 @@ extension Kendra {
             case bucketName = "BucketName"
             case documentsMetadataConfiguration = "DocumentsMetadataConfiguration"
             case exclusionPatterns = "ExclusionPatterns"
+            case inclusionPatterns = "InclusionPatterns"
             case inclusionPrefixes = "InclusionPrefixes"
         }
     }
@@ -2917,13 +3404,13 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.chatterFeedConfiguration?.validate(name: "\(name).chatterFeedConfiguration")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
             try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, min: 0)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
@@ -3322,7 +3809,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -3333,7 +3820,7 @@ extension Kendra {
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
@@ -3390,7 +3877,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.excludeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "excludeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.excludeAttachmentFilePatterns, name:"excludeAttachmentFilePatterns", parent: name, max: 100)
@@ -3401,7 +3888,7 @@ extension Kendra {
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
             try self.includeAttachmentFilePatterns?.forEach {
-                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 50)
+                try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, max: 150)
                 try validate($0, name: "includeAttachmentFilePatterns[]", parent: name, min: 1)
             }
             try validate(self.includeAttachmentFilePatterns, name:"includeAttachmentFilePatterns", parent: name, max: 100)
@@ -3470,7 +3957,7 @@ extension Kendra {
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, min: 1)
             try validate(self.documentTitleFieldName, name:"documentTitleFieldName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
             try self.exclusionPatterns?.forEach {
-                try validate($0, name: "exclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.exclusionPatterns, name:"exclusionPatterns", parent: name, max: 100)
@@ -3481,7 +3968,7 @@ extension Kendra {
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, max: 100)
             try validate(self.fieldMappings, name:"fieldMappings", parent: name, min: 1)
             try self.inclusionPatterns?.forEach {
-                try validate($0, name: "inclusionPatterns[]", parent: name, max: 50)
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
                 try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
             }
             try validate(self.inclusionPatterns, name:"inclusionPatterns", parent: name, max: 100)
@@ -3897,7 +4384,7 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
             try validate(self.description, name:"description", parent: name, max: 1000)
-            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
             try validate(self.id, name:"id", parent: name, max: 100)
             try validate(self.id, name:"id", parent: name, min: 1)
@@ -3959,7 +4446,7 @@ extension Kendra {
         public func validate(name: String) throws {
             try self.capacityUnits?.validate(name: "\(name).capacityUnits")
             try validate(self.description, name:"description", parent: name, max: 1000)
-            try validate(self.description, name:"description", parent: name, min: 1)
+            try validate(self.description, name:"description", parent: name, min: 0)
             try validate(self.description, name:"description", parent: name, pattern: "^\\P{C}*$")
             try self.documentMetadataConfigurationUpdates?.forEach {
                 try $0.validate(name: "\(name).documentMetadataConfigurationUpdates[]")

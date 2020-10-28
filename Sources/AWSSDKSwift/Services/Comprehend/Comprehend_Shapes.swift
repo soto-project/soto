@@ -6,6 +6,12 @@ import AWSSDKSwiftCore
 extension Comprehend {
     //MARK: Enums
 
+    public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable {
+        case comprehendCsv = "COMPREHEND_CSV"
+        case augmentedManifest = "AUGMENTED_MANIFEST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DocumentClassifierMode: String, CustomStringConvertible, Codable {
         case multiClass = "MULTI_CLASS"
         case multiLabel = "MULTI_LABEL"
@@ -18,6 +24,12 @@ extension Comprehend {
         case failed = "FAILED"
         case inService = "IN_SERVICE"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable {
+        case comprehendCsv = "COMPREHEND_CSV"
+        case augmentedManifest = "AUGMENTED_MANIFEST"
         public var description: String { return self.rawValue }
     }
 
@@ -99,6 +111,45 @@ extension Comprehend {
         public var description: String { return self.rawValue }
     }
 
+    public enum PiiEntitiesDetectionMaskMode: String, CustomStringConvertible, Codable {
+        case mask = "MASK"
+        case replaceWithPiiEntityType = "REPLACE_WITH_PII_ENTITY_TYPE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable {
+        case onlyRedaction = "ONLY_REDACTION"
+        case onlyOffsets = "ONLY_OFFSETS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PiiEntityType: String, CustomStringConvertible, Codable {
+        case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
+        case bankRouting = "BANK_ROUTING"
+        case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
+        case creditDebitCvv = "CREDIT_DEBIT_CVV"
+        case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
+        case pin = "PIN"
+        case email = "EMAIL"
+        case address = "ADDRESS"
+        case name = "NAME"
+        case phone = "PHONE"
+        case ssn = "SSN"
+        case dateTime = "DATE_TIME"
+        case passportNumber = "PASSPORT_NUMBER"
+        case driverId = "DRIVER_ID"
+        case url = "URL"
+        case age = "AGE"
+        case username = "USERNAME"
+        case password = "PASSWORD"
+        case awsAccessKey = "AWS_ACCESS_KEY"
+        case awsSecretKey = "AWS_SECRET_KEY"
+        case ipAddress = "IP_ADDRESS"
+        case macAddress = "MAC_ADDRESS"
+        case all = "ALL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SentimentType: String, CustomStringConvertible, Codable {
         case positive = "POSITIVE"
         case negative = "NEGATIVE"
@@ -118,6 +169,38 @@ extension Comprehend {
     }
 
     //MARK: Shapes
+
+    public struct AugmentedManifestsListItem: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AttributeNames", required: true, type: .list), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
+        public let attributeNames: [String]
+        /// The Amazon S3 location of the augmented manifest file.
+        public let s3Uri: String
+
+        public init(attributeNames: [String], s3Uri: String) {
+            self.attributeNames = attributeNames
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.attributeNames.forEach {
+                try validate($0, name: "attributeNames[]", parent: name, max: 63)
+                try validate($0, name: "attributeNames[]", parent: name, min: 1)
+                try validate($0, name: "attributeNames[]", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*")
+            }
+            try validate(self.s3Uri, name:"s3Uri", parent: name, max: 1024)
+            try validate(self.s3Uri, name:"s3Uri", parent: name, pattern: "s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributeNames = "AttributeNames"
+            case s3Uri = "S3Uri"
+        }
+    }
 
     public struct BatchDetectDominantLanguageItemResult: AWSShape {
         public static var _members: [AWSShapeMember] = [
@@ -1258,6 +1341,45 @@ extension Comprehend {
         }
     }
 
+    public struct DescribePiiEntitiesDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier that Amazon Comprehend generated for the job. The operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribePiiEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PiiEntitiesDetectionJobProperties", required: false, type: .structure)
+        ]
+
+        public let piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties?
+
+        public init(piiEntitiesDetectionJobProperties: PiiEntitiesDetectionJobProperties? = nil) {
+            self.piiEntitiesDetectionJobProperties = piiEntitiesDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case piiEntitiesDetectionJobProperties = "PiiEntitiesDetectionJobProperties"
+        }
+    }
+
     public struct DescribeSentimentDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "JobId", required: true, type: .string)
@@ -1466,6 +1588,49 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case keyPhrases = "KeyPhrases"
+        }
+    }
+
+    public struct DetectPiiEntitiesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Text", required: true, type: .string)
+        ]
+
+        /// The language of the input documents.
+        public let languageCode: LanguageCode
+        /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of UTF-8 encoded characters.
+        public let text: String
+
+        public init(languageCode: LanguageCode, text: String) {
+            self.languageCode = languageCode
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.text, name:"text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case text = "Text"
+        }
+    }
+
+    public struct DetectPiiEntitiesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Entities", required: false, type: .list)
+        ]
+
+        /// A collection of PII entities identified in the input text. For each entity, the response provides the entity type, where the entity text begins and ends, and the level of confidence that Amazon Comprehend has in the detection.
+        public let entities: [PiiEntity]?
+
+        public init(entities: [PiiEntity]? = nil) {
+            self.entities = entities
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entities = "Entities"
         }
     }
 
@@ -1699,7 +1864,7 @@ extension Comprehend {
             AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
         ]
 
-        /// Filters the list of classifiers based on status. 
+        /// Filters the list of classifiers based on status.
         public let status: ModelStatus?
         /// Filters the list of classifiers based on the time that the classifier was submitted for processing. Returns only classifiers submitted after the specified time. Classifiers are returned in descending order, newest to oldest.
         public let submitTimeAfter: TimeStamp?
@@ -1721,21 +1886,32 @@ extension Comprehend {
 
     public struct DocumentClassifierInputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AugmentedManifests", required: false, type: .list), 
+            AWSShapeMember(label: "DataFormat", required: false, type: .enum), 
             AWSShapeMember(label: "LabelDelimiter", required: false, type: .string), 
-            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+            AWSShapeMember(label: "S3Uri", required: false, type: .string)
         ]
 
+        /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
+        public let augmentedManifests: [AugmentedManifestsListItem]?
+        /// The format of your training data:    COMPREHEND_CSV: A two-column CSV file, where labels are provided in the first column, and documents are provided in the second. If you use this value, you must provide the S3Uri parameter in your request.    AUGMENTED_MANIFEST: A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line is a complete JSON object that contains a training document and its associated labels.  If you use this value, you must provide the AugmentedManifests parameter in your request.   If you don't specify a value, Amazon Comprehend uses COMPREHEND_CSV as the default.
+        public let dataFormat: DocumentClassifierDataFormat?
         /// Indicates the delimiter used to separate each label for training a multi-label classifier. The default delimiter between labels is a pipe (|). You can use a different character as a delimiter (if it's an allowed character) by specifying it under Delimiter for labels. If the training documents use a delimiter other than the default or the delimiter you specify, the labels on that line will be combined to make a single unique label, such as LABELLABELLABEL.
         public let labelDelimiter: String?
-        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input.
-        public let s3Uri: String
+        /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
+        public let s3Uri: String?
 
-        public init(labelDelimiter: String? = nil, s3Uri: String) {
+        public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil) {
+            self.augmentedManifests = augmentedManifests
+            self.dataFormat = dataFormat
             self.labelDelimiter = labelDelimiter
             self.s3Uri = s3Uri
         }
 
         public func validate(name: String) throws {
+            try self.augmentedManifests?.forEach {
+                try $0.validate(name: "\(name).augmentedManifests[]")
+            }
             try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, max: 1)
             try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, min: 1)
             try validate(self.labelDelimiter, name:"labelDelimiter", parent: name, pattern: "^[ ~!@#$%^*\\-_+=|\\\\:;\\t>?/]$")
@@ -1744,6 +1920,8 @@ extension Comprehend {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case augmentedManifests = "AugmentedManifests"
+            case dataFormat = "DataFormat"
             case labelDelimiter = "LabelDelimiter"
             case s3Uri = "S3Uri"
         }
@@ -2377,22 +2555,30 @@ extension Comprehend {
     public struct EntityRecognizerInputDataConfig: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Annotations", required: false, type: .structure), 
-            AWSShapeMember(label: "Documents", required: true, type: .structure), 
+            AWSShapeMember(label: "AugmentedManifests", required: false, type: .list), 
+            AWSShapeMember(label: "DataFormat", required: false, type: .enum), 
+            AWSShapeMember(label: "Documents", required: false, type: .structure), 
             AWSShapeMember(label: "EntityList", required: false, type: .structure), 
             AWSShapeMember(label: "EntityTypes", required: true, type: .list)
         ]
 
-        /// S3 location of the annotations file for an entity recognizer.
+        /// The S3 location of the CSV file that annotates your training documents.
         public let annotations: EntityRecognizerAnnotations?
-        /// S3 location of the documents folder for an entity recognizer
-        public let documents: EntityRecognizerDocuments
-        /// S3 location of the entity list for an entity recognizer.
+        /// A list of augmented manifest files that provide training data for your custom model. An augmented manifest file is a labeled dataset that is produced by Amazon SageMaker Ground Truth. This parameter is required if you set DataFormat to AUGMENTED_MANIFEST.
+        public let augmentedManifests: [AugmentedManifestsListItem]?
+        /// The format of your training data:    COMPREHEND_CSV: A CSV file that supplements your training documents. The CSV file contains information about the custom entities that your trained model will detect. The required format of the file depends on whether you are providing annotations or an entity list. If you use this value, you must provide your CSV file by using either the Annotations or EntityList parameters. You must provide your training documents by using the Documents parameter.    AUGMENTED_MANIFEST: A labeled dataset that is produced by Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line is a complete JSON object that contains a training document and its labels. Each label annotates a named entity in the training document.  If you use this value, you must provide the AugmentedManifests parameter in your request.   If you don't specify a value, Amazon Comprehend uses COMPREHEND_CSV as the default.
+        public let dataFormat: EntityRecognizerDataFormat?
+        /// The S3 location of the folder that contains the training documents for your custom entity recognizer. This parameter is required if you set DataFormat to COMPREHEND_CSV.
+        public let documents: EntityRecognizerDocuments?
+        /// The S3 location of the CSV file that has the entity list for your custom entity recognizer.
         public let entityList: EntityRecognizerEntityList?
-        /// The entity types in the input data for an entity recognizer. A maximum of 25 entity types can be used at one time to train an entity recognizer.
+        /// The entity types in the labeled training data that Amazon Comprehend uses to train the custom entity recognizer. Any entity types that you don't specify are ignored. A maximum of 25 entity types can be used at one time to train an entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break), \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma). 
         public let entityTypes: [EntityTypesListItem]
 
-        public init(annotations: EntityRecognizerAnnotations? = nil, documents: EntityRecognizerDocuments, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
+        public init(annotations: EntityRecognizerAnnotations? = nil, augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: EntityRecognizerDataFormat? = nil, documents: EntityRecognizerDocuments? = nil, entityList: EntityRecognizerEntityList? = nil, entityTypes: [EntityTypesListItem]) {
             self.annotations = annotations
+            self.augmentedManifests = augmentedManifests
+            self.dataFormat = dataFormat
             self.documents = documents
             self.entityList = entityList
             self.entityTypes = entityTypes
@@ -2400,7 +2586,10 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.annotations?.validate(name: "\(name).annotations")
-            try self.documents.validate(name: "\(name).documents")
+            try self.augmentedManifests?.forEach {
+                try $0.validate(name: "\(name).augmentedManifests[]")
+            }
+            try self.documents?.validate(name: "\(name).documents")
             try self.entityList?.validate(name: "\(name).entityList")
             try self.entityTypes.forEach {
                 try $0.validate(name: "\(name).entityTypes[]")
@@ -2409,6 +2598,8 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case annotations = "Annotations"
+            case augmentedManifests = "AugmentedManifests"
+            case dataFormat = "DataFormat"
             case documents = "Documents"
             case entityList = "EntityList"
             case entityTypes = "EntityTypes"
@@ -2583,7 +2774,7 @@ extension Comprehend {
             AWSShapeMember(label: "Type", required: true, type: .string)
         ]
 
-        /// Entity type of an item on an entity type list.
+        /// An entity type within a labeled training dataset that Amazon Comprehend uses to train a custom entity recognizer. Entity types must not contain the following invalid characters: \n (line break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage return), \t (tab), \\t (escaped tab), space, and , (comma).
         public let `type`: String
 
         public init(type: String) {
@@ -2592,7 +2783,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try validate(self.`type`, name:"`type`", parent: name, max: 64)
-            try validate(self.`type`, name:"`type`", parent: name, pattern: "[_A-Z0-9]+")
+            try validate(self.`type`, name:"`type`", parent: name, pattern: "^(?:(?!\\\\n+|\\\\t+|\\\\r+|[\\r\\t\\n\\s,]).)+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3159,6 +3350,62 @@ extension Comprehend {
         }
     }
 
+    public struct ListPiiEntitiesDetectionJobsRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Filter", required: false, type: .structure), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: PiiEntitiesDetectionJobFilter?
+        /// The maximum number of results to return in each page.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: PiiEntitiesDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 500)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListPiiEntitiesDetectionJobsResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "PiiEntitiesDetectionJobPropertiesList", required: false, type: .list)
+        ]
+
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// A list containing the properties of each job that is returned.
+        public let piiEntitiesDetectionJobPropertiesList: [PiiEntitiesDetectionJobProperties]?
+
+        public init(nextToken: String? = nil, piiEntitiesDetectionJobPropertiesList: [PiiEntitiesDetectionJobProperties]? = nil) {
+            self.nextToken = nextToken
+            self.piiEntitiesDetectionJobPropertiesList = piiEntitiesDetectionJobPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case piiEntitiesDetectionJobPropertiesList = "PiiEntitiesDetectionJobPropertiesList"
+        }
+    }
+
     public struct ListSentimentDetectionJobsRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Filter", required: false, type: .structure), 
@@ -3362,6 +3609,203 @@ extension Comprehend {
         private enum CodingKeys: String, CodingKey {
             case score = "Score"
             case tag = "Tag"
+        }
+    }
+
+    public struct PiiEntitiesDetectionJobFilter: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "SubmitTimeAfter", required: false, type: .timestamp), 
+            AWSShapeMember(label: "SubmitTimeBefore", required: false, type: .timestamp)
+        ]
+
+        /// Filters on the name of the job.
+        public let jobName: String?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: TimeStamp?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: TimeStamp?
+
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: TimeStamp? = nil, submitTimeBefore: TimeStamp? = nil) {
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobName, name:"jobName", parent: name, max: 256)
+            try validate(self.jobName, name:"jobName", parent: name, min: 1)
+            try validate(self.jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case submitTimeBefore = "SubmitTimeBefore"
+        }
+    }
+
+    public struct PiiEntitiesDetectionJobProperties: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DataAccessRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "EndTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "InputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "Message", required: false, type: .string), 
+            AWSShapeMember(label: "Mode", required: false, type: .enum), 
+            AWSShapeMember(label: "OutputDataConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "RedactionConfig", required: false, type: .structure), 
+            AWSShapeMember(label: "SubmitTime", required: false, type: .timestamp)
+        ]
+
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the PII entities detection job completed.
+        public let endTime: TimeStamp?
+        /// The input properties for a PII entities detection job.
+        public let inputDataConfig: InputDataConfig?
+        /// The identifier assigned to the PII entities detection job.
+        public let jobId: String?
+        /// The name that you assigned the PII entities detection job.
+        public let jobName: String?
+        /// The current status of the PII entities detection job. If the status is FAILED, the Message field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The language code of the input documents
+        public let languageCode: LanguageCode?
+        /// A description of the status of a job.
+        public let message: String?
+        /// Specifies whether the output provides the locations (offsets) of PII entities or a file in which PII entities are redacted.
+        public let mode: PiiEntitiesDetectionMode?
+        /// The output data configuration that you supplied when you created the PII entities detection job.
+        public let outputDataConfig: PiiOutputDataConfig?
+        /// Provides configuration parameters for PII entity redaction. This parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
+        public let redactionConfig: RedactionConfig?
+        /// The time that the PII entities detection job was submitted for processing.
+        public let submitTime: TimeStamp?
+
+        public init(dataAccessRoleArn: String? = nil, endTime: TimeStamp? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: PiiEntitiesDetectionMode? = nil, outputDataConfig: PiiOutputDataConfig? = nil, redactionConfig: RedactionConfig? = nil, submitTime: TimeStamp? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.languageCode = languageCode
+            self.message = message
+            self.mode = mode
+            self.outputDataConfig = outputDataConfig
+            self.redactionConfig = redactionConfig
+            self.submitTime = submitTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case endTime = "EndTime"
+            case inputDataConfig = "InputDataConfig"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case languageCode = "LanguageCode"
+            case message = "Message"
+            case mode = "Mode"
+            case outputDataConfig = "OutputDataConfig"
+            case redactionConfig = "RedactionConfig"
+            case submitTime = "SubmitTime"
+        }
+    }
+
+    public struct PiiEntity: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "BeginOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "EndOffset", required: false, type: .integer), 
+            AWSShapeMember(label: "Score", required: false, type: .float), 
+            AWSShapeMember(label: "Type", required: false, type: .enum)
+        ]
+
+        /// A character offset in the input text that shows where the PII entity begins (the first character is at position 0). The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        public let beginOffset: Int?
+        /// A character offset in the input text that shows where the PII entity ends. The offset returns the position of each UTF-8 code point in the string. A code point is the abstract character from a particular graphical representation. For example, a multi-byte UTF-8 character maps to a single code point.
+        public let endOffset: Int?
+        /// The level of confidence that Amazon Comprehend has in the accuracy of the detection.
+        public let score: Float?
+        /// The entity's type.
+        public let `type`: PiiEntityType?
+
+        public init(beginOffset: Int? = nil, endOffset: Int? = nil, score: Float? = nil, type: PiiEntityType? = nil) {
+            self.beginOffset = beginOffset
+            self.endOffset = endOffset
+            self.score = score
+            self.`type` = `type`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case endOffset = "EndOffset"
+            case score = "Score"
+            case `type` = "Type"
+        }
+    }
+
+    public struct PiiOutputDataConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "KmsKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "S3Uri", required: true, type: .string)
+        ]
+
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
+        public let kmsKeyId: String?
+        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. 
+        public let s3Uri: String
+
+        public init(kmsKeyId: String? = nil, s3Uri: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Uri = s3Uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId = "KmsKeyId"
+            case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct RedactionConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "MaskCharacter", required: false, type: .string), 
+            AWSShapeMember(label: "MaskMode", required: false, type: .enum), 
+            AWSShapeMember(label: "PiiEntityTypes", required: false, type: .list)
+        ]
+
+        /// A character that replaces each character in the redacted PII entity.
+        public let maskCharacter: String?
+        /// Specifies whether the PII entity is redacted with the mask character or the entity type.
+        public let maskMode: PiiEntitiesDetectionMaskMode?
+        /// An array of the types of PII entities that Amazon Comprehend detects in the input text for your request.
+        public let piiEntityTypes: [PiiEntityType]?
+
+        public init(maskCharacter: String? = nil, maskMode: PiiEntitiesDetectionMaskMode? = nil, piiEntityTypes: [PiiEntityType]? = nil) {
+            self.maskCharacter = maskCharacter
+            self.maskMode = maskMode
+            self.piiEntityTypes = piiEntityTypes
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.maskCharacter, name:"maskCharacter", parent: name, max: 1)
+            try validate(self.maskCharacter, name:"maskCharacter", parent: name, min: 1)
+            try validate(self.maskCharacter, name:"maskCharacter", parent: name, pattern: "[!@#$%&*]")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maskCharacter = "MaskCharacter"
+            case maskMode = "MaskMode"
+            case piiEntityTypes = "PiiEntityTypes"
         }
     }
 
@@ -3871,6 +4315,95 @@ extension Comprehend {
         }
     }
 
+    public struct StartPiiEntitiesDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
+            AWSShapeMember(label: "DataAccessRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "InputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "JobName", required: false, type: .string), 
+            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "Mode", required: true, type: .enum), 
+            AWSShapeMember(label: "OutputDataConfig", required: true, type: .structure), 
+            AWSShapeMember(label: "RedactionConfig", required: false, type: .structure)
+        ]
+
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String
+        /// The input properties for a PII entities detection job.
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// The language of the input documents.
+        public let languageCode: LanguageCode
+        /// Specifies whether the output provides the locations (offsets) of PII entities or a file in which PII entities are redacted.
+        public let mode: PiiEntitiesDetectionMode
+        /// Provides conﬁguration parameters for the output of PII entity detection jobs.
+        public let outputDataConfig: OutputDataConfig
+        /// Provides configuration parameters for PII entity redaction. This parameter is required if you set the Mode parameter to ONLY_REDACTION. In that case, you must provide a RedactionConfig definition that includes the PiiEntityTypes parameter.
+        public let redactionConfig: RedactionConfig?
+
+        public init(clientRequestToken: String? = StartPiiEntitiesDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, mode: PiiEntitiesDetectionMode, outputDataConfig: OutputDataConfig, redactionConfig: RedactionConfig? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.languageCode = languageCode
+            self.mode = mode
+            self.outputDataConfig = outputDataConfig
+            self.redactionConfig = redactionConfig
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, max: 64)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, min: 1)
+            try validate(self.clientRequestToken, name:"clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, max: 2048)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, min: 20)
+            try validate(self.dataAccessRoleArn, name:"dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try validate(self.jobName, name:"jobName", parent: name, max: 256)
+            try validate(self.jobName, name:"jobName", parent: name, min: 1)
+            try validate(self.jobName, name:"jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.redactionConfig?.validate(name: "\(name).redactionConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case languageCode = "LanguageCode"
+            case mode = "Mode"
+            case outputDataConfig = "OutputDataConfig"
+            case redactionConfig = "RedactionConfig"
+        }
+    }
+
+    public struct StartPiiEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+
+        /// The identifier generated for the job.
+        public let jobId: String?
+        /// The status of the job.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
     public struct StartSentimentDetectionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ClientRequestToken", required: false, type: .string), 
@@ -4175,6 +4708,51 @@ extension Comprehend {
         /// The identifier of the key phrases detection job to stop.
         public let jobId: String?
         /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopKeyPhrasesDetectionJob operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct StopPiiEntitiesDetectionJobRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: true, type: .string)
+        ]
+
+        /// The identifier of the PII entities detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.jobId, name:"jobId", parent: name, max: 32)
+            try validate(self.jobId, name:"jobId", parent: name, min: 1)
+            try validate(self.jobId, name:"jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopPiiEntitiesDetectionJobResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "JobId", required: false, type: .string), 
+            AWSShapeMember(label: "JobStatus", required: false, type: .enum)
+        ]
+
+        /// The identifier of the PII entities detection job to stop.
+        public let jobId: String?
+        /// The status of the PII entities detection job.
         public let jobStatus: JobStatus?
 
         public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {

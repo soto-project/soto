@@ -6,6 +6,39 @@ import AWSSDKSwiftCore
 extension Budgets {
     //MARK: Enums
 
+    public enum ActionStatus: String, CustomStringConvertible, Codable {
+        case standby = "STANDBY"
+        case pending = "PENDING"
+        case executionInProgress = "EXECUTION_IN_PROGRESS"
+        case executionSuccess = "EXECUTION_SUCCESS"
+        case executionFailure = "EXECUTION_FAILURE"
+        case reverseInProgress = "REVERSE_IN_PROGRESS"
+        case reverseSuccess = "REVERSE_SUCCESS"
+        case reverseFailure = "REVERSE_FAILURE"
+        case resetInProgress = "RESET_IN_PROGRESS"
+        case resetFailure = "RESET_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionSubType: String, CustomStringConvertible, Codable {
+        case stopEc2Instances = "STOP_EC2_INSTANCES"
+        case stopRdsInstances = "STOP_RDS_INSTANCES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ActionType: String, CustomStringConvertible, Codable {
+        case applyIamPolicy = "APPLY_IAM_POLICY"
+        case applyScpPolicy = "APPLY_SCP_POLICY"
+        case runSsmDocuments = "RUN_SSM_DOCUMENTS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApprovalModel: String, CustomStringConvertible, Codable {
+        case automatic = "AUTOMATIC"
+        case manual = "MANUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BudgetType: String, CustomStringConvertible, Codable {
         case usage = "USAGE"
         case cost = "COST"
@@ -20,6 +53,23 @@ extension Budgets {
         case greaterThan = "GREATER_THAN"
         case lessThan = "LESS_THAN"
         case equalTo = "EQUAL_TO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EventType: String, CustomStringConvertible, Codable {
+        case system = "SYSTEM"
+        case createAction = "CREATE_ACTION"
+        case deleteAction = "DELETE_ACTION"
+        case updateAction = "UPDATE_ACTION"
+        case executeAction = "EXECUTE_ACTION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExecutionType: String, CustomStringConvertible, Codable {
+        case approveBudgetAction = "APPROVE_BUDGET_ACTION"
+        case retryBudgetAction = "RETRY_BUDGET_ACTION"
+        case reverseBudgetAction = "REVERSE_BUDGET_ACTION"
+        case resetBudgetAction = "RESET_BUDGET_ACTION"
         public var description: String { return self.rawValue }
     }
 
@@ -57,6 +107,142 @@ extension Budgets {
 
     //MARK: Shapes
 
+    public struct Action: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionThreshold", required: true, type: .structure), 
+            AWSShapeMember(label: "ActionType", required: true, type: .enum), 
+            AWSShapeMember(label: "ApprovalModel", required: true, type: .enum), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "Definition", required: true, type: .structure), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Subscribers", required: true, type: .list)
+        ]
+
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        ///  The trigger threshold of the action. 
+        public let actionThreshold: ActionThreshold
+        ///  The type of action. This defines the type of tasks that can be carried out by this action. This field also determines the format for definition. 
+        public let actionType: ActionType
+        ///  This specifies if the action needs manual or automatic approval. 
+        public let approvalModel: ApprovalModel
+        public let budgetName: String
+        ///  Where you specify all of the type-specific parameters. 
+        public let definition: Definition
+        ///  The role passed for action execution and reversion. Roles and actions must be in the same account. 
+        public let executionRoleArn: String
+        public let notificationType: NotificationType
+        ///  The status of action. 
+        public let status: ActionStatus
+        public let subscribers: [Subscriber]
+
+        public init(actionId: String, actionThreshold: ActionThreshold, actionType: ActionType, approvalModel: ApprovalModel, budgetName: String, definition: Definition, executionRoleArn: String, notificationType: NotificationType, status: ActionStatus, subscribers: [Subscriber]) {
+            self.actionId = actionId
+            self.actionThreshold = actionThreshold
+            self.actionType = actionType
+            self.approvalModel = approvalModel
+            self.budgetName = budgetName
+            self.definition = definition
+            self.executionRoleArn = executionRoleArn
+            self.notificationType = notificationType
+            self.status = status
+            self.subscribers = subscribers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionId = "ActionId"
+            case actionThreshold = "ActionThreshold"
+            case actionType = "ActionType"
+            case approvalModel = "ApprovalModel"
+            case budgetName = "BudgetName"
+            case definition = "Definition"
+            case executionRoleArn = "ExecutionRoleArn"
+            case notificationType = "NotificationType"
+            case status = "Status"
+            case subscribers = "Subscribers"
+        }
+    }
+
+    public struct ActionHistory: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionHistoryDetails", required: true, type: .structure), 
+            AWSShapeMember(label: "EventType", required: true, type: .enum), 
+            AWSShapeMember(label: "Status", required: true, type: .enum), 
+            AWSShapeMember(label: "Timestamp", required: true, type: .timestamp)
+        ]
+
+        ///  The description of details of the event. 
+        public let actionHistoryDetails: ActionHistoryDetails
+        ///  This distinguishes between whether the events are triggered by the user or generated by the system. 
+        public let eventType: EventType
+        ///  The status of action at the time of the event. 
+        public let status: ActionStatus
+        public let timestamp: TimeStamp
+
+        public init(actionHistoryDetails: ActionHistoryDetails, eventType: EventType, status: ActionStatus, timestamp: TimeStamp) {
+            self.actionHistoryDetails = actionHistoryDetails
+            self.eventType = eventType
+            self.status = status
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionHistoryDetails = "ActionHistoryDetails"
+            case eventType = "EventType"
+            case status = "Status"
+            case timestamp = "Timestamp"
+        }
+    }
+
+    public struct ActionHistoryDetails: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Action", required: true, type: .structure), 
+            AWSShapeMember(label: "Message", required: true, type: .string)
+        ]
+
+        ///  The budget action resource. 
+        public let action: Action
+        public let message: String
+
+        public init(action: Action, message: String) {
+            self.action = action
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case message = "Message"
+        }
+    }
+
+    public struct ActionThreshold: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionThresholdType", required: true, type: .enum), 
+            AWSShapeMember(label: "ActionThresholdValue", required: true, type: .double)
+        ]
+
+        public let actionThresholdType: ThresholdType
+        public let actionThresholdValue: Double
+
+        public init(actionThresholdType: ThresholdType, actionThresholdValue: Double) {
+            self.actionThresholdType = actionThresholdType
+            self.actionThresholdValue = actionThresholdValue
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.actionThresholdValue, name:"actionThresholdValue", parent: name, max: 40000000000)
+            try validate(self.actionThresholdValue, name:"actionThresholdValue", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionThresholdType = "ActionThresholdType"
+            case actionThresholdValue = "ActionThresholdValue"
+        }
+    }
+
     public struct Budget: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "BudgetLimit", required: false, type: .structure), 
@@ -81,7 +267,7 @@ extension Budgets {
         public let calculatedSpend: CalculatedSpend?
         /// The cost filters, such as service or tag, that are applied to a budget. AWS Budgets supports the following services as a filter for RI budgets:   Amazon Elastic Compute Cloud - Compute   Amazon Redshift   Amazon Relational Database Service   Amazon ElastiCache   Amazon Elasticsearch Service  
         public let costFilters: [String: [String]]?
-        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, Savings_Plans_Utilization, and Savings_Plans_Coverage budgets do not have CostTypes.
+        /// The types of costs that are included in this COST budget.  USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, and SAVINGS_PLANS_COVERAGE budgets do not have CostTypes.
         public let costTypes: CostTypes?
         /// The last time that you updated this budget.
         public let lastUpdatedTime: TimeStamp?
@@ -89,7 +275,7 @@ extension Budgets {
         public let plannedBudgetLimits: [String: Spend]?
         /// The period of time that is covered by a budget. The period has a start date and an end date. The start date must come before the end date. The end date must come before 06/15/87 00:00 UTC.  If you create your budget and don't specify a start date, AWS defaults to the start of your chosen time period (DAILY, MONTHLY, QUARTERLY, or ANNUALLY). For example, if you created your budget on January 24, 2018, chose DAILY, and didn't set a start date, AWS set your start date to 01/24/18 00:00 UTC. If you chose MONTHLY, AWS set your start date to 01/01/18 00:00 UTC. If you didn't specify an end date, AWS set your end date to 06/15/87 00:00 UTC. The defaults are the same for the AWS Billing and Cost Management console and the API.  You can change either date with the UpdateBudget operation. After the end date, AWS deletes the budget and all associated notifications and subscribers.
         public let timePeriod: TimePeriod?
-        /// The length of time until a budget resets the actual and forecasted spend. DAILY is available only for RI_UTILIZATION, RI_COVERAGE, Savings_Plans_Utilization, and Savings_Plans_Coverage budgets.
+        /// The length of time until a budget resets the actual and forecasted spend.
         public let timeUnit: TimeUnit
 
         public init(budgetLimit: Spend? = nil, budgetName: String, budgetType: BudgetType, calculatedSpend: CalculatedSpend? = nil, costFilters: [String: [String]]? = nil, costTypes: CostTypes? = nil, lastUpdatedTime: TimeStamp? = nil, plannedBudgetLimits: [String: Spend]? = nil, timePeriod: TimePeriod? = nil, timeUnit: TimeUnit) {
@@ -210,9 +396,9 @@ extension Budgets {
             AWSShapeMember(label: "ForecastedSpend", required: false, type: .structure)
         ]
 
-        /// The amount of cost, usage, or RI units that you have used.
+        /// The amount of cost, usage, RI units, or Savings Plans units that you have used.
         public let actualSpend: Spend
-        /// The amount of cost, usage, or RI units that you are forecasted to use.
+        /// The amount of cost, usage, RI units, or Savings Plans units that you are forecasted to use.
         public let forecastedSpend: Spend?
 
         public init(actualSpend: Spend, forecastedSpend: Spend? = nil) {
@@ -298,6 +484,101 @@ extension Budgets {
         }
     }
 
+    public struct CreateBudgetActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionThreshold", required: true, type: .structure), 
+            AWSShapeMember(label: "ActionType", required: true, type: .enum), 
+            AWSShapeMember(label: "ApprovalModel", required: true, type: .enum), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "Definition", required: true, type: .structure), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: true, type: .string), 
+            AWSShapeMember(label: "NotificationType", required: true, type: .enum), 
+            AWSShapeMember(label: "Subscribers", required: true, type: .list)
+        ]
+
+        public let accountId: String
+        public let actionThreshold: ActionThreshold
+        ///  The type of action. This defines the type of tasks that can be carried out by this action. This field also determines the format for definition. 
+        public let actionType: ActionType
+        ///  This specifies if the action needs manual or automatic approval. 
+        public let approvalModel: ApprovalModel
+        public let budgetName: String
+        public let definition: Definition
+        ///  The role passed for action execution and reversion. Roles and actions must be in the same account. 
+        public let executionRoleArn: String
+        public let notificationType: NotificationType
+        public let subscribers: [Subscriber]
+
+        public init(accountId: String, actionThreshold: ActionThreshold, actionType: ActionType, approvalModel: ApprovalModel, budgetName: String, definition: Definition, executionRoleArn: String, notificationType: NotificationType, subscribers: [Subscriber]) {
+            self.accountId = accountId
+            self.actionThreshold = actionThreshold
+            self.actionType = actionType
+            self.approvalModel = approvalModel
+            self.budgetName = budgetName
+            self.definition = definition
+            self.executionRoleArn = executionRoleArn
+            self.notificationType = notificationType
+            self.subscribers = subscribers
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try self.actionThreshold.validate(name: "\(name).actionThreshold")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.definition.validate(name: "\(name).definition")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 618)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 32)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.subscribers.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try validate(self.subscribers, name:"subscribers", parent: name, max: 11)
+            try validate(self.subscribers, name:"subscribers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionThreshold = "ActionThreshold"
+            case actionType = "ActionType"
+            case approvalModel = "ApprovalModel"
+            case budgetName = "BudgetName"
+            case definition = "Definition"
+            case executionRoleArn = "ExecutionRoleArn"
+            case notificationType = "NotificationType"
+            case subscribers = "Subscribers"
+        }
+    }
+
+    public struct CreateBudgetActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+
+        public init(accountId: String, actionId: String, budgetName: String) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+        }
+    }
+
     public struct CreateBudgetRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AccountId", required: true, type: .string), 
@@ -326,7 +607,7 @@ extension Budgets {
             try self.notificationsWithSubscribers?.forEach {
                 try $0.validate(name: "\(name).notificationsWithSubscribers[]")
             }
-            try validate(self.notificationsWithSubscribers, name:"notificationsWithSubscribers", parent: name, max: 5)
+            try validate(self.notificationsWithSubscribers, name:"notificationsWithSubscribers", parent: name, max: 10)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -448,6 +729,100 @@ extension Budgets {
         public init() {
         }
 
+    }
+
+    public struct Definition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "IamActionDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "ScpActionDefinition", required: false, type: .structure), 
+            AWSShapeMember(label: "SsmActionDefinition", required: false, type: .structure)
+        ]
+
+        ///  The AWS Identity and Access Management (IAM) action definition details. 
+        public let iamActionDefinition: IamActionDefinition?
+        ///  The service control policies (SCPs) action definition details. 
+        public let scpActionDefinition: ScpActionDefinition?
+        ///  The AWS Systems Manager (SSM) action definition details. 
+        public let ssmActionDefinition: SsmActionDefinition?
+
+        public init(iamActionDefinition: IamActionDefinition? = nil, scpActionDefinition: ScpActionDefinition? = nil, ssmActionDefinition: SsmActionDefinition? = nil) {
+            self.iamActionDefinition = iamActionDefinition
+            self.scpActionDefinition = scpActionDefinition
+            self.ssmActionDefinition = ssmActionDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.iamActionDefinition?.validate(name: "\(name).iamActionDefinition")
+            try self.scpActionDefinition?.validate(name: "\(name).scpActionDefinition")
+            try self.ssmActionDefinition?.validate(name: "\(name).ssmActionDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iamActionDefinition = "IamActionDefinition"
+            case scpActionDefinition = "ScpActionDefinition"
+            case ssmActionDefinition = "SsmActionDefinition"
+        }
+    }
+
+    public struct DeleteBudgetActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+
+        public init(accountId: String, actionId: String, budgetName: String) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.actionId, name:"actionId", parent: name, max: 36)
+            try validate(self.actionId, name:"actionId", parent: name, min: 36)
+            try validate(self.actionId, name:"actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+        }
+    }
+
+    public struct DeleteBudgetActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Action", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+        ]
+
+        public let accountId: String
+        public let action: Action
+        public let budgetName: String
+
+        public init(accountId: String, action: Action, budgetName: String) {
+            self.accountId = accountId
+            self.action = action
+            self.budgetName = budgetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case action = "Action"
+            case budgetName = "BudgetName"
+        }
     }
 
     public struct DeleteBudgetRequest: AWSShape {
@@ -583,6 +958,262 @@ extension Budgets {
         public init() {
         }
 
+    }
+
+    public struct DescribeBudgetActionHistoriesRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string), 
+            AWSShapeMember(label: "TimePeriod", required: false, type: .structure)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let timePeriod: TimePeriod?
+
+        public init(accountId: String, actionId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil, timePeriod: TimePeriod? = nil) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.timePeriod = timePeriod
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.actionId, name:"actionId", parent: name, max: 36)
+            try validate(self.actionId, name:"actionId", parent: name, min: 36)
+            try validate(self.actionId, name:"actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case timePeriod = "TimePeriod"
+        }
+    }
+
+    public struct DescribeBudgetActionHistoriesResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionHistories", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  The historical record of the budget action resource. 
+        public let actionHistories: [ActionHistory]
+        public let nextToken: String?
+
+        public init(actionHistories: [ActionHistory], nextToken: String? = nil) {
+            self.actionHistories = actionHistories
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionHistories = "ActionHistories"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeBudgetActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+
+        public init(accountId: String, actionId: String, budgetName: String) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.actionId, name:"actionId", parent: name, max: 36)
+            try validate(self.actionId, name:"actionId", parent: name, min: 36)
+            try validate(self.actionId, name:"actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+        }
+    }
+
+    public struct DescribeBudgetActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "Action", required: true, type: .structure), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string)
+        ]
+
+        public let accountId: String
+        ///  A budget action resource. 
+        public let action: Action
+        public let budgetName: String
+
+        public init(accountId: String, action: Action, budgetName: String) {
+            self.accountId = accountId
+            self.action = action
+            self.budgetName = budgetName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case action = "Action"
+            case budgetName = "BudgetName"
+        }
+    }
+
+    public struct DescribeBudgetActionsForAccountRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        public let accountId: String
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(accountId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeBudgetActionsForAccountResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A list of the budget action resources information. 
+        public let actions: [Action]
+        public let nextToken: String?
+
+        public init(actions: [Action], nextToken: String? = nil) {
+            self.actions = actions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeBudgetActionsForBudgetRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "MaxResults", required: false, type: .integer), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        public let accountId: String
+        public let budgetName: String
+        public let maxResults: Int?
+        public let nextToken: String?
+
+        public init(accountId: String, budgetName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.accountId = accountId
+            self.budgetName = budgetName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
+            try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 2147483647)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 0)
+            try validate(self.nextToken, name:"nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case budgetName = "BudgetName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeBudgetActionsForBudgetResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Actions", required: true, type: .list), 
+            AWSShapeMember(label: "NextToken", required: false, type: .string)
+        ]
+
+        ///  A list of the budget action resources information. 
+        public let actions: [Action]
+        public let nextToken: String?
+
+        public init(actions: [Action], nextToken: String? = nil) {
+            self.actions = actions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case nextToken = "NextToken"
+        }
     }
 
     public struct DescribeBudgetPerformanceHistoryRequest: AWSShape {
@@ -903,6 +1534,137 @@ extension Budgets {
         }
     }
 
+    public struct ExecuteBudgetActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "ExecutionType", required: true, type: .enum)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+        ///  The type of execution. 
+        public let executionType: ExecutionType
+
+        public init(accountId: String, actionId: String, budgetName: String, executionType: ExecutionType) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+            self.executionType = executionType
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.actionId, name:"actionId", parent: name, max: 36)
+            try validate(self.actionId, name:"actionId", parent: name, min: 36)
+            try validate(self.actionId, name:"actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+            case executionType = "ExecutionType"
+        }
+    }
+
+    public struct ExecuteBudgetActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "ExecutionType", required: true, type: .enum)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let budgetName: String
+        ///  The type of execution. 
+        public let executionType: ExecutionType
+
+        public init(accountId: String, actionId: String, budgetName: String, executionType: ExecutionType) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.budgetName = budgetName
+            self.executionType = executionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case budgetName = "BudgetName"
+            case executionType = "ExecutionType"
+        }
+    }
+
+    public struct IamActionDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Groups", required: false, type: .list), 
+            AWSShapeMember(label: "PolicyArn", required: true, type: .string), 
+            AWSShapeMember(label: "Roles", required: false, type: .list), 
+            AWSShapeMember(label: "Users", required: false, type: .list)
+        ]
+
+        ///  A list of groups to be attached. There must be at least one group. 
+        public let groups: [String]?
+        ///  The Amazon Resource Name (ARN) of the policy to be attached. 
+        public let policyArn: String
+        ///  A list of roles to be attached. There must be at least one role. 
+        public let roles: [String]?
+        ///  A list of users to be attached. There must be at least one user. 
+        public let users: [String]?
+
+        public init(groups: [String]? = nil, policyArn: String, roles: [String]? = nil, users: [String]? = nil) {
+            self.groups = groups
+            self.policyArn = policyArn
+            self.roles = roles
+            self.users = users
+        }
+
+        public func validate(name: String) throws {
+            try self.groups?.forEach {
+                try validate($0, name: "groups[]", parent: name, max: 640)
+                try validate($0, name: "groups[]", parent: name, min: 1)
+                try validate($0, name: "groups[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
+            }
+            try validate(self.groups, name:"groups", parent: name, max: 100)
+            try validate(self.groups, name:"groups", parent: name, min: 1)
+            try validate(self.policyArn, name:"policyArn", parent: name, max: 684)
+            try validate(self.policyArn, name:"policyArn", parent: name, min: 25)
+            try validate(self.policyArn, name:"policyArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::(\\d{12}|aws):policy(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.roles?.forEach {
+                try validate($0, name: "roles[]", parent: name, max: 576)
+                try validate($0, name: "roles[]", parent: name, min: 1)
+                try validate($0, name: "roles[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
+            }
+            try validate(self.roles, name:"roles", parent: name, max: 100)
+            try validate(self.roles, name:"roles", parent: name, min: 1)
+            try self.users?.forEach {
+                try validate($0, name: "users[]", parent: name, max: 576)
+                try validate($0, name: "users[]", parent: name, min: 1)
+                try validate($0, name: "users[]", parent: name, pattern: "^([\\u0021-\\u007F]+\\u002F)?[\\w+=,.@-]+$")
+            }
+            try validate(self.users, name:"users", parent: name, max: 100)
+            try validate(self.users, name:"users", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups = "Groups"
+            case policyArn = "PolicyArn"
+            case roles = "Roles"
+            case users = "Users"
+        }
+    }
+
     public struct Notification: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ComparisonOperator", required: true, type: .enum), 
@@ -918,7 +1680,7 @@ extension Budgets {
         public let notificationState: NotificationState?
         /// Whether the notification is for how much you have spent (ACTUAL) or for how much you're forecasted to spend (FORECASTED).
         public let notificationType: NotificationType
-        /// The threshold that is associated with a notification. Thresholds are always a percentage.
+        /// The threshold that is associated with a notification. Thresholds are always a percentage, and many customers find value being alerted between 50% - 200% of the budgeted amount. The maximum limit for your threshold is 1,000,000% above the budgeted amount.
         public let threshold: Double
         /// The type of threshold for a notification. For ABSOLUTE_VALUE thresholds, AWS notifies you when you go over or are forecasted to go over your total cost threshold. For PERCENTAGE thresholds, AWS notifies you when you go over or are forecasted to go over a certain percentage of your forecasted spend. For example, if you have a budget for 200 dollars and you have a PERCENTAGE threshold of 80%, AWS notifies you when you go over 160 dollars.
         public let thresholdType: ThresholdType?
@@ -932,7 +1694,7 @@ extension Budgets {
         }
 
         public func validate(name: String) throws {
-            try validate(self.threshold, name:"threshold", parent: name, max: 1000000000)
+            try validate(self.threshold, name:"threshold", parent: name, max: 40000000000)
             try validate(self.threshold, name:"threshold", parent: name, min: 0)
         }
 
@@ -976,6 +1738,41 @@ extension Budgets {
         }
     }
 
+    public struct ScpActionDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PolicyId", required: true, type: .string), 
+            AWSShapeMember(label: "TargetIds", required: true, type: .list)
+        ]
+
+        ///  The policy ID attached. 
+        public let policyId: String
+        ///  A list of target IDs. 
+        public let targetIds: [String]
+
+        public init(policyId: String, targetIds: [String]) {
+            self.policyId = policyId
+            self.targetIds = targetIds
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.policyId, name:"policyId", parent: name, max: 130)
+            try validate(self.policyId, name:"policyId", parent: name, min: 10)
+            try validate(self.policyId, name:"policyId", parent: name, pattern: "^p-[0-9a-zA-Z_]{8,128}$")
+            try self.targetIds.forEach {
+                try validate($0, name: "targetIds[]", parent: name, max: 68)
+                try validate($0, name: "targetIds[]", parent: name, min: 12)
+                try validate($0, name: "targetIds[]", parent: name, pattern: "^(ou-[0-9a-z]{4,32}-[a-z0-9]{8,32}$)|(\\d{12})")
+            }
+            try validate(self.targetIds, name:"targetIds", parent: name, max: 100)
+            try validate(self.targetIds, name:"targetIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyId = "PolicyId"
+            case targetIds = "TargetIds"
+        }
+    }
+
     public struct Spend: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Amount", required: true, type: .string), 
@@ -1004,6 +1801,46 @@ extension Budgets {
         private enum CodingKeys: String, CodingKey {
             case amount = "Amount"
             case unit = "Unit"
+        }
+    }
+
+    public struct SsmActionDefinition: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActionSubType", required: true, type: .enum), 
+            AWSShapeMember(label: "InstanceIds", required: true, type: .list), 
+            AWSShapeMember(label: "Region", required: true, type: .string)
+        ]
+
+        ///  The action subType. 
+        public let actionSubType: ActionSubType
+        ///  The EC2 and RDS instance IDs. 
+        public let instanceIds: [String]
+        ///  The Region to run the SSM document. 
+        public let region: String
+
+        public init(actionSubType: ActionSubType, instanceIds: [String], region: String) {
+            self.actionSubType = actionSubType
+            self.instanceIds = instanceIds
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.instanceIds.forEach {
+                try validate($0, name: "instanceIds[]", parent: name, max: 63)
+                try validate($0, name: "instanceIds[]", parent: name, min: 1)
+                try validate($0, name: "instanceIds[]", parent: name, pattern: "^i-(\\w{8}|\\w{17})$|^[a-zA-Z]([\\w-]{0,61}\\w)?$")
+            }
+            try validate(self.instanceIds, name:"instanceIds", parent: name, max: 100)
+            try validate(self.instanceIds, name:"instanceIds", parent: name, min: 1)
+            try validate(self.region, name:"region", parent: name, max: 20)
+            try validate(self.region, name:"region", parent: name, min: 9)
+            try validate(self.region, name:"region", parent: name, pattern: "^\\w{2}-\\w+(-\\w+)?-\\d$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionSubType = "ActionSubType"
+            case instanceIds = "InstanceIds"
+            case region = "Region"
         }
     }
 
@@ -1054,6 +1891,109 @@ extension Budgets {
         private enum CodingKeys: String, CodingKey {
             case end = "End"
             case start = "Start"
+        }
+    }
+
+    public struct UpdateBudgetActionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionId", required: true, type: .string), 
+            AWSShapeMember(label: "ActionThreshold", required: false, type: .structure), 
+            AWSShapeMember(label: "ApprovalModel", required: false, type: .enum), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "Definition", required: false, type: .structure), 
+            AWSShapeMember(label: "ExecutionRoleArn", required: false, type: .string), 
+            AWSShapeMember(label: "NotificationType", required: false, type: .enum), 
+            AWSShapeMember(label: "Subscribers", required: false, type: .list)
+        ]
+
+        public let accountId: String
+        ///  A system-generated universally unique identifier (UUID) for the action. 
+        public let actionId: String
+        public let actionThreshold: ActionThreshold?
+        ///  This specifies if the action needs manual or automatic approval. 
+        public let approvalModel: ApprovalModel?
+        public let budgetName: String
+        public let definition: Definition?
+        ///  The role passed for action execution and reversion. Roles and actions must be in the same account. 
+        public let executionRoleArn: String?
+        public let notificationType: NotificationType?
+        public let subscribers: [Subscriber]?
+
+        public init(accountId: String, actionId: String, actionThreshold: ActionThreshold? = nil, approvalModel: ApprovalModel? = nil, budgetName: String, definition: Definition? = nil, executionRoleArn: String? = nil, notificationType: NotificationType? = nil, subscribers: [Subscriber]? = nil) {
+            self.accountId = accountId
+            self.actionId = actionId
+            self.actionThreshold = actionThreshold
+            self.approvalModel = approvalModel
+            self.budgetName = budgetName
+            self.definition = definition
+            self.executionRoleArn = executionRoleArn
+            self.notificationType = notificationType
+            self.subscribers = subscribers
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.accountId, name:"accountId", parent: name, max: 12)
+            try validate(self.accountId, name:"accountId", parent: name, min: 12)
+            try validate(self.accountId, name:"accountId", parent: name, pattern: "\\d{12}")
+            try validate(self.actionId, name:"actionId", parent: name, max: 36)
+            try validate(self.actionId, name:"actionId", parent: name, min: 36)
+            try validate(self.actionId, name:"actionId", parent: name, pattern: "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$")
+            try self.actionThreshold?.validate(name: "\(name).actionThreshold")
+            try validate(self.budgetName, name:"budgetName", parent: name, max: 100)
+            try validate(self.budgetName, name:"budgetName", parent: name, min: 1)
+            try validate(self.budgetName, name:"budgetName", parent: name, pattern: "[^:\\\\]+")
+            try self.definition?.validate(name: "\(name).definition")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 618)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 32)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|us-iso-east-1|us-isob-east-1):iam::\\d{12}:role(\\u002F[\\u0021-\\u007F]+\\u002F|\\u002F)[\\w+=,.@-]+$")
+            try self.subscribers?.forEach {
+                try $0.validate(name: "\(name).subscribers[]")
+            }
+            try validate(self.subscribers, name:"subscribers", parent: name, max: 11)
+            try validate(self.subscribers, name:"subscribers", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case actionId = "ActionId"
+            case actionThreshold = "ActionThreshold"
+            case approvalModel = "ApprovalModel"
+            case budgetName = "BudgetName"
+            case definition = "Definition"
+            case executionRoleArn = "ExecutionRoleArn"
+            case notificationType = "NotificationType"
+            case subscribers = "Subscribers"
+        }
+    }
+
+    public struct UpdateBudgetActionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AccountId", required: true, type: .string), 
+            AWSShapeMember(label: "BudgetName", required: true, type: .string), 
+            AWSShapeMember(label: "NewAction", required: true, type: .structure), 
+            AWSShapeMember(label: "OldAction", required: true, type: .structure)
+        ]
+
+        public let accountId: String
+        public let budgetName: String
+        ///  The updated action resource information. 
+        public let newAction: Action
+        ///  The previous action resource information. 
+        public let oldAction: Action
+
+        public init(accountId: String, budgetName: String, newAction: Action, oldAction: Action) {
+            self.accountId = accountId
+            self.budgetName = budgetName
+            self.newAction = newAction
+            self.oldAction = oldAction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case budgetName = "BudgetName"
+            case newAction = "NewAction"
+            case oldAction = "OldAction"
         }
     }
 

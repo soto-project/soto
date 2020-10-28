@@ -191,7 +191,7 @@ extension GlobalAccelerator {
 
         /// The address range, in CIDR notation.
         public let cidr: String?
-        /// A history of status changes for an IP address range that that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
+        /// A history of status changes for an IP address range that you bring to AWS Global Accelerator through bring your own IP address (BYOIP).
         public let events: [ByoipCidrEvent]?
         /// The state of the address pool.
         public let state: ByoipCidrState?
@@ -272,7 +272,7 @@ extension GlobalAccelerator {
         public let enabled: Bool?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of an accelerator.
         public let idempotencyToken: String
-        /// Optionally, if you've added your own IP address pool to Global Accelerator, you can choose IP addresses from your own pool to use for the accelerator's static IP addresses. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
+        /// Optionally, if you've added your own IP address pool to Global Accelerator (BYOIP), you can choose IP addresses from your own pool to use for the accelerator's static IP addresses when you create an accelerator. You can specify one or two addresses, separated by a comma. Do not include the /32 suffix. Only one IP address from each of your IP address ranges can be used for each accelerator. If you specify only one IP address from your IP address range, Global Accelerator assigns a second static IP address for the accelerator from the AWS IP address pool.  Note that you can't update IP addresses for an existing accelerator. To change them, you must create a new accelerator with the new addresses. For more information, see Bring Your Own IP Addresses (BYOIP) in the AWS Global Accelerator Developer Guide.
         public let ipAddresses: [String]?
         /// The value for the address type must be IPv4. 
         public let ipAddressType: IpAddressType?
@@ -337,13 +337,14 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
             AWSShapeMember(label: "IdempotencyToken", required: true, type: .string), 
             AWSShapeMember(label: "ListenerArn", required: true, type: .string), 
+            AWSShapeMember(label: "PortOverrides", required: false, type: .list), 
             AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
         ]
 
         /// The list of endpoint objects.
         public let endpointConfigurations: [EndpointConfiguration]?
-        /// The name of the AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
+        /// The AWS Region where the endpoint group is located. A listener can have only one endpoint group in a specific Region.
         public let endpointGroupRegion: String
         /// The time—10 seconds or 30 seconds—between each health check for an endpoint. The default value is 30.
         public let healthCheckIntervalSeconds: Int?
@@ -357,12 +358,14 @@ extension GlobalAccelerator {
         public let idempotencyToken: String
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String
+        /// Override specific listener ports used to route traffic to endpoints that are part of this endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see  Port overrides in the AWS Global Accelerator Developer Guide.
+        public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String = CreateEndpointGroupRequest.idempotencyToken(), listenerArn: String, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupRegion: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, idempotencyToken: String = CreateEndpointGroupRequest.idempotencyToken(), listenerArn: String, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupRegion = endpointGroupRegion
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
@@ -371,6 +374,7 @@ extension GlobalAccelerator {
             self.healthCheckProtocol = healthCheckProtocol
             self.idempotencyToken = idempotencyToken
             self.listenerArn = listenerArn
+            self.portOverrides = portOverrides
             self.thresholdCount = thresholdCount
             self.trafficDialPercentage = trafficDialPercentage
         }
@@ -389,6 +393,11 @@ extension GlobalAccelerator {
             try validate(self.healthCheckPort, name:"healthCheckPort", parent: name, min: 1)
             try validate(self.idempotencyToken, name:"idempotencyToken", parent: name, max: 255)
             try validate(self.listenerArn, name:"listenerArn", parent: name, max: 255)
+            try self.portOverrides?.forEach {
+                try $0.validate(name: "\(name).portOverrides[]")
+            }
+            try validate(self.portOverrides, name:"portOverrides", parent: name, max: 10)
+            try validate(self.portOverrides, name:"portOverrides", parent: name, min: 0)
             try validate(self.thresholdCount, name:"thresholdCount", parent: name, max: 10)
             try validate(self.thresholdCount, name:"thresholdCount", parent: name, min: 1)
             try validate(self.trafficDialPercentage, name:"trafficDialPercentage", parent: name, max: 100)
@@ -404,6 +413,7 @@ extension GlobalAccelerator {
             case healthCheckProtocol = "HealthCheckProtocol"
             case idempotencyToken = "IdempotencyToken"
             case listenerArn = "ListenerArn"
+            case portOverrides = "PortOverrides"
             case thresholdCount = "ThresholdCount"
             case trafficDialPercentage = "TrafficDialPercentage"
         }
@@ -437,7 +447,7 @@ extension GlobalAccelerator {
 
         /// The Amazon Resource Name (ARN) of your accelerator.
         public let acceleratorArn: String
-        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
+        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency—that is, the uniqueness—of the request.
         public let idempotencyToken: String
@@ -752,7 +762,7 @@ extension GlobalAccelerator {
 
         /// Indicates whether client IP address preservation is enabled for an Application Load Balancer endpoint. The value is true or false. The default value is true for new accelerators.  If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the Application Load Balancer endpoint fronted by the accelerator. For more information, see  Preserve Client IP Addresses in AWS Global Accelerator in the AWS Global Accelerator Developer Guide.
         public let clientIPPreservationEnabled: Bool?
-        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For EC2 instances, this is the EC2 instance ID.  An Application Load Balancer can be either internal or internet-facing.
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. An Application Load Balancer can be either internal or internet-facing.
         public let endpointId: String?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure AWS Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see Endpoint Weights in the AWS Global Accelerator Developer Guide.
         public let weight: Int?
@@ -822,6 +832,7 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "PortOverrides", required: false, type: .list), 
             AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
         ]
@@ -830,7 +841,7 @@ extension GlobalAccelerator {
         public let endpointDescriptions: [EndpointDescription]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String?
-        /// The AWS Region that this endpoint group belongs.
+        /// The AWS Region where the endpoint group is located.
         public let endpointGroupRegion: String?
         /// The time—10 seconds or 30 seconds—between health checks for each endpoint. The default value is 30.
         public let healthCheckIntervalSeconds: Int?
@@ -840,12 +851,14 @@ extension GlobalAccelerator {
         public let healthCheckPort: Int?
         /// The protocol that Global Accelerator uses to perform health checks on endpoints that are part of this endpoint group. The default value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
+        /// Allows you to override the destination ports used to route traffic to an endpoint. Using a port override lets you to map a list of external destination ports (that your users send traffic to) to a list of internal destination ports that you want an application endpoint to receive traffic on. 
+        public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointDescriptions: [EndpointDescription]? = nil, endpointGroupArn: String? = nil, endpointGroupRegion: String? = nil, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointDescriptions = endpointDescriptions
             self.endpointGroupArn = endpointGroupArn
             self.endpointGroupRegion = endpointGroupRegion
@@ -853,6 +866,7 @@ extension GlobalAccelerator {
             self.healthCheckPath = healthCheckPath
             self.healthCheckPort = healthCheckPort
             self.healthCheckProtocol = healthCheckProtocol
+            self.portOverrides = portOverrides
             self.thresholdCount = thresholdCount
             self.trafficDialPercentage = trafficDialPercentage
         }
@@ -865,6 +879,7 @@ extension GlobalAccelerator {
             case healthCheckPath = "HealthCheckPath"
             case healthCheckPort = "HealthCheckPort"
             case healthCheckProtocol = "HealthCheckProtocol"
+            case portOverrides = "PortOverrides"
             case thresholdCount = "ThresholdCount"
             case trafficDialPercentage = "TrafficDialPercentage"
         }
@@ -1151,7 +1166,7 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "Protocol", required: false, type: .enum)
         ]
 
-        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
+        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener.
         public let listenerArn: String?
@@ -1172,6 +1187,35 @@ extension GlobalAccelerator {
             case listenerArn = "ListenerArn"
             case portRanges = "PortRanges"
             case `protocol` = "Protocol"
+        }
+    }
+
+    public struct PortOverride: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "EndpointPort", required: false, type: .integer), 
+            AWSShapeMember(label: "ListenerPort", required: false, type: .integer)
+        ]
+
+        /// The endpoint port that you want a listener port to be mapped to. This is the port on the endpoint, such as the Application Load Balancer or Amazon EC2 instance.
+        public let endpointPort: Int?
+        /// The listener port that you want to map to a specific endpoint port. This is the port that user traffic arrives to the Global Accelerator on.
+        public let listenerPort: Int?
+
+        public init(endpointPort: Int? = nil, listenerPort: Int? = nil) {
+            self.endpointPort = endpointPort
+            self.listenerPort = listenerPort
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.endpointPort, name:"endpointPort", parent: name, max: 65535)
+            try validate(self.endpointPort, name:"endpointPort", parent: name, min: 1)
+            try validate(self.listenerPort, name:"listenerPort", parent: name, max: 65535)
+            try validate(self.listenerPort, name:"listenerPort", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpointPort = "EndpointPort"
+            case listenerPort = "ListenerPort"
         }
     }
 
@@ -1473,11 +1517,12 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "HealthCheckPath", required: false, type: .string), 
             AWSShapeMember(label: "HealthCheckPort", required: false, type: .integer), 
             AWSShapeMember(label: "HealthCheckProtocol", required: false, type: .enum), 
+            AWSShapeMember(label: "PortOverrides", required: false, type: .list), 
             AWSShapeMember(label: "ThresholdCount", required: false, type: .integer), 
             AWSShapeMember(label: "TrafficDialPercentage", required: false, type: .float)
         ]
 
-        /// The list of endpoint objects.
+        /// The list of endpoint objects. A resource must be valid and active when you add it as an endpoint.
         public let endpointConfigurations: [EndpointConfiguration]?
         /// The Amazon Resource Name (ARN) of the endpoint group.
         public let endpointGroupArn: String
@@ -1489,18 +1534,21 @@ extension GlobalAccelerator {
         public let healthCheckPort: Int?
         /// The protocol that AWS Global Accelerator uses to check the health of endpoints that are part of this endpoint group. The default value is TCP.
         public let healthCheckProtocol: HealthCheckProtocol?
+        /// Override specific listener ports used to route traffic to endpoints that are part of this endpoint group. For example, you can create a port override in which the listener receives user traffic on ports 80 and 443, but your accelerator routes that traffic to ports 1080 and 1443, respectively, on the endpoints. For more information, see  Port overrides in the AWS Global Accelerator Developer Guide.
+        public let portOverrides: [PortOverride]?
         /// The number of consecutive health checks required to set the state of a healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy. The default value is 3.
         public let thresholdCount: Int?
         /// The percentage of traffic to send to an AWS Region. Additional traffic is distributed to other endpoint groups for this listener.  Use this action to increase (dial up) or decrease (dial down) traffic to a specific Region. The percentage is applied to the traffic that would otherwise have been routed to the Region based on optimal routing. The default value is 100.
         public let trafficDialPercentage: Float?
 
-        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
+        public init(endpointConfigurations: [EndpointConfiguration]? = nil, endpointGroupArn: String, healthCheckIntervalSeconds: Int? = nil, healthCheckPath: String? = nil, healthCheckPort: Int? = nil, healthCheckProtocol: HealthCheckProtocol? = nil, portOverrides: [PortOverride]? = nil, thresholdCount: Int? = nil, trafficDialPercentage: Float? = nil) {
             self.endpointConfigurations = endpointConfigurations
             self.endpointGroupArn = endpointGroupArn
             self.healthCheckIntervalSeconds = healthCheckIntervalSeconds
             self.healthCheckPath = healthCheckPath
             self.healthCheckPort = healthCheckPort
             self.healthCheckProtocol = healthCheckProtocol
+            self.portOverrides = portOverrides
             self.thresholdCount = thresholdCount
             self.trafficDialPercentage = trafficDialPercentage
         }
@@ -1517,6 +1565,11 @@ extension GlobalAccelerator {
             try validate(self.healthCheckPath, name:"healthCheckPath", parent: name, max: 255)
             try validate(self.healthCheckPort, name:"healthCheckPort", parent: name, max: 65535)
             try validate(self.healthCheckPort, name:"healthCheckPort", parent: name, min: 1)
+            try self.portOverrides?.forEach {
+                try $0.validate(name: "\(name).portOverrides[]")
+            }
+            try validate(self.portOverrides, name:"portOverrides", parent: name, max: 10)
+            try validate(self.portOverrides, name:"portOverrides", parent: name, min: 0)
             try validate(self.thresholdCount, name:"thresholdCount", parent: name, max: 10)
             try validate(self.thresholdCount, name:"thresholdCount", parent: name, min: 1)
             try validate(self.trafficDialPercentage, name:"trafficDialPercentage", parent: name, max: 100)
@@ -1530,6 +1583,7 @@ extension GlobalAccelerator {
             case healthCheckPath = "HealthCheckPath"
             case healthCheckPort = "HealthCheckPort"
             case healthCheckProtocol = "HealthCheckProtocol"
+            case portOverrides = "PortOverrides"
             case thresholdCount = "ThresholdCount"
             case trafficDialPercentage = "TrafficDialPercentage"
         }
@@ -1560,7 +1614,7 @@ extension GlobalAccelerator {
             AWSShapeMember(label: "Protocol", required: false, type: .enum)
         ]
 
-        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Clienty affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
+        /// Client affinity lets you direct all requests from a user to the same endpoint, if you have stateful applications, regardless of the port and protocol of the client request. Client affinity gives you control over whether to always route each client to the same specific endpoint. AWS Global Accelerator uses a consistent-flow hashing algorithm to choose the optimal endpoint for a connection. If client affinity is NONE, Global Accelerator uses the "five-tuple" (5-tuple) properties—source IP address, source port, destination IP address, destination port, and protocol—to select the hash value, and then chooses the best endpoint. However, with this setting, if someone uses different ports to connect to Global Accelerator, their connections might not be always routed to the same endpoint because the hash value changes.  If you want a given client to always be routed to the same endpoint, set client affinity to SOURCE_IP instead. When you use the SOURCE_IP setting, Global Accelerator uses the "two-tuple" (2-tuple) properties— source (client) IP address and destination IP address—to select the hash value. The default value is NONE.
         public let clientAffinity: ClientAffinity?
         /// The Amazon Resource Name (ARN) of the listener to update.
         public let listenerArn: String

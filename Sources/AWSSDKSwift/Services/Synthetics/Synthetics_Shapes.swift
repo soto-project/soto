@@ -72,7 +72,7 @@ extension Synthetics {
         /// The name of the canary.
         public let name: String?
         public let runConfig: CanaryRunConfigOutput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid value is syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
         /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
         public let schedule: CanaryScheduleOutput?
@@ -220,6 +220,7 @@ extension Synthetics {
     public struct CanaryRun: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ArtifactS3Location", required: false, type: .string), 
+            AWSShapeMember(label: "Id", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .structure), 
             AWSShapeMember(label: "Timeline", required: false, type: .structure)
@@ -227,6 +228,8 @@ extension Synthetics {
 
         /// The location where the canary stored artifacts from the run. Artifacts include the log file, screenshots, and HAR files.
         public let artifactS3Location: String?
+        /// A unique ID that identifies this canary run.
+        public let id: String?
         /// The name of the canary.
         public let name: String?
         /// The status of this run.
@@ -234,8 +237,9 @@ extension Synthetics {
         /// A structure that contains the start and end times of this run.
         public let timeline: CanaryRunTimeline?
 
-        public init(artifactS3Location: String? = nil, name: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
+        public init(artifactS3Location: String? = nil, id: String? = nil, name: String? = nil, status: CanaryRunStatus? = nil, timeline: CanaryRunTimeline? = nil) {
             self.artifactS3Location = artifactS3Location
+            self.id = id
             self.name = name
             self.status = status
             self.timeline = timeline
@@ -243,6 +247,7 @@ extension Synthetics {
 
         private enum CodingKeys: String, CodingKey {
             case artifactS3Location = "ArtifactS3Location"
+            case id = "Id"
             case name = "Name"
             case status = "Status"
             case timeline = "Timeline"
@@ -251,16 +256,20 @@ extension Synthetics {
 
     public struct CanaryRunConfigInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveTracing", required: false, type: .boolean), 
             AWSShapeMember(label: "MemoryInMB", required: false, type: .integer), 
-            AWSShapeMember(label: "TimeoutInSeconds", required: true, type: .integer)
+            AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
 
-        /// The maximum amount of memory available to the canary while it is running, in MB. The value you specify must be a multiple of 64.
+        /// Specifies whether this canary is to use active AWS X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see  Canaries and X-Ray tracing. You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
+        public let activeTracing: Bool?
+        /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
-        /// How long the canary is allowed to run before it must stop. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
-        public let timeoutInSeconds: Int
+        /// How long the canary is allowed to run before it must stop. You can't set this time to be longer than the frequency of the runs of this canary. If you omit this field, the frequency of the canary is used as this value, up to a maximum of 14 minutes.
+        public let timeoutInSeconds: Int?
 
-        public init(memoryInMB: Int? = nil, timeoutInSeconds: Int) {
+        public init(activeTracing: Bool? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+            self.activeTracing = activeTracing
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
@@ -268,11 +277,12 @@ extension Synthetics {
         public func validate(name: String) throws {
             try validate(self.memoryInMB, name:"memoryInMB", parent: name, max: 3008)
             try validate(self.memoryInMB, name:"memoryInMB", parent: name, min: 960)
-            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, max: 900)
-            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 60)
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, max: 840)
+            try validate(self.timeoutInSeconds, name:"timeoutInSeconds", parent: name, min: 3)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeTracing = "ActiveTracing"
             case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -280,21 +290,26 @@ extension Synthetics {
 
     public struct CanaryRunConfigOutput: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ActiveTracing", required: false, type: .boolean), 
             AWSShapeMember(label: "MemoryInMB", required: false, type: .integer), 
             AWSShapeMember(label: "TimeoutInSeconds", required: false, type: .integer)
         ]
 
-        /// The maximum amount of memory available to the canary while it is running, in MB. The value you must be a multiple of 64.
+        /// Displays whether this canary run used active AWS X-Ray tracing. 
+        public let activeTracing: Bool?
+        /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
         public let memoryInMB: Int?
         /// How long the canary is allowed to run before it must stop.
         public let timeoutInSeconds: Int?
 
-        public init(memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+        public init(activeTracing: Bool? = nil, memoryInMB: Int? = nil, timeoutInSeconds: Int? = nil) {
+            self.activeTracing = activeTracing
             self.memoryInMB = memoryInMB
             self.timeoutInSeconds = timeoutInSeconds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeTracing = "ActiveTracing"
             case memoryInMB = "MemoryInMB"
             case timeoutInSeconds = "TimeoutInSeconds"
         }
@@ -478,7 +493,7 @@ extension Synthetics {
         public let artifactS3Location: String
         /// A structure that includes the entry point from which the canary should start running your script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. 
         public let code: CanaryCodeInput
-        /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:CreateLogStream   
+        /// The ARN of the IAM role to be used to run the canary. This role must already exist, and must include lambda.amazonaws.com as a principal in the trust policy. The role must also have the following permissions:    s3:PutObject     s3:GetBucketLocation     s3:ListAllMyBuckets     cloudwatch:PutMetricData     logs:CreateLogGroup     logs:CreateLogStream     logs:PutLogEvents   
         public let executionRoleArn: String
         /// The number of days to retain data about failed runs of this canary. If you omit this field, the default of 31 days is used. The valid range is 1 to 455 days.
         public let failureRetentionPeriodInDays: Int?
@@ -486,7 +501,7 @@ extension Synthetics {
         public let name: String
         /// A structure that contains the configuration for individual canary runs, such as timeout value.
         public let runConfig: CanaryRunConfigInput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid value is syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String
         /// A structure that contains information about how often the canary is to run and when these test runs are to stop.
         public let schedule: CanaryScheduleInput
@@ -515,7 +530,9 @@ extension Synthetics {
             try validate(self.artifactS3Location, name:"artifactS3Location", parent: name, max: 1024)
             try validate(self.artifactS3Location, name:"artifactS3Location", parent: name, min: 1)
             try self.code.validate(name: "\(name).code")
-            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 1)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try validate(self.failureRetentionPeriodInDays, name:"failureRetentionPeriodInDays", parent: name, max: 1024)
             try validate(self.failureRetentionPeriodInDays, name:"failureRetentionPeriodInDays", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 21)
@@ -618,7 +635,8 @@ extension Synthetics {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,252}$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 252)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -668,7 +686,8 @@ extension Synthetics {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 20)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,252}$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 252)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -718,7 +737,8 @@ extension Synthetics {
         public func validate(name: String) throws {
             try validate(self.maxResults, name:"maxResults", parent: name, max: 100)
             try validate(self.maxResults, name:"maxResults", parent: name, min: 1)
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,252}$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 252)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -815,7 +835,8 @@ extension Synthetics {
             try validate(self.name, name:"name", parent: name, max: 21)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[0-9a-z_\\-]+$")
-            try validate(self.nextToken, name:"nextToken", parent: name, pattern: "^[a-zA-Z0-9=/+_.-]{4,252}$")
+            try validate(self.nextToken, name:"nextToken", parent: name, max: 252)
+            try validate(self.nextToken, name:"nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -860,7 +881,9 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -899,7 +922,7 @@ extension Synthetics {
         public let description: String?
         /// The date that the runtime version was released.
         public let releaseDate: TimeStamp?
-        /// The name of the runtime version. Currently, the only valid value is syn-1.0.  Specifies the runtime version to use for the canary. Currently, the only valid value is syn-1.0.
+        /// The name of the runtime version. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0.
         public let versionName: String?
 
         public init(deprecationDate: TimeStamp? = nil, description: String? = nil, releaseDate: TimeStamp? = nil, versionName: String? = nil) {
@@ -996,7 +1019,9 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
             try self.tags.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
                 try validate($0.key, name:"tags.key", parent: name, min: 1)
@@ -1036,7 +1061,9 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.resourceArn, name:"resourceArn", parent: name, max: 2048)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, min: 1)
+            try validate(self.resourceArn, name:"resourceArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:synthetics:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\\d{1}:\\d{12}:canary:[0-9a-z_\\-]{1,21}")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -1083,7 +1110,7 @@ extension Synthetics {
         public let name: String
         /// A structure that contains the timeout value that is used for each individual run of the canary.
         public let runConfig: CanaryRunConfigInput?
-        /// Specifies the runtime version to use for the canary. Currently, the only valid value is syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
+        /// Specifies the runtime version to use for the canary. Currently, the only valid values are syn-nodejs-2.0, syn-nodejs-2.0-beta, and syn-1.0. For more information about runtime versions, see  Canary Runtime Versions.
         public let runtimeVersion: String?
         /// A structure that contains information about how often the canary is to run, and when these runs are to stop.
         public let schedule: CanaryScheduleInput?
@@ -1106,7 +1133,9 @@ extension Synthetics {
 
         public func validate(name: String) throws {
             try self.code?.validate(name: "\(name).code")
-            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso-{0,1}[a-z]{0,1}):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9_/.-]{0,63}:[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, max: 2048)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, min: 1)
+            try validate(self.executionRoleArn, name:"executionRoleArn", parent: name, pattern: "arn:(aws[a-zA-Z-]*)?:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try validate(self.failureRetentionPeriodInDays, name:"failureRetentionPeriodInDays", parent: name, max: 1024)
             try validate(self.failureRetentionPeriodInDays, name:"failureRetentionPeriodInDays", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 21)

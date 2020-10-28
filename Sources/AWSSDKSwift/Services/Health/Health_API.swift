@@ -37,6 +37,7 @@ public struct Health {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-08-04",
             endpoint: endpoint,
+            serviceEndpoints: ["fips-us-east-2": "health-fips.us-east-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [HealthErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider

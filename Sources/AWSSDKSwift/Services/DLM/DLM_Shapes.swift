@@ -594,7 +594,7 @@ extension DLM {
         public let policyType: PolicyTypeValues?
         /// The resource type. Use VOLUME to create snapshots of individual volumes or use INSTANCE to create multi-volume snapshots from the volumes for an instance.
         public let resourceTypes: [ResourceTypeValues]?
-        /// The schedule of policy-defined actions.
+        /// The schedules of policy-defined actions. A policy can have up to four schedules - one mandatory schedule and up to three optional schedules.
         public let schedules: [Schedule]?
         /// The single tag that identifies targeted resources for this policy.
         public let targetTags: [Tag]?
@@ -613,7 +613,7 @@ extension DLM {
             try self.schedules?.forEach {
                 try $0.validate(name: "\(name).schedules[]")
             }
-            try validate(self.schedules, name:"schedules", parent: name, max: 1)
+            try validate(self.schedules, name:"schedules", parent: name, max: 4)
             try validate(self.schedules, name:"schedules", parent: name, min: 1)
             try self.targetTags?.forEach {
                 try $0.validate(name: "\(name).targetTags[]")

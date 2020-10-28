@@ -188,6 +188,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecrawlBehavior: String, CustomStringConvertible, Codable {
+        case crawlEverything = "CRAWL_EVERYTHING"
+        case crawlNewFoldersOnly = "CRAWL_NEW_FOLDERS_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceShareType: String, CustomStringConvertible, Codable {
         case foreign = "FOREIGN"
         case all = "ALL"
@@ -1109,6 +1115,125 @@ extension Glue {
         }
     }
 
+    public struct BatchUpdatePartitionFailureEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ErrorDetail", required: false, type: .structure), 
+            AWSShapeMember(label: "PartitionValueList", required: false, type: .list)
+        ]
+
+        /// The details about the batch update partition error.
+        public let errorDetail: ErrorDetail?
+        /// A list of values defining the partitions.
+        public let partitionValueList: [String]?
+
+        public init(errorDetail: ErrorDetail? = nil, partitionValueList: [String]? = nil) {
+            self.errorDetail = errorDetail
+            self.partitionValueList = partitionValueList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorDetail = "ErrorDetail"
+            case partitionValueList = "PartitionValueList"
+        }
+    }
+
+    public struct BatchUpdatePartitionRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CatalogId", required: false, type: .string), 
+            AWSShapeMember(label: "DatabaseName", required: true, type: .string), 
+            AWSShapeMember(label: "Entries", required: true, type: .list), 
+            AWSShapeMember(label: "TableName", required: true, type: .string)
+        ]
+
+        /// The ID of the catalog in which the partition is to be updated. Currently, this should be the AWS account ID.
+        public let catalogId: String?
+        /// The name of the metadata database in which the partition is to be updated.
+        public let databaseName: String
+        /// A list of up to 100 BatchUpdatePartitionRequestEntry objects to update.
+        public let entries: [BatchUpdatePartitionRequestEntry]
+        /// The name of the metadata table in which the partition is to be updated.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, entries: [BatchUpdatePartitionRequestEntry], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.entries = entries
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.catalogId, name:"catalogId", parent: name, max: 255)
+            try validate(self.catalogId, name:"catalogId", parent: name, min: 1)
+            try validate(self.catalogId, name:"catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try validate(self.databaseName, name:"databaseName", parent: name, max: 255)
+            try validate(self.databaseName, name:"databaseName", parent: name, min: 1)
+            try validate(self.databaseName, name:"databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try validate(self.entries, name:"entries", parent: name, max: 100)
+            try validate(self.entries, name:"entries", parent: name, min: 1)
+            try validate(self.tableName, name:"tableName", parent: name, max: 255)
+            try validate(self.tableName, name:"tableName", parent: name, min: 1)
+            try validate(self.tableName, name:"tableName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case entries = "Entries"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct BatchUpdatePartitionRequestEntry: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "PartitionInput", required: true, type: .structure), 
+            AWSShapeMember(label: "PartitionValueList", required: true, type: .list)
+        ]
+
+        /// The structure used to update a partition.
+        public let partitionInput: PartitionInput
+        /// A list of values defining the partitions.
+        public let partitionValueList: [String]
+
+        public init(partitionInput: PartitionInput, partitionValueList: [String]) {
+            self.partitionInput = partitionInput
+            self.partitionValueList = partitionValueList
+        }
+
+        public func validate(name: String) throws {
+            try self.partitionInput.validate(name: "\(name).partitionInput")
+            try self.partitionValueList.forEach {
+                try validate($0, name: "partitionValueList[]", parent: name, max: 1024)
+            }
+            try validate(self.partitionValueList, name:"partitionValueList", parent: name, max: 100)
+            try validate(self.partitionValueList, name:"partitionValueList", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case partitionInput = "PartitionInput"
+            case partitionValueList = "PartitionValueList"
+        }
+    }
+
+    public struct BatchUpdatePartitionResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "Errors", required: false, type: .list)
+        ]
+
+        /// The errors encountered when trying to update the requested partitions. A list of BatchUpdatePartitionFailureEntry objects.
+        public let errors: [BatchUpdatePartitionFailureEntry]?
+
+        public init(errors: [BatchUpdatePartitionFailureEntry]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
     public struct BinaryColumnStatisticsData: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AverageLength", required: true, type: .double), 
@@ -1775,7 +1900,7 @@ extension Glue {
             AWSShapeMember(label: "PhysicalConnectionRequirements", required: false, type: .structure)
         ]
 
-        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.  
+        /// These key-value pairs define parameters for the connection:    HOST - The host URI: either the fully qualified domain name (FQDN) or the IPv4 address of the database host.    PORT - The port number, between 1024 and 65535, of the port on which the database host is listening for database connections.    USER_NAME - The name under which to log in to the database. The value string for USER_NAME is "USERNAME".    PASSWORD - A password, if one is used, for the user name.    ENCRYPTED_PASSWORD - When you enable connection password protection by setting ConnectionPasswordEncryption in the Data Catalog encryption settings, this field stores the encrypted password.    JDBC_DRIVER_JAR_URI - The Amazon Simple Storage Service (Amazon S3) path of the JAR file that contains the JDBC driver to use.    JDBC_DRIVER_CLASS_NAME - The class name of the JDBC driver to use.    JDBC_ENGINE - The name of the JDBC engine to use.    JDBC_ENGINE_VERSION - The version of the JDBC engine to use.    CONFIG_FILES - (Reserved for future use.)    INSTANCE_ID - The instance ID to use.    JDBC_CONNECTION_URL - The URL for connecting to a JDBC data source.    JDBC_ENFORCE_SSL - A Boolean string (true, false) specifying whether Secure Sockets Layer (SSL) with hostname matching is enforced for the JDBC connection on the client. The default is false.    CUSTOM_JDBC_CERT - An Amazon S3 location specifying the customer's root certificate. AWS Glue uses this root certificate to validate the customer’s certificate when connecting to the customer database. AWS Glue only handles X.509 certificates. The certificate provided must be DER-encoded and supplied in Base64 encoding PEM format.    SKIP_CUSTOM_JDBC_CERT_VALIDATION - By default, this is false. AWS Glue validates the Signature algorithm and Subject Public Key Algorithm for the customer certificate. The only permitted algorithms for the Signature algorithm are SHA256withRSA, SHA384withRSA or SHA512withRSA. For the Subject Public Key Algorithm, the key length must be at least 2048. You can set the value of this property to true to skip AWS Glue’s validation of the customer certificate.    CUSTOM_JDBC_CERT_STRING - A custom JDBC certificate string which is used for domain match or distinguished name match to prevent a man-in-the-middle attack. In Oracle database, this is used as the SSL_SERVER_CERT_DN; in Microsoft SQL Server, this is used as the hostNameInCertificate.    CONNECTION_URL - The URL for connecting to a general (non-JDBC) data source.    KAFKA_BOOTSTRAP_SERVERS - A comma-separated list of host and port pairs that are the addresses of the Apache Kafka brokers in a Kafka cluster to which a Kafka client will connect to and bootstrap itself.    KAFKA_SSL_ENABLED - Whether to enable or disable SSL on an Apache Kafka connection. Default value is "true".    KAFKA_CUSTOM_CERT - The Amazon S3 URL for the private CA cert file (.pem format). The default is an empty string.    KAFKA_SKIP_CUSTOM_CERT_VALIDATION - Whether to skip the validation of the CA cert file or not. AWS Glue validates for three algorithms: SHA256withRSA, SHA384withRSA and SHA512withRSA. Default value is "false".  
         public let connectionProperties: [ConnectionPropertyKey: String]?
         /// The type of the connection. Currently, SFTP is not supported.
         public let connectionType: ConnectionType?
@@ -1831,7 +1956,7 @@ extension Glue {
 
         /// These key-value pairs define parameters for the connection.
         public let connectionProperties: [ConnectionPropertyKey: String]
-        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.   SFTP is not supported.
+        /// The type of the connection. Currently, these types are supported:    JDBC - Designates a connection to a database through Java Database Connectivity (JDBC).    KAFKA - Designates a connection to an Apache Kafka streaming platform.    MONGODB - Designates a connection to a MongoDB document database.    NETWORK - Designates a network connection to a data source within an Amazon Virtual Private Cloud environment (Amazon VPC).   SFTP is not supported.
         public let connectionType: ConnectionType
         /// The description of the connection.
         public let description: String?
@@ -1980,6 +2105,7 @@ extension Glue {
             AWSShapeMember(label: "LastCrawl", required: false, type: .structure), 
             AWSShapeMember(label: "LastUpdated", required: false, type: .timestamp), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
+            AWSShapeMember(label: "RecrawlPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .structure), 
             AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
@@ -2009,6 +2135,8 @@ extension Glue {
         public let lastUpdated: TimeStamp?
         /// The name of the crawler.
         public let name: String?
+        /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
+        public let recrawlPolicy: RecrawlPolicy?
         /// The Amazon Resource Name (ARN) of an IAM role that's used to access customer resources, such as Amazon Simple Storage Service (Amazon S3) data.
         public let role: String?
         /// For scheduled crawlers, the schedule when the crawler runs.
@@ -2024,7 +2152,7 @@ extension Glue {
         /// The version of the crawler.
         public let version: Int64?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: TimeStamp? = nil, name: String? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: TimeStamp? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: TimeStamp? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -2035,6 +2163,7 @@ extension Glue {
             self.lastCrawl = lastCrawl
             self.lastUpdated = lastUpdated
             self.name = name
+            self.recrawlPolicy = recrawlPolicy
             self.role = role
             self.schedule = schedule
             self.schemaChangePolicy = schemaChangePolicy
@@ -2055,6 +2184,7 @@ extension Glue {
             case lastCrawl = "LastCrawl"
             case lastUpdated = "LastUpdated"
             case name = "Name"
+            case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"
             case schedule = "Schedule"
             case schemaChangePolicy = "SchemaChangePolicy"
@@ -2139,6 +2269,7 @@ extension Glue {
             AWSShapeMember(label: "CatalogTargets", required: false, type: .list), 
             AWSShapeMember(label: "DynamoDBTargets", required: false, type: .list), 
             AWSShapeMember(label: "JdbcTargets", required: false, type: .list), 
+            AWSShapeMember(label: "MongoDBTargets", required: false, type: .list), 
             AWSShapeMember(label: "S3Targets", required: false, type: .list)
         ]
 
@@ -2148,13 +2279,16 @@ extension Glue {
         public let dynamoDBTargets: [DynamoDBTarget]?
         /// Specifies JDBC targets.
         public let jdbcTargets: [JdbcTarget]?
+        /// Specifies Amazon DocumentDB or MongoDB targets.
+        public let mongoDBTargets: [MongoDBTarget]?
         /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
 
-        public init(catalogTargets: [CatalogTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, s3Targets: [S3Target]? = nil) {
+        public init(catalogTargets: [CatalogTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
             self.catalogTargets = catalogTargets
             self.dynamoDBTargets = dynamoDBTargets
             self.jdbcTargets = jdbcTargets
+            self.mongoDBTargets = mongoDBTargets
             self.s3Targets = s3Targets
         }
 
@@ -2168,6 +2302,7 @@ extension Glue {
             case catalogTargets = "CatalogTargets"
             case dynamoDBTargets = "DynamoDBTargets"
             case jdbcTargets = "JdbcTargets"
+            case mongoDBTargets = "MongoDBTargets"
             case s3Targets = "S3Targets"
         }
     }
@@ -2264,6 +2399,7 @@ extension Glue {
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RecrawlPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Role", required: true, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
@@ -2284,6 +2420,8 @@ extension Glue {
         public let description: String?
         /// Name of the new crawler.
         public let name: String
+        /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
+        public let recrawlPolicy: RecrawlPolicy?
         /// The IAM role or Amazon Resource Name (ARN) of an IAM role used by the new crawler to access customer resources.
         public let role: String
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
@@ -2297,13 +2435,14 @@ extension Glue {
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
             self.name = name
+            self.recrawlPolicy = recrawlPolicy
             self.role = role
             self.schedule = schedule
             self.schemaChangePolicy = schemaChangePolicy
@@ -2344,6 +2483,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case description = "Description"
             case name = "Name"
+            case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"
             case schedule = "Schedule"
             case schemaChangePolicy = "SchemaChangePolicy"
@@ -6738,6 +6878,7 @@ extension Glue {
 
     public struct GetPlanRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AdditionalPlanOptionsMap", required: false, type: .map), 
             AWSShapeMember(label: "Language", required: false, type: .enum), 
             AWSShapeMember(label: "Location", required: false, type: .structure), 
             AWSShapeMember(label: "Mapping", required: true, type: .list), 
@@ -6745,6 +6886,8 @@ extension Glue {
             AWSShapeMember(label: "Source", required: true, type: .structure)
         ]
 
+        /// A map to hold additional optional key-value parameters. Currently, these key-value pairs are supported:    inferSchema  —  Specifies whether to set inferSchema to true or false for the default script generated by an AWS Glue job. For example, to set inferSchema to true, pass the following key value pair:  --additional-plan-options-map '{"inferSchema":"true"}'   
+        public let additionalPlanOptionsMap: [String: String]?
         /// The programming language of the code to perform the mapping.
         public let language: Language?
         /// The parameters for the mapping.
@@ -6756,7 +6899,8 @@ extension Glue {
         /// The source table.
         public let source: CatalogEntry
 
-        public init(language: Language? = nil, location: Location? = nil, mapping: [MappingEntry], sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
+        public init(additionalPlanOptionsMap: [String: String]? = nil, language: Language? = nil, location: Location? = nil, mapping: [MappingEntry], sinks: [CatalogEntry]? = nil, source: CatalogEntry) {
+            self.additionalPlanOptionsMap = additionalPlanOptionsMap
             self.language = language
             self.location = location
             self.mapping = mapping
@@ -6773,6 +6917,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalPlanOptionsMap = "AdditionalPlanOptionsMap"
             case language = "Language"
             case location = "Location"
             case mapping = "Mapping"
@@ -9097,6 +9242,33 @@ extension Glue {
         }
     }
 
+    public struct MongoDBTarget: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "ConnectionName", required: false, type: .string), 
+            AWSShapeMember(label: "Path", required: false, type: .string), 
+            AWSShapeMember(label: "ScanAll", required: false, type: .boolean)
+        ]
+
+        /// The name of the connection to use to connect to the Amazon DocumentDB or MongoDB target.
+        public let connectionName: String?
+        /// The path of the Amazon DocumentDB or MongoDB target (database/collection).
+        public let path: String?
+        /// Indicates whether to scan all the records, or to sample rows from the table. Scanning all the records can take a long time when the table is not a high throughput table. A value of true means to scan all records, while a value of false means to sample the records. If no value is specified, the value defaults to true.
+        public let scanAll: Bool?
+
+        public init(connectionName: String? = nil, path: String? = nil, scanAll: Bool? = nil) {
+            self.connectionName = connectionName
+            self.path = path
+            self.scanAll = scanAll
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case path = "Path"
+            case scanAll = "ScanAll"
+        }
+    }
+
     public struct Node: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CrawlerDetails", required: false, type: .structure), 
@@ -9703,6 +9875,23 @@ extension Glue {
         public init() {
         }
 
+    }
+
+    public struct RecrawlPolicy: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "RecrawlBehavior", required: false, type: .enum)
+        ]
+
+        /// Specifies whether to crawl the entire dataset again or to crawl only folders that were added since the last crawler run. A value of CRAWL_EVERYTHING specifies crawling the entire dataset again. A value of CRAWL_NEW_FOLDERS_ONLY specifies crawling only folders that were added since the last crawler run.
+        public let recrawlBehavior: RecrawlBehavior?
+
+        public init(recrawlBehavior: RecrawlBehavior? = nil) {
+            self.recrawlBehavior = recrawlBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recrawlBehavior = "RecrawlBehavior"
+        }
     }
 
     public struct ResetJobBookmarkRequest: AWSShape {
@@ -11937,6 +12126,7 @@ extension Glue {
             AWSShapeMember(label: "DatabaseName", required: false, type: .string), 
             AWSShapeMember(label: "Description", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: true, type: .string), 
+            AWSShapeMember(label: "RecrawlPolicy", required: false, type: .structure), 
             AWSShapeMember(label: "Role", required: false, type: .string), 
             AWSShapeMember(label: "Schedule", required: false, type: .string), 
             AWSShapeMember(label: "SchemaChangePolicy", required: false, type: .structure), 
@@ -11956,6 +12146,8 @@ extension Glue {
         public let description: String?
         /// Name of the new crawler.
         public let name: String
+        /// A policy that specifies whether to crawl the entire dataset again, or to crawl only folders that were added since the last crawler run.
+        public let recrawlPolicy: RecrawlPolicy?
         /// The IAM role or Amazon Resource Name (ARN) of an IAM role that is used by the new crawler to access customer resources.
         public let role: String?
         /// A cron expression used to specify the schedule (see Time-Based Schedules for Jobs and Crawlers. For example, to run something every day at 12:15 UTC, you would specify: cron(15 12 * * ? *).
@@ -11967,13 +12159,14 @@ extension Glue {
         /// A list of targets to crawl.
         public let targets: CrawlerTargets?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
             self.name = name
+            self.recrawlPolicy = recrawlPolicy
             self.role = role
             self.schedule = schedule
             self.schemaChangePolicy = schemaChangePolicy
@@ -12007,6 +12200,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case description = "Description"
             case name = "Name"
+            case recrawlPolicy = "RecrawlPolicy"
             case role = "Role"
             case schedule = "Schedule"
             case schemaChangePolicy = "SchemaChangePolicy"

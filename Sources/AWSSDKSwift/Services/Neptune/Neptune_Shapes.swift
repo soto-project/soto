@@ -27,21 +27,26 @@ extension Neptune {
     public struct AddRoleToDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
 
         /// The name of the DB cluster to associate the IAM role with.
         public let dBClusterIdentifier: String
+        /// The name of the feature for the Neptune DB cluster that the IAM role is to be associated with. For the list of supported feature names, see DBEngineVersion.
+        public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the Neptune DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
 
-        public init(dBClusterIdentifier: String, roleArn: String) {
+        public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
+            self.featureName = featureName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case dBClusterIdentifier = "DBClusterIdentifier"
+            case featureName = "FeatureName"
             case roleArn = "RoleArn"
         }
     }
@@ -364,6 +369,110 @@ extension Neptune {
         }
     }
 
+    public struct CreateDBClusterEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: true, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"Tag"))
+        ]
+
+        /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String
+        /// The type of the endpoint. One of: READER, WRITER, ANY.
+        public let endpointType: String
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+        /// The tags to be assigned to the Amazon Neptune resource.
+        public let tags: [Tag]?
+
+        public init(dBClusterEndpointIdentifier: String, dBClusterIdentifier: String, endpointType: String, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, tags: [Tag]? = nil) {
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateDBClusterEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomEndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
+        public let customEndpointType: String?
+        /// The Amazon Resource Name (ARN) for the endpoint.
+        public let dBClusterEndpointArn: String?
+        /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String?
+        /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
+        public let dBClusterEndpointResourceIdentifier: String?
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String?
+        /// The DNS address of the endpoint.
+        public let endpoint: String?
+        /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
+        public let endpointType: String?
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+        /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
+        public let status: String?
+
+        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+            self.customEndpointType = customEndpointType
+            self.dBClusterEndpointArn = dBClusterEndpointArn
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.endpoint = endpoint
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEndpointType = "CustomEndpointType"
+            case dBClusterEndpointArn = "DBClusterEndpointArn"
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case endpoint = "Endpoint"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+            case status = "Status"
+        }
+    }
+
     public struct CreateDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AvailabilityZones", required: false, type: .list, encoding: .list(member:"AvailabilityZone")), 
@@ -410,11 +519,11 @@ extension Neptune {
         public let deletionProtection: Bool?
         /// The list of log types that need to be enabled for exporting to CloudWatch Logs.
         public let enableCloudwatchLogsExports: [String]?
-        /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
+        /// Not supported by Neptune.
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: neptune 
         public let engine: String
-        /// The version number of the database engine to use. Currently, setting this parameter has no effect. Example: 1.0.1 
+        /// The version number of the database engine to use for the new DB cluster. Example: 1.0.2.1 
         public let engineVersion: String?
         /// The AWS KMS key identifier for an encrypted DB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a DB cluster with the same AWS account that owns the KMS encryption key used to encrypt the new DB cluster, then you can use the KMS key alias instead of the ARN for the KMS encryption key. If an encryption key is not specified in KmsKeyId:   If ReplicationSourceIdentifier identifies an encrypted source, then Amazon Neptune will use the encryption key used to encrypt the source. Otherwise, Amazon Neptune will use your default encryption key.   If the StorageEncrypted parameter is true and ReplicationSourceIdentifier is not specified, then Amazon Neptune will use your default encryption key.   AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region. If you create a Read Replica of an encrypted DB cluster in another AWS Region, you must set KmsKeyId to a KMS key ID that is valid in the destination AWS Region. This key is used to encrypt the Read Replica in that AWS Region.
         public let kmsKeyId: String?
@@ -1197,6 +1306,90 @@ extension Neptune {
         }
     }
 
+    public struct DBClusterEndpoint: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomEndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
+        public let customEndpointType: String?
+        /// The Amazon Resource Name (ARN) for the endpoint.
+        public let dBClusterEndpointArn: String?
+        /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String?
+        /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
+        public let dBClusterEndpointResourceIdentifier: String?
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String?
+        /// The DNS address of the endpoint.
+        public let endpoint: String?
+        /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
+        public let endpointType: String?
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+        /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
+        public let status: String?
+
+        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+            self.customEndpointType = customEndpointType
+            self.dBClusterEndpointArn = dBClusterEndpointArn
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.endpoint = endpoint
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEndpointType = "CustomEndpointType"
+            case dBClusterEndpointArn = "DBClusterEndpointArn"
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case endpoint = "Endpoint"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+            case status = "Status"
+        }
+    }
+
+    public struct DBClusterEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterEndpoints", required: false, type: .list, encoding: .list(member:"DBClusterEndpointList")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string)
+        ]
+
+        /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
+        public let dBClusterEndpoints: [DBClusterEndpoint]?
+        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+
+        public init(dBClusterEndpoints: [DBClusterEndpoint]? = nil, marker: String? = nil) {
+            self.dBClusterEndpoints = dBClusterEndpoints
+            self.marker = marker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterEndpoints = "DBClusterEndpoints"
+            case marker = "Marker"
+        }
+    }
+
     public struct DBClusterMember: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterParameterGroupStatus", required: false, type: .string), 
@@ -1368,21 +1561,26 @@ extension Neptune {
 
     public struct DBClusterRole: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string)
         ]
 
+        /// The name of the feature associated with the AWS Identity and Access Management (IAM) role. For the list of supported feature names, see DBEngineVersion. 
+        public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
         public let roleArn: String?
         /// Describes the state of association between the IAM role and the DB cluster. The Status property returns one of the following values:    ACTIVE - the IAM role ARN is associated with the DB cluster and can be used to access other AWS services on your behalf.    PENDING - the IAM role ARN is being associated with the DB cluster.    INVALID - the IAM role ARN is associated with the DB cluster, but the DB cluster is unable to assume the IAM role in order to access other AWS services on your behalf.  
         public let status: String?
 
-        public init(roleArn: String? = nil, status: String? = nil) {
+        public init(featureName: String? = nil, roleArn: String? = nil, status: String? = nil) {
+            self.featureName = featureName
             self.roleArn = roleArn
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case featureName = "FeatureName"
             case roleArn = "RoleArn"
             case status = "Status"
         }
@@ -2187,6 +2385,85 @@ extension Neptune {
         }
     }
 
+    public struct DeleteDBClusterEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string)
+        ]
+
+        /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String
+
+        public init(dBClusterEndpointIdentifier: String) {
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+        }
+    }
+
+    public struct DeleteDBClusterEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomEndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
+        public let customEndpointType: String?
+        /// The Amazon Resource Name (ARN) for the endpoint.
+        public let dBClusterEndpointArn: String?
+        /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String?
+        /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
+        public let dBClusterEndpointResourceIdentifier: String?
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String?
+        /// The DNS address of the endpoint.
+        public let endpoint: String?
+        /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
+        public let endpointType: String?
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+        /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
+        public let status: String?
+
+        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+            self.customEndpointType = customEndpointType
+            self.dBClusterEndpointArn = dBClusterEndpointArn
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.endpoint = endpoint
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEndpointType = "CustomEndpointType"
+            case dBClusterEndpointArn = "DBClusterEndpointArn"
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case endpoint = "Endpoint"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+            case status = "Status"
+        }
+    }
+
     public struct DeleteDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
@@ -2387,6 +2664,43 @@ extension Neptune {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct DescribeDBClusterEndpointsMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Filters", required: false, type: .list, encoding: .list(member:"Filter")), 
+            AWSShapeMember(label: "Marker", required: false, type: .string), 
+            AWSShapeMember(label: "MaxRecords", required: false, type: .integer)
+        ]
+
+        /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String?
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String?
+        /// A set of name-value pairs that define which endpoints to include in the output. The filters are specified as name-value pairs, in the format Name=endpoint_type,Values=endpoint_type1,endpoint_type2,.... Name can be one of: db-cluster-endpoint-type, db-cluster-endpoint-custom-type, db-cluster-endpoint-id, db-cluster-endpoint-status. Values for the  db-cluster-endpoint-type filter can be one or more of: reader, writer, custom. Values for the db-cluster-endpoint-custom-type filter can be one or more of: reader, any. Values for the db-cluster-endpoint-status filter can be one or more of: available, creating, deleting, inactive, modifying. 
+        public let filters: [Filter]?
+        ///  An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. 
+        public let marker: String?
+        /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results.  Default: 100 Constraints: Minimum 20, maximum 100.
+        public let maxRecords: Int?
+
+        public init(dBClusterEndpointIdentifier: String? = nil, dBClusterIdentifier: String? = nil, filters: [Filter]? = nil, marker: String? = nil, maxRecords: Int? = nil) {
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.filters = filters
+            self.marker = marker
+            self.maxRecords = maxRecords
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case filters = "Filters"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
         }
     }
 
@@ -3467,6 +3781,100 @@ extension Neptune {
         }
     }
 
+    public struct ModifyDBClusterEndpointMessage: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member"))
+        ]
+
+        /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String
+        /// The type of the endpoint. One of: READER, WRITER, ANY.
+        public let endpointType: String?
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+
+        public init(dBClusterEndpointIdentifier: String, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil) {
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+        }
+    }
+
+    public struct ModifyDBClusterEndpointOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "CustomEndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointArn", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterEndpointResourceIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "DBClusterIdentifier", required: false, type: .string), 
+            AWSShapeMember(label: "Endpoint", required: false, type: .string), 
+            AWSShapeMember(label: "EndpointType", required: false, type: .string), 
+            AWSShapeMember(label: "ExcludedMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "StaticMembers", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "Status", required: false, type: .string)
+        ]
+
+        /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
+        public let customEndpointType: String?
+        /// The Amazon Resource Name (ARN) for the endpoint.
+        public let dBClusterEndpointArn: String?
+        /// The identifier associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterEndpointIdentifier: String?
+        /// A unique system-generated identifier for an endpoint. It remains the same for the whole life of the endpoint.
+        public let dBClusterEndpointResourceIdentifier: String?
+        /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
+        public let dBClusterIdentifier: String?
+        /// The DNS address of the endpoint.
+        public let endpoint: String?
+        /// The type of the endpoint. One of: READER, WRITER, CUSTOM.
+        public let endpointType: String?
+        /// List of DB instance identifiers that aren't part of the custom endpoint group. All other eligible instances are reachable through the custom endpoint. Only relevant if the list of static members is empty.
+        public let excludedMembers: [String]?
+        /// List of DB instance identifiers that are part of the custom endpoint group.
+        public let staticMembers: [String]?
+        /// The current status of the endpoint. One of: creating, available, deleting, inactive, modifying. The inactive state applies to an endpoint that cannot be used for a certain kind of cluster, such as a writer endpoint for a read-only secondary cluster in a global database.
+        public let status: String?
+
+        public init(customEndpointType: String? = nil, dBClusterEndpointArn: String? = nil, dBClusterEndpointIdentifier: String? = nil, dBClusterEndpointResourceIdentifier: String? = nil, dBClusterIdentifier: String? = nil, endpoint: String? = nil, endpointType: String? = nil, excludedMembers: [String]? = nil, staticMembers: [String]? = nil, status: String? = nil) {
+            self.customEndpointType = customEndpointType
+            self.dBClusterEndpointArn = dBClusterEndpointArn
+            self.dBClusterEndpointIdentifier = dBClusterEndpointIdentifier
+            self.dBClusterEndpointResourceIdentifier = dBClusterEndpointResourceIdentifier
+            self.dBClusterIdentifier = dBClusterIdentifier
+            self.endpoint = endpoint
+            self.endpointType = endpointType
+            self.excludedMembers = excludedMembers
+            self.staticMembers = staticMembers
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEndpointType = "CustomEndpointType"
+            case dBClusterEndpointArn = "DBClusterEndpointArn"
+            case dBClusterEndpointIdentifier = "DBClusterEndpointIdentifier"
+            case dBClusterEndpointResourceIdentifier = "DBClusterEndpointResourceIdentifier"
+            case dBClusterIdentifier = "DBClusterIdentifier"
+            case endpoint = "Endpoint"
+            case endpointType = "EndpointType"
+            case excludedMembers = "ExcludedMembers"
+            case staticMembers = "StaticMembers"
+            case status = "Status"
+        }
+    }
+
     public struct ModifyDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ApplyImmediately", required: false, type: .boolean), 
@@ -3500,7 +3908,7 @@ extension Neptune {
         public let deletionProtection: Bool?
         /// True to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts, and otherwise false. Default: false 
         public let enableIAMDatabaseAuthentication: Bool?
-        /// The version number of the database engine. Currently, setting this parameter has no effect. To upgrade your database engine to the most recent release, use the ApplyPendingMaintenanceAction API. For a list of valid engine versions, see CreateDBInstance, or call DescribeDBEngineVersions.
+        /// The version number of the database engine to which you want to upgrade. Changing this parameter results in an outage. The change is applied during the next maintenance window unless the ApplyImmediately parameter is set to true. For a list of valid engine versions, see Engine Releases for Amazon Neptune, or call DescribeDBEngineVersions.
         public let engineVersion: String?
         /// The new password for the master database user. This password can contain any printable ASCII character except "/", """, or "@". Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
@@ -4453,21 +4861,26 @@ extension Neptune {
     public struct RemoveRoleFromDBClusterMessage: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "DBClusterIdentifier", required: true, type: .string), 
+            AWSShapeMember(label: "FeatureName", required: false, type: .string), 
             AWSShapeMember(label: "RoleArn", required: true, type: .string)
         ]
 
         /// The name of the DB cluster to disassociate the IAM role from.
         public let dBClusterIdentifier: String
+        /// The name of the feature for the DB cluster that the IAM role is to be disassociated from. For the list of supported feature names, see DBEngineVersion.
+        public let featureName: String?
         /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB cluster, for example arn:aws:iam::123456789012:role/NeptuneAccessRole.
         public let roleArn: String
 
-        public init(dBClusterIdentifier: String, roleArn: String) {
+        public init(dBClusterIdentifier: String, featureName: String? = nil, roleArn: String) {
             self.dBClusterIdentifier = dBClusterIdentifier
+            self.featureName = featureName
             self.roleArn = roleArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case dBClusterIdentifier = "DBClusterIdentifier"
+            case featureName = "FeatureName"
             case roleArn = "RoleArn"
         }
     }

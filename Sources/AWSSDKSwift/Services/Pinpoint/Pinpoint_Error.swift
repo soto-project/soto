@@ -5,6 +5,7 @@ import AWSSDKSwiftCore
 /// Error enum for Pinpoint
 public enum PinpointErrorType: AWSErrorType {
     case badRequestException(message: String?)
+    case conflictException(message: String?)
     case forbiddenException(message: String?)
     case internalServerErrorException(message: String?)
     case methodNotAllowedException(message: String?)
@@ -22,6 +23,8 @@ extension PinpointErrorType {
         switch errorCode {
         case "BadRequestException":
             self = .badRequestException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "ForbiddenException":
             self = .forbiddenException(message: message)
         case "InternalServerErrorException":
@@ -45,6 +48,8 @@ extension PinpointErrorType : CustomStringConvertible {
         switch self {
         case .badRequestException(let message):
             return "BadRequestException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .forbiddenException(let message):
             return "ForbiddenException: \(message ?? "")"
         case .internalServerErrorException(let message):

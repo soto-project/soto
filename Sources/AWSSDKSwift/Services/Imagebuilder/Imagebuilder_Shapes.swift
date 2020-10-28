@@ -20,6 +20,7 @@ extension Imagebuilder {
     public enum EbsVolumeType: String, CustomStringConvertible, Codable {
         case standard = "standard"
         case io1 = "io1"
+        case io2 = "io2"
         case gp2 = "gp2"
         case sc1 = "sc1"
         case st1 = "st1"
@@ -70,6 +71,7 @@ extension Imagebuilder {
 
     public struct Ami: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "accountId", required: false, type: .string), 
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "image", required: false, type: .string), 
             AWSShapeMember(label: "name", required: false, type: .string), 
@@ -77,6 +79,8 @@ extension Imagebuilder {
             AWSShapeMember(label: "state", required: false, type: .structure)
         ]
 
+        ///  The account ID of the owner of the AMI. 
+        public let accountId: String?
         /// The description of the EC2 AMI. 
         public let description: String?
         /// The AMI ID of the EC2 AMI. 
@@ -87,7 +91,8 @@ extension Imagebuilder {
         public let region: String?
         public let state: ImageState?
 
-        public init(description: String? = nil, image: String? = nil, name: String? = nil, region: String? = nil, state: ImageState? = nil) {
+        public init(accountId: String? = nil, description: String? = nil, image: String? = nil, name: String? = nil, region: String? = nil, state: ImageState? = nil) {
+            self.accountId = accountId
             self.description = description
             self.image = image
             self.name = name
@@ -96,6 +101,7 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountId = "accountId"
             case description = "description"
             case image = "image"
             case name = "name"
@@ -110,7 +116,8 @@ extension Imagebuilder {
             AWSShapeMember(label: "description", required: false, type: .string), 
             AWSShapeMember(label: "kmsKeyId", required: false, type: .string), 
             AWSShapeMember(label: "launchPermission", required: false, type: .structure), 
-            AWSShapeMember(label: "name", required: false, type: .string)
+            AWSShapeMember(label: "name", required: false, type: .string), 
+            AWSShapeMember(label: "targetAccountIds", required: false, type: .list)
         ]
 
         /// The tags to apply to AMIs distributed to this Region. 
@@ -123,13 +130,16 @@ extension Imagebuilder {
         public let launchPermission: LaunchPermissionConfiguration?
         /// The name of the distribution configuration. 
         public let name: String?
+        ///  The ID of an account to which you want to distribute an image. 
+        public let targetAccountIds: [String]?
 
-        public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil) {
+        public init(amiTags: [String: String]? = nil, description: String? = nil, kmsKeyId: String? = nil, launchPermission: LaunchPermissionConfiguration? = nil, name: String? = nil, targetAccountIds: [String]? = nil) {
             self.amiTags = amiTags
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.launchPermission = launchPermission
             self.name = name
+            self.targetAccountIds = targetAccountIds
         }
 
         public func validate(name: String) throws {
@@ -147,6 +157,11 @@ extension Imagebuilder {
             try validate(self.name, name:"name", parent: name, max: 127)
             try validate(self.name, name:"name", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, pattern: "^[-_A-Za-z0-9{][-_A-Za-z0-9\\s:{}\\.]+[-_A-Za-z0-9}]$")
+            try self.targetAccountIds?.forEach {
+                try validate($0, name: "targetAccountIds[]", parent: name, pattern: "^\\d{12}$")
+            }
+            try validate(self.targetAccountIds, name:"targetAccountIds", parent: name, max: 50)
+            try validate(self.targetAccountIds, name:"targetAccountIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -155,6 +170,7 @@ extension Imagebuilder {
             case kmsKeyId = "kmsKeyId"
             case launchPermission = "launchPermission"
             case name = "name"
+            case targetAccountIds = "targetAccountIds"
         }
     }
 
@@ -777,7 +793,7 @@ extension Imagebuilder {
         public let description: String?
         ///  The name of the image recipe. 
         public let name: String
-        /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/2019.x.x. The ARN ends with /20xx.x.x, which communicates to EC2 Image Builder that you want to use the latest AMI created in 20xx (year). You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder. 
+        /// The parent image of the image recipe. The value of the string can be the ARN of the parent image or an AMI ID. The format for the ARN follows this example: arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x. You can provide the specific version that you want to use, or you can use a wildcard in all of the fields. If you enter an AMI ID for the string value, you must have access to the AMI, and the AMI must be in the same Region in which you are using Image Builder. 
         public let parentImage: String
         /// The semantic version of the image recipe. 
         public let semanticVersion: String
@@ -1369,6 +1385,11 @@ extension Imagebuilder {
 
         public func validate(name: String) throws {
             try self.amiDistributionConfiguration?.validate(name: "\(name).amiDistributionConfiguration")
+            try self.licenseConfigurationArns?.forEach {
+                try validate($0, name: "licenseConfigurationArns[]", parent: name, pattern: "^arn:aws[^:]*:license-manager:[^:]+:\\d{12}:license-configuration:lic-[a-z0-9-_]{32}$")
+            }
+            try validate(self.licenseConfigurationArns, name:"licenseConfigurationArns", parent: name, max: 50)
+            try validate(self.licenseConfigurationArns, name:"licenseConfigurationArns", parent: name, min: 1)
             try validate(self.region, name:"region", parent: name, max: 1024)
             try validate(self.region, name:"region", parent: name, min: 1)
         }
@@ -2729,9 +2750,10 @@ extension Imagebuilder {
                 try validate($0, name: "userGroups[]", parent: name, min: 1)
             }
             try self.userIds?.forEach {
-                try validate($0, name: "userIds[]", parent: name, max: 1024)
-                try validate($0, name: "userIds[]", parent: name, min: 1)
+                try validate($0, name: "userIds[]", parent: name, pattern: "^\\d{12}$")
             }
+            try validate(self.userIds, name:"userIds", parent: name, max: 50)
+            try validate(self.userIds, name:"userIds", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3618,9 +3640,9 @@ extension Imagebuilder {
             AWSShapeMember(label: "scheduleExpression", required: false, type: .string)
         ]
 
-        /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, EC2 Image Builder will build a new image only when there are known changes pending. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time.
+        /// The condition configures when the pipeline should trigger a new image build. When the pipelineExecutionStartCondition is set to EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE, and you use semantic version filters on the source image or components in your image recipe, EC2 Image Builder will build a new image only when there are new versions of the image or components in your recipe that match the semantic version filter. When it is set to EXPRESSION_MATCH_ONLY, it will build a new image every time the CRON expression matches the current time. For semantic version syntax, see CreateComponent in the  EC2 Image Builder API Reference.
         public let pipelineExecutionStartCondition: PipelineExecutionStartCondition?
-        /// The expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition.
+        /// The cron expression determines how often EC2 Image Builder evaluates your pipelineExecutionStartCondition. For information on how to format a cron expression in Image Builder, see Use cron expressions in EC2 Image Builder.
         public let scheduleExpression: String?
 
         public init(pipelineExecutionStartCondition: PipelineExecutionStartCondition? = nil, scheduleExpression: String? = nil) {

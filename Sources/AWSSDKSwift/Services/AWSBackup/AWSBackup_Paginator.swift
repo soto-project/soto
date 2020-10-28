@@ -6,7 +6,7 @@ import NIO
 
 extension AWSBackup {
 
-    ///  Returns metadata about your backup jobs.
+    ///  Returns a list of existing backup jobs for an authenticated account.
     public func listBackupJobsPaginator(_ input: ListBackupJobsInput, onPage: @escaping (ListBackupJobsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupJobs, tokenKey: \ListBackupJobsOutput.nextToken, onPage: onPage)
     }
@@ -21,7 +21,7 @@ extension AWSBackup {
         return client.paginate(input: input, command: listBackupPlanVersions, tokenKey: \ListBackupPlanVersionsOutput.nextToken, onPage: onPage)
     }
 
-    ///  Returns metadata of your saved backup plans, including Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    ///  Returns a list of existing backup plans for an authenticated account. The list is populated only if the advanced option is set for the backup plan. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
     public func listBackupPlansPaginator(_ input: ListBackupPlansInput, onPage: @escaping (ListBackupPlansOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listBackupPlans, tokenKey: \ListBackupPlansOutput.nextToken, onPage: onPage)
     }

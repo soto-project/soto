@@ -402,6 +402,13 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum WriteOperationType: String, CustomStringConvertible, Codable {
+        case insert = "INSERT"
+        case upsert = "UPSERT"
+        case update = "UPDATE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ZendeskConnectorOperator: String, CustomStringConvertible, Codable {
         case projection = "PROJECTION"
         case greaterThan = "GREATER_THAN"
@@ -1823,26 +1830,36 @@ extension Appflow {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "isCreatable", required: false, type: .boolean), 
             AWSShapeMember(label: "isNullable", required: false, type: .boolean), 
-            AWSShapeMember(label: "isUpsertable", required: false, type: .boolean)
+            AWSShapeMember(label: "isUpdatable", required: false, type: .boolean), 
+            AWSShapeMember(label: "isUpsertable", required: false, type: .boolean), 
+            AWSShapeMember(label: "supportedWriteOperations", required: false, type: .list)
         ]
 
         ///  Specifies if the destination field can be created by the current user. 
         public let isCreatable: Bool?
         ///  Specifies if the destination field can have a null value. 
         public let isNullable: Bool?
+        ///  Specifies whether the field can be updated during an UPDATE or UPSERT write operation. 
+        public let isUpdatable: Bool?
         ///  Specifies if the flow run can either insert new rows in the destination field if they do not already exist, or update them if they do. 
         public let isUpsertable: Bool?
+        ///  A list of supported write operations. For each write operation listed, this field can be used in idFieldNames when that write operation is present as a destination option. 
+        public let supportedWriteOperations: [WriteOperationType]?
 
-        public init(isCreatable: Bool? = nil, isNullable: Bool? = nil, isUpsertable: Bool? = nil) {
+        public init(isCreatable: Bool? = nil, isNullable: Bool? = nil, isUpdatable: Bool? = nil, isUpsertable: Bool? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
             self.isCreatable = isCreatable
             self.isNullable = isNullable
+            self.isUpdatable = isUpdatable
             self.isUpsertable = isUpsertable
+            self.supportedWriteOperations = supportedWriteOperations
         }
 
         private enum CodingKeys: String, CodingKey {
             case isCreatable = "isCreatable"
             case isNullable = "isNullable"
+            case isUpdatable = "isUpdatable"
             case isUpsertable = "isUpsertable"
+            case supportedWriteOperations = "supportedWriteOperations"
         }
     }
 
@@ -2258,9 +2275,9 @@ extension Appflow {
         public let accessToken: String?
         ///  The identifier for the desired client. 
         public let clientId: String
-        ///  The client secret used by the oauth client to authenticate to the authorization server. 
+        ///  The client secret used by the OAuth client to authenticate to the authorization server. 
         public let clientSecret: String
-        ///  The oauth requirement needed to request security tokens from the connector endpoint. 
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint. 
         public let oAuthRequest: ConnectorOAuthRequest?
         ///  The credentials used to acquire new access tokens. This is required only for OAuth2 access tokens, and is not required for OAuth1 access tokens. 
         public let refreshToken: String?
@@ -2338,6 +2355,28 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case object = "object"
+        }
+    }
+
+    public struct IncrementalPullConfig: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "datetimeTypeFieldName", required: false, type: .string)
+        ]
+
+        ///  A field that specifies the date time or timestamp field as the criteria to use when importing incremental records from the source. 
+        public let datetimeTypeFieldName: String?
+
+        public init(datetimeTypeFieldName: String? = nil) {
+            self.datetimeTypeFieldName = datetimeTypeFieldName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.datetimeTypeFieldName, name:"datetimeTypeFieldName", parent: name, max: 256)
+            try validate(self.datetimeTypeFieldName, name:"datetimeTypeFieldName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datetimeTypeFieldName = "datetimeTypeFieldName"
         }
     }
 
@@ -2589,9 +2628,9 @@ extension Appflow {
         public let accessToken: String?
         ///  The identifier for the desired client. 
         public let clientId: String
-        ///  The client secret used by the oauth client to authenticate to the authorization server. 
+        ///  The client secret used by the OAuth client to authenticate to the authorization server. 
         public let clientSecret: String
-        ///  The oauth requirement needed to request security tokens from the connector endpoint. 
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint. 
         public let oAuthRequest: ConnectorOAuthRequest?
 
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {
@@ -2918,19 +2957,23 @@ extension Appflow {
     public struct SalesforceConnectorProfileCredentials: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "accessToken", required: false, type: .string), 
+            AWSShapeMember(label: "clientCredentialsArn", required: false, type: .string), 
             AWSShapeMember(label: "oAuthRequest", required: false, type: .structure), 
             AWSShapeMember(label: "refreshToken", required: false, type: .string)
         ]
 
         ///  The credentials used to access protected Salesforce resources. 
         public let accessToken: String?
-        ///  The oauth requirement needed to request security tokens from the connector endpoint. 
+        ///  The secret manager ARN, which contains the client ID and client secret of the connected app. 
+        public let clientCredentialsArn: String?
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint. 
         public let oAuthRequest: ConnectorOAuthRequest?
         ///  The credentials used to acquire new access tokens. 
         public let refreshToken: String?
 
-        public init(accessToken: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
+        public init(accessToken: String? = nil, clientCredentialsArn: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
             self.accessToken = accessToken
+            self.clientCredentialsArn = clientCredentialsArn
             self.oAuthRequest = oAuthRequest
             self.refreshToken = refreshToken
         }
@@ -2938,6 +2981,9 @@ extension Appflow {
         public func validate(name: String) throws {
             try validate(self.accessToken, name:"accessToken", parent: name, max: 512)
             try validate(self.accessToken, name:"accessToken", parent: name, pattern: "\\S+")
+            try validate(self.clientCredentialsArn, name:"clientCredentialsArn", parent: name, max: 2048)
+            try validate(self.clientCredentialsArn, name:"clientCredentialsArn", parent: name, min: 20)
+            try validate(self.clientCredentialsArn, name:"clientCredentialsArn", parent: name, pattern: "arn:aws:secretsmanager:.*:[0-9]+:.*")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
             try validate(self.refreshToken, name:"refreshToken", parent: name, max: 512)
             try validate(self.refreshToken, name:"refreshToken", parent: name, pattern: "\\S+")
@@ -2945,6 +2991,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "accessToken"
+            case clientCredentialsArn = "clientCredentialsArn"
             case oAuthRequest = "oAuthRequest"
             case refreshToken = "refreshToken"
         }
@@ -2980,28 +3027,44 @@ extension Appflow {
     public struct SalesforceDestinationProperties: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "errorHandlingConfig", required: false, type: .structure), 
-            AWSShapeMember(label: "object", required: true, type: .string)
+            AWSShapeMember(label: "idFieldNames", required: false, type: .list), 
+            AWSShapeMember(label: "object", required: true, type: .string), 
+            AWSShapeMember(label: "writeOperationType", required: false, type: .enum)
         ]
 
         ///  The settings that determine how Amazon AppFlow handles an error when placing data in the Salesforce destination. For example, this setting would determine if the flow should fail after one insertion error, or continue and attempt to insert every record regardless of the initial failure. ErrorHandlingConfig is a part of the destination connector details. 
         public let errorHandlingConfig: ErrorHandlingConfig?
+        ///  The name of the field that Amazon AppFlow uses as an ID when performing a write operation such as update or delete. 
+        public let idFieldNames: [String]?
         ///  The object specified in the Salesforce flow destination. 
         public let object: String
+        ///  This specifies the type of write operation to be performed in Salesforce. When the value is UPSERT, then idFieldNames is required. 
+        public let writeOperationType: WriteOperationType?
 
-        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
+        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, object: String, writeOperationType: WriteOperationType? = nil) {
             self.errorHandlingConfig = errorHandlingConfig
+            self.idFieldNames = idFieldNames
             self.object = object
+            self.writeOperationType = writeOperationType
         }
 
         public func validate(name: String) throws {
             try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.idFieldNames?.forEach {
+                try validate($0, name: "idFieldNames[]", parent: name, max: 128)
+                try validate($0, name: "idFieldNames[]", parent: name, pattern: "\\S+")
+            }
+            try validate(self.idFieldNames, name:"idFieldNames", parent: name, max: 1)
+            try validate(self.idFieldNames, name:"idFieldNames", parent: name, min: 0)
             try validate(self.object, name:"object", parent: name, max: 512)
             try validate(self.object, name:"object", parent: name, pattern: "\\S+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case errorHandlingConfig = "errorHandlingConfig"
+            case idFieldNames = "idFieldNames"
             case object = "object"
+            case writeOperationType = "writeOperationType"
         }
     }
 
@@ -3086,6 +3149,7 @@ extension Appflow {
             try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, max: 256)
             try validate(self.scheduleExpression, name:"scheduleExpression", parent: name, pattern: ".*")
             try validate(self.timezone, name:"timezone", parent: name, max: 256)
+            try validate(self.timezone, name:"timezone", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3250,9 +3314,9 @@ extension Appflow {
         public let accessToken: String?
         ///  The identifier for the client. 
         public let clientId: String
-        ///  The client secret used by the oauth client to authenticate to the authorization server. 
+        ///  The client secret used by the OAuth client to authenticate to the authorization server. 
         public let clientSecret: String
-        ///  The oauth requirement needed to request security tokens from the connector endpoint. 
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint. 
         public let oAuthRequest: ConnectorOAuthRequest?
 
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {
@@ -3620,6 +3684,7 @@ extension Appflow {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "connectorProfileName", required: false, type: .string), 
             AWSShapeMember(label: "connectorType", required: true, type: .enum), 
+            AWSShapeMember(label: "incrementalPullConfig", required: false, type: .structure), 
             AWSShapeMember(label: "sourceConnectorProperties", required: true, type: .structure)
         ]
 
@@ -3627,24 +3692,29 @@ extension Appflow {
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on. 
         public let connectorType: ConnectorType
+        ///  Defines the configuration for a scheduled incremental data pull. If a valid configuration is provided, the fields specified in the configuration are used when querying for the incremental data pull. 
+        public let incrementalPullConfig: IncrementalPullConfig?
         ///  Specifies the information that is required to query a particular source connector. 
         public let sourceConnectorProperties: SourceConnectorProperties
 
-        public init(connectorProfileName: String? = nil, connectorType: ConnectorType, sourceConnectorProperties: SourceConnectorProperties) {
+        public init(connectorProfileName: String? = nil, connectorType: ConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
+            self.incrementalPullConfig = incrementalPullConfig
             self.sourceConnectorProperties = sourceConnectorProperties
         }
 
         public func validate(name: String) throws {
             try validate(self.connectorProfileName, name:"connectorProfileName", parent: name, max: 256)
             try validate(self.connectorProfileName, name:"connectorProfileName", parent: name, pattern: "[\\w/!@#+=.-]+")
+            try self.incrementalPullConfig?.validate(name: "\(name).incrementalPullConfig")
             try self.sourceConnectorProperties.validate(name: "\(name).sourceConnectorProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorProfileName = "connectorProfileName"
             case connectorType = "connectorType"
+            case incrementalPullConfig = "incrementalPullConfig"
             case sourceConnectorProperties = "sourceConnectorProperties"
         }
     }
@@ -3673,21 +3743,26 @@ extension Appflow {
 
     public struct StartFlowResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "executionId", required: false, type: .string), 
             AWSShapeMember(label: "flowArn", required: false, type: .string), 
             AWSShapeMember(label: "flowStatus", required: false, type: .enum)
         ]
 
+        ///  Returns the internal execution ID of an on-demand flow when the flow is started. For scheduled or event-triggered flows, this value is null. 
+        public let executionId: String?
         ///  The flow's Amazon Resource Name (ARN). 
         public let flowArn: String?
         ///  Indicates the current status of the flow. 
         public let flowStatus: FlowStatus?
 
-        public init(flowArn: String? = nil, flowStatus: FlowStatus? = nil) {
+        public init(executionId: String? = nil, flowArn: String? = nil, flowStatus: FlowStatus? = nil) {
+            self.executionId = executionId
             self.flowArn = flowArn
             self.flowStatus = flowStatus
         }
 
         private enum CodingKeys: String, CodingKey {
+            case executionId = "executionId"
             case flowArn = "flowArn"
             case flowStatus = "flowStatus"
         }
@@ -4211,9 +4286,9 @@ extension Appflow {
         public let accessToken: String?
         ///  The identifier for the desired client. 
         public let clientId: String
-        ///  The client secret used by the oauth client to authenticate to the authorization server. 
+        ///  The client secret used by the OAuth client to authenticate to the authorization server. 
         public let clientSecret: String
-        ///  The oauth requirement needed to request security tokens from the connector endpoint. 
+        ///  The OAuth requirement needed to request security tokens from the connector endpoint. 
         public let oAuthRequest: ConnectorOAuthRequest?
 
         public init(accessToken: String? = nil, clientId: String, clientSecret: String, oAuthRequest: ConnectorOAuthRequest? = nil) {

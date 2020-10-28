@@ -87,8 +87,25 @@ extension Batch {
         public var description: String { return self.rawValue }
     }
 
+    public enum LogDriver: String, CustomStringConvertible, Codable {
+        case jsonFile = "json-file"
+        case syslog = "syslog"
+        case journald = "journald"
+        case gelf = "gelf"
+        case fluentd = "fluentd"
+        case awslogs = "awslogs"
+        case splunk = "splunk"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case gpu = "GPU"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetryAction: String, CustomStringConvertible, Codable {
+        case retry = "RETRY"
+        case exit = "EXIT"
         public var description: String { return self.rawValue }
     }
 
@@ -212,11 +229,11 @@ extension Batch {
 
         /// Details about the container in this job attempt.
         public let container: AttemptContainerDetail?
-        /// The Unix timestamp (in seconds and milliseconds) for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
+        /// The Unix timestamp (in milliseconds) for when the attempt was started (when the attempt transitioned from the STARTING state to the RUNNING state).
         public let startedAt: Int64?
         /// A short, human-readable string to provide additional details about the current status of the job attempt.
         public let statusReason: String?
-        /// The Unix timestamp (in seconds and milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
+        /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
 
         public init(container: AttemptContainerDetail? = nil, startedAt: Int64? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
@@ -274,6 +291,7 @@ extension Batch {
             AWSShapeMember(label: "state", required: false, type: .enum), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "type", required: false, type: .enum)
         ]
 
@@ -293,10 +311,12 @@ extension Batch {
         public let status: CEStatus?
         /// A short, human-readable string to provide additional details about the current status of the compute environment.
         public let statusReason: String?
+        /// The tags applied to the compute environment.
+        public let tags: [String: String]?
         /// The type of the compute environment.
         public let `type`: CEType?
 
-        public init(computeEnvironmentArn: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil, ecsClusterArn: String, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, type: CEType? = nil) {
+        public init(computeEnvironmentArn: String, computeEnvironmentName: String, computeResources: ComputeResource? = nil, ecsClusterArn: String, serviceRole: String? = nil, state: CEState? = nil, status: CEStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil, type: CEType? = nil) {
             self.computeEnvironmentArn = computeEnvironmentArn
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
@@ -305,6 +325,7 @@ extension Batch {
             self.state = state
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
             self.`type` = `type`
         }
 
@@ -317,6 +338,7 @@ extension Batch {
             case state = "state"
             case status = "status"
             case statusReason = "statusReason"
+            case tags = "tags"
             case `type` = "type"
         }
     }
@@ -391,7 +413,7 @@ extension Batch {
         public let spotIamFleetRole: String?
         /// The VPC subnets into which the compute resources are launched. For more information, see VPCs and Subnets in the Amazon VPC User Guide.
         public let subnets: [String]
-        /// Key-value pair tags to be applied to resources that are launched in the compute environment. For AWS Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value—for example, { "Name": "AWS Batch Instance - C4OnDemand" }.
+        /// Key-value pair tags to be applied to resources that are launched in the compute environment. For AWS Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value—for example, { "Name": "AWS Batch Instance - C4OnDemand" }. These tags can not be updated or removed after the compute environment has been created; any changes require creating a new compute environment and removing the old compute environment. These tags are not seen when using the AWS Batch ListTagsForResource API operation.
         public let tags: [String: String]?
         /// The type of compute environment: EC2 or SPOT.
         public let `type`: CRType
@@ -467,11 +489,13 @@ extension Batch {
             AWSShapeMember(label: "command", required: false, type: .list), 
             AWSShapeMember(label: "containerInstanceArn", required: false, type: .string), 
             AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "exitCode", required: false, type: .integer), 
             AWSShapeMember(label: "image", required: false, type: .string), 
             AWSShapeMember(label: "instanceType", required: false, type: .string), 
             AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "logConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "logStreamName", required: false, type: .string), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
             AWSShapeMember(label: "mountPoints", required: false, type: .list), 
@@ -480,6 +504,7 @@ extension Batch {
             AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
             AWSShapeMember(label: "reason", required: false, type: .string), 
             AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "secrets", required: false, type: .list), 
             AWSShapeMember(label: "taskArn", required: false, type: .string), 
             AWSShapeMember(label: "ulimits", required: false, type: .list), 
             AWSShapeMember(label: "user", required: false, type: .string), 
@@ -493,6 +518,8 @@ extension Batch {
         public let containerInstanceArn: String?
         /// The environment variables to pass to a container.  Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
         public let environment: [KeyValuePair]?
+        /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can assume. For more information, see AWS Batch execution IAM role.
+        public let executionRoleArn: String?
         /// The exit code to return upon completion.
         public let exitCode: Int?
         /// The image used to start the container.
@@ -503,9 +530,11 @@ extension Batch {
         public let jobRoleArn: String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public let linuxParameters: LinuxParameters?
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  AWS Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version"   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic Container Service Developer Guide. 
+        public let logConfiguration: LogConfiguration?
         /// The name of the CloudWatch Logs log stream associated with the container. The log group for AWS Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public let logStreamName: String?
-        /// The number of MiB of memory reserved for the job.
+        /// The number of MiB of memory reserved for the job. This is a required parameter.
         public let memory: Int?
         /// The mount points for data volumes in your container.
         public let mountPoints: [MountPoint]?
@@ -519,26 +548,30 @@ extension Batch {
         public let reason: String?
         /// The type and amount of a resource to assign to a container. Currently, the only supported resource is GPU.
         public let resourceRequirements: [ResourceRequirement]?
+        /// The secrets to pass to the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
+        public let secrets: [Secret]?
         /// The Amazon Resource Name (ARN) of the Amazon ECS task that is associated with the container job. Each container attempt receives a task ARN when they reach the STARTING status.
         public let taskArn: String?
         /// A list of ulimit values to set in the container.
         public let ulimits: [Ulimit]?
         /// The user name to use inside the container.
         public let user: String?
-        /// The number of VCPUs allocated for the job.
+        /// The number of VCPUs allocated for the job. This is a required parameter.
         public let vcpus: Int?
         /// A list of volumes associated with the job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, containerInstanceArn: String? = nil, environment: [KeyValuePair]? = nil, executionRoleArn: String? = nil, exitCode: Int? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, logStreamName: String? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, networkInterfaces: [NetworkInterface]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, reason: String? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, taskArn: String? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.containerInstanceArn = containerInstanceArn
             self.environment = environment
+            self.executionRoleArn = executionRoleArn
             self.exitCode = exitCode
             self.image = image
             self.instanceType = instanceType
             self.jobRoleArn = jobRoleArn
             self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
             self.logStreamName = logStreamName
             self.memory = memory
             self.mountPoints = mountPoints
@@ -547,6 +580,7 @@ extension Batch {
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.reason = reason
             self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
             self.taskArn = taskArn
             self.ulimits = ulimits
             self.user = user
@@ -558,11 +592,13 @@ extension Batch {
             case command = "command"
             case containerInstanceArn = "containerInstanceArn"
             case environment = "environment"
+            case executionRoleArn = "executionRoleArn"
             case exitCode = "exitCode"
             case image = "image"
             case instanceType = "instanceType"
             case jobRoleArn = "jobRoleArn"
             case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
             case logStreamName = "logStreamName"
             case memory = "memory"
             case mountPoints = "mountPoints"
@@ -571,6 +607,7 @@ extension Batch {
             case readonlyRootFilesystem = "readonlyRootFilesystem"
             case reason = "reason"
             case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
             case taskArn = "taskArn"
             case ulimits = "ulimits"
             case user = "user"
@@ -625,15 +662,18 @@ extension Batch {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "command", required: false, type: .list), 
             AWSShapeMember(label: "environment", required: false, type: .list), 
+            AWSShapeMember(label: "executionRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "image", required: false, type: .string), 
             AWSShapeMember(label: "instanceType", required: false, type: .string), 
             AWSShapeMember(label: "jobRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "linuxParameters", required: false, type: .structure), 
+            AWSShapeMember(label: "logConfiguration", required: false, type: .structure), 
             AWSShapeMember(label: "memory", required: false, type: .integer), 
             AWSShapeMember(label: "mountPoints", required: false, type: .list), 
             AWSShapeMember(label: "privileged", required: false, type: .boolean), 
             AWSShapeMember(label: "readonlyRootFilesystem", required: false, type: .boolean), 
             AWSShapeMember(label: "resourceRequirements", required: false, type: .list), 
+            AWSShapeMember(label: "secrets", required: false, type: .list), 
             AWSShapeMember(label: "ulimits", required: false, type: .list), 
             AWSShapeMember(label: "user", required: false, type: .string), 
             AWSShapeMember(label: "vcpus", required: false, type: .integer), 
@@ -644,6 +684,8 @@ extension Batch {
         public let command: [String]?
         /// The environment variables to pass to a container. This parameter maps to Env in the Create a container section of the Docker Remote API and the --env option to docker run.  We do not recommend using plaintext environment variables for sensitive information, such as credential data.   Environment variables must not start with AWS_BATCH; this naming convention is reserved for variables that are set by the AWS Batch service. 
         public let environment: [KeyValuePair]?
+        /// The Amazon Resource Name (ARN) of the execution role that AWS Batch can assume. For more information, see AWS Batch execution IAM role.
+        public let executionRoleArn: String?
         /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the Create a container section of the Docker Remote API and the IMAGE parameter of docker run.   Images in Amazon ECR repositories use the full registry and repository URI (for example, 012345678910.dkr.ecr.&lt;region-name&gt;.amazonaws.com/&lt;repository-name&gt;).   Images in official repositories on Docker Hub use a single name (for example, ubuntu or mongo).   Images in other repositories on Docker Hub are qualified with an organization name (for example, amazon/amazon-ecs-agent).   Images in other online repositories are qualified further by a domain name (for example, quay.io/assemblyline/ubuntu).  
         public let image: String?
         /// The instance type to use for a multi-node parallel job. Currently all node groups in a multi-node parallel job must use the same instance type. This parameter is not valid for single-node container jobs.
@@ -652,7 +694,9 @@ extension Batch {
         public let jobRoleArn: String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public let linuxParameters: LinuxParameters?
-        /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the Create a container section of the Docker Remote API and the --log-driver option to docker run. By default, containers use the same logging driver that the Docker daemon uses. However the container may use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see Configure logging drivers in the Docker documentation.  AWS Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type).  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version"   The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see Amazon ECS Container Agent Configuration in the Amazon Elastic Container Service Developer Guide. 
+        public let logConfiguration: LogConfiguration?
+        /// The hard limit (in MiB) of memory to present to the container. If your container attempts to exceed the memory specified here, the container is killed. This parameter maps to Memory in the Create a container section of the Docker Remote API and the --memory option to docker run. You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs; it must be specified for each node at least once.  If you are trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see Memory Management in the AWS Batch User Guide. 
         public let memory: Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the Create a container section of the Docker Remote API and the --volume option to docker run.
         public let mountPoints: [MountPoint]?
@@ -662,27 +706,32 @@ extension Batch {
         public let readonlyRootFilesystem: Bool?
         /// The type and amount of a resource to assign to a container. Currently, the only supported resource is GPU.
         public let resourceRequirements: [ResourceRequirement]?
+        /// The secrets for the container. For more information, see Specifying Sensitive Data in the Amazon Elastic Container Service Developer Guide.
+        public let secrets: [Secret]?
         /// A list of ulimits to set in the container. This parameter maps to Ulimits in the Create a container section of the Docker Remote API and the --ulimit option to docker run.
         public let ulimits: [Ulimit]?
         /// The user name to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run.
         public let user: String?
-        /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU.
+        /// The number of vCPUs reserved for the container. This parameter maps to CpuShares in the Create a container section of the Docker Remote API and the --cpu-shares option to docker run. Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU. This is required but can be specified in several places for multi-node parallel (MNP) jobs; it must be specified for each node at least once.
         public let vcpus: Int?
         /// A list of data volumes used in a job.
         public let volumes: [Volume]?
 
-        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
+        public init(command: [String]? = nil, environment: [KeyValuePair]? = nil, executionRoleArn: String? = nil, image: String? = nil, instanceType: String? = nil, jobRoleArn: String? = nil, linuxParameters: LinuxParameters? = nil, logConfiguration: LogConfiguration? = nil, memory: Int? = nil, mountPoints: [MountPoint]? = nil, privileged: Bool? = nil, readonlyRootFilesystem: Bool? = nil, resourceRequirements: [ResourceRequirement]? = nil, secrets: [Secret]? = nil, ulimits: [Ulimit]? = nil, user: String? = nil, vcpus: Int? = nil, volumes: [Volume]? = nil) {
             self.command = command
             self.environment = environment
+            self.executionRoleArn = executionRoleArn
             self.image = image
             self.instanceType = instanceType
             self.jobRoleArn = jobRoleArn
             self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
             self.memory = memory
             self.mountPoints = mountPoints
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
             self.ulimits = ulimits
             self.user = user
             self.vcpus = vcpus
@@ -692,15 +741,18 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case command = "command"
             case environment = "environment"
+            case executionRoleArn = "executionRoleArn"
             case image = "image"
             case instanceType = "instanceType"
             case jobRoleArn = "jobRoleArn"
             case linuxParameters = "linuxParameters"
+            case logConfiguration = "logConfiguration"
             case memory = "memory"
             case mountPoints = "mountPoints"
             case privileged = "privileged"
             case readonlyRootFilesystem = "readonlyRootFilesystem"
             case resourceRequirements = "resourceRequirements"
+            case secrets = "secrets"
             case ulimits = "ulimits"
             case user = "user"
             case vcpus = "vcpus"
@@ -736,6 +788,7 @@ extension Batch {
             AWSShapeMember(label: "computeResources", required: false, type: .structure), 
             AWSShapeMember(label: "serviceRole", required: true, type: .string), 
             AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
 
@@ -747,15 +800,26 @@ extension Batch {
         public let serviceRole: String
         /// The state of the compute environment. If the state is ENABLED, then the compute environment accepts jobs from a queue and can scale out automatically based on queues.
         public let state: CEState?
+        /// The tags that you apply to the compute environment to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference. These tags can be updated or removed using the TagResource and UntagResource API operations. These tags do not propagate to the underlying compute resources.
+        public let tags: [String: String]?
         /// The type of the compute environment. For more information, see Compute Environments in the AWS Batch User Guide.
         public let `type`: CEType
 
-        public init(computeEnvironmentName: String, computeResources: ComputeResource? = nil, serviceRole: String, state: CEState? = nil, type: CEType) {
+        public init(computeEnvironmentName: String, computeResources: ComputeResource? = nil, serviceRole: String, state: CEState? = nil, tags: [String: String]? = nil, type: CEType) {
             self.computeEnvironmentName = computeEnvironmentName
             self.computeResources = computeResources
             self.serviceRole = serviceRole
             self.state = state
+            self.tags = tags
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -763,6 +827,7 @@ extension Batch {
             case computeResources = "computeResources"
             case serviceRole = "serviceRole"
             case state = "state"
+            case tags = "tags"
             case `type` = "type"
         }
     }
@@ -794,7 +859,8 @@ extension Batch {
             AWSShapeMember(label: "computeEnvironmentOrder", required: true, type: .list), 
             AWSShapeMember(label: "jobQueueName", required: true, type: .string), 
             AWSShapeMember(label: "priority", required: true, type: .integer), 
-            AWSShapeMember(label: "state", required: false, type: .enum)
+            AWSShapeMember(label: "state", required: false, type: .enum), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
         /// The set of compute environments mapped to a job queue and their order relative to each other. The job scheduler uses this parameter to determine which compute environment should execute a given job. Compute environments must be in the VALID state before you can associate them with a job queue. You can associate up to three compute environments with a job queue.
@@ -803,14 +869,25 @@ extension Batch {
         public let jobQueueName: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
         public let priority: Int
-        /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs.
+        /// The state of the job queue. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs cannot be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
+        /// The tags that you apply to the job queue to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
+        public let tags: [String: String]?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int, state: JQState? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueName: String, priority: Int, state: JQState? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueName = jobQueueName
             self.priority = priority
             self.state = state
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -818,6 +895,7 @@ extension Batch {
             case jobQueueName = "jobQueueName"
             case priority = "priority"
             case state = "state"
+            case tags = "tags"
         }
     }
 
@@ -1136,6 +1214,38 @@ extension Batch {
         }
     }
 
+    public struct EvaluateOnExit: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "action", required: true, type: .enum), 
+            AWSShapeMember(label: "onExitCode", required: false, type: .string), 
+            AWSShapeMember(label: "onReason", required: false, type: .string), 
+            AWSShapeMember(label: "onStatusReason", required: false, type: .string)
+        ]
+
+        /// Specifies the action to take if all of the specified conditions (onStatusReason, onReason, and onExitCode) are met.
+        public let action: RetryAction
+        /// Contains a glob pattern to match against the decimal representation of the ExitCode returned for a job. The patten can be up to 512 characters long, can contain only numbers, and can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
+        public let onExitCode: String?
+        /// Contains a glob pattern to match against the Reason returned for a job. The patten can be up to 512 characters long, can contain letters, numbers, periods (.), colons (:), and whitespace (spaces, tabs), and can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
+        public let onReason: String?
+        /// Contains a glob pattern to match against the StatusReason returned for a job. The patten can be up to 512 characters long, can contain letters, numbers, periods (.), colons (:), and whitespace (spaces, tabs). and can optionally end with an asterisk (*) so that only the start of the string needs to be an exact match.
+        public let onStatusReason: String?
+
+        public init(action: RetryAction, onExitCode: String? = nil, onReason: String? = nil, onStatusReason: String? = nil) {
+            self.action = action
+            self.onExitCode = onExitCode
+            self.onReason = onReason
+            self.onStatusReason = onStatusReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "action"
+            case onExitCode = "onExitCode"
+            case onReason = "onReason"
+            case onStatusReason = "onStatusReason"
+        }
+    }
+
     public struct Host: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "sourcePath", required: false, type: .string)
@@ -1163,6 +1273,7 @@ extension Batch {
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
             AWSShapeMember(label: "revision", required: true, type: .integer), 
             AWSShapeMember(label: "status", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .string)
         ]
@@ -1183,12 +1294,14 @@ extension Batch {
         public let revision: Int
         /// The status of the job definition.
         public let status: String?
+        /// The tags applied to the job definition.
+        public let tags: [String: String]?
         /// The timeout configuration for jobs that are submitted with this job definition. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished.
         public let timeout: JobTimeout?
         /// The type of job definition.
         public let `type`: String
 
-        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, status: String? = nil, timeout: JobTimeout? = nil, type: String) {
+        public init(containerProperties: ContainerProperties? = nil, jobDefinitionArn: String, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, revision: Int, status: String? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: String) {
             self.containerProperties = containerProperties
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
@@ -1197,6 +1310,7 @@ extension Batch {
             self.retryStrategy = retryStrategy
             self.revision = revision
             self.status = status
+            self.tags = tags
             self.timeout = timeout
             self.`type` = `type`
         }
@@ -1210,6 +1324,7 @@ extension Batch {
             case retryStrategy = "retryStrategy"
             case revision = "revision"
             case status = "status"
+            case tags = "tags"
             case timeout = "timeout"
             case `type` = "type"
         }
@@ -1244,6 +1359,7 @@ extension Batch {
             AWSShapeMember(label: "container", required: false, type: .structure), 
             AWSShapeMember(label: "createdAt", required: false, type: .long), 
             AWSShapeMember(label: "dependsOn", required: false, type: .list), 
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
             AWSShapeMember(label: "jobDefinition", required: true, type: .string), 
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "jobName", required: true, type: .string), 
@@ -1256,6 +1372,7 @@ extension Batch {
             AWSShapeMember(label: "status", required: true, type: .enum), 
             AWSShapeMember(label: "statusReason", required: false, type: .string), 
             AWSShapeMember(label: "stoppedAt", required: false, type: .long), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "timeout", required: false, type: .structure)
         ]
 
@@ -1265,10 +1382,12 @@ extension Batch {
         public let attempts: [AttemptDetail]?
         /// An object representing the details of the container that is associated with the job.
         public let container: ContainerDetail?
-        /// The Unix timestamp (in seconds and milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
+        /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public let createdAt: Int64?
         /// A list of job IDs on which this job depends.
         public let dependsOn: [JobDependency]?
+        /// The Amazon Resource Name (ARN) of the job.
+        public let jobArn: String?
         /// The job definition that is used by this job.
         public let jobDefinition: String
         /// The ID for the job.
@@ -1285,23 +1404,26 @@ extension Batch {
         public let parameters: [String: String]?
         /// The retry strategy to use for this job if an attempt fails.
         public let retryStrategy: RetryStrategy?
-        /// The Unix timestamp (in seconds and milliseconds) for when the job was started (when the job transitioned from the STARTING state to the RUNNING state).
+        /// The Unix timestamp (in milliseconds) for when the job was started (when the job transitioned from the STARTING state to the RUNNING state). This parameter is not provided for child jobs of array jobs or multi-node parallel jobs.
         public let startedAt: Int64
         /// The current status for the job.  If your jobs do not progress to STARTING, see Jobs Stuck in RUNNABLE Status in the troubleshooting section of the AWS Batch User Guide. 
         public let status: JobStatus
         /// A short, human-readable string to provide additional details about the current status of the job.
         public let statusReason: String?
-        /// The Unix timestamp (in seconds and milliseconds) for when the job was stopped (when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
+        /// The Unix timestamp (in milliseconds) for when the job was stopped (when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
+        /// The tags applied to the job.
+        public let tags: [String: String]?
         /// The timeout configuration for the job.
         public let timeout: JobTimeout?
 
-        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, jobDefinition: String, jobId: String, jobName: String, jobQueue: String, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, startedAt: Int64, status: JobStatus, statusReason: String? = nil, stoppedAt: Int64? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayPropertiesDetail? = nil, attempts: [AttemptDetail]? = nil, container: ContainerDetail? = nil, createdAt: Int64? = nil, dependsOn: [JobDependency]? = nil, jobArn: String? = nil, jobDefinition: String, jobId: String, jobName: String, jobQueue: String, nodeDetails: NodeDetails? = nil, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, startedAt: Int64, status: JobStatus, statusReason: String? = nil, stoppedAt: Int64? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.attempts = attempts
             self.container = container
             self.createdAt = createdAt
             self.dependsOn = dependsOn
+            self.jobArn = jobArn
             self.jobDefinition = jobDefinition
             self.jobId = jobId
             self.jobName = jobName
@@ -1314,6 +1436,7 @@ extension Batch {
             self.status = status
             self.statusReason = statusReason
             self.stoppedAt = stoppedAt
+            self.tags = tags
             self.timeout = timeout
         }
 
@@ -1323,6 +1446,7 @@ extension Batch {
             case container = "container"
             case createdAt = "createdAt"
             case dependsOn = "dependsOn"
+            case jobArn = "jobArn"
             case jobDefinition = "jobDefinition"
             case jobId = "jobId"
             case jobName = "jobName"
@@ -1335,6 +1459,7 @@ extension Batch {
             case status = "status"
             case statusReason = "statusReason"
             case stoppedAt = "stoppedAt"
+            case tags = "tags"
             case timeout = "timeout"
         }
     }
@@ -1347,7 +1472,8 @@ extension Batch {
             AWSShapeMember(label: "priority", required: true, type: .integer), 
             AWSShapeMember(label: "state", required: true, type: .enum), 
             AWSShapeMember(label: "status", required: false, type: .enum), 
-            AWSShapeMember(label: "statusReason", required: false, type: .string)
+            AWSShapeMember(label: "statusReason", required: false, type: .string), 
+            AWSShapeMember(label: "tags", required: false, type: .map)
         ]
 
         /// The compute environments that are attached to the job queue and the order in which job placement is preferred. Compute environments are selected for job placement in ascending order.
@@ -1358,14 +1484,16 @@ extension Batch {
         public let jobQueueName: String
         /// The priority of the job queue.
         public let priority: Int
-        /// Describes the ability of the queue to accept new jobs.
+        /// Describes the ability of the queue to accept new jobs. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs cannot be added to the queue, but jobs already in the queue can finish.
         public let state: JQState
         /// The status of the job queue (for example, CREATING or VALID).
         public let status: JQStatus?
         /// A short, human-readable string to provide additional details about the current status of the job queue.
         public let statusReason: String?
+        /// The tags applied to the job queue.
+        public let tags: [String: String]?
 
-        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int, state: JQState, status: JQStatus? = nil, statusReason: String? = nil) {
+        public init(computeEnvironmentOrder: [ComputeEnvironmentOrder], jobQueueArn: String, jobQueueName: String, priority: Int, state: JQState, status: JQStatus? = nil, statusReason: String? = nil, tags: [String: String]? = nil) {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
@@ -1373,6 +1501,7 @@ extension Batch {
             self.state = state
             self.status = status
             self.statusReason = statusReason
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1383,6 +1512,7 @@ extension Batch {
             case state = "state"
             case status = "status"
             case statusReason = "statusReason"
+            case tags = "tags"
         }
     }
 
@@ -1391,6 +1521,7 @@ extension Batch {
             AWSShapeMember(label: "arrayProperties", required: false, type: .structure), 
             AWSShapeMember(label: "container", required: false, type: .structure), 
             AWSShapeMember(label: "createdAt", required: false, type: .long), 
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "jobName", required: true, type: .string), 
             AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
@@ -1406,6 +1537,8 @@ extension Batch {
         public let container: ContainerSummary?
         /// The Unix timestamp for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time SubmitJob was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public let createdAt: Int64?
+        /// The Amazon Resource Name (ARN) of the job.
+        public let jobArn: String?
         /// The ID of the job.
         public let jobId: String
         /// The name of the job.
@@ -1421,10 +1554,11 @@ extension Batch {
         /// The Unix timestamp for when the job was stopped (when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public let stoppedAt: Int64?
 
-        public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobId: String, jobName: String, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
+        public init(arrayProperties: ArrayPropertiesSummary? = nil, container: ContainerSummary? = nil, createdAt: Int64? = nil, jobArn: String? = nil, jobId: String, jobName: String, nodeProperties: NodePropertiesSummary? = nil, startedAt: Int64? = nil, status: JobStatus? = nil, statusReason: String? = nil, stoppedAt: Int64? = nil) {
             self.arrayProperties = arrayProperties
             self.container = container
             self.createdAt = createdAt
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.nodeProperties = nodeProperties
@@ -1438,6 +1572,7 @@ extension Batch {
             case arrayProperties = "arrayProperties"
             case container = "container"
             case createdAt = "createdAt"
+            case jobArn = "jobArn"
             case jobId = "jobId"
             case jobName = "jobName"
             case nodeProperties = "nodeProperties"
@@ -1498,7 +1633,7 @@ extension Batch {
         public let launchTemplateId: String?
         /// The name of the launch template.
         public let launchTemplateName: String?
-        /// The version number of the launch template. Default: The default version of the launch template.
+        /// The version number of the launch template, $Latest, or $Default. If the value is $Latest, the latest version of the launch template is used. If the value is $Default, the default version of the launch template is used. Default: $Default.
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -1516,18 +1651,43 @@ extension Batch {
 
     public struct LinuxParameters: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "devices", required: false, type: .list)
+            AWSShapeMember(label: "devices", required: false, type: .list), 
+            AWSShapeMember(label: "initProcessEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "maxSwap", required: false, type: .integer), 
+            AWSShapeMember(label: "sharedMemorySize", required: false, type: .integer), 
+            AWSShapeMember(label: "swappiness", required: false, type: .integer), 
+            AWSShapeMember(label: "tmpfs", required: false, type: .list)
         ]
 
         /// Any host devices to expose to the container. This parameter maps to Devices in the Create a container section of the Docker Remote API and the --device option to docker run.
         public let devices: [Device]?
+        /// If true, run an init process inside the container that forwards signals and reaps processes. This parameter maps to the --init option to docker run. This parameter requires version 1.25 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
+        public let initProcessEnabled: Bool?
+        /// The total amount of swap memory (in MiB) a container can use. This parameter will be translated to the --memory-swap option to docker run where the value would be the sum of the container memory plus the maxSwap value. For more information, see  --memory-swap details in the Docker documentation. If a maxSwap value of 0 is specified, the container will not use swap. Accepted values are 0 or any positive integer. If the maxSwap parameter is omitted, the container will use the swap configuration for the container instance it is running on. A maxSwap value must be set for the swappiness parameter to be used.
+        public let maxSwap: Int?
+        /// The value for the size (in MiB) of the /dev/shm volume. This parameter maps to the --shm-size option to docker run.
+        public let sharedMemorySize: Int?
+        /// This allows you to tune a container's memory swappiness behavior. A swappiness value of 0 will cause swapping to not happen unless absolutely necessary. A swappiness value of 100 will cause pages to be swapped very aggressively. Accepted values are whole numbers between 0 and 100. If the swappiness parameter is not specified, a default value of 60 is used. If a value is not specified for maxSwap then this parameter is ignored. This parameter maps to the --memory-swappiness option to docker run.
+        public let swappiness: Int?
+        /// The container path, mount options, and size (in MiB) of the tmpfs mount. This parameter maps to the --tmpfs option to docker run.
+        public let tmpfs: [Tmpfs]?
 
-        public init(devices: [Device]? = nil) {
+        public init(devices: [Device]? = nil, initProcessEnabled: Bool? = nil, maxSwap: Int? = nil, sharedMemorySize: Int? = nil, swappiness: Int? = nil, tmpfs: [Tmpfs]? = nil) {
             self.devices = devices
+            self.initProcessEnabled = initProcessEnabled
+            self.maxSwap = maxSwap
+            self.sharedMemorySize = sharedMemorySize
+            self.swappiness = swappiness
+            self.tmpfs = tmpfs
         }
 
         private enum CodingKeys: String, CodingKey {
             case devices = "devices"
+            case initProcessEnabled = "initProcessEnabled"
+            case maxSwap = "maxSwap"
+            case sharedMemorySize = "sharedMemorySize"
+            case swappiness = "swappiness"
+            case tmpfs = "tmpfs"
         }
     }
 
@@ -1592,6 +1752,67 @@ extension Batch {
         private enum CodingKeys: String, CodingKey {
             case jobSummaryList = "jobSummaryList"
             case nextToken = "nextToken"
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string)
+        ]
+
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "tags", required: false, type: .map)
+        ]
+
+        /// The tags for the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "tags"
+        }
+    }
+
+    public struct LogConfiguration: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "logDriver", required: true, type: .enum), 
+            AWSShapeMember(label: "options", required: false, type: .map), 
+            AWSShapeMember(label: "secretOptions", required: false, type: .list)
+        ]
+
+        /// The log driver to use for the container. The valid values listed for this parameter are log drivers that the Amazon ECS container agent can communicate with by default. The supported log drivers are awslogs, fluentd, gelf, json-file, journald, logentries, syslog, and splunk.  awslogs  Specifies the Amazon CloudWatch Logs logging driver. For more information, see Using the awslogs Log Driver in the AWS Batch User Guide and Amazon CloudWatch Logs logging driver in the Docker documentation.  fluentd  Specifies the Fluentd logging driver. For more information, including usage and options, see Fluentd logging driver in the Docker documentation.  gelf  Specifies the Graylog Extended Format (GELF) logging driver. For more information, including usage and options, see Graylog Extended Format logging driver in the Docker documentation.  journald  Specifies the journald logging driver. For more information, including usage and options, see Journald logging driver in the Docker documentation.  json-file  Specifies the JSON file logging driver. For more information, including usage and options, see JSON File logging driver in the Docker documentation.  splunk  Specifies the Splunk logging driver. For more information, including usage and options, see Splunk logging driver in the Docker documentation.  syslog  Specifies the syslog logging driver. For more information, including usage and options, see Syslog logging driver in the Docker documentation.    If you have a custom driver that is not listed earlier that you would like to work with the Amazon ECS container agent, you can fork the Amazon ECS container agent project that is available on GitHub and customize it to work with that driver. We encourage you to submit pull requests for changes that you would like to have included. However, Amazon Web Services does not currently support running modified copies of this software.  This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
+        public let logDriver: LogDriver
+        /// The configuration options to send to the log driver. This parameter requires version 1.19 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log into your container instance and run the following command: sudo docker version | grep "Server API version" 
+        public let options: [String: String]?
+        /// The secrets to pass to the log configuration. For more information, see Specifying Sensitive Data in the AWS Batch User Guide.
+        public let secretOptions: [Secret]?
+
+        public init(logDriver: LogDriver, options: [String: String]? = nil, secretOptions: [Secret]? = nil) {
+            self.logDriver = logDriver
+            self.options = options
+            self.secretOptions = secretOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logDriver = "logDriver"
+            case options = "options"
+            case secretOptions = "secretOptions"
         }
     }
 
@@ -1798,6 +2019,7 @@ extension Batch {
             AWSShapeMember(label: "nodeProperties", required: false, type: .structure), 
             AWSShapeMember(label: "parameters", required: false, type: .map), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "timeout", required: false, type: .structure), 
             AWSShapeMember(label: "type", required: true, type: .enum)
         ]
@@ -1812,19 +2034,30 @@ extension Batch {
         public let parameters: [String: String]?
         /// The retry strategy to use for failed jobs that are submitted with this job definition. Any retry strategy that is specified during a SubmitJob operation overrides the retry strategy defined here. If a job is terminated due to a timeout, it is not retried.
         public let retryStrategy: RetryStrategy?
+        /// The tags that you apply to the job definition to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
+        public let tags: [String: String]?
         /// The timeout configuration for jobs that are submitted with this job definition, after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that is specified during a SubmitJob operation overrides the timeout configuration defined here. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
         public let timeout: JobTimeout?
         /// The type of job definition.
         public let `type`: JobDefinitionType
 
-        public init(containerProperties: ContainerProperties? = nil, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType) {
+        public init(containerProperties: ContainerProperties? = nil, jobDefinitionName: String, nodeProperties: NodeProperties? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil, type: JobDefinitionType) {
             self.containerProperties = containerProperties
             self.jobDefinitionName = jobDefinitionName
             self.nodeProperties = nodeProperties
             self.parameters = parameters
             self.retryStrategy = retryStrategy
+            self.tags = tags
             self.timeout = timeout
             self.`type` = `type`
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1833,6 +2066,7 @@ extension Batch {
             case nodeProperties = "nodeProperties"
             case parameters = "parameters"
             case retryStrategy = "retryStrategy"
+            case tags = "tags"
             case timeout = "timeout"
             case `type` = "type"
         }
@@ -1889,18 +2123,45 @@ extension Batch {
 
     public struct RetryStrategy: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "attempts", required: false, type: .integer)
+            AWSShapeMember(label: "attempts", required: false, type: .integer), 
+            AWSShapeMember(label: "evaluateOnExit", required: false, type: .list)
         ]
 
         /// The number of times to move a job to the RUNNABLE status. You may specify between 1 and 10 attempts. If the value of attempts is greater than one, the job is retried on failure the same number of attempts as the value.
         public let attempts: Int?
+        /// Array of up to 5 objects that specify conditions under which the job should be retried or failed. If this parameter is specified, then the attempts parameter must also be specified.
+        public let evaluateOnExit: [EvaluateOnExit]?
 
-        public init(attempts: Int? = nil) {
+        public init(attempts: Int? = nil, evaluateOnExit: [EvaluateOnExit]? = nil) {
             self.attempts = attempts
+            self.evaluateOnExit = evaluateOnExit
         }
 
         private enum CodingKeys: String, CodingKey {
             case attempts = "attempts"
+            case evaluateOnExit = "evaluateOnExit"
+        }
+    }
+
+    public struct Secret: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "valueFrom", required: true, type: .string)
+        ]
+
+        /// The name of the secret.
+        public let name: String
+        /// The secret to expose to the container. The supported values are either the full ARN of the AWS Secrets Manager secret or the full ARN of the parameter in the AWS Systems Manager Parameter Store.  If the AWS Systems Manager Parameter Store parameter exists in the same Region as the task you are launching, then you can use either the full ARN or name of the parameter. If the parameter exists in a different Region, then the full ARN must be specified. 
+        public let valueFrom: String
+
+        public init(name: String, valueFrom: String) {
+            self.name = name
+            self.valueFrom = valueFrom
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case valueFrom = "valueFrom"
         }
     }
 
@@ -1915,6 +2176,7 @@ extension Batch {
             AWSShapeMember(label: "nodeOverrides", required: false, type: .structure), 
             AWSShapeMember(label: "parameters", required: false, type: .map), 
             AWSShapeMember(label: "retryStrategy", required: false, type: .structure), 
+            AWSShapeMember(label: "tags", required: false, type: .map), 
             AWSShapeMember(label: "timeout", required: false, type: .structure)
         ]
 
@@ -1936,10 +2198,12 @@ extension Batch {
         public let parameters: [String: String]?
         /// The retry strategy to use for failed jobs from this SubmitJob operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
         public let retryStrategy: RetryStrategy?
+        /// The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
+        public let tags: [String: String]?
         /// The timeout configuration for this SubmitJob operation. You can specify a timeout duration after which AWS Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it is not retried. The minimum value for the timeout is 60 seconds. This configuration overrides any timeout configuration specified in the job definition. For array jobs, child jobs have the same timeout configuration as the parent job. For more information, see Job Timeouts in the Amazon Elastic Container Service Developer Guide.
         public let timeout: JobTimeout?
 
-        public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, jobDefinition: String, jobName: String, jobQueue: String, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, timeout: JobTimeout? = nil) {
+        public init(arrayProperties: ArrayProperties? = nil, containerOverrides: ContainerOverrides? = nil, dependsOn: [JobDependency]? = nil, jobDefinition: String, jobName: String, jobQueue: String, nodeOverrides: NodeOverrides? = nil, parameters: [String: String]? = nil, retryStrategy: RetryStrategy? = nil, tags: [String: String]? = nil, timeout: JobTimeout? = nil) {
             self.arrayProperties = arrayProperties
             self.containerOverrides = containerOverrides
             self.dependsOn = dependsOn
@@ -1949,7 +2213,16 @@ extension Batch {
             self.nodeOverrides = nodeOverrides
             self.parameters = parameters
             self.retryStrategy = retryStrategy
+            self.tags = tags
             self.timeout = timeout
+        }
+
+        public func validate(name: String) throws {
+            try self.tags?.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1962,30 +2235,74 @@ extension Batch {
             case nodeOverrides = "nodeOverrides"
             case parameters = "parameters"
             case retryStrategy = "retryStrategy"
+            case tags = "tags"
             case timeout = "timeout"
         }
     }
 
     public struct SubmitJobResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "jobArn", required: false, type: .string), 
             AWSShapeMember(label: "jobId", required: true, type: .string), 
             AWSShapeMember(label: "jobName", required: true, type: .string)
         ]
 
+        /// The Amazon Resource Name (ARN) for the job.
+        public let jobArn: String?
         /// The unique identifier for the job.
         public let jobId: String
         /// The name of the job.
         public let jobName: String
 
-        public init(jobId: String, jobName: String) {
+        public init(jobArn: String? = nil, jobId: String, jobName: String) {
+            self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case jobArn = "jobArn"
             case jobId = "jobId"
             case jobName = "jobName"
         }
+    }
+
+    public struct TagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tags", required: true, type: .map)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource to which to add tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+        public let resourceArn: String
+        /// The tags that you apply to the resource to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging AWS Resources in AWS General Reference.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name:"tags.key", parent: name, max: 128)
+                try validate($0.key, name:"tags.key", parent: name, min: 1)
+                try validate($0.value, name:"tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tags = "tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct TerminateJobRequest: AWSShape {
@@ -2018,6 +2335,33 @@ extension Batch {
 
     }
 
+    public struct Tmpfs: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "containerPath", required: true, type: .string), 
+            AWSShapeMember(label: "mountOptions", required: false, type: .list), 
+            AWSShapeMember(label: "size", required: true, type: .integer)
+        ]
+
+        /// The absolute file path in the container where the tmpfs volume is to be mounted.
+        public let containerPath: String
+        /// The list of tmpfs volume mount options. Valid values: "defaults" | "ro" | "rw" | "suid" | "nosuid" | "dev" | "nodev" | "exec" | "noexec" | "sync" | "async" | "dirsync" | "remount" | "mand" | "nomand" | "atime" | "noatime" | "diratime" | "nodiratime" | "bind" | "rbind" | "unbindable" | "runbindable" | "private" | "rprivate" | "shared" | "rshared" | "slave" | "rslave" | "relatime" | "norelatime" | "strictatime" | "nostrictatime" | "mode" | "uid" | "gid" | "nr_inodes" | "nr_blocks" | "mpol"
+        public let mountOptions: [String]?
+        /// The size (in MiB) of the tmpfs volume.
+        public let size: Int
+
+        public init(containerPath: String, mountOptions: [String]? = nil, size: Int) {
+            self.containerPath = containerPath
+            self.mountOptions = mountOptions
+            self.size = size
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "containerPath"
+            case mountOptions = "mountOptions"
+            case size = "size"
+        }
+    }
+
     public struct Ulimit: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "hardLimit", required: true, type: .integer), 
@@ -2043,6 +2387,45 @@ extension Batch {
             case name = "name"
             case softLimit = "softLimit"
         }
+    }
+
+    public struct UntagResourceRequest: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "resourceArn", location: .uri(locationName: "resourceArn"), required: true, type: .string), 
+            AWSShapeMember(label: "tagKeys", location: .querystring(locationName: "tagKeys"), required: true, type: .list)
+        ]
+
+        /// The Amazon Resource Name (ARN) of the resource from which to delete tags. AWS Batch resources that support tags are compute environments, jobs, job definitions, and job queues. ARNs for child jobs of array and multi-node parallel (MNP) jobs are not supported.
+        public let resourceArn: String
+        /// The keys of the tags to be removed.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+            try validate(self.tagKeys, name:"tagKeys", parent: name, max: 50)
+            try validate(self.tagKeys, name:"tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "resourceArn"
+            case tagKeys = "tagKeys"
+        }
+    }
+
+    public struct UntagResourceResponse: AWSShape {
+
+
+        public init() {
+        }
+
     }
 
     public struct UpdateComputeEnvironmentRequest: AWSShape {
@@ -2113,7 +2496,7 @@ extension Batch {
         public let jobQueue: String
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order, for example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1.
         public let priority: Int?
-        /// Describes the queue's ability to accept new jobs.
+        /// Describes the queue's ability to accept new jobs. If the job queue state is ENABLED, it is able to accept jobs. If the job queue state is DISABLED, new jobs cannot be added to the queue, but jobs already in the queue can finish.
         public let state: JQState?
 
         public init(computeEnvironmentOrder: [ComputeEnvironmentOrder]? = nil, jobQueue: String, priority: Int? = nil, state: JQState? = nil) {

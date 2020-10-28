@@ -92,6 +92,7 @@ extension ServiceCatalog {
 
     public enum PropertyKey: String, CustomStringConvertible, Codable {
         case owner = "OWNER"
+        case launchRole = "LAUNCH_ROLE"
         public var description: String { return self.rawValue }
     }
 
@@ -246,7 +247,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the master account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
+        /// The type of shared portfolios to accept. The default is to accept imported portfolios.    AWS_ORGANIZATIONS - Accept portfolios shared by the management account of your organization.    IMPORTED - Accept imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog accept-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
@@ -981,7 +982,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The AWS account ID. For example, 123456789012.
         public let accountId: String?
-        /// The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node and its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
+        /// The organization node to whom you are going to share. If OrganizationNode is passed in, PortfolioShare will be created for the node an ListOrganizationPortfolioAccessd its children (when applies), and a PortfolioShareToken will be returned in the output in order for the administrator to monitor the status of the PortfolioShare creation process.
         public let organizationNode: OrganizationNode?
         /// The portfolio identifier.
         public let portfolioId: String
@@ -1015,7 +1016,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "PortfolioShareToken", required: false, type: .string)
         ]
 
-        /// The portfolio share unique identifier. This will only be returned if portfolio is shared to an organization node.
+        /// The portfolio shares a unique identifier that only returns if the portfolio is shared to an organization node.
         public let portfolioShareToken: String?
 
         public init(portfolioShareToken: String? = nil) {
@@ -2222,17 +2223,21 @@ extension ServiceCatalog {
     public struct DescribeProvisionedProductInput: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
-            AWSShapeMember(label: "Id", required: true, type: .string)
+            AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
         /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
         public let acceptLanguage: String?
-        /// The provisioned product identifier.
-        public let id: String
+        /// The provisioned product identifier. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
+        public let id: String?
+        /// The name of the provisioned product. You must provide the name or ID, but not both. If you do not provide a name or ID, or you provide both name and ID, an InvalidParametersException will occur.
+        public let name: String?
 
-        public init(acceptLanguage: String? = nil, id: String) {
+        public init(acceptLanguage: String? = nil, id: String? = nil, name: String? = nil) {
             self.acceptLanguage = acceptLanguage
             self.id = id
+            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -2240,11 +2245,15 @@ extension ServiceCatalog {
             try validate(self.id, name:"id", parent: name, max: 100)
             try validate(self.id, name:"id", parent: name, min: 1)
             try validate(self.id, name:"id", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.name, name:"name", parent: name, max: 128)
+            try validate(self.name, name:"name", parent: name, min: 1)
+            try validate(self.name, name:"name", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case acceptLanguage = "AcceptLanguage"
             case id = "Id"
+            case name = "Name"
         }
     }
 
@@ -3199,6 +3208,85 @@ extension ServiceCatalog {
         }
     }
 
+    public struct GetProvisionedProductOutputsInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "AcceptLanguage", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKeys", required: false, type: .list), 
+            AWSShapeMember(label: "PageSize", required: false, type: .integer), 
+            AWSShapeMember(label: "PageToken", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
+            AWSShapeMember(label: "ProvisionedProductName", required: false, type: .string)
+        ]
+
+        /// The language code.    en - English (default)    jp - Japanese    zh - Chinese  
+        public let acceptLanguage: String?
+        /// The list of keys that the API should return with their values. If none are provided, the API will return all outputs of the provisioned product.
+        public let outputKeys: [String]?
+        /// The maximum number of items to return with this call.
+        public let pageSize: Int?
+        /// The page token for the next set of results. To retrieve the first set of results, use null.
+        public let pageToken: String?
+        /// The identifier of the provisioned product that you want the outputs from.
+        public let provisionedProductId: String?
+        /// The name of the provisioned product that you want the outputs from.
+        public let provisionedProductName: String?
+
+        public init(acceptLanguage: String? = nil, outputKeys: [String]? = nil, pageSize: Int? = nil, pageToken: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil) {
+            self.acceptLanguage = acceptLanguage
+            self.outputKeys = outputKeys
+            self.pageSize = pageSize
+            self.pageToken = pageToken
+            self.provisionedProductId = provisionedProductId
+            self.provisionedProductName = provisionedProductName
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.acceptLanguage, name:"acceptLanguage", parent: name, max: 100)
+            try validate(self.outputKeys, name:"outputKeys", parent: name, max: 60)
+            try validate(self.pageSize, name:"pageSize", parent: name, max: 20)
+            try validate(self.pageSize, name:"pageSize", parent: name, min: 0)
+            try validate(self.pageToken, name:"pageToken", parent: name, max: 2024)
+            try validate(self.pageToken, name:"pageToken", parent: name, pattern: "[\\u0009\\u000a\\u000d\\u0020-\\uD7FF\\uE000-\\uFFFD]*")
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, max: 100)
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, min: 1)
+            try validate(self.provisionedProductId, name:"provisionedProductId", parent: name, pattern: "^[a-zA-Z0-9_\\-]*")
+            try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, max: 128)
+            try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, min: 1)
+            try validate(self.provisionedProductName, name:"provisionedProductName", parent: name, pattern: "[a-zA-Z0-9][a-zA-Z0-9._-]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case acceptLanguage = "AcceptLanguage"
+            case outputKeys = "OutputKeys"
+            case pageSize = "PageSize"
+            case pageToken = "PageToken"
+            case provisionedProductId = "ProvisionedProductId"
+            case provisionedProductName = "ProvisionedProductName"
+        }
+    }
+
+    public struct GetProvisionedProductOutputsOutput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "NextPageToken", required: false, type: .string), 
+            AWSShapeMember(label: "Outputs", required: false, type: .list)
+        ]
+
+        /// The page token to use to retrieve the next set of results. If there are no additional results, this value is null.
+        public let nextPageToken: String?
+        /// Information about the product created as the result of a request. For example, the output for a CloudFormation-backed product that creates an S3 bucket would include the S3 bucket URL. 
+        public let outputs: [RecordOutput]?
+
+        public init(nextPageToken: String? = nil, outputs: [RecordOutput]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken = "NextPageToken"
+            case outputs = "Outputs"
+        }
+    }
+
     public struct LaunchPath: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Id", required: false, type: .string), 
@@ -3267,7 +3355,7 @@ extension ServiceCatalog {
         public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the master account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
+        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios  
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {
@@ -4949,6 +5037,7 @@ extension ServiceCatalog {
             AWSShapeMember(label: "LastProvisioningRecordId", required: false, type: .string), 
             AWSShapeMember(label: "LastRecordId", required: false, type: .string), 
             AWSShapeMember(label: "LastSuccessfulProvisioningRecordId", required: false, type: .string), 
+            AWSShapeMember(label: "LaunchRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "Name", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisioningArtifactId", required: false, type: .string), 
@@ -4971,6 +5060,8 @@ extension ServiceCatalog {
         public let lastRecordId: String?
         /// The record identifier of the last successful request performed on this provisioned product of the following types:    ProvisionedProduct     UpdateProvisionedProduct     ExecuteProvisionedProductPlan     TerminateProvisionedProduct   
         public let lastSuccessfulProvisioningRecordId: String?
+        /// The ARN of the launch role associated with the provisioned product.
+        public let launchRoleArn: String?
         /// The user-friendly name of the provisioned product.
         public let name: String?
         /// The product identifier. For example, prod-abcdzk7xy33qa.
@@ -4984,7 +5075,7 @@ extension ServiceCatalog {
         /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
         public let `type`: String?
 
-        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, createdTime: TimeStamp? = nil, id: String? = nil, idempotencyToken: String? = nil, lastProvisioningRecordId: String? = nil, lastRecordId: String? = nil, lastSuccessfulProvisioningRecordId: String? = nil, launchRoleArn: String? = nil, name: String? = nil, productId: String? = nil, provisioningArtifactId: String? = nil, status: ProvisionedProductStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.createdTime = createdTime
             self.id = id
@@ -4992,6 +5083,7 @@ extension ServiceCatalog {
             self.lastProvisioningRecordId = lastProvisioningRecordId
             self.lastRecordId = lastRecordId
             self.lastSuccessfulProvisioningRecordId = lastSuccessfulProvisioningRecordId
+            self.launchRoleArn = launchRoleArn
             self.name = name
             self.productId = productId
             self.provisioningArtifactId = provisioningArtifactId
@@ -5008,6 +5100,7 @@ extension ServiceCatalog {
             case lastProvisioningRecordId = "LastProvisioningRecordId"
             case lastRecordId = "LastRecordId"
             case lastSuccessfulProvisioningRecordId = "LastSuccessfulProvisioningRecordId"
+            case launchRoleArn = "LaunchRoleArn"
             case name = "Name"
             case productId = "ProductId"
             case provisioningArtifactId = "ProvisioningArtifactId"
@@ -5502,6 +5595,7 @@ extension ServiceCatalog {
     public struct RecordDetail: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "CreatedTime", required: false, type: .timestamp), 
+            AWSShapeMember(label: "LaunchRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "PathId", required: false, type: .string), 
             AWSShapeMember(label: "ProductId", required: false, type: .string), 
             AWSShapeMember(label: "ProvisionedProductId", required: false, type: .string), 
@@ -5518,6 +5612,8 @@ extension ServiceCatalog {
 
         /// The UTC time stamp of the creation time.
         public let createdTime: TimeStamp?
+        /// The ARN of the launch role associated with the provisioned product.
+        public let launchRoleArn: String?
         /// The path identifier.
         public let pathId: String?
         /// The product identifier.
@@ -5543,8 +5639,9 @@ extension ServiceCatalog {
         /// The time when the record was last updated.
         public let updatedTime: TimeStamp?
 
-        public init(createdTime: TimeStamp? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: TimeStamp? = nil) {
+        public init(createdTime: TimeStamp? = nil, launchRoleArn: String? = nil, pathId: String? = nil, productId: String? = nil, provisionedProductId: String? = nil, provisionedProductName: String? = nil, provisionedProductType: String? = nil, provisioningArtifactId: String? = nil, recordErrors: [RecordError]? = nil, recordId: String? = nil, recordTags: [RecordTag]? = nil, recordType: String? = nil, status: RecordStatus? = nil, updatedTime: TimeStamp? = nil) {
             self.createdTime = createdTime
+            self.launchRoleArn = launchRoleArn
             self.pathId = pathId
             self.productId = productId
             self.provisionedProductId = provisionedProductId
@@ -5561,6 +5658,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
+            case launchRoleArn = "LaunchRoleArn"
             case pathId = "PathId"
             case productId = "ProductId"
             case provisionedProductId = "ProvisionedProductId"
@@ -5658,7 +5756,7 @@ extension ServiceCatalog {
         public let acceptLanguage: String?
         /// The portfolio identifier.
         public let portfolioId: String
-        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the master account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
+        /// The type of shared portfolios to reject. The default is to reject imported portfolios.    AWS_ORGANIZATIONS - Reject portfolios shared by the management account of your organization.    IMPORTED - Reject imported portfolios.    AWS_SERVICECATALOG - Not supported. (Throws ResourceNotFoundException.)   For example, aws servicecatalog reject-portfolio-share --portfolio-id "port-2qwzkwxt3y5fk" --portfolio-share-type AWS_ORGANIZATIONS 
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, portfolioId: String, portfolioShareType: PortfolioShareType? = nil) {
@@ -6865,7 +6963,7 @@ extension ServiceCatalog {
         public let idempotencyToken: String
         /// The identifier of the provisioned product.
         public let provisionedProductId: String
-        /// A map that contains the provisioned product properties to be updated. The OWNER key accepts user ARNs and role ARNs. The owner is the user that is allowed to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
+        /// A map that contains the provisioned product properties to be updated. The LAUNCH_ROLE key accepts user ARNs and role ARNs. This key allows an administrator to call UpdateProvisionedProductProperties to update the launch role that is associated with a provisioned product. This role is used when an end-user calls a provisioning operation such as UpdateProvisionedProduct, TerminateProvisionedProduct, or ExecuteProvisionedProductServiceAction. Only an ARN role is valid. A user ARN is invalid.  The OWNER key accepts user ARNs and role ARNs. The owner is the user that has permission to see, update, terminate, and execute service actions in the provisioned product. The administrator can change the owner of a provisioned product to another IAM user within the same account. Both end user owners and administrators can see ownership history of the provisioned product using the ListRecordHistory API. The new owner can describe all past records for the provisioned product using the DescribeRecord API. The previous owner can no longer use DescribeRecord, but can still see the product's history from when he was an owner using ListRecordHistory. If a provisioned product ownership is assigned to an end user, they can see and perform any action through the API or Service Catalog console such as update, terminate, and execute service actions. If an end user provisions a product and the owner is updated to someone else, they will no longer be able to see or perform any actions through API or the Service Catalog console on that provisioned product.
         public let provisionedProductProperties: [PropertyKey: String]
 
         public init(acceptLanguage: String? = nil, idempotencyToken: String = UpdateProvisionedProductPropertiesInput.idempotencyToken(), provisionedProductId: String, provisionedProductProperties: [PropertyKey: String]) {

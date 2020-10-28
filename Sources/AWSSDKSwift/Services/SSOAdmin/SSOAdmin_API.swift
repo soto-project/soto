@@ -44,17 +44,17 @@ public struct SSOAdmin {
     
     //MARK: API Calls
 
-    ///  Attaches an IAM managed policy ARN to a permission set.
+    ///  Attaches an IAM managed policy ARN to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts. 
     public func attachManagedPolicyToPermissionSet(_ input: AttachManagedPolicyToPermissionSetRequest) -> EventLoopFuture<AttachManagedPolicyToPermissionSetResponse> {
         return client.send(operation: "AttachManagedPolicyToPermissionSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in AWS SSO. 
+    ///  Assigns access to a principal for a specified AWS account using a specified permission set.  The term principal here refers to a user or group that is defined in AWS SSO.   As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy attached to the SSO-created IAM role. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you will need to call  ProvisionPermissionSet  to make these updates. 
     public func createAccountAssignment(_ input: CreateAccountAssignmentRequest) -> EventLoopFuture<CreateAccountAssignmentResponse> {
         return client.send(operation: "CreateAccountAssignment", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a permission set within a specified SSO instance.
+    ///  Creates a permission set within a specified SSO instance.  To grant users and groups access to AWS account resources, use  CreateAccountAssignment . 
     public func createPermissionSet(_ input: CreatePermissionSetRequest) -> EventLoopFuture<CreatePermissionSetResponse> {
         return client.send(operation: "CreatePermissionSet", path: "/", httpMethod: "POST", input: input)
     }
@@ -159,7 +159,7 @@ public struct SSOAdmin {
         return client.send(operation: "ProvisionPermissionSet", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Attaches an IAM inline policy to a permission set.
+    ///  Attaches an IAM inline policy to a permission set.  If the permission set is already referenced by one or more account assignments, you will need to call  ProvisionPermissionSet  after this action to apply the corresponding IAM policy updates to all assigned accounts. 
     public func putInlinePolicyToPermissionSet(_ input: PutInlinePolicyToPermissionSetRequest) -> EventLoopFuture<PutInlinePolicyToPermissionSetResponse> {
         return client.send(operation: "PutInlinePolicyToPermissionSet", path: "/", httpMethod: "POST", input: input)
     }

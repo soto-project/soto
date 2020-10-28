@@ -7,7 +7,7 @@ import NIO
 /**
 Client object for interacting with AWS Snowball service.
 
-AWS Snowball is a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snowball commands described here provide access to the same functionality that is available in the AWS Snowball Management Console, which enables you to create and manage jobs for Snowball. To transfer data locally with a Snowball device, you'll need to use the Snowball client or the Amazon S3 API adapter for Snowball. For more information, see the User Guide.
+AWS Snow Family is a petabyte-scale data transport solution that uses secure devices to transfer large amounts of data between your on-premises data centers and Amazon Simple Storage Service (Amazon S3). The Snow commands described here provide access to the same functionality that is available in the AWS Snow Family Management Console, which enables you to create and manage jobs for a Snow device. To transfer data locally with a Snow device, you'll need to use the Snowball Edge client or the Amazon S3 API Interface for Snowball or AWS OpsHub for Snow Family. For more information, see the User Guide.
 */
 public struct Snowball {
 
@@ -37,7 +37,7 @@ public struct Snowball {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2016-06-30",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-ap-northeast-1": "snowball-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "snowball-fips.ap-northeast-2.amazonaws.com", "fips-ap-south-1": "snowball-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "snowball-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "snowball-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "snowball-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "snowball-fips.eu-central-1.amazonaws.com", "fips-eu-west-1": "snowball-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "snowball-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "snowball-fips.eu-west-3.amazonaws.com", "fips-sa-east-1": "snowball-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "snowball-fips.us-east-1.amazonaws.com", "fips-us-east-2": "snowball-fips.us-east-2.amazonaws.com", "fips-us-west-1": "snowball-fips.us-west-1.amazonaws.com", "fips-us-west-2": "snowball-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["fips-ap-northeast-1": "snowball-fips.ap-northeast-1.amazonaws.com", "fips-ap-northeast-2": "snowball-fips.ap-northeast-2.amazonaws.com", "fips-ap-northeast-3": "snowball-fips.ap-northeast-3.amazonaws.com", "fips-ap-south-1": "snowball-fips.ap-south-1.amazonaws.com", "fips-ap-southeast-1": "snowball-fips.ap-southeast-1.amazonaws.com", "fips-ap-southeast-2": "snowball-fips.ap-southeast-2.amazonaws.com", "fips-ca-central-1": "snowball-fips.ca-central-1.amazonaws.com", "fips-eu-central-1": "snowball-fips.eu-central-1.amazonaws.com", "fips-eu-west-1": "snowball-fips.eu-west-1.amazonaws.com", "fips-eu-west-2": "snowball-fips.eu-west-2.amazonaws.com", "fips-eu-west-3": "snowball-fips.eu-west-3.amazonaws.com", "fips-sa-east-1": "snowball-fips.sa-east-1.amazonaws.com", "fips-us-east-1": "snowball-fips.us-east-1.amazonaws.com", "fips-us-east-2": "snowball-fips.us-east-2.amazonaws.com", "fips-us-west-1": "snowball-fips.us-west-1.amazonaws.com", "fips-us-west-2": "snowball-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SnowballErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -56,7 +56,7 @@ public struct Snowball {
         return client.send(operation: "CancelJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an address for a Snowball to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
+    ///  Creates an address for a Snow device to be shipped to. In most regions, addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. If the address is invalid or unsupported, then an exception is thrown.
     public func createAddress(_ input: CreateAddressRequest) -> EventLoopFuture<CreateAddressResult> {
         return client.send(operation: "CreateAddress", path: "/", httpMethod: "POST", input: input)
     }
@@ -66,9 +66,14 @@ public struct Snowball {
         return client.send(operation: "CreateCluster", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for Snowball. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. 
+    ///  Creates a job to import or export data between Amazon S3 and your on-premises data center. Your AWS account must have the right trust policies and permissions in place to create a job for a Snow device. If you're creating a job for a node in a cluster, you only need to provide the clusterId value; the other job attributes are inherited from the cluster. 
     public func createJob(_ input: CreateJobRequest) -> EventLoopFuture<CreateJobResult> {
         return client.send(operation: "CreateJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a shipping label that will be used to return the Snow device to AWS.
+    public func createReturnShippingLabel(_ input: CreateReturnShippingLabelRequest) -> EventLoopFuture<CreateReturnShippingLabelResult> {
+        return client.send(operation: "CreateReturnShippingLabel", path: "/", httpMethod: "POST", input: input)
     }
 
     ///  Takes an AddressId and returns specific details about that address in the form of an Address object.
@@ -91,17 +96,22 @@ public struct Snowball {
         return client.send(operation: "DescribeJob", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns a link to an Amazon S3 presigned URL for the manifest file associated with the specified JobId value. You can access the manifest file for up to 60 minutes after this request has been made. To access the manifest file after 60 minutes have passed, you'll have to make another call to the GetJobManifest action. The manifest is an encrypted file that you can download after your job enters the WithCustomer status. The manifest is decrypted by using the UnlockCode code value, when you pass both values to the Snowball through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of an UnlockCode value in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snowball associated with that job. The credentials of a given job, including its manifest file and unlock code, expire 90 days after the job is created.
+    ///  Information on the shipping label of a Snow device that is being returned to AWS.
+    public func describeReturnShippingLabel(_ input: DescribeReturnShippingLabelRequest) -> EventLoopFuture<DescribeReturnShippingLabelResult> {
+        return client.send(operation: "DescribeReturnShippingLabel", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Returns a link to an Amazon S3 presigned URL for the manifest file associated with the specified JobId value. You can access the manifest file for up to 60 minutes after this request has been made. To access the manifest file after 60 minutes have passed, you'll have to make another call to the GetJobManifest action. The manifest is an encrypted file that you can download after your job enters the WithCustomer status. The manifest is decrypted by using the UnlockCode code value, when you pass both values to the Snow device through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of an UnlockCode value in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job. The credentials of a given job, including its manifest file and unlock code, expire 90 days after the job is created.
     public func getJobManifest(_ input: GetJobManifestRequest) -> EventLoopFuture<GetJobManifestResult> {
         return client.send(operation: "GetJobManifest", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the UnlockCode code value for the specified job. A particular UnlockCode value can be accessed for up to 90 days after the associated job has been created. The UnlockCode value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed along with the manifest to the Snowball through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of the UnlockCode in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snowball associated with that job.
+    ///  Returns the UnlockCode code value for the specified job. A particular UnlockCode value can be accessed for up to 90 days after the associated job has been created. The UnlockCode value is a 29-character code with 25 alphanumeric characters and 4 hyphens. This code is used to decrypt the manifest file when it is passed along with the manifest to the Snow device through the Snowball client when the client is started for the first time. As a best practice, we recommend that you don't save a copy of the UnlockCode in the same location as the manifest file for that job. Saving these separately helps prevent unauthorized parties from gaining access to the Snow device associated with that job.
     public func getJobUnlockCode(_ input: GetJobUnlockCodeRequest) -> EventLoopFuture<GetJobUnlockCodeResult> {
         return client.send(operation: "GetJobUnlockCode", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns information about the Snowball service limit for your account, and also the number of Snowballs your account has in use. The default service limit for the number of Snowballs that you can have at one time is 1. If you want to increase your service limit, contact AWS Support.
+    ///  Returns information about the Snow Family service limit for your account, and also the number of Snow devices your account has in use. The default service limit for the number of Snow devices that you can have at one time is 1. If you want to increase your service limit, contact AWS Support.
     public func getSnowballUsage(_ input: GetSnowballUsageRequest) -> EventLoopFuture<GetSnowballUsageResult> {
         return client.send(operation: "GetSnowballUsage", path: "/", httpMethod: "POST", input: input)
     }
@@ -121,7 +131,7 @@ public struct Snowball {
         return client.send(operation: "ListClusters", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your AWS account that would be supported for use on a Snowball Edge device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
+    ///  This action returns a list of the different Amazon EC2 Amazon Machine Images (AMIs) that are owned by your AWS account that would be supported for use on a Snow device. Currently, supported AMIs are based on the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
     public func listCompatibleImages(_ input: ListCompatibleImagesRequest) -> EventLoopFuture<ListCompatibleImagesResult> {
         return client.send(operation: "ListCompatibleImages", path: "/", httpMethod: "POST", input: input)
     }
@@ -139,5 +149,10 @@ public struct Snowball {
     ///  While a job's JobState value is New, you can update some of the information associated with a job. Once the job changes to a different job state, usually within 60 minutes of the job being created, this action is no longer available.
     public func updateJob(_ input: UpdateJobRequest) -> EventLoopFuture<UpdateJobResult> {
         return client.send(operation: "UpdateJob", path: "/", httpMethod: "POST", input: input)
+    }
+
+    ///  Updates the state when a the shipment states changes to a different state.
+    public func updateJobShipmentState(_ input: UpdateJobShipmentStateRequest) -> EventLoopFuture<UpdateJobShipmentStateResult> {
+        return client.send(operation: "UpdateJobShipmentState", path: "/", httpMethod: "POST", input: input)
     }
 }

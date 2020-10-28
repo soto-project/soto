@@ -116,7 +116,7 @@ extension RDS {
         return client.paginate(input: input, command: describeEventSubscriptions, tokenKey: \EventSubscriptionsMessage.marker, onPage: onPage)
     }
 
-    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter. By default, the past hour of events are returned.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter.  By default, the past hour of events are returned. 
     public func describeEventsPaginator(_ input: DescribeEventsMessage, onPage: @escaping (EventsMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeEvents, tokenKey: \EventsMessage.marker, onPage: onPage)
     }

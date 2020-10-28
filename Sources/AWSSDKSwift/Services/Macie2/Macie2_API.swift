@@ -115,12 +115,12 @@ public struct Macie2 {
         return client.send(operation: "DescribeBuckets", path: "/datasources/s3", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about the status and settings for a classification job.
+    ///  Retrieves the status and settings for a classification job.
     public func describeClassificationJob(_ input: DescribeClassificationJobRequest) -> EventLoopFuture<DescribeClassificationJobResponse> {
         return client.send(operation: "DescribeClassificationJob", path: "/jobs/{jobId}", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the Amazon Macie configuration settings for an AWS organization.
+    ///  Retrieves the Amazon Macie configuration settings for an AWS organization.
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest) -> EventLoopFuture<DescribeOrganizationConfigurationResponse> {
         return client.send(operation: "DescribeOrganizationConfiguration", path: "/admin/configuration", httpMethod: "GET", input: input)
     }
@@ -130,7 +130,7 @@ public struct Macie2 {
         return client.send(operation: "DisableMacie", path: "/macie", httpMethod: "DELETE", input: input)
     }
 
-    ///  Disables an account as a delegated administrator of Amazon Macie for an AWS organization.
+    ///  Disables an account as the delegated Amazon Macie administrator account for an AWS organization.
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
         return client.send(operation: "DisableOrganizationAdminAccount", path: "/admin", httpMethod: "DELETE", input: input)
     }
@@ -150,7 +150,7 @@ public struct Macie2 {
         return client.send(operation: "EnableMacie", path: "/macie", httpMethod: "POST", input: input)
     }
 
-    ///  Enables an account as a delegated administrator of Amazon Macie for an AWS organization.
+    ///  Designates an account as the delegated Amazon Macie administrator account for an AWS organization.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return client.send(operation: "EnableOrganizationAdminAccount", path: "/admin", httpMethod: "POST", input: input)
     }
@@ -165,7 +165,7 @@ public struct Macie2 {
         return client.send(operation: "GetClassificationExportConfiguration", path: "/classification-export-configuration", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the criteria and other settings for a custom data identifier.
+    ///  Retrieves the criteria and other settings for a custom data identifier.
     public func getCustomDataIdentifier(_ input: GetCustomDataIdentifierRequest) -> EventLoopFuture<GetCustomDataIdentifierResponse> {
         return client.send(operation: "GetCustomDataIdentifier", path: "/custom-data-identifiers/{id}", httpMethod: "GET", input: input)
     }
@@ -175,12 +175,12 @@ public struct Macie2 {
         return client.send(operation: "GetFindingStatistics", path: "/findings/statistics", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about one or more findings.
+    ///  Retrieves the details of one or more findings.
     public func getFindings(_ input: GetFindingsRequest) -> EventLoopFuture<GetFindingsResponse> {
         return client.send(operation: "GetFindings", path: "/findings/describe", httpMethod: "POST", input: input)
     }
 
-    ///  Retrieves information about the criteria and other settings for a findings filter.
+    ///  Retrieves the criteria and other settings for a findings filter.
     public func getFindingsFilter(_ input: GetFindingsFilterRequest) -> EventLoopFuture<GetFindingsFilterResponse> {
         return client.send(operation: "GetFindingsFilter", path: "/findingsfilters/{id}", httpMethod: "GET", input: input)
     }
@@ -190,7 +190,7 @@ public struct Macie2 {
         return client.send(operation: "GetInvitationsCount", path: "/invitations/count", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the current status and configuration settings for an Amazon Macie account.
+    ///  Retrieves the current status and configuration settings for an Amazon Macie account.
     public func getMacieSession(_ input: GetMacieSessionRequest) -> EventLoopFuture<GetMacieSessionResponse> {
         return client.send(operation: "GetMacieSession", path: "/macie", httpMethod: "GET", input: input)
     }
@@ -245,7 +245,7 @@ public struct Macie2 {
         return client.send(operation: "ListMembers", path: "/members", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves information about the account that's designated as the delegated administrator of Amazon Macie for an AWS organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an AWS organization.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
         return client.send(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: "GET", input: input)
     }
@@ -275,7 +275,7 @@ public struct Macie2 {
         return client.send(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Cancels a classification job.
+    ///  Changes the status of a classification job.
     public func updateClassificationJob(_ input: UpdateClassificationJobRequest) -> EventLoopFuture<UpdateClassificationJobResponse> {
         return client.send(operation: "UpdateClassificationJob", path: "/jobs/{jobId}", httpMethod: "PATCH", input: input)
     }
@@ -295,7 +295,7 @@ public struct Macie2 {
         return client.send(operation: "UpdateMemberSession", path: "/macie/members/{id}", httpMethod: "PATCH", input: input)
     }
 
-    ///  Updates Amazon Macie configuration settings for an AWS organization.
+    ///  Updates the Amazon Macie configuration settings for an AWS organization.
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
         return client.send(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: "PATCH", input: input)
     }

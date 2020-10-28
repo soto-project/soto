@@ -37,7 +37,7 @@ public struct SSM {
             serviceProtocol: ServiceProtocol(type: .json, version: ServiceProtocol.Version(major: 1, minor: 1)),
             apiVersion: "2014-11-06",
             endpoint: endpoint,
-            serviceEndpoints: ["fips-us-east-1": "ssm-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ssm-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ssm-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ssm-fips.us-west-2.amazonaws.com", "ssm-facade-fips-us-east-1": "ssm-facade-fips.us-east-1.amazonaws.com", "ssm-facade-fips-us-east-2": "ssm-facade-fips.us-east-2.amazonaws.com", "ssm-facade-fips-us-west-1": "ssm-facade-fips.us-west-1.amazonaws.com", "ssm-facade-fips-us-west-2": "ssm-facade-fips.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["fips-ca-central-1": "ssm-fips.ca-central-1.amazonaws.com", "fips-us-east-1": "ssm-fips.us-east-1.amazonaws.com", "fips-us-east-2": "ssm-fips.us-east-2.amazonaws.com", "fips-us-west-1": "ssm-fips.us-west-1.amazonaws.com", "fips-us-west-2": "ssm-fips.us-west-2.amazonaws.com"],
             middlewares: middlewares,
             possibleErrorTypes: [SSMErrorType.self],
             eventLoopGroupProvider: eventLoopGroupProvider
@@ -411,7 +411,7 @@ public struct SSM {
         return client.send(operation: "GetParameter", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Query a list of all parameters used by the AWS account.
+    ///  Retrieves the history of all changes to a parameter.
     public func getParameterHistory(_ input: GetParameterHistoryRequest) -> EventLoopFuture<GetParameterHistoryResult> {
         return client.send(operation: "GetParameterHistory", path: "/", httpMethod: "POST", input: input)
     }

@@ -521,7 +521,8 @@ extension IoT {
             AWSShapeMember(label: "salesforce", required: false, type: .structure), 
             AWSShapeMember(label: "sns", required: false, type: .structure), 
             AWSShapeMember(label: "sqs", required: false, type: .structure), 
-            AWSShapeMember(label: "stepFunctions", required: false, type: .structure)
+            AWSShapeMember(label: "stepFunctions", required: false, type: .structure), 
+            AWSShapeMember(label: "timestream", required: false, type: .structure)
         ]
 
         /// Change the state of a CloudWatch alarm.
@@ -562,8 +563,10 @@ extension IoT {
         public let sqs: SqsAction?
         /// Starts execution of a Step Functions state machine.
         public let stepFunctions: StepFunctionsAction?
+        /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the Timestream topic rule action documentation.
+        public let timestream: TimestreamAction?
 
-        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil) {
+        public init(cloudwatchAlarm: CloudwatchAlarmAction? = nil, cloudwatchLogs: CloudwatchLogsAction? = nil, cloudwatchMetric: CloudwatchMetricAction? = nil, dynamoDB: DynamoDBAction? = nil, dynamoDBv2: DynamoDBv2Action? = nil, elasticsearch: ElasticsearchAction? = nil, firehose: FirehoseAction? = nil, http: HttpAction? = nil, iotAnalytics: IotAnalyticsAction? = nil, iotEvents: IotEventsAction? = nil, iotSiteWise: IotSiteWiseAction? = nil, kinesis: KinesisAction? = nil, lambda: LambdaAction? = nil, republish: RepublishAction? = nil, s3: S3Action? = nil, salesforce: SalesforceAction? = nil, sns: SnsAction? = nil, sqs: SqsAction? = nil, stepFunctions: StepFunctionsAction? = nil, timestream: TimestreamAction? = nil) {
             self.cloudwatchAlarm = cloudwatchAlarm
             self.cloudwatchLogs = cloudwatchLogs
             self.cloudwatchMetric = cloudwatchMetric
@@ -583,6 +586,7 @@ extension IoT {
             self.sns = sns
             self.sqs = sqs
             self.stepFunctions = stepFunctions
+            self.timestream = timestream
         }
 
         public func validate(name: String) throws {
@@ -593,6 +597,7 @@ extension IoT {
             try self.iotSiteWise?.validate(name: "\(name).iotSiteWise")
             try self.republish?.validate(name: "\(name).republish")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.timestream?.validate(name: "\(name).timestream")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -615,6 +620,7 @@ extension IoT {
             case sns = "sns"
             case sqs = "sqs"
             case stepFunctions = "stepFunctions"
+            case timestream = "timestream"
         }
     }
 
@@ -1527,6 +1533,12 @@ extension IoT {
         public init(actionType: ActionType? = nil, resources: [String]) {
             self.actionType = actionType
             self.resources = resources
+        }
+
+        public func validate(name: String) throws {
+            try self.resources.forEach {
+                try validate($0, name: "resources[]", parent: name, max: 2048)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2763,6 +2775,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.authorizerFunctionArn, name:"authorizerFunctionArn", parent: name, max: 2048)
             try validate(self.authorizerName, name:"authorizerName", parent: name, max: 128)
             try validate(self.authorizerName, name:"authorizerName", parent: name, min: 1)
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -3053,7 +3066,7 @@ extension IoT {
             try self.serverCertificateArns?.forEach {
                 try validate($0, name: "serverCertificateArns[]", parent: name, max: 2048)
                 try validate($0, name: "serverCertificateArns[]", parent: name, min: 1)
-                try validate($0, name: "serverCertificateArns[]", parent: name, pattern: "arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/?[a-zA-Z0-9/-]+")
+                try validate($0, name: "serverCertificateArns[]", parent: name, pattern: "arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+")
             }
             try validate(self.serverCertificateArns, name:"serverCertificateArns", parent: name, max: 1)
             try validate(self.serverCertificateArns, name:"serverCertificateArns", parent: name, min: 0)
@@ -3062,7 +3075,7 @@ extension IoT {
             }
             try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, max: 2048)
             try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, min: 1)
-            try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, pattern: "arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/?[a-zA-Z0-9/-]+")
+            try validate(self.validationCertificateArn, name:"validationCertificateArn", parent: name, pattern: "arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\\d{1}:\\d{12}:certificate/[a-zA-Z0-9/-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6021,6 +6034,7 @@ extension IoT {
             AWSShapeMember(label: "domainConfigurationStatus", required: false, type: .enum), 
             AWSShapeMember(label: "domainName", required: false, type: .string), 
             AWSShapeMember(label: "domainType", required: false, type: .enum), 
+            AWSShapeMember(label: "lastStatusChangeDate", required: false, type: .timestamp), 
             AWSShapeMember(label: "serverCertificates", required: false, type: .list), 
             AWSShapeMember(label: "serviceType", required: false, type: .enum)
         ]
@@ -6037,18 +6051,21 @@ extension IoT {
         public let domainName: String?
         /// The type of the domain.
         public let domainType: DomainType?
+        /// The date and time the domain configuration's status was last changed.
+        public let lastStatusChangeDate: TimeStamp?
         /// A list containing summary information about the server certificate included in the domain configuration.
         public let serverCertificates: [ServerCertificateSummary]?
         /// The type of service delivered by the endpoint.
         public let serviceType: ServiceType?
 
-        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil) {
+        public init(authorizerConfig: AuthorizerConfig? = nil, domainConfigurationArn: String? = nil, domainConfigurationName: String? = nil, domainConfigurationStatus: DomainConfigurationStatus? = nil, domainName: String? = nil, domainType: DomainType? = nil, lastStatusChangeDate: TimeStamp? = nil, serverCertificates: [ServerCertificateSummary]? = nil, serviceType: ServiceType? = nil) {
             self.authorizerConfig = authorizerConfig
             self.domainConfigurationArn = domainConfigurationArn
             self.domainConfigurationName = domainConfigurationName
             self.domainConfigurationStatus = domainConfigurationStatus
             self.domainName = domainName
             self.domainType = domainType
+            self.lastStatusChangeDate = lastStatusChangeDate
             self.serverCertificates = serverCertificates
             self.serviceType = serviceType
         }
@@ -6060,6 +6077,7 @@ extension IoT {
             case domainConfigurationStatus = "domainConfigurationStatus"
             case domainName = "domainName"
             case domainType = "domainType"
+            case lastStatusChangeDate = "lastStatusChangeDate"
             case serverCertificates = "serverCertificates"
             case serviceType = "serviceType"
         }
@@ -7492,9 +7510,9 @@ extension IoT {
 
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
         public let baseRatePerMinute: Int
-        /// The exponential factor to increase the rate of rollout for a job.
+        /// The exponential factor to increase the rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
         public let incrementFactor: Double
-        /// The criteria to initiate the increase in rate of rollout for a job. AWS IoT supports up to one digit after the decimal (for example, 1.5, but not 1.55).
+        /// The criteria to initiate the increase in rate of rollout for a job.
         public let rateIncreaseCriteria: RateIncreaseCriteria
 
         public init(baseRatePerMinute: Int, incrementFactor: Double, rateIncreaseCriteria: RateIncreaseCriteria) {
@@ -9114,6 +9132,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -9461,7 +9480,7 @@ extension IoT {
         public let maxResults: Int?
         /// The token for the next set of results.
         public let nextToken: String?
-        /// The beginning of the time period. Audit information is retained for a limited time (180 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
+        /// The beginning of the time period. Audit information is retained for a limited time (90 days). Requesting a start time prior to what is retained results in an "InvalidRequestException".
         public let startTime: TimeStamp
         /// A filter to limit the output to audits with the specified completion status: can be one of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
         public let taskStatus: AuditTaskStatus?
@@ -9539,6 +9558,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -9652,6 +9672,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -9714,6 +9735,7 @@ extension IoT {
             try validate(self.caCertificateId, name:"caCertificateId", parent: name, max: 64)
             try validate(self.caCertificateId, name:"caCertificateId", parent: name, min: 64)
             try validate(self.caCertificateId, name:"caCertificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -9770,6 +9792,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -9874,6 +9897,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -10285,6 +10309,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -10340,6 +10365,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -10399,6 +10425,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -10502,6 +10529,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -10718,6 +10746,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -11036,6 +11065,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.marker, name:"marker", parent: name, max: 1024)
             try validate(self.marker, name:"marker", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
             try validate(self.pageSize, name:"pageSize", parent: name, max: 250)
             try validate(self.pageSize, name:"pageSize", parent: name, min: 1)
@@ -12709,7 +12739,6 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
-            try validate(self.propertyAlias, name:"propertyAlias", parent: name, max: 2048)
             try validate(self.propertyAlias, name:"propertyAlias", parent: name, min: 1)
             try self.propertyValues.forEach {
                 try $0.validate(name: "\(name).propertyValues[]")
@@ -14579,6 +14608,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.authInfos.forEach {
+                try $0.validate(name: "\(name).authInfos[]")
+            }
             try validate(self.authInfos, name:"authInfos", parent: name, max: 10)
             try validate(self.authInfos, name:"authInfos", parent: name, min: 1)
             try self.policyNamesToAdd?.forEach {
@@ -15074,6 +15106,92 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case inProgressTimeoutInMinutes = "inProgressTimeoutInMinutes"
+        }
+    }
+
+    public struct TimestreamAction: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "databaseName", required: true, type: .string), 
+            AWSShapeMember(label: "dimensions", required: true, type: .list), 
+            AWSShapeMember(label: "roleArn", required: true, type: .string), 
+            AWSShapeMember(label: "tableName", required: true, type: .string), 
+            AWSShapeMember(label: "timestamp", required: false, type: .structure)
+        ]
+
+        /// The name of an Amazon Timestream database.
+        public let databaseName: String
+        /// Metadata attributes of the time series that are written in each measure record.
+        public let dimensions: [TimestreamDimension]
+        /// The ARN of the role that grants permission to write to the Amazon Timestream database table.
+        public let roleArn: String
+        /// The name of the database table into which to write the measure records.
+        public let tableName: String
+        /// Specifies an application-defined value to replace the default value assigned to the Timestream record's timestamp in the time column. You can use this property to specify the value and the precision of the Timestream record's timestamp. You can specify a value from the message payload or a value computed by a substitution template. If omitted, the topic rule action assigns the timestamp, in milliseconds, at the time it processed the rule. 
+        public let timestamp: TimestreamTimestamp?
+
+        public init(databaseName: String, dimensions: [TimestreamDimension], roleArn: String, tableName: String, timestamp: TimestreamTimestamp? = nil) {
+            self.databaseName = databaseName
+            self.dimensions = dimensions
+            self.roleArn = roleArn
+            self.tableName = tableName
+            self.timestamp = timestamp
+        }
+
+        public func validate(name: String) throws {
+            try validate(self.dimensions, name:"dimensions", parent: name, max: 128)
+            try validate(self.dimensions, name:"dimensions", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "databaseName"
+            case dimensions = "dimensions"
+            case roleArn = "roleArn"
+            case tableName = "tableName"
+            case timestamp = "timestamp"
+        }
+    }
+
+    public struct TimestreamDimension: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "name", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+
+        /// The metadata dimension name. This is the name of the column in the Amazon Timestream database table record. Dimensions cannot be named: measure_name, measure_value, or time. These names are reserved. Dimension names cannot start with ts_ or measure_value and they cannot contain the colon (:) character.
+        public let name: String
+        /// The value to write in this column of the database record.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "name"
+            case value = "value"
+        }
+    }
+
+    public struct TimestreamTimestamp: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "unit", required: true, type: .string), 
+            AWSShapeMember(label: "value", required: true, type: .string)
+        ]
+
+        /// The precision of the timestamp value that results from the expression described in value. Valid values: SECONDS | MILLISECONDS | MICROSECONDS | NANOSECONDS. The default is MILLISECONDS.
+        public let unit: String
+        /// An expression that returns a long epoch time value.
+        public let value: String
+
+        public init(unit: String, value: String) {
+            self.unit = unit
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case unit = "unit"
+            case value = "value"
         }
     }
 
@@ -15574,6 +15692,7 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try validate(self.authorizerFunctionArn, name:"authorizerFunctionArn", parent: name, max: 2048)
             try validate(self.authorizerName, name:"authorizerName", parent: name, max: 128)
             try validate(self.authorizerName, name:"authorizerName", parent: name, min: 1)
             try validate(self.authorizerName, name:"authorizerName", parent: name, pattern: "[\\w=,@-]+")

@@ -864,6 +864,7 @@ extension APIGateway {
             AWSShapeMember(label: "certificatePrivateKey", required: false, type: .string), 
             AWSShapeMember(label: "domainName", required: true, type: .string), 
             AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "mutualTlsAuthentication", required: false, type: .structure), 
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
             AWSShapeMember(label: "securityPolicy", required: false, type: .enum), 
@@ -884,6 +885,7 @@ extension APIGateway {
         public let domainName: String
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
         public let endpointConfiguration: EndpointConfiguration?
+        public let mutualTlsAuthentication: MutualTlsAuthenticationInput?
         /// The reference to an AWS-managed certificate that will be used by regional endpoint for this domain name. AWS Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The user-friendly name of the certificate that will be used by regional endpoint for this domain name.
@@ -893,7 +895,7 @@ extension APIGateway {
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateBody: String? = nil, certificateChain: String? = nil, certificateName: String? = nil, certificatePrivateKey: String? = nil, domainName: String, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthenticationInput? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateBody = certificateBody
             self.certificateChain = certificateChain
@@ -901,6 +903,7 @@ extension APIGateway {
             self.certificatePrivateKey = certificatePrivateKey
             self.domainName = domainName
             self.endpointConfiguration = endpointConfiguration
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.securityPolicy = securityPolicy
@@ -915,6 +918,7 @@ extension APIGateway {
             case certificatePrivateKey = "certificatePrivateKey"
             case domainName = "domainName"
             case endpointConfiguration = "endpointConfiguration"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
             case securityPolicy = "securityPolicy"
@@ -1968,6 +1972,7 @@ extension APIGateway {
             AWSShapeMember(label: "domainNameStatus", required: false, type: .enum), 
             AWSShapeMember(label: "domainNameStatusMessage", required: false, type: .string), 
             AWSShapeMember(label: "endpointConfiguration", required: false, type: .structure), 
+            AWSShapeMember(label: "mutualTlsAuthentication", required: false, type: .structure), 
             AWSShapeMember(label: "regionalCertificateArn", required: false, type: .string), 
             AWSShapeMember(label: "regionalCertificateName", required: false, type: .string), 
             AWSShapeMember(label: "regionalDomainName", required: false, type: .string), 
@@ -1994,6 +1999,8 @@ extension APIGateway {
         public let domainNameStatusMessage: String?
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name. 
         public let endpointConfiguration: EndpointConfiguration?
+        /// The mutual TLS authentication configuration for a custom domain name. If specified, API Gateway performs two-way authentication between the client and the server. Clients must present a trusted certificate to access your API.
+        public let mutualTlsAuthentication: MutualTlsAuthentication?
         /// The reference to an AWS-managed certificate that will be used for validating the regional domain name. AWS Certificate Manager is the only supported source.
         public let regionalCertificateArn: String?
         /// The name of the certificate that will be used for validating the regional domain name.
@@ -2007,7 +2014,7 @@ extension APIGateway {
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
 
-        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
+        public init(certificateArn: String? = nil, certificateName: String? = nil, certificateUploadDate: TimeStamp? = nil, distributionDomainName: String? = nil, distributionHostedZoneId: String? = nil, domainName: String? = nil, domainNameStatus: DomainNameStatus? = nil, domainNameStatusMessage: String? = nil, endpointConfiguration: EndpointConfiguration? = nil, mutualTlsAuthentication: MutualTlsAuthentication? = nil, regionalCertificateArn: String? = nil, regionalCertificateName: String? = nil, regionalDomainName: String? = nil, regionalHostedZoneId: String? = nil, securityPolicy: SecurityPolicy? = nil, tags: [String: String]? = nil) {
             self.certificateArn = certificateArn
             self.certificateName = certificateName
             self.certificateUploadDate = certificateUploadDate
@@ -2017,6 +2024,7 @@ extension APIGateway {
             self.domainNameStatus = domainNameStatus
             self.domainNameStatusMessage = domainNameStatusMessage
             self.endpointConfiguration = endpointConfiguration
+            self.mutualTlsAuthentication = mutualTlsAuthentication
             self.regionalCertificateArn = regionalCertificateArn
             self.regionalCertificateName = regionalCertificateName
             self.regionalDomainName = regionalDomainName
@@ -2035,6 +2043,7 @@ extension APIGateway {
             case domainNameStatus = "domainNameStatus"
             case domainNameStatusMessage = "domainNameStatusMessage"
             case endpointConfiguration = "endpointConfiguration"
+            case mutualTlsAuthentication = "mutualTlsAuthentication"
             case regionalCertificateArn = "regionalCertificateArn"
             case regionalCertificateName = "regionalCertificateName"
             case regionalDomainName = "regionalDomainName"
@@ -3860,6 +3869,55 @@ extension APIGateway {
         private enum CodingKeys: String, CodingKey {
             case items = "item"
             case position = "position"
+        }
+    }
+
+    public struct MutualTlsAuthentication: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "truststoreUri", required: false, type: .string), 
+            AWSShapeMember(label: "truststoreVersion", required: false, type: .string), 
+            AWSShapeMember(label: "truststoreWarnings", required: false, type: .list)
+        ]
+
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+        /// A list of warnings that API Gateway returns while processing your truststore. Invalid certificates produce warnings. Mutual TLS is still enabled, but some clients might not be able to access your API. To resolve warnings, upload a new truststore to S3, and then update you domain name to use the new version.
+        public let truststoreWarnings: [String]?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil, truststoreWarnings: [String]? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+            self.truststoreWarnings = truststoreWarnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
+            case truststoreWarnings = "truststoreWarnings"
+        }
+    }
+
+    public struct MutualTlsAuthenticationInput: AWSShape {
+        public static var _members: [AWSShapeMember] = [
+            AWSShapeMember(label: "truststoreUri", required: false, type: .string), 
+            AWSShapeMember(label: "truststoreVersion", required: false, type: .string)
+        ]
+
+        /// An Amazon S3 resource ARN that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        public let truststoreUri: String?
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        public let truststoreVersion: String?
+
+        public init(truststoreUri: String? = nil, truststoreVersion: String? = nil) {
+            self.truststoreUri = truststoreUri
+            self.truststoreVersion = truststoreVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case truststoreUri = "truststoreUri"
+            case truststoreVersion = "truststoreVersion"
         }
     }
 

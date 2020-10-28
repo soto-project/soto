@@ -94,7 +94,7 @@ public struct ManagedBlockchain {
         return client.send(operation: "GetProposal", path: "/networks/{networkId}/proposals/{proposalId}", httpMethod: "GET", input: input)
     }
 
-    ///  Returns a listing of all invitations made on the specified network.
+    ///  Returns a listing of all invitations for the current AWS account.
     public func listInvitations(_ input: ListInvitationsInput) -> EventLoopFuture<ListInvitationsOutput> {
         return client.send(operation: "ListInvitations", path: "/invitations", httpMethod: "GET", input: input)
     }

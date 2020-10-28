@@ -865,7 +865,7 @@ extension RDS {
             AWSShapeMember(label: "TargetOptionGroupIdentifier", required: true, type: .string)
         ]
 
-        /// The identifier or ARN for the source option group. For information about creating an ARN, see  Constructing an ARN for Amazon RDS in the Amazon RDS User Guide.  Constraints:   Must specify a valid option group.   If the source option group is in the same AWS Region as the copy, specify a valid option group identifier, for example my-option-group, or a valid ARN.   If the source option group is in a different AWS Region than the copy, specify a valid option group ARN, for example arn:aws:rds:us-west-2:123456789012:og:special-options.  
+        /// The identifier for the source option group.  Constraints:   Must specify a valid option group.  
         public let sourceOptionGroupIdentifier: String
         public let tags: [Tag]?
         /// The description for the copied option group.
@@ -1055,7 +1055,7 @@ extension RDS {
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.  Aurora MySQL  Possible values are audit, error, general, and slowquery.   Aurora PostgreSQL  Possible values are postgresql and upgrade. 
         public let enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable write operations to be forwarded from this cluster to the primary cluster in an Aurora global database. The resulting changes are replicated back to this cluster. This parameter only applies to DB clusters that are secondary clusters in an Aurora global database. By default, Aurora disallows write operations for secondary clusters.
         public let enableGlobalWriteForwarding: Bool?
@@ -1065,7 +1065,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The name of the database engine to be used for this DB cluster. Valid Values: aurora (for MySQL 5.6-compatible Aurora), aurora-mysql (for MySQL 5.7-compatible Aurora), and aurora-postgresql 
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.   Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query      Requirements for Aurora Global Databases      Limitations of Multi-Master Clusters   
+        /// The DB engine mode of the DB cluster, either provisioned serverless, parallelquery, global, or multimaster. The parallelquery engine mode isn't required for Aurora MySQL version 1.23 and higher 1.x versions, and version 2.09 and higher 2.x versions. The global engine mode isn't required for Aurora MySQL version 1.22 and higher 1.x versions, and global engine mode isn't required for any 2.x versions. The multimaster engine mode only applies for DB clusters created with Aurora MySQL version 5.6.10a. For Aurora PostgreSQL, the global engine mode isn't required, and both the parallelquery and the multimaster engine modes currently aren't supported. Limitations and requirements apply to some DB engine modes. For more information, see the following sections in the Amazon Aurora User Guide:     Limitations of Aurora Serverless      Limitations of Parallel Query      Limitations of Aurora Global Databases      Limitations of Multi-Master Clusters   
         public let engineMode: String?
         /// The version number of the database engine to use. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
@@ -1310,6 +1310,7 @@ extension RDS {
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "NcharCharacterSetName", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
             AWSShapeMember(label: "PerformanceInsightsKMSKeyId", required: false, type: .string), 
             AWSShapeMember(label: "PerformanceInsightsRetentionPeriod", required: false, type: .integer), 
@@ -1360,7 +1361,7 @@ extension RDS {
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.
+        /// The list of log types that need to be enabled for exporting to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs  in the Amazon Relational Database Service User Guide.  Amazon Aurora  Not applicable. CloudWatch Logs exports are managed by the DB cluster.   MariaDB  Possible values are audit, error, general, and slowquery.   Microsoft SQL Server  Possible values are agent and error.   MySQL  Possible values are audit, error, general, and slowquery.   Oracle  Possible values are alert, audit, listener, and trace.   PostgreSQL  Possible values are postgresql and upgrade. 
         public let enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. You can enable IAM database authentication for the following database engines:  Amazon Aurora  Not applicable. Mapping AWS IAM accounts to database accounts is managed by the DB cluster.  MySQL    For MySQL 5.6, minor version 5.6.34 or higher   For MySQL 5.7, minor version 5.7.16 or higher   For MySQL 8.0, minor version 8.0.16 or higher    PostgreSQL    For PostgreSQL 9.5, minor version 9.5.15 or higher   For PostgreSQL 9.6, minor version 9.6.11 or higher   PostgreSQL 10.6, 10.7, and 10.9   For more information, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
@@ -1368,7 +1369,7 @@ extension RDS {
         public let enablePerformanceInsights: Bool?
         /// The name of the database engine to be used for this instance.  Not every database engine is available for every AWS Region.  Valid Values:     aurora (for MySQL 5.6-compatible Aurora)    aurora-mysql (for MySQL 5.7-compatible Aurora)    aurora-postgresql     mariadb     mysql     oracle-ee     oracle-se2     oracle-se1     oracle-se     postgres     sqlserver-ee     sqlserver-se     sqlserver-ex     sqlserver-web   
         public let engine: String
-        /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide. 
+        /// The version number of the database engine to use. For a list of valid engine versions, use the DescribeDBEngineVersions action. The following are the database engines and links to information about the major and minor versions that are available with Amazon RDS. Not every database engine is available for every AWS Region.  Amazon Aurora  Not applicable. The version number of the database engine to be used by the DB instance is managed by the DB cluster.  MariaDB  See MariaDB on Amazon RDS Versions in the Amazon RDS User Guide.   Microsoft SQL Server  See Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide.   MySQL  See MySQL on Amazon RDS Versions in the Amazon RDS User Guide.   Oracle  See Oracle Database Engine Release Notes in the Amazon RDS User Guide.   PostgreSQL  See Supported PostgreSQL Database Versions in the Amazon RDS User Guide. 
         public let engineVersion: String?
         /// The amount of Provisioned IOPS (input/output operations per second) to be initially allocated for the DB instance. For information about valid Iops values, see Amazon RDS Provisioned IOPS Storage to Improve Performance in the Amazon RDS User Guide.  Constraints: For MariaDB, MySQL, Oracle, and PostgreSQL DB instances, must be a multiple between .5 and 50 of the storage amount for the DB instance. For SQL Server DB instances, must be a multiple between 1 and 50 of the storage amount for the DB instance. 
         public let iops: Int?
@@ -1388,6 +1389,8 @@ extension RDS {
         public let monitoringRoleArn: String?
         /// A value that indicates whether the DB instance is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
+        /// The name of the NCHAR character set for the Oracle DB instance.
+        public let ncharCharacterSetName: String?
         /// Indicates that the DB instance should be associated with the specified option group. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group. Also, that option group can't be removed from a DB instance once it is associated with a DB instance
         public let optionGroupName: String?
         /// The AWS KMS key identifier for encryption of Performance Insights data. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you do not specify a value for PerformanceInsightsKMSKeyId, then Amazon RDS uses your default encryption key. AWS KMS creates the default encryption key for your AWS account. Your AWS account has a different default encryption key for each AWS Region.
@@ -1421,7 +1424,7 @@ extension RDS {
         /// A list of Amazon EC2 VPC security groups to associate with this DB instance.  Amazon Aurora  Not applicable. The associated list of EC2 VPC security groups is managed by the DB cluster. Default: The default EC2 VPC security group for the DB subnet group's VPC.
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, timezone: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -1452,6 +1455,7 @@ extension RDS {
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
+            self.ncharCharacterSetName = ncharCharacterSetName
             self.optionGroupName = optionGroupName
             self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
             self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
@@ -1501,6 +1505,7 @@ extension RDS {
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
+            case ncharCharacterSetName = "NcharCharacterSetName"
             case optionGroupName = "OptionGroupName"
             case performanceInsightsKMSKeyId = "PerformanceInsightsKMSKeyId"
             case performanceInsightsRetentionPeriod = "PerformanceInsightsRetentionPeriod"
@@ -2055,7 +2060,7 @@ extension RDS {
         public let databaseName: String?
         ///  The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled. 
         public let deletionProtection: Bool?
-        /// Provides the name of the database engine to be used for this DB cluster.
+        /// The name of the database engine to be used for this DB cluster.
         public let engine: String?
         /// The engine version of the Aurora global database.
         public let engineVersion: String?
@@ -2265,6 +2270,7 @@ extension RDS {
             AWSShapeMember(label: "ScalingConfigurationInfo", required: false, type: .structure), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
         ]
 
@@ -2330,9 +2336,9 @@ extension RDS {
         public let enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint for the primary instance of the DB cluster.
         public let endpoint: String?
-        /// Provides the name of the database engine to be used for this DB cluster.
+        /// The name of the database engine to be used for this DB cluster.
         public let engine: String?
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode. To check if a DB cluster is part of a global database, use DescribeGlobalClusters instead of checking the EngineMode return value from DescribeDBClusters.  
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. For more information, see  CreateDBCluster.
         public let engineMode: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
@@ -2373,10 +2379,11 @@ extension RDS {
         public let status: String?
         /// Specifies whether the DB cluster is encrypted.
         public let storageEncrypted: Bool?
+        public let tagList: [Tag]?
         /// Provides a list of VPC security groups that the DB cluster belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(activityStreamKinesisStreamName: String? = nil, activityStreamKmsKeyId: String? = nil, activityStreamMode: ActivityStreamMode? = nil, activityStreamStatus: ActivityStreamStatus? = nil, allocatedStorage: Int? = nil, associatedRoles: [DBClusterRole]? = nil, availabilityZones: [String]? = nil, backtrackConsumedChangeRecords: Int64? = nil, backtrackWindow: Int64? = nil, backupRetentionPeriod: Int? = nil, capacity: Int? = nil, characterSetName: String? = nil, cloneGroupId: String? = nil, clusterCreateTime: TimeStamp? = nil, copyTagsToSnapshot: Bool? = nil, crossAccountClone: Bool? = nil, customEndpoints: [String]? = nil, databaseName: String? = nil, dBClusterArn: String? = nil, dBClusterIdentifier: String? = nil, dBClusterMembers: [DBClusterMember]? = nil, dBClusterOptionGroupMemberships: [DBClusterOptionGroupStatus]? = nil, dBClusterParameterGroup: String? = nil, dbClusterResourceId: String? = nil, dBSubnetGroup: String? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, earliestBacktrackTime: TimeStamp? = nil, earliestRestorableTime: TimeStamp? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: String? = nil, engine: String? = nil, engineMode: String? = nil, engineVersion: String? = nil, globalWriteForwardingRequested: Bool? = nil, globalWriteForwardingStatus: WriteForwardingStatus? = nil, hostedZoneId: String? = nil, httpEndpointEnabled: Bool? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, masterUsername: String? = nil, multiAZ: Bool? = nil, percentProgress: String? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, readerEndpoint: String? = nil, readReplicaIdentifiers: [String]? = nil, replicationSourceIdentifier: String? = nil, scalingConfigurationInfo: ScalingConfigurationInfo? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.activityStreamKinesisStreamName = activityStreamKinesisStreamName
             self.activityStreamKmsKeyId = activityStreamKmsKeyId
             self.activityStreamMode = activityStreamMode
@@ -2430,6 +2437,7 @@ extension RDS {
             self.scalingConfigurationInfo = scalingConfigurationInfo
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
             self.vpcSecurityGroups = vpcSecurityGroups
         }
 
@@ -2487,6 +2495,7 @@ extension RDS {
             case scalingConfigurationInfo = "ScalingConfigurationInfo"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case tagList = "TagList"
             case vpcSecurityGroups = "VpcSecurityGroups"
         }
     }
@@ -2762,9 +2771,9 @@ extension RDS {
 
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public let dBClusterParameterGroupArn: String?
-        /// Provides the name of the DB cluster parameter group.
+        /// The name of the DB cluster parameter group.
         public let dBClusterParameterGroupName: String?
-        /// Provides the name of the DB parameter group family that this DB cluster parameter group is compatible with.
+        /// The name of the DB parameter group family that this DB cluster parameter group is compatible with.
         public let dBParameterGroupFamily: String?
         /// Provides the customer-specified description for this DB cluster parameter group.
         public let description: String?
@@ -2893,6 +2902,7 @@ extension RDS {
             AWSShapeMember(label: "SourceDBClusterSnapshotArn", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
+            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
         ]
 
@@ -2934,10 +2944,11 @@ extension RDS {
         public let status: String?
         /// Specifies whether the DB cluster snapshot is encrypted.
         public let storageEncrypted: Bool?
+        public let tagList: [Tag]?
         /// Provides the VPC ID associated with the DB cluster snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZones: [String]? = nil, clusterCreateTime: TimeStamp? = nil, dBClusterIdentifier: String? = nil, dBClusterSnapshotArn: String? = nil, dBClusterSnapshotIdentifier: String? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, percentProgress: Int? = nil, port: Int? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBClusterSnapshotArn: String? = nil, status: String? = nil, storageEncrypted: Bool? = nil, tagList: [Tag]? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
             self.clusterCreateTime = clusterCreateTime
@@ -2957,6 +2968,7 @@ extension RDS {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.tagList = tagList
             self.vpcId = vpcId
         }
 
@@ -2980,6 +2992,7 @@ extension RDS {
             case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
             case status = "Status"
             case storageEncrypted = "StorageEncrypted"
+            case tagList = "TagList"
             case vpcId = "VpcId"
         }
     }
@@ -3063,6 +3076,7 @@ extension RDS {
             AWSShapeMember(label: "SupportedCharacterSets", required: false, type: .list, encoding: .list(member:"CharacterSet")), 
             AWSShapeMember(label: "SupportedEngineModes", required: false, type: .list, encoding: .list(member:"member")), 
             AWSShapeMember(label: "SupportedFeatureNames", required: false, type: .list, encoding: .list(member:"member")), 
+            AWSShapeMember(label: "SupportedNcharCharacterSets", required: false, type: .list, encoding: .list(member:"CharacterSet")), 
             AWSShapeMember(label: "SupportedTimezones", required: false, type: .list, encoding: .list(member:"Timezone")), 
             AWSShapeMember(label: "SupportsGlobalDatabases", required: false, type: .boolean), 
             AWSShapeMember(label: "SupportsLogExportsToCloudwatchLogs", required: false, type: .boolean), 
@@ -3087,12 +3101,14 @@ extension RDS {
         public let exportableLogTypes: [String]?
         /// The status of the DB engine version, either available or deprecated.
         public let status: String?
-        ///  A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance action. 
+        /// A list of the character sets supported by this engine for the CharacterSetName parameter of the CreateDBInstance operation. 
         public let supportedCharacterSets: [CharacterSet]?
-        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.  
+        /// A list of the supported DB engine modes.
         public let supportedEngineModes: [String]?
         ///  A list of features supported by the DB engine. Supported feature names include the following.    s3Import  
         public let supportedFeatureNames: [String]?
+        /// A list of the character sets supported by the Oracle DB engine for the NcharCharacterSetName parameter of the CreateDBInstance operation. 
+        public let supportedNcharCharacterSets: [CharacterSet]?
         /// A list of the time zones supported by this engine for the Timezone parameter of the CreateDBInstance action. 
         public let supportedTimezones: [Timezone]?
         /// A value that indicates whether you can use Aurora global databases with a specific DB engine version.
@@ -3106,7 +3122,7 @@ extension RDS {
         /// A list of engine versions that this database engine version can be upgraded to.
         public let validUpgradeTarget: [UpgradeTarget]?
 
-        public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, status: String? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedTimezones: [Timezone]? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
+        public init(dBEngineDescription: String? = nil, dBEngineVersionDescription: String? = nil, dBParameterGroupFamily: String? = nil, defaultCharacterSet: CharacterSet? = nil, engine: String? = nil, engineVersion: String? = nil, exportableLogTypes: [String]? = nil, status: String? = nil, supportedCharacterSets: [CharacterSet]? = nil, supportedEngineModes: [String]? = nil, supportedFeatureNames: [String]? = nil, supportedNcharCharacterSets: [CharacterSet]? = nil, supportedTimezones: [Timezone]? = nil, supportsGlobalDatabases: Bool? = nil, supportsLogExportsToCloudwatchLogs: Bool? = nil, supportsParallelQuery: Bool? = nil, supportsReadReplica: Bool? = nil, validUpgradeTarget: [UpgradeTarget]? = nil) {
             self.dBEngineDescription = dBEngineDescription
             self.dBEngineVersionDescription = dBEngineVersionDescription
             self.dBParameterGroupFamily = dBParameterGroupFamily
@@ -3118,6 +3134,7 @@ extension RDS {
             self.supportedCharacterSets = supportedCharacterSets
             self.supportedEngineModes = supportedEngineModes
             self.supportedFeatureNames = supportedFeatureNames
+            self.supportedNcharCharacterSets = supportedNcharCharacterSets
             self.supportedTimezones = supportedTimezones
             self.supportsGlobalDatabases = supportsGlobalDatabases
             self.supportsLogExportsToCloudwatchLogs = supportsLogExportsToCloudwatchLogs
@@ -3138,6 +3155,7 @@ extension RDS {
             case supportedCharacterSets = "SupportedCharacterSets"
             case supportedEngineModes = "SupportedEngineModes"
             case supportedFeatureNames = "SupportedFeatureNames"
+            case supportedNcharCharacterSets = "SupportedNcharCharacterSets"
             case supportedTimezones = "SupportedTimezones"
             case supportsGlobalDatabases = "SupportsGlobalDatabases"
             case supportsLogExportsToCloudwatchLogs = "SupportsLogExportsToCloudwatchLogs"
@@ -3209,6 +3227,7 @@ extension RDS {
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
+            AWSShapeMember(label: "NcharCharacterSetName", required: false, type: .string), 
             AWSShapeMember(label: "OptionGroupMemberships", required: false, type: .list, encoding: .list(member:"OptionGroupMembership")), 
             AWSShapeMember(label: "PendingModifiedValues", required: false, type: .structure), 
             AWSShapeMember(label: "PerformanceInsightsEnabled", required: false, type: .boolean), 
@@ -3227,6 +3246,7 @@ extension RDS {
             AWSShapeMember(label: "StatusInfos", required: false, type: .list, encoding: .list(member:"DBInstanceStatusInfo")), 
             AWSShapeMember(label: "StorageEncrypted", required: false, type: .boolean), 
             AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VpcSecurityGroups", required: false, type: .list, encoding: .list(member:"VpcSecurityGroupMembership"))
@@ -3278,7 +3298,7 @@ extension RDS {
         public let enabledCloudwatchLogsExports: [String]?
         /// Specifies the connection endpoint.
         public let endpoint: Endpoint?
-        /// Provides the name of the database engine to be used for this DB instance.
+        /// The name of the database engine to be used for this DB instance.
         public let engine: String?
         /// Indicates the database engine version.
         public let engineVersion: String?
@@ -3308,6 +3328,8 @@ extension RDS {
         public let monitoringRoleArn: String?
         /// Specifies if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
+        /// The name of the NCHAR character set for the Oracle DB instance. This character set specifies the Unicode encoding for data stored in table columns of type NCHAR, NCLOB, or NVARCHAR2. 
+        public let ncharCharacterSetName: String?
         /// Provides the list of option group memberships for this DB instance.
         public let optionGroupMemberships: [OptionGroupMembership]?
         /// Specifies that changes to the DB instance are pending. This element is only included when changes are pending. Specific changes are identified by subelements.
@@ -3344,6 +3366,7 @@ extension RDS {
         public let storageEncrypted: Bool?
         /// Specifies the storage type associated with DB instance.
         public let storageType: String?
+        public let tagList: [Tag]?
         /// The ARN from the key store with which the instance is associated for TDE encryption.
         public let tdeCredentialArn: String?
         /// The time zone of the DB instance. In most cases, the Timezone element is empty. Timezone content appears only for Microsoft SQL Server DB instances that were created with a time zone specified. 
@@ -3351,7 +3374,7 @@ extension RDS {
         /// Provides a list of VPC security group elements that the DB instance belongs to.
         public let vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allocatedStorage: Int? = nil, associatedRoles: [DBInstanceRole]? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, cACertificateIdentifier: String? = nil, characterSetName: String? = nil, copyTagsToSnapshot: Bool? = nil, dBClusterIdentifier: String? = nil, dBInstanceArn: String? = nil, dBInstanceClass: String? = nil, dBInstanceIdentifier: String? = nil, dbInstancePort: Int? = nil, dBInstanceStatus: String? = nil, dbiResourceId: String? = nil, dBName: String? = nil, dBParameterGroups: [DBParameterGroupStatus]? = nil, dBSecurityGroups: [DBSecurityGroupMembership]? = nil, dBSubnetGroup: DBSubnetGroup? = nil, deletionProtection: Bool? = nil, domainMemberships: [DomainMembership]? = nil, enabledCloudwatchLogsExports: [String]? = nil, endpoint: Endpoint? = nil, engine: String? = nil, engineVersion: String? = nil, enhancedMonitoringResourceArn: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, latestRestorableTime: TimeStamp? = nil, licenseModel: String? = nil, listenerEndpoint: Endpoint? = nil, masterUsername: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, ncharCharacterSetName: String? = nil, optionGroupMemberships: [OptionGroupMembership]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, performanceInsightsEnabled: Bool? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, promotionTier: Int? = nil, publiclyAccessible: Bool? = nil, readReplicaDBClusterIdentifiers: [String]? = nil, readReplicaDBInstanceIdentifiers: [String]? = nil, readReplicaSourceDBInstanceIdentifier: String? = nil, replicaMode: ReplicaMode? = nil, secondaryAvailabilityZone: String? = nil, statusInfos: [DBInstanceStatusInfo]? = nil, storageEncrypted: Bool? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.associatedRoles = associatedRoles
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -3390,6 +3413,7 @@ extension RDS {
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
+            self.ncharCharacterSetName = ncharCharacterSetName
             self.optionGroupMemberships = optionGroupMemberships
             self.pendingModifiedValues = pendingModifiedValues
             self.performanceInsightsEnabled = performanceInsightsEnabled
@@ -3408,6 +3432,7 @@ extension RDS {
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
             self.storageType = storageType
+            self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
             self.vpcSecurityGroups = vpcSecurityGroups
@@ -3452,6 +3477,7 @@ extension RDS {
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
+            case ncharCharacterSetName = "NcharCharacterSetName"
             case optionGroupMemberships = "OptionGroupMemberships"
             case pendingModifiedValues = "PendingModifiedValues"
             case performanceInsightsEnabled = "PerformanceInsightsEnabled"
@@ -3470,6 +3496,7 @@ extension RDS {
             case statusInfos = "StatusInfos"
             case storageEncrypted = "StorageEncrypted"
             case storageType = "StorageType"
+            case tagList = "TagList"
             case tdeCredentialArn = "TdeCredentialArn"
             case timezone = "Timezone"
             case vpcSecurityGroups = "VpcSecurityGroups"
@@ -3716,9 +3743,9 @@ extension RDS {
 
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public let dBParameterGroupArn: String?
-        /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
+        /// The name of the DB parameter group family that this DB parameter group is compatible with.
         public let dBParameterGroupFamily: String?
-        /// Provides the name of the DB parameter group.
+        /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
         /// Provides the customer-specified description for this DB parameter group.
         public let description: String?
@@ -3765,7 +3792,7 @@ extension RDS {
             AWSShapeMember(label: "DBParameterGroupName", required: false, type: .string)
         ]
 
-        /// Provides the name of the DB parameter group.
+        /// The name of the DB parameter group.
         public let dBParameterGroupName: String?
 
         public init(dBParameterGroupName: String? = nil) {
@@ -4120,6 +4147,7 @@ extension RDS {
             AWSShapeMember(label: "SourceRegion", required: false, type: .string), 
             AWSShapeMember(label: "Status", required: false, type: .string), 
             AWSShapeMember(label: "StorageType", required: false, type: .string), 
+            AWSShapeMember(label: "TagList", required: false, type: .list, encoding: .list(member:"Tag")), 
             AWSShapeMember(label: "TdeCredentialArn", required: false, type: .string), 
             AWSShapeMember(label: "Timezone", required: false, type: .string), 
             AWSShapeMember(label: "VpcId", required: false, type: .string)
@@ -4175,6 +4203,7 @@ extension RDS {
         public let status: String?
         /// Specifies the storage type associated with DB snapshot.
         public let storageType: String?
+        public let tagList: [Tag]?
         /// The ARN from the key store with which to associate the instance for TDE encryption.
         public let tdeCredentialArn: String?
         /// The time zone of the DB snapshot. In most cases, the Timezone element is empty. Timezone content appears only for snapshots taken from Microsoft SQL Server DB instances that were created with a time zone specified. 
@@ -4182,7 +4211,7 @@ extension RDS {
         /// Provides the VPC ID associated with the DB snapshot.
         public let vpcId: String?
 
-        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotArn: String? = nil, dBSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
+        public init(allocatedStorage: Int? = nil, availabilityZone: String? = nil, dBInstanceIdentifier: String? = nil, dbiResourceId: String? = nil, dBSnapshotArn: String? = nil, dBSnapshotIdentifier: String? = nil, encrypted: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, iAMDatabaseAuthenticationEnabled: Bool? = nil, instanceCreateTime: TimeStamp? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, optionGroupName: String? = nil, percentProgress: Int? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, snapshotCreateTime: TimeStamp? = nil, snapshotType: String? = nil, sourceDBSnapshotIdentifier: String? = nil, sourceRegion: String? = nil, status: String? = nil, storageType: String? = nil, tagList: [Tag]? = nil, tdeCredentialArn: String? = nil, timezone: String? = nil, vpcId: String? = nil) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
             self.dBInstanceIdentifier = dBInstanceIdentifier
@@ -4208,6 +4237,7 @@ extension RDS {
             self.sourceRegion = sourceRegion
             self.status = status
             self.storageType = storageType
+            self.tagList = tagList
             self.tdeCredentialArn = tdeCredentialArn
             self.timezone = timezone
             self.vpcId = vpcId
@@ -4239,6 +4269,7 @@ extension RDS {
             case sourceRegion = "SourceRegion"
             case status = "Status"
             case storageType = "StorageType"
+            case tagList = "TagList"
             case tdeCredentialArn = "TdeCredentialArn"
             case timezone = "Timezone"
             case vpcId = "VpcId"
@@ -6049,7 +6080,7 @@ extension RDS {
 
         /// The identifier of the snapshot export task to be described.
         public let exportTaskIdentifier: String?
-        /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Supported filters include the following:     export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3    status - The status of the export task.  
+        /// Filters specify one or more snapshot exports to describe. The filters are specified as name-value pairs that define what to include in the output. Filter names and values are case-sensitive. Supported filters include the following:     export-task-identifier - An identifier for the snapshot export task.    s3-bucket - The Amazon S3 bucket the snapshot is exported to.    source-arn - The Amazon Resource Name (ARN) of the snapshot exported to Amazon S3    status - The status of the export task. Must be lowercase, for example, complete.  
         public let filters: [Filter]?
         ///  An optional pagination token provided by a previous DescribeExportTasks request. If you specify this parameter, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. 
         public let marker: String?
@@ -7209,7 +7240,7 @@ extension RDS {
         public let engine: String
         /// The path to the installation medium for the specified DB engine. Example: SQLServerISO/en_sql_server_2016_enterprise_x64_dvd_8701793.iso 
         public let engineInstallationMediaPath: String
-        /// The version number of the database engine to use. For a list of valid engine versions, call DescribeDBEngineVersions. The following are the database engines and links to information about the major and minor versions. The list only includes DB engines that require an on-premises customer provided license.  Microsoft SQL Server  See Version and Feature Support on Amazon RDS in the Amazon RDS User Guide. 
+        /// The version number of the database engine to use. For a list of valid engine versions, call DescribeDBEngineVersions. The following are the database engines and links to information about the major and minor versions. The list only includes DB engines that require an on-premises customer provided license.  Microsoft SQL Server  See  Microsoft SQL Server Versions on Amazon RDS in the Amazon RDS User Guide. 
         public let engineVersion: String
         /// The path to the installation medium for the operating system associated with the specified DB engine. Example: WindowsISO/en_windows_server_2016_x64_dvd_9327751.iso 
         public let oSInstallationMediaPath: String
@@ -8851,7 +8882,7 @@ extension RDS {
         public let readReplicaCapable: Bool?
         /// Indicates the storage type for a DB instance.
         public let storageType: String?
-        /// A list of the supported DB engine modes.   global engine mode only applies for global database clusters created with Aurora MySQL version 5.6.10a. For higher Aurora MySQL versions, the clusters in a global database use provisioned engine mode.  
+        /// A list of the supported DB engine modes.
         public let supportedEngineModes: [String]?
         /// Indicates whether a DB instance supports Enhanced Monitoring at intervals from 1 to 60 seconds.
         public let supportsEnhancedMonitoring: Bool?
@@ -9079,7 +9110,7 @@ extension RDS {
         public let currentApplyDate: TimeStamp?
         /// A description providing more detail about the maintenance action.
         public let description: String?
-        /// The date when the maintenance action is automatically applied. The maintenance action is applied to the resource on this date regardless of the maintenance window for the resource.
+        /// The date when the maintenance action is automatically applied. On this date, the maintenance action is applied to the resource as soon as possible, regardless of the maintenance window for the resource. There might be a delay of one or more days from this date before the maintenance action is applied.
         public let forcedApplyDate: TimeStamp?
         /// Indicates the type of opt-in request that has been received for the resource.
         public let optInStatus: String?
@@ -10152,7 +10183,7 @@ extension RDS {
         public let enableIAMDatabaseAuthentication: Bool?
         /// The database engine to use for the new DB cluster. Default: The same as source Constraint: Must be compatible with the engine of the source
         public let engine: String
-        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster.
+        /// The DB engine mode of the DB cluster, either provisioned, serverless, parallelquery, global, or multimaster. For more information, see  CreateDBCluster.
         public let engineMode: String?
         /// The version of the database engine to use for the new DB cluster. To list all of the available engine versions for aurora (for MySQL 5.6-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-mysql (for MySQL 5.7-compatible Aurora), use the following command:  aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion"  To list all of the available engine versions for aurora-postgresql, use the following command:  aws rds describe-db-engine-versions --engine aurora-postgresql --query "DBEngineVersions[].EngineVersion"   If you aren't using the default engine version, then you must specify the engine version.   Aurora MySQL  Example: 5.6.10a, 5.6.mysql_aurora.1.19.2, 5.7.12, 5.7.mysql_aurora.2.04.5   Aurora PostgreSQL  Example: 9.6.3, 10.7 
         public let engineVersion: String?
@@ -10416,7 +10447,7 @@ extension RDS {
         public let domain: String?
         /// Specify the name of the IAM role to be used when making API calls to the Directory Service.
         public let domainIAMRoleName: String?
-        /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon Aurora User Guide.
+        /// The list of logs that the restored DB instance is to export to CloudWatch Logs. The values in the list depend on the DB engine being used. For more information, see Publishing Database Logs to Amazon CloudWatch Logs in the Amazon RDS User Guide.
         public let enableCloudwatchLogsExports: [String]?
         /// A value that indicates whether to enable mapping of AWS Identity and Access Management (IAM) accounts to database accounts. By default, mapping is disabled. For information about the supported DB engines, see CreateDBInstance. For more information about IAM database authentication, see  IAM Database Authentication for MySQL and PostgreSQL in the Amazon RDS User Guide. 
         public let enableIAMDatabaseAuthentication: Bool?
@@ -10551,6 +10582,7 @@ extension RDS {
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
             AWSShapeMember(label: "MasterUsername", required: false, type: .string), 
             AWSShapeMember(label: "MasterUserPassword", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringInterval", required: false, type: .integer), 
             AWSShapeMember(label: "MonitoringRoleArn", required: false, type: .string), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
@@ -10618,6 +10650,8 @@ extension RDS {
         public let masterUsername: String?
         /// The password for the master user. The password can include any printable ASCII character except "/", """, or "@".  Constraints: Must contain from 8 to 41 characters.
         public let masterUserPassword: String?
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
+        public let maxAllocatedStorage: Int?
         /// The interval, in seconds, between points when Enhanced Monitoring metrics are collected for the DB instance. To disable collecting Enhanced Monitoring metrics, specify 0.  If MonitoringRoleArn is specified, then you must also set MonitoringInterval to a value other than 0.  Valid Values: 0, 1, 5, 10, 15, 30, 60  Default: 0 
         public let monitoringInterval: Int?
         /// The ARN for the IAM role that permits RDS to send enhanced monitoring metrics to Amazon CloudWatch Logs. For example, arn:aws:iam:123456789012:role/emaccess. For information on creating a monitoring role, see Setting Up and Enabling Enhanced Monitoring in the Amazon RDS User Guide.  If MonitoringInterval is set to a value other than 0, then you must supply a MonitoringRoleArn value. 
@@ -10661,7 +10695,7 @@ extension RDS {
         /// A list of VPC security groups to associate with this DB instance. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, s3BucketName: String, s3IngestionRoleArn: String, s3Prefix: String? = nil, sourceEngine: String, sourceEngineVersion: String, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(allocatedStorage: Int? = nil, autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, backupRetentionPeriod: Int? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String, dBInstanceIdentifier: String, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSecurityGroups: [String]? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, enablePerformanceInsights: Bool? = nil, engine: String, engineVersion: String? = nil, iops: Int? = nil, kmsKeyId: String? = nil, licenseModel: String? = nil, masterUsername: String? = nil, masterUserPassword: String? = nil, maxAllocatedStorage: Int? = nil, monitoringInterval: Int? = nil, monitoringRoleArn: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, performanceInsightsKMSKeyId: String? = nil, performanceInsightsRetentionPeriod: Int? = nil, port: Int? = nil, preferredBackupWindow: String? = nil, preferredMaintenanceWindow: String? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, s3BucketName: String, s3IngestionRoleArn: String, s3Prefix: String? = nil, sourceEngine: String, sourceEngineVersion: String, storageEncrypted: Bool? = nil, storageType: String? = nil, tags: [Tag]? = nil, useDefaultProcessorFeatures: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.allocatedStorage = allocatedStorage
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
@@ -10684,6 +10718,7 @@ extension RDS {
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
             self.masterUserPassword = masterUserPassword
+            self.maxAllocatedStorage = maxAllocatedStorage
             self.monitoringInterval = monitoringInterval
             self.monitoringRoleArn = monitoringRoleArn
             self.multiAZ = multiAZ
@@ -10730,6 +10765,7 @@ extension RDS {
             case licenseModel = "LicenseModel"
             case masterUsername = "MasterUsername"
             case masterUserPassword = "MasterUserPassword"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
             case monitoringInterval = "MonitoringInterval"
             case monitoringRoleArn = "MonitoringRoleArn"
             case multiAZ = "MultiAZ"
@@ -10787,6 +10823,7 @@ extension RDS {
             AWSShapeMember(label: "Engine", required: false, type: .string), 
             AWSShapeMember(label: "Iops", required: false, type: .integer), 
             AWSShapeMember(label: "LicenseModel", required: false, type: .string), 
+            AWSShapeMember(label: "MaxAllocatedStorage", required: false, type: .integer), 
             AWSShapeMember(label: "MultiAZ", required: false, type: .boolean), 
             AWSShapeMember(label: "OptionGroupName", required: false, type: .string), 
             AWSShapeMember(label: "Port", required: false, type: .integer), 
@@ -10835,6 +10872,8 @@ extension RDS {
         public let iops: Int?
         /// License model information for the restored DB instance. Default: Same as source.  Valid values: license-included | bring-your-own-license | general-public-license 
         public let licenseModel: String?
+        /// The upper limit to which Amazon RDS can automatically scale the storage of the DB instance.
+        public let maxAllocatedStorage: Int?
         /// A value that indicates whether the DB instance is a Multi-AZ deployment. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment.
         public let multiAZ: Bool?
         /// The name of the option group to be used for the restored DB instance. Permanent options, such as the TDE option for Oracle Advanced Security TDE, can't be removed from an option group, and that option group can't be removed from a DB instance once it is associated with a DB instance
@@ -10867,7 +10906,7 @@ extension RDS {
         ///  A list of EC2 VPC security groups to associate with this DB instance.   Default: The default EC2 VPC security group for the DB subnet group's VPC. 
         public let vpcSecurityGroupIds: [String]?
 
-        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: TimeStamp? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(autoMinorVersionUpgrade: Bool? = nil, availabilityZone: String? = nil, copyTagsToSnapshot: Bool? = nil, dBInstanceClass: String? = nil, dBName: String? = nil, dBParameterGroupName: String? = nil, dBSubnetGroupName: String? = nil, deletionProtection: Bool? = nil, domain: String? = nil, domainIAMRoleName: String? = nil, enableCloudwatchLogsExports: [String]? = nil, enableIAMDatabaseAuthentication: Bool? = nil, engine: String? = nil, iops: Int? = nil, licenseModel: String? = nil, maxAllocatedStorage: Int? = nil, multiAZ: Bool? = nil, optionGroupName: String? = nil, port: Int? = nil, processorFeatures: [ProcessorFeature]? = nil, publiclyAccessible: Bool? = nil, restoreTime: TimeStamp? = nil, sourceDBInstanceIdentifier: String? = nil, sourceDbiResourceId: String? = nil, storageType: String? = nil, tags: [Tag]? = nil, targetDBInstanceIdentifier: String, tdeCredentialArn: String? = nil, tdeCredentialPassword: String? = nil, useDefaultProcessorFeatures: Bool? = nil, useLatestRestorableTime: Bool? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.availabilityZone = availabilityZone
             self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -10883,6 +10922,7 @@ extension RDS {
             self.engine = engine
             self.iops = iops
             self.licenseModel = licenseModel
+            self.maxAllocatedStorage = maxAllocatedStorage
             self.multiAZ = multiAZ
             self.optionGroupName = optionGroupName
             self.port = port
@@ -10917,6 +10957,7 @@ extension RDS {
             case engine = "Engine"
             case iops = "Iops"
             case licenseModel = "LicenseModel"
+            case maxAllocatedStorage = "MaxAllocatedStorage"
             case multiAZ = "MultiAZ"
             case optionGroupName = "OptionGroupName"
             case port = "Port"
@@ -11489,9 +11530,9 @@ extension RDS {
             AWSShapeMember(label: "Value", required: false, type: .string)
         ]
 
-        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public let key: String?
-        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
+        /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can only contain only the set of Unicode letters, digits, white-space, '_', '.', ':', '/', '=', '+', '-', '@' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$").
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {

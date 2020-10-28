@@ -97,8 +97,11 @@ extension ElasticBeanstalk {
     }
 
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
+        case aborting = "Aborting"
         case launching = "Launching"
         case updating = "Updating"
+        case linkingfrom = "LinkingFrom"
+        case linkingto = "LinkingTo"
         case ready = "Ready"
         case terminating = "Terminating"
         case terminated = "Terminated"

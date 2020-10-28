@@ -91,7 +91,7 @@ extension XRay {
             AWSShapeMember(label: "Name", required: false, type: .string)
         ]
 
-        /// The name of a corresponding availability zone.
+        /// The name of a corresponding Availability Zone.
         public let name: String?
 
         public init(name: String? = nil) {
@@ -207,7 +207,7 @@ extension XRay {
         public let filterExpression: String?
         /// The case-sensitive name of the new group. Default is a reserved name and names must be unique.
         public let groupName: String
-        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the new group or false to disable insights for the new group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the new group. Notifications may only be enabled on a group with InsightsEnabled set to true.  
         public let insightsConfiguration: InsightsConfiguration?
         /// A map that contains one or more tag keys and tag values to attach to an X-Ray group. For more information about ways to use tags, see Tagging AWS resources in the AWS General Reference. The following restrictions apply to tags:   Maximum number of user-applied tags per resource: 50   Maximum tag key length: 128 Unicode characters   Maximum tag value length: 256 Unicode characters   Valid values for key and value: a-z, A-Z, 0-9, space, and the following characters: _ . : / = + - and @   Tag keys and values are case sensitive.   Don't use aws: as a prefix for keys; it's reserved for AWS use.  
         public let tags: [Tag]?
@@ -242,7 +242,7 @@ extension XRay {
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
 
-        /// The group that was created. Contains the name of the group that was created, the ARN of the group that was generated based on the group name, the filter expression, and the insight configuration that was assigned to the group.
+        /// The group that was created. Contains the name of the group that was created, the Amazon Resource Name (ARN) of the group that was generated based on the group name, the filter expression, and the insight configuration that was assigned to the group.
         public let group: Group?
 
         public init(group: Group? = nil) {
@@ -774,7 +774,7 @@ extension XRay {
             AWSShapeMember(label: "Group", required: false, type: .structure)
         ]
 
-        /// The group that was requested. Contains the name of the group, the ARN of the group, and the filter expression that assigned to the group.
+        /// The group that was requested. Contains the name of the group, the ARN of the group, the filter expression, and the insight configuration assigned to the group.
         public let group: Group?
 
         public init(group: Group? = nil) {
@@ -970,9 +970,9 @@ extension XRay {
 
         /// The end of the timeframe for which to generate a graph.
         public let endTime: TimeStamp
-        /// The ARN of a group to generate a graph based on.
+        /// The Amazon Resource Name (ARN) of a group based on which you want to generate a graph.
         public let groupARN: String?
-        /// The name of a group to generate a graph based on.
+        /// The name of a group based on which you want to generate a graph.
         public let groupName: String?
         /// Pagination token.
         public let nextToken: String?
@@ -1055,7 +1055,7 @@ extension XRay {
         public let endTime: TimeStamp
         /// A filter expression defining entities that will be aggregated for statistics. Supports ID, service, and edge functions. If no selector expression is specified, edge statistics are returned. 
         public let entitySelectorExpression: String?
-        /// The ARN of the group for which to pull statistics from.
+        /// The Amazon Resource Name (ARN) of the group for which to pull statistics from.
         public let groupARN: String?
         /// The case-sensitive name of the group for which to pull statistics from.
         public let groupName: String?
@@ -1103,7 +1103,7 @@ extension XRay {
             AWSShapeMember(label: "TimeSeriesServiceStatistics", required: false, type: .list)
         ]
 
-        /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation may show statistics from an older version of the group's filter expression.
+        /// A flag indicating whether or not a group's filter expression has been consistent, or if a returned aggregation might show statistics from an older version of the group's filter expression.
         public let containsOldGroupVersions: Bool?
         /// Pagination token.
         public let nextToken: String?
@@ -1193,7 +1193,7 @@ extension XRay {
         public let nextToken: String?
         /// Set to true to get summaries for only a subset of available traces.
         public let sampling: Bool?
-        /// A paramater to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
+        /// A parameter to indicate whether to enable sampling on trace summaries. Input parameters are Name and Value.
         public let samplingStrategy: SamplingStrategy?
         /// The start of the time frame for which to retrieve traces.
         public let startTime: TimeStamp
@@ -1231,7 +1231,7 @@ extension XRay {
 
         /// The start time of this page of results.
         public let approximateTime: TimeStamp?
-        /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most most recent results, closest to the end of the time frame.
+        /// If the requested time frame contained more than one page of results, you can use this token to retrieve the next page. The first page contains the most recent results, closest to the end of the time frame.
         public let nextToken: String?
         /// The total number of traces processed, including traces that did not match the specified filter expression.
         public let tracesProcessedCount: Int64?
@@ -1263,11 +1263,11 @@ extension XRay {
 
         /// The filter expression defining the parameters to include traces.
         public let filterExpression: String?
-        /// The ARN of the group generated based on the GroupName.
+        /// The Amazon Resource Name (ARN) of the group generated based on the GroupName.
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
-        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications through Amazon EventBridge for the group.  
         public let insightsConfiguration: InsightsConfiguration?
 
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
@@ -1299,7 +1299,7 @@ extension XRay {
         public let groupARN: String?
         /// The unique case-sensitive name of the group.
         public let groupName: String?
-        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the groups or false to disable insights for the groups.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotificationsEnabled boolean can be set to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true.  
         public let insightsConfiguration: InsightsConfiguration?
 
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {
@@ -1378,18 +1378,23 @@ extension XRay {
 
     public struct InsightsConfiguration: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "InsightsEnabled", required: false, type: .boolean)
+            AWSShapeMember(label: "InsightsEnabled", required: false, type: .boolean), 
+            AWSShapeMember(label: "NotificationsEnabled", required: false, type: .boolean)
         ]
 
         /// Set the InsightsEnabled value to true to enable insights or false to disable insights.
         public let insightsEnabled: Bool?
+        /// Set the NotificationsEnabled value to true to enable insights notifications. Notifications can only be enabled on a group with InsightsEnabled set to true.
+        public let notificationsEnabled: Bool?
 
-        public init(insightsEnabled: Bool? = nil) {
+        public init(insightsEnabled: Bool? = nil, notificationsEnabled: Bool? = nil) {
             self.insightsEnabled = insightsEnabled
+            self.notificationsEnabled = notificationsEnabled
         }
 
         private enum CodingKeys: String, CodingKey {
             case insightsEnabled = "InsightsEnabled"
+            case notificationsEnabled = "NotificationsEnabled"
         }
     }
 
@@ -1625,7 +1630,7 @@ extension XRay {
             AWSShapeMember(label: "Remote", required: false, type: .boolean)
         ]
 
-        /// The types and messages of the exceptions.
+        /// The type and messages of the exceptions.
         public let coverage: Double?
         /// The name of the entity.
         public let name: String?
@@ -2049,7 +2054,7 @@ extension XRay {
         public let fixedRate: Double?
         /// The number of seconds for the service to wait before getting sampling targets again.
         public let interval: Int?
-        /// The number of requests per second that X-Ray allocated this service.
+        /// The number of requests per second that X-Ray allocated for this service.
         public let reservoirQuota: Int?
         /// When the reservoir quota expires.
         public let reservoirQuotaTTL: TimeStamp?
@@ -2136,7 +2141,7 @@ extension XRay {
         public let state: String?
         /// Aggregated statistics for the service.
         public let summaryStatistics: ServiceStatistics?
-        /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for a application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
+        /// The type of service.   AWS Resource - The type of an AWS resource. For example, AWS::EC2::Instance for an application running on Amazon EC2 or AWS::DynamoDB::Table for an Amazon DynamoDB table that the application used.   AWS Service - The type of an AWS service. For example, AWS::DynamoDB for downstream calls to Amazon DynamoDB that didn't target a specific table.    client - Represents the clients that sent requests to a root service.    remote - A downstream service of indeterminate type.  
         public let `type`: String?
 
         public init(accountId: String? = nil, durationHistogram: [HistogramEntry]? = nil, edges: [Edge]? = nil, endTime: TimeStamp? = nil, name: String? = nil, names: [String]? = nil, referenceId: Int? = nil, responseTimeHistogram: [HistogramEntry]? = nil, root: Bool? = nil, startTime: TimeStamp? = nil, state: String? = nil, summaryStatistics: ServiceStatistics? = nil, type: String? = nil) {
@@ -2376,6 +2381,7 @@ extension XRay {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Duration", required: false, type: .double), 
             AWSShapeMember(label: "Id", required: false, type: .string), 
+            AWSShapeMember(label: "LimitExceeded", required: false, type: .boolean), 
             AWSShapeMember(label: "Segments", required: false, type: .list)
         ]
 
@@ -2383,18 +2389,22 @@ extension XRay {
         public let duration: Double?
         /// The unique identifier for the request that generated the trace's segments and subsegments.
         public let id: String?
+        /// LimitExceeded is set to true when the trace has exceeded one of the defined quotas. For more information about quotas, see AWS X-Ray endpoints and quotas.
+        public let limitExceeded: Bool?
         /// Segment documents for the segments and subsegments that comprise the trace.
         public let segments: [Segment]?
 
-        public init(duration: Double? = nil, id: String? = nil, segments: [Segment]? = nil) {
+        public init(duration: Double? = nil, id: String? = nil, limitExceeded: Bool? = nil, segments: [Segment]? = nil) {
             self.duration = duration
             self.id = id
+            self.limitExceeded = limitExceeded
             self.segments = segments
         }
 
         private enum CodingKeys: String, CodingKey {
             case duration = "Duration"
             case id = "Id"
+            case limitExceeded = "LimitExceeded"
             case segments = "Segments"
         }
     }
@@ -2425,7 +2435,7 @@ extension XRay {
 
         /// Annotations from the trace's segment documents.
         public let annotations: [String: [ValueWithServiceIds]]?
-        /// A list of availability zones for any zone corresponding to the trace segments.
+        /// A list of Availability Zones for any zone corresponding to the trace segments.
         public let availabilityZones: [AvailabilityZoneDetail]?
         /// The length of time in seconds between the start time of the root segment and the end time of the last segment that completed.
         public let duration: Double?
@@ -2433,7 +2443,7 @@ extension XRay {
         public let entryPoint: ServiceId?
         /// A collection of ErrorRootCause structures corresponding to the trace segments.
         public let errorRootCauses: [ErrorRootCause]?
-        /// A collection of FaultRootCause structures corresponding to the the trace segments.
+        /// A collection of FaultRootCause structures corresponding to the trace segments.
         public let faultRootCauses: [FaultRootCause]?
         /// The root segment document has a 400 series error.
         public let hasError: Bool?
@@ -2642,7 +2652,7 @@ extension XRay {
         public let groupARN: String?
         /// The case-sensitive name of the group.
         public let groupName: String?
-        /// The structure containing configurations related to insights. The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.
+        /// The structure containing configurations related to insights.   The InsightsEnabled boolean can be set to true to enable insights for the group or false to disable insights for the group.   The NotifcationsEnabled boolean can be set to true to enable insights notifications for the group. Notifications can only be enabled on a group with InsightsEnabled set to true.  
         public let insightsConfiguration: InsightsConfiguration?
 
         public init(filterExpression: String? = nil, groupARN: String? = nil, groupName: String? = nil, insightsConfiguration: InsightsConfiguration? = nil) {

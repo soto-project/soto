@@ -203,6 +203,7 @@ extension Amplify {
             AWSShapeMember(label: "buildSpec", required: false, type: .string), 
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePerformanceMode", required: false, type: .boolean), 
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
@@ -218,6 +219,8 @@ extension Amplify {
         public let enableAutoBuild: Bool?
         ///  Enables basic authorization for the autocreated branch. 
         public let enableBasicAuth: Bool?
+        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
+        public let enablePerformanceMode: Bool?
         ///  Enables pull request preview for the autocreated branch. 
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the autocreated branch. 
@@ -229,11 +232,12 @@ extension Amplify {
         ///  Describes the current stage for the autocreated branch. 
         public let stage: Stage?
 
-        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil) {
+        public init(basicAuthCredentials: String? = nil, buildSpec: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil) {
             self.basicAuthCredentials = basicAuthCredentials
             self.buildSpec = buildSpec
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
+            self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
@@ -258,6 +262,7 @@ extension Amplify {
             case buildSpec = "buildSpec"
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
+            case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
@@ -325,6 +330,7 @@ extension Amplify {
             AWSShapeMember(label: "enableAutoBuild", required: true, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: true, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: true, type: .boolean), 
+            AWSShapeMember(label: "enablePerformanceMode", required: false, type: .boolean), 
             AWSShapeMember(label: "enablePullRequestPreview", required: true, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: true, type: .map), 
             AWSShapeMember(label: "framework", required: true, type: .string), 
@@ -368,6 +374,8 @@ extension Amplify {
         public let enableBasicAuth: Bool
         ///  Enables notifications for a branch that is part of an Amplify app. 
         public let enableNotification: Bool
+        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
+        public let enablePerformanceMode: Bool?
         ///  Enables pull request preview for the branch. 
         public let enablePullRequestPreview: Bool
         ///  The environment variables specific to a branch of an Amplify app. 
@@ -391,7 +399,7 @@ extension Amplify {
         ///  The last updated date and time for a branch that is part of an Amplify app. 
         public let updateTime: TimeStamp
 
-        public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
+        public init(activeJobId: String, associatedResources: [String]? = nil, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchArn: String, branchName: String, buildSpec: String? = nil, createTime: TimeStamp, customDomains: [String], description: String, destinationBranch: String? = nil, displayName: String, enableAutoBuild: Bool, enableBasicAuth: Bool, enableNotification: Bool, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool, environmentVariables: [String: String], framework: String, pullRequestEnvironmentName: String? = nil, sourceBranch: String? = nil, stage: Stage, tags: [String: String]? = nil, thumbnailUrl: String? = nil, totalNumberOfJobs: String, ttl: String, updateTime: TimeStamp) {
             self.activeJobId = activeJobId
             self.associatedResources = associatedResources
             self.backendEnvironmentArn = backendEnvironmentArn
@@ -407,6 +415,7 @@ extension Amplify {
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
@@ -436,6 +445,7 @@ extension Amplify {
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
@@ -553,7 +563,7 @@ extension Amplify {
             try validate(self.iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.oauthToken, name:"oauthToken", parent: name, max: 100)
+            try validate(self.oauthToken, name:"oauthToken", parent: name, max: 1000)
             try validate(self.repository, name:"repository", parent: name, max: 1000)
             try self.tags?.forEach {
                 try validate($0.key, name:"tags.key", parent: name, max: 128)
@@ -673,6 +683,7 @@ extension Amplify {
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePerformanceMode", required: false, type: .boolean), 
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
@@ -702,6 +713,8 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
+        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
+        public let enablePerformanceMode: Bool?
         ///  Enables pull request preview for this branch. 
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the branch. 
@@ -717,7 +730,7 @@ extension Amplify {
         ///  The content Time To Live (TTL) for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
+        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, tags: [String: String]? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
@@ -728,6 +741,7 @@ extension Amplify {
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
@@ -774,6 +788,7 @@ extension Amplify {
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"
@@ -1005,7 +1020,7 @@ extension Amplify {
         public let condition: String?
         ///  The source pattern for a URL rewrite or redirect rule. 
         public let source: String
-        ///  The status code for a URL rewrite or redirect rule. 
+        ///  The status code for a URL rewrite or redirect rule.   200  Represents a 200 rewrite rule.  301  Represents a 301 (moved pemanently) redirect rule. This and all future requests should be directed to the target URL.   302  Represents a 302 temporary redirect rule.  404  Represents a 404 redirect rule.  404-200  Represents a 404 rewrite rule.  
         public let status: String?
         ///  The target pattern for a URL rewrite or redirect rule. 
         public let target: String
@@ -2783,7 +2798,7 @@ extension Amplify {
             try validate(self.iamServiceRoleArn, name:"iamServiceRoleArn", parent: name, min: 1)
             try validate(self.name, name:"name", parent: name, max: 255)
             try validate(self.name, name:"name", parent: name, min: 1)
-            try validate(self.oauthToken, name:"oauthToken", parent: name, max: 100)
+            try validate(self.oauthToken, name:"oauthToken", parent: name, max: 1000)
             try validate(self.repository, name:"repository", parent: name, max: 1000)
         }
 
@@ -2838,6 +2853,7 @@ extension Amplify {
             AWSShapeMember(label: "enableAutoBuild", required: false, type: .boolean), 
             AWSShapeMember(label: "enableBasicAuth", required: false, type: .boolean), 
             AWSShapeMember(label: "enableNotification", required: false, type: .boolean), 
+            AWSShapeMember(label: "enablePerformanceMode", required: false, type: .boolean), 
             AWSShapeMember(label: "enablePullRequestPreview", required: false, type: .boolean), 
             AWSShapeMember(label: "environmentVariables", required: false, type: .map), 
             AWSShapeMember(label: "framework", required: false, type: .string), 
@@ -2866,6 +2882,8 @@ extension Amplify {
         public let enableBasicAuth: Bool?
         ///  Enables notifications for the branch. 
         public let enableNotification: Bool?
+        ///  Performance mode optimizes for faster hosting performance by keeping content cached at the edge for a longer interval. Enabling performance mode will mean that hosting configuration or code changes can take up to 10 minutes to roll out. 
+        public let enablePerformanceMode: Bool?
         ///  Enables pull request preview for this branch. 
         public let enablePullRequestPreview: Bool?
         ///  The environment variables for the branch. 
@@ -2879,7 +2897,7 @@ extension Amplify {
         ///  The content Time to Live (TTL) for the website in seconds. 
         public let ttl: String?
 
-        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
+        public init(appId: String, backendEnvironmentArn: String? = nil, basicAuthCredentials: String? = nil, branchName: String, buildSpec: String? = nil, description: String? = nil, displayName: String? = nil, enableAutoBuild: Bool? = nil, enableBasicAuth: Bool? = nil, enableNotification: Bool? = nil, enablePerformanceMode: Bool? = nil, enablePullRequestPreview: Bool? = nil, environmentVariables: [String: String]? = nil, framework: String? = nil, pullRequestEnvironmentName: String? = nil, stage: Stage? = nil, ttl: String? = nil) {
             self.appId = appId
             self.backendEnvironmentArn = backendEnvironmentArn
             self.basicAuthCredentials = basicAuthCredentials
@@ -2890,6 +2908,7 @@ extension Amplify {
             self.enableAutoBuild = enableAutoBuild
             self.enableBasicAuth = enableBasicAuth
             self.enableNotification = enableNotification
+            self.enablePerformanceMode = enablePerformanceMode
             self.enablePullRequestPreview = enablePullRequestPreview
             self.environmentVariables = environmentVariables
             self.framework = framework
@@ -2929,6 +2948,7 @@ extension Amplify {
             case enableAutoBuild = "enableAutoBuild"
             case enableBasicAuth = "enableBasicAuth"
             case enableNotification = "enableNotification"
+            case enablePerformanceMode = "enablePerformanceMode"
             case enablePullRequestPreview = "enablePullRequestPreview"
             case environmentVariables = "environmentVariables"
             case framework = "framework"

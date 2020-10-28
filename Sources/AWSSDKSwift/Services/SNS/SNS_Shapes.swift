@@ -218,9 +218,9 @@ extension SNS {
             AWSShapeMember(label: "Tags", required: false, type: .list, encoding: .list(member:"member"))
         ]
 
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the CreateTopic action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    FifoTopic – Set to true to create a FIFO topic.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication. Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.     If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.   
         public let attributes: [String: String]?
-        /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long.
+        /// The name of the topic you want to create. Constraints: Topic names must be made up of only uppercase and lowercase ASCII letters, numbers, underscores, and hyphens, and must be between 1 and 256 characters long. For a FIFO (first-in-first-out) topic, the name must end with the .fifo suffix. 
         public let name: String
         /// The list of tags to add to a new topic.  To be able to tag a topic on creation, you must have the sns:CreateTopic and sns:TagResource permissions. 
         public let tags: [Tag]?
@@ -865,6 +865,8 @@ extension SNS {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "Message", required: true, type: .string), 
             AWSShapeMember(label: "MessageAttributes", required: false, type: .map, encoding: .map(entry:"entry", key: "Name", value: "Value")), 
+            AWSShapeMember(label: "MessageDeduplicationId", required: false, type: .string), 
+            AWSShapeMember(label: "MessageGroupId", required: false, type: .string), 
             AWSShapeMember(label: "MessageStructure", required: false, type: .string), 
             AWSShapeMember(label: "PhoneNumber", required: false, type: .string), 
             AWSShapeMember(label: "Subject", required: false, type: .string), 
@@ -876,6 +878,10 @@ extension SNS {
         public let message: String
         /// Message attributes for Publish action.
         public let messageAttributes: [String: MessageAttributeValue]?
+        /// This parameter applies only to FIFO (first-in-first-out) topics. The MessageDeduplicationId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). Every message must have a unique MessageDeduplicationId, which is a token used for deduplication of sent messages. If a message with a particular MessageDeduplicationId is sent successfully, any message sent with the same MessageDeduplicationId during the 5-minute deduplication interval is treated as a duplicate.  If the topic has ContentBasedDeduplication set, the system generates a MessageDeduplicationId based on the contents of the message. Your MessageDeduplicationId overrides the generated one.
+        public let messageDeduplicationId: String?
+        /// This parameter applies only to FIFO (first-in-first-out) topics. The MessageGroupId can contain up to 128 alphanumeric characters (a-z, A-Z, 0-9) and punctuation (!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~). The MessageGroupId is a tag that specifies that a message belongs to a specific message group. Messages that belong to the same message group are processed in a FIFO manner (however, messages in different message groups might be processed out of order). Every message must include a MessageGroupId.
+        public let messageGroupId: String?
         /// Set MessageStructure to json if you want to send a different message for each protocol. For example, using one publish action, you can send a short message to your SMS subscribers and a longer message to your email subscribers. If you set MessageStructure to json, the value of the Message parameter must:    be a syntactically valid JSON object; and   contain at least a top-level JSON key of "default" with a value that is a string.   You can define other top-level keys that define the message you want to send to a specific transport protocol (e.g., "http"). Valid value: json 
         public let messageStructure: String?
         /// The phone number to which you want to deliver an SMS message. Use E.164 format. If you don't specify a value for the PhoneNumber parameter, you must specify a value for the TargetArn or TopicArn parameters.
@@ -887,9 +893,11 @@ extension SNS {
         /// The topic you want to publish to. If you don't specify a value for the TopicArn parameter, you must specify a value for the PhoneNumber or TargetArn parameters.
         public let topicArn: String?
 
-        public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
+        public init(message: String, messageAttributes: [String: MessageAttributeValue]? = nil, messageDeduplicationId: String? = nil, messageGroupId: String? = nil, messageStructure: String? = nil, phoneNumber: String? = nil, subject: String? = nil, targetArn: String? = nil, topicArn: String? = nil) {
             self.message = message
             self.messageAttributes = messageAttributes
+            self.messageDeduplicationId = messageDeduplicationId
+            self.messageGroupId = messageGroupId
             self.messageStructure = messageStructure
             self.phoneNumber = phoneNumber
             self.subject = subject
@@ -900,6 +908,8 @@ extension SNS {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
             case messageAttributes = "MessageAttributes"
+            case messageDeduplicationId = "MessageDeduplicationId"
+            case messageGroupId = "MessageGroupId"
             case messageStructure = "MessageStructure"
             case phoneNumber = "PhoneNumber"
             case subject = "Subject"
@@ -910,18 +920,23 @@ extension SNS {
 
     public struct PublishResponse: AWSShape {
         public static var _members: [AWSShapeMember] = [
-            AWSShapeMember(label: "MessageId", required: false, type: .string)
+            AWSShapeMember(label: "MessageId", required: false, type: .string), 
+            AWSShapeMember(label: "SequenceNumber", required: false, type: .string)
         ]
 
         /// Unique identifier assigned to the published message. Length Constraint: Maximum 100 characters
         public let messageId: String?
+        /// This response element applies only to FIFO (first-in-first-out) topics.  The sequence number is a large, non-consecutive number that Amazon SNS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for each MessageGroupId.
+        public let sequenceNumber: String?
 
-        public init(messageId: String? = nil) {
+        public init(messageId: String? = nil, sequenceNumber: String? = nil) {
             self.messageId = messageId
+            self.sequenceNumber = sequenceNumber
         }
 
         private enum CodingKeys: String, CodingKey {
             case messageId = "MessageId"
+            case sequenceNumber = "SequenceNumber"
         }
     }
 
@@ -1050,7 +1065,7 @@ extension SNS {
             AWSShapeMember(label: "TopicArn", required: true, type: .string)
         ]
 
-        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId - The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.   
+        /// A map of attributes with their corresponding values. The following lists the names, descriptions, and values of the special request parameters that the SetTopicAttributes action uses:    DeliveryPolicy – The policy that defines how Amazon SNS retries failed deliveries to HTTP/S endpoints.    DisplayName – The display name to use for a topic with SMS subscriptions.    Policy – The policy that defines who can access your topic. By default, only the topic owner can publish or subscribe to the topic.   The following attribute applies only to server-side-encryption:    KmsMasterKeyId – The ID of an AWS-managed customer master key (CMK) for Amazon SNS or a custom CMK. For more information, see Key Terms. For more examples, see KeyId in the AWS Key Management Service API Reference.    The following attribute applies only to FIFO topics:    ContentBasedDeduplication – Enables content-based deduplication. Amazon SNS uses a SHA-256 hash to generate the MessageDeduplicationId using the body of the message (but not the attributes of the message).     When ContentBasedDeduplication is in effect, messages with identical content sent within the deduplication interval are treated as duplicates and only one copy of the message is delivered.     If the queue has ContentBasedDeduplication set, your MessageDeduplicationId overrides the generated one.   
         public let attributeName: String
         /// The new value for the attribute.
         public let attributeValue: String?

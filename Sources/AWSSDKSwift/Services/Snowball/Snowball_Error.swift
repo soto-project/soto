@@ -5,6 +5,7 @@ import AWSSDKSwiftCore
 /// Error enum for Snowball
 public enum SnowballErrorType: AWSErrorType {
     case clusterLimitExceededException(message: String?)
+    case conflictException(message: String?)
     case ec2RequestFailedException(message: String?)
     case invalidAddressException(message: String?)
     case invalidInputCombinationException(message: String?)
@@ -12,6 +13,7 @@ public enum SnowballErrorType: AWSErrorType {
     case invalidNextTokenException(message: String?)
     case invalidResourceException(message: String?)
     case kMSRequestFailedException(message: String?)
+    case returnShippingLabelAlreadyExistsException(message: String?)
     case unsupportedAddressException(message: String?)
 }
 
@@ -24,6 +26,8 @@ extension SnowballErrorType {
         switch errorCode {
         case "ClusterLimitExceededException":
             self = .clusterLimitExceededException(message: message)
+        case "ConflictException":
+            self = .conflictException(message: message)
         case "Ec2RequestFailedException":
             self = .ec2RequestFailedException(message: message)
         case "InvalidAddressException":
@@ -38,6 +42,8 @@ extension SnowballErrorType {
             self = .invalidResourceException(message: message)
         case "KMSRequestFailedException":
             self = .kMSRequestFailedException(message: message)
+        case "ReturnShippingLabelAlreadyExistsException":
+            self = .returnShippingLabelAlreadyExistsException(message: message)
         case "UnsupportedAddressException":
             self = .unsupportedAddressException(message: message)
         default:
@@ -51,6 +57,8 @@ extension SnowballErrorType : CustomStringConvertible {
         switch self {
         case .clusterLimitExceededException(let message):
             return "ClusterLimitExceededException: \(message ?? "")"
+        case .conflictException(let message):
+            return "ConflictException: \(message ?? "")"
         case .ec2RequestFailedException(let message):
             return "Ec2RequestFailedException: \(message ?? "")"
         case .invalidAddressException(let message):
@@ -65,6 +73,8 @@ extension SnowballErrorType : CustomStringConvertible {
             return "InvalidResourceException: \(message ?? "")"
         case .kMSRequestFailedException(let message):
             return "KMSRequestFailedException: \(message ?? "")"
+        case .returnShippingLabelAlreadyExistsException(let message):
+            return "ReturnShippingLabelAlreadyExistsException: \(message ?? "")"
         case .unsupportedAddressException(let message):
             return "UnsupportedAddressException: \(message ?? "")"
         }

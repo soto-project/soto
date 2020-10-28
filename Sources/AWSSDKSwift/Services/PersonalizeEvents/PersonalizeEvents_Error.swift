@@ -5,6 +5,7 @@ import AWSSDKSwiftCore
 /// Error enum for PersonalizeEvents
 public enum PersonalizeEventsErrorType: AWSErrorType {
     case invalidInputException(message: String?)
+    case resourceNotFoundException(message: String?)
 }
 
 extension PersonalizeEventsErrorType {
@@ -16,6 +17,8 @@ extension PersonalizeEventsErrorType {
         switch errorCode {
         case "InvalidInputException":
             self = .invalidInputException(message: message)
+        case "ResourceNotFoundException":
+            self = .resourceNotFoundException(message: message)
         default:
             return nil
         }
@@ -27,6 +30,8 @@ extension PersonalizeEventsErrorType : CustomStringConvertible {
         switch self {
         case .invalidInputException(let message):
             return "InvalidInputException: \(message ?? "")"
+        case .resourceNotFoundException(let message):
+            return "ResourceNotFoundException: \(message ?? "")"
         }
     }
 }

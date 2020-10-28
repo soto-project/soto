@@ -62,6 +62,9 @@ extension TranscribeService {
         case mp4 = "mp4"
         case wav = "wav"
         case flac = "flac"
+        case ogg = "ogg"
+        case amr = "amr"
+        case webm = "webm"
         public var description: String { return self.rawValue }
     }
 
@@ -1748,6 +1751,7 @@ extension TranscribeService {
             AWSShapeMember(label: "MedicalTranscriptionJobName", required: true, type: .string), 
             AWSShapeMember(label: "OutputBucketName", required: true, type: .string), 
             AWSShapeMember(label: "OutputEncryptionKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKey", required: false, type: .string), 
             AWSShapeMember(label: "Settings", required: false, type: .structure), 
             AWSShapeMember(label: "Specialty", required: true, type: .enum), 
             AWSShapeMember(label: "Type", required: true, type: .enum)
@@ -1766,6 +1770,8 @@ extension TranscribeService {
         public let outputBucketName: String
         /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartMedicalTranscriptionJob operation must have permission to use the specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the medical transcription job is encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
         public let outputEncryptionKMSKeyId: String?
+        /// You can specify a location in an Amazon S3 bucket to store the output of your medical transcription job. If you don't specify an output key, Amazon Transcribe Medical stores the output of your transcription job in the Amazon S3 bucket you specified. By default, the object key is "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription output. For example, specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you specify "my-other-job-name.json" as the output key, the object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName parameter.
+        public let outputKey: String?
         /// Optional settings for the medical transcription job.
         public let settings: MedicalTranscriptionSetting?
         /// The medical specialty of any clinician speaking in the input media.
@@ -1773,7 +1779,7 @@ extension TranscribeService {
         /// The type of speech in the input audio. CONVERSATION refers to conversations between two or more speakers, e.g., a conversations between doctors and patients. DICTATION refers to single-speaker dictated speech, e.g., for clinical notes.
         public let `type`: `Type`
 
-        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
+        public init(languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, type: `Type`) {
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -1781,6 +1787,7 @@ extension TranscribeService {
             self.medicalTranscriptionJobName = medicalTranscriptionJobName
             self.outputBucketName = outputBucketName
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
+            self.outputKey = outputKey
             self.settings = settings
             self.specialty = specialty
             self.`type` = `type`
@@ -1798,6 +1805,9 @@ extension TranscribeService {
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, max: 2048)
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, min: 1)
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try validate(self.outputKey, name:"outputKey", parent: name, max: 1024)
+            try validate(self.outputKey, name:"outputKey", parent: name, min: 1)
+            try validate(self.outputKey, name:"outputKey", parent: name, pattern: "[a-zA-Z0-9-_.!*'()/]{1,1024}$")
             try self.settings?.validate(name: "\(name).settings")
         }
 
@@ -1809,6 +1819,7 @@ extension TranscribeService {
             case medicalTranscriptionJobName = "MedicalTranscriptionJobName"
             case outputBucketName = "OutputBucketName"
             case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
+            case outputKey = "OutputKey"
             case settings = "Settings"
             case specialty = "Specialty"
             case `type` = "Type"
@@ -1835,24 +1846,31 @@ extension TranscribeService {
     public struct StartTranscriptionJobRequest: AWSShape {
         public static var _members: [AWSShapeMember] = [
             AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
+            AWSShapeMember(label: "IdentifyLanguage", required: false, type: .boolean), 
             AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
-            AWSShapeMember(label: "LanguageCode", required: true, type: .enum), 
+            AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "LanguageOptions", required: false, type: .list), 
             AWSShapeMember(label: "Media", required: true, type: .structure), 
             AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
             AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
             AWSShapeMember(label: "ModelSettings", required: false, type: .structure), 
             AWSShapeMember(label: "OutputBucketName", required: false, type: .string), 
             AWSShapeMember(label: "OutputEncryptionKMSKeyId", required: false, type: .string), 
+            AWSShapeMember(label: "OutputKey", required: false, type: .string), 
             AWSShapeMember(label: "Settings", required: false, type: .structure), 
             AWSShapeMember(label: "TranscriptionJobName", required: true, type: .string)
         ]
 
         /// An object that contains the request parameters for content redaction.
         public let contentRedaction: ContentRedaction?
+        /// Set this field to true to enable automatic language identification. Automatic language identification is disabled by default. You receive a BadRequestException error if you enter a value for a LanguageCode.
+        public let identifyLanguage: Bool?
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
         public let jobExecutionSettings: JobExecutionSettings?
         /// The language code for the language used in the input media file.
-        public let languageCode: LanguageCode
+        public let languageCode: LanguageCode?
+        /// An object containing a list of languages that might be present in your collection of audio files. Automatic language identification chooses a language that best matches the source audio from that list.
+        public let languageOptions: [LanguageCode]?
         /// An object that describes the input media for a transcription job.
         public let media: Media
         /// The format of the input media file.
@@ -1865,27 +1883,33 @@ extension TranscribeService {
         public let outputBucketName: String?
         /// The Amazon Resource Name (ARN) of the AWS Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartTranscriptionJob operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or another account:   Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the transcription job is encrypted with the default Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
         public let outputEncryptionKMSKeyId: String?
+        /// You can specify a location in an Amazon S3 bucket to store the output of your transcription job. If you don't specify an output key, Amazon Transcribe stores the output of your transcription job in the Amazon S3 bucket you specified. By default, the object key is "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription output. For example, specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you specify "my-other-job-name.json" as the output key, the object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName parameter.
+        public let outputKey: String?
         /// A Settings object that provides optional settings for a transcription job.
         public let settings: Settings?
         /// The name of the job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an AWS account. If you try to create a transcription job with the same name as a previous transcription job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
+            self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
             self.languageCode = languageCode
+            self.languageOptions = languageOptions
             self.media = media
             self.mediaFormat = mediaFormat
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.modelSettings = modelSettings
             self.outputBucketName = outputBucketName
             self.outputEncryptionKMSKeyId = outputEncryptionKMSKeyId
+            self.outputKey = outputKey
             self.settings = settings
             self.transcriptionJobName = transcriptionJobName
         }
 
         public func validate(name: String) throws {
             try self.jobExecutionSettings?.validate(name: "\(name).jobExecutionSettings")
+            try validate(self.languageOptions, name:"languageOptions", parent: name, min: 2)
             try self.media.validate(name: "\(name).media")
             try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, max: 48000)
             try validate(self.mediaSampleRateHertz, name:"mediaSampleRateHertz", parent: name, min: 8000)
@@ -1895,6 +1919,9 @@ extension TranscribeService {
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, max: 2048)
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, min: 1)
             try validate(self.outputEncryptionKMSKeyId, name:"outputEncryptionKMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try validate(self.outputKey, name:"outputKey", parent: name, max: 1024)
+            try validate(self.outputKey, name:"outputKey", parent: name, min: 1)
+            try validate(self.outputKey, name:"outputKey", parent: name, pattern: "[a-zA-Z0-9-_.!*'()/]{1,1024}$")
             try self.settings?.validate(name: "\(name).settings")
             try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, max: 200)
             try validate(self.transcriptionJobName, name:"transcriptionJobName", parent: name, min: 1)
@@ -1903,14 +1930,17 @@ extension TranscribeService {
 
         private enum CodingKeys: String, CodingKey {
             case contentRedaction = "ContentRedaction"
+            case identifyLanguage = "IdentifyLanguage"
             case jobExecutionSettings = "JobExecutionSettings"
             case languageCode = "LanguageCode"
+            case languageOptions = "LanguageOptions"
             case media = "Media"
             case mediaFormat = "MediaFormat"
             case mediaSampleRateHertz = "MediaSampleRateHertz"
             case modelSettings = "ModelSettings"
             case outputBucketName = "OutputBucketName"
             case outputEncryptionKMSKeyId = "OutputEncryptionKMSKeyId"
+            case outputKey = "OutputKey"
             case settings = "Settings"
             case transcriptionJobName = "TranscriptionJobName"
         }
@@ -1961,8 +1991,11 @@ extension TranscribeService {
             AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "IdentifiedLanguageScore", required: false, type: .float), 
+            AWSShapeMember(label: "IdentifyLanguage", required: false, type: .boolean), 
             AWSShapeMember(label: "JobExecutionSettings", required: false, type: .structure), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
+            AWSShapeMember(label: "LanguageOptions", required: false, type: .list), 
             AWSShapeMember(label: "Media", required: false, type: .structure), 
             AWSShapeMember(label: "MediaFormat", required: false, type: .enum), 
             AWSShapeMember(label: "MediaSampleRateHertz", required: false, type: .integer), 
@@ -1982,10 +2015,16 @@ extension TranscribeService {
         public let creationTime: TimeStamp?
         /// If the TranscriptionJobStatus field is FAILED, this field contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format - The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media format - The media format of the audio file doesn't match the format specified in the MediaFormat field in the request. Check the media format of your media file and make sure that the two values match.    Invalid sample rate for audio file - The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8000 and 48000 Hertz.    The sample rate provided does not match the detected sample rate - The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large - The size of your audio file is larger than Amazon Transcribe can process. For more information, see Limits in the Amazon Transcribe Developer Guide.    Invalid number of channels: number of channels too large - Your audio contains more channels than Amazon Transcribe is configured to process. To request additional channels, see Amazon Transcribe Limits in the Amazon Web Services General Reference.  
         public let failureReason: String?
+        /// A value between zero and one that Amazon Transcribe assigned to the language that it identified in the source audio. Larger values indicate that Amazon Transcribe has higher confidence in the language it identified.
+        public let identifiedLanguageScore: Float?
+        /// A value that shows if automatic language identification was enabled for a transcription job.
+        public let identifyLanguage: Bool?
         /// Provides information about how a transcription job is executed.
         public let jobExecutionSettings: JobExecutionSettings?
         /// The language code for the input speech.
         public let languageCode: LanguageCode?
+        /// An object that shows the optional array of languages inputted for transcription jobs with automatic language identification enabled.
+        public let languageOptions: [LanguageCode]?
         /// An object that describes the input media for the transcription job.
         public let media: Media?
         /// The format of the input media file.
@@ -2005,13 +2044,16 @@ extension TranscribeService {
         /// The status of the transcription job.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: TimeStamp? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: TimeStamp? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.identifiedLanguageScore = identifiedLanguageScore
+            self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
             self.languageCode = languageCode
+            self.languageOptions = languageOptions
             self.media = media
             self.mediaFormat = mediaFormat
             self.mediaSampleRateHertz = mediaSampleRateHertz
@@ -2028,8 +2070,11 @@ extension TranscribeService {
             case contentRedaction = "ContentRedaction"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case identifiedLanguageScore = "IdentifiedLanguageScore"
+            case identifyLanguage = "IdentifyLanguage"
             case jobExecutionSettings = "JobExecutionSettings"
             case languageCode = "LanguageCode"
+            case languageOptions = "LanguageOptions"
             case media = "Media"
             case mediaFormat = "MediaFormat"
             case mediaSampleRateHertz = "MediaSampleRateHertz"
@@ -2048,6 +2093,8 @@ extension TranscribeService {
             AWSShapeMember(label: "ContentRedaction", required: false, type: .structure), 
             AWSShapeMember(label: "CreationTime", required: false, type: .timestamp), 
             AWSShapeMember(label: "FailureReason", required: false, type: .string), 
+            AWSShapeMember(label: "IdentifiedLanguageScore", required: false, type: .float), 
+            AWSShapeMember(label: "IdentifyLanguage", required: false, type: .boolean), 
             AWSShapeMember(label: "LanguageCode", required: false, type: .enum), 
             AWSShapeMember(label: "ModelSettings", required: false, type: .structure), 
             AWSShapeMember(label: "OutputLocationType", required: false, type: .enum), 
@@ -2064,6 +2111,10 @@ extension TranscribeService {
         public let creationTime: TimeStamp?
         /// If the TranscriptionJobStatus field is FAILED, a description of the error.
         public let failureReason: String?
+        /// A value between zero and one that Amazon Transcribe assigned to the language it identified in the source audio. A higher score indicates that Amazon Transcribe is more confident in the language it identified.
+        public let identifiedLanguageScore: Float?
+        /// Whether automatic language identification was enabled for a transcription job.
+        public let identifyLanguage: Bool?
         /// The language code for the input speech.
         public let languageCode: LanguageCode?
         public let modelSettings: ModelSettings?
@@ -2076,11 +2127,13 @@ extension TranscribeService {
         /// The status of the transcription job. When the status is COMPLETED, use the GetTranscriptionJob operation to get the results of the transcription.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: TimeStamp? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: TimeStamp? = nil, contentRedaction: ContentRedaction? = nil, creationTime: TimeStamp? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: TimeStamp? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.identifiedLanguageScore = identifiedLanguageScore
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.modelSettings = modelSettings
             self.outputLocationType = outputLocationType
@@ -2094,6 +2147,8 @@ extension TranscribeService {
             case contentRedaction = "ContentRedaction"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case identifiedLanguageScore = "IdentifiedLanguageScore"
+            case identifyLanguage = "IdentifyLanguage"
             case languageCode = "LanguageCode"
             case modelSettings = "ModelSettings"
             case outputLocationType = "OutputLocationType"

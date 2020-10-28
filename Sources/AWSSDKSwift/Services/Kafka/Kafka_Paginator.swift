@@ -36,6 +36,11 @@ extension Kafka {
         return client.paginate(input: input, command: listNodes, tokenKey: \ListNodesResponse.nextToken, onPage: onPage)
     }
 
+    ///  Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    public func listScramSecretsPaginator(_ input: ListScramSecretsRequest, onPage: @escaping (ListScramSecretsResponse, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: listScramSecrets, tokenKey: \ListScramSecretsResponse.nextToken, onPage: onPage)
+    }
+
 }
 
 extension Kafka.ListClusterOperationsRequest: AWSPaginateStringToken {
@@ -93,6 +98,17 @@ extension Kafka.ListKafkaVersionsRequest: AWSPaginateStringToken {
 
 extension Kafka.ListNodesRequest: AWSPaginateStringToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListNodesRequest {
+        return .init(
+            clusterArn: self.clusterArn, 
+            maxResults: self.maxResults, 
+            nextToken: token
+        )
+
+    }
+}
+
+extension Kafka.ListScramSecretsRequest: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListScramSecretsRequest {
         return .init(
             clusterArn: self.clusterArn, 
             maxResults: self.maxResults, 

@@ -64,7 +64,7 @@ public struct IoTSiteWise {
         return client.send(operation: "BatchPutAssetPropertyValue", path: "/properties", httpMethod: "POST", input: input)
     }
 
-    ///  Creates an access policy that grants the specified AWS Single Sign-On user or group access to the specified AWS IoT SiteWise Monitor portal or project resource.
+    ///  Creates an access policy that grants the specified identity (AWS SSO user, AWS SSO group, or IAM user) access to the specified AWS IoT SiteWise Monitor portal or project resource.
     public func createAccessPolicy(_ input: CreateAccessPolicyRequest) -> EventLoopFuture<CreateAccessPolicyResponse> {
         return client.send(operation: "CreateAccessPolicy", path: "/access-policies", httpMethod: "POST", input: input)
     }
@@ -89,9 +89,14 @@ public struct IoTSiteWise {
         return client.send(operation: "CreateGateway", path: "/20200301/gateways", httpMethod: "POST", input: input)
     }
 
-    ///  Creates a portal, which can contain projects and dashboards. Before you can create a portal, you must enable AWS Single Sign-On. AWS IoT SiteWise Monitor uses AWS SSO to manage user permissions. For more information, see Enabling AWS SSO in the AWS IoT SiteWise User Guide.  Before you can sign in to a new portal, you must add at least one AWS SSO user or group to that portal. For more information, see Adding or removing portal administrators in the AWS IoT SiteWise User Guide. 
+    ///  Creates a portal, which can contain projects and dashboards. AWS IoT SiteWise Monitor uses AWS SSO or IAM to authenticate portal users and manage user permissions.  Before you can sign in to a new portal, you must add at least one identity to that portal. For more information, see Adding or removing portal administrators in the AWS IoT SiteWise User Guide. 
     public func createPortal(_ input: CreatePortalRequest) -> EventLoopFuture<CreatePortalResponse> {
         return client.send(operation: "CreatePortal", path: "/portals", httpMethod: "POST", input: input)
+    }
+
+    ///  Creates a pre-signed URL to a portal. Use this operation to create URLs to portals that use AWS Identity and Access Management (IAM) to authenticate users. An IAM user with access to a portal can call this API to get a URL to that portal. The URL contains a session token that lets the IAM user access the portal.
+    public func createPresignedPortalUrl(_ input: CreatePresignedPortalUrlRequest) -> EventLoopFuture<CreatePresignedPortalUrlResponse> {
+        return client.send(operation: "CreatePresignedPortalUrl", path: "/portals/{portalId}/presigned-url", httpMethod: "GET", input: input)
     }
 
     ///  Creates a project in the specified portal.
@@ -99,7 +104,7 @@ public struct IoTSiteWise {
         return client.send(operation: "CreateProject", path: "/projects", httpMethod: "POST", input: input)
     }
 
-    ///  Deletes an access policy that grants the specified AWS Single Sign-On identity access to the specified AWS IoT SiteWise Monitor resource. You can use this operation to revoke access to an AWS IoT SiteWise Monitor resource.
+    ///  Deletes an access policy that grants the specified identity access to the specified AWS IoT SiteWise Monitor resource. You can use this operation to revoke access to an AWS IoT SiteWise Monitor resource.
     public func deleteAccessPolicy(_ input: DeleteAccessPolicyRequest) -> EventLoopFuture<DeleteAccessPolicyResponse> {
         return client.send(operation: "DeleteAccessPolicy", path: "/access-policies/{accessPolicyId}", httpMethod: "DELETE", input: input)
     }
@@ -119,7 +124,7 @@ public struct IoTSiteWise {
         return client.send(operation: "DeleteDashboard", path: "/dashboards/{dashboardId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Deletes a gateway from AWS IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system. For more information, see Data retention in the AWS IoT SiteWise User Guide.
+    ///  Deletes a gateway from AWS IoT SiteWise. When you delete a gateway, some of the gateway's files remain in your gateway's file system.
     @discardableResult public func deleteGateway(_ input: DeleteGatewayRequest) -> EventLoopFuture<Void> {
         return client.send(operation: "DeleteGateway", path: "/20200301/gateways/{gatewayId}", httpMethod: "DELETE", input: input)
     }
@@ -134,7 +139,7 @@ public struct IoTSiteWise {
         return client.send(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: "DELETE", input: input)
     }
 
-    ///  Describes an access policy, which specifies an AWS SSO user or group's access to an AWS IoT SiteWise Monitor portal or project.
+    ///  Describes an access policy, which specifies an identity's access to an AWS IoT SiteWise Monitor portal or project.
     public func describeAccessPolicy(_ input: DescribeAccessPolicyRequest) -> EventLoopFuture<DescribeAccessPolicyResponse> {
         return client.send(operation: "DescribeAccessPolicy", path: "/access-policies/{accessPolicyId}", httpMethod: "GET", input: input)
     }
@@ -204,7 +209,7 @@ public struct IoTSiteWise {
         return client.send(operation: "GetAssetPropertyValueHistory", path: "/properties/history", httpMethod: "GET", input: input)
     }
 
-    ///  Retrieves a paginated list of access policies for an AWS SSO identity (a user or group) or an AWS IoT SiteWise Monitor resource (a portal or project).
+    ///  Retrieves a paginated list of access policies for an identity (an AWS SSO user, an AWS SSO group, or an IAM user) or an AWS IoT SiteWise Monitor resource (a portal or project).
     public func listAccessPolicies(_ input: ListAccessPoliciesRequest) -> EventLoopFuture<ListAccessPoliciesResponse> {
         return client.send(operation: "ListAccessPolicies", path: "/access-policies", httpMethod: "GET", input: input)
     }
@@ -269,7 +274,7 @@ public struct IoTSiteWise {
         return client.send(operation: "UntagResource", path: "/tags", httpMethod: "DELETE", input: input)
     }
 
-    ///  Updates an existing access policy that specifies an AWS SSO user or group's access to an AWS IoT SiteWise Monitor portal or project resource.
+    ///  Updates an existing access policy that specifies an identity's access to an AWS IoT SiteWise Monitor portal or project resource.
     public func updateAccessPolicy(_ input: UpdateAccessPolicyRequest) -> EventLoopFuture<UpdateAccessPolicyResponse> {
         return client.send(operation: "UpdateAccessPolicy", path: "/access-policies/{accessPolicyId}", httpMethod: "PUT", input: input)
     }
@@ -279,7 +284,7 @@ public struct IoTSiteWise {
         return client.send(operation: "UpdateAsset", path: "/assets/{assetId}", httpMethod: "PUT", input: input)
     }
 
-    ///  Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the AWS IoT SiteWise User Guide.  This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see DescribeAssetModel. If you remove a property from an asset model or update a property's formula expression, AWS IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, AWS IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property. 
+    ///  Updates an asset model and all of the assets that were created from the model. Each asset created from the model inherits the updated asset model's property and hierarchy definitions. For more information, see Updating assets and models in the AWS IoT SiteWise User Guide.  This operation overwrites the existing model with the provided model. To avoid deleting your asset model's properties or hierarchies, you must include their IDs and definitions in the updated asset model payload. For more information, see DescribeAssetModel. If you remove a property from an asset model, AWS IoT SiteWise deletes all previous data for that property. If you remove a hierarchy definition from an asset model, AWS IoT SiteWise disassociates every asset associated with that hierarchy. You can't change the type or data type of an existing property. 
     public func updateAssetModel(_ input: UpdateAssetModelRequest) -> EventLoopFuture<UpdateAssetModelResponse> {
         return client.send(operation: "UpdateAssetModel", path: "/asset-models/{assetModelId}", httpMethod: "PUT", input: input)
     }

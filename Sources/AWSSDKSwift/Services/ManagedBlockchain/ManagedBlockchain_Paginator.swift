@@ -6,7 +6,7 @@ import NIO
 
 extension ManagedBlockchain {
 
-    ///  Returns a listing of all invitations made on the specified network.
+    ///  Returns a listing of all invitations for the current AWS account.
     public func listInvitationsPaginator(_ input: ListInvitationsInput, onPage: @escaping (ListInvitationsOutput, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: listInvitations, tokenKey: \ListInvitationsOutput.nextToken, onPage: onPage)
     }

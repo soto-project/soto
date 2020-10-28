@@ -51,6 +51,11 @@ public struct SavingsPlans {
         return client.send(operation: "CreateSavingsPlan", path: "/CreateSavingsPlan", httpMethod: "POST", input: input)
     }
 
+    ///  Deletes the queued purchase for the specified Savings Plan.
+    public func deleteQueuedSavingsPlan(_ input: DeleteQueuedSavingsPlanRequest) -> EventLoopFuture<DeleteQueuedSavingsPlanResponse> {
+        return client.send(operation: "DeleteQueuedSavingsPlan", path: "/DeleteQueuedSavingsPlan", httpMethod: "POST", input: input)
+    }
+
     ///  Describes the specified Savings Plans rates.
     public func describeSavingsPlanRates(_ input: DescribeSavingsPlanRatesRequest) -> EventLoopFuture<DescribeSavingsPlanRatesResponse> {
         return client.send(operation: "DescribeSavingsPlanRates", path: "/DescribeSavingsPlanRates", httpMethod: "POST", input: input)

@@ -60,17 +60,17 @@ public struct ComputeOptimizer {
         return client.send(operation: "ExportEC2InstanceRecommendations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns Auto Scaling group recommendations. AWS Compute Optimizer currently generates recommendations for Auto Scaling groups that are configured to run instances of the M, C, R, T, and X instance families. The service does not generate recommendations for Auto Scaling groups that have a scaling policy attached to them, or that do not have the same values for desired, minimum, and maximum capacity. In order for Compute Optimizer to analyze your Auto Scaling groups, they must be of a fixed size. For more information, see the AWS Compute Optimizer User Guide.
+    ///  Returns Auto Scaling group recommendations. AWS Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide.
     public func getAutoScalingGroupRecommendations(_ input: GetAutoScalingGroupRecommendationsRequest) -> EventLoopFuture<GetAutoScalingGroupRecommendationsResponse> {
         return client.send(operation: "GetAutoScalingGroupRecommendations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns Amazon EC2 instance recommendations. AWS Compute Optimizer currently generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) and Amazon EC2 Auto Scaling. It generates recommendations for M, C, R, T, and X instance families. For more information, see the AWS Compute Optimizer User Guide.
+    ///  Returns Amazon EC2 instance recommendations. AWS Compute Optimizer generates recommendations for Amazon Elastic Compute Cloud (Amazon EC2) instances that meet a specific set of requirements. For more information, see the Supported resources and requirements in the AWS Compute Optimizer User Guide.
     public func getEC2InstanceRecommendations(_ input: GetEC2InstanceRecommendationsRequest) -> EventLoopFuture<GetEC2InstanceRecommendationsResponse> {
         return client.send(operation: "GetEC2InstanceRecommendations", path: "/", httpMethod: "POST", input: input)
     }
 
-    ///  Returns the projected utilization metrics of Amazon EC2 instance recommendations.
+    ///  Returns the projected utilization metrics of Amazon EC2 instance recommendations.  The Cpu and Memory metrics are the only projected utilization metrics returned when you run this action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent. 
     public func getEC2RecommendationProjectedMetrics(_ input: GetEC2RecommendationProjectedMetricsRequest) -> EventLoopFuture<GetEC2RecommendationProjectedMetricsResponse> {
         return client.send(operation: "GetEC2RecommendationProjectedMetrics", path: "/", httpMethod: "POST", input: input)
     }

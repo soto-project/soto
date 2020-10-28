@@ -6,6 +6,11 @@ import NIO
 
 extension Neptune {
 
+    ///  Returns information about endpoints for an Amazon Neptune DB cluster.  This operation can also return information for Amazon RDS clusters and Amazon DocDB clusters. 
+    public func describeDBClusterEndpointsPaginator(_ input: DescribeDBClusterEndpointsMessage, onPage: @escaping (DBClusterEndpointMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
+        return client.paginate(input: input, command: describeDBClusterEndpoints, tokenKey: \DBClusterEndpointMessage.marker, onPage: onPage)
+    }
+
     ///  Returns a list of the available DB engines.
     public func describeDBEngineVersionsPaginator(_ input: DescribeDBEngineVersionsMessage, onPage: @escaping (DBEngineVersionMessage, EventLoop)->EventLoopFuture<Bool>) -> EventLoopFuture<Void> {
         return client.paginate(input: input, command: describeDBEngineVersions, tokenKey: \DBEngineVersionMessage.marker, onPage: onPage)
@@ -51,6 +56,19 @@ extension Neptune {
         return client.paginate(input: input, command: describeOrderableDBInstanceOptions, tokenKey: \OrderableDBInstanceOptionsMessage.marker, onPage: onPage)
     }
 
+}
+
+extension Neptune.DescribeDBClusterEndpointsMessage: AWSPaginateStringToken {
+    public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterEndpointsMessage {
+        return .init(
+            dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier, 
+            dBClusterIdentifier: self.dBClusterIdentifier, 
+            filters: self.filters, 
+            marker: token, 
+            maxRecords: self.maxRecords
+        )
+
+    }
 }
 
 extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateStringToken {
