@@ -23,7 +23,7 @@ class S3Tests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .euwest1,
-        endpoint: ProcessInfo.processInfo.environment["S3_ENDPOINT"] ?? "http://localhost:4566",
+        endpoint: ProcessInfo.processInfo.environment["LOCALSTACK_ENDPOINT"] ?? "http://localhost:4566",
         middlewares: [AWSLoggingMiddleware()]
     )
 
@@ -61,8 +61,8 @@ class S3Tests: XCTestCase {
                         }
                     }
                 }
-                let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
-                _ = try client.deleteBucket(deleteRequest).wait()
+                //let deleteRequest = S3.DeleteBucketRequest(bucket: self.bucket)
+                //_ = try client.deleteBucket(deleteRequest).wait()
             }
         }
     }
@@ -130,7 +130,7 @@ class S3Tests: XCTestCase {
     }
 
     func testMultiPartUpload() {
-        /*attempt {
+        attempt {
             let testData = try TestData(#function, client: client)
 
             let multiPartUploadRequest = S3.CreateMultipartUploadRequest(
@@ -154,7 +154,7 @@ class S3Tests: XCTestCase {
 
             XCTAssertEqual(object.body, data)
             try FileManager.default.removeItem(atPath: filename)
-        }*/
+        }
     }
 
     /// test uploaded objects are returned in ListObjects

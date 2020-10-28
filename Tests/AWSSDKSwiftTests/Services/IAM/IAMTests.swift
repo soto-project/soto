@@ -16,7 +16,7 @@ class IAMTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["IAM_ENDPOINT"] ?? "http://localhost:4566"
+        endpoint: ProcessInfo.processInfo.environment["LOCALSTACK_ENDPOINT"] ?? "http://localhost:4566"
     )
 
     class TestData {

@@ -1,0 +1,30 @@
+# run this with docker-compose -f docker/docker-compose.yml run test
+version: "3.3"
+
+services:
+  common: &common
+    build: .
+    volumes:
+      - ..:/working
+    working_dir: /working
+
+  test:
+    <<: *common
+    build: .
+    volumes:
+      - ..:/working
+    working_dir: /working
+    depends_on:
+      - localstack
+    environment:
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+    command: /bin/bash -xcl "swift test --enable-test-discovery"
+
+  localstack:
+    image: localstack/localstack
+    volumes:
+      - "/tmp/localstack:/tmp/localstack"
+
+  shell:
+    <<: *common
+    entrypoint: /bin/bash

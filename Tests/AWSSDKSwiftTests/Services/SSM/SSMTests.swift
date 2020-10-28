@@ -20,7 +20,7 @@ class SSMTests: XCTestCase {
         accessKeyId: "key",
         secretAccessKey: "secret",
         region: .useast1,
-        endpoint: ProcessInfo.processInfo.environment["SSM_ENDPOINT"] ?? "http://localhost:4566",
+        endpoint: ProcessInfo.processInfo.environment["LOCALSTACK_ENDPOINT"] ?? "http://localhost:4566",
         middlewares: [AWSLoggingMiddleware()]
     )
 
