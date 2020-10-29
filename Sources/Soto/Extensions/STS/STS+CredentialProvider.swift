@@ -50,18 +50,28 @@ extension STS {
     }
 
     struct AssumeRoleCredentialProvider: CredentialProviderWithClient {
-        let request: STS.AssumeRoleRequest
+        let request: STS.AssumeRoleRequest?
         let client: AWSClient
         let sts: STS
+        let renewRequest: (STS.AssumeRoleRequest?, EventLoop)->EventLoopFuture<STS.AssumeRoleRequest>
 
-        init(request: STS.AssumeRoleRequest, credentialProvider: CredentialProviderFactory, region: Region, httpClient: AWSHTTPClient) {
+        init(
+            request: STS.AssumeRoleRequest?,
+            credentialProvider: CredentialProviderFactory,
+            region: Region,
+            httpClient: AWSHTTPClient,
+            renewRequest: @escaping (STS.AssumeRoleRequest?, EventLoop)->EventLoopFuture<STS.AssumeRoleRequest> = Self.defaultRenew
+        ) {
             self.client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .shared(httpClient))
             self.sts = STS(client: self.client, region: region)
             self.request = request
+            self.renewRequest = renewRequest
         }
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
-            return sts.assumeRole(request, on: eventLoop).flatMapThrowing { response in
+            return renewRequest(self.request, eventLoop).flatMap { request in
+                sts.assumeRole(request, on: eventLoop)
+            }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
                     accessKeyId: credentials.accessKeyId,
@@ -70,6 +80,13 @@ extension STS {
                     expiration: credentials.expiration
                 )
             }
+        }
+        
+        static func defaultRenew(_ request: STS.AssumeRoleRequest?, eventLoop: EventLoop)->EventLoopFuture<STS.AssumeRoleRequest> {
+            guard let request = request else {
+                preconditionFailure("You need to provide a valid AssumeRoleRequest if you do not provide a renewRequest closure")
+            }
+            return eventLoop.makeSucceededFuture(request)
         }
     }
 
