@@ -158,8 +158,13 @@ class LambdaTests: XCTestCase {
 
         // invoke the Lambda function created by setUp()
         let request = Lambda.InvocationRequest(functionName: Self.functionName, logType: .tail, payload: .string("{}"))
-        _ = Self.lambda.invoke(request)
-            .map { response -> Void in
+        let eventLoop = Self.lambda.invoke(request)
+        XCTAssertNoThrow(try eventLoop.wait())
+
+        _ = eventLoop.always { result in
+
+            switch result {
+            case .success(let response):
                 // is there an function execution error returned by the service?
                 XCTAssertNil(response.functionError)
 
@@ -169,7 +174,10 @@ class LambdaTests: XCTestCase {
                     return
                 }
                 XCTAssertEqual(payload, "\"hello world\"")
+            case .failure(let error):
+                XCTFail("Lambda invocation returned an error : \(error)")
             }
+        }
     }
 
     func testListFunctions() {
