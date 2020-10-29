@@ -51,7 +51,7 @@ extension STS {
 
     enum RequestProvider<Request> {
         case `static`(Request)
-        case dynamic((EventLoop)->EventLoopFuture<Request>)
+        case dynamic((EventLoop) -> EventLoopFuture<Request>)
 
         func request(on eventLoop: EventLoop) -> EventLoopFuture<Request> {
             switch self {
@@ -227,7 +227,7 @@ extension CredentialProviderFactory {
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
     public static func stsAssumeRole(
-        requestProvider: @escaping (EventLoop)->EventLoopFuture<STS.AssumeRoleRequest>,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleRequest>,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region
     ) -> CredentialProviderFactory {
@@ -258,7 +258,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
     ///   - region: Region to run request in
     public static func stsSAML(
-        requestProvider: @escaping (EventLoop)->EventLoopFuture<STS.AssumeRoleWithSAMLRequest>,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithSAMLRequest>,
         region: Region
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -283,7 +283,7 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
     ///   - region: Region to run request in
     public static func stsWebIdentity(
-        requestProvider: @escaping (EventLoop)->EventLoopFuture<STS.AssumeRoleWithWebIdentityRequest>,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithWebIdentityRequest>,
         region: Region
     ) -> CredentialProviderFactory {
         .custom { context in
@@ -340,7 +340,7 @@ extension CredentialProviderFactory {
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
     public static func stsSessionToken(
-        requestProvider: @escaping (EventLoop)->EventLoopFuture<STS.GetSessionTokenRequest>,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.GetSessionTokenRequest>,
         credentialProvider: CredentialProviderFactory = .default,
         region: Region
     ) -> CredentialProviderFactory {
