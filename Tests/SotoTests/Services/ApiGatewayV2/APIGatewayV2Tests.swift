@@ -27,6 +27,7 @@ class APIGatewayV2Tests: XCTestCase {
     static var restApiId: String!
 
     override class func setUp() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
         Self.apiGatewayV2 = ApiGatewayV2(
             client: Self.client,
@@ -51,6 +52,7 @@ class APIGatewayV2Tests: XCTestCase {
     }
 
     override class func tearDown() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         XCTAssertNoThrow(_ = try self.deleteRestApi(id: self.restApiId).wait())
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
@@ -88,6 +90,7 @@ class APIGatewayV2Tests: XCTestCase {
 
     /// tests whether created date is loading correctly
     func testGetApis() {
+        guard !TestEnvironment.isUsingLocalstack else { return }
         // get date from 1 minute before now.
         let date = Date(timeIntervalSinceNow: -60.0)
         let response = self.testRestApi { id in
