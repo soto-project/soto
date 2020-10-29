@@ -1,3 +1,17 @@
+{%if enum.isExtensible %}
+    public struct {{enum.name}}: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+{%for value in enum.values %}{%if value.documentation %}
+        /// {{value.documentation}}{%endif %}
+        public static var {{value.case}}: Self { .init(rawValue: "{{value.string}}")}
+{%endfor %}
+    }
+
+{%else %}
     public enum {{enum.name}}: String, CustomStringConvertible, Codable {
 {%for value in enum.values %}{%if value.documentation %}
         /// {{value.documentation}}{%endif %}
@@ -5,3 +19,4 @@
 {%endfor %}
         public var description: String { return self.rawValue }
     }
+{%endif %}

@@ -43,6 +43,7 @@ extension API {
         ],
         "EC2": [
             ReplacePatch(PatchKeyPath3(\.shapes["PlatformValues"], \.type.enum, \.cases[0]), value: "windows", originalValue: "Windows"),
+            ReplacePatch(PatchKeyPath3(\.shapes["InstanceType"], \.type.enum, \.isExtensible), value: true, originalValue: false),
         ],
         "ECS": [
             AddPatch(PatchKeyPath3(\.shapes["PropagateTags"], \.type.enum, \.cases), value: "NONE"),
