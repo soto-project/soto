@@ -38,17 +38,6 @@ extension CredentialProviderWithClient {
 }
 
 extension STS {
-    struct RotatingCredential: ExpiringCredential {
-        func isExpiring(within interval: TimeInterval) -> Bool {
-            return self.expiration.timeIntervalSinceNow < interval
-        }
-
-        let accessKeyId: String
-        let secretAccessKey: String
-        let sessionToken: String?
-        let expiration: Date
-    }
-
     enum RequestProvider<Request> {
         case `static`(Request)
         case dynamic((EventLoop) -> EventLoopFuture<Request>)

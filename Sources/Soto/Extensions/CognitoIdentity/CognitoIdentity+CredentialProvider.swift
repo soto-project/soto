@@ -18,17 +18,6 @@ import NIO
 import SotoCore
 
 extension CognitoIdentity {
-    struct RotatingCredential: ExpiringCredential {
-        func isExpiring(within interval: TimeInterval) -> Bool {
-            return self.expiration.timeIntervalSinceNow < interval
-        }
-
-        let accessKeyId: String
-        let secretAccessKey: String
-        let sessionToken: String?
-        let expiration: Date
-    }
-
     struct IdentityCredentialProvider: CredentialProvider {
         let logins: [String: String]?
         let client: AWSClient
