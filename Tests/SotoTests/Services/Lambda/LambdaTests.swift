@@ -155,10 +155,21 @@ class LambdaTests: XCTestCase {
     func testInvoke() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        // assumes there is a "Hello" function available
+
+        // invoke the Lambda function created by setUp()
         let request = Lambda.InvocationRequest(functionName: Self.functionName, logType: .tail, payload: .string("{}"))
-        let response = Self.lambda.invoke(request)
-        XCTAssertNoThrow(try response.wait())
+        _ = Self.lambda.invoke(request)
+            .map { response -> Void in
+                // is there an function execution error returned by the service?
+                XCTAssertNil(response.functionError)
+
+                // check the payload matches the one from the Lambda function
+                guard let payload = response.payload?.asString() else {
+                    XCTFail("Lambda function should return a payload")
+                    return
+                }
+                XCTAssertEqual(payload, "\"hello world\"")
+            }
     }
 
     func testListFunctions() {
