@@ -48,8 +48,23 @@ class STSTests: XCTestCase {
     }
 
     func testSTSCredentialProviderShutdown() {
-        let client = AWSClient(credentialProvider: .stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2), httpClientProvider: .createNew)
+        let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2)
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew)
         XCTAssertNoThrow(try client.syncShutdown())
+    }
+
+    func testSTSCredentialProviderClosure() {
+        let request = STS.AssumeRoleRequest(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session")
+        var returnedRequest: STS.AssumeRoleRequest?
+        let credentialProvider = CredentialProviderFactory.stsAssumeRole(region: .euwest2) { eventLoop in
+            return eventLoop.scheduleTask(in: .milliseconds(500)) {
+                returnedRequest = request
+                return request
+            }.futureResult
+        }
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew)
+        XCTAssertNoThrow(try client.syncShutdown())
+        XCTAssertEqual(request.roleSessionName, returnedRequest?.roleSessionName)
     }
 
     func testFederationToken() {

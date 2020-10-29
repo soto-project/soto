@@ -81,7 +81,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                sts.assumeRole(request, on: eventLoop)
+                self.sts.assumeRole(request, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -107,7 +107,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                sts.assumeRoleWithSAML(request, on: eventLoop)
+                self.sts.assumeRoleWithSAML(request, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -133,7 +133,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                sts.assumeRoleWithWebIdentity(request, on: eventLoop)
+                self.sts.assumeRoleWithWebIdentity(request, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -159,7 +159,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                sts.getFederationToken(request, on: eventLoop)
+                self.sts.getFederationToken(request, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -185,7 +185,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                sts.getSessionToken(request, on: eventLoop)
+                self.sts.getSessionToken(request, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -227,9 +227,9 @@ extension CredentialProviderFactory {
     ///   - credentialProvider: Credential provider used in client that runs the AssumeRole operation
     ///   - region: Region to run request in
     public static func stsAssumeRole(
-        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleRequest>,
         credentialProvider: CredentialProviderFactory = .default,
-        region: Region
+        region: Region,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleRequest>
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleCredentialProvider(
@@ -258,8 +258,8 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithSAML request struct
     ///   - region: Region to run request in
     public static func stsSAML(
-        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithSAMLRequest>,
-        region: Region
+        region: Region,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithSAMLRequest>
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithSAMLCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
@@ -283,8 +283,8 @@ extension CredentialProviderFactory {
     ///   - requestProvider: Function that returns a EventLoopFuture to be fulfillled with an AssumeRoleWithWebIdentity request struct
     ///   - region: Region to run request in
     public static func stsWebIdentity(
-        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithWebIdentityRequest>,
-        region: Region
+        region: Region,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.AssumeRoleWithWebIdentityRequest>
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.AssumeRoleWithWebIdentityCredentialProvider(requestProvider: .dynamic(requestProvider), region: region, httpClient: context.httpClient)
@@ -340,9 +340,9 @@ extension CredentialProviderFactory {
     ///   - credentialProvider: Credential provider used in client that runs the GetSessionToken operation
     ///   - region: Region to run request in
     public static func stsSessionToken(
-        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.GetSessionTokenRequest>,
         credentialProvider: CredentialProviderFactory = .default,
-        region: Region
+        region: Region,
+        requestProvider: @escaping (EventLoop) -> EventLoopFuture<STS.GetSessionTokenRequest>
     ) -> CredentialProviderFactory {
         .custom { context in
             let provider = STS.SessionTokenCredentialProvider(
