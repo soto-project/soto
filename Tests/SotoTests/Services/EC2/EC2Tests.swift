@@ -48,6 +48,14 @@ class EC2Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testDescribeInstanceTypes() {
+        let response = Self.ec2.describeInstanceTypesPaginator(.init(), []) { result, response, eventLoop in
+            let newResult = result + (response.instanceTypes ?? [])
+            return eventLoop.makeSucceededFuture((true, newResult))
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+    
     func testError() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
