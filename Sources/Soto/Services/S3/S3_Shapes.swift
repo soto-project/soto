@@ -39,34 +39,39 @@ extension S3 {
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case afSouth1 = "af-south-1"
-        case apEast1 = "ap-east-1"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case caCentral1 = "ca-central-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case eu = "EU"
-        case euCentral1 = "eu-central-1"
-        case euNorth1 = "eu-north-1"
-        case euSouth1 = "eu-south-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case meSouth1 = "me-south-1"
-        case saEast1 = "sa-east-1"
-        case usEast2 = "us-east-2"
-        case usGovEast1 = "us-gov-east-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case usEast1 = "us-east-1"
-        public var description: String { return self.rawValue }
+    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+
+        public static var afSouth1: Self { .init(rawValue: "af-south-1") }
+        public static var apEast1: Self { .init(rawValue: "ap-east-1") }
+        public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        public static var apNortheast2: Self { .init(rawValue: "ap-northeast-2") }
+        public static var apNortheast3: Self { .init(rawValue: "ap-northeast-3") }
+        public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        public static var caCentral1: Self { .init(rawValue: "ca-central-1") }
+        public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        public static var cnNorthwest1: Self { .init(rawValue: "cn-northwest-1") }
+        public static var eu: Self { .init(rawValue: "EU") }
+        public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        public static var euNorth1: Self { .init(rawValue: "eu-north-1") }
+        public static var euSouth1: Self { .init(rawValue: "eu-south-1") }
+        public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        public static var euWest2: Self { .init(rawValue: "eu-west-2") }
+        public static var euWest3: Self { .init(rawValue: "eu-west-3") }
+        public static var meSouth1: Self { .init(rawValue: "me-south-1") }
+        public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        public static var usEast2: Self { .init(rawValue: "us-east-2") }
+        public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
+        public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
+        public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        public static var usWest2: Self { .init(rawValue: "us-west-2") }
+        public static var usEast1: Self { .init(rawValue: "us-east-1") }
     }
 
     public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
