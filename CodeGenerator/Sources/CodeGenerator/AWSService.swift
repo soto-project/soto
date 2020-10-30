@@ -154,6 +154,7 @@ extension AWSService {
     struct EnumContext {
         let name: String
         let values: [EnumMemberContext]
+        let isExtensible: Bool
     }
 
     struct ArrayEncodingPropertiesContext: EncodingPropertiesContext {
@@ -442,10 +443,10 @@ extension AWSService {
     }
 
     /// Generate the context information for outputting an enum
-    func generateEnumContext(_ shape: Shape, values: [String]) -> EnumContext {
+    func generateEnumContext(_ shape: Shape, enumType: Shape.ShapeType.EnumType) -> EnumContext {
         // Operations
         var valueContexts: [EnumMemberContext] = []
-        for value in values {
+        for value in enumType.cases {
             var key = value.lowercased()
                 .replacingOccurrences(of: ".", with: "_")
                 .replacingOccurrences(of: ":", with: "_")
@@ -467,7 +468,8 @@ extension AWSService {
 
         return EnumContext(
             name: shape.name.toSwiftClassCase().reservedwordEscaped(),
-            values: valueContexts
+            values: valueContexts,
+            isExtensible: enumType.isExtensible
         )
     }
 
@@ -863,7 +865,7 @@ extension AWSService {
             switch shape.type {
             case .enum(let enumType):
                 var enumContext: [String: Any] = [:]
-                enumContext["enum"] = self.generateEnumContext(shape, values: enumType.cases)
+                enumContext["enum"] = self.generateEnumContext(shape, enumType: enumType)
                 shapeContexts.append(enumContext)
 
             case .structure(let type):

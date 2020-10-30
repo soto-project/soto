@@ -381,8 +381,10 @@ class Shape: Decodable {
 
         struct EnumType {
             var cases: [String]
+            var isExtensible: Bool
             init(cases: [String]) {
                 self.cases = cases
+                self.isExtensible = false
             }
         }
 

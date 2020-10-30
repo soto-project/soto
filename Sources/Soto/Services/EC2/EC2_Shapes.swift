@@ -680,357 +680,362 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
-    public enum InstanceType: String, CustomStringConvertible, Codable {
-        case t1Micro = "t1.micro"
-        case t2Nano = "t2.nano"
-        case t2Micro = "t2.micro"
-        case t2Small = "t2.small"
-        case t2Medium = "t2.medium"
-        case t2Large = "t2.large"
-        case t2Xlarge = "t2.xlarge"
-        case t22Xlarge = "t2.2xlarge"
-        case t3Nano = "t3.nano"
-        case t3Micro = "t3.micro"
-        case t3Small = "t3.small"
-        case t3Medium = "t3.medium"
-        case t3Large = "t3.large"
-        case t3Xlarge = "t3.xlarge"
-        case t32Xlarge = "t3.2xlarge"
-        case t3aNano = "t3a.nano"
-        case t3aMicro = "t3a.micro"
-        case t3aSmall = "t3a.small"
-        case t3aMedium = "t3a.medium"
-        case t3aLarge = "t3a.large"
-        case t3aXlarge = "t3a.xlarge"
-        case t3a2Xlarge = "t3a.2xlarge"
-        case t4gNano = "t4g.nano"
-        case t4gMicro = "t4g.micro"
-        case t4gSmall = "t4g.small"
-        case t4gMedium = "t4g.medium"
-        case t4gLarge = "t4g.large"
-        case t4gXlarge = "t4g.xlarge"
-        case t4g2Xlarge = "t4g.2xlarge"
-        case m1Small = "m1.small"
-        case m1Medium = "m1.medium"
-        case m1Large = "m1.large"
-        case m1Xlarge = "m1.xlarge"
-        case m3Medium = "m3.medium"
-        case m3Large = "m3.large"
-        case m3Xlarge = "m3.xlarge"
-        case m32Xlarge = "m3.2xlarge"
-        case m4Large = "m4.large"
-        case m4Xlarge = "m4.xlarge"
-        case m42Xlarge = "m4.2xlarge"
-        case m44Xlarge = "m4.4xlarge"
-        case m410Xlarge = "m4.10xlarge"
-        case m416Xlarge = "m4.16xlarge"
-        case m2Xlarge = "m2.xlarge"
-        case m22Xlarge = "m2.2xlarge"
-        case m24Xlarge = "m2.4xlarge"
-        case cr18Xlarge = "cr1.8xlarge"
-        case r3Large = "r3.large"
-        case r3Xlarge = "r3.xlarge"
-        case r32Xlarge = "r3.2xlarge"
-        case r34Xlarge = "r3.4xlarge"
-        case r38Xlarge = "r3.8xlarge"
-        case r4Large = "r4.large"
-        case r4Xlarge = "r4.xlarge"
-        case r42Xlarge = "r4.2xlarge"
-        case r44Xlarge = "r4.4xlarge"
-        case r48Xlarge = "r4.8xlarge"
-        case r416Xlarge = "r4.16xlarge"
-        case r5Large = "r5.large"
-        case r5Xlarge = "r5.xlarge"
-        case r52Xlarge = "r5.2xlarge"
-        case r54Xlarge = "r5.4xlarge"
-        case r58Xlarge = "r5.8xlarge"
-        case r512Xlarge = "r5.12xlarge"
-        case r516Xlarge = "r5.16xlarge"
-        case r524Xlarge = "r5.24xlarge"
-        case r5Metal = "r5.metal"
-        case r5aLarge = "r5a.large"
-        case r5aXlarge = "r5a.xlarge"
-        case r5a2Xlarge = "r5a.2xlarge"
-        case r5a4Xlarge = "r5a.4xlarge"
-        case r5a8Xlarge = "r5a.8xlarge"
-        case r5a12Xlarge = "r5a.12xlarge"
-        case r5a16Xlarge = "r5a.16xlarge"
-        case r5a24Xlarge = "r5a.24xlarge"
-        case r5dLarge = "r5d.large"
-        case r5dXlarge = "r5d.xlarge"
-        case r5d2Xlarge = "r5d.2xlarge"
-        case r5d4Xlarge = "r5d.4xlarge"
-        case r5d8Xlarge = "r5d.8xlarge"
-        case r5d12Xlarge = "r5d.12xlarge"
-        case r5d16Xlarge = "r5d.16xlarge"
-        case r5d24Xlarge = "r5d.24xlarge"
-        case r5dMetal = "r5d.metal"
-        case r5adLarge = "r5ad.large"
-        case r5adXlarge = "r5ad.xlarge"
-        case r5ad2Xlarge = "r5ad.2xlarge"
-        case r5ad4Xlarge = "r5ad.4xlarge"
-        case r5ad8Xlarge = "r5ad.8xlarge"
-        case r5ad12Xlarge = "r5ad.12xlarge"
-        case r5ad16Xlarge = "r5ad.16xlarge"
-        case r5ad24Xlarge = "r5ad.24xlarge"
-        case r6gMetal = "r6g.metal"
-        case r6gMedium = "r6g.medium"
-        case r6gLarge = "r6g.large"
-        case r6gXlarge = "r6g.xlarge"
-        case r6g2Xlarge = "r6g.2xlarge"
-        case r6g4Xlarge = "r6g.4xlarge"
-        case r6g8Xlarge = "r6g.8xlarge"
-        case r6g12Xlarge = "r6g.12xlarge"
-        case r6g16Xlarge = "r6g.16xlarge"
-        case r6gdMetal = "r6gd.metal"
-        case r6gdMedium = "r6gd.medium"
-        case r6gdLarge = "r6gd.large"
-        case r6gdXlarge = "r6gd.xlarge"
-        case r6gd2Xlarge = "r6gd.2xlarge"
-        case r6gd4Xlarge = "r6gd.4xlarge"
-        case r6gd8Xlarge = "r6gd.8xlarge"
-        case r6gd12Xlarge = "r6gd.12xlarge"
-        case r6gd16Xlarge = "r6gd.16xlarge"
-        case x116Xlarge = "x1.16xlarge"
-        case x132Xlarge = "x1.32xlarge"
-        case x1eXlarge = "x1e.xlarge"
-        case x1e2Xlarge = "x1e.2xlarge"
-        case x1e4Xlarge = "x1e.4xlarge"
-        case x1e8Xlarge = "x1e.8xlarge"
-        case x1e16Xlarge = "x1e.16xlarge"
-        case x1e32Xlarge = "x1e.32xlarge"
-        case i2Xlarge = "i2.xlarge"
-        case i22Xlarge = "i2.2xlarge"
-        case i24Xlarge = "i2.4xlarge"
-        case i28Xlarge = "i2.8xlarge"
-        case i3Large = "i3.large"
-        case i3Xlarge = "i3.xlarge"
-        case i32Xlarge = "i3.2xlarge"
-        case i34Xlarge = "i3.4xlarge"
-        case i38Xlarge = "i3.8xlarge"
-        case i316Xlarge = "i3.16xlarge"
-        case i3Metal = "i3.metal"
-        case i3enLarge = "i3en.large"
-        case i3enXlarge = "i3en.xlarge"
-        case i3en2Xlarge = "i3en.2xlarge"
-        case i3en3Xlarge = "i3en.3xlarge"
-        case i3en6Xlarge = "i3en.6xlarge"
-        case i3en12Xlarge = "i3en.12xlarge"
-        case i3en24Xlarge = "i3en.24xlarge"
-        case i3enMetal = "i3en.metal"
-        case hi14Xlarge = "hi1.4xlarge"
-        case hs18Xlarge = "hs1.8xlarge"
-        case c1Medium = "c1.medium"
-        case c1Xlarge = "c1.xlarge"
-        case c3Large = "c3.large"
-        case c3Xlarge = "c3.xlarge"
-        case c32Xlarge = "c3.2xlarge"
-        case c34Xlarge = "c3.4xlarge"
-        case c38Xlarge = "c3.8xlarge"
-        case c4Large = "c4.large"
-        case c4Xlarge = "c4.xlarge"
-        case c42Xlarge = "c4.2xlarge"
-        case c44Xlarge = "c4.4xlarge"
-        case c48Xlarge = "c4.8xlarge"
-        case c5Large = "c5.large"
-        case c5Xlarge = "c5.xlarge"
-        case c52Xlarge = "c5.2xlarge"
-        case c54Xlarge = "c5.4xlarge"
-        case c59Xlarge = "c5.9xlarge"
-        case c512Xlarge = "c5.12xlarge"
-        case c518Xlarge = "c5.18xlarge"
-        case c524Xlarge = "c5.24xlarge"
-        case c5Metal = "c5.metal"
-        case c5aLarge = "c5a.large"
-        case c5aXlarge = "c5a.xlarge"
-        case c5a2Xlarge = "c5a.2xlarge"
-        case c5a4Xlarge = "c5a.4xlarge"
-        case c5a8Xlarge = "c5a.8xlarge"
-        case c5a12Xlarge = "c5a.12xlarge"
-        case c5a16Xlarge = "c5a.16xlarge"
-        case c5a24Xlarge = "c5a.24xlarge"
-        case c5adLarge = "c5ad.large"
-        case c5adXlarge = "c5ad.xlarge"
-        case c5ad2Xlarge = "c5ad.2xlarge"
-        case c5ad4Xlarge = "c5ad.4xlarge"
-        case c5ad8Xlarge = "c5ad.8xlarge"
-        case c5ad12Xlarge = "c5ad.12xlarge"
-        case c5ad16Xlarge = "c5ad.16xlarge"
-        case c5ad24Xlarge = "c5ad.24xlarge"
-        case c5dLarge = "c5d.large"
-        case c5dXlarge = "c5d.xlarge"
-        case c5d2Xlarge = "c5d.2xlarge"
-        case c5d4Xlarge = "c5d.4xlarge"
-        case c5d9Xlarge = "c5d.9xlarge"
-        case c5d12Xlarge = "c5d.12xlarge"
-        case c5d18Xlarge = "c5d.18xlarge"
-        case c5d24Xlarge = "c5d.24xlarge"
-        case c5dMetal = "c5d.metal"
-        case c5nLarge = "c5n.large"
-        case c5nXlarge = "c5n.xlarge"
-        case c5n2Xlarge = "c5n.2xlarge"
-        case c5n4Xlarge = "c5n.4xlarge"
-        case c5n9Xlarge = "c5n.9xlarge"
-        case c5n18Xlarge = "c5n.18xlarge"
-        case c6gMetal = "c6g.metal"
-        case c6gMedium = "c6g.medium"
-        case c6gLarge = "c6g.large"
-        case c6gXlarge = "c6g.xlarge"
-        case c6g2Xlarge = "c6g.2xlarge"
-        case c6g4Xlarge = "c6g.4xlarge"
-        case c6g8Xlarge = "c6g.8xlarge"
-        case c6g12Xlarge = "c6g.12xlarge"
-        case c6g16Xlarge = "c6g.16xlarge"
-        case c6gdMetal = "c6gd.metal"
-        case c6gdMedium = "c6gd.medium"
-        case c6gdLarge = "c6gd.large"
-        case c6gdXlarge = "c6gd.xlarge"
-        case c6gd2Xlarge = "c6gd.2xlarge"
-        case c6gd4Xlarge = "c6gd.4xlarge"
-        case c6gd8Xlarge = "c6gd.8xlarge"
-        case c6gd12Xlarge = "c6gd.12xlarge"
-        case c6gd16Xlarge = "c6gd.16xlarge"
-        case cc14Xlarge = "cc1.4xlarge"
-        case cc28Xlarge = "cc2.8xlarge"
-        case g22Xlarge = "g2.2xlarge"
-        case g28Xlarge = "g2.8xlarge"
-        case g34Xlarge = "g3.4xlarge"
-        case g38Xlarge = "g3.8xlarge"
-        case g316Xlarge = "g3.16xlarge"
-        case g3sXlarge = "g3s.xlarge"
-        case g4dnXlarge = "g4dn.xlarge"
-        case g4dn2Xlarge = "g4dn.2xlarge"
-        case g4dn4Xlarge = "g4dn.4xlarge"
-        case g4dn8Xlarge = "g4dn.8xlarge"
-        case g4dn12Xlarge = "g4dn.12xlarge"
-        case g4dn16Xlarge = "g4dn.16xlarge"
-        case g4dnMetal = "g4dn.metal"
-        case cg14Xlarge = "cg1.4xlarge"
-        case p2Xlarge = "p2.xlarge"
-        case p28Xlarge = "p2.8xlarge"
-        case p216Xlarge = "p2.16xlarge"
-        case p32Xlarge = "p3.2xlarge"
-        case p38Xlarge = "p3.8xlarge"
-        case p316Xlarge = "p3.16xlarge"
-        case p3dn24Xlarge = "p3dn.24xlarge"
-        case d2Xlarge = "d2.xlarge"
-        case d22Xlarge = "d2.2xlarge"
-        case d24Xlarge = "d2.4xlarge"
-        case d28Xlarge = "d2.8xlarge"
-        case f12Xlarge = "f1.2xlarge"
-        case f14Xlarge = "f1.4xlarge"
-        case f116Xlarge = "f1.16xlarge"
-        case m5Large = "m5.large"
-        case m5Xlarge = "m5.xlarge"
-        case m52Xlarge = "m5.2xlarge"
-        case m54Xlarge = "m5.4xlarge"
-        case m58Xlarge = "m5.8xlarge"
-        case m512Xlarge = "m5.12xlarge"
-        case m516Xlarge = "m5.16xlarge"
-        case m524Xlarge = "m5.24xlarge"
-        case m5Metal = "m5.metal"
-        case m5aLarge = "m5a.large"
-        case m5aXlarge = "m5a.xlarge"
-        case m5a2Xlarge = "m5a.2xlarge"
-        case m5a4Xlarge = "m5a.4xlarge"
-        case m5a8Xlarge = "m5a.8xlarge"
-        case m5a12Xlarge = "m5a.12xlarge"
-        case m5a16Xlarge = "m5a.16xlarge"
-        case m5a24Xlarge = "m5a.24xlarge"
-        case m5dLarge = "m5d.large"
-        case m5dXlarge = "m5d.xlarge"
-        case m5d2Xlarge = "m5d.2xlarge"
-        case m5d4Xlarge = "m5d.4xlarge"
-        case m5d8Xlarge = "m5d.8xlarge"
-        case m5d12Xlarge = "m5d.12xlarge"
-        case m5d16Xlarge = "m5d.16xlarge"
-        case m5d24Xlarge = "m5d.24xlarge"
-        case m5dMetal = "m5d.metal"
-        case m5adLarge = "m5ad.large"
-        case m5adXlarge = "m5ad.xlarge"
-        case m5ad2Xlarge = "m5ad.2xlarge"
-        case m5ad4Xlarge = "m5ad.4xlarge"
-        case m5ad8Xlarge = "m5ad.8xlarge"
-        case m5ad12Xlarge = "m5ad.12xlarge"
-        case m5ad16Xlarge = "m5ad.16xlarge"
-        case m5ad24Xlarge = "m5ad.24xlarge"
-        case h12Xlarge = "h1.2xlarge"
-        case h14Xlarge = "h1.4xlarge"
-        case h18Xlarge = "h1.8xlarge"
-        case h116Xlarge = "h1.16xlarge"
-        case z1dLarge = "z1d.large"
-        case z1dXlarge = "z1d.xlarge"
-        case z1d2Xlarge = "z1d.2xlarge"
-        case z1d3Xlarge = "z1d.3xlarge"
-        case z1d6Xlarge = "z1d.6xlarge"
-        case z1d12Xlarge = "z1d.12xlarge"
-        case z1dMetal = "z1d.metal"
-        case u6Tb1Metal = "u-6tb1.metal"
-        case u9Tb1Metal = "u-9tb1.metal"
-        case u12Tb1Metal = "u-12tb1.metal"
-        case u18Tb1Metal = "u-18tb1.metal"
-        case u24Tb1Metal = "u-24tb1.metal"
-        case a1Medium = "a1.medium"
-        case a1Large = "a1.large"
-        case a1Xlarge = "a1.xlarge"
-        case a12Xlarge = "a1.2xlarge"
-        case a14Xlarge = "a1.4xlarge"
-        case a1Metal = "a1.metal"
-        case m5dnLarge = "m5dn.large"
-        case m5dnXlarge = "m5dn.xlarge"
-        case m5dn2Xlarge = "m5dn.2xlarge"
-        case m5dn4Xlarge = "m5dn.4xlarge"
-        case m5dn8Xlarge = "m5dn.8xlarge"
-        case m5dn12Xlarge = "m5dn.12xlarge"
-        case m5dn16Xlarge = "m5dn.16xlarge"
-        case m5dn24Xlarge = "m5dn.24xlarge"
-        case m5nLarge = "m5n.large"
-        case m5nXlarge = "m5n.xlarge"
-        case m5n2Xlarge = "m5n.2xlarge"
-        case m5n4Xlarge = "m5n.4xlarge"
-        case m5n8Xlarge = "m5n.8xlarge"
-        case m5n12Xlarge = "m5n.12xlarge"
-        case m5n16Xlarge = "m5n.16xlarge"
-        case m5n24Xlarge = "m5n.24xlarge"
-        case r5dnLarge = "r5dn.large"
-        case r5dnXlarge = "r5dn.xlarge"
-        case r5dn2Xlarge = "r5dn.2xlarge"
-        case r5dn4Xlarge = "r5dn.4xlarge"
-        case r5dn8Xlarge = "r5dn.8xlarge"
-        case r5dn12Xlarge = "r5dn.12xlarge"
-        case r5dn16Xlarge = "r5dn.16xlarge"
-        case r5dn24Xlarge = "r5dn.24xlarge"
-        case r5nLarge = "r5n.large"
-        case r5nXlarge = "r5n.xlarge"
-        case r5n2Xlarge = "r5n.2xlarge"
-        case r5n4Xlarge = "r5n.4xlarge"
-        case r5n8Xlarge = "r5n.8xlarge"
-        case r5n12Xlarge = "r5n.12xlarge"
-        case r5n16Xlarge = "r5n.16xlarge"
-        case r5n24Xlarge = "r5n.24xlarge"
-        case inf1Xlarge = "inf1.xlarge"
-        case inf12Xlarge = "inf1.2xlarge"
-        case inf16Xlarge = "inf1.6xlarge"
-        case inf124Xlarge = "inf1.24xlarge"
-        case m6gMetal = "m6g.metal"
-        case m6gMedium = "m6g.medium"
-        case m6gLarge = "m6g.large"
-        case m6gXlarge = "m6g.xlarge"
-        case m6g2Xlarge = "m6g.2xlarge"
-        case m6g4Xlarge = "m6g.4xlarge"
-        case m6g8Xlarge = "m6g.8xlarge"
-        case m6g12Xlarge = "m6g.12xlarge"
-        case m6g16Xlarge = "m6g.16xlarge"
-        case m6gdMetal = "m6gd.metal"
-        case m6gdMedium = "m6gd.medium"
-        case m6gdLarge = "m6gd.large"
-        case m6gdXlarge = "m6gd.xlarge"
-        case m6gd2Xlarge = "m6gd.2xlarge"
-        case m6gd4Xlarge = "m6gd.4xlarge"
-        case m6gd8Xlarge = "m6gd.8xlarge"
-        case m6gd12Xlarge = "m6gd.12xlarge"
-        case m6gd16Xlarge = "m6gd.16xlarge"
-        public var description: String { return self.rawValue }
+    public struct InstanceType: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+
+        public static var t1Micro: Self { .init(rawValue: "t1.micro") }
+        public static var t2Nano: Self { .init(rawValue: "t2.nano") }
+        public static var t2Micro: Self { .init(rawValue: "t2.micro") }
+        public static var t2Small: Self { .init(rawValue: "t2.small") }
+        public static var t2Medium: Self { .init(rawValue: "t2.medium") }
+        public static var t2Large: Self { .init(rawValue: "t2.large") }
+        public static var t2Xlarge: Self { .init(rawValue: "t2.xlarge") }
+        public static var t22Xlarge: Self { .init(rawValue: "t2.2xlarge") }
+        public static var t3Nano: Self { .init(rawValue: "t3.nano") }
+        public static var t3Micro: Self { .init(rawValue: "t3.micro") }
+        public static var t3Small: Self { .init(rawValue: "t3.small") }
+        public static var t3Medium: Self { .init(rawValue: "t3.medium") }
+        public static var t3Large: Self { .init(rawValue: "t3.large") }
+        public static var t3Xlarge: Self { .init(rawValue: "t3.xlarge") }
+        public static var t32Xlarge: Self { .init(rawValue: "t3.2xlarge") }
+        public static var t3aNano: Self { .init(rawValue: "t3a.nano") }
+        public static var t3aMicro: Self { .init(rawValue: "t3a.micro") }
+        public static var t3aSmall: Self { .init(rawValue: "t3a.small") }
+        public static var t3aMedium: Self { .init(rawValue: "t3a.medium") }
+        public static var t3aLarge: Self { .init(rawValue: "t3a.large") }
+        public static var t3aXlarge: Self { .init(rawValue: "t3a.xlarge") }
+        public static var t3a2Xlarge: Self { .init(rawValue: "t3a.2xlarge") }
+        public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
+        public static var t4gMicro: Self { .init(rawValue: "t4g.micro") }
+        public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
+        public static var t4gMedium: Self { .init(rawValue: "t4g.medium") }
+        public static var t4gLarge: Self { .init(rawValue: "t4g.large") }
+        public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var t4g2Xlarge: Self { .init(rawValue: "t4g.2xlarge") }
+        public static var m1Small: Self { .init(rawValue: "m1.small") }
+        public static var m1Medium: Self { .init(rawValue: "m1.medium") }
+        public static var m1Large: Self { .init(rawValue: "m1.large") }
+        public static var m1Xlarge: Self { .init(rawValue: "m1.xlarge") }
+        public static var m3Medium: Self { .init(rawValue: "m3.medium") }
+        public static var m3Large: Self { .init(rawValue: "m3.large") }
+        public static var m3Xlarge: Self { .init(rawValue: "m3.xlarge") }
+        public static var m32Xlarge: Self { .init(rawValue: "m3.2xlarge") }
+        public static var m4Large: Self { .init(rawValue: "m4.large") }
+        public static var m4Xlarge: Self { .init(rawValue: "m4.xlarge") }
+        public static var m42Xlarge: Self { .init(rawValue: "m4.2xlarge") }
+        public static var m44Xlarge: Self { .init(rawValue: "m4.4xlarge") }
+        public static var m410Xlarge: Self { .init(rawValue: "m4.10xlarge") }
+        public static var m416Xlarge: Self { .init(rawValue: "m4.16xlarge") }
+        public static var m2Xlarge: Self { .init(rawValue: "m2.xlarge") }
+        public static var m22Xlarge: Self { .init(rawValue: "m2.2xlarge") }
+        public static var m24Xlarge: Self { .init(rawValue: "m2.4xlarge") }
+        public static var cr18Xlarge: Self { .init(rawValue: "cr1.8xlarge") }
+        public static var r3Large: Self { .init(rawValue: "r3.large") }
+        public static var r3Xlarge: Self { .init(rawValue: "r3.xlarge") }
+        public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
+        public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
+        public static var r38Xlarge: Self { .init(rawValue: "r3.8xlarge") }
+        public static var r4Large: Self { .init(rawValue: "r4.large") }
+        public static var r4Xlarge: Self { .init(rawValue: "r4.xlarge") }
+        public static var r42Xlarge: Self { .init(rawValue: "r4.2xlarge") }
+        public static var r44Xlarge: Self { .init(rawValue: "r4.4xlarge") }
+        public static var r48Xlarge: Self { .init(rawValue: "r4.8xlarge") }
+        public static var r416Xlarge: Self { .init(rawValue: "r4.16xlarge") }
+        public static var r5Large: Self { .init(rawValue: "r5.large") }
+        public static var r5Xlarge: Self { .init(rawValue: "r5.xlarge") }
+        public static var r52Xlarge: Self { .init(rawValue: "r5.2xlarge") }
+        public static var r54Xlarge: Self { .init(rawValue: "r5.4xlarge") }
+        public static var r58Xlarge: Self { .init(rawValue: "r5.8xlarge") }
+        public static var r512Xlarge: Self { .init(rawValue: "r5.12xlarge") }
+        public static var r516Xlarge: Self { .init(rawValue: "r5.16xlarge") }
+        public static var r524Xlarge: Self { .init(rawValue: "r5.24xlarge") }
+        public static var r5Metal: Self { .init(rawValue: "r5.metal") }
+        public static var r5aLarge: Self { .init(rawValue: "r5a.large") }
+        public static var r5aXlarge: Self { .init(rawValue: "r5a.xlarge") }
+        public static var r5a2Xlarge: Self { .init(rawValue: "r5a.2xlarge") }
+        public static var r5a4Xlarge: Self { .init(rawValue: "r5a.4xlarge") }
+        public static var r5a8Xlarge: Self { .init(rawValue: "r5a.8xlarge") }
+        public static var r5a12Xlarge: Self { .init(rawValue: "r5a.12xlarge") }
+        public static var r5a16Xlarge: Self { .init(rawValue: "r5a.16xlarge") }
+        public static var r5a24Xlarge: Self { .init(rawValue: "r5a.24xlarge") }
+        public static var r5dLarge: Self { .init(rawValue: "r5d.large") }
+        public static var r5dXlarge: Self { .init(rawValue: "r5d.xlarge") }
+        public static var r5d2Xlarge: Self { .init(rawValue: "r5d.2xlarge") }
+        public static var r5d4Xlarge: Self { .init(rawValue: "r5d.4xlarge") }
+        public static var r5d8Xlarge: Self { .init(rawValue: "r5d.8xlarge") }
+        public static var r5d12Xlarge: Self { .init(rawValue: "r5d.12xlarge") }
+        public static var r5d16Xlarge: Self { .init(rawValue: "r5d.16xlarge") }
+        public static var r5d24Xlarge: Self { .init(rawValue: "r5d.24xlarge") }
+        public static var r5dMetal: Self { .init(rawValue: "r5d.metal") }
+        public static var r5adLarge: Self { .init(rawValue: "r5ad.large") }
+        public static var r5adXlarge: Self { .init(rawValue: "r5ad.xlarge") }
+        public static var r5ad2Xlarge: Self { .init(rawValue: "r5ad.2xlarge") }
+        public static var r5ad4Xlarge: Self { .init(rawValue: "r5ad.4xlarge") }
+        public static var r5ad8Xlarge: Self { .init(rawValue: "r5ad.8xlarge") }
+        public static var r5ad12Xlarge: Self { .init(rawValue: "r5ad.12xlarge") }
+        public static var r5ad16Xlarge: Self { .init(rawValue: "r5ad.16xlarge") }
+        public static var r5ad24Xlarge: Self { .init(rawValue: "r5ad.24xlarge") }
+        public static var r6gMetal: Self { .init(rawValue: "r6g.metal") }
+        public static var r6gMedium: Self { .init(rawValue: "r6g.medium") }
+        public static var r6gLarge: Self { .init(rawValue: "r6g.large") }
+        public static var r6gXlarge: Self { .init(rawValue: "r6g.xlarge") }
+        public static var r6g2Xlarge: Self { .init(rawValue: "r6g.2xlarge") }
+        public static var r6g4Xlarge: Self { .init(rawValue: "r6g.4xlarge") }
+        public static var r6g8Xlarge: Self { .init(rawValue: "r6g.8xlarge") }
+        public static var r6g12Xlarge: Self { .init(rawValue: "r6g.12xlarge") }
+        public static var r6g16Xlarge: Self { .init(rawValue: "r6g.16xlarge") }
+        public static var r6gdMetal: Self { .init(rawValue: "r6gd.metal") }
+        public static var r6gdMedium: Self { .init(rawValue: "r6gd.medium") }
+        public static var r6gdLarge: Self { .init(rawValue: "r6gd.large") }
+        public static var r6gdXlarge: Self { .init(rawValue: "r6gd.xlarge") }
+        public static var r6gd2Xlarge: Self { .init(rawValue: "r6gd.2xlarge") }
+        public static var r6gd4Xlarge: Self { .init(rawValue: "r6gd.4xlarge") }
+        public static var r6gd8Xlarge: Self { .init(rawValue: "r6gd.8xlarge") }
+        public static var r6gd12Xlarge: Self { .init(rawValue: "r6gd.12xlarge") }
+        public static var r6gd16Xlarge: Self { .init(rawValue: "r6gd.16xlarge") }
+        public static var x116Xlarge: Self { .init(rawValue: "x1.16xlarge") }
+        public static var x132Xlarge: Self { .init(rawValue: "x1.32xlarge") }
+        public static var x1eXlarge: Self { .init(rawValue: "x1e.xlarge") }
+        public static var x1e2Xlarge: Self { .init(rawValue: "x1e.2xlarge") }
+        public static var x1e4Xlarge: Self { .init(rawValue: "x1e.4xlarge") }
+        public static var x1e8Xlarge: Self { .init(rawValue: "x1e.8xlarge") }
+        public static var x1e16Xlarge: Self { .init(rawValue: "x1e.16xlarge") }
+        public static var x1e32Xlarge: Self { .init(rawValue: "x1e.32xlarge") }
+        public static var i2Xlarge: Self { .init(rawValue: "i2.xlarge") }
+        public static var i22Xlarge: Self { .init(rawValue: "i2.2xlarge") }
+        public static var i24Xlarge: Self { .init(rawValue: "i2.4xlarge") }
+        public static var i28Xlarge: Self { .init(rawValue: "i2.8xlarge") }
+        public static var i3Large: Self { .init(rawValue: "i3.large") }
+        public static var i3Xlarge: Self { .init(rawValue: "i3.xlarge") }
+        public static var i32Xlarge: Self { .init(rawValue: "i3.2xlarge") }
+        public static var i34Xlarge: Self { .init(rawValue: "i3.4xlarge") }
+        public static var i38Xlarge: Self { .init(rawValue: "i3.8xlarge") }
+        public static var i316Xlarge: Self { .init(rawValue: "i3.16xlarge") }
+        public static var i3Metal: Self { .init(rawValue: "i3.metal") }
+        public static var i3enLarge: Self { .init(rawValue: "i3en.large") }
+        public static var i3enXlarge: Self { .init(rawValue: "i3en.xlarge") }
+        public static var i3en2Xlarge: Self { .init(rawValue: "i3en.2xlarge") }
+        public static var i3en3Xlarge: Self { .init(rawValue: "i3en.3xlarge") }
+        public static var i3en6Xlarge: Self { .init(rawValue: "i3en.6xlarge") }
+        public static var i3en12Xlarge: Self { .init(rawValue: "i3en.12xlarge") }
+        public static var i3en24Xlarge: Self { .init(rawValue: "i3en.24xlarge") }
+        public static var i3enMetal: Self { .init(rawValue: "i3en.metal") }
+        public static var hi14Xlarge: Self { .init(rawValue: "hi1.4xlarge") }
+        public static var hs18Xlarge: Self { .init(rawValue: "hs1.8xlarge") }
+        public static var c1Medium: Self { .init(rawValue: "c1.medium") }
+        public static var c1Xlarge: Self { .init(rawValue: "c1.xlarge") }
+        public static var c3Large: Self { .init(rawValue: "c3.large") }
+        public static var c3Xlarge: Self { .init(rawValue: "c3.xlarge") }
+        public static var c32Xlarge: Self { .init(rawValue: "c3.2xlarge") }
+        public static var c34Xlarge: Self { .init(rawValue: "c3.4xlarge") }
+        public static var c38Xlarge: Self { .init(rawValue: "c3.8xlarge") }
+        public static var c4Large: Self { .init(rawValue: "c4.large") }
+        public static var c4Xlarge: Self { .init(rawValue: "c4.xlarge") }
+        public static var c42Xlarge: Self { .init(rawValue: "c4.2xlarge") }
+        public static var c44Xlarge: Self { .init(rawValue: "c4.4xlarge") }
+        public static var c48Xlarge: Self { .init(rawValue: "c4.8xlarge") }
+        public static var c5Large: Self { .init(rawValue: "c5.large") }
+        public static var c5Xlarge: Self { .init(rawValue: "c5.xlarge") }
+        public static var c52Xlarge: Self { .init(rawValue: "c5.2xlarge") }
+        public static var c54Xlarge: Self { .init(rawValue: "c5.4xlarge") }
+        public static var c59Xlarge: Self { .init(rawValue: "c5.9xlarge") }
+        public static var c512Xlarge: Self { .init(rawValue: "c5.12xlarge") }
+        public static var c518Xlarge: Self { .init(rawValue: "c5.18xlarge") }
+        public static var c524Xlarge: Self { .init(rawValue: "c5.24xlarge") }
+        public static var c5Metal: Self { .init(rawValue: "c5.metal") }
+        public static var c5aLarge: Self { .init(rawValue: "c5a.large") }
+        public static var c5aXlarge: Self { .init(rawValue: "c5a.xlarge") }
+        public static var c5a2Xlarge: Self { .init(rawValue: "c5a.2xlarge") }
+        public static var c5a4Xlarge: Self { .init(rawValue: "c5a.4xlarge") }
+        public static var c5a8Xlarge: Self { .init(rawValue: "c5a.8xlarge") }
+        public static var c5a12Xlarge: Self { .init(rawValue: "c5a.12xlarge") }
+        public static var c5a16Xlarge: Self { .init(rawValue: "c5a.16xlarge") }
+        public static var c5a24Xlarge: Self { .init(rawValue: "c5a.24xlarge") }
+        public static var c5adLarge: Self { .init(rawValue: "c5ad.large") }
+        public static var c5adXlarge: Self { .init(rawValue: "c5ad.xlarge") }
+        public static var c5ad2Xlarge: Self { .init(rawValue: "c5ad.2xlarge") }
+        public static var c5ad4Xlarge: Self { .init(rawValue: "c5ad.4xlarge") }
+        public static var c5ad8Xlarge: Self { .init(rawValue: "c5ad.8xlarge") }
+        public static var c5ad12Xlarge: Self { .init(rawValue: "c5ad.12xlarge") }
+        public static var c5ad16Xlarge: Self { .init(rawValue: "c5ad.16xlarge") }
+        public static var c5ad24Xlarge: Self { .init(rawValue: "c5ad.24xlarge") }
+        public static var c5dLarge: Self { .init(rawValue: "c5d.large") }
+        public static var c5dXlarge: Self { .init(rawValue: "c5d.xlarge") }
+        public static var c5d2Xlarge: Self { .init(rawValue: "c5d.2xlarge") }
+        public static var c5d4Xlarge: Self { .init(rawValue: "c5d.4xlarge") }
+        public static var c5d9Xlarge: Self { .init(rawValue: "c5d.9xlarge") }
+        public static var c5d12Xlarge: Self { .init(rawValue: "c5d.12xlarge") }
+        public static var c5d18Xlarge: Self { .init(rawValue: "c5d.18xlarge") }
+        public static var c5d24Xlarge: Self { .init(rawValue: "c5d.24xlarge") }
+        public static var c5dMetal: Self { .init(rawValue: "c5d.metal") }
+        public static var c5nLarge: Self { .init(rawValue: "c5n.large") }
+        public static var c5nXlarge: Self { .init(rawValue: "c5n.xlarge") }
+        public static var c5n2Xlarge: Self { .init(rawValue: "c5n.2xlarge") }
+        public static var c5n4Xlarge: Self { .init(rawValue: "c5n.4xlarge") }
+        public static var c5n9Xlarge: Self { .init(rawValue: "c5n.9xlarge") }
+        public static var c5n18Xlarge: Self { .init(rawValue: "c5n.18xlarge") }
+        public static var c6gMetal: Self { .init(rawValue: "c6g.metal") }
+        public static var c6gMedium: Self { .init(rawValue: "c6g.medium") }
+        public static var c6gLarge: Self { .init(rawValue: "c6g.large") }
+        public static var c6gXlarge: Self { .init(rawValue: "c6g.xlarge") }
+        public static var c6g2Xlarge: Self { .init(rawValue: "c6g.2xlarge") }
+        public static var c6g4Xlarge: Self { .init(rawValue: "c6g.4xlarge") }
+        public static var c6g8Xlarge: Self { .init(rawValue: "c6g.8xlarge") }
+        public static var c6g12Xlarge: Self { .init(rawValue: "c6g.12xlarge") }
+        public static var c6g16Xlarge: Self { .init(rawValue: "c6g.16xlarge") }
+        public static var c6gdMetal: Self { .init(rawValue: "c6gd.metal") }
+        public static var c6gdMedium: Self { .init(rawValue: "c6gd.medium") }
+        public static var c6gdLarge: Self { .init(rawValue: "c6gd.large") }
+        public static var c6gdXlarge: Self { .init(rawValue: "c6gd.xlarge") }
+        public static var c6gd2Xlarge: Self { .init(rawValue: "c6gd.2xlarge") }
+        public static var c6gd4Xlarge: Self { .init(rawValue: "c6gd.4xlarge") }
+        public static var c6gd8Xlarge: Self { .init(rawValue: "c6gd.8xlarge") }
+        public static var c6gd12Xlarge: Self { .init(rawValue: "c6gd.12xlarge") }
+        public static var c6gd16Xlarge: Self { .init(rawValue: "c6gd.16xlarge") }
+        public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
+        public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
+        public static var g22Xlarge: Self { .init(rawValue: "g2.2xlarge") }
+        public static var g28Xlarge: Self { .init(rawValue: "g2.8xlarge") }
+        public static var g34Xlarge: Self { .init(rawValue: "g3.4xlarge") }
+        public static var g38Xlarge: Self { .init(rawValue: "g3.8xlarge") }
+        public static var g316Xlarge: Self { .init(rawValue: "g3.16xlarge") }
+        public static var g3sXlarge: Self { .init(rawValue: "g3s.xlarge") }
+        public static var g4dnXlarge: Self { .init(rawValue: "g4dn.xlarge") }
+        public static var g4dn2Xlarge: Self { .init(rawValue: "g4dn.2xlarge") }
+        public static var g4dn4Xlarge: Self { .init(rawValue: "g4dn.4xlarge") }
+        public static var g4dn8Xlarge: Self { .init(rawValue: "g4dn.8xlarge") }
+        public static var g4dn12Xlarge: Self { .init(rawValue: "g4dn.12xlarge") }
+        public static var g4dn16Xlarge: Self { .init(rawValue: "g4dn.16xlarge") }
+        public static var g4dnMetal: Self { .init(rawValue: "g4dn.metal") }
+        public static var cg14Xlarge: Self { .init(rawValue: "cg1.4xlarge") }
+        public static var p2Xlarge: Self { .init(rawValue: "p2.xlarge") }
+        public static var p28Xlarge: Self { .init(rawValue: "p2.8xlarge") }
+        public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
+        public static var p32Xlarge: Self { .init(rawValue: "p3.2xlarge") }
+        public static var p38Xlarge: Self { .init(rawValue: "p3.8xlarge") }
+        public static var p316Xlarge: Self { .init(rawValue: "p3.16xlarge") }
+        public static var p3dn24Xlarge: Self { .init(rawValue: "p3dn.24xlarge") }
+        public static var d2Xlarge: Self { .init(rawValue: "d2.xlarge") }
+        public static var d22Xlarge: Self { .init(rawValue: "d2.2xlarge") }
+        public static var d24Xlarge: Self { .init(rawValue: "d2.4xlarge") }
+        public static var d28Xlarge: Self { .init(rawValue: "d2.8xlarge") }
+        public static var f12Xlarge: Self { .init(rawValue: "f1.2xlarge") }
+        public static var f14Xlarge: Self { .init(rawValue: "f1.4xlarge") }
+        public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
+        public static var m5Large: Self { .init(rawValue: "m5.large") }
+        public static var m5Xlarge: Self { .init(rawValue: "m5.xlarge") }
+        public static var m52Xlarge: Self { .init(rawValue: "m5.2xlarge") }
+        public static var m54Xlarge: Self { .init(rawValue: "m5.4xlarge") }
+        public static var m58Xlarge: Self { .init(rawValue: "m5.8xlarge") }
+        public static var m512Xlarge: Self { .init(rawValue: "m5.12xlarge") }
+        public static var m516Xlarge: Self { .init(rawValue: "m5.16xlarge") }
+        public static var m524Xlarge: Self { .init(rawValue: "m5.24xlarge") }
+        public static var m5Metal: Self { .init(rawValue: "m5.metal") }
+        public static var m5aLarge: Self { .init(rawValue: "m5a.large") }
+        public static var m5aXlarge: Self { .init(rawValue: "m5a.xlarge") }
+        public static var m5a2Xlarge: Self { .init(rawValue: "m5a.2xlarge") }
+        public static var m5a4Xlarge: Self { .init(rawValue: "m5a.4xlarge") }
+        public static var m5a8Xlarge: Self { .init(rawValue: "m5a.8xlarge") }
+        public static var m5a12Xlarge: Self { .init(rawValue: "m5a.12xlarge") }
+        public static var m5a16Xlarge: Self { .init(rawValue: "m5a.16xlarge") }
+        public static var m5a24Xlarge: Self { .init(rawValue: "m5a.24xlarge") }
+        public static var m5dLarge: Self { .init(rawValue: "m5d.large") }
+        public static var m5dXlarge: Self { .init(rawValue: "m5d.xlarge") }
+        public static var m5d2Xlarge: Self { .init(rawValue: "m5d.2xlarge") }
+        public static var m5d4Xlarge: Self { .init(rawValue: "m5d.4xlarge") }
+        public static var m5d8Xlarge: Self { .init(rawValue: "m5d.8xlarge") }
+        public static var m5d12Xlarge: Self { .init(rawValue: "m5d.12xlarge") }
+        public static var m5d16Xlarge: Self { .init(rawValue: "m5d.16xlarge") }
+        public static var m5d24Xlarge: Self { .init(rawValue: "m5d.24xlarge") }
+        public static var m5dMetal: Self { .init(rawValue: "m5d.metal") }
+        public static var m5adLarge: Self { .init(rawValue: "m5ad.large") }
+        public static var m5adXlarge: Self { .init(rawValue: "m5ad.xlarge") }
+        public static var m5ad2Xlarge: Self { .init(rawValue: "m5ad.2xlarge") }
+        public static var m5ad4Xlarge: Self { .init(rawValue: "m5ad.4xlarge") }
+        public static var m5ad8Xlarge: Self { .init(rawValue: "m5ad.8xlarge") }
+        public static var m5ad12Xlarge: Self { .init(rawValue: "m5ad.12xlarge") }
+        public static var m5ad16Xlarge: Self { .init(rawValue: "m5ad.16xlarge") }
+        public static var m5ad24Xlarge: Self { .init(rawValue: "m5ad.24xlarge") }
+        public static var h12Xlarge: Self { .init(rawValue: "h1.2xlarge") }
+        public static var h14Xlarge: Self { .init(rawValue: "h1.4xlarge") }
+        public static var h18Xlarge: Self { .init(rawValue: "h1.8xlarge") }
+        public static var h116Xlarge: Self { .init(rawValue: "h1.16xlarge") }
+        public static var z1dLarge: Self { .init(rawValue: "z1d.large") }
+        public static var z1dXlarge: Self { .init(rawValue: "z1d.xlarge") }
+        public static var z1d2Xlarge: Self { .init(rawValue: "z1d.2xlarge") }
+        public static var z1d3Xlarge: Self { .init(rawValue: "z1d.3xlarge") }
+        public static var z1d6Xlarge: Self { .init(rawValue: "z1d.6xlarge") }
+        public static var z1d12Xlarge: Self { .init(rawValue: "z1d.12xlarge") }
+        public static var z1dMetal: Self { .init(rawValue: "z1d.metal") }
+        public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
+        public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
+        public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
+        public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
+        public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
+        public static var a1Medium: Self { .init(rawValue: "a1.medium") }
+        public static var a1Large: Self { .init(rawValue: "a1.large") }
+        public static var a1Xlarge: Self { .init(rawValue: "a1.xlarge") }
+        public static var a12Xlarge: Self { .init(rawValue: "a1.2xlarge") }
+        public static var a14Xlarge: Self { .init(rawValue: "a1.4xlarge") }
+        public static var a1Metal: Self { .init(rawValue: "a1.metal") }
+        public static var m5dnLarge: Self { .init(rawValue: "m5dn.large") }
+        public static var m5dnXlarge: Self { .init(rawValue: "m5dn.xlarge") }
+        public static var m5dn2Xlarge: Self { .init(rawValue: "m5dn.2xlarge") }
+        public static var m5dn4Xlarge: Self { .init(rawValue: "m5dn.4xlarge") }
+        public static var m5dn8Xlarge: Self { .init(rawValue: "m5dn.8xlarge") }
+        public static var m5dn12Xlarge: Self { .init(rawValue: "m5dn.12xlarge") }
+        public static var m5dn16Xlarge: Self { .init(rawValue: "m5dn.16xlarge") }
+        public static var m5dn24Xlarge: Self { .init(rawValue: "m5dn.24xlarge") }
+        public static var m5nLarge: Self { .init(rawValue: "m5n.large") }
+        public static var m5nXlarge: Self { .init(rawValue: "m5n.xlarge") }
+        public static var m5n2Xlarge: Self { .init(rawValue: "m5n.2xlarge") }
+        public static var m5n4Xlarge: Self { .init(rawValue: "m5n.4xlarge") }
+        public static var m5n8Xlarge: Self { .init(rawValue: "m5n.8xlarge") }
+        public static var m5n12Xlarge: Self { .init(rawValue: "m5n.12xlarge") }
+        public static var m5n16Xlarge: Self { .init(rawValue: "m5n.16xlarge") }
+        public static var m5n24Xlarge: Self { .init(rawValue: "m5n.24xlarge") }
+        public static var r5dnLarge: Self { .init(rawValue: "r5dn.large") }
+        public static var r5dnXlarge: Self { .init(rawValue: "r5dn.xlarge") }
+        public static var r5dn2Xlarge: Self { .init(rawValue: "r5dn.2xlarge") }
+        public static var r5dn4Xlarge: Self { .init(rawValue: "r5dn.4xlarge") }
+        public static var r5dn8Xlarge: Self { .init(rawValue: "r5dn.8xlarge") }
+        public static var r5dn12Xlarge: Self { .init(rawValue: "r5dn.12xlarge") }
+        public static var r5dn16Xlarge: Self { .init(rawValue: "r5dn.16xlarge") }
+        public static var r5dn24Xlarge: Self { .init(rawValue: "r5dn.24xlarge") }
+        public static var r5nLarge: Self { .init(rawValue: "r5n.large") }
+        public static var r5nXlarge: Self { .init(rawValue: "r5n.xlarge") }
+        public static var r5n2Xlarge: Self { .init(rawValue: "r5n.2xlarge") }
+        public static var r5n4Xlarge: Self { .init(rawValue: "r5n.4xlarge") }
+        public static var r5n8Xlarge: Self { .init(rawValue: "r5n.8xlarge") }
+        public static var r5n12Xlarge: Self { .init(rawValue: "r5n.12xlarge") }
+        public static var r5n16Xlarge: Self { .init(rawValue: "r5n.16xlarge") }
+        public static var r5n24Xlarge: Self { .init(rawValue: "r5n.24xlarge") }
+        public static var inf1Xlarge: Self { .init(rawValue: "inf1.xlarge") }
+        public static var inf12Xlarge: Self { .init(rawValue: "inf1.2xlarge") }
+        public static var inf16Xlarge: Self { .init(rawValue: "inf1.6xlarge") }
+        public static var inf124Xlarge: Self { .init(rawValue: "inf1.24xlarge") }
+        public static var m6gMetal: Self { .init(rawValue: "m6g.metal") }
+        public static var m6gMedium: Self { .init(rawValue: "m6g.medium") }
+        public static var m6gLarge: Self { .init(rawValue: "m6g.large") }
+        public static var m6gXlarge: Self { .init(rawValue: "m6g.xlarge") }
+        public static var m6g2Xlarge: Self { .init(rawValue: "m6g.2xlarge") }
+        public static var m6g4Xlarge: Self { .init(rawValue: "m6g.4xlarge") }
+        public static var m6g8Xlarge: Self { .init(rawValue: "m6g.8xlarge") }
+        public static var m6g12Xlarge: Self { .init(rawValue: "m6g.12xlarge") }
+        public static var m6g16Xlarge: Self { .init(rawValue: "m6g.16xlarge") }
+        public static var m6gdMetal: Self { .init(rawValue: "m6gd.metal") }
+        public static var m6gdMedium: Self { .init(rawValue: "m6gd.medium") }
+        public static var m6gdLarge: Self { .init(rawValue: "m6gd.large") }
+        public static var m6gdXlarge: Self { .init(rawValue: "m6gd.xlarge") }
+        public static var m6gd2Xlarge: Self { .init(rawValue: "m6gd.2xlarge") }
+        public static var m6gd4Xlarge: Self { .init(rawValue: "m6gd.4xlarge") }
+        public static var m6gd8Xlarge: Self { .init(rawValue: "m6gd.8xlarge") }
+        public static var m6gd12Xlarge: Self { .init(rawValue: "m6gd.12xlarge") }
+        public static var m6gd16Xlarge: Self { .init(rawValue: "m6gd.16xlarge") }
     }
 
     public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable {
