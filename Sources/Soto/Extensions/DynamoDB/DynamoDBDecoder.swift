@@ -246,21 +246,39 @@ private class _DynamoDBDecoder: Decoder {
         }
 
         mutating func getNumberValue() throws -> String {
-            guard case .ns(let values) = self.attribute else {
+            switch self.attribute {
+            case .ns(let values):
+                let value = values[currentIndex]
+                currentIndex += 1
+                return value
+            case .l(let attributes):
+                let attribute = attributes[currentIndex]
+                guard case .n(let value) = attribute else {
+                    throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l holding a number attribute"))
+                }
+                currentIndex += 1
+                return value
+            default:
                 throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l"))
             }
-            let value = values[currentIndex]
-            currentIndex += 1
-            return value
         }
 
         mutating func getStringValue() throws -> String {
-            guard case .ss(let values) = self.attribute else {
+            switch self.attribute {
+            case .ss(let values):
+                let value = values[currentIndex]
+                currentIndex += 1
+                return value
+            case .l(let attributes):
+                let attribute = attributes[currentIndex]
+                guard case .s(let value) = attribute else {
+                    throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l holding a string attribute"))
+                }
+                currentIndex += 1
+                return value
+            default:
                 throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l"))
             }
-            let value = values[currentIndex]
-            currentIndex += 1
-            return value
         }
 
         mutating func decodeNil() throws -> Bool {

@@ -73,27 +73,7 @@ private class _EncoderUnkeyedContainer: _EncoderContainer {
     var attribute: DynamoDB.AttributeValue {
         // merge child values, plus nested containers
         let values = self.values + self.nestedContainers.map { $0.attribute }
-
-        // choose array type based on first element type
-        switch values.first {
-        case .b:
-            return .bs(values.compactMap {
-                guard case .b(let value) = $0 else { return nil }
-                return value
-            })
-        case .s:
-            return .ss(values.compactMap {
-                guard case .s(let value) = $0 else { return nil }
-                return value
-            })
-        case .n:
-            return .ns(values.compactMap {
-                guard case .n(let value) = $0 else { return nil }
-                return value
-            })
-        default:
-            return .l(values)
-        }
+        return .l(values)
     }
 }
 

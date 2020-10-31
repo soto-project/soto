@@ -58,11 +58,12 @@ final class DynamoDBCoderTests: XCTestCase {
         struct Arrays: Codable, Equatable {
             let i: [Int]
             let s: [String]
+            let set: Set<String>?
         }
-        XCTAssertNoThrow(try self.testEncodeDecode(Arrays(i: [2, 8, 24], s: ["TestString", "TestString1"])))
+        XCTAssertNoThrow(try self.testEncodeDecode(Arrays(i: [2, 8, 24], s: ["TestString", "TestString1"], set: .init(["hello", "goodbye"]))))
         XCTAssertNoThrow(try self.testDecodeEncode([
-            "i": .ns(["24", "78", "1"]),
-            "s": .ss(["this", "is", "a", "test"]),
+            "i": .l([.n("24"), .n("78"), .n("1")]),
+            "s": .l([.s("this"), .s("is"), .s("a"), .s("test")]),
         ], type: Arrays.self))
     }
 
@@ -207,7 +208,7 @@ final class DynamoDBCoderTests: XCTestCase {
         }
         XCTAssertNoThrow(try self.testEncodeDecode(NestedUKDCTest(indices: [1, 4, 7, 8], selected: 3)))
         XCTAssertNoThrow(try self.testDecodeEncode([
-            "test": .ns(["3", "6", "8", "24"]),
+            "test": .l([.n("1"), .n("4"), .n("7"), .n("8")]),
             "selected": .n("3"),
         ], type: NestedUKDCTest.self))
     }
