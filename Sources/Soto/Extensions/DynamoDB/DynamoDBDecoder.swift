@@ -256,7 +256,7 @@ private class _DynamoDBDecoder: Decoder {
                 guard case .n(let value) = attribute else {
                     throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l holding a number attribute"))
                 }
-                currentIndex += 1
+                self.currentIndex += 1
                 return value
             default:
                 throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l"))
@@ -274,7 +274,7 @@ private class _DynamoDBDecoder: Decoder {
                 guard case .s(let value) = attribute else {
                     throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l holding a string attribute"))
                 }
-                currentIndex += 1
+                self.currentIndex += 1
                 return value
             default:
                 throw DecodingError.typeMismatch(type(of: self.attribute), .init(codingPath: self.codingPath, debugDescription: "Expected DynamoDB.AttributeValue.l"))
