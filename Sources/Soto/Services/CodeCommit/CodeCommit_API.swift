@@ -64,388 +64,388 @@ public struct CodeCommit: AWSService {
     // MARK: API Calls
 
     ///  Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
-    @discardableResult public func associateApprovalRuleTemplateWithRepository(_ input: AssociateApprovalRuleTemplateWithRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateApprovalRuleTemplateWithRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func associateApprovalRuleTemplateWithRepository(_ input: AssociateApprovalRuleTemplateWithRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateApprovalRuleTemplateWithRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an association between an approval rule template and one or more specified repositories.
-    public func batchAssociateApprovalRuleTemplateWithRepositories(_ input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput> {
-        return self.client.execute(operation: "BatchAssociateApprovalRuleTemplateWithRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchAssociateApprovalRuleTemplateWithRepositories(_ input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateApprovalRuleTemplateWithRepositoriesOutput> {
+        return self.client.execute(operation: "BatchAssociateApprovalRuleTemplateWithRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy.
-    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDescribeMergeConflictsOutput> {
-        return self.client.execute(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchDescribeMergeConflicts(_ input: BatchDescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDescribeMergeConflictsOutput> {
+        return self.client.execute(operation: "BatchDescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the association between an approval rule template and one or more specified repositories.
-    public func batchDisassociateApprovalRuleTemplateFromRepositories(_ input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput> {
-        return self.client.execute(operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchDisassociateApprovalRuleTemplateFromRepositories(_ input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutput> {
+        return self.client.execute(operation: "BatchDisassociateApprovalRuleTemplateFromRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about the contents of one or more commits in a repository.
-    public func batchGetCommits(_ input: BatchGetCommitsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetCommitsOutput> {
-        return self.client.execute(operation: "BatchGetCommits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchGetCommits(_ input: BatchGetCommitsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCommitsOutput> {
+        return self.client.execute(operation: "BatchGetCommits", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about one or more repositories.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    public func batchGetRepositories(_ input: BatchGetRepositoriesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchGetRepositoriesOutput> {
-        return self.client.execute(operation: "BatchGetRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchGetRepositories(_ input: BatchGetRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetRepositoriesOutput> {
+        return self.client.execute(operation: "BatchGetRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see AssociateApprovalRuleTemplateWithRepository.
-    public func createApprovalRuleTemplate(_ input: CreateApprovalRuleTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "CreateApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createApprovalRuleTemplate(_ input: CreateApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateApprovalRuleTemplateOutput> {
+        return self.client.execute(operation: "CreateApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a branch in a repository and points the branch to a commit.  Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
-    @discardableResult public func createBranch(_ input: CreateBranchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "CreateBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func createBranch(_ input: CreateBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "CreateBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a commit for a repository on the tip of a specified branch.
-    public func createCommit(_ input: CreateCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateCommitOutput> {
-        return self.client.execute(operation: "CreateCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createCommit(_ input: CreateCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCommitOutput> {
+        return self.client.execute(operation: "CreateCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a pull request in the specified repository.
-    public func createPullRequest(_ input: CreatePullRequestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePullRequestOutput> {
-        return self.client.execute(operation: "CreatePullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createPullRequest(_ input: CreatePullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePullRequestOutput> {
+        return self.client.execute(operation: "CreatePullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an approval rule for a pull request.
-    public func createPullRequestApprovalRule(_ input: CreatePullRequestApprovalRuleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePullRequestApprovalRuleOutput> {
-        return self.client.execute(operation: "CreatePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createPullRequestApprovalRule(_ input: CreatePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePullRequestApprovalRuleOutput> {
+        return self.client.execute(operation: "CreatePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new, empty repository.
-    public func createRepository(_ input: CreateRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRepositoryOutput> {
-        return self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRepositoryOutput> {
+        return self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit.  This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
-    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUnreferencedMergeCommitOutput> {
-        return self.client.execute(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createUnreferencedMergeCommit(_ input: CreateUnreferencedMergeCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUnreferencedMergeCommitOutput> {
+        return self.client.execute(operation: "CreateUnreferencedMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a specified approval rule template. Deleting a template does not remove approval rules on pull requests already created with the template.
-    public func deleteApprovalRuleTemplate(_ input: DeleteApprovalRuleTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "DeleteApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteApprovalRuleTemplate(_ input: DeleteApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteApprovalRuleTemplateOutput> {
+        return self.client.execute(operation: "DeleteApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a branch from a repository, unless that branch is the default branch for the repository.
-    public func deleteBranch(_ input: DeleteBranchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteBranchOutput> {
-        return self.client.execute(operation: "DeleteBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteBranch(_ input: DeleteBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteBranchOutput> {
+        return self.client.execute(operation: "DeleteBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the content of a comment made on a change, file, or commit in a repository.
-    public func deleteCommentContent(_ input: DeleteCommentContentInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteCommentContentOutput> {
-        return self.client.execute(operation: "DeleteCommentContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteCommentContent(_ input: DeleteCommentContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCommentContentOutput> {
+        return self.client.execute(operation: "DeleteCommentContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a specified file from a specified branch. A commit is created on the branch that contains the revision. The file still exists in the commits earlier to the commit that contains the deletion.
-    public func deleteFile(_ input: DeleteFileInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteFileOutput> {
-        return self.client.execute(operation: "DeleteFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteFile(_ input: DeleteFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFileOutput> {
+        return self.client.execute(operation: "DeleteFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an approval rule from a specified pull request. Approval rules can be deleted from a pull request only if the pull request is open, and if the approval rule was created specifically for a pull request and not generated from an approval rule template associated with the repository where the pull request was created. You cannot delete an approval rule from a merged or closed pull request.
-    public func deletePullRequestApprovalRule(_ input: DeletePullRequestApprovalRuleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePullRequestApprovalRuleOutput> {
-        return self.client.execute(operation: "DeletePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deletePullRequestApprovalRule(_ input: DeletePullRequestApprovalRuleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePullRequestApprovalRuleOutput> {
+        return self.client.execute(operation: "DeletePullRequestApprovalRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a repository. If a specified repository was already deleted, a null repository ID is returned.  Deleting a repository also deletes all associated objects and metadata. After a repository is deleted, all future push calls to the deleted repository fail.
-    public func deleteRepository(_ input: DeleteRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteRepositoryOutput> {
-        return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteRepositoryOutput> {
+        return self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about one or more merge conflicts in the attempted merge of two commit specifiers using the squash or three-way merge strategy. If the merge option for the attempted merge is specified as FAST_FORWARD_MERGE, an exception is thrown.
-    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMergeConflictsOutput> {
-        return self.client.execute(operation: "DescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMergeConflicts(_ input: DescribeMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMergeConflictsOutput> {
+        return self.client.execute(operation: "DescribeMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about one or more pull request events.
-    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePullRequestEventsOutput> {
-        return self.client.execute(operation: "DescribePullRequestEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describePullRequestEvents(_ input: DescribePullRequestEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePullRequestEventsOutput> {
+        return self.client.execute(operation: "DescribePullRequestEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the association between a template and a repository so that approval rules based on the template are not automatically created when pull requests are created in the specified repository. This does not delete any approval rules previously created for pull requests through the template association.
-    @discardableResult public func disassociateApprovalRuleTemplateFromRepository(_ input: DisassociateApprovalRuleTemplateFromRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisassociateApprovalRuleTemplateFromRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func disassociateApprovalRuleTemplateFromRepository(_ input: DisassociateApprovalRuleTemplateFromRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateApprovalRuleTemplateFromRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Evaluates whether a pull request has met all the conditions specified in its associated approval rules.
-    public func evaluatePullRequestApprovalRules(_ input: EvaluatePullRequestApprovalRulesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<EvaluatePullRequestApprovalRulesOutput> {
-        return self.client.execute(operation: "EvaluatePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func evaluatePullRequestApprovalRules(_ input: EvaluatePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EvaluatePullRequestApprovalRulesOutput> {
+        return self.client.execute(operation: "EvaluatePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about a specified approval rule template.
-    public func getApprovalRuleTemplate(_ input: GetApprovalRuleTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "GetApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getApprovalRuleTemplate(_ input: GetApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetApprovalRuleTemplateOutput> {
+        return self.client.execute(operation: "GetApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the base-64 encoded content of an individual blob in a repository.
-    public func getBlob(_ input: GetBlobInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBlobOutput> {
-        return self.client.execute(operation: "GetBlob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getBlob(_ input: GetBlobInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBlobOutput> {
+        return self.client.execute(operation: "GetBlob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about a repository branch, including its name and the last commit ID.
-    public func getBranch(_ input: GetBranchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBranchOutput> {
-        return self.client.execute(operation: "GetBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getBranch(_ input: GetBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBranchOutput> {
+        return self.client.execute(operation: "GetBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the content of a comment made on a change, file, or commit in a repository.   Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
-    public func getComment(_ input: GetCommentInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommentOutput> {
-        return self.client.execute(operation: "GetComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getComment(_ input: GetCommentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentOutput> {
+        return self.client.execute(operation: "GetComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about reactions to a specified comment ID. Reactions from users who have been deleted will not be included in the count.
-    public func getCommentReactions(_ input: GetCommentReactionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommentReactionsOutput> {
-        return self.client.execute(operation: "GetCommentReactions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCommentReactions(_ input: GetCommentReactionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentReactionsOutput> {
+        return self.client.execute(operation: "GetCommentReactions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about comments made on the comparison between two commits.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
-    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommentsForComparedCommitOutput> {
-        return self.client.execute(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCommentsForComparedCommit(_ input: GetCommentsForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentsForComparedCommitOutput> {
+        return self.client.execute(operation: "GetCommentsForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns comments made on a pull request.  Reaction counts might include numbers from user identities who were deleted after the reaction was made. For a count of reactions from active identities, use GetCommentReactions.
-    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommentsForPullRequestOutput> {
-        return self.client.execute(operation: "GetCommentsForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCommentsForPullRequest(_ input: GetCommentsForPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommentsForPullRequestOutput> {
+        return self.client.execute(operation: "GetCommentsForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about a commit, including commit message and committer information.
-    public func getCommit(_ input: GetCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommitOutput> {
-        return self.client.execute(operation: "GetCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCommit(_ input: GetCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommitOutput> {
+        return self.client.execute(operation: "GetCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about the differences in a valid commit specifier (such as a branch, tag, HEAD, commit ID, or other fully qualified reference). Results can be limited to a specified path.
-    public func getDifferences(_ input: GetDifferencesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDifferencesOutput> {
-        return self.client.execute(operation: "GetDifferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDifferences(_ input: GetDifferencesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDifferencesOutput> {
+        return self.client.execute(operation: "GetDifferences", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the base-64 encoded contents of a specified file and its metadata.
-    public func getFile(_ input: GetFileInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFileOutput> {
-        return self.client.execute(operation: "GetFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getFile(_ input: GetFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFileOutput> {
+        return self.client.execute(operation: "GetFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the contents of a specified folder in a repository.
-    public func getFolder(_ input: GetFolderInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFolderOutput> {
-        return self.client.execute(operation: "GetFolder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getFolder(_ input: GetFolderInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFolderOutput> {
+        return self.client.execute(operation: "GetFolder", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about a specified merge commit.
-    public func getMergeCommit(_ input: GetMergeCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMergeCommitOutput> {
-        return self.client.execute(operation: "GetMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMergeCommit(_ input: GetMergeCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeCommitOutput> {
+        return self.client.execute(operation: "GetMergeCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about merge conflicts between the before and after commit IDs for a pull request in a repository.
-    public func getMergeConflicts(_ input: GetMergeConflictsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMergeConflictsOutput> {
-        return self.client.execute(operation: "GetMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMergeConflicts(_ input: GetMergeConflictsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeConflictsOutput> {
+        return self.client.execute(operation: "GetMergeConflicts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about the merge options available for merging two specified branches. For details about why a merge option is not available, use GetMergeConflicts or DescribeMergeConflicts.
-    public func getMergeOptions(_ input: GetMergeOptionsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMergeOptionsOutput> {
-        return self.client.execute(operation: "GetMergeOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMergeOptions(_ input: GetMergeOptionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMergeOptionsOutput> {
+        return self.client.execute(operation: "GetMergeOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about a pull request in a specified repository.
-    public func getPullRequest(_ input: GetPullRequestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPullRequestOutput> {
-        return self.client.execute(operation: "GetPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPullRequest(_ input: GetPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestOutput> {
+        return self.client.execute(operation: "GetPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about the approval states for a specified pull request. Approval states only apply to pull requests that have one or more approval rules applied to them.
-    public func getPullRequestApprovalStates(_ input: GetPullRequestApprovalStatesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPullRequestApprovalStatesOutput> {
-        return self.client.execute(operation: "GetPullRequestApprovalStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPullRequestApprovalStates(_ input: GetPullRequestApprovalStatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestApprovalStatesOutput> {
+        return self.client.execute(operation: "GetPullRequestApprovalStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about whether approval rules have been set aside (overridden) for a pull request, and if so, the Amazon Resource Name (ARN) of the user or identity that overrode the rules and their requirements for the pull request.
-    public func getPullRequestOverrideState(_ input: GetPullRequestOverrideStateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPullRequestOverrideStateOutput> {
-        return self.client.execute(operation: "GetPullRequestOverrideState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPullRequestOverrideState(_ input: GetPullRequestOverrideStateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPullRequestOverrideStateOutput> {
+        return self.client.execute(operation: "GetPullRequestOverrideState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns information about a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    public func getRepository(_ input: GetRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRepositoryOutput> {
-        return self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryOutput> {
+        return self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about triggers configured for a repository.
-    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRepositoryTriggersOutput> {
-        return self.client.execute(operation: "GetRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRepositoryTriggers(_ input: GetRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRepositoryTriggersOutput> {
+        return self.client.execute(operation: "GetRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
-    public func listApprovalRuleTemplates(_ input: ListApprovalRuleTemplatesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListApprovalRuleTemplatesOutput> {
-        return self.client.execute(operation: "ListApprovalRuleTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listApprovalRuleTemplates(_ input: ListApprovalRuleTemplatesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApprovalRuleTemplatesOutput> {
+        return self.client.execute(operation: "ListApprovalRuleTemplates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all approval rule templates that are associated with a specified repository.
-    public func listAssociatedApprovalRuleTemplatesForRepository(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
-        return self.client.execute(operation: "ListAssociatedApprovalRuleTemplatesForRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAssociatedApprovalRuleTemplatesForRepository(_ input: ListAssociatedApprovalRuleTemplatesForRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociatedApprovalRuleTemplatesForRepositoryOutput> {
+        return self.client.execute(operation: "ListAssociatedApprovalRuleTemplatesForRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about one or more branches in a repository.
-    public func listBranches(_ input: ListBranchesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBranchesOutput> {
-        return self.client.execute(operation: "ListBranches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listBranches(_ input: ListBranchesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBranchesOutput> {
+        return self.client.execute(operation: "ListBranches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
-    public func listPullRequests(_ input: ListPullRequestsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPullRequestsOutput> {
-        return self.client.execute(operation: "ListPullRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listPullRequests(_ input: ListPullRequestsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPullRequestsOutput> {
+        return self.client.execute(operation: "ListPullRequests", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about one or more repositories.
-    public func listRepositories(_ input: ListRepositoriesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRepositoriesOutput> {
-        return self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesOutput> {
+        return self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all repositories associated with the specified approval rule template.
-    public func listRepositoriesForApprovalRuleTemplate(_ input: ListRepositoriesForApprovalRuleTemplateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRepositoriesForApprovalRuleTemplateOutput> {
-        return self.client.execute(operation: "ListRepositoriesForApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRepositoriesForApprovalRuleTemplate(_ input: ListRepositoriesForApprovalRuleTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRepositoriesForApprovalRuleTemplateOutput> {
+        return self.client.execute(operation: "ListRepositoriesForApprovalRuleTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceOutput> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceOutput> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Merges two branches using the fast-forward merge strategy.
-    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergeBranchesByFastForwardOutput> {
-        return self.client.execute(operation: "MergeBranchesByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergeBranchesByFastForward(_ input: MergeBranchesByFastForwardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesByFastForwardOutput> {
+        return self.client.execute(operation: "MergeBranchesByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Merges two branches using the squash merge strategy.
-    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergeBranchesBySquashOutput> {
-        return self.client.execute(operation: "MergeBranchesBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergeBranchesBySquash(_ input: MergeBranchesBySquashInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesBySquashOutput> {
+        return self.client.execute(operation: "MergeBranchesBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Merges two specified branches using the three-way merge strategy.
-    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergeBranchesByThreeWayOutput> {
-        return self.client.execute(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergeBranchesByThreeWay(_ input: MergeBranchesByThreeWayInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergeBranchesByThreeWayOutput> {
+        return self.client.execute(operation: "MergeBranchesByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the fast-forward merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergePullRequestByFastForwardOutput> {
-        return self.client.execute(operation: "MergePullRequestByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergePullRequestByFastForward(_ input: MergePullRequestByFastForwardInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestByFastForwardOutput> {
+        return self.client.execute(operation: "MergePullRequestByFastForward", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the squash merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergePullRequestBySquashOutput> {
-        return self.client.execute(operation: "MergePullRequestBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergePullRequestBySquash(_ input: MergePullRequestBySquashInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestBySquashOutput> {
+        return self.client.execute(operation: "MergePullRequestBySquash", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Attempts to merge the source commit of a pull request into the specified destination branch for that pull request at the specified commit using the three-way merge strategy. If the merge is successful, it closes the pull request.
-    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MergePullRequestByThreeWayOutput> {
-        return self.client.execute(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func mergePullRequestByThreeWay(_ input: MergePullRequestByThreeWayInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MergePullRequestByThreeWayOutput> {
+        return self.client.execute(operation: "MergePullRequestByThreeWay", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets aside (overrides) all approval rule requirements for a specified pull request.
-    @discardableResult public func overridePullRequestApprovalRules(_ input: OverridePullRequestApprovalRulesInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "OverridePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func overridePullRequestApprovalRules(_ input: OverridePullRequestApprovalRulesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "OverridePullRequestApprovalRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Posts a comment on the comparison between two commits.
-    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PostCommentForComparedCommitOutput> {
-        return self.client.execute(operation: "PostCommentForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func postCommentForComparedCommit(_ input: PostCommentForComparedCommitInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentForComparedCommitOutput> {
+        return self.client.execute(operation: "PostCommentForComparedCommit", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Posts a comment on a pull request.
-    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PostCommentForPullRequestOutput> {
-        return self.client.execute(operation: "PostCommentForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func postCommentForPullRequest(_ input: PostCommentForPullRequestInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentForPullRequestOutput> {
+        return self.client.execute(operation: "PostCommentForPullRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Posts a comment in reply to an existing comment on a comparison between commits or a pull request.
-    public func postCommentReply(_ input: PostCommentReplyInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PostCommentReplyOutput> {
-        return self.client.execute(operation: "PostCommentReply", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func postCommentReply(_ input: PostCommentReplyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PostCommentReplyOutput> {
+        return self.client.execute(operation: "PostCommentReply", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds or updates a reaction to a specified comment for the user whose identity is used to make the request. You can only add or update a reaction for yourself. You cannot add, modify, or delete a reaction for another user.
-    @discardableResult public func putCommentReaction(_ input: PutCommentReactionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutCommentReaction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putCommentReaction(_ input: PutCommentReactionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutCommentReaction", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
-    public func putFile(_ input: PutFileInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutFileOutput> {
-        return self.client.execute(operation: "PutFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putFile(_ input: PutFileInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutFileOutput> {
+        return self.client.execute(operation: "PutFile", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Replaces all triggers for a repository. Used to create or delete triggers.
-    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutRepositoryTriggersOutput> {
-        return self.client.execute(operation: "PutRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putRepositoryTriggers(_ input: PutRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRepositoryTriggersOutput> {
+        return self.client.execute(operation: "PutRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func tagResource(_ input: TagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
-    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestRepositoryTriggersOutput> {
-        return self.client.execute(operation: "TestRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func testRepositoryTriggers(_ input: TestRepositoryTriggersInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestRepositoryTriggersOutput> {
+        return self.client.execute(operation: "TestRepositoryTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see CodeCommit Resources and Operations in the AWS CodeCommit User Guide.
-    @discardableResult public func untagResource(_ input: UntagResourceInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
-    public func updateApprovalRuleTemplateContent(_ input: UpdateApprovalRuleTemplateContentInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateApprovalRuleTemplateContentOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateApprovalRuleTemplateContent(_ input: UpdateApprovalRuleTemplateContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateContentOutput> {
+        return self.client.execute(operation: "UpdateApprovalRuleTemplateContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the description for a specified approval rule template.
-    public func updateApprovalRuleTemplateDescription(_ input: UpdateApprovalRuleTemplateDescriptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateApprovalRuleTemplateDescriptionOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateApprovalRuleTemplateDescription(_ input: UpdateApprovalRuleTemplateDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateDescriptionOutput> {
+        return self.client.execute(operation: "UpdateApprovalRuleTemplateDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the name of a specified approval rule template.
-    public func updateApprovalRuleTemplateName(_ input: UpdateApprovalRuleTemplateNameInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateApprovalRuleTemplateNameOutput> {
-        return self.client.execute(operation: "UpdateApprovalRuleTemplateName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateApprovalRuleTemplateName(_ input: UpdateApprovalRuleTemplateNameInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateApprovalRuleTemplateNameOutput> {
+        return self.client.execute(operation: "UpdateApprovalRuleTemplateName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Replaces the contents of a comment.
-    public func updateComment(_ input: UpdateCommentInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateCommentOutput> {
-        return self.client.execute(operation: "UpdateComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateComment(_ input: UpdateCommentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateCommentOutput> {
+        return self.client.execute(operation: "UpdateComment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets or changes the default branch name for the specified repository.  If you use this operation to change the default branch name to the current default branch name, a success message is returned even though the default branch did not change.
-    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateDefaultBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateDefaultBranch(_ input: UpdateDefaultBranchInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateDefaultBranch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the structure of an approval rule created specifically for a pull request. For example, you can change the number of required approvers and the approval pool for approvers.
-    public func updatePullRequestApprovalRuleContent(_ input: UpdatePullRequestApprovalRuleContentInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePullRequestApprovalRuleContentOutput> {
-        return self.client.execute(operation: "UpdatePullRequestApprovalRuleContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePullRequestApprovalRuleContent(_ input: UpdatePullRequestApprovalRuleContentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestApprovalRuleContentOutput> {
+        return self.client.execute(operation: "UpdatePullRequestApprovalRuleContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the state of a user's approval on a pull request. The user is derived from the signed-in account when the request is made.
-    @discardableResult public func updatePullRequestApprovalState(_ input: UpdatePullRequestApprovalStateInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdatePullRequestApprovalState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updatePullRequestApprovalState(_ input: UpdatePullRequestApprovalStateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdatePullRequestApprovalState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Replaces the contents of the description of a pull request.
-    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePullRequestDescriptionOutput> {
-        return self.client.execute(operation: "UpdatePullRequestDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePullRequestDescription(_ input: UpdatePullRequestDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestDescriptionOutput> {
+        return self.client.execute(operation: "UpdatePullRequestDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the status of a pull request.
-    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePullRequestStatusOutput> {
-        return self.client.execute(operation: "UpdatePullRequestStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePullRequestStatus(_ input: UpdatePullRequestStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestStatusOutput> {
+        return self.client.execute(operation: "UpdatePullRequestStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Replaces the title of a pull request.
-    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePullRequestTitleOutput> {
-        return self.client.execute(operation: "UpdatePullRequestTitle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePullRequestTitle(_ input: UpdatePullRequestTitleInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePullRequestTitleOutput> {
+        return self.client.execute(operation: "UpdatePullRequestTitle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets or changes the comment or description for a repository.  The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
-    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRepositoryDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRepositoryDescription(_ input: UpdateRepositoryDescriptionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRepositoryDescription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see Limits in the AWS CodeCommit User Guide.
-    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRepositoryName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRepositoryName(_ input: UpdateRepositoryNameInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRepositoryName", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

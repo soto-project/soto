@@ -18,8 +18,8 @@ extension DynamoDB {
     /// Creates a new item, or replaces an old item with a new item. If an item that has the same primary key as the new item already exists in the specified table, the new item completely replaces the existing item. You can perform a conditional put operation (add a new item if one with the specified primary key doesn't exist), or replace an existing item if it has certain attribute values. You can return the item's attribute values in the same operation, using the ReturnValues parameter.  When you add an item, the primary key attributes are the only required attributes. Attribute values cannot be null. Empty String and Binary attribute values are allowed. Attribute values of type String and Binary must have a length greater than zero if the attribute is used as a key attribute for a table or index. Set type attributes cannot be empty.  Invalid Requests with empty values will be rejected with a ValidationException exception.  To prevent a new item from replacing an existing item, use a conditional expression that contains the attribute_not_exists function with the name of the attribute being used as the partition key for the table. Since every record must contain that attribute, the attribute_not_exists function will only succeed if no matching item exists.  For more information about PutItem, see Working with Items in the Amazon DynamoDB Developer Guide.
     public func putItem<T: Encodable>(
         _ input: PutItemCodableInput<T>,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<PutItemOutput> {
         do {
             let item = try DynamoDBEncoder().encode(input.item)
@@ -33,7 +33,7 @@ extension DynamoDB {
                 returnValues: input.returnValues,
                 tableName: input.tableName
             )
-            return self.putItem(request, on: eventLoop, logger: logger)
+            return self.putItem(request, logger: logger, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -44,10 +44,10 @@ extension DynamoDB {
     public func getItem<T: Decodable>(
         _ input: GetItemInput,
         type: T.Type,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<GetItemCodableOutput<T>> {
-        return self.getItem(input, on: eventLoop, logger: logger)
+        return self.getItem(input, logger: logger, on: eventLoop)
             .flatMapThrowing { response -> GetItemCodableOutput<T> in
                 let item = try response.item.map { try DynamoDBDecoder().decode(T.self, from: $0) }
                 return GetItemCodableOutput(
@@ -60,8 +60,8 @@ extension DynamoDB {
     /// Edits an existing item's attributes, or adds a new item to the table if it does not already exist. You can put, delete, or add attribute values. You can also perform a conditional update on an existing item (insert a new attribute name-value pair if it doesn't exist, or replace an existing name-value pair if it has certain expected attribute values). You can also return the item's attribute values in the same UpdateItem operation using the ReturnValues parameter.
     public func updateItem<T: Encodable>(
         _ input: UpdateItemCodableInput<T>,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<UpdateItemOutput> {
         do {
             var item = try DynamoDBEncoder().encode(input.updateItem)
@@ -99,7 +99,7 @@ extension DynamoDB {
                 tableName: input.tableName,
                 updateExpression: updateExpression
             )
-            return self.updateItem(request, on: eventLoop, logger: logger)
+            return self.updateItem(request, logger: logger, on: eventLoop)
         } catch {
             let eventLoop = eventLoop ?? client.eventLoopGroup.next()
             return eventLoop.makeFailedFuture(error)
@@ -110,10 +110,10 @@ extension DynamoDB {
     public func query<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<QueryCodableOutput<T>> {
-        return self.query(input, on: eventLoop, logger: logger)
+        return self.query(input, logger: logger, on: eventLoop)
             .flatMapThrowing { response -> QueryCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return QueryCodableOutput(
@@ -130,10 +130,10 @@ extension DynamoDB {
     public func scan<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
-        on eventLoop: EventLoop? = nil,
-        logger: Logger = AWSClient.loggingDisabled
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<ScanCodableOutput<T>> {
-        return self.scan(input, on: eventLoop, logger: logger)
+        return self.scan(input, logger: logger, on: eventLoop)
             .flatMapThrowing { response -> ScanCodableOutput<T> in
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
                 return ScanCodableOutput(
@@ -151,16 +151,16 @@ extension DynamoDB {
     public func queryPaginator<T: Decodable>(
         _ input: QueryInput,
         type: T.Type,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (QueryCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
             input: input,
             command: self.query,
             tokenKey: \QueryOutput.lastEvaluatedKey,
-            on: eventLoop,
-            logger: logger
+            logger: logger,
+            on: eventLoop
         ) { (response, eventLoop) -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }
@@ -181,16 +181,16 @@ extension DynamoDB {
     public func scanPaginator<T: Decodable>(
         _ input: ScanInput,
         type: T.Type,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ScanCodableOutput<T>, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
             input: input,
             command: self.scan,
             tokenKey: \ScanOutput.lastEvaluatedKey,
-            on: eventLoop,
-            logger: logger
+            logger: logger,
+            on: eventLoop
         ) { (response, eventLoop) -> EventLoopFuture<Bool> in
             do {
                 let items = try response.items.map { try $0.map { try DynamoDBDecoder().decode(T.self, from: $0) } }

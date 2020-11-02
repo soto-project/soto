@@ -64,8 +64,8 @@ public struct EC2InstanceConnect: AWSService {
     // MARK: API Calls
 
     ///  Pushes an SSH public key to a particular OS user on a given EC2 instance for 60 seconds.
-    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendSSHPublicKeyResponse> {
-        return self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func sendSSHPublicKey(_ input: SendSSHPublicKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendSSHPublicKeyResponse> {
+        return self.client.execute(operation: "SendSSHPublicKey", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

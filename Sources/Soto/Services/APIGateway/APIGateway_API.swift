@@ -64,590 +64,590 @@ public struct APIGateway: AWSService {
     // MARK: API Calls
 
     ///  Create an ApiKey resource.  AWS CLI
-    public func createApiKey(_ input: CreateApiKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApiKey> {
-        return self.client.execute(operation: "CreateApiKey", path: "/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createApiKey(_ input: CreateApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
+        return self.client.execute(operation: "CreateApiKey", path: "/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a new Authorizer resource to an existing RestApi resource. AWS CLI
-    public func createAuthorizer(_ input: CreateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Authorizer> {
-        return self.client.execute(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createAuthorizer(_ input: CreateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
+        return self.client.execute(operation: "CreateAuthorizer", path: "/restapis/{restapi_id}/authorizers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new BasePathMapping resource.
-    public func createBasePathMapping(_ input: CreateBasePathMappingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BasePathMapping> {
-        return self.client.execute(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createBasePathMapping(_ input: CreateBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
+        return self.client.execute(operation: "CreateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a Deployment resource, which makes a specified RestApi callable over the internet.
-    public func createDeployment(_ input: CreateDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createDeployment(_ input: CreateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
+        return self.client.execute(operation: "CreateDeployment", path: "/restapis/{restapi_id}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func createDocumentationPart(_ input: CreateDocumentationPartRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationPart> {
-        return self.client.execute(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createDocumentationPart(_ input: CreateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
+        return self.client.execute(operation: "CreateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationVersion> {
-        return self.client.execute(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createDocumentationVersion(_ input: CreateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
+        return self.client.execute(operation: "CreateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new domain name.
-    public func createDomainName(_ input: CreateDomainNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DomainName> {
-        return self.client.execute(operation: "CreateDomainName", path: "/domainnames", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createDomainName(_ input: CreateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
+        return self.client.execute(operation: "CreateDomainName", path: "/domainnames", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a new Model resource to an existing RestApi resource.
-    public func createModel(_ input: CreateModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Model> {
-        return self.client.execute(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createModel(_ input: CreateModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
+        return self.client.execute(operation: "CreateModel", path: "/restapis/{restapi_id}/models", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a ReqeustValidator of a given RestApi.
-    public func createRequestValidator(_ input: CreateRequestValidatorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RequestValidator> {
-        return self.client.execute(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRequestValidator(_ input: CreateRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
+        return self.client.execute(operation: "CreateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a Resource resource.
-    public func createResource(_ input: CreateResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Resource> {
-        return self.client.execute(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createResource(_ input: CreateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
+        return self.client.execute(operation: "CreateResource", path: "/restapis/{restapi_id}/resources/{parent_id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new RestApi resource.
-    public func createRestApi(_ input: CreateRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApi> {
-        return self.client.execute(operation: "CreateRestApi", path: "/restapis", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRestApi(_ input: CreateRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
+        return self.client.execute(operation: "CreateRestApi", path: "/restapis", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new Stage resource that references a pre-existing Deployment for the API.
-    public func createStage(_ input: CreateStageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Stage> {
-        return self.client.execute(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createStage(_ input: CreateStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
+        return self.client.execute(operation: "CreateStage", path: "/restapis/{restapi_id}/stages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
-    public func createUsagePlan(_ input: CreateUsagePlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlan> {
-        return self.client.execute(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createUsagePlan(_ input: CreateUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
+        return self.client.execute(operation: "CreateUsagePlan", path: "/usageplans", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a usage plan key for adding an existing API key to a usage plan.
-    public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlanKey> {
-        return self.client.execute(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createUsagePlanKey(_ input: CreateUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKey> {
+        return self.client.execute(operation: "CreateUsagePlanKey", path: "/usageplans/{usageplanId}/keys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
-    public func createVpcLink(_ input: CreateVpcLinkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VpcLink> {
-        return self.client.execute(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createVpcLink(_ input: CreateVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
+        return self.client.execute(operation: "CreateVpcLink", path: "/vpclinks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the ApiKey resource.
-    @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteApiKey(_ input: DeleteApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteApiKey", path: "/apikeys/{api_Key}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an existing Authorizer resource. AWS CLI
-    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteAuthorizer(_ input: DeleteAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the BasePathMapping resource.
-    @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteBasePathMapping(_ input: DeleteBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the ClientCertificate resource.
-    @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteClientCertificate(_ input: DeleteClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
-    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDeployment(_ input: DeleteDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDocumentationPart(_ input: DeleteDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDocumentationVersion(_ input: DeleteDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the DomainName resource.
-    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteDomainName(_ input: DeleteDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteDomainName", path: "/domainnames/{domain_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
-    @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteGatewayResponse(_ input: DeleteGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a delete integration.
-    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteIntegration(_ input: DeleteIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a delete integration response.
-    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteIntegrationResponse(_ input: DeleteIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an existing Method resource.
-    @discardableResult public func deleteMethod(_ input: DeleteMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteMethod(_ input: DeleteMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an existing MethodResponse resource.
-    @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteMethodResponse(_ input: DeleteMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a model.
-    @discardableResult public func deleteModel(_ input: DeleteModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteModel(_ input: DeleteModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a RequestValidator of a given RestApi.
-    @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRequestValidator(_ input: DeleteRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a Resource resource.
-    @discardableResult public func deleteResource(_ input: DeleteResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteResource(_ input: DeleteResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified API.
-    @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRestApi(_ input: DeleteRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteRestApi", path: "/restapis/{restapi_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a Stage resource.
-    @discardableResult public func deleteStage(_ input: DeleteStageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteStage(_ input: DeleteStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a usage plan of a given plan Id.
-    @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUsagePlan(_ input: DeleteUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a usage plan key and remove the underlying API key from the associated usage plan.
-    @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUsagePlanKey(_ input: DeleteUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an existing VpcLink of a specified identifier.
-    @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVpcLink(_ input: DeleteVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Flushes all authorizer cache entries on a stage.
-    @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func flushStageAuthorizersCache(_ input: FlushStageAuthorizersCacheRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "FlushStageAuthorizersCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/authorizers", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Flushes a stage's cache.
-    @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func flushStageCache(_ input: FlushStageCacheRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "FlushStageCache", path: "/restapis/{restapi_id}/stages/{stage_name}/cache/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Generates a ClientCertificate resource.
-    public func generateClientCertificate(_ input: GenerateClientCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClientCertificate> {
-        return self.client.execute(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func generateClientCertificate(_ input: GenerateClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
+        return self.client.execute(operation: "GenerateClientCertificate", path: "/clientcertificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about the current Account resource.
-    public func getAccount(_ input: GetAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Account> {
-        return self.client.execute(operation: "GetAccount", path: "/account", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Account> {
+        return self.client.execute(operation: "GetAccount", path: "/account", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about the current ApiKey resource.
-    public func getApiKey(_ input: GetApiKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApiKey> {
-        return self.client.execute(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getApiKey(_ input: GetApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
+        return self.client.execute(operation: "GetApiKey", path: "/apikeys/{api_Key}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about the current ApiKeys resource.
-    public func getApiKeys(_ input: GetApiKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApiKeys> {
-        return self.client.execute(operation: "GetApiKeys", path: "/apikeys", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getApiKeys(_ input: GetApiKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKeys> {
+        return self.client.execute(operation: "GetApiKeys", path: "/apikeys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describe an existing Authorizer resource. AWS CLI
-    public func getAuthorizer(_ input: GetAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Authorizer> {
-        return self.client.execute(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAuthorizer(_ input: GetAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
+        return self.client.execute(operation: "GetAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describe an existing Authorizers resource. AWS CLI
-    public func getAuthorizers(_ input: GetAuthorizersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Authorizers> {
-        return self.client.execute(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAuthorizers(_ input: GetAuthorizersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizers> {
+        return self.client.execute(operation: "GetAuthorizers", path: "/restapis/{restapi_id}/authorizers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describe a BasePathMapping resource.
-    public func getBasePathMapping(_ input: GetBasePathMappingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BasePathMapping> {
-        return self.client.execute(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getBasePathMapping(_ input: GetBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
+        return self.client.execute(operation: "GetBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a collection of BasePathMapping resources.
-    public func getBasePathMappings(_ input: GetBasePathMappingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BasePathMappings> {
-        return self.client.execute(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getBasePathMappings(_ input: GetBasePathMappingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMappings> {
+        return self.client.execute(operation: "GetBasePathMappings", path: "/domainnames/{domain_name}/basepathmappings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about the current ClientCertificate resource.
-    public func getClientCertificate(_ input: GetClientCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClientCertificate> {
-        return self.client.execute(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getClientCertificate(_ input: GetClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
+        return self.client.execute(operation: "GetClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a collection of ClientCertificate resources.
-    public func getClientCertificates(_ input: GetClientCertificatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClientCertificates> {
-        return self.client.execute(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getClientCertificates(_ input: GetClientCertificatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificates> {
+        return self.client.execute(operation: "GetClientCertificates", path: "/clientcertificates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about a Deployment resource.
-    public func getDeployment(_ input: GetDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDeployment(_ input: GetDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
+        return self.client.execute(operation: "GetDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about a Deployments collection.
-    public func getDeployments(_ input: GetDeploymentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Deployments> {
-        return self.client.execute(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDeployments(_ input: GetDeploymentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployments> {
+        return self.client.execute(operation: "GetDeployments", path: "/restapis/{restapi_id}/deployments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getDocumentationPart(_ input: GetDocumentationPartRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationPart> {
-        return self.client.execute(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDocumentationPart(_ input: GetDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
+        return self.client.execute(operation: "GetDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getDocumentationParts(_ input: GetDocumentationPartsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationParts> {
-        return self.client.execute(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDocumentationParts(_ input: GetDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationParts> {
+        return self.client.execute(operation: "GetDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationVersion> {
-        return self.client.execute(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDocumentationVersion(_ input: GetDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
+        return self.client.execute(operation: "GetDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationVersions> {
-        return self.client.execute(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDocumentationVersions(_ input: GetDocumentationVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersions> {
+        return self.client.execute(operation: "GetDocumentationVersions", path: "/restapis/{restapi_id}/documentation/versions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
-    public func getDomainName(_ input: GetDomainNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DomainName> {
-        return self.client.execute(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDomainName(_ input: GetDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
+        return self.client.execute(operation: "GetDomainName", path: "/domainnames/{domain_name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a collection of DomainName resources.
-    public func getDomainNames(_ input: GetDomainNamesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DomainNames> {
-        return self.client.execute(operation: "GetDomainNames", path: "/domainnames", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDomainNames(_ input: GetDomainNamesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainNames> {
+        return self.client.execute(operation: "GetDomainNames", path: "/domainnames", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Exports a deployed version of a RestApi in a specified format.
-    public func getExport(_ input: GetExportRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ExportResponse> {
-        return self.client.execute(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getExport(_ input: GetExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExportResponse> {
+        return self.client.execute(operation: "GetExport", path: "/restapis/{restapi_id}/stages/{stage_name}/exports/{export_type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a GatewayResponse of a specified response type on the given RestApi.
-    public func getGatewayResponse(_ input: GetGatewayResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GatewayResponse> {
-        return self.client.execute(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getGatewayResponse(_ input: GetGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
+        return self.client.execute(operation: "GetGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
-    public func getGatewayResponses(_ input: GetGatewayResponsesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GatewayResponses> {
-        return self.client.execute(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getGatewayResponses(_ input: GetGatewayResponsesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponses> {
+        return self.client.execute(operation: "GetGatewayResponses", path: "/restapis/{restapi_id}/gatewayresponses", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get the integration settings.
-    public func getIntegration(_ input: GetIntegrationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Integration> {
-        return self.client.execute(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getIntegration(_ input: GetIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
+        return self.client.execute(operation: "GetIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a get integration response.
-    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<IntegrationResponse> {
-        return self.client.execute(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getIntegrationResponse(_ input: GetIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
+        return self.client.execute(operation: "GetIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describe an existing Method resource.
-    public func getMethod(_ input: GetMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Method> {
-        return self.client.execute(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMethod(_ input: GetMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
+        return self.client.execute(operation: "GetMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes a MethodResponse resource.
-    public func getMethodResponse(_ input: GetMethodResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MethodResponse> {
-        return self.client.execute(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMethodResponse(_ input: GetMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
+        return self.client.execute(operation: "GetMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes an existing model defined for a RestApi resource.
-    public func getModel(_ input: GetModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Model> {
-        return self.client.execute(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getModel(_ input: GetModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
+        return self.client.execute(operation: "GetModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Generates a sample mapping template that can be used to transform a payload into the structure of a model.
-    public func getModelTemplate(_ input: GetModelTemplateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Template> {
-        return self.client.execute(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getModelTemplate(_ input: GetModelTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Template> {
+        return self.client.execute(operation: "GetModelTemplate", path: "/restapis/{restapi_id}/models/{model_name}/default_template", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes existing Models defined for a RestApi resource.
-    public func getModels(_ input: GetModelsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Models> {
-        return self.client.execute(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getModels(_ input: GetModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Models> {
+        return self.client.execute(operation: "GetModels", path: "/restapis/{restapi_id}/models", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a RequestValidator of a given RestApi.
-    public func getRequestValidator(_ input: GetRequestValidatorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RequestValidator> {
-        return self.client.execute(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRequestValidator(_ input: GetRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
+        return self.client.execute(operation: "GetRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the RequestValidators collection of a given RestApi.
-    public func getRequestValidators(_ input: GetRequestValidatorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RequestValidators> {
-        return self.client.execute(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRequestValidators(_ input: GetRequestValidatorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidators> {
+        return self.client.execute(operation: "GetRequestValidators", path: "/restapis/{restapi_id}/requestvalidators", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists information about a resource.
-    public func getResource(_ input: GetResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Resource> {
-        return self.client.execute(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getResource(_ input: GetResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
+        return self.client.execute(operation: "GetResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists information about a collection of Resource resources.
-    public func getResources(_ input: GetResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Resources> {
-        return self.client.execute(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getResources(_ input: GetResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resources> {
+        return self.client.execute(operation: "GetResources", path: "/restapis/{restapi_id}/resources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the RestApi resource in the collection.
-    public func getRestApi(_ input: GetRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApi> {
-        return self.client.execute(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRestApi(_ input: GetRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
+        return self.client.execute(operation: "GetRestApi", path: "/restapis/{restapi_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the RestApis resources for your collection.
-    public func getRestApis(_ input: GetRestApisRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApis> {
-        return self.client.execute(operation: "GetRestApis", path: "/restapis", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRestApis(_ input: GetRestApisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApis> {
+        return self.client.execute(operation: "GetRestApis", path: "/restapis", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Generates a client SDK for a RestApi and Stage.
-    public func getSdk(_ input: GetSdkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SdkResponse> {
-        return self.client.execute(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getSdk(_ input: GetSdkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkResponse> {
+        return self.client.execute(operation: "GetSdk", path: "/restapis/{restapi_id}/stages/{stage_name}/sdks/{sdk_type}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getSdkType(_ input: GetSdkTypeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SdkType> {
-        return self.client.execute(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getSdkType(_ input: GetSdkTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkType> {
+        return self.client.execute(operation: "GetSdkType", path: "/sdktypes/{sdktype_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getSdkTypes(_ input: GetSdkTypesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SdkTypes> {
-        return self.client.execute(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getSdkTypes(_ input: GetSdkTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SdkTypes> {
+        return self.client.execute(operation: "GetSdkTypes", path: "/sdktypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about a Stage resource.
-    public func getStage(_ input: GetStageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Stage> {
-        return self.client.execute(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getStage(_ input: GetStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
+        return self.client.execute(operation: "GetStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets information about one or more Stage resources.
-    public func getStages(_ input: GetStagesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Stages> {
-        return self.client.execute(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getStages(_ input: GetStagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stages> {
+        return self.client.execute(operation: "GetStages", path: "/restapis/{restapi_id}/stages", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the Tags collection for a given resource.
-    public func getTags(_ input: GetTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Tags> {
-        return self.client.execute(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getTags(_ input: GetTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Tags> {
+        return self.client.execute(operation: "GetTags", path: "/tags/{resource_arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the usage data of a usage plan in a specified time interval.
-    public func getUsage(_ input: GetUsageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Usage> {
-        return self.client.execute(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUsage(_ input: GetUsageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Usage> {
+        return self.client.execute(operation: "GetUsage", path: "/usageplans/{usageplanId}/usage", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a usage plan of a given plan identifier.
-    public func getUsagePlan(_ input: GetUsagePlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlan> {
-        return self.client.execute(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUsagePlan(_ input: GetUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
+        return self.client.execute(operation: "GetUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a usage plan key of a given key identifier.
-    public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlanKey> {
-        return self.client.execute(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUsagePlanKey(_ input: GetUsagePlanKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKey> {
+        return self.client.execute(operation: "GetUsagePlanKey", path: "/usageplans/{usageplanId}/keys/{keyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets all the usage plan keys representing the API keys added to a specified usage plan.
-    public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlanKeys> {
-        return self.client.execute(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUsagePlanKeys(_ input: GetUsagePlanKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlanKeys> {
+        return self.client.execute(operation: "GetUsagePlanKeys", path: "/usageplans/{usageplanId}/keys", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets all the usage plans of the caller's account.
-    public func getUsagePlans(_ input: GetUsagePlansRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlans> {
-        return self.client.execute(operation: "GetUsagePlans", path: "/usageplans", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUsagePlans(_ input: GetUsagePlansRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlans> {
+        return self.client.execute(operation: "GetUsagePlans", path: "/usageplans", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets a specified VPC link under the caller's account in a region.
-    public func getVpcLink(_ input: GetVpcLinkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VpcLink> {
-        return self.client.execute(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVpcLink(_ input: GetVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
+        return self.client.execute(operation: "GetVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the VpcLinks collection under the caller's account in a selected region.
-    public func getVpcLinks(_ input: GetVpcLinksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VpcLinks> {
-        return self.client.execute(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVpcLinks(_ input: GetVpcLinksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLinks> {
+        return self.client.execute(operation: "GetVpcLinks", path: "/vpclinks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Import API keys from an external source, such as a CSV-formatted file.
-    public func importApiKeys(_ input: ImportApiKeysRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApiKeyIds> {
-        return self.client.execute(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func importApiKeys(_ input: ImportApiKeysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKeyIds> {
+        return self.client.execute(operation: "ImportApiKeys", path: "/apikeys?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func importDocumentationParts(_ input: ImportDocumentationPartsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationPartIds> {
-        return self.client.execute(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func importDocumentationParts(_ input: ImportDocumentationPartsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPartIds> {
+        return self.client.execute(operation: "ImportDocumentationParts", path: "/restapis/{restapi_id}/documentation/parts", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A feature of the API Gateway control service for creating a new API from an external API definition file.
-    public func importRestApi(_ input: ImportRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApi> {
-        return self.client.execute(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func importRestApi(_ input: ImportRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
+        return self.client.execute(operation: "ImportRestApi", path: "/restapis?mode=import", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
-    public func putGatewayResponse(_ input: PutGatewayResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GatewayResponse> {
-        return self.client.execute(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putGatewayResponse(_ input: PutGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
+        return self.client.execute(operation: "PutGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sets up a method's integration.
-    public func putIntegration(_ input: PutIntegrationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Integration> {
-        return self.client.execute(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putIntegration(_ input: PutIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
+        return self.client.execute(operation: "PutIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents a put integration.
-    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<IntegrationResponse> {
-        return self.client.execute(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putIntegrationResponse(_ input: PutIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
+        return self.client.execute(operation: "PutIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Add a method to an existing Resource resource.
-    public func putMethod(_ input: PutMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Method> {
-        return self.client.execute(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putMethod(_ input: PutMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
+        return self.client.execute(operation: "PutMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a MethodResponse to an existing Method resource.
-    public func putMethodResponse(_ input: PutMethodResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MethodResponse> {
-        return self.client.execute(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putMethodResponse(_ input: PutMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
+        return self.client.execute(operation: "PutMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A feature of the API Gateway control service for updating an existing API with an input of external API definitions. The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
-    public func putRestApi(_ input: PutRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApi> {
-        return self.client.execute(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putRestApi(_ input: PutRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
+        return self.client.execute(operation: "PutRestApi", path: "/restapis/{restapi_id}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds or updates a tag on a given resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resource_arn}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.  Use Lambda Function as Authorizer Use Cognito User Pool as Authorizer
-    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
-        return self.client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func testInvokeAuthorizer(_ input: TestInvokeAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestInvokeAuthorizerResponse> {
+        return self.client.execute(operation: "TestInvokeAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Simulate the execution of a Method in your RestApi with headers, parameters, and an incoming request body.
-    public func testInvokeMethod(_ input: TestInvokeMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TestInvokeMethodResponse> {
-        return self.client.execute(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func testInvokeMethod(_ input: TestInvokeMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TestInvokeMethodResponse> {
+        return self.client.execute(operation: "TestInvokeMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a tag from a given resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resource_arn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about the current Account resource.
-    public func updateAccount(_ input: UpdateAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Account> {
-        return self.client.execute(operation: "UpdateAccount", path: "/account", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAccount(_ input: UpdateAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Account> {
+        return self.client.execute(operation: "UpdateAccount", path: "/account", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about an ApiKey resource.
-    public func updateApiKey(_ input: UpdateApiKeyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ApiKey> {
-        return self.client.execute(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateApiKey(_ input: UpdateApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApiKey> {
+        return self.client.execute(operation: "UpdateApiKey", path: "/apikeys/{api_Key}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing Authorizer resource. AWS CLI
-    public func updateAuthorizer(_ input: UpdateAuthorizerRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Authorizer> {
-        return self.client.execute(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAuthorizer(_ input: UpdateAuthorizerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Authorizer> {
+        return self.client.execute(operation: "UpdateAuthorizer", path: "/restapis/{restapi_id}/authorizers/{authorizer_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about the BasePathMapping resource.
-    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BasePathMapping> {
-        return self.client.execute(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateBasePathMapping(_ input: UpdateBasePathMappingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BasePathMapping> {
+        return self.client.execute(operation: "UpdateBasePathMapping", path: "/domainnames/{domain_name}/basepathmappings/{base_path}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about an ClientCertificate resource.
-    public func updateClientCertificate(_ input: UpdateClientCertificateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ClientCertificate> {
-        return self.client.execute(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateClientCertificate(_ input: UpdateClientCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ClientCertificate> {
+        return self.client.execute(operation: "UpdateClientCertificate", path: "/clientcertificates/{clientcertificate_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about a Deployment resource.
-    public func updateDeployment(_ input: UpdateDeploymentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Deployment> {
-        return self.client.execute(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDeployment(_ input: UpdateDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Deployment> {
+        return self.client.execute(operation: "UpdateDeployment", path: "/restapis/{restapi_id}/deployments/{deployment_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationPart> {
-        return self.client.execute(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDocumentationPart(_ input: UpdateDocumentationPartRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationPart> {
+        return self.client.execute(operation: "UpdateDocumentationPart", path: "/restapis/{restapi_id}/documentation/parts/{part_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DocumentationVersion> {
-        return self.client.execute(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDocumentationVersion(_ input: UpdateDocumentationVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DocumentationVersion> {
+        return self.client.execute(operation: "UpdateDocumentationVersion", path: "/restapis/{restapi_id}/documentation/versions/{doc_version}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about the DomainName resource.
-    public func updateDomainName(_ input: UpdateDomainNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DomainName> {
-        return self.client.execute(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDomainName(_ input: UpdateDomainNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DomainName> {
+        return self.client.execute(operation: "UpdateDomainName", path: "/domainnames/{domain_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates a GatewayResponse of a specified response type on the given RestApi.
-    public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GatewayResponse> {
-        return self.client.execute(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateGatewayResponse(_ input: UpdateGatewayResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GatewayResponse> {
+        return self.client.execute(operation: "UpdateGatewayResponse", path: "/restapis/{restapi_id}/gatewayresponses/{response_type}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents an update integration.
-    public func updateIntegration(_ input: UpdateIntegrationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Integration> {
-        return self.client.execute(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateIntegration(_ input: UpdateIntegrationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Integration> {
+        return self.client.execute(operation: "UpdateIntegration", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Represents an update integration response.
-    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<IntegrationResponse> {
-        return self.client.execute(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateIntegrationResponse(_ input: UpdateIntegrationResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<IntegrationResponse> {
+        return self.client.execute(operation: "UpdateIntegrationResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/integration/responses/{status_code}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing Method resource.
-    public func updateMethod(_ input: UpdateMethodRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Method> {
-        return self.client.execute(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateMethod(_ input: UpdateMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Method> {
+        return self.client.execute(operation: "UpdateMethod", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing MethodResponse resource.
-    public func updateMethodResponse(_ input: UpdateMethodResponseRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<MethodResponse> {
-        return self.client.execute(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateMethodResponse(_ input: UpdateMethodResponseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MethodResponse> {
+        return self.client.execute(operation: "UpdateMethodResponse", path: "/restapis/{restapi_id}/resources/{resource_id}/methods/{http_method}/responses/{status_code}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about a model.
-    public func updateModel(_ input: UpdateModelRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Model> {
-        return self.client.execute(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateModel(_ input: UpdateModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Model> {
+        return self.client.execute(operation: "UpdateModel", path: "/restapis/{restapi_id}/models/{model_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates a RequestValidator of a given RestApi.
-    public func updateRequestValidator(_ input: UpdateRequestValidatorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RequestValidator> {
-        return self.client.execute(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateRequestValidator(_ input: UpdateRequestValidatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RequestValidator> {
+        return self.client.execute(operation: "UpdateRequestValidator", path: "/restapis/{restapi_id}/requestvalidators/{requestvalidator_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about a Resource resource.
-    public func updateResource(_ input: UpdateResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Resource> {
-        return self.client.execute(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateResource(_ input: UpdateResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Resource> {
+        return self.client.execute(operation: "UpdateResource", path: "/restapis/{restapi_id}/resources/{resource_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about the specified API.
-    public func updateRestApi(_ input: UpdateRestApiRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestApi> {
-        return self.client.execute(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateRestApi(_ input: UpdateRestApiRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestApi> {
+        return self.client.execute(operation: "UpdateRestApi", path: "/restapis/{restapi_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes information about a Stage resource.
-    public func updateStage(_ input: UpdateStageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Stage> {
-        return self.client.execute(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateStage(_ input: UpdateStageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Stage> {
+        return self.client.execute(operation: "UpdateStage", path: "/restapis/{restapi_id}/stages/{stage_name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
-    public func updateUsage(_ input: UpdateUsageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Usage> {
-        return self.client.execute(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateUsage(_ input: UpdateUsageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Usage> {
+        return self.client.execute(operation: "UpdateUsage", path: "/usageplans/{usageplanId}/keys/{keyId}/usage", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates a usage plan of a given plan Id.
-    public func updateUsagePlan(_ input: UpdateUsagePlanRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UsagePlan> {
-        return self.client.execute(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateUsagePlan(_ input: UpdateUsagePlanRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UsagePlan> {
+        return self.client.execute(operation: "UpdateUsagePlan", path: "/usageplans/{usageplanId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing VpcLink of a specified identifier.
-    public func updateVpcLink(_ input: UpdateVpcLinkRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<VpcLink> {
-        return self.client.execute(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateVpcLink(_ input: UpdateVpcLinkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VpcLink> {
+        return self.client.execute(operation: "UpdateVpcLink", path: "/vpclinks/{vpclink_id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

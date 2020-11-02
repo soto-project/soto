@@ -83,8 +83,8 @@ public struct {{ name }}: AWSService {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger)
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop)
     }
 {%endfor %}
 {%if streamingOperations.count > 0 %}
@@ -98,8 +98,8 @@ public struct {{ name }}: AWSService {
 {%if op.deprecated %}
     @available(*, deprecated, message:"{{op.deprecated}}")
 {%endif %}
-    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}Streaming({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}on eventLoop: EventLoop? = nil, logger: {{logger}} = AWSClient.loggingDisabled{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
-        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, on: eventLoop, logger: logger{% if op.streaming %}, stream: stream{% endif %})
+    {% if not op.outputShape %}@discardableResult {% endif %}public func {{op.funcName}}Streaming({% if op.inputShape %}_ input: {{op.inputShape}}, {% endif %}logger: {{logger}} = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil{% if op.streaming %}, _ stream: @escaping ({{op.streaming}}, EventLoop)->EventLoopFuture<Void>{% endif %}) -> EventLoopFuture<{% if op.outputShape %}{{op.outputShape}}{% else %}Void{% endif %}> {
+        return self.client.execute(operation: "{{op.name}}", path: "{{op.path}}", httpMethod: .{{op.httpMethod}}, serviceConfig: self.config{% if op.inputShape %}, input: input{% endif %}, logger: logger, on: eventLoop{% if op.streaming %}, stream: stream{% endif %})
     }
 {%endfor %}
 {%endif %}
