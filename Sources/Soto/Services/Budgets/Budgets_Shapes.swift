@@ -21,16 +21,16 @@ extension Budgets {
     // MARK: Enums
 
     public enum ActionStatus: String, CustomStringConvertible, Codable {
-        case standby = "STANDBY"
-        case pending = "PENDING"
+        case executionFailure = "EXECUTION_FAILURE"
         case executionInProgress = "EXECUTION_IN_PROGRESS"
         case executionSuccess = "EXECUTION_SUCCESS"
-        case executionFailure = "EXECUTION_FAILURE"
+        case pending = "PENDING"
+        case resetFailure = "RESET_FAILURE"
+        case resetInProgress = "RESET_IN_PROGRESS"
+        case reverseFailure = "REVERSE_FAILURE"
         case reverseInProgress = "REVERSE_IN_PROGRESS"
         case reverseSuccess = "REVERSE_SUCCESS"
-        case reverseFailure = "REVERSE_FAILURE"
-        case resetInProgress = "RESET_IN_PROGRESS"
-        case resetFailure = "RESET_FAILURE"
+        case standby = "STANDBY"
         public var description: String { return self.rawValue }
     }
 
@@ -54,42 +54,42 @@ extension Budgets {
     }
 
     public enum BudgetType: String, CustomStringConvertible, Codable {
-        case usage = "USAGE"
         case cost = "COST"
-        case riUtilization = "RI_UTILIZATION"
         case riCoverage = "RI_COVERAGE"
-        case savingsPlansUtilization = "SAVINGS_PLANS_UTILIZATION"
+        case riUtilization = "RI_UTILIZATION"
         case savingsPlansCoverage = "SAVINGS_PLANS_COVERAGE"
+        case savingsPlansUtilization = "SAVINGS_PLANS_UTILIZATION"
+        case usage = "USAGE"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case equalTo = "EQUAL_TO"
         case greaterThan = "GREATER_THAN"
         case lessThan = "LESS_THAN"
-        case equalTo = "EQUAL_TO"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case system = "SYSTEM"
         case createAction = "CREATE_ACTION"
         case deleteAction = "DELETE_ACTION"
-        case updateAction = "UPDATE_ACTION"
         case executeAction = "EXECUTE_ACTION"
+        case system = "SYSTEM"
+        case updateAction = "UPDATE_ACTION"
         public var description: String { return self.rawValue }
     }
 
     public enum ExecutionType: String, CustomStringConvertible, Codable {
         case approveBudgetAction = "APPROVE_BUDGET_ACTION"
+        case resetBudgetAction = "RESET_BUDGET_ACTION"
         case retryBudgetAction = "RETRY_BUDGET_ACTION"
         case reverseBudgetAction = "REVERSE_BUDGET_ACTION"
-        case resetBudgetAction = "RESET_BUDGET_ACTION"
         public var description: String { return self.rawValue }
     }
 
     public enum NotificationState: String, CustomStringConvertible, Codable {
-        case ok = "OK"
         case alarm = "ALARM"
+        case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
@@ -100,22 +100,22 @@ extension Budgets {
     }
 
     public enum SubscriptionType: String, CustomStringConvertible, Codable {
-        case sns = "SNS"
         case email = "EMAIL"
+        case sns = "SNS"
         public var description: String { return self.rawValue }
     }
 
     public enum ThresholdType: String, CustomStringConvertible, Codable {
-        case percentage = "PERCENTAGE"
         case absoluteValue = "ABSOLUTE_VALUE"
+        case percentage = "PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
     public enum TimeUnit: String, CustomStringConvertible, Codable {
+        case annually = "ANNUALLY"
         case daily = "DAILY"
         case monthly = "MONTHLY"
         case quarterly = "QUARTERLY"
-        case annually = "ANNUALLY"
         public var description: String { return self.rawValue }
     }
 

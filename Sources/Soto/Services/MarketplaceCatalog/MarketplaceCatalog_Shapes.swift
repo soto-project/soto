@@ -21,11 +21,11 @@ extension MarketplaceCatalog {
     // MARK: Enums
 
     public enum ChangeStatus: String, CustomStringConvertible, Codable {
-        case preparing = "PREPARING"
         case applying = "APPLYING"
-        case succeeded = "SUCCEEDED"
         case cancelled = "CANCELLED"
         case failed = "FAILED"
+        case preparing = "PREPARING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 

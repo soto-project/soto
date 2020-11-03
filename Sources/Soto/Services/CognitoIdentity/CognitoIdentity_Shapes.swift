@@ -33,16 +33,16 @@ extension CognitoIdentity {
     }
 
     public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
-        case equals = "Equals"
         case contains = "Contains"
-        case startswith = "StartsWith"
+        case equals = "Equals"
         case notequal = "NotEqual"
+        case startswith = "StartsWith"
         public var description: String { return self.rawValue }
     }
 
     public enum RoleMappingType: String, CustomStringConvertible, Codable {
-        case token = "Token"
         case rules = "Rules"
+        case token = "Token"
         public var description: String { return self.rawValue }
     }
 

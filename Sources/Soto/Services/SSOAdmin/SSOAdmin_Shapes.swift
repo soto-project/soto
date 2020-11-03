@@ -21,26 +21,26 @@ extension SSOAdmin {
     // MARK: Enums
 
     public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case group = "GROUP"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
     public enum ProvisionTargetType: String, CustomStringConvertible, Codable {
-        case awsAccount = "AWS_ACCOUNT"
         case allProvisionedAccounts = "ALL_PROVISIONED_ACCOUNTS"
+        case awsAccount = "AWS_ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
     public enum ProvisioningStatus: String, CustomStringConvertible, Codable {
-        case latestPermissionSetProvisioned = "LATEST_PERMISSION_SET_PROVISIONED"
         case latestPermissionSetNotProvisioned = "LATEST_PERMISSION_SET_NOT_PROVISIONED"
+        case latestPermissionSetProvisioned = "LATEST_PERMISSION_SET_PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
     public enum StatusValues: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }

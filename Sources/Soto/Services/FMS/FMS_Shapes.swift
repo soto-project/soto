@@ -21,11 +21,11 @@ extension FMS {
     // MARK: Enums
 
     public enum AccountRoleStatus: String, CustomStringConvertible, Codable {
-        case ready = "READY"
         case creating = "CREATING"
-        case pendingDeletion = "PENDING_DELETION"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case pendingDeletion = "PENDING_DELETION"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
@@ -37,9 +37,9 @@ extension FMS {
 
     public enum DependentServiceName: String, CustomStringConvertible, Codable {
         case awsconfig = "AWSCONFIG"
-        case awswaf = "AWSWAF"
         case awsshieldAdvanced = "AWSSHIELD_ADVANCED"
         case awsvpc = "AWSVPC"
+        case awswaf = "AWSWAF"
         public var description: String { return self.rawValue }
     }
 
@@ -50,31 +50,31 @@ extension FMS {
     }
 
     public enum RemediationActionType: String, CustomStringConvertible, Codable {
-        case remove = "REMOVE"
         case modify = "MODIFY"
+        case remove = "REMOVE"
         public var description: String { return self.rawValue }
     }
 
     public enum SecurityServiceType: String, CustomStringConvertible, Codable {
-        case waf = "WAF"
-        case wafv2 = "WAFV2"
-        case shieldAdvanced = "SHIELD_ADVANCED"
         case securityGroupsCommon = "SECURITY_GROUPS_COMMON"
         case securityGroupsContentAudit = "SECURITY_GROUPS_CONTENT_AUDIT"
         case securityGroupsUsageAudit = "SECURITY_GROUPS_USAGE_AUDIT"
+        case shieldAdvanced = "SHIELD_ADVANCED"
+        case waf = "WAF"
+        case wafv2 = "WAFV2"
         public var description: String { return self.rawValue }
     }
 
     public enum ViolationReason: String, CustomStringConvertible, Codable {
-        case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
-        case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
         case resourceIncorrectWebAcl = "RESOURCE_INCORRECT_WEB_ACL"
-        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
-        case resourceMissingWebAclOrShieldProtection = "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
         case resourceMissingSecurityGroup = "RESOURCE_MISSING_SECURITY_GROUP"
+        case resourceMissingShieldProtection = "RESOURCE_MISSING_SHIELD_PROTECTION"
+        case resourceMissingWebAcl = "RESOURCE_MISSING_WEB_ACL"
+        case resourceMissingWebAclOrShieldProtection = "RESOURCE_MISSING_WEB_ACL_OR_SHIELD_PROTECTION"
         case resourceViolatesAuditSecurityGroup = "RESOURCE_VIOLATES_AUDIT_SECURITY_GROUP"
-        case securityGroupUnused = "SECURITY_GROUP_UNUSED"
         case securityGroupRedundant = "SECURITY_GROUP_REDUNDANT"
+        case securityGroupUnused = "SECURITY_GROUP_UNUSED"
+        case webAclMissingRuleGroup = "WEB_ACL_MISSING_RULE_GROUP"
         public var description: String { return self.rawValue }
     }
 

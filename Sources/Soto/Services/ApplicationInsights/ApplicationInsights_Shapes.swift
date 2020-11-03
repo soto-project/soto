@@ -21,23 +21,23 @@ extension ApplicationInsights {
     // MARK: Enums
 
     public enum CloudWatchEventSource: String, CustomStringConvertible, Codable {
-        case ec2 = "EC2"
         case codeDeploy = "CODE_DEPLOY"
+        case ec2 = "EC2"
         case health = "HEALTH"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationEventResourceType: String, CustomStringConvertible, Codable {
-        case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case cloudformation = "CLOUDFORMATION"
+        case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case ssmAssociation = "SSM_ASSOCIATION"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationEventStatus: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
         case info = "INFO"
         case warn = "WARN"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -48,37 +48,37 @@ extension ApplicationInsights {
 
     public enum FeedbackValue: String, CustomStringConvertible, Codable {
         case notSpecified = "NOT_SPECIFIED"
-        case useful = "USEFUL"
         case notUseful = "NOT_USEFUL"
+        case useful = "USEFUL"
         public var description: String { return self.rawValue }
     }
 
     public enum LogFilter: String, CustomStringConvertible, Codable {
         case error = "ERROR"
-        case warn = "WARN"
         case info = "INFO"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
     public enum SeverityLevel: String, CustomStringConvertible, Codable {
+        case high = "High"
         case low = "Low"
         case medium = "Medium"
-        case high = "High"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
         case ignore = "IGNORE"
-        case resolved = "RESOLVED"
         case pending = "PENDING"
+        case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }
 
     public enum Tier: String, CustomStringConvertible, Codable {
         case `default` = "DEFAULT"
         case dotNetCore = "DOT_NET_CORE"
-        case dotNetWorker = "DOT_NET_WORKER"
         case dotNetWeb = "DOT_NET_WEB"
+        case dotNetWorker = "DOT_NET_WORKER"
         case sqlServer = "SQL_SERVER"
         public var description: String { return self.rawValue }
     }

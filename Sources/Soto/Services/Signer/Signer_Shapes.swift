@@ -26,8 +26,8 @@ extension Signer {
     }
 
     public enum EncryptionAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa = "RSA"
         case ecdsa = "ECDSA"
+        case rsa = "RSA"
         public var description: String { return self.rawValue }
     }
 
@@ -39,8 +39,8 @@ extension Signer {
 
     public enum ImageFormat: String, CustomStringConvertible, Codable {
         case json = "JSON"
-        case jsonembedded = "JSONEmbedded"
         case jsondetached = "JSONDetached"
+        case jsonembedded = "JSONEmbedded"
         public var description: String { return self.rawValue }
     }
 
@@ -51,8 +51,8 @@ extension Signer {
     }
 
     public enum SigningStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case failed = "Failed"
+        case inprogress = "InProgress"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }

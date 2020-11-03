@@ -32,8 +32,8 @@ extension EBS {
 
     public enum Status: String, CustomStringConvertible, Codable {
         case completed
-        case pending
         case error
+        case pending
         public var description: String { return self.rawValue }
     }
 

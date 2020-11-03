@@ -33,8 +33,8 @@ extension MediaConnect {
     }
 
     public enum EntitlementStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -50,19 +50,19 @@ extension MediaConnect {
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case zixiPush = "zixi-push"
-        case rtpFec = "rtp-fec"
-        case rtp
-        case zixiPull = "zixi-pull"
         case rist
+        case rtp
+        case rtpFec = "rtp-fec"
+        case zixiPull = "zixi-pull"
+        case zixiPush = "zixi-push"
         public var description: String { return self.rawValue }
     }
 
     public enum ReservationState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
+        case canceled = "CANCELED"
         case expired = "EXPIRED"
         case processing = "PROCESSING"
-        case canceled = "CANCELED"
         public var description: String { return self.rawValue }
     }
 
@@ -72,25 +72,25 @@ extension MediaConnect {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
-        case owned = "OWNED"
         case entitled = "ENTITLED"
+        case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
     public enum State: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case standby = "STANDBY"
         case active = "ACTIVE"
-        case updating = "UPDATING"
         case deleting = "DELETING"
+        case error = "ERROR"
+        case standby = "STANDBY"
         case starting = "STARTING"
         case stopping = "STOPPING"
-        case error = "ERROR"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 

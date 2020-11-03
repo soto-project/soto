@@ -21,8 +21,8 @@ extension MediaStoreData {
     // MARK: Enums
 
     public enum ItemType: String, CustomStringConvertible, Codable {
-        case object = "OBJECT"
         case folder = "FOLDER"
+        case object = "OBJECT"
         public var description: String { return self.rawValue }
     }
 

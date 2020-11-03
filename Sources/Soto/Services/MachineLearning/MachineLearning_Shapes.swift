@@ -27,79 +27,79 @@ extension MachineLearning {
 
     public enum BatchPredictionFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
         case datasourceid = "DataSourceId"
         case datauri = "DataURI"
+        case iamuser = "IAMUser"
+        case lastupdatedat = "LastUpdatedAt"
+        case mlmodelid = "MLModelId"
+        case name = "Name"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
         case datalocations3 = "DataLocationS3"
         case iamuser = "IAMUser"
+        case lastupdatedat = "LastUpdatedAt"
+        case name = "Name"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum DetailsAttributes: String, CustomStringConvertible, Codable {
-        case predictivemodeltype = "PredictiveModelType"
         case algorithm = "Algorithm"
+        case predictivemodeltype = "PredictiveModelType"
         public var description: String { return self.rawValue }
     }
 
     public enum EntityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inprogress = "INPROGRESS"
-        case failed = "FAILED"
         case completed = "COMPLETED"
         case deleted = "DELETED"
+        case failed = "FAILED"
+        case inprogress = "INPROGRESS"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum EvaluationFilterVariable: String, CustomStringConvertible, Codable {
         case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case mlmodelid = "MLModelId"
         case datasourceid = "DataSourceId"
         case datauri = "DataURI"
+        case iamuser = "IAMUser"
+        case lastupdatedat = "LastUpdatedAt"
+        case mlmodelid = "MLModelId"
+        case name = "Name"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum MLModelFilterVariable: String, CustomStringConvertible, Codable {
-        case createdat = "CreatedAt"
-        case lastupdatedat = "LastUpdatedAt"
-        case status = "Status"
-        case name = "Name"
-        case iamuser = "IAMUser"
-        case trainingdatasourceid = "TrainingDataSourceId"
-        case realtimeendpointstatus = "RealtimeEndpointStatus"
-        case mlmodeltype = "MLModelType"
         case algorithm = "Algorithm"
+        case createdat = "CreatedAt"
+        case iamuser = "IAMUser"
+        case lastupdatedat = "LastUpdatedAt"
+        case mlmodeltype = "MLModelType"
+        case name = "Name"
+        case realtimeendpointstatus = "RealtimeEndpointStatus"
+        case status = "Status"
+        case trainingdatasourceid = "TrainingDataSourceId"
         case trainingdatauri = "TrainingDataURI"
         public var description: String { return self.rawValue }
     }
 
     public enum MLModelType: String, CustomStringConvertible, Codable {
-        case regression = "REGRESSION"
         case binary = "BINARY"
         case multiclass = "MULTICLASS"
+        case regression = "REGRESSION"
         public var description: String { return self.rawValue }
     }
 
     public enum RealtimeEndpointStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case none = "NONE"
         case ready = "READY"
         case updating = "UPDATING"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 

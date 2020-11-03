@@ -27,9 +27,9 @@ extension ResourceGroupsTaggingAPI {
     }
 
     public enum GroupByAttribute: String, CustomStringConvertible, Codable {
-        case targetId = "TARGET_ID"
         case region = "REGION"
         case resourceType = "RESOURCE_TYPE"
+        case targetId = "TARGET_ID"
         public var description: String { return self.rawValue }
     }
 

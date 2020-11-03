@@ -33,65 +33,65 @@ extension Glue {
     }
 
     public enum ColumnStatisticsType: String, CustomStringConvertible, Codable {
+        case binary = "BINARY"
         case boolean = "BOOLEAN"
         case date = "DATE"
         case decimal = "DECIMAL"
         case double = "DOUBLE"
         case long = "LONG"
         case string = "STRING"
-        case binary = "BINARY"
         public var description: String { return self.rawValue }
     }
 
     public enum Comparator: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
         case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
         case greaterThanEquals = "GREATER_THAN_EQUALS"
+        case lessThan = "LESS_THAN"
         case lessThanEquals = "LESS_THAN_EQUALS"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionPropertyKey: String, CustomStringConvertible, Codable {
-        case host = "HOST"
-        case port = "PORT"
-        case username = "USERNAME"
-        case password = "PASSWORD"
-        case encryptedPassword = "ENCRYPTED_PASSWORD"
-        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
-        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
-        case jdbcEngine = "JDBC_ENGINE"
-        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
         case configFiles = "CONFIG_FILES"
+        case connectionUrl = "CONNECTION_URL"
+        case customJdbcCert = "CUSTOM_JDBC_CERT"
+        case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
+        case encryptedPassword = "ENCRYPTED_PASSWORD"
+        case host = "HOST"
         case instanceId = "INSTANCE_ID"
         case jdbcConnectionUrl = "JDBC_CONNECTION_URL"
+        case jdbcDriverClassName = "JDBC_DRIVER_CLASS_NAME"
+        case jdbcDriverJarUri = "JDBC_DRIVER_JAR_URI"
         case jdbcEnforceSsl = "JDBC_ENFORCE_SSL"
-        case customJdbcCert = "CUSTOM_JDBC_CERT"
-        case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
-        case customJdbcCertString = "CUSTOM_JDBC_CERT_STRING"
-        case connectionUrl = "CONNECTION_URL"
+        case jdbcEngine = "JDBC_ENGINE"
+        case jdbcEngineVersion = "JDBC_ENGINE_VERSION"
         case kafkaBootstrapServers = "KAFKA_BOOTSTRAP_SERVERS"
-        case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
         case kafkaCustomCert = "KAFKA_CUSTOM_CERT"
         case kafkaSkipCustomCertValidation = "KAFKA_SKIP_CUSTOM_CERT_VALIDATION"
+        case kafkaSslEnabled = "KAFKA_SSL_ENABLED"
+        case password = "PASSWORD"
+        case port = "PORT"
+        case skipCustomJdbcCertValidation = "SKIP_CUSTOM_JDBC_CERT_VALIDATION"
+        case username = "USERNAME"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case jdbc = "JDBC"
-        case sftp = "SFTP"
-        case mongodb = "MONGODB"
         case kafka = "KAFKA"
+        case mongodb = "MONGODB"
         case network = "NETWORK"
+        case sftp = "SFTP"
         public var description: String { return self.rawValue }
     }
 
     public enum CrawlState: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case cancelling = "CANCELLING"
         case cancelled = "CANCELLED"
-        case succeeded = "SUCCEEDED"
+        case cancelling = "CANCELLING"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -103,45 +103,45 @@ extension Glue {
     }
 
     public enum CsvHeaderOption: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case present = "PRESENT"
         case absent = "ABSENT"
+        case present = "PRESENT"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum DeleteBehavior: String, CustomStringConvertible, Codable {
-        case log = "LOG"
         case deleteFromDatabase = "DELETE_FROM_DATABASE"
         case deprecateInDatabase = "DEPRECATE_IN_DATABASE"
+        case log = "LOG"
         public var description: String { return self.rawValue }
     }
 
     public enum EnableHybridValues: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
         case `false` = "FALSE"
+        case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
     public enum ExistCondition: String, CustomStringConvertible, Codable {
         case mustExist = "MUST_EXIST"
-        case notExist = "NOT_EXIST"
         case none = "NONE"
+        case notExist = "NOT_EXIST"
         public var description: String { return self.rawValue }
     }
 
     public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable {
-        case disabled = "DISABLED"
         case cseKms = "CSE-KMS"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum JobRunState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case succeeded = "SUCCEEDED"
         case timeout = "TIMEOUT"
         public var description: String { return self.rawValue }
     }
@@ -153,9 +153,9 @@ extension Glue {
     }
 
     public enum LastCrawlStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
         case cancelled = "CANCELLED"
         case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -184,21 +184,21 @@ extension Glue {
 
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
-        case select = "SELECT"
         case alter = "ALTER"
-        case drop = "DROP"
-        case delete = "DELETE"
-        case insert = "INSERT"
         case createDatabase = "CREATE_DATABASE"
         case createTable = "CREATE_TABLE"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
+        case delete = "DELETE"
+        case drop = "DROP"
+        case insert = "INSERT"
+        case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 
     public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case role = "ROLE"
         case group = "GROUP"
+        case role = "ROLE"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
@@ -209,15 +209,15 @@ extension Glue {
     }
 
     public enum ResourceShareType: String, CustomStringConvertible, Codable {
-        case foreign = "FOREIGN"
         case all = "ALL"
+        case foreign = "FOREIGN"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case jar = "JAR"
-        case file = "FILE"
         case archive = "ARCHIVE"
+        case file = "FILE"
+        case jar = "JAR"
         public var description: String { return self.rawValue }
     }
 
@@ -229,8 +229,8 @@ extension Glue {
     }
 
     public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
         case notScheduled = "NOT_SCHEDULED"
+        case scheduled = "SCHEDULED"
         case transitioning = "TRANSITIONING"
         public var description: String { return self.rawValue }
     }
@@ -242,51 +242,51 @@ extension Glue {
     }
 
     public enum SortDirectionType: String, CustomStringConvertible, Codable {
-        case descending = "DESCENDING"
         case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskRunSortColumnType: String, CustomStringConvertible, Codable {
-        case taskRunType = "TASK_RUN_TYPE"
-        case status = "STATUS"
         case started = "STARTED"
+        case status = "STATUS"
+        case taskRunType = "TASK_RUN_TYPE"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskStatusType: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case succeeded = "SUCCEEDED"
         case timeout = "TIMEOUT"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskType: String, CustomStringConvertible, Codable {
         case evaluation = "EVALUATION"
-        case labelingSetGeneration = "LABELING_SET_GENERATION"
-        case importLabels = "IMPORT_LABELS"
         case exportLabels = "EXPORT_LABELS"
         case findMatches = "FIND_MATCHES"
+        case importLabels = "IMPORT_LABELS"
+        case labelingSetGeneration = "LABELING_SET_GENERATION"
         public var description: String { return self.rawValue }
     }
 
     public enum TransformSortColumnType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
-        case transformType = "TRANSFORM_TYPE"
-        case status = "STATUS"
         case created = "CREATED"
         case lastModified = "LAST_MODIFIED"
+        case name = "NAME"
+        case status = "STATUS"
+        case transformType = "TRANSFORM_TYPE"
         public var description: String { return self.rawValue }
     }
 
     public enum TransformStatusType: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
         case notReady = "NOT_READY"
         case ready = "READY"
-        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -296,21 +296,21 @@ extension Glue {
     }
 
     public enum TriggerState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
-        case activating = "ACTIVATING"
         case activated = "ACTIVATED"
-        case deactivating = "DEACTIVATING"
+        case activating = "ACTIVATING"
+        case created = "CREATED"
+        case creating = "CREATING"
         case deactivated = "DEACTIVATED"
+        case deactivating = "DEACTIVATING"
         case deleting = "DELETING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum TriggerType: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
         case conditional = "CONDITIONAL"
         case onDemand = "ON_DEMAND"
+        case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
@@ -321,18 +321,18 @@ extension Glue {
     }
 
     public enum WorkerType: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
         case g1X = "G.1X"
         case g2X = "G.2X"
+        case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkflowRunStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
         case completed = "COMPLETED"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
         case error = "ERROR"
+        case running = "RUNNING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 

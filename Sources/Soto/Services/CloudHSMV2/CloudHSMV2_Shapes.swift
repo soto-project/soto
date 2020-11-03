@@ -27,28 +27,28 @@ extension CloudHSMV2 {
 
     public enum BackupState: String, CustomStringConvertible, Codable {
         case createInProgress = "CREATE_IN_PROGRESS"
-        case ready = "READY"
         case deleted = "DELETED"
         case pendingDeletion = "PENDING_DELETION"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
-        case uninitialized = "UNINITIALIZED"
-        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
-        case initialized = "INITIALIZED"
         case active = "ACTIVE"
-        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case degraded = "DEGRADED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleted = "DELETED"
-        case degraded = "DEGRADED"
+        case initializeInProgress = "INITIALIZE_IN_PROGRESS"
+        case initialized = "INITIALIZED"
+        case uninitialized = "UNINITIALIZED"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum HsmState: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
         case active = "ACTIVE"
+        case createInProgress = "CREATE_IN_PROGRESS"
         case degraded = "DEGRADED"
         case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleted = "DELETED"

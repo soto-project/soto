@@ -21,27 +21,27 @@ extension OpsWorks {
     // MARK: Enums
 
     public enum AppAttributesKeys: String, CustomStringConvertible, Codable {
-        case documentroot = "DocumentRoot"
-        case railsenv = "RailsEnv"
         case autobundleondeploy = "AutoBundleOnDeploy"
         case awsflowrubysettings = "AwsFlowRubySettings"
+        case documentroot = "DocumentRoot"
+        case railsenv = "RailsEnv"
         public var description: String { return self.rawValue }
     }
 
     public enum AppType: String, CustomStringConvertible, Codable {
         case awsFlowRuby = "aws-flow-ruby"
         case java
-        case rails
-        case php
         case nodejs
-        case `static`
         case other
+        case php
+        case rails
+        case `static`
         public var description: String { return self.rawValue }
     }
 
     public enum Architecture: String, CustomStringConvertible, Codable {
-        case x8664 = "x86_64"
         case i386
+        case x8664 = "x86_64"
         public var description: String { return self.rawValue }
     }
 
@@ -56,6 +56,18 @@ extension OpsWorks {
         case big5
         case big5hkscs
         case cp037
+        case cp1006
+        case cp1026
+        case cp1140
+        case cp1250
+        case cp1251
+        case cp1252
+        case cp1253
+        case cp1254
+        case cp1255
+        case cp1256
+        case cp1257
+        case cp1258
         case cp424
         case cp437
         case cp500
@@ -81,25 +93,13 @@ extension OpsWorks {
         case cp932
         case cp949
         case cp950
-        case cp1006
-        case cp1026
-        case cp1140
-        case cp1250
-        case cp1251
-        case cp1252
-        case cp1253
-        case cp1254
-        case cp1255
-        case cp1256
-        case cp1257
-        case cp1258
-        case eucJp = "euc_jp"
         case eucJis2004 = "euc_jis_2004"
         case eucJisx0213 = "euc_jisx0213"
+        case eucJp = "euc_jp"
         case eucKr = "euc_kr"
+        case gb18030
         case gb2312
         case gbk
-        case gb18030
         case hz
         case iso2022Jp = "iso2022_jp"
         case iso2022Jp1 = "iso2022_jp_1"
@@ -108,7 +108,11 @@ extension OpsWorks {
         case iso2022Jp3 = "iso2022_jp_3"
         case iso2022JpExt = "iso2022_jp_ext"
         case iso2022Kr = "iso2022_kr"
-        case latin1 = "latin_1"
+        case iso885910 = "iso8859_10"
+        case iso885913 = "iso8859_13"
+        case iso885914 = "iso8859_14"
+        case iso885915 = "iso8859_15"
+        case iso885916 = "iso8859_16"
         case iso88592 = "iso8859_2"
         case iso88593 = "iso8859_3"
         case iso88594 = "iso8859_4"
@@ -117,14 +121,10 @@ extension OpsWorks {
         case iso88597 = "iso8859_7"
         case iso88598 = "iso8859_8"
         case iso88599 = "iso8859_9"
-        case iso885910 = "iso8859_10"
-        case iso885913 = "iso8859_13"
-        case iso885914 = "iso8859_14"
-        case iso885915 = "iso8859_15"
-        case iso885916 = "iso8859_16"
         case johab
         case koi8R = "koi8_r"
         case koi8U = "koi8_u"
+        case latin1 = "latin_1"
         case macCyrillic = "mac_cyrillic"
         case macGreek = "mac_greek"
         case macIceland = "mac_iceland"
@@ -135,12 +135,12 @@ extension OpsWorks {
         case shiftJis = "shift_jis"
         case shiftJis2004 = "shift_jis_2004"
         case shiftJisx0213 = "shift_jisx0213"
-        case utf32 = "utf_32"
-        case utf32Be = "utf_32_be"
-        case utf32Le = "utf_32_le"
         case utf16 = "utf_16"
         case utf16Be = "utf_16_be"
         case utf16Le = "utf_16_le"
+        case utf32 = "utf_32"
+        case utf32Be = "utf_32_be"
+        case utf32Le = "utf_32_le"
         case utf7 = "utf_7"
         case utf8 = "utf_8"
         case utf8Sig = "utf_8_sig"
@@ -148,8 +148,8 @@ extension OpsWorks {
     }
 
     public enum CloudWatchLogsInitialPosition: String, CustomStringConvertible, Codable {
-        case startOfFile = "start_of_file"
         case endOfFile = "end_of_file"
+        case startOfFile = "start_of_file"
         public var description: String { return self.rawValue }
     }
 
@@ -160,63 +160,63 @@ extension OpsWorks {
     }
 
     public enum DeploymentCommandName: String, CustomStringConvertible, Codable {
-        case installDependencies = "install_dependencies"
-        case updateDependencies = "update_dependencies"
-        case updateCustomCookbooks = "update_custom_cookbooks"
-        case executeRecipes = "execute_recipes"
         case configure
-        case setup
         case deploy
+        case executeRecipes = "execute_recipes"
+        case installDependencies = "install_dependencies"
+        case restart
         case rollback
+        case setup
         case start
         case stop
-        case restart
         case undeploy
+        case updateCustomCookbooks = "update_custom_cookbooks"
+        case updateDependencies = "update_dependencies"
         public var description: String { return self.rawValue }
     }
 
     public enum LayerAttributesKeys: String, CustomStringConvertible, Codable {
+        case bundlerversion = "BundlerVersion"
         case ecsclusterarn = "EcsClusterArn"
         case enablehaproxystats = "EnableHaproxyStats"
-        case haproxystatsurl = "HaproxyStatsUrl"
-        case haproxystatsuser = "HaproxyStatsUser"
-        case haproxystatspassword = "HaproxyStatsPassword"
-        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
-        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
-        case mysqlrootpassword = "MysqlRootPassword"
-        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
+        case gangliapassword = "GangliaPassword"
         case gangliaurl = "GangliaUrl"
         case gangliauser = "GangliaUser"
-        case gangliapassword = "GangliaPassword"
-        case memcachedmemory = "MemcachedMemory"
-        case nodejsversion = "NodejsVersion"
-        case rubyversion = "RubyVersion"
-        case rubygemsversion = "RubygemsVersion"
-        case managebundler = "ManageBundler"
-        case bundlerversion = "BundlerVersion"
-        case railsstack = "RailsStack"
-        case passengerversion = "PassengerVersion"
-        case jvm = "Jvm"
-        case jvmversion = "JvmVersion"
-        case jvmoptions = "JvmOptions"
+        case haproxyhealthcheckmethod = "HaproxyHealthCheckMethod"
+        case haproxyhealthcheckurl = "HaproxyHealthCheckUrl"
+        case haproxystatspassword = "HaproxyStatsPassword"
+        case haproxystatsurl = "HaproxyStatsUrl"
+        case haproxystatsuser = "HaproxyStatsUser"
         case javaappserver = "JavaAppServer"
         case javaappserverversion = "JavaAppServerVersion"
+        case jvm = "Jvm"
+        case jvmoptions = "JvmOptions"
+        case jvmversion = "JvmVersion"
+        case managebundler = "ManageBundler"
+        case memcachedmemory = "MemcachedMemory"
+        case mysqlrootpassword = "MysqlRootPassword"
+        case mysqlrootpasswordubiquitous = "MysqlRootPasswordUbiquitous"
+        case nodejsversion = "NodejsVersion"
+        case passengerversion = "PassengerVersion"
+        case railsstack = "RailsStack"
+        case rubygemsversion = "RubygemsVersion"
+        case rubyversion = "RubyVersion"
         public var description: String { return self.rawValue }
     }
 
     public enum LayerType: String, CustomStringConvertible, Codable {
         case awsFlowRuby = "aws-flow-ruby"
+        case custom
+        case dbMaster = "db-master"
         case ecsCluster = "ecs-cluster"
         case javaApp = "java-app"
         case lb
-        case web
+        case memcached
+        case monitoringMaster = "monitoring-master"
+        case nodejsApp = "nodejs-app"
         case phpApp = "php-app"
         case railsApp = "rails-app"
-        case nodejsApp = "nodejs-app"
-        case memcached
-        case dbMaster = "db-master"
-        case monitoringMaster = "monitoring-master"
-        case custom
+        case web
         public var description: String { return self.rawValue }
     }
 
@@ -227,10 +227,10 @@ extension OpsWorks {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
-        case git
-        case svn
         case archive
+        case git
         case s3
+        case svn
         public var description: String { return self.rawValue }
     }
 
@@ -240,8 +240,8 @@ extension OpsWorks {
     }
 
     public enum VirtualizationType: String, CustomStringConvertible, Codable {
-        case paravirtual
         case hvm
+        case paravirtual
         public var description: String { return self.rawValue }
     }
 

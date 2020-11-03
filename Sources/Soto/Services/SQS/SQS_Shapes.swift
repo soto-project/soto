@@ -21,14 +21,14 @@ extension SQS {
     // MARK: Enums
 
     public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
-        case senderid = "SenderId"
-        case senttimestamp = "SentTimestamp"
-        case approximatereceivecount = "ApproximateReceiveCount"
         case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
-        case sequencenumber = "SequenceNumber"
+        case approximatereceivecount = "ApproximateReceiveCount"
+        case awstraceheader = "AWSTraceHeader"
         case messagededuplicationid = "MessageDeduplicationId"
         case messagegroupid = "MessageGroupId"
-        case awstraceheader = "AWSTraceHeader"
+        case senderid = "SenderId"
+        case senttimestamp = "SentTimestamp"
+        case sequencenumber = "SequenceNumber"
         public var description: String { return self.rawValue }
     }
 
@@ -39,23 +39,23 @@ extension SQS {
 
     public enum QueueAttributeName: String, CustomStringConvertible, Codable {
         case all = "All"
-        case policy = "Policy"
-        case visibilitytimeout = "VisibilityTimeout"
+        case approximatenumberofmessages = "ApproximateNumberOfMessages"
+        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
+        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
+        case contentbaseddeduplication = "ContentBasedDeduplication"
+        case createdtimestamp = "CreatedTimestamp"
+        case delayseconds = "DelaySeconds"
+        case fifoqueue = "FifoQueue"
+        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
+        case kmsmasterkeyid = "KmsMasterKeyId"
+        case lastmodifiedtimestamp = "LastModifiedTimestamp"
         case maximummessagesize = "MaximumMessageSize"
         case messageretentionperiod = "MessageRetentionPeriod"
-        case approximatenumberofmessages = "ApproximateNumberOfMessages"
-        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
-        case createdtimestamp = "CreatedTimestamp"
-        case lastmodifiedtimestamp = "LastModifiedTimestamp"
+        case policy = "Policy"
         case queuearn = "QueueArn"
-        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
-        case delayseconds = "DelaySeconds"
         case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
         case redrivepolicy = "RedrivePolicy"
-        case fifoqueue = "FifoQueue"
-        case contentbaseddeduplication = "ContentBasedDeduplication"
-        case kmsmasterkeyid = "KmsMasterKeyId"
-        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
+        case visibilitytimeout = "VisibilityTimeout"
         public var description: String { return self.rawValue }
     }
 

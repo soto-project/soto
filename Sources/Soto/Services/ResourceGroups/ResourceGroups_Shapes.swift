@@ -21,15 +21,15 @@ extension ResourceGroups {
     // MARK: Enums
 
     public enum GroupConfigurationStatus: String, CustomStringConvertible, Codable {
-        case updating = "UPDATING"
         case updateComplete = "UPDATE_COMPLETE"
         case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum GroupFilterName: String, CustomStringConvertible, Codable {
-        case resourceType = "resource-type"
         case configurationType = "configuration-type"
+        case resourceType = "resource-type"
         public var description: String { return self.rawValue }
     }
 
@@ -40,8 +40,8 @@ extension ResourceGroups {
     }
 
     public enum QueryType: String, CustomStringConvertible, Codable {
-        case tagFilters10 = "TAG_FILTERS_1_0"
         case cloudformationStack10 = "CLOUDFORMATION_STACK_1_0"
+        case tagFilters10 = "TAG_FILTERS_1_0"
         public var description: String { return self.rawValue }
     }
 

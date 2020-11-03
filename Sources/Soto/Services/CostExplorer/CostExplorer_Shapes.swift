@@ -21,15 +21,15 @@ extension CostExplorer {
     // MARK: Enums
 
     public enum AccountScope: String, CustomStringConvertible, Codable {
-        case payer = "PAYER"
         case linked = "LINKED"
+        case payer = "PAYER"
         public var description: String { return self.rawValue }
     }
 
     public enum AnomalyFeedbackType: String, CustomStringConvertible, Codable {
-        case yes = "YES"
         case no = "NO"
         case plannedActivity = "PLANNED_ACTIVITY"
+        case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
@@ -53,8 +53,8 @@ extension CostExplorer {
     }
 
     public enum CostCategoryStatus: String, CustomStringConvertible, Codable {
-        case processing = "PROCESSING"
         case applied = "APPLIED"
+        case processing = "PROCESSING"
         public var description: String { return self.rawValue }
     }
 
@@ -65,76 +65,76 @@ extension CostExplorer {
 
     public enum Dimension: String, CustomStringConvertible, Codable {
         case az = "AZ"
+        case billingEntity = "BILLING_ENTITY"
+        case cacheEngine = "CACHE_ENGINE"
+        case databaseEngine = "DATABASE_ENGINE"
+        case deploymentOption = "DEPLOYMENT_OPTION"
         case instanceType = "INSTANCE_TYPE"
+        case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
+        case legalEntityName = "LEGAL_ENTITY_NAME"
         case linkedAccount = "LINKED_ACCOUNT"
         case linkedAccountName = "LINKED_ACCOUNT_NAME"
-        case operation = "OPERATION"
-        case purchaseType = "PURCHASE_TYPE"
-        case region = "REGION"
-        case service = "SERVICE"
-        case serviceCode = "SERVICE_CODE"
-        case usageType = "USAGE_TYPE"
-        case usageTypeGroup = "USAGE_TYPE_GROUP"
-        case recordType = "RECORD_TYPE"
         case operatingSystem = "OPERATING_SYSTEM"
-        case tenancy = "TENANCY"
-        case scope = "SCOPE"
+        case operation = "OPERATION"
+        case paymentOption = "PAYMENT_OPTION"
         case platform = "PLATFORM"
-        case subscriptionId = "SUBSCRIPTION_ID"
-        case legalEntityName = "LEGAL_ENTITY_NAME"
-        case deploymentOption = "DEPLOYMENT_OPTION"
-        case databaseEngine = "DATABASE_ENGINE"
-        case cacheEngine = "CACHE_ENGINE"
-        case instanceTypeFamily = "INSTANCE_TYPE_FAMILY"
-        case billingEntity = "BILLING_ENTITY"
+        case purchaseType = "PURCHASE_TYPE"
+        case recordType = "RECORD_TYPE"
+        case region = "REGION"
         case reservationId = "RESERVATION_ID"
         case resourceId = "RESOURCE_ID"
         case rightsizingType = "RIGHTSIZING_TYPE"
-        case savingsPlansType = "SAVINGS_PLANS_TYPE"
         case savingsPlanArn = "SAVINGS_PLAN_ARN"
-        case paymentOption = "PAYMENT_OPTION"
+        case savingsPlansType = "SAVINGS_PLANS_TYPE"
+        case scope = "SCOPE"
+        case service = "SERVICE"
+        case serviceCode = "SERVICE_CODE"
+        case subscriptionId = "SUBSCRIPTION_ID"
+        case tenancy = "TENANCY"
+        case usageType = "USAGE_TYPE"
+        case usageTypeGroup = "USAGE_TYPE_GROUP"
         public var description: String { return self.rawValue }
     }
 
     public enum Granularity: String, CustomStringConvertible, Codable {
         case daily = "DAILY"
-        case monthly = "MONTHLY"
         case hourly = "HOURLY"
+        case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }
 
     public enum GroupDefinitionType: String, CustomStringConvertible, Codable {
+        case costCategory = "COST_CATEGORY"
         case dimension = "DIMENSION"
         case tag = "TAG"
-        case costCategory = "COST_CATEGORY"
         public var description: String { return self.rawValue }
     }
 
     public enum LookbackPeriodInDays: String, CustomStringConvertible, Codable {
         case sevenDays = "SEVEN_DAYS"
-        case thirtyDays = "THIRTY_DAYS"
         case sixtyDays = "SIXTY_DAYS"
+        case thirtyDays = "THIRTY_DAYS"
         public var description: String { return self.rawValue }
     }
 
     public enum MatchOption: String, CustomStringConvertible, Codable {
+        case caseInsensitive = "CASE_INSENSITIVE"
+        case caseSensitive = "CASE_SENSITIVE"
+        case contains = "CONTAINS"
+        case endsWith = "ENDS_WITH"
         case equals = "EQUALS"
         case startsWith = "STARTS_WITH"
-        case endsWith = "ENDS_WITH"
-        case contains = "CONTAINS"
-        case caseSensitive = "CASE_SENSITIVE"
-        case caseInsensitive = "CASE_INSENSITIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum Metric: String, CustomStringConvertible, Codable {
-        case blendedCost = "BLENDED_COST"
-        case unblendedCost = "UNBLENDED_COST"
         case amortizedCost = "AMORTIZED_COST"
-        case netUnblendedCost = "NET_UNBLENDED_COST"
+        case blendedCost = "BLENDED_COST"
         case netAmortizedCost = "NET_AMORTIZED_COST"
-        case usageQuantity = "USAGE_QUANTITY"
+        case netUnblendedCost = "NET_UNBLENDED_COST"
         case normalizedUsageAmount = "NORMALIZED_USAGE_AMOUNT"
+        case unblendedCost = "UNBLENDED_COST"
+        case usageQuantity = "USAGE_QUANTITY"
         public var description: String { return self.rawValue }
     }
 
@@ -144,46 +144,46 @@ extension CostExplorer {
     }
 
     public enum MonitorType: String, CustomStringConvertible, Codable {
-        case dimensional = "DIMENSIONAL"
         case custom = "CUSTOM"
+        case dimensional = "DIMENSIONAL"
         public var description: String { return self.rawValue }
     }
 
     public enum NumericOperator: String, CustomStringConvertible, Codable {
-        case equal = "EQUAL"
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
-        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
-        case greaterThan = "GREATER_THAN"
-        case lessThan = "LESS_THAN"
         case between = "BETWEEN"
+        case equal = "EQUAL"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
         public var description: String { return self.rawValue }
     }
 
     public enum OfferingClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case convertible = "CONVERTIBLE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
     public enum PaymentOption: String, CustomStringConvertible, Codable {
-        case noUpfront = "NO_UPFRONT"
-        case partialUpfront = "PARTIAL_UPFRONT"
         case allUpfront = "ALL_UPFRONT"
+        case heavyUtilization = "HEAVY_UTILIZATION"
         case lightUtilization = "LIGHT_UTILIZATION"
         case mediumUtilization = "MEDIUM_UTILIZATION"
-        case heavyUtilization = "HEAVY_UTILIZATION"
+        case noUpfront = "NO_UPFRONT"
+        case partialUpfront = "PARTIAL_UPFRONT"
         public var description: String { return self.rawValue }
     }
 
     public enum RecommendationTarget: String, CustomStringConvertible, Codable {
-        case sameInstanceFamily = "SAME_INSTANCE_FAMILY"
         case crossInstanceFamily = "CROSS_INSTANCE_FAMILY"
+        case sameInstanceFamily = "SAME_INSTANCE_FAMILY"
         public var description: String { return self.rawValue }
     }
 
     public enum RightsizingType: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
         case modify = "MODIFY"
+        case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 

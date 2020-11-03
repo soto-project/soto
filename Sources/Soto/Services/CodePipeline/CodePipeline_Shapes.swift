@@ -21,34 +21,34 @@ extension CodePipeline {
     // MARK: Enums
 
     public enum ActionCategory: String, CustomStringConvertible, Codable {
-        case source = "Source"
+        case approval = "Approval"
         case build = "Build"
         case deploy = "Deploy"
-        case test = "Test"
         case invoke = "Invoke"
-        case approval = "Approval"
+        case source = "Source"
+        case test = "Test"
         public var description: String { return self.rawValue }
     }
 
     public enum ActionConfigurationPropertyType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
         case boolean = "Boolean"
+        case number = "Number"
+        case string = "String"
         public var description: String { return self.rawValue }
     }
 
     public enum ActionExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case abandoned = "Abandoned"
-        case succeeded = "Succeeded"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
     public enum ActionOwner: String, CustomStringConvertible, Codable {
         case aws = "AWS"
-        case thirdparty = "ThirdParty"
         case custom = "Custom"
+        case thirdparty = "ThirdParty"
         public var description: String { return self.rawValue }
     }
 
@@ -79,8 +79,8 @@ extension CodePipeline {
     }
 
     public enum FailureType: String, CustomStringConvertible, Codable {
-        case jobfailed = "JobFailed"
         case configurationerror = "ConfigurationError"
+        case jobfailed = "JobFailed"
         case permissionerror = "PermissionError"
         case revisionoutofsync = "RevisionOutOfSync"
         case revisionunavailable = "RevisionUnavailable"
@@ -90,28 +90,28 @@ extension CodePipeline {
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
         case created = "Created"
-        case queued = "Queued"
         case dispatched = "Dispatched"
-        case inprogress = "InProgress"
-        case timedout = "TimedOut"
-        case succeeded = "Succeeded"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case queued = "Queued"
+        case succeeded = "Succeeded"
+        case timedout = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PipelineExecutionStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         case succeeded = "Succeeded"
         case superseded = "Superseded"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum StageExecutionStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case failed = "Failed"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         case succeeded = "Succeeded"
@@ -130,12 +130,12 @@ extension CodePipeline {
     }
 
     public enum TriggerType: String, CustomStringConvertible, Codable {
-        case createpipeline = "CreatePipeline"
-        case startpipelineexecution = "StartPipelineExecution"
-        case pollforsourcechanges = "PollForSourceChanges"
-        case webhook = "Webhook"
         case cloudwatchevent = "CloudWatchEvent"
+        case createpipeline = "CreatePipeline"
+        case pollforsourcechanges = "PollForSourceChanges"
         case putactionrevision = "PutActionRevision"
+        case startpipelineexecution = "StartPipelineExecution"
+        case webhook = "Webhook"
         public var description: String { return self.rawValue }
     }
 

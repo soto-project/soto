@@ -21,49 +21,49 @@ extension RoboMaker {
     // MARK: Enums
 
     public enum Architecture: String, CustomStringConvertible, Codable {
-        case x8664 = "X86_64"
         case arm64 = "ARM64"
         case armhf = "ARMHF"
+        case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentJobErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfound = "ResourceNotFound"
-        case environmentsetuperror = "EnvironmentSetupError"
-        case etagmismatch = "EtagMismatch"
-        case failurethresholdbreached = "FailureThresholdBreached"
-        case robotdeploymentaborted = "RobotDeploymentAborted"
-        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
-        case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
-        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
-        case invalidgreengrassgroup = "InvalidGreengrassGroup"
-        case missingrobotarchitecture = "MissingRobotArchitecture"
-        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
-        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
-        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
-        case lambdadeleted = "LambdaDeleted"
-        case extractingbundlefailure = "ExtractingBundleFailure"
-        case prelaunchfilefailure = "PreLaunchFileFailure"
-        case postlaunchfilefailure = "PostLaunchFileFailure"
         case badpermissionerror = "BadPermissionError"
         case downloadconditionfailed = "DownloadConditionFailed"
+        case environmentsetuperror = "EnvironmentSetupError"
+        case etagmismatch = "EtagMismatch"
+        case extractingbundlefailure = "ExtractingBundleFailure"
+        case failurethresholdbreached = "FailureThresholdBreached"
+        case greengrassdeploymentfailed = "GreengrassDeploymentFailed"
+        case greengrassgroupversiondoesnotexist = "GreengrassGroupVersionDoesNotExist"
         case internalservererror = "InternalServerError"
+        case invalidgreengrassgroup = "InvalidGreengrassGroup"
+        case lambdadeleted = "LambdaDeleted"
+        case missingrobotapplicationarchitecture = "MissingRobotApplicationArchitecture"
+        case missingrobotarchitecture = "MissingRobotArchitecture"
+        case missingrobotdeploymentresource = "MissingRobotDeploymentResource"
+        case postlaunchfilefailure = "PostLaunchFileFailure"
+        case prelaunchfilefailure = "PreLaunchFileFailure"
+        case resourcenotfound = "ResourceNotFound"
+        case robotagentconnectiontimeout = "RobotAgentConnectionTimeout"
+        case robotdeploymentaborted = "RobotDeploymentAborted"
+        case robotdeploymentnoresponse = "RobotDeploymentNoResponse"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentStatus: String, CustomStringConvertible, Codable {
+        case canceled = "Canceled"
+        case failed = "Failed"
+        case inprogress = "InProgress"
         case pending = "Pending"
         case preparing = "Preparing"
-        case inprogress = "InProgress"
-        case failed = "Failed"
         case succeeded = "Succeeded"
-        case canceled = "Canceled"
         public var description: String { return self.rawValue }
     }
 
     public enum FailureBehavior: String, CustomStringConvertible, Codable {
-        case fail = "Fail"
         case `continue` = "Continue"
+        case fail = "Fail"
         public var description: String { return self.rawValue }
     }
 
@@ -73,13 +73,13 @@ extension RoboMaker {
     }
 
     public enum RobotDeploymentStep: String, CustomStringConvertible, Codable {
-        case validating = "Validating"
         case downloadingextracting = "DownloadingExtracting"
         case executingdownloadcondition = "ExecutingDownloadCondition"
-        case executingprelaunch = "ExecutingPreLaunch"
-        case launching = "Launching"
         case executingpostlaunch = "ExecutingPostLaunch"
+        case executingprelaunch = "ExecutingPreLaunch"
         case finished = "Finished"
+        case launching = "Launching"
+        case validating = "Validating"
         public var description: String { return self.rawValue }
     }
 
@@ -90,20 +90,20 @@ extension RoboMaker {
     }
 
     public enum RobotSoftwareSuiteVersionType: String, CustomStringConvertible, Codable {
+        case dashing = "Dashing"
         case kinetic = "Kinetic"
         case melodic = "Melodic"
-        case dashing = "Dashing"
         public var description: String { return self.rawValue }
     }
 
     public enum RobotStatus: String, CustomStringConvertible, Codable {
         case available = "Available"
-        case registered = "Registered"
-        case pendingnewdeployment = "PendingNewDeployment"
         case deploying = "Deploying"
         case failed = "Failed"
         case insync = "InSync"
         case noresponse = "NoResponse"
+        case pendingnewdeployment = "PendingNewDeployment"
+        case registered = "Registered"
         public var description: String { return self.rawValue }
     }
 
@@ -113,60 +113,60 @@ extension RoboMaker {
     }
 
     public enum SimulationJobBatchStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case failed = "Failed"
-        case completed = "Completed"
         case canceled = "Canceled"
         case canceling = "Canceling"
+        case completed = "Completed"
         case completing = "Completing"
-        case timingout = "TimingOut"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         case timedout = "TimedOut"
+        case timingout = "TimingOut"
         public var description: String { return self.rawValue }
     }
 
     public enum SimulationJobErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceerror = "InternalServiceError"
-        case robotapplicationcrash = "RobotApplicationCrash"
-        case simulationapplicationcrash = "SimulationApplicationCrash"
+        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
         case badpermissionsrobotapplication = "BadPermissionsRobotApplication"
-        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
         case badpermissionss3object = "BadPermissionsS3Object"
         case badpermissionss3output = "BadPermissionsS3Output"
-        case badpermissionscloudwatchlogs = "BadPermissionsCloudwatchLogs"
-        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
-        case enilimitexceeded = "ENILimitExceeded"
+        case badpermissionssimulationapplication = "BadPermissionsSimulationApplication"
         case badpermissionsusercredentials = "BadPermissionsUserCredentials"
+        case batchcanceled = "BatchCanceled"
+        case batchtimedout = "BatchTimedOut"
+        case enilimitexceeded = "ENILimitExceeded"
+        case internalserviceerror = "InternalServiceError"
         case invalidbundlerobotapplication = "InvalidBundleRobotApplication"
         case invalidbundlesimulationapplication = "InvalidBundleSimulationApplication"
+        case invalidinput = "InvalidInput"
         case invalids3resource = "InvalidS3Resource"
         case limitexceeded = "LimitExceeded"
         case mismatchedetag = "MismatchedEtag"
-        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
-        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
-        case resourcenotfound = "ResourceNotFound"
         case requestthrottled = "RequestThrottled"
-        case batchtimedout = "BatchTimedOut"
-        case batchcanceled = "BatchCanceled"
-        case invalidinput = "InvalidInput"
+        case resourcenotfound = "ResourceNotFound"
+        case robotapplicationcrash = "RobotApplicationCrash"
+        case robotapplicationversionmismatchedetag = "RobotApplicationVersionMismatchedEtag"
+        case simulationapplicationcrash = "SimulationApplicationCrash"
+        case simulationapplicationversionmismatchedetag = "SimulationApplicationVersionMismatchedEtag"
+        case subnetiplimitexceeded = "SubnetIpLimitExceeded"
+        case wrongregionrobotapplication = "WrongRegionRobotApplication"
         case wrongregions3bucket = "WrongRegionS3Bucket"
         case wrongregions3output = "WrongRegionS3Output"
-        case wrongregionrobotapplication = "WrongRegionRobotApplication"
         case wrongregionsimulationapplication = "WrongRegionSimulationApplication"
         public var description: String { return self.rawValue }
     }
 
     public enum SimulationJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case preparing = "Preparing"
-        case running = "Running"
-        case restarting = "Restarting"
+        case canceled = "Canceled"
         case completed = "Completed"
         case failed = "Failed"
+        case pending = "Pending"
+        case preparing = "Preparing"
+        case restarting = "Restarting"
+        case running = "Running"
         case runningfailed = "RunningFailed"
-        case terminating = "Terminating"
         case terminated = "Terminated"
-        case canceled = "Canceled"
+        case terminating = "Terminating"
         public var description: String { return self.rawValue }
     }
 
@@ -177,43 +177,43 @@ extension RoboMaker {
     }
 
     public enum WorldExportJobErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceerror = "InternalServiceError"
-        case limitexceeded = "LimitExceeded"
-        case resourcenotfound = "ResourceNotFound"
-        case requestthrottled = "RequestThrottled"
-        case invalidinput = "InvalidInput"
         case accessdenied = "AccessDenied"
+        case internalserviceerror = "InternalServiceError"
+        case invalidinput = "InvalidInput"
+        case limitexceeded = "LimitExceeded"
+        case requestthrottled = "RequestThrottled"
+        case resourcenotfound = "ResourceNotFound"
         public var description: String { return self.rawValue }
     }
 
     public enum WorldExportJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case running = "Running"
+        case canceled = "Canceled"
+        case canceling = "Canceling"
         case completed = "Completed"
         case failed = "Failed"
-        case canceling = "Canceling"
-        case canceled = "Canceled"
+        case pending = "Pending"
+        case running = "Running"
         public var description: String { return self.rawValue }
     }
 
     public enum WorldGenerationJobErrorCode: String, CustomStringConvertible, Codable {
-        case internalserviceerror = "InternalServiceError"
-        case limitexceeded = "LimitExceeded"
-        case resourcenotfound = "ResourceNotFound"
-        case requestthrottled = "RequestThrottled"
-        case invalidinput = "InvalidInput"
         case allworldgenerationfailed = "AllWorldGenerationFailed"
+        case internalserviceerror = "InternalServiceError"
+        case invalidinput = "InvalidInput"
+        case limitexceeded = "LimitExceeded"
+        case requestthrottled = "RequestThrottled"
+        case resourcenotfound = "ResourceNotFound"
         public var description: String { return self.rawValue }
     }
 
     public enum WorldGenerationJobStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case running = "Running"
+        case canceled = "Canceled"
+        case canceling = "Canceling"
         case completed = "Completed"
         case failed = "Failed"
         case partialfailed = "PartialFailed"
-        case canceling = "Canceling"
-        case canceled = "Canceled"
+        case pending = "Pending"
+        case running = "Running"
         public var description: String { return self.rawValue }
     }
 

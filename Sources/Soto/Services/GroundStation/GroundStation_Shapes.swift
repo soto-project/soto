@@ -28,8 +28,8 @@ extension GroundStation {
 
     public enum BandwidthUnits: String, CustomStringConvertible, Codable {
         case ghz = "GHz"
-        case mhz = "MHz"
         case khz = "kHz"
+        case mhz = "MHz"
         public var description: String { return self.rawValue }
     }
 
@@ -83,8 +83,8 @@ extension GroundStation {
 
     public enum FrequencyUnits: String, CustomStringConvertible, Codable {
         case ghz = "GHz"
-        case mhz = "MHz"
         case khz = "kHz"
+        case mhz = "MHz"
         public var description: String { return self.rawValue }
     }
 

@@ -33,24 +33,24 @@ extension Health {
     }
 
     public enum EventScopeCode: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
         case accountSpecific = "ACCOUNT_SPECIFIC"
         case none = "NONE"
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
     public enum EventStatusCode: String, CustomStringConvertible, Codable {
-        case open
         case closed
+        case open
         case upcoming
         public var description: String { return self.rawValue }
     }
 
     public enum EventTypeCategory: String, CustomStringConvertible, Codable {
-        case issue
         case accountnotification = "accountNotification"
-        case scheduledchange = "scheduledChange"
         case investigation
+        case issue
+        case scheduledchange = "scheduledChange"
         public var description: String { return self.rawValue }
     }
 

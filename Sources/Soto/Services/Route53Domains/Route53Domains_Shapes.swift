@@ -21,9 +21,9 @@ extension Route53Domains {
     // MARK: Enums
 
     public enum ContactType: String, CustomStringConvertible, Codable {
-        case person = "PERSON"
-        case company = "COMPANY"
         case association = "ASSOCIATION"
+        case company = "COMPANY"
+        case person = "PERSON"
         case publicBody = "PUBLIC_BODY"
         case reseller = "RESELLER"
         public var description: String { return self.rawValue }
@@ -264,30 +264,30 @@ extension Route53Domains {
 
     public enum DomainAvailability: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case availableReserved = "AVAILABLE_RESERVED"
         case availablePreorder = "AVAILABLE_PREORDER"
+        case availableReserved = "AVAILABLE_RESERVED"
+        case dontKnow = "DONT_KNOW"
+        case reserved = "RESERVED"
         case unavailable = "UNAVAILABLE"
         case unavailablePremium = "UNAVAILABLE_PREMIUM"
         case unavailableRestricted = "UNAVAILABLE_RESTRICTED"
-        case reserved = "RESERVED"
-        case dontKnow = "DONT_KNOW"
         public var description: String { return self.rawValue }
     }
 
     public enum ExtraParamName: String, CustomStringConvertible, Codable {
-        case dunsNumber = "DUNS_NUMBER"
-        case brandNumber = "BRAND_NUMBER"
-        case birthDepartment = "BIRTH_DEPARTMENT"
-        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
-        case birthCountry = "BIRTH_COUNTRY"
-        case birthCity = "BIRTH_CITY"
-        case documentNumber = "DOCUMENT_NUMBER"
         case auIdNumber = "AU_ID_NUMBER"
         case auIdType = "AU_ID_TYPE"
-        case caLegalType = "CA_LEGAL_TYPE"
+        case birthCity = "BIRTH_CITY"
+        case birthCountry = "BIRTH_COUNTRY"
+        case birthDateInYyyyMmDd = "BIRTH_DATE_IN_YYYY_MM_DD"
+        case birthDepartment = "BIRTH_DEPARTMENT"
+        case brandNumber = "BRAND_NUMBER"
         case caBusinessEntityType = "CA_BUSINESS_ENTITY_TYPE"
         case caLegalRepresentative = "CA_LEGAL_REPRESENTATIVE"
         case caLegalRepresentativeCapacity = "CA_LEGAL_REPRESENTATIVE_CAPACITY"
+        case caLegalType = "CA_LEGAL_TYPE"
+        case documentNumber = "DOCUMENT_NUMBER"
+        case dunsNumber = "DUNS_NUMBER"
         case esIdentification = "ES_IDENTIFICATION"
         case esIdentificationType = "ES_IDENTIFICATION_TYPE"
         case esLegalForm = "ES_LEGAL_FORM"
@@ -301,54 +301,54 @@ extension Route53Domains {
         case ruPassportData = "RU_PASSPORT_DATA"
         case seIdNumber = "SE_ID_NUMBER"
         case sgIdNumber = "SG_ID_NUMBER"
-        case vatNumber = "VAT_NUMBER"
-        case ukContactType = "UK_CONTACT_TYPE"
         case ukCompanyNumber = "UK_COMPANY_NUMBER"
+        case ukContactType = "UK_CONTACT_TYPE"
+        case vatNumber = "VAT_NUMBER"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
         case error = "ERROR"
-        case successful = "SUCCESSFUL"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case submitted = "SUBMITTED"
+        case successful = "SUCCESSFUL"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationType: String, CustomStringConvertible, Codable {
-        case registerDomain = "REGISTER_DOMAIN"
-        case deleteDomain = "DELETE_DOMAIN"
-        case transferInDomain = "TRANSFER_IN_DOMAIN"
-        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
-        case updateNameserver = "UPDATE_NAMESERVER"
+        case addDnssec = "ADD_DNSSEC"
+        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
         case changePrivacyProtection = "CHANGE_PRIVACY_PROTECTION"
+        case deleteDomain = "DELETE_DOMAIN"
+        case disableAutorenew = "DISABLE_AUTORENEW"
         case domainLock = "DOMAIN_LOCK"
         case enableAutorenew = "ENABLE_AUTORENEW"
-        case disableAutorenew = "DISABLE_AUTORENEW"
-        case addDnssec = "ADD_DNSSEC"
-        case removeDnssec = "REMOVE_DNSSEC"
         case expireDomain = "EXPIRE_DOMAIN"
-        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
-        case changeDomainOwner = "CHANGE_DOMAIN_OWNER"
-        case renewDomain = "RENEW_DOMAIN"
-        case pushDomain = "PUSH_DOMAIN"
-        case internalTransferOutDomain = "INTERNAL_TRANSFER_OUT_DOMAIN"
         case internalTransferInDomain = "INTERNAL_TRANSFER_IN_DOMAIN"
+        case internalTransferOutDomain = "INTERNAL_TRANSFER_OUT_DOMAIN"
+        case pushDomain = "PUSH_DOMAIN"
+        case registerDomain = "REGISTER_DOMAIN"
+        case removeDnssec = "REMOVE_DNSSEC"
+        case renewDomain = "RENEW_DOMAIN"
+        case transferInDomain = "TRANSFER_IN_DOMAIN"
+        case transferOutDomain = "TRANSFER_OUT_DOMAIN"
+        case updateDomainContact = "UPDATE_DOMAIN_CONTACT"
+        case updateNameserver = "UPDATE_NAMESERVER"
         public var description: String { return self.rawValue }
     }
 
     public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case done = "DONE"
         case expired = "EXPIRED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum Transferable: String, CustomStringConvertible, Codable {
+        case dontKnow = "DONT_KNOW"
         case transferable = "TRANSFERABLE"
         case untransferable = "UNTRANSFERABLE"
-        case dontKnow = "DONT_KNOW"
         public var description: String { return self.rawValue }
     }
 

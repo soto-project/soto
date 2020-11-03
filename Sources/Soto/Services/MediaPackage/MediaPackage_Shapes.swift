@@ -21,18 +21,18 @@ extension MediaPackage {
     // MARK: Enums
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case scte35Enhanced = "SCTE35_ENHANCED"
-        case passthrough = "PASSTHROUGH"
         case daterange = "DATERANGE"
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        case scte35Enhanced = "SCTE35_ENHANCED"
         public var description: String { return self.rawValue }
     }
 
     public enum AdsOnDeliveryRestrictions: String, CustomStringConvertible, Codable {
+        case both = "BOTH"
         case none = "NONE"
         case restricted = "RESTRICTED"
         case unrestricted = "UNRESTRICTED"
-        case both = "BOTH"
         public var description: String { return self.rawValue }
     }
 
@@ -43,8 +43,8 @@ extension MediaPackage {
     }
 
     public enum ManifestLayout: String, CustomStringConvertible, Codable {
-        case full = "FULL"
         case compact = "COMPACT"
+        case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
@@ -55,29 +55,29 @@ extension MediaPackage {
     }
 
     public enum PlaylistType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case event = "EVENT"
+        case none = "NONE"
         case vod = "VOD"
         public var description: String { return self.rawValue }
     }
 
     public enum Profile: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case hbbtv15 = "HBBTV_1_5"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
+        case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
-        case numberWithDuration = "NUMBER_WITH_DURATION"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -89,21 +89,21 @@ extension MediaPackage {
     }
 
     public enum UtcTiming: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case httpHead = "HTTP-HEAD"
         case httpIso = "HTTP-ISO"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum Adtriggerselement: String, CustomStringConvertible, Codable {
-        case spliceInsert = "SPLICE_INSERT"
         case `break` = "BREAK"
-        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
         case distributorAdvertisement = "DISTRIBUTOR_ADVERTISEMENT"
-        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
-        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
-        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
         case distributorOverlayPlacementOpportunity = "DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case distributorPlacementOpportunity = "DISTRIBUTOR_PLACEMENT_OPPORTUNITY"
+        case providerAdvertisement = "PROVIDER_ADVERTISEMENT"
+        case providerOverlayPlacementOpportunity = "PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY"
+        case providerPlacementOpportunity = "PROVIDER_PLACEMENT_OPPORTUNITY"
+        case spliceInsert = "SPLICE_INSERT"
         public var description: String { return self.rawValue }
     }
 

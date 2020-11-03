@@ -39,8 +39,8 @@ extension StorageGateway {
     }
 
     public enum CaseSensitivity: String, CustomStringConvertible, Codable {
-        case clientspecified = "ClientSpecified"
         case casesensitive = "CaseSensitive"
+        case clientspecified = "ClientSpecified"
         public var description: String { return self.rawValue }
     }
 
@@ -51,22 +51,22 @@ extension StorageGateway {
     }
 
     public enum HostEnvironment: String, CustomStringConvertible, Codable {
-        case vmware = "VMWARE"
-        case hyperV = "HYPER-V"
         case ec2 = "EC2"
+        case hyperV = "HYPER-V"
         case kvm = "KVM"
         case other = "OTHER"
+        case vmware = "VMWARE"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectACL: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case awsExecRead = "aws-exec-read"
         public var description: String { return self.rawValue }
     }
 
@@ -85,8 +85,8 @@ extension StorageGateway {
 
     public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
         case clientspecified = "ClientSpecified"
-        case mandatorysigning = "MandatorySigning"
         case mandatoryencryption = "MandatoryEncryption"
+        case mandatorysigning = "MandatorySigning"
         public var description: String { return self.rawValue }
     }
 

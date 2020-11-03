@@ -21,59 +21,59 @@ extension NetworkManager {
     // MARK: Enums
 
     public enum CustomerGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case deleting = "DELETING"
+        case pending = "PENDING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum GlobalNetworkState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case deleting = "DELETING"
+        case pending = "PENDING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum LinkAssociationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum LinkState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case deleting = "DELETING"
+        case pending = "PENDING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum SiteState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case deleting = "DELETING"
+        case pending = "PENDING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayRegistrationState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

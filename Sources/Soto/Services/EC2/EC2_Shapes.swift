@@ -21,16 +21,16 @@ extension EC2 {
     // MARK: Enums
 
     public enum AccountAttributeName: String, CustomStringConvertible, Codable {
-        case supportedPlatforms = "supported-platforms"
         case defaultVpc = "default-vpc"
+        case supportedPlatforms = "supported-platforms"
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStatus: String, CustomStringConvertible, Codable {
         case error
+        case fulfilled
         case pendingFulfillment = "pending_fulfillment"
         case pendingTermination = "pending_termination"
-        case fulfilled
         public var description: String { return self.rawValue }
     }
 
@@ -42,104 +42,104 @@ extension EC2 {
 
     public enum AllocationState: String, CustomStringConvertible, Codable {
         case available
-        case underAssessment = "under-assessment"
+        case pending
         case permanentFailure = "permanent-failure"
         case released
         case releasedPermanentFailure = "released-permanent-failure"
-        case pending
+        case underAssessment = "under-assessment"
         public var description: String { return self.rawValue }
     }
 
     public enum AllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestprice = "lowestPrice"
-        case diversified
         case capacityoptimized = "capacityOptimized"
+        case diversified
+        case lowestprice = "lowestPrice"
         public var description: String { return self.rawValue }
     }
 
     public enum AllowsMultipleInstanceTypes: String, CustomStringConvertible, Codable {
-        case on
         case off
+        case on
         public var description: String { return self.rawValue }
     }
 
     public enum ArchitectureType: String, CustomStringConvertible, Codable {
+        case arm64
         case i386
         case x8664 = "x86_64"
-        case arm64
         public var description: String { return self.rawValue }
     }
 
     public enum ArchitectureValues: String, CustomStringConvertible, Codable {
+        case arm64
         case i386
         case x8664 = "x86_64"
-        case arm64
         public var description: String { return self.rawValue }
     }
 
     public enum AssociationStatusCode: String, CustomStringConvertible, Codable {
-        case associating
         case associated
+        case associating
         case associationFailed = "association-failed"
-        case disassociating
         case disassociated
+        case disassociating
         public var description: String { return self.rawValue }
     }
 
     public enum AttachmentStatus: String, CustomStringConvertible, Codable {
-        case attaching
         case attached
-        case detaching
+        case attaching
         case detached
+        case detaching
         public var description: String { return self.rawValue }
     }
 
     public enum AutoAcceptSharedAttachmentsValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
     public enum AutoPlacement: String, CustomStringConvertible, Codable {
-        case on
         case off
+        case on
         public var description: String { return self.rawValue }
     }
 
     public enum AvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable {
+        case notOptedIn = "not-opted-in"
         case optInNotRequired = "opt-in-not-required"
         case optedIn = "opted-in"
-        case notOptedIn = "not-opted-in"
         public var description: String { return self.rawValue }
     }
 
     public enum AvailabilityZoneState: String, CustomStringConvertible, Codable {
         case available
-        case information
         case impaired
+        case information
         case unavailable
         public var description: String { return self.rawValue }
     }
 
     public enum BatchState: String, CustomStringConvertible, Codable {
-        case submitted
         case active
         case cancelled
-        case failed
         case cancelledRunning = "cancelled_running"
         case cancelledTerminating = "cancelled_terminating"
+        case failed
         case modifying
+        case submitted
         public var description: String { return self.rawValue }
     }
 
     public enum BundleTaskState: String, CustomStringConvertible, Codable {
-        case pending
-        case waitingForShutdown = "waiting-for-shutdown"
         case bundling
-        case storing
         case cancelling
         case complete
         case failed
+        case pending
+        case storing
+        case waitingForShutdown = "waiting-for-shutdown"
         public var description: String { return self.rawValue }
     }
 
@@ -165,15 +165,18 @@ extension EC2 {
 
     public enum CancelSpotInstanceRequestState: String, CustomStringConvertible, Codable {
         case active
-        case open
-        case closed
         case cancelled
+        case closed
         case completed
+        case open
         public var description: String { return self.rawValue }
     }
 
     public enum CapacityReservationInstancePlatform: String, CustomStringConvertible, Codable {
         case linuxUnix = "Linux/UNIX"
+        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
+        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
+        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
         case redHatEnterpriseLinux = "Red Hat Enterprise Linux"
         case suseLinux = "SUSE Linux"
         case windows = "Windows"
@@ -181,44 +184,41 @@ extension EC2 {
         case windowsWithSqlServerEnterprise = "Windows with SQL Server Enterprise"
         case windowsWithSqlServerStandard = "Windows with SQL Server Standard"
         case windowsWithSqlServerWeb = "Windows with SQL Server Web"
-        case linuxWithSqlServerStandard = "Linux with SQL Server Standard"
-        case linuxWithSqlServerWeb = "Linux with SQL Server Web"
-        case linuxWithSqlServerEnterprise = "Linux with SQL Server Enterprise"
         public var description: String { return self.rawValue }
     }
 
     public enum CapacityReservationPreference: String, CustomStringConvertible, Codable {
-        case open
         case none
+        case open
         public var description: String { return self.rawValue }
     }
 
     public enum CapacityReservationState: String, CustomStringConvertible, Codable {
         case active
-        case expired
         case cancelled
-        case pending
+        case expired
         case failed
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum CapacityReservationTenancy: String, CustomStringConvertible, Codable {
-        case `default`
         case dedicated
+        case `default`
         public var description: String { return self.rawValue }
     }
 
     public enum CarrierGatewayState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum ClientCertificateRevocationListStatusCode: String, CustomStringConvertible, Codable {
-        case pending
         case active
+        case pending
         public var description: String { return self.rawValue }
     }
 
@@ -230,8 +230,8 @@ extension EC2 {
     }
 
     public enum ClientVpnAuthorizationRuleStatusCode: String, CustomStringConvertible, Codable {
-        case authorizing
         case active
+        case authorizing
         case failed
         case revoking
         public var description: String { return self.rawValue }
@@ -240,30 +240,30 @@ extension EC2 {
     public enum ClientVpnConnectionStatusCode: String, CustomStringConvertible, Codable {
         case active
         case failedToTerminate = "failed-to-terminate"
-        case terminating
         case terminated
+        case terminating
         public var description: String { return self.rawValue }
     }
 
     public enum ClientVpnEndpointStatusCode: String, CustomStringConvertible, Codable {
-        case pendingAssociate = "pending-associate"
         case available
-        case deleting
         case deleted
+        case deleting
+        case pendingAssociate = "pending-associate"
         public var description: String { return self.rawValue }
     }
 
     public enum ClientVpnRouteStatusCode: String, CustomStringConvertible, Codable {
-        case creating
         case active
-        case failed
+        case creating
         case deleting
+        case failed
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionNotificationState: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -279,8 +279,8 @@ extension EC2 {
 
     public enum ConversionTaskState: String, CustomStringConvertible, Codable {
         case active
-        case cancelling
         case cancelled
+        case cancelling
         case completed
         public var description: String { return self.rawValue }
     }
@@ -302,20 +302,20 @@ extension EC2 {
     }
 
     public enum DefaultRouteTableAssociationValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
     public enum DefaultRouteTablePropagationValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
     public enum DefaultTargetCapacityType: String, CustomStringConvertible, Codable {
-        case spot
         case onDemand = "on-demand"
+        case spot
         public var description: String { return self.rawValue }
     }
 
@@ -341,9 +341,9 @@ extension EC2 {
     }
 
     public enum DiskImageFormat: String, CustomStringConvertible, Codable {
-        case vmdk = "VMDK"
         case raw = "RAW"
         case vhd = "VHD"
+        case vmdk = "VMDK"
         public var description: String { return self.rawValue }
     }
 
@@ -354,41 +354,41 @@ extension EC2 {
     }
 
     public enum DnsNameState: String, CustomStringConvertible, Codable {
+        case failed
         case pendingverification = "pendingVerification"
         case verified
-        case failed
         public var description: String { return self.rawValue }
     }
 
     public enum DnsSupportValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
     public enum DomainType: String, CustomStringConvertible, Codable {
-        case vpc
         case standard
+        case vpc
         public var description: String { return self.rawValue }
     }
 
     public enum EbsEncryptionSupport: String, CustomStringConvertible, Codable {
-        case unsupported
         case supported
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
     public enum EbsNvmeSupport: String, CustomStringConvertible, Codable {
-        case unsupported
-        case supported
         case required
+        case supported
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
     public enum EbsOptimizedSupport: String, CustomStringConvertible, Codable {
-        case unsupported
-        case supported
         case `default`
+        case supported
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
@@ -398,83 +398,83 @@ extension EC2 {
     }
 
     public enum ElasticGpuStatus: String, CustomStringConvertible, Codable {
-        case ok = "OK"
         case impaired = "IMPAIRED"
+        case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
     public enum EnaSupport: String, CustomStringConvertible, Codable {
-        case unsupported
-        case supported
         case required
+        case supported
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
     public enum EndDateType: String, CustomStringConvertible, Codable {
-        case unlimited
         case limited
+        case unlimited
         public var description: String { return self.rawValue }
     }
 
     public enum EphemeralNvmeSupport: String, CustomStringConvertible, Codable {
-        case unsupported
-        case supported
         case required
+        case supported
+        case unsupported
         public var description: String { return self.rawValue }
     }
 
     public enum EventCode: String, CustomStringConvertible, Codable {
         case instanceReboot = "instance-reboot"
-        case systemReboot = "system-reboot"
-        case systemMaintenance = "system-maintenance"
         case instanceRetirement = "instance-retirement"
         case instanceStop = "instance-stop"
+        case systemMaintenance = "system-maintenance"
+        case systemReboot = "system-reboot"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case instancechange = "instanceChange"
-        case fleetrequestchange = "fleetRequestChange"
         case error
+        case fleetrequestchange = "fleetRequestChange"
         case information
+        case instancechange = "instanceChange"
         public var description: String { return self.rawValue }
     }
 
     public enum ExcessCapacityTerminationPolicy: String, CustomStringConvertible, Codable {
-        case notermination = "noTermination"
         case `default`
+        case notermination = "noTermination"
         public var description: String { return self.rawValue }
     }
 
     public enum ExportEnvironment: String, CustomStringConvertible, Codable {
         case citrix
-        case vmware
         case microsoft
+        case vmware
         public var description: String { return self.rawValue }
     }
 
     public enum ExportTaskState: String, CustomStringConvertible, Codable {
         case active
-        case cancelling
         case cancelled
+        case cancelling
         case completed
         public var description: String { return self.rawValue }
     }
 
     public enum FastSnapshotRestoreStateCode: String, CustomStringConvertible, Codable {
+        case disabled
+        case disabling
+        case enabled
         case enabling
         case optimizing
-        case enabled
-        case disabling
-        case disabled
         public var description: String { return self.rawValue }
     }
 
     public enum FleetActivityStatus: String, CustomStringConvertible, Codable {
         case error
+        case fulfilled
         case pendingFulfillment = "pending_fulfillment"
         case pendingTermination = "pending_termination"
-        case fulfilled
         public var description: String { return self.rawValue }
     }
 
@@ -484,8 +484,8 @@ extension EC2 {
     }
 
     public enum FleetEventType: String, CustomStringConvertible, Codable {
-        case instanceChange = "instance-change"
         case fleetChange = "fleet-change"
+        case instanceChange = "instance-change"
         case serviceError = "service-error"
         public var description: String { return self.rawValue }
     }
@@ -503,42 +503,42 @@ extension EC2 {
     }
 
     public enum FleetStateCode: String, CustomStringConvertible, Codable {
-        case submitted
         case active
         case deleted
-        case failed
         case deletedRunning = "deleted_running"
         case deletedTerminating = "deleted_terminating"
+        case failed
         case modifying
+        case submitted
         public var description: String { return self.rawValue }
     }
 
     public enum FleetType: String, CustomStringConvertible, Codable {
-        case request
-        case maintain
         case instant
+        case maintain
+        case request
         public var description: String { return self.rawValue }
     }
 
     public enum FlowLogsResourceType: String, CustomStringConvertible, Codable {
-        case vpc = "VPC"
-        case subnet = "Subnet"
         case networkinterface = "NetworkInterface"
+        case subnet = "Subnet"
+        case vpc = "VPC"
         public var description: String { return self.rawValue }
     }
 
     public enum FpgaImageAttributeName: String, CustomStringConvertible, Codable {
         case description
-        case name
         case loadpermission = "loadPermission"
+        case name
         case productcodes = "productCodes"
         public var description: String { return self.rawValue }
     }
 
     public enum FpgaImageStateCode: String, CustomStringConvertible, Codable {
-        case pending
-        case failed
         case available
+        case failed
+        case pending
         case unavailable
         public var description: String { return self.rawValue }
     }
@@ -549,8 +549,8 @@ extension EC2 {
     }
 
     public enum HostRecovery: String, CustomStringConvertible, Codable {
-        case on
         case off
+        case on
         public var description: String { return self.rawValue }
     }
 
@@ -573,57 +573,57 @@ extension EC2 {
     }
 
     public enum IamInstanceProfileAssociationState: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
+        case disassociating
         public var description: String { return self.rawValue }
     }
 
     public enum ImageAttributeName: String, CustomStringConvertible, Codable {
+        case blockdevicemapping = "blockDeviceMapping"
         case description
         case kernel
-        case ramdisk
         case launchpermission = "launchPermission"
         case productcodes = "productCodes"
-        case blockdevicemapping = "blockDeviceMapping"
+        case ramdisk
         case sriovnetsupport = "sriovNetSupport"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case invalid
         case deregistered
-        case transient
-        case failed
         case error
+        case failed
+        case invalid
+        case pending
+        case transient
         public var description: String { return self.rawValue }
     }
 
     public enum ImageTypeValues: String, CustomStringConvertible, Codable {
-        case machine
         case kernel
+        case machine
         case ramdisk
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceAttributeName: String, CustomStringConvertible, Codable {
+        case blockdevicemapping = "blockDeviceMapping"
+        case disableapitermination = "disableApiTermination"
+        case ebsoptimized = "ebsOptimized"
+        case enasupport = "enaSupport"
+        case groupset = "groupSet"
+        case instanceinitiatedshutdownbehavior = "instanceInitiatedShutdownBehavior"
         case instancetype = "instanceType"
         case kernel
-        case ramdisk
-        case userdata = "userData"
-        case disableapitermination = "disableApiTermination"
-        case instanceinitiatedshutdownbehavior = "instanceInitiatedShutdownBehavior"
-        case rootdevicename = "rootDeviceName"
-        case blockdevicemapping = "blockDeviceMapping"
         case productcodes = "productCodes"
+        case ramdisk
+        case rootdevicename = "rootDeviceName"
         case sourcedestcheck = "sourceDestCheck"
-        case groupset = "groupSet"
-        case ebsoptimized = "ebsOptimized"
         case sriovnetsupport = "sriovNetSupport"
-        case enasupport = "enaSupport"
+        case userdata = "userData"
         public var description: String { return self.rawValue }
     }
 
@@ -641,14 +641,14 @@ extension EC2 {
     }
 
     public enum InstanceLifecycle: String, CustomStringConvertible, Codable {
-        case spot
         case onDemand = "on-demand"
+        case spot
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceLifecycleType: String, CustomStringConvertible, Codable {
-        case spot
         case scheduled
+        case spot
         public var description: String { return self.rawValue }
     }
 
@@ -665,8 +665,8 @@ extension EC2 {
     }
 
     public enum InstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
-        case pending
         case applied
+        case pending
         public var description: String { return self.rawValue }
     }
 
@@ -674,9 +674,9 @@ extension EC2 {
         case pending
         case running
         case shuttingDown = "shutting-down"
-        case terminated
-        case stopping
         case stopped
+        case stopping
+        case terminated
         public var description: String { return self.rawValue }
     }
 
@@ -687,355 +687,355 @@ extension EC2 {
             self.rawValue = rawValue
         }
 
-        public static var t1Micro: Self { .init(rawValue: "t1.micro") }
-        public static var t2Nano: Self { .init(rawValue: "t2.nano") }
-        public static var t2Micro: Self { .init(rawValue: "t2.micro") }
-        public static var t2Small: Self { .init(rawValue: "t2.small") }
-        public static var t2Medium: Self { .init(rawValue: "t2.medium") }
-        public static var t2Large: Self { .init(rawValue: "t2.large") }
-        public static var t2Xlarge: Self { .init(rawValue: "t2.xlarge") }
-        public static var t22Xlarge: Self { .init(rawValue: "t2.2xlarge") }
-        public static var t3Nano: Self { .init(rawValue: "t3.nano") }
-        public static var t3Micro: Self { .init(rawValue: "t3.micro") }
-        public static var t3Small: Self { .init(rawValue: "t3.small") }
-        public static var t3Medium: Self { .init(rawValue: "t3.medium") }
-        public static var t3Large: Self { .init(rawValue: "t3.large") }
-        public static var t3Xlarge: Self { .init(rawValue: "t3.xlarge") }
-        public static var t32Xlarge: Self { .init(rawValue: "t3.2xlarge") }
-        public static var t3aNano: Self { .init(rawValue: "t3a.nano") }
-        public static var t3aMicro: Self { .init(rawValue: "t3a.micro") }
-        public static var t3aSmall: Self { .init(rawValue: "t3a.small") }
-        public static var t3aMedium: Self { .init(rawValue: "t3a.medium") }
-        public static var t3aLarge: Self { .init(rawValue: "t3a.large") }
-        public static var t3aXlarge: Self { .init(rawValue: "t3a.xlarge") }
-        public static var t3a2Xlarge: Self { .init(rawValue: "t3a.2xlarge") }
-        public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
-        public static var t4gMicro: Self { .init(rawValue: "t4g.micro") }
-        public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
-        public static var t4gMedium: Self { .init(rawValue: "t4g.medium") }
-        public static var t4gLarge: Self { .init(rawValue: "t4g.large") }
-        public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
-        public static var t4g2Xlarge: Self { .init(rawValue: "t4g.2xlarge") }
-        public static var m1Small: Self { .init(rawValue: "m1.small") }
-        public static var m1Medium: Self { .init(rawValue: "m1.medium") }
-        public static var m1Large: Self { .init(rawValue: "m1.large") }
-        public static var m1Xlarge: Self { .init(rawValue: "m1.xlarge") }
-        public static var m3Medium: Self { .init(rawValue: "m3.medium") }
-        public static var m3Large: Self { .init(rawValue: "m3.large") }
-        public static var m3Xlarge: Self { .init(rawValue: "m3.xlarge") }
-        public static var m32Xlarge: Self { .init(rawValue: "m3.2xlarge") }
-        public static var m4Large: Self { .init(rawValue: "m4.large") }
-        public static var m4Xlarge: Self { .init(rawValue: "m4.xlarge") }
-        public static var m42Xlarge: Self { .init(rawValue: "m4.2xlarge") }
-        public static var m44Xlarge: Self { .init(rawValue: "m4.4xlarge") }
-        public static var m410Xlarge: Self { .init(rawValue: "m4.10xlarge") }
-        public static var m416Xlarge: Self { .init(rawValue: "m4.16xlarge") }
-        public static var m2Xlarge: Self { .init(rawValue: "m2.xlarge") }
-        public static var m22Xlarge: Self { .init(rawValue: "m2.2xlarge") }
-        public static var m24Xlarge: Self { .init(rawValue: "m2.4xlarge") }
-        public static var cr18Xlarge: Self { .init(rawValue: "cr1.8xlarge") }
-        public static var r3Large: Self { .init(rawValue: "r3.large") }
-        public static var r3Xlarge: Self { .init(rawValue: "r3.xlarge") }
-        public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
-        public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
-        public static var r38Xlarge: Self { .init(rawValue: "r3.8xlarge") }
-        public static var r4Large: Self { .init(rawValue: "r4.large") }
-        public static var r4Xlarge: Self { .init(rawValue: "r4.xlarge") }
-        public static var r42Xlarge: Self { .init(rawValue: "r4.2xlarge") }
-        public static var r44Xlarge: Self { .init(rawValue: "r4.4xlarge") }
-        public static var r48Xlarge: Self { .init(rawValue: "r4.8xlarge") }
-        public static var r416Xlarge: Self { .init(rawValue: "r4.16xlarge") }
-        public static var r5Large: Self { .init(rawValue: "r5.large") }
-        public static var r5Xlarge: Self { .init(rawValue: "r5.xlarge") }
-        public static var r52Xlarge: Self { .init(rawValue: "r5.2xlarge") }
-        public static var r54Xlarge: Self { .init(rawValue: "r5.4xlarge") }
-        public static var r58Xlarge: Self { .init(rawValue: "r5.8xlarge") }
-        public static var r512Xlarge: Self { .init(rawValue: "r5.12xlarge") }
-        public static var r516Xlarge: Self { .init(rawValue: "r5.16xlarge") }
-        public static var r524Xlarge: Self { .init(rawValue: "r5.24xlarge") }
-        public static var r5Metal: Self { .init(rawValue: "r5.metal") }
-        public static var r5aLarge: Self { .init(rawValue: "r5a.large") }
-        public static var r5aXlarge: Self { .init(rawValue: "r5a.xlarge") }
-        public static var r5a2Xlarge: Self { .init(rawValue: "r5a.2xlarge") }
-        public static var r5a4Xlarge: Self { .init(rawValue: "r5a.4xlarge") }
-        public static var r5a8Xlarge: Self { .init(rawValue: "r5a.8xlarge") }
-        public static var r5a12Xlarge: Self { .init(rawValue: "r5a.12xlarge") }
-        public static var r5a16Xlarge: Self { .init(rawValue: "r5a.16xlarge") }
-        public static var r5a24Xlarge: Self { .init(rawValue: "r5a.24xlarge") }
-        public static var r5dLarge: Self { .init(rawValue: "r5d.large") }
-        public static var r5dXlarge: Self { .init(rawValue: "r5d.xlarge") }
-        public static var r5d2Xlarge: Self { .init(rawValue: "r5d.2xlarge") }
-        public static var r5d4Xlarge: Self { .init(rawValue: "r5d.4xlarge") }
-        public static var r5d8Xlarge: Self { .init(rawValue: "r5d.8xlarge") }
-        public static var r5d12Xlarge: Self { .init(rawValue: "r5d.12xlarge") }
-        public static var r5d16Xlarge: Self { .init(rawValue: "r5d.16xlarge") }
-        public static var r5d24Xlarge: Self { .init(rawValue: "r5d.24xlarge") }
-        public static var r5dMetal: Self { .init(rawValue: "r5d.metal") }
-        public static var r5adLarge: Self { .init(rawValue: "r5ad.large") }
-        public static var r5adXlarge: Self { .init(rawValue: "r5ad.xlarge") }
-        public static var r5ad2Xlarge: Self { .init(rawValue: "r5ad.2xlarge") }
-        public static var r5ad4Xlarge: Self { .init(rawValue: "r5ad.4xlarge") }
-        public static var r5ad8Xlarge: Self { .init(rawValue: "r5ad.8xlarge") }
-        public static var r5ad12Xlarge: Self { .init(rawValue: "r5ad.12xlarge") }
-        public static var r5ad16Xlarge: Self { .init(rawValue: "r5ad.16xlarge") }
-        public static var r5ad24Xlarge: Self { .init(rawValue: "r5ad.24xlarge") }
-        public static var r6gMetal: Self { .init(rawValue: "r6g.metal") }
-        public static var r6gMedium: Self { .init(rawValue: "r6g.medium") }
-        public static var r6gLarge: Self { .init(rawValue: "r6g.large") }
-        public static var r6gXlarge: Self { .init(rawValue: "r6g.xlarge") }
-        public static var r6g2Xlarge: Self { .init(rawValue: "r6g.2xlarge") }
-        public static var r6g4Xlarge: Self { .init(rawValue: "r6g.4xlarge") }
-        public static var r6g8Xlarge: Self { .init(rawValue: "r6g.8xlarge") }
-        public static var r6g12Xlarge: Self { .init(rawValue: "r6g.12xlarge") }
-        public static var r6g16Xlarge: Self { .init(rawValue: "r6g.16xlarge") }
-        public static var r6gdMetal: Self { .init(rawValue: "r6gd.metal") }
-        public static var r6gdMedium: Self { .init(rawValue: "r6gd.medium") }
-        public static var r6gdLarge: Self { .init(rawValue: "r6gd.large") }
-        public static var r6gdXlarge: Self { .init(rawValue: "r6gd.xlarge") }
-        public static var r6gd2Xlarge: Self { .init(rawValue: "r6gd.2xlarge") }
-        public static var r6gd4Xlarge: Self { .init(rawValue: "r6gd.4xlarge") }
-        public static var r6gd8Xlarge: Self { .init(rawValue: "r6gd.8xlarge") }
-        public static var r6gd12Xlarge: Self { .init(rawValue: "r6gd.12xlarge") }
-        public static var r6gd16Xlarge: Self { .init(rawValue: "r6gd.16xlarge") }
-        public static var x116Xlarge: Self { .init(rawValue: "x1.16xlarge") }
-        public static var x132Xlarge: Self { .init(rawValue: "x1.32xlarge") }
-        public static var x1eXlarge: Self { .init(rawValue: "x1e.xlarge") }
-        public static var x1e2Xlarge: Self { .init(rawValue: "x1e.2xlarge") }
-        public static var x1e4Xlarge: Self { .init(rawValue: "x1e.4xlarge") }
-        public static var x1e8Xlarge: Self { .init(rawValue: "x1e.8xlarge") }
-        public static var x1e16Xlarge: Self { .init(rawValue: "x1e.16xlarge") }
-        public static var x1e32Xlarge: Self { .init(rawValue: "x1e.32xlarge") }
-        public static var i2Xlarge: Self { .init(rawValue: "i2.xlarge") }
-        public static var i22Xlarge: Self { .init(rawValue: "i2.2xlarge") }
-        public static var i24Xlarge: Self { .init(rawValue: "i2.4xlarge") }
-        public static var i28Xlarge: Self { .init(rawValue: "i2.8xlarge") }
-        public static var i3Large: Self { .init(rawValue: "i3.large") }
-        public static var i3Xlarge: Self { .init(rawValue: "i3.xlarge") }
-        public static var i32Xlarge: Self { .init(rawValue: "i3.2xlarge") }
-        public static var i34Xlarge: Self { .init(rawValue: "i3.4xlarge") }
-        public static var i38Xlarge: Self { .init(rawValue: "i3.8xlarge") }
-        public static var i316Xlarge: Self { .init(rawValue: "i3.16xlarge") }
-        public static var i3Metal: Self { .init(rawValue: "i3.metal") }
-        public static var i3enLarge: Self { .init(rawValue: "i3en.large") }
-        public static var i3enXlarge: Self { .init(rawValue: "i3en.xlarge") }
-        public static var i3en2Xlarge: Self { .init(rawValue: "i3en.2xlarge") }
-        public static var i3en3Xlarge: Self { .init(rawValue: "i3en.3xlarge") }
-        public static var i3en6Xlarge: Self { .init(rawValue: "i3en.6xlarge") }
-        public static var i3en12Xlarge: Self { .init(rawValue: "i3en.12xlarge") }
-        public static var i3en24Xlarge: Self { .init(rawValue: "i3en.24xlarge") }
-        public static var i3enMetal: Self { .init(rawValue: "i3en.metal") }
-        public static var hi14Xlarge: Self { .init(rawValue: "hi1.4xlarge") }
-        public static var hs18Xlarge: Self { .init(rawValue: "hs1.8xlarge") }
+        public static var a12Xlarge: Self { .init(rawValue: "a1.2xlarge") }
+        public static var a14Xlarge: Self { .init(rawValue: "a1.4xlarge") }
+        public static var a1Large: Self { .init(rawValue: "a1.large") }
+        public static var a1Medium: Self { .init(rawValue: "a1.medium") }
+        public static var a1Metal: Self { .init(rawValue: "a1.metal") }
+        public static var a1Xlarge: Self { .init(rawValue: "a1.xlarge") }
         public static var c1Medium: Self { .init(rawValue: "c1.medium") }
         public static var c1Xlarge: Self { .init(rawValue: "c1.xlarge") }
-        public static var c3Large: Self { .init(rawValue: "c3.large") }
-        public static var c3Xlarge: Self { .init(rawValue: "c3.xlarge") }
         public static var c32Xlarge: Self { .init(rawValue: "c3.2xlarge") }
         public static var c34Xlarge: Self { .init(rawValue: "c3.4xlarge") }
         public static var c38Xlarge: Self { .init(rawValue: "c3.8xlarge") }
-        public static var c4Large: Self { .init(rawValue: "c4.large") }
-        public static var c4Xlarge: Self { .init(rawValue: "c4.xlarge") }
+        public static var c3Large: Self { .init(rawValue: "c3.large") }
+        public static var c3Xlarge: Self { .init(rawValue: "c3.xlarge") }
         public static var c42Xlarge: Self { .init(rawValue: "c4.2xlarge") }
         public static var c44Xlarge: Self { .init(rawValue: "c4.4xlarge") }
         public static var c48Xlarge: Self { .init(rawValue: "c4.8xlarge") }
-        public static var c5Large: Self { .init(rawValue: "c5.large") }
-        public static var c5Xlarge: Self { .init(rawValue: "c5.xlarge") }
-        public static var c52Xlarge: Self { .init(rawValue: "c5.2xlarge") }
-        public static var c54Xlarge: Self { .init(rawValue: "c5.4xlarge") }
-        public static var c59Xlarge: Self { .init(rawValue: "c5.9xlarge") }
+        public static var c4Large: Self { .init(rawValue: "c4.large") }
+        public static var c4Xlarge: Self { .init(rawValue: "c4.xlarge") }
         public static var c512Xlarge: Self { .init(rawValue: "c5.12xlarge") }
         public static var c518Xlarge: Self { .init(rawValue: "c5.18xlarge") }
         public static var c524Xlarge: Self { .init(rawValue: "c5.24xlarge") }
+        public static var c52Xlarge: Self { .init(rawValue: "c5.2xlarge") }
+        public static var c54Xlarge: Self { .init(rawValue: "c5.4xlarge") }
+        public static var c59Xlarge: Self { .init(rawValue: "c5.9xlarge") }
+        public static var c5Large: Self { .init(rawValue: "c5.large") }
         public static var c5Metal: Self { .init(rawValue: "c5.metal") }
-        public static var c5aLarge: Self { .init(rawValue: "c5a.large") }
-        public static var c5aXlarge: Self { .init(rawValue: "c5a.xlarge") }
-        public static var c5a2Xlarge: Self { .init(rawValue: "c5a.2xlarge") }
-        public static var c5a4Xlarge: Self { .init(rawValue: "c5a.4xlarge") }
-        public static var c5a8Xlarge: Self { .init(rawValue: "c5a.8xlarge") }
+        public static var c5Xlarge: Self { .init(rawValue: "c5.xlarge") }
         public static var c5a12Xlarge: Self { .init(rawValue: "c5a.12xlarge") }
         public static var c5a16Xlarge: Self { .init(rawValue: "c5a.16xlarge") }
         public static var c5a24Xlarge: Self { .init(rawValue: "c5a.24xlarge") }
-        public static var c5adLarge: Self { .init(rawValue: "c5ad.large") }
-        public static var c5adXlarge: Self { .init(rawValue: "c5ad.xlarge") }
-        public static var c5ad2Xlarge: Self { .init(rawValue: "c5ad.2xlarge") }
-        public static var c5ad4Xlarge: Self { .init(rawValue: "c5ad.4xlarge") }
-        public static var c5ad8Xlarge: Self { .init(rawValue: "c5ad.8xlarge") }
+        public static var c5a2Xlarge: Self { .init(rawValue: "c5a.2xlarge") }
+        public static var c5a4Xlarge: Self { .init(rawValue: "c5a.4xlarge") }
+        public static var c5a8Xlarge: Self { .init(rawValue: "c5a.8xlarge") }
+        public static var c5aLarge: Self { .init(rawValue: "c5a.large") }
+        public static var c5aXlarge: Self { .init(rawValue: "c5a.xlarge") }
         public static var c5ad12Xlarge: Self { .init(rawValue: "c5ad.12xlarge") }
         public static var c5ad16Xlarge: Self { .init(rawValue: "c5ad.16xlarge") }
         public static var c5ad24Xlarge: Self { .init(rawValue: "c5ad.24xlarge") }
-        public static var c5dLarge: Self { .init(rawValue: "c5d.large") }
-        public static var c5dXlarge: Self { .init(rawValue: "c5d.xlarge") }
-        public static var c5d2Xlarge: Self { .init(rawValue: "c5d.2xlarge") }
-        public static var c5d4Xlarge: Self { .init(rawValue: "c5d.4xlarge") }
-        public static var c5d9Xlarge: Self { .init(rawValue: "c5d.9xlarge") }
+        public static var c5ad2Xlarge: Self { .init(rawValue: "c5ad.2xlarge") }
+        public static var c5ad4Xlarge: Self { .init(rawValue: "c5ad.4xlarge") }
+        public static var c5ad8Xlarge: Self { .init(rawValue: "c5ad.8xlarge") }
+        public static var c5adLarge: Self { .init(rawValue: "c5ad.large") }
+        public static var c5adXlarge: Self { .init(rawValue: "c5ad.xlarge") }
         public static var c5d12Xlarge: Self { .init(rawValue: "c5d.12xlarge") }
         public static var c5d18Xlarge: Self { .init(rawValue: "c5d.18xlarge") }
         public static var c5d24Xlarge: Self { .init(rawValue: "c5d.24xlarge") }
+        public static var c5d2Xlarge: Self { .init(rawValue: "c5d.2xlarge") }
+        public static var c5d4Xlarge: Self { .init(rawValue: "c5d.4xlarge") }
+        public static var c5d9Xlarge: Self { .init(rawValue: "c5d.9xlarge") }
+        public static var c5dLarge: Self { .init(rawValue: "c5d.large") }
         public static var c5dMetal: Self { .init(rawValue: "c5d.metal") }
-        public static var c5nLarge: Self { .init(rawValue: "c5n.large") }
-        public static var c5nXlarge: Self { .init(rawValue: "c5n.xlarge") }
+        public static var c5dXlarge: Self { .init(rawValue: "c5d.xlarge") }
+        public static var c5n18Xlarge: Self { .init(rawValue: "c5n.18xlarge") }
         public static var c5n2Xlarge: Self { .init(rawValue: "c5n.2xlarge") }
         public static var c5n4Xlarge: Self { .init(rawValue: "c5n.4xlarge") }
         public static var c5n9Xlarge: Self { .init(rawValue: "c5n.9xlarge") }
-        public static var c5n18Xlarge: Self { .init(rawValue: "c5n.18xlarge") }
-        public static var c6gMetal: Self { .init(rawValue: "c6g.metal") }
-        public static var c6gMedium: Self { .init(rawValue: "c6g.medium") }
-        public static var c6gLarge: Self { .init(rawValue: "c6g.large") }
-        public static var c6gXlarge: Self { .init(rawValue: "c6g.xlarge") }
+        public static var c5nLarge: Self { .init(rawValue: "c5n.large") }
+        public static var c5nXlarge: Self { .init(rawValue: "c5n.xlarge") }
+        public static var c6g12Xlarge: Self { .init(rawValue: "c6g.12xlarge") }
+        public static var c6g16Xlarge: Self { .init(rawValue: "c6g.16xlarge") }
         public static var c6g2Xlarge: Self { .init(rawValue: "c6g.2xlarge") }
         public static var c6g4Xlarge: Self { .init(rawValue: "c6g.4xlarge") }
         public static var c6g8Xlarge: Self { .init(rawValue: "c6g.8xlarge") }
-        public static var c6g12Xlarge: Self { .init(rawValue: "c6g.12xlarge") }
-        public static var c6g16Xlarge: Self { .init(rawValue: "c6g.16xlarge") }
-        public static var c6gdMetal: Self { .init(rawValue: "c6gd.metal") }
-        public static var c6gdMedium: Self { .init(rawValue: "c6gd.medium") }
-        public static var c6gdLarge: Self { .init(rawValue: "c6gd.large") }
-        public static var c6gdXlarge: Self { .init(rawValue: "c6gd.xlarge") }
+        public static var c6gLarge: Self { .init(rawValue: "c6g.large") }
+        public static var c6gMedium: Self { .init(rawValue: "c6g.medium") }
+        public static var c6gMetal: Self { .init(rawValue: "c6g.metal") }
+        public static var c6gXlarge: Self { .init(rawValue: "c6g.xlarge") }
+        public static var c6gd12Xlarge: Self { .init(rawValue: "c6gd.12xlarge") }
+        public static var c6gd16Xlarge: Self { .init(rawValue: "c6gd.16xlarge") }
         public static var c6gd2Xlarge: Self { .init(rawValue: "c6gd.2xlarge") }
         public static var c6gd4Xlarge: Self { .init(rawValue: "c6gd.4xlarge") }
         public static var c6gd8Xlarge: Self { .init(rawValue: "c6gd.8xlarge") }
-        public static var c6gd12Xlarge: Self { .init(rawValue: "c6gd.12xlarge") }
-        public static var c6gd16Xlarge: Self { .init(rawValue: "c6gd.16xlarge") }
+        public static var c6gdLarge: Self { .init(rawValue: "c6gd.large") }
+        public static var c6gdMedium: Self { .init(rawValue: "c6gd.medium") }
+        public static var c6gdMetal: Self { .init(rawValue: "c6gd.metal") }
+        public static var c6gdXlarge: Self { .init(rawValue: "c6gd.xlarge") }
         public static var cc14Xlarge: Self { .init(rawValue: "cc1.4xlarge") }
         public static var cc28Xlarge: Self { .init(rawValue: "cc2.8xlarge") }
-        public static var g22Xlarge: Self { .init(rawValue: "g2.2xlarge") }
-        public static var g28Xlarge: Self { .init(rawValue: "g2.8xlarge") }
-        public static var g34Xlarge: Self { .init(rawValue: "g3.4xlarge") }
-        public static var g38Xlarge: Self { .init(rawValue: "g3.8xlarge") }
-        public static var g316Xlarge: Self { .init(rawValue: "g3.16xlarge") }
-        public static var g3sXlarge: Self { .init(rawValue: "g3s.xlarge") }
-        public static var g4dnXlarge: Self { .init(rawValue: "g4dn.xlarge") }
-        public static var g4dn2Xlarge: Self { .init(rawValue: "g4dn.2xlarge") }
-        public static var g4dn4Xlarge: Self { .init(rawValue: "g4dn.4xlarge") }
-        public static var g4dn8Xlarge: Self { .init(rawValue: "g4dn.8xlarge") }
-        public static var g4dn12Xlarge: Self { .init(rawValue: "g4dn.12xlarge") }
-        public static var g4dn16Xlarge: Self { .init(rawValue: "g4dn.16xlarge") }
-        public static var g4dnMetal: Self { .init(rawValue: "g4dn.metal") }
         public static var cg14Xlarge: Self { .init(rawValue: "cg1.4xlarge") }
-        public static var p2Xlarge: Self { .init(rawValue: "p2.xlarge") }
-        public static var p28Xlarge: Self { .init(rawValue: "p2.8xlarge") }
-        public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
-        public static var p32Xlarge: Self { .init(rawValue: "p3.2xlarge") }
-        public static var p38Xlarge: Self { .init(rawValue: "p3.8xlarge") }
-        public static var p316Xlarge: Self { .init(rawValue: "p3.16xlarge") }
-        public static var p3dn24Xlarge: Self { .init(rawValue: "p3dn.24xlarge") }
-        public static var d2Xlarge: Self { .init(rawValue: "d2.xlarge") }
+        public static var cr18Xlarge: Self { .init(rawValue: "cr1.8xlarge") }
         public static var d22Xlarge: Self { .init(rawValue: "d2.2xlarge") }
         public static var d24Xlarge: Self { .init(rawValue: "d2.4xlarge") }
         public static var d28Xlarge: Self { .init(rawValue: "d2.8xlarge") }
+        public static var d2Xlarge: Self { .init(rawValue: "d2.xlarge") }
+        public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
         public static var f12Xlarge: Self { .init(rawValue: "f1.2xlarge") }
         public static var f14Xlarge: Self { .init(rawValue: "f1.4xlarge") }
-        public static var f116Xlarge: Self { .init(rawValue: "f1.16xlarge") }
-        public static var m5Large: Self { .init(rawValue: "m5.large") }
-        public static var m5Xlarge: Self { .init(rawValue: "m5.xlarge") }
-        public static var m52Xlarge: Self { .init(rawValue: "m5.2xlarge") }
-        public static var m54Xlarge: Self { .init(rawValue: "m5.4xlarge") }
-        public static var m58Xlarge: Self { .init(rawValue: "m5.8xlarge") }
-        public static var m512Xlarge: Self { .init(rawValue: "m5.12xlarge") }
-        public static var m516Xlarge: Self { .init(rawValue: "m5.16xlarge") }
-        public static var m524Xlarge: Self { .init(rawValue: "m5.24xlarge") }
-        public static var m5Metal: Self { .init(rawValue: "m5.metal") }
-        public static var m5aLarge: Self { .init(rawValue: "m5a.large") }
-        public static var m5aXlarge: Self { .init(rawValue: "m5a.xlarge") }
-        public static var m5a2Xlarge: Self { .init(rawValue: "m5a.2xlarge") }
-        public static var m5a4Xlarge: Self { .init(rawValue: "m5a.4xlarge") }
-        public static var m5a8Xlarge: Self { .init(rawValue: "m5a.8xlarge") }
-        public static var m5a12Xlarge: Self { .init(rawValue: "m5a.12xlarge") }
-        public static var m5a16Xlarge: Self { .init(rawValue: "m5a.16xlarge") }
-        public static var m5a24Xlarge: Self { .init(rawValue: "m5a.24xlarge") }
-        public static var m5dLarge: Self { .init(rawValue: "m5d.large") }
-        public static var m5dXlarge: Self { .init(rawValue: "m5d.xlarge") }
-        public static var m5d2Xlarge: Self { .init(rawValue: "m5d.2xlarge") }
-        public static var m5d4Xlarge: Self { .init(rawValue: "m5d.4xlarge") }
-        public static var m5d8Xlarge: Self { .init(rawValue: "m5d.8xlarge") }
-        public static var m5d12Xlarge: Self { .init(rawValue: "m5d.12xlarge") }
-        public static var m5d16Xlarge: Self { .init(rawValue: "m5d.16xlarge") }
-        public static var m5d24Xlarge: Self { .init(rawValue: "m5d.24xlarge") }
-        public static var m5dMetal: Self { .init(rawValue: "m5d.metal") }
-        public static var m5adLarge: Self { .init(rawValue: "m5ad.large") }
-        public static var m5adXlarge: Self { .init(rawValue: "m5ad.xlarge") }
-        public static var m5ad2Xlarge: Self { .init(rawValue: "m5ad.2xlarge") }
-        public static var m5ad4Xlarge: Self { .init(rawValue: "m5ad.4xlarge") }
-        public static var m5ad8Xlarge: Self { .init(rawValue: "m5ad.8xlarge") }
-        public static var m5ad12Xlarge: Self { .init(rawValue: "m5ad.12xlarge") }
-        public static var m5ad16Xlarge: Self { .init(rawValue: "m5ad.16xlarge") }
-        public static var m5ad24Xlarge: Self { .init(rawValue: "m5ad.24xlarge") }
+        public static var g22Xlarge: Self { .init(rawValue: "g2.2xlarge") }
+        public static var g28Xlarge: Self { .init(rawValue: "g2.8xlarge") }
+        public static var g316Xlarge: Self { .init(rawValue: "g3.16xlarge") }
+        public static var g34Xlarge: Self { .init(rawValue: "g3.4xlarge") }
+        public static var g38Xlarge: Self { .init(rawValue: "g3.8xlarge") }
+        public static var g3sXlarge: Self { .init(rawValue: "g3s.xlarge") }
+        public static var g4dn12Xlarge: Self { .init(rawValue: "g4dn.12xlarge") }
+        public static var g4dn16Xlarge: Self { .init(rawValue: "g4dn.16xlarge") }
+        public static var g4dn2Xlarge: Self { .init(rawValue: "g4dn.2xlarge") }
+        public static var g4dn4Xlarge: Self { .init(rawValue: "g4dn.4xlarge") }
+        public static var g4dn8Xlarge: Self { .init(rawValue: "g4dn.8xlarge") }
+        public static var g4dnMetal: Self { .init(rawValue: "g4dn.metal") }
+        public static var g4dnXlarge: Self { .init(rawValue: "g4dn.xlarge") }
+        public static var h116Xlarge: Self { .init(rawValue: "h1.16xlarge") }
         public static var h12Xlarge: Self { .init(rawValue: "h1.2xlarge") }
         public static var h14Xlarge: Self { .init(rawValue: "h1.4xlarge") }
         public static var h18Xlarge: Self { .init(rawValue: "h1.8xlarge") }
-        public static var h116Xlarge: Self { .init(rawValue: "h1.16xlarge") }
-        public static var z1dLarge: Self { .init(rawValue: "z1d.large") }
-        public static var z1dXlarge: Self { .init(rawValue: "z1d.xlarge") }
-        public static var z1d2Xlarge: Self { .init(rawValue: "z1d.2xlarge") }
-        public static var z1d3Xlarge: Self { .init(rawValue: "z1d.3xlarge") }
-        public static var z1d6Xlarge: Self { .init(rawValue: "z1d.6xlarge") }
-        public static var z1d12Xlarge: Self { .init(rawValue: "z1d.12xlarge") }
-        public static var z1dMetal: Self { .init(rawValue: "z1d.metal") }
-        public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
-        public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
-        public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
-        public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
-        public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
-        public static var a1Medium: Self { .init(rawValue: "a1.medium") }
-        public static var a1Large: Self { .init(rawValue: "a1.large") }
-        public static var a1Xlarge: Self { .init(rawValue: "a1.xlarge") }
-        public static var a12Xlarge: Self { .init(rawValue: "a1.2xlarge") }
-        public static var a14Xlarge: Self { .init(rawValue: "a1.4xlarge") }
-        public static var a1Metal: Self { .init(rawValue: "a1.metal") }
-        public static var m5dnLarge: Self { .init(rawValue: "m5dn.large") }
-        public static var m5dnXlarge: Self { .init(rawValue: "m5dn.xlarge") }
-        public static var m5dn2Xlarge: Self { .init(rawValue: "m5dn.2xlarge") }
-        public static var m5dn4Xlarge: Self { .init(rawValue: "m5dn.4xlarge") }
-        public static var m5dn8Xlarge: Self { .init(rawValue: "m5dn.8xlarge") }
+        public static var hi14Xlarge: Self { .init(rawValue: "hi1.4xlarge") }
+        public static var hs18Xlarge: Self { .init(rawValue: "hs1.8xlarge") }
+        public static var i22Xlarge: Self { .init(rawValue: "i2.2xlarge") }
+        public static var i24Xlarge: Self { .init(rawValue: "i2.4xlarge") }
+        public static var i28Xlarge: Self { .init(rawValue: "i2.8xlarge") }
+        public static var i2Xlarge: Self { .init(rawValue: "i2.xlarge") }
+        public static var i316Xlarge: Self { .init(rawValue: "i3.16xlarge") }
+        public static var i32Xlarge: Self { .init(rawValue: "i3.2xlarge") }
+        public static var i34Xlarge: Self { .init(rawValue: "i3.4xlarge") }
+        public static var i38Xlarge: Self { .init(rawValue: "i3.8xlarge") }
+        public static var i3Large: Self { .init(rawValue: "i3.large") }
+        public static var i3Metal: Self { .init(rawValue: "i3.metal") }
+        public static var i3Xlarge: Self { .init(rawValue: "i3.xlarge") }
+        public static var i3en12Xlarge: Self { .init(rawValue: "i3en.12xlarge") }
+        public static var i3en24Xlarge: Self { .init(rawValue: "i3en.24xlarge") }
+        public static var i3en2Xlarge: Self { .init(rawValue: "i3en.2xlarge") }
+        public static var i3en3Xlarge: Self { .init(rawValue: "i3en.3xlarge") }
+        public static var i3en6Xlarge: Self { .init(rawValue: "i3en.6xlarge") }
+        public static var i3enLarge: Self { .init(rawValue: "i3en.large") }
+        public static var i3enMetal: Self { .init(rawValue: "i3en.metal") }
+        public static var i3enXlarge: Self { .init(rawValue: "i3en.xlarge") }
+        public static var inf124Xlarge: Self { .init(rawValue: "inf1.24xlarge") }
+        public static var inf12Xlarge: Self { .init(rawValue: "inf1.2xlarge") }
+        public static var inf16Xlarge: Self { .init(rawValue: "inf1.6xlarge") }
+        public static var inf1Xlarge: Self { .init(rawValue: "inf1.xlarge") }
+        public static var m1Large: Self { .init(rawValue: "m1.large") }
+        public static var m1Medium: Self { .init(rawValue: "m1.medium") }
+        public static var m1Small: Self { .init(rawValue: "m1.small") }
+        public static var m1Xlarge: Self { .init(rawValue: "m1.xlarge") }
+        public static var m22Xlarge: Self { .init(rawValue: "m2.2xlarge") }
+        public static var m24Xlarge: Self { .init(rawValue: "m2.4xlarge") }
+        public static var m2Xlarge: Self { .init(rawValue: "m2.xlarge") }
+        public static var m32Xlarge: Self { .init(rawValue: "m3.2xlarge") }
+        public static var m3Large: Self { .init(rawValue: "m3.large") }
+        public static var m3Medium: Self { .init(rawValue: "m3.medium") }
+        public static var m3Xlarge: Self { .init(rawValue: "m3.xlarge") }
+        public static var m410Xlarge: Self { .init(rawValue: "m4.10xlarge") }
+        public static var m416Xlarge: Self { .init(rawValue: "m4.16xlarge") }
+        public static var m42Xlarge: Self { .init(rawValue: "m4.2xlarge") }
+        public static var m44Xlarge: Self { .init(rawValue: "m4.4xlarge") }
+        public static var m4Large: Self { .init(rawValue: "m4.large") }
+        public static var m4Xlarge: Self { .init(rawValue: "m4.xlarge") }
+        public static var m512Xlarge: Self { .init(rawValue: "m5.12xlarge") }
+        public static var m516Xlarge: Self { .init(rawValue: "m5.16xlarge") }
+        public static var m524Xlarge: Self { .init(rawValue: "m5.24xlarge") }
+        public static var m52Xlarge: Self { .init(rawValue: "m5.2xlarge") }
+        public static var m54Xlarge: Self { .init(rawValue: "m5.4xlarge") }
+        public static var m58Xlarge: Self { .init(rawValue: "m5.8xlarge") }
+        public static var m5Large: Self { .init(rawValue: "m5.large") }
+        public static var m5Metal: Self { .init(rawValue: "m5.metal") }
+        public static var m5Xlarge: Self { .init(rawValue: "m5.xlarge") }
+        public static var m5a12Xlarge: Self { .init(rawValue: "m5a.12xlarge") }
+        public static var m5a16Xlarge: Self { .init(rawValue: "m5a.16xlarge") }
+        public static var m5a24Xlarge: Self { .init(rawValue: "m5a.24xlarge") }
+        public static var m5a2Xlarge: Self { .init(rawValue: "m5a.2xlarge") }
+        public static var m5a4Xlarge: Self { .init(rawValue: "m5a.4xlarge") }
+        public static var m5a8Xlarge: Self { .init(rawValue: "m5a.8xlarge") }
+        public static var m5aLarge: Self { .init(rawValue: "m5a.large") }
+        public static var m5aXlarge: Self { .init(rawValue: "m5a.xlarge") }
+        public static var m5ad12Xlarge: Self { .init(rawValue: "m5ad.12xlarge") }
+        public static var m5ad16Xlarge: Self { .init(rawValue: "m5ad.16xlarge") }
+        public static var m5ad24Xlarge: Self { .init(rawValue: "m5ad.24xlarge") }
+        public static var m5ad2Xlarge: Self { .init(rawValue: "m5ad.2xlarge") }
+        public static var m5ad4Xlarge: Self { .init(rawValue: "m5ad.4xlarge") }
+        public static var m5ad8Xlarge: Self { .init(rawValue: "m5ad.8xlarge") }
+        public static var m5adLarge: Self { .init(rawValue: "m5ad.large") }
+        public static var m5adXlarge: Self { .init(rawValue: "m5ad.xlarge") }
+        public static var m5d12Xlarge: Self { .init(rawValue: "m5d.12xlarge") }
+        public static var m5d16Xlarge: Self { .init(rawValue: "m5d.16xlarge") }
+        public static var m5d24Xlarge: Self { .init(rawValue: "m5d.24xlarge") }
+        public static var m5d2Xlarge: Self { .init(rawValue: "m5d.2xlarge") }
+        public static var m5d4Xlarge: Self { .init(rawValue: "m5d.4xlarge") }
+        public static var m5d8Xlarge: Self { .init(rawValue: "m5d.8xlarge") }
+        public static var m5dLarge: Self { .init(rawValue: "m5d.large") }
+        public static var m5dMetal: Self { .init(rawValue: "m5d.metal") }
+        public static var m5dXlarge: Self { .init(rawValue: "m5d.xlarge") }
         public static var m5dn12Xlarge: Self { .init(rawValue: "m5dn.12xlarge") }
         public static var m5dn16Xlarge: Self { .init(rawValue: "m5dn.16xlarge") }
         public static var m5dn24Xlarge: Self { .init(rawValue: "m5dn.24xlarge") }
-        public static var m5nLarge: Self { .init(rawValue: "m5n.large") }
-        public static var m5nXlarge: Self { .init(rawValue: "m5n.xlarge") }
-        public static var m5n2Xlarge: Self { .init(rawValue: "m5n.2xlarge") }
-        public static var m5n4Xlarge: Self { .init(rawValue: "m5n.4xlarge") }
-        public static var m5n8Xlarge: Self { .init(rawValue: "m5n.8xlarge") }
+        public static var m5dn2Xlarge: Self { .init(rawValue: "m5dn.2xlarge") }
+        public static var m5dn4Xlarge: Self { .init(rawValue: "m5dn.4xlarge") }
+        public static var m5dn8Xlarge: Self { .init(rawValue: "m5dn.8xlarge") }
+        public static var m5dnLarge: Self { .init(rawValue: "m5dn.large") }
+        public static var m5dnXlarge: Self { .init(rawValue: "m5dn.xlarge") }
         public static var m5n12Xlarge: Self { .init(rawValue: "m5n.12xlarge") }
         public static var m5n16Xlarge: Self { .init(rawValue: "m5n.16xlarge") }
         public static var m5n24Xlarge: Self { .init(rawValue: "m5n.24xlarge") }
-        public static var r5dnLarge: Self { .init(rawValue: "r5dn.large") }
-        public static var r5dnXlarge: Self { .init(rawValue: "r5dn.xlarge") }
-        public static var r5dn2Xlarge: Self { .init(rawValue: "r5dn.2xlarge") }
-        public static var r5dn4Xlarge: Self { .init(rawValue: "r5dn.4xlarge") }
-        public static var r5dn8Xlarge: Self { .init(rawValue: "r5dn.8xlarge") }
-        public static var r5dn12Xlarge: Self { .init(rawValue: "r5dn.12xlarge") }
-        public static var r5dn16Xlarge: Self { .init(rawValue: "r5dn.16xlarge") }
-        public static var r5dn24Xlarge: Self { .init(rawValue: "r5dn.24xlarge") }
-        public static var r5nLarge: Self { .init(rawValue: "r5n.large") }
-        public static var r5nXlarge: Self { .init(rawValue: "r5n.xlarge") }
-        public static var r5n2Xlarge: Self { .init(rawValue: "r5n.2xlarge") }
-        public static var r5n4Xlarge: Self { .init(rawValue: "r5n.4xlarge") }
-        public static var r5n8Xlarge: Self { .init(rawValue: "r5n.8xlarge") }
-        public static var r5n12Xlarge: Self { .init(rawValue: "r5n.12xlarge") }
-        public static var r5n16Xlarge: Self { .init(rawValue: "r5n.16xlarge") }
-        public static var r5n24Xlarge: Self { .init(rawValue: "r5n.24xlarge") }
-        public static var inf1Xlarge: Self { .init(rawValue: "inf1.xlarge") }
-        public static var inf12Xlarge: Self { .init(rawValue: "inf1.2xlarge") }
-        public static var inf16Xlarge: Self { .init(rawValue: "inf1.6xlarge") }
-        public static var inf124Xlarge: Self { .init(rawValue: "inf1.24xlarge") }
-        public static var m6gMetal: Self { .init(rawValue: "m6g.metal") }
-        public static var m6gMedium: Self { .init(rawValue: "m6g.medium") }
-        public static var m6gLarge: Self { .init(rawValue: "m6g.large") }
-        public static var m6gXlarge: Self { .init(rawValue: "m6g.xlarge") }
+        public static var m5n2Xlarge: Self { .init(rawValue: "m5n.2xlarge") }
+        public static var m5n4Xlarge: Self { .init(rawValue: "m5n.4xlarge") }
+        public static var m5n8Xlarge: Self { .init(rawValue: "m5n.8xlarge") }
+        public static var m5nLarge: Self { .init(rawValue: "m5n.large") }
+        public static var m5nXlarge: Self { .init(rawValue: "m5n.xlarge") }
+        public static var m6g12Xlarge: Self { .init(rawValue: "m6g.12xlarge") }
+        public static var m6g16Xlarge: Self { .init(rawValue: "m6g.16xlarge") }
         public static var m6g2Xlarge: Self { .init(rawValue: "m6g.2xlarge") }
         public static var m6g4Xlarge: Self { .init(rawValue: "m6g.4xlarge") }
         public static var m6g8Xlarge: Self { .init(rawValue: "m6g.8xlarge") }
-        public static var m6g12Xlarge: Self { .init(rawValue: "m6g.12xlarge") }
-        public static var m6g16Xlarge: Self { .init(rawValue: "m6g.16xlarge") }
-        public static var m6gdMetal: Self { .init(rawValue: "m6gd.metal") }
-        public static var m6gdMedium: Self { .init(rawValue: "m6gd.medium") }
-        public static var m6gdLarge: Self { .init(rawValue: "m6gd.large") }
-        public static var m6gdXlarge: Self { .init(rawValue: "m6gd.xlarge") }
+        public static var m6gLarge: Self { .init(rawValue: "m6g.large") }
+        public static var m6gMedium: Self { .init(rawValue: "m6g.medium") }
+        public static var m6gMetal: Self { .init(rawValue: "m6g.metal") }
+        public static var m6gXlarge: Self { .init(rawValue: "m6g.xlarge") }
+        public static var m6gd12Xlarge: Self { .init(rawValue: "m6gd.12xlarge") }
+        public static var m6gd16Xlarge: Self { .init(rawValue: "m6gd.16xlarge") }
         public static var m6gd2Xlarge: Self { .init(rawValue: "m6gd.2xlarge") }
         public static var m6gd4Xlarge: Self { .init(rawValue: "m6gd.4xlarge") }
         public static var m6gd8Xlarge: Self { .init(rawValue: "m6gd.8xlarge") }
-        public static var m6gd12Xlarge: Self { .init(rawValue: "m6gd.12xlarge") }
-        public static var m6gd16Xlarge: Self { .init(rawValue: "m6gd.16xlarge") }
+        public static var m6gdLarge: Self { .init(rawValue: "m6gd.large") }
+        public static var m6gdMedium: Self { .init(rawValue: "m6gd.medium") }
+        public static var m6gdMetal: Self { .init(rawValue: "m6gd.metal") }
+        public static var m6gdXlarge: Self { .init(rawValue: "m6gd.xlarge") }
+        public static var p216Xlarge: Self { .init(rawValue: "p2.16xlarge") }
+        public static var p28Xlarge: Self { .init(rawValue: "p2.8xlarge") }
+        public static var p2Xlarge: Self { .init(rawValue: "p2.xlarge") }
+        public static var p316Xlarge: Self { .init(rawValue: "p3.16xlarge") }
+        public static var p32Xlarge: Self { .init(rawValue: "p3.2xlarge") }
+        public static var p38Xlarge: Self { .init(rawValue: "p3.8xlarge") }
+        public static var p3dn24Xlarge: Self { .init(rawValue: "p3dn.24xlarge") }
+        public static var r32Xlarge: Self { .init(rawValue: "r3.2xlarge") }
+        public static var r34Xlarge: Self { .init(rawValue: "r3.4xlarge") }
+        public static var r38Xlarge: Self { .init(rawValue: "r3.8xlarge") }
+        public static var r3Large: Self { .init(rawValue: "r3.large") }
+        public static var r3Xlarge: Self { .init(rawValue: "r3.xlarge") }
+        public static var r416Xlarge: Self { .init(rawValue: "r4.16xlarge") }
+        public static var r42Xlarge: Self { .init(rawValue: "r4.2xlarge") }
+        public static var r44Xlarge: Self { .init(rawValue: "r4.4xlarge") }
+        public static var r48Xlarge: Self { .init(rawValue: "r4.8xlarge") }
+        public static var r4Large: Self { .init(rawValue: "r4.large") }
+        public static var r4Xlarge: Self { .init(rawValue: "r4.xlarge") }
+        public static var r512Xlarge: Self { .init(rawValue: "r5.12xlarge") }
+        public static var r516Xlarge: Self { .init(rawValue: "r5.16xlarge") }
+        public static var r524Xlarge: Self { .init(rawValue: "r5.24xlarge") }
+        public static var r52Xlarge: Self { .init(rawValue: "r5.2xlarge") }
+        public static var r54Xlarge: Self { .init(rawValue: "r5.4xlarge") }
+        public static var r58Xlarge: Self { .init(rawValue: "r5.8xlarge") }
+        public static var r5Large: Self { .init(rawValue: "r5.large") }
+        public static var r5Metal: Self { .init(rawValue: "r5.metal") }
+        public static var r5Xlarge: Self { .init(rawValue: "r5.xlarge") }
+        public static var r5a12Xlarge: Self { .init(rawValue: "r5a.12xlarge") }
+        public static var r5a16Xlarge: Self { .init(rawValue: "r5a.16xlarge") }
+        public static var r5a24Xlarge: Self { .init(rawValue: "r5a.24xlarge") }
+        public static var r5a2Xlarge: Self { .init(rawValue: "r5a.2xlarge") }
+        public static var r5a4Xlarge: Self { .init(rawValue: "r5a.4xlarge") }
+        public static var r5a8Xlarge: Self { .init(rawValue: "r5a.8xlarge") }
+        public static var r5aLarge: Self { .init(rawValue: "r5a.large") }
+        public static var r5aXlarge: Self { .init(rawValue: "r5a.xlarge") }
+        public static var r5ad12Xlarge: Self { .init(rawValue: "r5ad.12xlarge") }
+        public static var r5ad16Xlarge: Self { .init(rawValue: "r5ad.16xlarge") }
+        public static var r5ad24Xlarge: Self { .init(rawValue: "r5ad.24xlarge") }
+        public static var r5ad2Xlarge: Self { .init(rawValue: "r5ad.2xlarge") }
+        public static var r5ad4Xlarge: Self { .init(rawValue: "r5ad.4xlarge") }
+        public static var r5ad8Xlarge: Self { .init(rawValue: "r5ad.8xlarge") }
+        public static var r5adLarge: Self { .init(rawValue: "r5ad.large") }
+        public static var r5adXlarge: Self { .init(rawValue: "r5ad.xlarge") }
+        public static var r5d12Xlarge: Self { .init(rawValue: "r5d.12xlarge") }
+        public static var r5d16Xlarge: Self { .init(rawValue: "r5d.16xlarge") }
+        public static var r5d24Xlarge: Self { .init(rawValue: "r5d.24xlarge") }
+        public static var r5d2Xlarge: Self { .init(rawValue: "r5d.2xlarge") }
+        public static var r5d4Xlarge: Self { .init(rawValue: "r5d.4xlarge") }
+        public static var r5d8Xlarge: Self { .init(rawValue: "r5d.8xlarge") }
+        public static var r5dLarge: Self { .init(rawValue: "r5d.large") }
+        public static var r5dMetal: Self { .init(rawValue: "r5d.metal") }
+        public static var r5dXlarge: Self { .init(rawValue: "r5d.xlarge") }
+        public static var r5dn12Xlarge: Self { .init(rawValue: "r5dn.12xlarge") }
+        public static var r5dn16Xlarge: Self { .init(rawValue: "r5dn.16xlarge") }
+        public static var r5dn24Xlarge: Self { .init(rawValue: "r5dn.24xlarge") }
+        public static var r5dn2Xlarge: Self { .init(rawValue: "r5dn.2xlarge") }
+        public static var r5dn4Xlarge: Self { .init(rawValue: "r5dn.4xlarge") }
+        public static var r5dn8Xlarge: Self { .init(rawValue: "r5dn.8xlarge") }
+        public static var r5dnLarge: Self { .init(rawValue: "r5dn.large") }
+        public static var r5dnXlarge: Self { .init(rawValue: "r5dn.xlarge") }
+        public static var r5n12Xlarge: Self { .init(rawValue: "r5n.12xlarge") }
+        public static var r5n16Xlarge: Self { .init(rawValue: "r5n.16xlarge") }
+        public static var r5n24Xlarge: Self { .init(rawValue: "r5n.24xlarge") }
+        public static var r5n2Xlarge: Self { .init(rawValue: "r5n.2xlarge") }
+        public static var r5n4Xlarge: Self { .init(rawValue: "r5n.4xlarge") }
+        public static var r5n8Xlarge: Self { .init(rawValue: "r5n.8xlarge") }
+        public static var r5nLarge: Self { .init(rawValue: "r5n.large") }
+        public static var r5nXlarge: Self { .init(rawValue: "r5n.xlarge") }
+        public static var r6g12Xlarge: Self { .init(rawValue: "r6g.12xlarge") }
+        public static var r6g16Xlarge: Self { .init(rawValue: "r6g.16xlarge") }
+        public static var r6g2Xlarge: Self { .init(rawValue: "r6g.2xlarge") }
+        public static var r6g4Xlarge: Self { .init(rawValue: "r6g.4xlarge") }
+        public static var r6g8Xlarge: Self { .init(rawValue: "r6g.8xlarge") }
+        public static var r6gLarge: Self { .init(rawValue: "r6g.large") }
+        public static var r6gMedium: Self { .init(rawValue: "r6g.medium") }
+        public static var r6gMetal: Self { .init(rawValue: "r6g.metal") }
+        public static var r6gXlarge: Self { .init(rawValue: "r6g.xlarge") }
+        public static var r6gd12Xlarge: Self { .init(rawValue: "r6gd.12xlarge") }
+        public static var r6gd16Xlarge: Self { .init(rawValue: "r6gd.16xlarge") }
+        public static var r6gd2Xlarge: Self { .init(rawValue: "r6gd.2xlarge") }
+        public static var r6gd4Xlarge: Self { .init(rawValue: "r6gd.4xlarge") }
+        public static var r6gd8Xlarge: Self { .init(rawValue: "r6gd.8xlarge") }
+        public static var r6gdLarge: Self { .init(rawValue: "r6gd.large") }
+        public static var r6gdMedium: Self { .init(rawValue: "r6gd.medium") }
+        public static var r6gdMetal: Self { .init(rawValue: "r6gd.metal") }
+        public static var r6gdXlarge: Self { .init(rawValue: "r6gd.xlarge") }
+        public static var t1Micro: Self { .init(rawValue: "t1.micro") }
+        public static var t22Xlarge: Self { .init(rawValue: "t2.2xlarge") }
+        public static var t2Large: Self { .init(rawValue: "t2.large") }
+        public static var t2Medium: Self { .init(rawValue: "t2.medium") }
+        public static var t2Micro: Self { .init(rawValue: "t2.micro") }
+        public static var t2Nano: Self { .init(rawValue: "t2.nano") }
+        public static var t2Small: Self { .init(rawValue: "t2.small") }
+        public static var t2Xlarge: Self { .init(rawValue: "t2.xlarge") }
+        public static var t32Xlarge: Self { .init(rawValue: "t3.2xlarge") }
+        public static var t3Large: Self { .init(rawValue: "t3.large") }
+        public static var t3Medium: Self { .init(rawValue: "t3.medium") }
+        public static var t3Micro: Self { .init(rawValue: "t3.micro") }
+        public static var t3Nano: Self { .init(rawValue: "t3.nano") }
+        public static var t3Small: Self { .init(rawValue: "t3.small") }
+        public static var t3Xlarge: Self { .init(rawValue: "t3.xlarge") }
+        public static var t3a2Xlarge: Self { .init(rawValue: "t3a.2xlarge") }
+        public static var t3aLarge: Self { .init(rawValue: "t3a.large") }
+        public static var t3aMedium: Self { .init(rawValue: "t3a.medium") }
+        public static var t3aMicro: Self { .init(rawValue: "t3a.micro") }
+        public static var t3aNano: Self { .init(rawValue: "t3a.nano") }
+        public static var t3aSmall: Self { .init(rawValue: "t3a.small") }
+        public static var t3aXlarge: Self { .init(rawValue: "t3a.xlarge") }
+        public static var t4g2Xlarge: Self { .init(rawValue: "t4g.2xlarge") }
+        public static var t4gLarge: Self { .init(rawValue: "t4g.large") }
+        public static var t4gMedium: Self { .init(rawValue: "t4g.medium") }
+        public static var t4gMicro: Self { .init(rawValue: "t4g.micro") }
+        public static var t4gNano: Self { .init(rawValue: "t4g.nano") }
+        public static var t4gSmall: Self { .init(rawValue: "t4g.small") }
+        public static var t4gXlarge: Self { .init(rawValue: "t4g.xlarge") }
+        public static var u12Tb1Metal: Self { .init(rawValue: "u-12tb1.metal") }
+        public static var u18Tb1Metal: Self { .init(rawValue: "u-18tb1.metal") }
+        public static var u24Tb1Metal: Self { .init(rawValue: "u-24tb1.metal") }
+        public static var u6Tb1Metal: Self { .init(rawValue: "u-6tb1.metal") }
+        public static var u9Tb1Metal: Self { .init(rawValue: "u-9tb1.metal") }
+        public static var x116Xlarge: Self { .init(rawValue: "x1.16xlarge") }
+        public static var x132Xlarge: Self { .init(rawValue: "x1.32xlarge") }
+        public static var x1e16Xlarge: Self { .init(rawValue: "x1e.16xlarge") }
+        public static var x1e2Xlarge: Self { .init(rawValue: "x1e.2xlarge") }
+        public static var x1e32Xlarge: Self { .init(rawValue: "x1e.32xlarge") }
+        public static var x1e4Xlarge: Self { .init(rawValue: "x1e.4xlarge") }
+        public static var x1e8Xlarge: Self { .init(rawValue: "x1e.8xlarge") }
+        public static var x1eXlarge: Self { .init(rawValue: "x1e.xlarge") }
+        public static var z1d12Xlarge: Self { .init(rawValue: "z1d.12xlarge") }
+        public static var z1d2Xlarge: Self { .init(rawValue: "z1d.2xlarge") }
+        public static var z1d3Xlarge: Self { .init(rawValue: "z1d.3xlarge") }
+        public static var z1d6Xlarge: Self { .init(rawValue: "z1d.6xlarge") }
+        public static var z1dLarge: Self { .init(rawValue: "z1d.large") }
+        public static var z1dMetal: Self { .init(rawValue: "z1d.metal") }
+        public static var z1dXlarge: Self { .init(rawValue: "z1d.xlarge") }
     }
 
     public enum InstanceTypeHypervisor: String, CustomStringConvertible, Codable {
@@ -1045,14 +1045,14 @@ extension EC2 {
     }
 
     public enum InterfacePermissionType: String, CustomStringConvertible, Codable {
-        case instanceAttach = "INSTANCE-ATTACH"
         case eipAssociate = "EIP-ASSOCIATE"
+        case instanceAttach = "INSTANCE-ATTACH"
         public var description: String { return self.rawValue }
     }
 
     public enum Ipv6SupportValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
@@ -1079,46 +1079,46 @@ extension EC2 {
     }
 
     public enum LaunchTemplateInstanceMetadataOptionsState: String, CustomStringConvertible, Codable {
-        case pending
         case applied
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum ListingState: String, CustomStringConvertible, Codable {
         case available
-        case sold
         case cancelled
         case pending
+        case sold
         public var description: String { return self.rawValue }
     }
 
     public enum ListingStatus: String, CustomStringConvertible, Codable {
         case active
-        case pending
         case cancelled
         case closed
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum LocalGatewayRouteState: String, CustomStringConvertible, Codable {
-        case pending
         case active
         case blackhole
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum LocalGatewayRouteType: String, CustomStringConvertible, Codable {
-        case `static`
         case propagated
+        case `static`
         public var description: String { return self.rawValue }
     }
 
     public enum LocationType: String, CustomStringConvertible, Codable {
-        case region
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
+        case region
         public var description: String { return self.rawValue }
     }
 
@@ -1134,14 +1134,14 @@ extension EC2 {
     }
 
     public enum MembershipType: String, CustomStringConvertible, Codable {
-        case `static`
         case igmp
+        case `static`
         public var description: String { return self.rawValue }
     }
 
     public enum ModifyAvailabilityZoneOptInStatus: String, CustomStringConvertible, Codable {
-        case optedIn = "opted-in"
         case notOptedIn = "not-opted-in"
+        case optedIn = "opted-in"
         public var description: String { return self.rawValue }
     }
 
@@ -1160,25 +1160,25 @@ extension EC2 {
     }
 
     public enum MulticastSupportValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
     public enum NatGatewayState: String, CustomStringConvertible, Codable {
-        case pending
-        case failed
         case available
-        case deleting
         case deleted
+        case deleting
+        case failed
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkInterfaceAttribute: String, CustomStringConvertible, Codable {
+        case attachment
         case description
         case groupset = "groupSet"
         case sourcedestcheck = "sourceDestCheck"
-        case attachment
         public var description: String { return self.rawValue }
     }
 
@@ -1188,42 +1188,42 @@ extension EC2 {
     }
 
     public enum NetworkInterfacePermissionStateCode: String, CustomStringConvertible, Codable {
-        case pending
         case granted
-        case revoking
+        case pending
         case revoked
+        case revoking
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkInterfaceStatus: String, CustomStringConvertible, Codable {
-        case available
         case associated
         case attaching
-        case inUse = "in-use"
+        case available
         case detaching
+        case inUse = "in-use"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkInterfaceType: String, CustomStringConvertible, Codable {
+        case efa
         case interface
         case natgateway = "natGateway"
-        case efa
         public var description: String { return self.rawValue }
     }
 
     public enum OfferingClassType: String, CustomStringConvertible, Codable {
-        case standard
         case convertible
+        case standard
         public var description: String { return self.rawValue }
     }
 
     public enum OfferingTypeValues: String, CustomStringConvertible, Codable {
+        case allUpfront = "All Upfront"
         case heavyUtilization = "Heavy Utilization"
-        case mediumUtilization = "Medium Utilization"
         case lightUtilization = "Light Utilization"
+        case mediumUtilization = "Medium Utilization"
         case noUpfront = "No Upfront"
         case partialUpfront = "Partial Upfront"
-        case allUpfront = "All Upfront"
         public var description: String { return self.rawValue }
     }
 
@@ -1241,8 +1241,8 @@ extension EC2 {
 
     public enum PaymentOption: String, CustomStringConvertible, Codable {
         case allupfront = "AllUpfront"
-        case partialupfront = "PartialUpfront"
         case noupfront = "NoUpfront"
+        case partialupfront = "PartialUpfront"
         public var description: String { return self.rawValue }
     }
 
@@ -1252,10 +1252,10 @@ extension EC2 {
     }
 
     public enum PlacementGroupState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
@@ -1268,8 +1268,8 @@ extension EC2 {
 
     public enum PlacementStrategy: String, CustomStringConvertible, Codable {
         case cluster
-        case spread
         case partition
+        case spread
         public var description: String { return self.rawValue }
     }
 
@@ -1279,28 +1279,28 @@ extension EC2 {
     }
 
     public enum PrefixListState: String, CustomStringConvertible, Codable {
-        case createInProgress = "create-in-progress"
         case createComplete = "create-complete"
         case createFailed = "create-failed"
-        case modifyInProgress = "modify-in-progress"
-        case modifyComplete = "modify-complete"
-        case modifyFailed = "modify-failed"
-        case restoreInProgress = "restore-in-progress"
-        case restoreComplete = "restore-complete"
-        case restoreFailed = "restore-failed"
-        case deleteInProgress = "delete-in-progress"
+        case createInProgress = "create-in-progress"
         case deleteComplete = "delete-complete"
         case deleteFailed = "delete-failed"
+        case deleteInProgress = "delete-in-progress"
+        case modifyComplete = "modify-complete"
+        case modifyFailed = "modify-failed"
+        case modifyInProgress = "modify-in-progress"
+        case restoreComplete = "restore-complete"
+        case restoreFailed = "restore-failed"
+        case restoreInProgress = "restore-in-progress"
         public var description: String { return self.rawValue }
     }
 
     public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case all = "All"
-        case service = "Service"
-        case organizationunit = "OrganizationUnit"
         case account = "Account"
-        case user = "User"
+        case all = "All"
+        case organizationunit = "OrganizationUnit"
         case role = "Role"
+        case service = "Service"
+        case user = "User"
         public var description: String { return self.rawValue }
     }
 
@@ -1325,38 +1325,38 @@ extension EC2 {
 
     public enum ReportInstanceReasonCodes: String, CustomStringConvertible, Codable {
         case instanceStuckInState = "instance-stuck-in-state"
-        case unresponsive
         case notAcceptingCredentials = "not-accepting-credentials"
-        case passwordNotAvailable = "password-not-available"
-        case performanceNetwork = "performance-network"
-        case performanceInstanceStore = "performance-instance-store"
-        case performanceEbsVolume = "performance-ebs-volume"
-        case performanceOther = "performance-other"
         case other
+        case passwordNotAvailable = "password-not-available"
+        case performanceEbsVolume = "performance-ebs-volume"
+        case performanceInstanceStore = "performance-instance-store"
+        case performanceNetwork = "performance-network"
+        case performanceOther = "performance-other"
+        case unresponsive
         public var description: String { return self.rawValue }
     }
 
     public enum ReportStatusType: String, CustomStringConvertible, Codable {
-        case ok
         case impaired
+        case ok
         public var description: String { return self.rawValue }
     }
 
     public enum ReservationState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
-        case paymentFailed = "payment-failed"
         case active
+        case paymentFailed = "payment-failed"
+        case paymentPending = "payment-pending"
         case retired
         public var description: String { return self.rawValue }
     }
 
     public enum ReservedInstanceState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
         case active
         case paymentFailed = "payment-failed"
-        case retired
+        case paymentPending = "payment-pending"
         case queued
         case queuedDeleted = "queued-deleted"
+        case retired
         public var description: String { return self.rawValue }
     }
 
@@ -1376,8 +1376,8 @@ extension EC2 {
         case dedicatedHost = "dedicated-host"
         case dhcpOptions = "dhcp-options"
         case egressOnlyInternetGateway = "egress-only-internet-gateway"
-        case elasticIp = "elastic-ip"
         case elasticGpu = "elastic-gpu"
+        case elasticIp = "elastic-ip"
         case exportImageTask = "export-image-task"
         case exportInstanceTask = "export-instance-task"
         case fleet
@@ -1411,10 +1411,10 @@ extension EC2 {
         case transitGatewayRouteTable = "transit-gateway-route-table"
         case volume
         case vpc
+        case vpcFlowLog = "vpc-flow-log"
         case vpcPeeringConnection = "vpc-peering-connection"
         case vpnConnection = "vpn-connection"
         case vpnGateway = "vpn-gateway"
-        case vpcFlowLog = "vpc-flow-log"
         public var description: String { return self.rawValue }
     }
 
@@ -1425,8 +1425,8 @@ extension EC2 {
     }
 
     public enum RouteOrigin: String, CustomStringConvertible, Codable {
-        case createroutetable = "CreateRouteTable"
         case createroute = "CreateRoute"
+        case createroutetable = "CreateRouteTable"
         case enablevgwroutepropagation = "EnableVgwRoutePropagation"
         public var description: String { return self.rawValue }
     }
@@ -1438,10 +1438,10 @@ extension EC2 {
     }
 
     public enum RouteTableAssociationStateCode: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
+        case disassociating
         case failed
         public var description: String { return self.rawValue }
     }
@@ -1453,17 +1453,17 @@ extension EC2 {
     }
 
     public enum ServiceState: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
         case available = "Available"
-        case deleting = "Deleting"
         case deleted = "Deleted"
+        case deleting = "Deleting"
         case failed = "Failed"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceType: String, CustomStringConvertible, Codable {
-        case interface = "Interface"
         case gateway = "Gateway"
+        case interface = "Interface"
         public var description: String { return self.rawValue }
     }
 
@@ -1474,22 +1474,22 @@ extension EC2 {
     }
 
     public enum SnapshotAttributeName: String, CustomStringConvertible, Codable {
-        case productcodes = "productCodes"
         case createvolumepermission = "createVolumePermission"
+        case productcodes = "productCodes"
         public var description: String { return self.rawValue }
     }
 
     public enum SnapshotState: String, CustomStringConvertible, Codable {
-        case pending
         case completed
         case error
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum SpotAllocationStrategy: String, CustomStringConvertible, Codable {
-        case lowestPrice = "lowest-price"
-        case diversified
         case capacityOptimized = "capacity-optimized"
+        case diversified
+        case lowestPrice = "lowest-price"
         public var description: String { return self.rawValue }
     }
 
@@ -1501,11 +1501,11 @@ extension EC2 {
     }
 
     public enum SpotInstanceState: String, CustomStringConvertible, Codable {
-        case open
         case active
-        case closed
         case cancelled
+        case closed
         case failed
+        case open
         public var description: String { return self.rawValue }
     }
 
@@ -1516,21 +1516,21 @@ extension EC2 {
     }
 
     public enum State: String, CustomStringConvertible, Codable {
-        case pendingacceptance = "PendingAcceptance"
-        case pending = "Pending"
         case available = "Available"
-        case deleting = "Deleting"
         case deleted = "Deleted"
-        case rejected = "Rejected"
-        case failed = "Failed"
+        case deleting = "Deleting"
         case expired = "Expired"
+        case failed = "Failed"
+        case pending = "Pending"
+        case pendingacceptance = "PendingAcceptance"
+        case rejected = "Rejected"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case moveinprogress = "MoveInProgress"
-        case invpc = "InVpc"
         case inclassic = "InClassic"
+        case invpc = "InVpc"
+        case moveinprogress = "MoveInProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -1540,62 +1540,62 @@ extension EC2 {
     }
 
     public enum StatusType: String, CustomStringConvertible, Codable {
-        case passed
         case failed
-        case insufficientData = "insufficient-data"
         case initializing
+        case insufficientData = "insufficient-data"
+        case passed
         public var description: String { return self.rawValue }
     }
 
     public enum SubnetCidrBlockStateCode: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
-        case failing
+        case disassociating
         case failed
+        case failing
         public var description: String { return self.rawValue }
     }
 
     public enum SubnetState: String, CustomStringConvertible, Codable {
-        case pending
         case available
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum SummaryStatus: String, CustomStringConvertible, Codable {
-        case ok
         case impaired
+        case initializing
         case insufficientData = "insufficient-data"
         case notApplicable = "not-applicable"
-        case initializing
+        case ok
         public var description: String { return self.rawValue }
     }
 
     public enum TelemetryStatus: String, CustomStringConvertible, Codable {
-        case up = "UP"
         case down = "DOWN"
+        case up = "UP"
         public var description: String { return self.rawValue }
     }
 
     public enum Tenancy: String, CustomStringConvertible, Codable {
-        case `default`
         case dedicated
+        case `default`
         case host
         public var description: String { return self.rawValue }
     }
 
     public enum TrafficDirection: String, CustomStringConvertible, Codable {
-        case ingress
         case egress
+        case ingress
         public var description: String { return self.rawValue }
     }
 
     public enum TrafficMirrorFilterRuleField: String, CustomStringConvertible, Codable {
-        case destinationPortRange = "destination-port-range"
-        case sourcePortRange = "source-port-range"
-        case `protocol`
         case description
+        case destinationPortRange = "destination-port-range"
+        case `protocol`
+        case sourcePortRange = "source-port-range"
         public var description: String { return self.rawValue }
     }
 
@@ -1611,8 +1611,8 @@ extension EC2 {
     }
 
     public enum TrafficMirrorSessionField: String, CustomStringConvertible, Codable {
-        case packetLength = "packet-length"
         case description
+        case packetLength = "packet-length"
         case virtualNetworkId = "virtual-network-id"
         public var description: String { return self.rawValue }
     }
@@ -1625,106 +1625,106 @@ extension EC2 {
 
     public enum TrafficType: String, CustomStringConvertible, Codable {
         case accept = "ACCEPT"
-        case reject = "REJECT"
         case all = "ALL"
+        case reject = "REJECT"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
+        case disassociating
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayAttachmentResourceType: String, CustomStringConvertible, Codable {
-        case vpc
-        case vpn
         case directConnectGateway = "direct-connect-gateway"
         case peering
         case tgwPeering = "tgw-peering"
+        case vpc
+        case vpn
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayAttachmentState: String, CustomStringConvertible, Codable {
+        case available
+        case deleted
+        case deleting
+        case failed
+        case failing
         case initiating
         case initiatingrequest = "initiatingRequest"
-        case pendingacceptance = "pendingAcceptance"
-        case rollingback = "rollingBack"
-        case pending
-        case available
         case modifying
-        case deleting
-        case deleted
-        case failed
+        case pending
+        case pendingacceptance = "pendingAcceptance"
         case rejected
         case rejecting
-        case failing
+        case rollingback = "rollingBack"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayMulitcastDomainAssociationState: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
+        case disassociating
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayMulticastDomainState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayPrefixListReferenceState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case modifying
         case deleting
+        case modifying
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayPropagationState: String, CustomStringConvertible, Codable {
-        case enabling
-        case enabled
-        case disabling
         case disabled
+        case disabling
+        case enabled
+        case enabling
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayRouteState: String, CustomStringConvertible, Codable {
-        case pending
         case active
         case blackhole
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayRouteTableState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayRouteType: String, CustomStringConvertible, Codable {
-        case `static`
         case propagated
+        case `static`
         public var description: String { return self.rawValue }
     }
 
     public enum TransitGatewayState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case modifying
-        case deleting
         case deleted
+        case deleting
+        case modifying
+        case pending
         public var description: String { return self.rawValue }
     }
 
@@ -1749,16 +1749,16 @@ extension EC2 {
     }
 
     public enum UnsuccessfulInstanceCreditSpecificationErrorCode: String, CustomStringConvertible, Codable {
-        case invalidinstanceidMalformed = "InvalidInstanceID.Malformed"
-        case invalidinstanceidNotfound = "InvalidInstanceID.NotFound"
         case incorrectinstancestate = "IncorrectInstanceState"
         case instancecreditspecificationNotsupported = "InstanceCreditSpecification.NotSupported"
+        case invalidinstanceidMalformed = "InvalidInstanceID.Malformed"
+        case invalidinstanceidNotfound = "InvalidInstanceID.NotFound"
         public var description: String { return self.rawValue }
     }
 
     public enum UsageClassType: String, CustomStringConvertible, Codable {
-        case spot
         case onDemand = "on-demand"
+        case spot
         public var description: String { return self.rawValue }
     }
 
@@ -1769,11 +1769,11 @@ extension EC2 {
     }
 
     public enum VolumeAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching
         case attached
-        case detaching
-        case detached
+        case attaching
         case busy
+        case detached
+        case detaching
         public var description: String { return self.rawValue }
     }
 
@@ -1784,27 +1784,27 @@ extension EC2 {
     }
 
     public enum VolumeModificationState: String, CustomStringConvertible, Codable {
-        case modifying
-        case optimizing
         case completed
         case failed
+        case modifying
+        case optimizing
         public var description: String { return self.rawValue }
     }
 
     public enum VolumeState: String, CustomStringConvertible, Codable {
-        case creating
         case available
-        case inUse = "in-use"
-        case deleting
+        case creating
         case deleted
+        case deleting
         case error
+        case inUse = "in-use"
         public var description: String { return self.rawValue }
     }
 
     public enum VolumeStatusInfoStatus: String, CustomStringConvertible, Codable {
-        case ok
         case impaired
         case insufficientData = "insufficient-data"
+        case ok
         public var description: String { return self.rawValue }
     }
 
@@ -1815,53 +1815,53 @@ extension EC2 {
     }
 
     public enum VolumeType: String, CustomStringConvertible, Codable {
-        case standard
+        case gp2
         case io1
         case io2
-        case gp2
         case sc1
         case st1
+        case standard
         public var description: String { return self.rawValue }
     }
 
     public enum VpcAttributeName: String, CustomStringConvertible, Codable {
-        case enablednssupport = "enableDnsSupport"
         case enablednshostnames = "enableDnsHostnames"
+        case enablednssupport = "enableDnsSupport"
         public var description: String { return self.rawValue }
     }
 
     public enum VpcCidrBlockStateCode: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
-        case failing
+        case disassociating
         case failed
+        case failing
         public var description: String { return self.rawValue }
     }
 
     public enum VpcEndpointType: String, CustomStringConvertible, Codable {
-        case interface = "Interface"
         case gateway = "Gateway"
+        case interface = "Interface"
         public var description: String { return self.rawValue }
     }
 
     public enum VpcPeeringConnectionStateReasonCode: String, CustomStringConvertible, Codable {
-        case initiatingRequest = "initiating-request"
-        case pendingAcceptance = "pending-acceptance"
         case active
         case deleted
-        case rejected
-        case failed
-        case expired
-        case provisioning
         case deleting
+        case expired
+        case failed
+        case initiatingRequest = "initiating-request"
+        case pendingAcceptance = "pending-acceptance"
+        case provisioning
+        case rejected
         public var description: String { return self.rawValue }
     }
 
     public enum VpcState: String, CustomStringConvertible, Codable {
-        case pending
         case available
+        case pending
         public var description: String { return self.rawValue }
     }
 
@@ -1871,8 +1871,8 @@ extension EC2 {
     }
 
     public enum VpnEcmpSupportValue: String, CustomStringConvertible, Codable {
-        case enable
         case disable
+        case enable
         public var description: String { return self.rawValue }
     }
 
@@ -1882,10 +1882,10 @@ extension EC2 {
     }
 
     public enum VpnState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 

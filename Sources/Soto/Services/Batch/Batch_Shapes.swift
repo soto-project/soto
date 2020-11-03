@@ -27,18 +27,18 @@ extension Batch {
     }
 
     public enum CEState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum CEStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case deleted = "DELETED"
-        case valid = "VALID"
+        case deleting = "DELETING"
         case invalid = "INVALID"
+        case updating = "UPDATING"
+        case valid = "VALID"
         public var description: String { return self.rawValue }
     }
 
@@ -62,25 +62,25 @@ extension Batch {
     }
 
     public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case mknod = "MKNOD"
         case read = "READ"
         case write = "WRITE"
-        case mknod = "MKNOD"
         public var description: String { return self.rawValue }
     }
 
     public enum JQState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum JQStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case deleted = "DELETED"
-        case valid = "VALID"
+        case deleting = "DELETING"
         case invalid = "INVALID"
+        case updating = "UPDATING"
+        case valid = "VALID"
         public var description: String { return self.rawValue }
     }
 
@@ -91,24 +91,24 @@ extension Batch {
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
+        case failed = "FAILED"
         case pending = "PENDING"
         case runnable = "RUNNABLE"
-        case starting = "STARTING"
         case running = "RUNNING"
+        case starting = "STARTING"
+        case submitted = "SUBMITTED"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum LogDriver: String, CustomStringConvertible, Codable {
-        case jsonFile = "json-file"
-        case syslog
-        case journald
-        case gelf
-        case fluentd
         case awslogs
+        case fluentd
+        case gelf
+        case journald
+        case jsonFile = "json-file"
         case splunk
+        case syslog
         public var description: String { return self.rawValue }
     }
 
@@ -118,8 +118,8 @@ extension Batch {
     }
 
     public enum RetryAction: String, CustomStringConvertible, Codable {
-        case retry = "RETRY"
         case exit = "EXIT"
+        case retry = "RETRY"
         public var description: String { return self.rawValue }
     }
 

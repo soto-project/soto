@@ -21,58 +21,58 @@ extension WorkDocs {
     // MARK: Enums
 
     public enum ActivityType: String, CustomStringConvertible, Codable {
-        case documentCheckedIn = "DOCUMENT_CHECKED_IN"
-        case documentCheckedOut = "DOCUMENT_CHECKED_OUT"
-        case documentRenamed = "DOCUMENT_RENAMED"
-        case documentVersionUploaded = "DOCUMENT_VERSION_UPLOADED"
-        case documentVersionDeleted = "DOCUMENT_VERSION_DELETED"
-        case documentVersionViewed = "DOCUMENT_VERSION_VIEWED"
-        case documentVersionDownloaded = "DOCUMENT_VERSION_DOWNLOADED"
-        case documentRecycled = "DOCUMENT_RECYCLED"
-        case documentRestored = "DOCUMENT_RESTORED"
-        case documentReverted = "DOCUMENT_REVERTED"
-        case documentShared = "DOCUMENT_SHARED"
-        case documentUnshared = "DOCUMENT_UNSHARED"
-        case documentSharePermissionChanged = "DOCUMENT_SHARE_PERMISSION_CHANGED"
-        case documentShareableLinkCreated = "DOCUMENT_SHAREABLE_LINK_CREATED"
-        case documentShareableLinkRemoved = "DOCUMENT_SHAREABLE_LINK_REMOVED"
-        case documentShareableLinkPermissionChanged = "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED"
-        case documentMoved = "DOCUMENT_MOVED"
-        case documentCommentAdded = "DOCUMENT_COMMENT_ADDED"
-        case documentCommentDeleted = "DOCUMENT_COMMENT_DELETED"
         case documentAnnotationAdded = "DOCUMENT_ANNOTATION_ADDED"
         case documentAnnotationDeleted = "DOCUMENT_ANNOTATION_DELETED"
+        case documentCheckedIn = "DOCUMENT_CHECKED_IN"
+        case documentCheckedOut = "DOCUMENT_CHECKED_OUT"
+        case documentCommentAdded = "DOCUMENT_COMMENT_ADDED"
+        case documentCommentDeleted = "DOCUMENT_COMMENT_DELETED"
+        case documentMoved = "DOCUMENT_MOVED"
+        case documentRecycled = "DOCUMENT_RECYCLED"
+        case documentRenamed = "DOCUMENT_RENAMED"
+        case documentRestored = "DOCUMENT_RESTORED"
+        case documentReverted = "DOCUMENT_REVERTED"
+        case documentSharePermissionChanged = "DOCUMENT_SHARE_PERMISSION_CHANGED"
+        case documentShareableLinkCreated = "DOCUMENT_SHAREABLE_LINK_CREATED"
+        case documentShareableLinkPermissionChanged = "DOCUMENT_SHAREABLE_LINK_PERMISSION_CHANGED"
+        case documentShareableLinkRemoved = "DOCUMENT_SHAREABLE_LINK_REMOVED"
+        case documentShared = "DOCUMENT_SHARED"
+        case documentUnshared = "DOCUMENT_UNSHARED"
+        case documentVersionDeleted = "DOCUMENT_VERSION_DELETED"
+        case documentVersionDownloaded = "DOCUMENT_VERSION_DOWNLOADED"
+        case documentVersionUploaded = "DOCUMENT_VERSION_UPLOADED"
+        case documentVersionViewed = "DOCUMENT_VERSION_VIEWED"
         case folderCreated = "FOLDER_CREATED"
         case folderDeleted = "FOLDER_DELETED"
-        case folderRenamed = "FOLDER_RENAMED"
+        case folderMoved = "FOLDER_MOVED"
         case folderRecycled = "FOLDER_RECYCLED"
+        case folderRenamed = "FOLDER_RENAMED"
         case folderRestored = "FOLDER_RESTORED"
-        case folderShared = "FOLDER_SHARED"
-        case folderUnshared = "FOLDER_UNSHARED"
         case folderSharePermissionChanged = "FOLDER_SHARE_PERMISSION_CHANGED"
         case folderShareableLinkCreated = "FOLDER_SHAREABLE_LINK_CREATED"
-        case folderShareableLinkRemoved = "FOLDER_SHAREABLE_LINK_REMOVED"
         case folderShareableLinkPermissionChanged = "FOLDER_SHAREABLE_LINK_PERMISSION_CHANGED"
-        case folderMoved = "FOLDER_MOVED"
+        case folderShareableLinkRemoved = "FOLDER_SHAREABLE_LINK_REMOVED"
+        case folderShared = "FOLDER_SHARED"
+        case folderUnshared = "FOLDER_UNSHARED"
         public var description: String { return self.rawValue }
     }
 
     public enum BooleanEnumType: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
         case `false` = "FALSE"
+        case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
     public enum CommentStatusType: String, CustomStringConvertible, Codable {
+        case deleted = "DELETED"
         case draft = "DRAFT"
         case published = "PUBLISHED"
-        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
     public enum CommentVisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
         case `private` = "PRIVATE"
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
@@ -83,15 +83,15 @@ extension WorkDocs {
     }
 
     public enum DocumentStatusType: String, CustomStringConvertible, Codable {
-        case initialized = "INITIALIZED"
         case active = "ACTIVE"
+        case initialized = "INITIALIZED"
         public var description: String { return self.rawValue }
     }
 
     public enum DocumentThumbnailType: String, CustomStringConvertible, Codable {
+        case large = "LARGE"
         case small = "SMALL"
         case smallHq = "SMALL_HQ"
-        case large = "LARGE"
         public var description: String { return self.rawValue }
     }
 
@@ -108,17 +108,17 @@ extension WorkDocs {
     }
 
     public enum LocaleType: String, CustomStringConvertible, Codable {
-        case en
-        case fr
-        case ko
         case de
+        case `default`
+        case en
         case es
+        case fr
         case ja
+        case ko
+        case ptBr = "pt_BR"
         case ru
         case zhCn = "zh_CN"
         case zhTw = "zh_TW"
-        case ptBr = "pt_BR"
-        case `default`
         public var description: String { return self.rawValue }
     }
 
@@ -129,11 +129,11 @@ extension WorkDocs {
     }
 
     public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
+        case anonymous = "ANONYMOUS"
         case group = "GROUP"
         case invite = "INVITE"
-        case anonymous = "ANONYMOUS"
         case organization = "ORGANIZATION"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
@@ -150,15 +150,15 @@ extension WorkDocs {
 
     public enum ResourceStateType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case restoring = "RESTORING"
-        case recycling = "RECYCLING"
         case recycled = "RECYCLED"
+        case recycling = "RECYCLING"
+        case restoring = "RESTORING"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case folder = "FOLDER"
         case document = "DOCUMENT"
+        case folder = "FOLDER"
         public var description: String { return self.rawValue }
     }
 
@@ -169,22 +169,22 @@ extension WorkDocs {
     }
 
     public enum RoleType: String, CustomStringConvertible, Codable {
-        case viewer = "VIEWER"
         case contributor = "CONTRIBUTOR"
-        case owner = "OWNER"
         case coowner = "COOWNER"
+        case owner = "OWNER"
+        case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
     public enum ShareStatusType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
         case failure = "FAILURE"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageType: String, CustomStringConvertible, Codable {
-        case unlimited = "UNLIMITED"
         case quota = "QUOTA"
+        case unlimited = "UNLIMITED"
         public var description: String { return self.rawValue }
     }
 
@@ -199,17 +199,17 @@ extension WorkDocs {
     }
 
     public enum UserFilterType: String, CustomStringConvertible, Codable {
-        case all = "ALL"
         case activePending = "ACTIVE_PENDING"
+        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
     public enum UserSortType: String, CustomStringConvertible, Codable {
-        case userName = "USER_NAME"
         case fullName = "FULL_NAME"
         case storageLimit = "STORAGE_LIMIT"
-        case userStatus = "USER_STATUS"
         case storageUsed = "STORAGE_USED"
+        case userName = "USER_NAME"
+        case userStatus = "USER_STATUS"
         public var description: String { return self.rawValue }
     }
 
@@ -221,10 +221,10 @@ extension WorkDocs {
     }
 
     public enum UserType: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case admin = "ADMIN"
-        case poweruser = "POWERUSER"
         case minimaluser = "MINIMALUSER"
+        case poweruser = "POWERUSER"
+        case user = "USER"
         case workspacesuser = "WORKSPACESUSER"
         public var description: String { return self.rawValue }
     }

@@ -21,15 +21,15 @@ extension AugmentedAIRuntime {
     // MARK: Enums
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         case freeofadultcontent = "FreeOfAdultContent"
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
     public enum HumanLoopStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
         case completed = "Completed"
+        case failed = "Failed"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }

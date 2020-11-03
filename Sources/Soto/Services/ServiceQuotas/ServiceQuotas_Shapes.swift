@@ -22,29 +22,29 @@ extension ServiceQuotas {
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case dependencyAccessDeniedError = "DEPENDENCY_ACCESS_DENIED_ERROR"
-        case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
         case dependencyServiceError = "DEPENDENCY_SERVICE_ERROR"
+        case dependencyThrottlingError = "DEPENDENCY_THROTTLING_ERROR"
         case serviceQuotaNotAvailableError = "SERVICE_QUOTA_NOT_AVAILABLE_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum PeriodUnit: String, CustomStringConvertible, Codable {
+        case day = "DAY"
+        case hour = "HOUR"
         case microsecond = "MICROSECOND"
         case millisecond = "MILLISECOND"
-        case second = "SECOND"
         case minute = "MINUTE"
-        case hour = "HOUR"
-        case day = "DAY"
+        case second = "SECOND"
         case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
     public enum RequestStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case caseOpened = "CASE_OPENED"
         case approved = "APPROVED"
-        case denied = "DENIED"
         case caseClosed = "CASE_CLOSED"
+        case caseOpened = "CASE_OPENED"
+        case denied = "DENIED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

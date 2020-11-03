@@ -26,25 +26,25 @@ extension Kafka {
     }
 
     public enum ClientBroker: String, CustomStringConvertible, Codable {
+        case plaintext = "PLAINTEXT"
         case tls = "TLS"
         case tlsPlaintext = "TLS_PLAINTEXT"
-        case plaintext = "PLAINTEXT"
         public var description: String { return self.rawValue }
     }
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case creating = "CREATING"
-        case updating = "UPDATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case deleting = "DELETING"
         case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 

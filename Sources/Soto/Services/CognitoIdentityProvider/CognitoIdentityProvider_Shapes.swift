@@ -29,61 +29,61 @@ extension CognitoIdentityProvider {
     }
 
     public enum AdvancedSecurityModeType: String, CustomStringConvertible, Codable {
-        case off = "OFF"
         case audit = "AUDIT"
         case enforced = "ENFORCED"
+        case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
     public enum AliasAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
         case email
+        case phoneNumber = "phone_number"
         case preferredUsername = "preferred_username"
         public var description: String { return self.rawValue }
     }
 
     public enum AttributeDataType: String, CustomStringConvertible, Codable {
-        case string = "String"
-        case number = "Number"
-        case datetime = "DateTime"
         case boolean = "Boolean"
+        case datetime = "DateTime"
+        case number = "Number"
+        case string = "String"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthFlowType: String, CustomStringConvertible, Codable {
-        case userSrpAuth = "USER_SRP_AUTH"
-        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
-        case refreshToken = "REFRESH_TOKEN"
-        case customAuth = "CUSTOM_AUTH"
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
         case adminUserPasswordAuth = "ADMIN_USER_PASSWORD_AUTH"
+        case customAuth = "CUSTOM_AUTH"
+        case refreshToken = "REFRESH_TOKEN"
+        case refreshTokenAuth = "REFRESH_TOKEN_AUTH"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
+        case userSrpAuth = "USER_SRP_AUTH"
         public var description: String { return self.rawValue }
     }
 
     public enum ChallengeName: String, CustomStringConvertible, Codable {
-        case password = "Password"
         case mfa = "Mfa"
+        case password = "Password"
         public var description: String { return self.rawValue }
     }
 
     public enum ChallengeNameType: String, CustomStringConvertible, Codable {
+        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
+        case customChallenge = "CUSTOM_CHALLENGE"
+        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
+        case deviceSrpAuth = "DEVICE_SRP_AUTH"
+        case mfaSetup = "MFA_SETUP"
+        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
+        case passwordVerifier = "PASSWORD_VERIFIER"
+        case selectMfaType = "SELECT_MFA_TYPE"
         case smsMfa = "SMS_MFA"
         case softwareTokenMfa = "SOFTWARE_TOKEN_MFA"
-        case selectMfaType = "SELECT_MFA_TYPE"
-        case mfaSetup = "MFA_SETUP"
-        case passwordVerifier = "PASSWORD_VERIFIER"
-        case customChallenge = "CUSTOM_CHALLENGE"
-        case deviceSrpAuth = "DEVICE_SRP_AUTH"
-        case devicePasswordVerifier = "DEVICE_PASSWORD_VERIFIER"
-        case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case newPasswordRequired = "NEW_PASSWORD_REQUIRED"
         public var description: String { return self.rawValue }
     }
 
     public enum ChallengeResponse: String, CustomStringConvertible, Codable {
-        case success = "Success"
         case failure = "Failure"
+        case success = "Success"
         public var description: String { return self.rawValue }
     }
 
@@ -94,29 +94,29 @@ extension CognitoIdentityProvider {
     }
 
     public enum DefaultEmailOptionType: String, CustomStringConvertible, Codable {
-        case confirmWithLink = "CONFIRM_WITH_LINK"
         case confirmWithCode = "CONFIRM_WITH_CODE"
+        case confirmWithLink = "CONFIRM_WITH_LINK"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryMediumType: String, CustomStringConvertible, Codable {
-        case sms = "SMS"
         case email = "EMAIL"
+        case sms = "SMS"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceRememberedStatusType: String, CustomStringConvertible, Codable {
-        case remembered
         case notRemembered = "not_remembered"
+        case remembered
         public var description: String { return self.rawValue }
     }
 
     public enum DomainStatusType: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case updating = "UPDATING"
-        case active = "ACTIVE"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -127,50 +127,50 @@ extension CognitoIdentityProvider {
     }
 
     public enum EventFilterType: String, CustomStringConvertible, Codable {
-        case signIn = "SIGN_IN"
         case passwordChange = "PASSWORD_CHANGE"
+        case signIn = "SIGN_IN"
         case signUp = "SIGN_UP"
         public var description: String { return self.rawValue }
     }
 
     public enum EventResponseType: String, CustomStringConvertible, Codable {
-        case success = "Success"
         case failure = "Failure"
+        case success = "Success"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
+        case forgotpassword = "ForgotPassword"
         case signin = "SignIn"
         case signup = "SignUp"
-        case forgotpassword = "ForgotPassword"
         public var description: String { return self.rawValue }
     }
 
     public enum ExplicitAuthFlowsType: String, CustomStringConvertible, Codable {
         case adminNoSrpAuth = "ADMIN_NO_SRP_AUTH"
-        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
-        case userPasswordAuth = "USER_PASSWORD_AUTH"
         case allowAdminUserPasswordAuth = "ALLOW_ADMIN_USER_PASSWORD_AUTH"
         case allowCustomAuth = "ALLOW_CUSTOM_AUTH"
+        case allowRefreshTokenAuth = "ALLOW_REFRESH_TOKEN_AUTH"
         case allowUserPasswordAuth = "ALLOW_USER_PASSWORD_AUTH"
         case allowUserSrpAuth = "ALLOW_USER_SRP_AUTH"
-        case allowRefreshTokenAuth = "ALLOW_REFRESH_TOKEN_AUTH"
+        case customAuthFlowOnly = "CUSTOM_AUTH_FLOW_ONLY"
+        case userPasswordAuth = "USER_PASSWORD_AUTH"
         public var description: String { return self.rawValue }
     }
 
     public enum FeedbackValueType: String, CustomStringConvertible, Codable {
-        case valid = "Valid"
         case invalid = "Invalid"
+        case valid = "Valid"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
-        case saml = "SAML"
         case facebook = "Facebook"
         case google = "Google"
         case loginwithamazon = "LoginWithAmazon"
-        case signinwithapple = "SignInWithApple"
         case oidc = "OIDC"
+        case saml = "SAML"
+        case signinwithapple = "SignInWithApple"
         public var description: String { return self.rawValue }
     }
 
@@ -181,61 +181,61 @@ extension CognitoIdentityProvider {
     }
 
     public enum OAuthFlowType: String, CustomStringConvertible, Codable {
+        case clientCredentials = "client_credentials"
         case code
         case implicit
-        case clientCredentials = "client_credentials"
         public var description: String { return self.rawValue }
     }
 
     public enum PreventUserExistenceErrorTypes: String, CustomStringConvertible, Codable {
-        case legacy = "LEGACY"
         case enabled = "ENABLED"
+        case legacy = "LEGACY"
         public var description: String { return self.rawValue }
     }
 
     public enum RecoveryOptionNameType: String, CustomStringConvertible, Codable {
+        case adminOnly = "admin_only"
         case verifiedEmail = "verified_email"
         case verifiedPhoneNumber = "verified_phone_number"
-        case adminOnly = "admin_only"
         public var description: String { return self.rawValue }
     }
 
     public enum RiskDecisionType: String, CustomStringConvertible, Codable {
-        case norisk = "NoRisk"
         case accounttakeover = "AccountTakeover"
         case block = "Block"
+        case norisk = "NoRisk"
         public var description: String { return self.rawValue }
     }
 
     public enum RiskLevelType: String, CustomStringConvertible, Codable {
+        case high = "High"
         case low = "Low"
         case medium = "Medium"
-        case high = "High"
         public var description: String { return self.rawValue }
     }
 
     public enum StatusType: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum TimeUnitsType: String, CustomStringConvertible, Codable {
-        case seconds
-        case minutes
-        case hours
         case days
+        case hours
+        case minutes
+        case seconds
         public var description: String { return self.rawValue }
     }
 
     public enum UserImportJobStatusType: String, CustomStringConvertible, Codable {
         case created = "Created"
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case stopping = "Stopping"
         case expired = "Expired"
-        case stopped = "Stopped"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
@@ -248,31 +248,31 @@ extension CognitoIdentityProvider {
     }
 
     public enum UserStatusType: String, CustomStringConvertible, Codable {
-        case unconfirmed = "UNCONFIRMED"
-        case confirmed = "CONFIRMED"
         case archived = "ARCHIVED"
         case compromised = "COMPROMISED"
-        case unknown = "UNKNOWN"
-        case resetRequired = "RESET_REQUIRED"
+        case confirmed = "CONFIRMED"
         case forceChangePassword = "FORCE_CHANGE_PASSWORD"
+        case resetRequired = "RESET_REQUIRED"
+        case unconfirmed = "UNCONFIRMED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum UsernameAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
         case email
+        case phoneNumber = "phone_number"
         public var description: String { return self.rawValue }
     }
 
     public enum VerifiedAttributeType: String, CustomStringConvertible, Codable {
-        case phoneNumber = "phone_number"
         case email
+        case phoneNumber = "phone_number"
         public var description: String { return self.rawValue }
     }
 
     public enum VerifySoftwareTokenResponseType: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
         case error = "ERROR"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 

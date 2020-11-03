@@ -21,10 +21,10 @@ extension CloudFront {
     // MARK: Enums
 
     public enum CachePolicyCookieBehavior: String, CustomStringConvertible, Codable {
+        case all
+        case allexcept = "allExcept"
         case none
         case whitelist
-        case allexcept = "allExcept"
-        case all
         public var description: String { return self.rawValue }
     }
 
@@ -35,24 +35,24 @@ extension CloudFront {
     }
 
     public enum CachePolicyQueryStringBehavior: String, CustomStringConvertible, Codable {
+        case all
+        case allexcept = "allExcept"
         case none
         case whitelist
-        case allexcept = "allExcept"
-        case all
         public var description: String { return self.rawValue }
     }
 
     public enum CachePolicyType: String, CustomStringConvertible, Codable {
-        case managed
         case custom
+        case managed
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case viewerRequest = "viewer-request"
-        case viewerResponse = "viewer-response"
         case originRequest = "origin-request"
         case originResponse = "origin-response"
+        case viewerRequest = "viewer-request"
+        case viewerResponse = "viewer-response"
         public var description: String { return self.rawValue }
     }
 
@@ -63,8 +63,8 @@ extension CloudFront {
 
     public enum GeoRestrictionType: String, CustomStringConvertible, Codable {
         case blacklist
-        case whitelist
         case none
+        case whitelist
         public var description: String { return self.rawValue }
     }
 
@@ -76,27 +76,27 @@ extension CloudFront {
 
     public enum ICPRecordalStatus: String, CustomStringConvertible, Codable {
         case approved = "APPROVED"
-        case suspended = "SUSPENDED"
         case pending = "PENDING"
+        case suspended = "SUSPENDED"
         public var description: String { return self.rawValue }
     }
 
     public enum Method: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
         case get = "GET"
         case head = "HEAD"
+        case options = "OPTIONS"
+        case patch = "PATCH"
         case post = "POST"
         case put = "PUT"
-        case patch = "PATCH"
-        case options = "OPTIONS"
-        case delete = "DELETE"
         public var description: String { return self.rawValue }
     }
 
     public enum MinimumProtocolVersion: String, CustomStringConvertible, Codable {
         case sslv3 = "SSLv3"
         case tlsv1 = "TLSv1"
-        case tlsv12016 = "TLSv1_2016"
         case tlsv112016 = "TLSv1.1_2016"
+        case tlsv12016 = "TLSv1_2016"
         case tlsv122018 = "TLSv1.2_2018"
         case tlsv122019 = "TLSv1.2_2019"
         public var description: String { return self.rawValue }
@@ -104,36 +104,36 @@ extension CloudFront {
 
     public enum OriginProtocolPolicy: String, CustomStringConvertible, Codable {
         case httpOnly = "http-only"
-        case matchViewer = "match-viewer"
         case httpsOnly = "https-only"
+        case matchViewer = "match-viewer"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyCookieBehavior: String, CustomStringConvertible, Codable {
+        case all
         case none
         case whitelist
-        case all
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyHeaderBehavior: String, CustomStringConvertible, Codable {
-        case none
-        case whitelist
         case allviewer = "allViewer"
         case allviewerandwhitelistcloudfront = "allViewerAndWhitelistCloudFront"
+        case none
+        case whitelist
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyQueryStringBehavior: String, CustomStringConvertible, Codable {
+        case all
         case none
         case whitelist
-        case all
         public var description: String { return self.rawValue }
     }
 
     public enum OriginRequestPolicyType: String, CustomStringConvertible, Codable {
-        case managed
         case custom
+        case managed
         public var description: String { return self.rawValue }
     }
 
@@ -145,15 +145,15 @@ extension CloudFront {
     }
 
     public enum RealtimeMetricsSubscriptionStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum SSLSupportMethod: String, CustomStringConvertible, Codable {
         case sniOnly = "sni-only"
-        case vip
         case staticIp = "static-ip"
+        case vip
         public var description: String { return self.rawValue }
     }
 

@@ -21,14 +21,14 @@ extension MediaTailor {
     // MARK: Enums
 
     public enum Mode: String, CustomStringConvertible, Codable {
-        case off = "OFF"
         case behindLiveEdge = "BEHIND_LIVE_EDGE"
+        case off = "OFF"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginManifestType: String, CustomStringConvertible, Codable {
-        case singlePeriod = "SINGLE_PERIOD"
         case multiPeriod = "MULTI_PERIOD"
+        case singlePeriod = "SINGLE_PERIOD"
         public var description: String { return self.rawValue }
     }
 

@@ -21,40 +21,40 @@ extension Redshift {
     // MARK: Enums
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case restoreCluster = "restore-cluster"
         case recommendNodeConfig = "recommend-node-config"
         case resizeCluster = "resize-cluster"
+        case restoreCluster = "restore-cluster"
         public var description: String { return self.rawValue }
     }
 
     public enum Mode: String, CustomStringConvertible, Codable {
-        case standard
         case highPerformance = "high-performance"
+        case standard
         public var description: String { return self.rawValue }
     }
 
     public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
-        case nodetype = "NodeType"
-        case numberofnodes = "NumberOfNodes"
         case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
         case mode = "Mode"
+        case nodetype = "NodeType"
+        case numberofnodes = "NumberOfNodes"
         public var description: String { return self.rawValue }
     }
 
     public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq
-        case lt
-        case gt
-        case le
-        case ge
-        case `in`
         case between
+        case eq
+        case ge
+        case gt
+        case `in`
+        case le
+        case lt
         public var description: String { return self.rawValue }
     }
 
     public enum ParameterApplyType: String, CustomStringConvertible, Codable {
-        case `static`
         case dynamic
+        case `static`
         public var description: String { return self.rawValue }
     }
 
@@ -65,9 +65,9 @@ extension Redshift {
     }
 
     public enum ScheduleState: String, CustomStringConvertible, Codable {
-        case modifying = "MODIFYING"
         case active = "ACTIVE"
         case failed = "FAILED"
+        case modifying = "MODIFYING"
         public var description: String { return self.rawValue }
     }
 
@@ -84,16 +84,16 @@ extension Redshift {
     }
 
     public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
-        case resizecluster = "ResizeCluster"
         case pausecluster = "PauseCluster"
+        case resizecluster = "ResizeCluster"
         case resumecluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 
     public enum SnapshotAttributeToSortBy: String, CustomStringConvertible, Codable {
+        case createTime = "CREATE_TIME"
         case sourceType = "SOURCE_TYPE"
         case totalSize = "TOTAL_SIZE"
-        case createTime = "CREATE_TIME"
         public var description: String { return self.rawValue }
     }
 
@@ -113,37 +113,37 @@ extension Redshift {
     }
 
     public enum TableRestoreStatusType: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         case canceled = "CANCELED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum UsageLimitBreachAction: String, CustomStringConvertible, Codable {
-        case log
-        case emitMetric = "emit-metric"
         case disable
+        case emitMetric = "emit-metric"
+        case log
         public var description: String { return self.rawValue }
     }
 
     public enum UsageLimitFeatureType: String, CustomStringConvertible, Codable {
-        case spectrum
         case concurrencyScaling = "concurrency-scaling"
+        case spectrum
         public var description: String { return self.rawValue }
     }
 
     public enum UsageLimitLimitType: String, CustomStringConvertible, Codable {
-        case time
         case dataScanned = "data-scanned"
+        case time
         public var description: String { return self.rawValue }
     }
 
     public enum UsageLimitPeriod: String, CustomStringConvertible, Codable {
         case daily
-        case weekly
         case monthly
+        case weekly
         public var description: String { return self.rawValue }
     }
 

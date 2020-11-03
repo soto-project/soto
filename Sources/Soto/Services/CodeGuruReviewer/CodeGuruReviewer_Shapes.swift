@@ -22,31 +22,31 @@ extension CodeGuruReviewer {
 
     public enum JobState: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case pending = "Pending"
-        case failed = "Failed"
         case deleting = "Deleting"
+        case failed = "Failed"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum ProviderType: String, CustomStringConvertible, Codable {
+        case bitbucket = "Bitbucket"
         case codecommit = "CodeCommit"
         case github = "GitHub"
-        case bitbucket = "Bitbucket"
         case githubenterpriseserver = "GitHubEnterpriseServer"
         public var description: String { return self.rawValue }
     }
 
     public enum Reaction: String, CustomStringConvertible, Codable {
-        case thumbsup = "ThumbsUp"
         case thumbsdown = "ThumbsDown"
+        case thumbsup = "ThumbsUp"
         public var description: String { return self.rawValue }
     }
 
     public enum RepositoryAssociationState: String, CustomStringConvertible, Codable {
         case associated = "Associated"
         case associating = "Associating"
-        case failed = "Failed"
         case disassociating = "Disassociating"
+        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 

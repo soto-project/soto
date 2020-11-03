@@ -21,33 +21,33 @@ extension Backup {
     // MARK: Enums
 
     public enum BackupJobState: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
+        case aborting = "ABORTING"
+        case completed = "COMPLETED"
         case created = "CREATED"
+        case expired = "EXPIRED"
+        case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
-        case aborting = "ABORTING"
-        case aborted = "ABORTED"
-        case completed = "COMPLETED"
-        case failed = "FAILED"
-        case expired = "EXPIRED"
         public var description: String { return self.rawValue }
     }
 
     public enum BackupVaultEvent: String, CustomStringConvertible, Codable {
-        case backupJobStarted = "BACKUP_JOB_STARTED"
         case backupJobCompleted = "BACKUP_JOB_COMPLETED"
-        case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
-        case backupJobFailed = "BACKUP_JOB_FAILED"
         case backupJobExpired = "BACKUP_JOB_EXPIRED"
-        case restoreJobStarted = "RESTORE_JOB_STARTED"
-        case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
-        case restoreJobSuccessful = "RESTORE_JOB_SUCCESSFUL"
-        case restoreJobFailed = "RESTORE_JOB_FAILED"
-        case copyJobStarted = "COPY_JOB_STARTED"
-        case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
-        case copyJobFailed = "COPY_JOB_FAILED"
-        case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
+        case backupJobFailed = "BACKUP_JOB_FAILED"
+        case backupJobStarted = "BACKUP_JOB_STARTED"
+        case backupJobSuccessful = "BACKUP_JOB_SUCCESSFUL"
         case backupPlanCreated = "BACKUP_PLAN_CREATED"
         case backupPlanModified = "BACKUP_PLAN_MODIFIED"
+        case copyJobFailed = "COPY_JOB_FAILED"
+        case copyJobStarted = "COPY_JOB_STARTED"
+        case copyJobSuccessful = "COPY_JOB_SUCCESSFUL"
+        case recoveryPointModified = "RECOVERY_POINT_MODIFIED"
+        case restoreJobCompleted = "RESTORE_JOB_COMPLETED"
+        case restoreJobFailed = "RESTORE_JOB_FAILED"
+        case restoreJobStarted = "RESTORE_JOB_STARTED"
+        case restoreJobSuccessful = "RESTORE_JOB_SUCCESSFUL"
         public var description: String { return self.rawValue }
     }
 
@@ -57,34 +57,34 @@ extension Backup {
     }
 
     public enum CopyJobState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case running = "RUNNING"
         case completed = "COMPLETED"
+        case created = "CREATED"
         case failed = "FAILED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
     public enum RecoveryPointStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
-        case partial = "PARTIAL"
         case deleting = "DELETING"
         case expired = "EXPIRED"
+        case partial = "PARTIAL"
         public var description: String { return self.rawValue }
     }
 
     public enum RestoreJobStatus: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
         case pending = "PENDING"
         case running = "RUNNING"
-        case completed = "COMPLETED"
-        case aborted = "ABORTED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable {
-        case warm = "WARM"
         case cold = "COLD"
         case deleted = "DELETED"
+        case warm = "WARM"
         public var description: String { return self.rawValue }
     }
 

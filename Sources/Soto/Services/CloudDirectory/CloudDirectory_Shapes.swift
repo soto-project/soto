@@ -21,71 +21,71 @@ extension CloudDirectory {
     // MARK: Enums
 
     public enum BatchReadExceptionType: String, CustomStringConvertible, Codable {
-        case validationexception = "ValidationException"
-        case invalidarnexception = "InvalidArnException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidnexttokenexception = "InvalidNextTokenException"
         case accessdeniedexception = "AccessDeniedException"
-        case notnodeexception = "NotNodeException"
-        case facetvalidationexception = "FacetValidationException"
         case cannotlistparentofrootexception = "CannotListParentOfRootException"
-        case notindexexception = "NotIndexException"
-        case notpolicyexception = "NotPolicyException"
         case directorynotenabledexception = "DirectoryNotEnabledException"
-        case limitexceededexception = "LimitExceededException"
+        case facetvalidationexception = "FacetValidationException"
         case internalserviceexception = "InternalServiceException"
+        case invalidarnexception = "InvalidArnException"
+        case invalidnexttokenexception = "InvalidNextTokenException"
+        case limitexceededexception = "LimitExceededException"
+        case notindexexception = "NotIndexException"
+        case notnodeexception = "NotNodeException"
+        case notpolicyexception = "NotPolicyException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        case validationexception = "ValidationException"
         public var description: String { return self.rawValue }
     }
 
     public enum ConsistencyLevel: String, CustomStringConvertible, Codable {
-        case serializable = "SERIALIZABLE"
         case eventual = "EVENTUAL"
+        case serializable = "SERIALIZABLE"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
         case deleted = "DELETED"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum FacetAttributeType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
         case binary = "BINARY"
         case boolean = "BOOLEAN"
-        case number = "NUMBER"
         case datetime = "DATETIME"
+        case number = "NUMBER"
+        case string = "STRING"
         case variant = "VARIANT"
         public var description: String { return self.rawValue }
     }
 
     public enum FacetStyle: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
         case dynamic = "DYNAMIC"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectType: String, CustomStringConvertible, Codable {
-        case node = "NODE"
-        case leafNode = "LEAF_NODE"
-        case policy = "POLICY"
         case index = "INDEX"
+        case leafNode = "LEAF_NODE"
+        case node = "NODE"
+        case policy = "POLICY"
         public var description: String { return self.rawValue }
     }
 
     public enum RangeMode: String, CustomStringConvertible, Codable {
+        case exclusive = "EXCLUSIVE"
         case first = "FIRST"
+        case inclusive = "INCLUSIVE"
         case last = "LAST"
         case lastBeforeMissingValues = "LAST_BEFORE_MISSING_VALUES"
-        case inclusive = "INCLUSIVE"
-        case exclusive = "EXCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum RequiredAttributeBehavior: String, CustomStringConvertible, Codable {
-        case requiredAlways = "REQUIRED_ALWAYS"
         case notRequired = "NOT_REQUIRED"
+        case requiredAlways = "REQUIRED_ALWAYS"
         public var description: String { return self.rawValue }
     }
 

@@ -241,31 +241,31 @@ extension MediaLive {
     }
 
     public enum CdiInputResolution: String, CustomStringConvertible, Codable {
-        case sd = "SD"
-        case hd = "HD"
         case fhd = "FHD"
+        case hd = "HD"
+        case sd = "SD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
     public enum ChannelClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case singlePipeline = "SINGLE_PIPELINE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
     public enum ChannelState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case createFailed = "CREATE_FAILED"
-        case idle = "IDLE"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case recovering = "RECOVERING"
-        case stopping = "STOPPING"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
-        case updating = "UPDATING"
+        case deleting = "DELETING"
+        case idle = "IDLE"
+        case recovering = "RECOVERING"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
         case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -930,15 +930,15 @@ extension MediaLive {
     }
 
     public enum InputClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case singlePipeline = "SINGLE_PIPELINE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
     public enum InputCodec: String, CustomStringConvertible, Codable {
-        case mpeg2 = "MPEG2"
         case avc = "AVC"
         case hevc = "HEVC"
+        case mpeg2 = "MPEG2"
         public var description: String { return self.rawValue }
     }
 
@@ -968,14 +968,14 @@ extension MediaLive {
     }
 
     public enum InputDeviceConnectionState: String, CustomStringConvertible, Codable {
-        case disconnected = "DISCONNECTED"
         case connected = "CONNECTED"
+        case disconnected = "DISCONNECTED"
         public var description: String { return self.rawValue }
     }
 
     public enum InputDeviceIpScheme: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
         case dhcp = "DHCP"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
@@ -992,8 +992,8 @@ extension MediaLive {
     }
 
     public enum InputDeviceTransferType: String, CustomStringConvertible, Codable {
-        case outgoing = "OUTGOING"
         case incoming = "INCOMING"
+        case outgoing = "OUTGOING"
         public var description: String { return self.rawValue }
     }
 
@@ -1054,17 +1054,17 @@ extension MediaLive {
     }
 
     public enum InputResolution: String, CustomStringConvertible, Codable {
-        case sd = "SD"
         case hd = "HD"
+        case sd = "SD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
     public enum InputSecurityGroupState: String, CustomStringConvertible, Codable {
+        case deleted = "DELETED"
         case idle = "IDLE"
         case inUse = "IN_USE"
         case updating = "UPDATING"
-        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
@@ -1075,36 +1075,36 @@ extension MediaLive {
     }
 
     public enum InputSourceType: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
         case dynamic = "DYNAMIC"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
     public enum InputState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case detached = "DETACHED"
         case attached = "ATTACHED"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case detached = "DETACHED"
         public var description: String { return self.rawValue }
     }
 
     public enum InputTimecodeSource: String, CustomStringConvertible, Codable {
-        case zerobased = "ZEROBASED"
         case embedded = "EMBEDDED"
+        case zerobased = "ZEROBASED"
         public var description: String { return self.rawValue }
     }
 
     public enum InputType: String, CustomStringConvertible, Codable {
-        case udpPush = "UDP_PUSH"
-        case rtpPush = "RTP_PUSH"
-        case rtmpPush = "RTMP_PUSH"
-        case rtmpPull = "RTMP_PULL"
-        case urlPull = "URL_PULL"
-        case mp4File = "MP4_FILE"
-        case mediaconnect = "MEDIACONNECT"
-        case inputDevice = "INPUT_DEVICE"
         case awsCdi = "AWS_CDI"
+        case inputDevice = "INPUT_DEVICE"
+        case mediaconnect = "MEDIACONNECT"
+        case mp4File = "MP4_FILE"
+        case rtmpPull = "RTMP_PULL"
+        case rtmpPush = "RTMP_PUSH"
+        case rtpPush = "RTP_PUSH"
+        case udpPush = "UDP_PUSH"
+        case urlPull = "URL_PULL"
         public var description: String { return self.rawValue }
     }
 
@@ -1115,11 +1115,11 @@ extension MediaLive {
     }
 
     public enum LogLevel: String, CustomStringConvertible, Codable {
-        case error = "ERROR"
-        case warning = "WARNING"
-        case info = "INFO"
         case debug = "DEBUG"
         case disabled = "DISABLED"
+        case error = "ERROR"
+        case info = "INFO"
+        case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
@@ -1329,15 +1329,15 @@ extension MediaLive {
     }
 
     public enum MultiplexState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case createFailed = "CREATE_FAILED"
-        case idle = "IDLE"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case recovering = "RECOVERING"
-        case stopping = "STOPPING"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case idle = "IDLE"
+        case recovering = "RECOVERING"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -1377,11 +1377,11 @@ extension MediaLive {
     }
 
     public enum ReservationCodec: String, CustomStringConvertible, Codable {
-        case mpeg2 = "MPEG2"
+        case audio = "AUDIO"
         case avc = "AVC"
         case hevc = "HEVC"
-        case audio = "AUDIO"
         case link = "LINK"
+        case mpeg2 = "MPEG2"
         public var description: String { return self.rawValue }
     }
 
@@ -1399,18 +1399,18 @@ extension MediaLive {
     }
 
     public enum ReservationResolution: String, CustomStringConvertible, Codable {
-        case sd = "SD"
-        case hd = "HD"
         case fhd = "FHD"
+        case hd = "HD"
+        case sd = "SD"
         case uhd = "UHD"
         public var description: String { return self.rawValue }
     }
 
     public enum ReservationResourceType: String, CustomStringConvertible, Codable {
-        case input = "INPUT"
-        case output = "OUTPUT"
-        case multiplex = "MULTIPLEX"
         case channel = "CHANNEL"
+        case input = "INPUT"
+        case multiplex = "MULTIPLEX"
+        case output = "OUTPUT"
         public var description: String { return self.rawValue }
     }
 
@@ -1422,16 +1422,16 @@ extension MediaLive {
 
     public enum ReservationState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case expired = "EXPIRED"
         case canceled = "CANCELED"
         case deleted = "DELETED"
+        case expired = "EXPIRED"
         public var description: String { return self.rawValue }
     }
 
     public enum ReservationVideoQuality: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case enhanced = "ENHANCED"
         case premium = "PREMIUM"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
@@ -1473,8 +1473,8 @@ extension MediaLive {
     }
 
     public enum Scte35ArchiveAllowedFlag: String, CustomStringConvertible, Codable {
-        case archiveNotAllowed = "ARCHIVE_NOT_ALLOWED"
         case archiveAllowed = "ARCHIVE_ALLOWED"
+        case archiveNotAllowed = "ARCHIVE_NOT_ALLOWED"
         public var description: String { return self.rawValue }
     }
 
@@ -1487,14 +1487,14 @@ extension MediaLive {
     }
 
     public enum Scte35NoRegionalBlackoutFlag: String, CustomStringConvertible, Codable {
-        case regionalBlackout = "REGIONAL_BLACKOUT"
         case noRegionalBlackout = "NO_REGIONAL_BLACKOUT"
+        case regionalBlackout = "REGIONAL_BLACKOUT"
         public var description: String { return self.rawValue }
     }
 
     public enum Scte35SegmentationCancelIndicator: String, CustomStringConvertible, Codable {
-        case segmentationEventNotCanceled = "SEGMENTATION_EVENT_NOT_CANCELED"
         case segmentationEventCanceled = "SEGMENTATION_EVENT_CANCELED"
+        case segmentationEventNotCanceled = "SEGMENTATION_EVENT_NOT_CANCELED"
         public var description: String { return self.rawValue }
     }
 
@@ -1511,8 +1511,8 @@ extension MediaLive {
     }
 
     public enum Scte35WebDeliveryAllowedFlag: String, CustomStringConvertible, Codable {
-        case webDeliveryNotAllowed = "WEB_DELIVERY_NOT_ALLOWED"
         case webDeliveryAllowed = "WEB_DELIVERY_ALLOWED"
+        case webDeliveryNotAllowed = "WEB_DELIVERY_NOT_ALLOWED"
         public var description: String { return self.rawValue }
     }
 
@@ -1582,6 +1582,13 @@ extension MediaLive {
     public enum TemporalFilterStrength: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case strength1 = "STRENGTH_1"
+        case strength10 = "STRENGTH_10"
+        case strength11 = "STRENGTH_11"
+        case strength12 = "STRENGTH_12"
+        case strength13 = "STRENGTH_13"
+        case strength14 = "STRENGTH_14"
+        case strength15 = "STRENGTH_15"
+        case strength16 = "STRENGTH_16"
         case strength2 = "STRENGTH_2"
         case strength3 = "STRENGTH_3"
         case strength4 = "STRENGTH_4"
@@ -1590,13 +1597,6 @@ extension MediaLive {
         case strength7 = "STRENGTH_7"
         case strength8 = "STRENGTH_8"
         case strength9 = "STRENGTH_9"
-        case strength10 = "STRENGTH_10"
-        case strength11 = "STRENGTH_11"
-        case strength12 = "STRENGTH_12"
-        case strength13 = "STRENGTH_13"
-        case strength14 = "STRENGTH_14"
-        case strength15 = "STRENGTH_15"
-        case strength16 = "STRENGTH_16"
         public var description: String { return self.rawValue }
     }
 

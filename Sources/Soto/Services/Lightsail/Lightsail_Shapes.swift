@@ -32,40 +32,40 @@ extension Lightsail {
     }
 
     public enum AlarmState: String, CustomStringConvertible, Codable {
-        case ok = "OK"
         case alarm = "ALARM"
         case insufficientData = "INSUFFICIENT_DATA"
+        case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoSnapshotStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
         case failed = "Failed"
         case inprogress = "InProgress"
         case notfound = "NotFound"
+        case success = "Success"
         public var description: String { return self.rawValue }
     }
 
     public enum BehaviorEnum: String, CustomStringConvertible, Codable {
-        case dontCache = "dont-cache"
         case cache
+        case dontCache = "dont-cache"
         public var description: String { return self.rawValue }
     }
 
     public enum BlueprintType: String, CustomStringConvertible, Codable {
-        case os
         case app
+        case os
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
         case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
         case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case issued = "ISSUED"
+        case pendingValidation = "PENDING_VALIDATION"
+        case revoked = "REVOKED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
@@ -77,15 +77,15 @@ extension Lightsail {
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
         case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanthreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum ContactMethodStatus: String, CustomStringConvertible, Codable {
+        case invalid = "Invalid"
         case pendingverification = "PendingVerification"
         case valid = "Valid"
-        case invalid = "Invalid"
         public var description: String { return self.rawValue }
     }
 
@@ -101,42 +101,42 @@ extension Lightsail {
     }
 
     public enum DiskSnapshotState: String, CustomStringConvertible, Codable {
-        case pending
         case completed
         case error
+        case pending
         case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum DiskState: String, CustomStringConvertible, Codable {
-        case pending
-        case error
         case available
+        case error
         case inUse = "in-use"
+        case pending
         case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum DistributionMetricName: String, CustomStringConvertible, Codable {
-        case requests = "Requests"
         case bytesdownloaded = "BytesDownloaded"
         case bytesuploaded = "BytesUploaded"
-        case totalerrorrate = "TotalErrorRate"
         case http4xxerrorrate = "Http4xxErrorRate"
         case http5xxerrorrate = "Http5xxErrorRate"
+        case requests = "Requests"
+        case totalerrorrate = "TotalErrorRate"
         public var description: String { return self.rawValue }
     }
 
     public enum ExportSnapshotRecordSourceType: String, CustomStringConvertible, Codable {
-        case instancesnapshot = "InstanceSnapshot"
         case disksnapshot = "DiskSnapshot"
+        case instancesnapshot = "InstanceSnapshot"
         public var description: String { return self.rawValue }
     }
 
     public enum ForwardValues: String, CustomStringConvertible, Codable {
-        case none
-        case allowList = "allow-list"
         case all
+        case allowList = "allow-list"
+        case none
         public var description: String { return self.rawValue }
     }
 
@@ -160,45 +160,45 @@ extension Lightsail {
     }
 
     public enum InstanceAccessProtocol: String, CustomStringConvertible, Codable {
-        case ssh
         case rdp
+        case ssh
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceHealthReason: String, CustomStringConvertible, Codable {
-        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
-        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
-        case lbInternalerror = "Lb.InternalError"
-        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
-        case instanceTimeout = "Instance.Timeout"
-        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
-        case instanceNotregistered = "Instance.NotRegistered"
-        case instanceNotinuse = "Instance.NotInUse"
         case instanceDeregistrationinprogress = "Instance.DeregistrationInProgress"
+        case instanceFailedhealthchecks = "Instance.FailedHealthChecks"
         case instanceInvalidstate = "Instance.InvalidState"
         case instanceIpunusable = "Instance.IpUnusable"
+        case instanceNotinuse = "Instance.NotInUse"
+        case instanceNotregistered = "Instance.NotRegistered"
+        case instanceResponsecodemismatch = "Instance.ResponseCodeMismatch"
+        case instanceTimeout = "Instance.Timeout"
+        case lbInitialhealthchecking = "Lb.InitialHealthChecking"
+        case lbInternalerror = "Lb.InternalError"
+        case lbRegistrationinprogress = "Lb.RegistrationInProgress"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceHealthState: String, CustomStringConvertible, Codable {
-        case initial
+        case draining
         case healthy
+        case initial
+        case unavailable
         case unhealthy
         case unused
-        case draining
-        case unavailable
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceMetricName: String, CustomStringConvertible, Codable {
+        case burstcapacitypercentage = "BurstCapacityPercentage"
+        case burstcapacitytime = "BurstCapacityTime"
         case cpuutilization = "CPUUtilization"
         case networkin = "NetworkIn"
         case networkout = "NetworkOut"
         case statuscheckfailed = "StatusCheckFailed"
         case statuscheckfailedInstance = "StatusCheckFailed_Instance"
         case statuscheckfailedSystem = "StatusCheckFailed_System"
-        case burstcapacitytime = "BurstCapacityTime"
-        case burstcapacitypercentage = "BurstCapacityPercentage"
         public var description: String { return self.rawValue }
     }
 
@@ -209,251 +209,251 @@ extension Lightsail {
     }
 
     public enum InstanceSnapshotState: String, CustomStringConvertible, Codable {
-        case pending
-        case error
         case available
+        case error
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
         case healthcheckpath = "HealthCheckPath"
-        case sessionstickinessenabled = "SessionStickinessEnabled"
         case sessionstickinessLbCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
+        case sessionstickinessenabled = "SessionStickinessEnabled"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerMetricName: String, CustomStringConvertible, Codable {
         case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
         case healthyhostcount = "HealthyHostCount"
-        case unhealthyhostcount = "UnhealthyHostCount"
-        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
-        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
         case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
         case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
         case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
         case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
+        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
+        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
         case instanceresponsetime = "InstanceResponseTime"
         case rejectedconnectioncount = "RejectedConnectionCount"
         case requestcount = "RequestCount"
+        case unhealthyhostcount = "UnhealthyHostCount"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerProtocol: String, CustomStringConvertible, Codable {
-        case httpHttps = "HTTP_HTTPS"
         case http = "HTTP"
+        case httpHttps = "HTTP_HTTPS"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerState: String, CustomStringConvertible, Codable {
         case active
-        case provisioning
         case activeImpaired = "active_impaired"
         case failed
+        case provisioning
         case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTlsCertificateDomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
         case failed = "FAILED"
+        case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTlsCertificateFailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
         case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
         case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
         case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
         case other = "OTHER"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTlsCertificateRenewalStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTlsCertificateRevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
         case aACompromise = "A_A_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case caCompromise = "CA_COMPROMISE"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case keyCompromise = "KEY_COMPROMISE"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case superceded = "SUPERCEDED"
+        case unspecified = "UNSPECIFIED"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerTlsCertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
         case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
         case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case issued = "ISSUED"
+        case pendingValidation = "PENDING_VALIDATION"
+        case revoked = "REVOKED"
         case unknown = "UNKNOWN"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricName: String, CustomStringConvertible, Codable {
-        case cpuutilization = "CPUUtilization"
-        case networkin = "NetworkIn"
-        case networkout = "NetworkOut"
-        case statuscheckfailed = "StatusCheckFailed"
-        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
-        case statuscheckfailedSystem = "StatusCheckFailed_System"
+        case burstcapacitypercentage = "BurstCapacityPercentage"
+        case burstcapacitytime = "BurstCapacityTime"
         case clienttlsnegotiationerrorcount = "ClientTLSNegotiationErrorCount"
+        case cpuutilization = "CPUUtilization"
+        case databaseconnections = "DatabaseConnections"
+        case diskqueuedepth = "DiskQueueDepth"
+        case freestoragespace = "FreeStorageSpace"
         case healthyhostcount = "HealthyHostCount"
-        case unhealthyhostcount = "UnhealthyHostCount"
-        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
-        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
         case httpcodeInstance2XxCount = "HTTPCode_Instance_2XX_Count"
         case httpcodeInstance3XxCount = "HTTPCode_Instance_3XX_Count"
         case httpcodeInstance4XxCount = "HTTPCode_Instance_4XX_Count"
         case httpcodeInstance5XxCount = "HTTPCode_Instance_5XX_Count"
+        case httpcodeLb4XxCount = "HTTPCode_LB_4XX_Count"
+        case httpcodeLb5XxCount = "HTTPCode_LB_5XX_Count"
         case instanceresponsetime = "InstanceResponseTime"
-        case rejectedconnectioncount = "RejectedConnectionCount"
-        case requestcount = "RequestCount"
-        case databaseconnections = "DatabaseConnections"
-        case diskqueuedepth = "DiskQueueDepth"
-        case freestoragespace = "FreeStorageSpace"
+        case networkin = "NetworkIn"
+        case networkout = "NetworkOut"
         case networkreceivethroughput = "NetworkReceiveThroughput"
         case networktransmitthroughput = "NetworkTransmitThroughput"
-        case burstcapacitytime = "BurstCapacityTime"
-        case burstcapacitypercentage = "BurstCapacityPercentage"
+        case rejectedconnectioncount = "RejectedConnectionCount"
+        case requestcount = "RequestCount"
+        case statuscheckfailed = "StatusCheckFailed"
+        case statuscheckfailedInstance = "StatusCheckFailed_Instance"
+        case statuscheckfailedSystem = "StatusCheckFailed_System"
+        case unhealthyhostcount = "UnhealthyHostCount"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case minimum = "Minimum"
-        case maximum = "Maximum"
-        case sum = "Sum"
         case average = "Average"
+        case maximum = "Maximum"
+        case minimum = "Minimum"
         case samplecount = "SampleCount"
+        case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricUnit: String, CustomStringConvertible, Codable {
-        case seconds = "Seconds"
+        case bits = "Bits"
+        case bitsSecond = "Bits/Second"
+        case bytes = "Bytes"
+        case bytesSecond = "Bytes/Second"
+        case count = "Count"
+        case countSecond = "Count/Second"
+        case gigabits = "Gigabits"
+        case gigabitsSecond = "Gigabits/Second"
+        case gigabytes = "Gigabytes"
+        case gigabytesSecond = "Gigabytes/Second"
+        case kilobits = "Kilobits"
+        case kilobitsSecond = "Kilobits/Second"
+        case kilobytes = "Kilobytes"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabits = "Megabits"
+        case megabitsSecond = "Megabits/Second"
+        case megabytes = "Megabytes"
+        case megabytesSecond = "Megabytes/Second"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
-        case bytes = "Bytes"
-        case kilobytes = "Kilobytes"
-        case megabytes = "Megabytes"
-        case gigabytes = "Gigabytes"
-        case terabytes = "Terabytes"
-        case bits = "Bits"
-        case kilobits = "Kilobits"
-        case megabits = "Megabits"
-        case gigabits = "Gigabits"
-        case terabits = "Terabits"
-        case percent = "Percent"
-        case count = "Count"
-        case bytesSecond = "Bytes/Second"
-        case kilobytesSecond = "Kilobytes/Second"
-        case megabytesSecond = "Megabytes/Second"
-        case gigabytesSecond = "Gigabytes/Second"
-        case terabytesSecond = "Terabytes/Second"
-        case bitsSecond = "Bits/Second"
-        case kilobitsSecond = "Kilobits/Second"
-        case megabitsSecond = "Megabits/Second"
-        case gigabitsSecond = "Gigabits/Second"
-        case terabitsSecond = "Terabits/Second"
-        case countSecond = "Count/Second"
         case none = "None"
+        case percent = "Percent"
+        case seconds = "Seconds"
+        case terabits = "Terabits"
+        case terabitsSecond = "Terabits/Second"
+        case terabytes = "Terabytes"
+        case terabytesSecond = "Terabytes/Second"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkProtocol: String, CustomStringConvertible, Codable {
-        case tcp
         case all
-        case udp
         case icmp
+        case tcp
+        case udp
         public var description: String { return self.rawValue }
     }
 
     public enum OperationStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case failed = "Failed"
         case notstarted = "NotStarted"
         case started = "Started"
-        case failed = "Failed"
-        case completed = "Completed"
         case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationType: String, CustomStringConvertible, Codable {
-        case deleteknownhostkeys = "DeleteKnownHostKeys"
-        case deleteinstance = "DeleteInstance"
-        case createinstance = "CreateInstance"
-        case stopinstance = "StopInstance"
-        case startinstance = "StartInstance"
-        case rebootinstance = "RebootInstance"
-        case openinstancepublicports = "OpenInstancePublicPorts"
-        case putinstancepublicports = "PutInstancePublicPorts"
-        case closeinstancepublicports = "CloseInstancePublicPorts"
         case allocatestaticip = "AllocateStaticIp"
-        case releasestaticip = "ReleaseStaticIp"
-        case attachstaticip = "AttachStaticIp"
-        case detachstaticip = "DetachStaticIp"
-        case updatedomainentry = "UpdateDomainEntry"
-        case deletedomainentry = "DeleteDomainEntry"
-        case createdomain = "CreateDomain"
-        case deletedomain = "DeleteDomain"
-        case createinstancesnapshot = "CreateInstanceSnapshot"
-        case deleteinstancesnapshot = "DeleteInstanceSnapshot"
-        case createinstancesfromsnapshot = "CreateInstancesFromSnapshot"
-        case createloadbalancer = "CreateLoadBalancer"
-        case deleteloadbalancer = "DeleteLoadBalancer"
-        case attachinstancestoloadbalancer = "AttachInstancesToLoadBalancer"
-        case detachinstancesfromloadbalancer = "DetachInstancesFromLoadBalancer"
-        case updateloadbalancerattribute = "UpdateLoadBalancerAttribute"
-        case createloadbalancertlscertificate = "CreateLoadBalancerTlsCertificate"
-        case deleteloadbalancertlscertificate = "DeleteLoadBalancerTlsCertificate"
-        case attachloadbalancertlscertificate = "AttachLoadBalancerTlsCertificate"
-        case createdisk = "CreateDisk"
-        case deletedisk = "DeleteDisk"
+        case attachcertificatetodistribution = "AttachCertificateToDistribution"
         case attachdisk = "AttachDisk"
-        case detachdisk = "DetachDisk"
-        case createdisksnapshot = "CreateDiskSnapshot"
-        case deletedisksnapshot = "DeleteDiskSnapshot"
+        case attachinstancestoloadbalancer = "AttachInstancesToLoadBalancer"
+        case attachloadbalancertlscertificate = "AttachLoadBalancerTlsCertificate"
+        case attachstaticip = "AttachStaticIp"
+        case closeinstancepublicports = "CloseInstancePublicPorts"
+        case createcertificate = "CreateCertificate"
+        case createcontactmethod = "CreateContactMethod"
+        case createdisk = "CreateDisk"
         case creatediskfromsnapshot = "CreateDiskFromSnapshot"
+        case createdisksnapshot = "CreateDiskSnapshot"
+        case createdistribution = "CreateDistribution"
+        case createdomain = "CreateDomain"
+        case createinstance = "CreateInstance"
+        case createinstancesfromsnapshot = "CreateInstancesFromSnapshot"
+        case createinstancesnapshot = "CreateInstanceSnapshot"
+        case createloadbalancer = "CreateLoadBalancer"
+        case createloadbalancertlscertificate = "CreateLoadBalancerTlsCertificate"
         case createrelationaldatabase = "CreateRelationalDatabase"
-        case updaterelationaldatabase = "UpdateRelationalDatabase"
-        case deleterelationaldatabase = "DeleteRelationalDatabase"
         case createrelationaldatabasefromsnapshot = "CreateRelationalDatabaseFromSnapshot"
         case createrelationaldatabasesnapshot = "CreateRelationalDatabaseSnapshot"
-        case deleterelationaldatabasesnapshot = "DeleteRelationalDatabaseSnapshot"
-        case updaterelationaldatabaseparameters = "UpdateRelationalDatabaseParameters"
-        case startrelationaldatabase = "StartRelationalDatabase"
-        case rebootrelationaldatabase = "RebootRelationalDatabase"
-        case stoprelationaldatabase = "StopRelationalDatabase"
-        case enableaddon = "EnableAddOn"
-        case disableaddon = "DisableAddOn"
-        case putalarm = "PutAlarm"
-        case getalarms = "GetAlarms"
         case deletealarm = "DeleteAlarm"
-        case testalarm = "TestAlarm"
-        case createcontactmethod = "CreateContactMethod"
-        case getcontactmethods = "GetContactMethods"
-        case sendcontactmethodverification = "SendContactMethodVerification"
-        case deletecontactmethod = "DeleteContactMethod"
-        case createdistribution = "CreateDistribution"
-        case updatedistribution = "UpdateDistribution"
-        case deletedistribution = "DeleteDistribution"
-        case resetdistributioncache = "ResetDistributionCache"
-        case attachcertificatetodistribution = "AttachCertificateToDistribution"
-        case detachcertificatefromdistribution = "DetachCertificateFromDistribution"
-        case updatedistributionbundle = "UpdateDistributionBundle"
-        case createcertificate = "CreateCertificate"
         case deletecertificate = "DeleteCertificate"
+        case deletecontactmethod = "DeleteContactMethod"
+        case deletedisk = "DeleteDisk"
+        case deletedisksnapshot = "DeleteDiskSnapshot"
+        case deletedistribution = "DeleteDistribution"
+        case deletedomain = "DeleteDomain"
+        case deletedomainentry = "DeleteDomainEntry"
+        case deleteinstance = "DeleteInstance"
+        case deleteinstancesnapshot = "DeleteInstanceSnapshot"
+        case deleteknownhostkeys = "DeleteKnownHostKeys"
+        case deleteloadbalancer = "DeleteLoadBalancer"
+        case deleteloadbalancertlscertificate = "DeleteLoadBalancerTlsCertificate"
+        case deleterelationaldatabase = "DeleteRelationalDatabase"
+        case deleterelationaldatabasesnapshot = "DeleteRelationalDatabaseSnapshot"
+        case detachcertificatefromdistribution = "DetachCertificateFromDistribution"
+        case detachdisk = "DetachDisk"
+        case detachinstancesfromloadbalancer = "DetachInstancesFromLoadBalancer"
+        case detachstaticip = "DetachStaticIp"
+        case disableaddon = "DisableAddOn"
+        case enableaddon = "EnableAddOn"
+        case getalarms = "GetAlarms"
+        case getcontactmethods = "GetContactMethods"
+        case openinstancepublicports = "OpenInstancePublicPorts"
+        case putalarm = "PutAlarm"
+        case putinstancepublicports = "PutInstancePublicPorts"
+        case rebootinstance = "RebootInstance"
+        case rebootrelationaldatabase = "RebootRelationalDatabase"
+        case releasestaticip = "ReleaseStaticIp"
+        case resetdistributioncache = "ResetDistributionCache"
+        case sendcontactmethodverification = "SendContactMethodVerification"
+        case startinstance = "StartInstance"
+        case startrelationaldatabase = "StartRelationalDatabase"
+        case stopinstance = "StopInstance"
+        case stoprelationaldatabase = "StopRelationalDatabase"
+        case testalarm = "TestAlarm"
+        case updatedistribution = "UpdateDistribution"
+        case updatedistributionbundle = "UpdateDistributionBundle"
+        case updatedomainentry = "UpdateDomainEntry"
+        case updateloadbalancerattribute = "UpdateLoadBalancerAttribute"
+        case updaterelationaldatabase = "UpdateRelationalDatabase"
+        case updaterelationaldatabaseparameters = "UpdateRelationalDatabaseParameters"
         public var description: String { return self.rawValue }
     }
 
@@ -464,47 +464,47 @@ extension Lightsail {
     }
 
     public enum PortAccessType: String, CustomStringConvertible, Codable {
-        case `public` = "Public"
         case `private` = "Private"
+        case `public` = "Public"
         public var description: String { return self.rawValue }
     }
 
     public enum PortInfoSourceType: String, CustomStringConvertible, Codable {
+        case closed = "CLOSED"
         case `default` = "DEFAULT"
         case instance = "INSTANCE"
         case none = "NONE"
-        case closed = "CLOSED"
         public var description: String { return self.rawValue }
     }
 
     public enum PortState: String, CustomStringConvertible, Codable {
-        case open
         case closed
+        case open
         public var description: String { return self.rawValue }
     }
 
     public enum RecordState: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case started = "Started"
         case succeeded = "Succeeded"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum RegionName: String, CustomStringConvertible, Codable {
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case caCentral1 = "ca-central-1"
+        case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case caCentral1 = "ca-central-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
         public var description: String { return self.rawValue }
     }
 
@@ -525,46 +525,46 @@ extension Lightsail {
 
     public enum RelationalDatabasePasswordVersion: String, CustomStringConvertible, Codable {
         case current = "CURRENT"
-        case previous = "PREVIOUS"
         case pending = "PENDING"
+        case previous = "PREVIOUS"
         public var description: String { return self.rawValue }
     }
 
     public enum RenewalStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case pendingautorenewal = "PendingAutoRenewal"
         case pendingvalidation = "PendingValidation"
         case success = "Success"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case instance = "Instance"
-        case staticip = "StaticIp"
-        case keypair = "KeyPair"
-        case instancesnapshot = "InstanceSnapshot"
-        case domain = "Domain"
-        case peeredvpc = "PeeredVpc"
-        case loadbalancer = "LoadBalancer"
-        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
+        case alarm = "Alarm"
+        case certificate = "Certificate"
+        case cloudformationstackrecord = "CloudFormationStackRecord"
+        case contactmethod = "ContactMethod"
         case disk = "Disk"
         case disksnapshot = "DiskSnapshot"
+        case distribution = "Distribution"
+        case domain = "Domain"
+        case exportsnapshotrecord = "ExportSnapshotRecord"
+        case instance = "Instance"
+        case instancesnapshot = "InstanceSnapshot"
+        case keypair = "KeyPair"
+        case loadbalancer = "LoadBalancer"
+        case loadbalancertlscertificate = "LoadBalancerTlsCertificate"
+        case peeredvpc = "PeeredVpc"
         case relationaldatabase = "RelationalDatabase"
         case relationaldatabasesnapshot = "RelationalDatabaseSnapshot"
-        case exportsnapshotrecord = "ExportSnapshotRecord"
-        case cloudformationstackrecord = "CloudFormationStackRecord"
-        case alarm = "Alarm"
-        case contactmethod = "ContactMethod"
-        case distribution = "Distribution"
-        case certificate = "Certificate"
+        case staticip = "StaticIp"
         public var description: String { return self.rawValue }
     }
 
     public enum TreatMissingData: String, CustomStringConvertible, Codable {
         case breaching
-        case notbreaching = "notBreaching"
         case ignore
         case missing
+        case notbreaching = "notBreaching"
         public var description: String { return self.rawValue }
     }
 

@@ -21,8 +21,8 @@ extension APIGateway {
     // MARK: Enums
 
     public enum ApiKeySourceType: String, CustomStringConvertible, Codable {
-        case header = "HEADER"
         case authorizer = "AUTHORIZER"
+        case header = "HEADER"
         public var description: String { return self.rawValue }
     }
 
@@ -32,30 +32,30 @@ extension APIGateway {
     }
 
     public enum AuthorizerType: String, CustomStringConvertible, Codable {
-        case token = "TOKEN"
-        case request = "REQUEST"
         case cognitoUserPools = "COGNITO_USER_POOLS"
+        case request = "REQUEST"
+        case token = "TOKEN"
         public var description: String { return self.rawValue }
     }
 
     public enum CacheClusterSize: String, CustomStringConvertible, Codable {
         case cacheClusterSize05 = "0.5"
-        case cacheClusterSize16 = "1.6"
-        case cacheClusterSize61 = "6.1"
+        case cacheClusterSize118 = "118"
         case cacheClusterSize135 = "13.5"
+        case cacheClusterSize16 = "1.6"
+        case cacheClusterSize237 = "237"
         case cacheClusterSize284 = "28.4"
         case cacheClusterSize582 = "58.2"
-        case cacheClusterSize118 = "118"
-        case cacheClusterSize237 = "237"
+        case cacheClusterSize61 = "6.1"
         public var description: String { return self.rawValue }
     }
 
     public enum CacheClusterStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
         case available = "AVAILABLE"
+        case createInProgress = "CREATE_IN_PROGRESS"
         case deleteInProgress = "DELETE_IN_PROGRESS"
-        case notAvailable = "NOT_AVAILABLE"
         case flushInProgress = "FLUSH_IN_PROGRESS"
+        case notAvailable = "NOT_AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -74,63 +74,63 @@ extension APIGateway {
     public enum DocumentationPartType: String, CustomStringConvertible, Codable {
         case api = "API"
         case authorizer = "AUTHORIZER"
-        case model = "MODEL"
-        case resource = "RESOURCE"
         case method = "METHOD"
+        case model = "MODEL"
         case pathParameter = "PATH_PARAMETER"
         case queryParameter = "QUERY_PARAMETER"
-        case requestHeader = "REQUEST_HEADER"
         case requestBody = "REQUEST_BODY"
+        case requestHeader = "REQUEST_HEADER"
+        case resource = "RESOURCE"
         case response = "RESPONSE"
-        case responseHeader = "RESPONSE_HEADER"
         case responseBody = "RESPONSE_BODY"
+        case responseHeader = "RESPONSE_HEADER"
         public var description: String { return self.rawValue }
     }
 
     public enum DomainNameStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case updating = "UPDATING"
         case pending = "PENDING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointType: String, CustomStringConvertible, Codable {
-        case regional = "REGIONAL"
         case edge = "EDGE"
         case `private` = "PRIVATE"
+        case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
     public enum GatewayResponseType: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case apiConfigurationError = "API_CONFIGURATION_ERROR"
+        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
+        case authorizerFailure = "AUTHORIZER_FAILURE"
+        case badRequestBody = "BAD_REQUEST_BODY"
+        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
         case default4Xx = "DEFAULT_4XX"
         case default5Xx = "DEFAULT_5XX"
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
-        case unauthorized = "UNAUTHORIZED"
-        case invalidApiKey = "INVALID_API_KEY"
-        case accessDenied = "ACCESS_DENIED"
-        case authorizerFailure = "AUTHORIZER_FAILURE"
-        case authorizerConfigurationError = "AUTHORIZER_CONFIGURATION_ERROR"
-        case invalidSignature = "INVALID_SIGNATURE"
         case expiredToken = "EXPIRED_TOKEN"
-        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
         case integrationFailure = "INTEGRATION_FAILURE"
         case integrationTimeout = "INTEGRATION_TIMEOUT"
-        case apiConfigurationError = "API_CONFIGURATION_ERROR"
-        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
-        case badRequestParameters = "BAD_REQUEST_PARAMETERS"
-        case badRequestBody = "BAD_REQUEST_BODY"
-        case requestTooLarge = "REQUEST_TOO_LARGE"
-        case throttled = "THROTTLED"
+        case invalidApiKey = "INVALID_API_KEY"
+        case invalidSignature = "INVALID_SIGNATURE"
+        case missingAuthenticationToken = "MISSING_AUTHENTICATION_TOKEN"
         case quotaExceeded = "QUOTA_EXCEEDED"
+        case requestTooLarge = "REQUEST_TOO_LARGE"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
+        case throttled = "THROTTLED"
+        case unauthorized = "UNAUTHORIZED"
+        case unsupportedMediaType = "UNSUPPORTED_MEDIA_TYPE"
         public var description: String { return self.rawValue }
     }
 
     public enum IntegrationType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
         case aws = "AWS"
-        case mock = "MOCK"
-        case httpProxy = "HTTP_PROXY"
         case awsProxy = "AWS_PROXY"
+        case http = "HTTP"
+        case httpProxy = "HTTP_PROXY"
+        case mock = "MOCK"
         public var description: String { return self.rawValue }
     }
 
@@ -142,10 +142,10 @@ extension APIGateway {
 
     public enum Op: String, CustomStringConvertible, Codable {
         case add
+        case copy
+        case move
         case remove
         case replace
-        case move
-        case copy
         case test
         public var description: String { return self.rawValue }
     }
@@ -158,8 +158,8 @@ extension APIGateway {
 
     public enum QuotaPeriodType: String, CustomStringConvertible, Codable {
         case day = "DAY"
-        case week = "WEEK"
         case month = "MONTH"
+        case week = "WEEK"
         public var description: String { return self.rawValue }
     }
 
@@ -178,9 +178,9 @@ extension APIGateway {
 
     public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case pending = "PENDING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

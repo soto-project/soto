@@ -21,9 +21,9 @@ extension Lambda {
     // MARK: Enums
 
     public enum EventSourcePosition: String, CustomStringConvertible, Codable {
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
         case atTimestamp = "AT_TIMESTAMP"
+        case latest = "LATEST"
+        case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
@@ -33,27 +33,27 @@ extension Lambda {
     }
 
     public enum InvocationType: String, CustomStringConvertible, Codable {
+        case dryrun = "DryRun"
         case event = "Event"
         case requestresponse = "RequestResponse"
-        case dryrun = "DryRun"
         public var description: String { return self.rawValue }
     }
 
     public enum LastUpdateStatus: String, CustomStringConvertible, Codable {
-        case successful = "Successful"
         case failed = "Failed"
         case inprogress = "InProgress"
+        case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
     public enum LastUpdateStatusReasonCode: String, CustomStringConvertible, Codable {
         case enilimitexceeded = "EniLimitExceeded"
         case insufficientrolepermissions = "InsufficientRolePermissions"
-        case invalidconfiguration = "InvalidConfiguration"
         case internalerror = "InternalError"
-        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
-        case invalidsubnet = "InvalidSubnet"
+        case invalidconfiguration = "InvalidConfiguration"
         case invalidsecuritygroup = "InvalidSecurityGroup"
+        case invalidsubnet = "InvalidSubnet"
+        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
 
@@ -64,58 +64,58 @@ extension Lambda {
     }
 
     public enum ProvisionedConcurrencyStatusEnum: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable {
-        case nodejs
-        case nodejs43 = "nodejs4.3"
-        case nodejs610 = "nodejs6.10"
-        case nodejs810 = "nodejs8.10"
-        case nodejs10X = "nodejs10.x"
-        case nodejs12X = "nodejs12.x"
-        case java8
-        case java8Al2 = "java8.al2"
-        case java11
-        case python27 = "python2.7"
-        case python36 = "python3.6"
-        case python37 = "python3.7"
-        case python38 = "python3.8"
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
         case dotnetcore31 = "dotnetcore3.1"
-        case nodejs43Edge = "nodejs4.3-edge"
         case go1X = "go1.x"
-        case ruby25 = "ruby2.5"
-        case ruby27 = "ruby2.7"
+        case java11
+        case java8
+        case java8Al2 = "java8.al2"
+        case nodejs
+        case nodejs10X = "nodejs10.x"
+        case nodejs12X = "nodejs12.x"
+        case nodejs43 = "nodejs4.3"
+        case nodejs43Edge = "nodejs4.3-edge"
+        case nodejs610 = "nodejs6.10"
+        case nodejs810 = "nodejs8.10"
         case provided
         case providedAl2 = "provided.al2"
+        case python27 = "python2.7"
+        case python36 = "python3.6"
+        case python37 = "python3.7"
+        case python38 = "python3.8"
+        case ruby25 = "ruby2.5"
+        case ruby27 = "ruby2.7"
         public var description: String { return self.rawValue }
     }
 
     public enum State: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
         case active = "Active"
-        case inactive = "Inactive"
         case failed = "Failed"
+        case inactive = "Inactive"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum StateReasonCode: String, CustomStringConvertible, Codable {
-        case idle = "Idle"
         case creating = "Creating"
-        case restoring = "Restoring"
         case enilimitexceeded = "EniLimitExceeded"
+        case idle = "Idle"
         case insufficientrolepermissions = "InsufficientRolePermissions"
-        case invalidconfiguration = "InvalidConfiguration"
         case internalerror = "InternalError"
-        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
-        case invalidsubnet = "InvalidSubnet"
+        case invalidconfiguration = "InvalidConfiguration"
         case invalidsecuritygroup = "InvalidSecurityGroup"
+        case invalidsubnet = "InvalidSubnet"
+        case restoring = "Restoring"
+        case subnetoutofipaddresses = "SubnetOutOfIPAddresses"
         public var description: String { return self.rawValue }
     }
 

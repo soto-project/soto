@@ -21,86 +21,86 @@ extension SES {
     // MARK: Enums
 
     public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
-        case usedefaultvalue = "UseDefaultValue"
         case rejectmessage = "RejectMessage"
+        case usedefaultvalue = "UseDefaultValue"
         public var description: String { return self.rawValue }
     }
 
     public enum BounceType: String, CustomStringConvertible, Codable {
-        case doesnotexist = "DoesNotExist"
-        case messagetoolarge = "MessageTooLarge"
-        case exceededquota = "ExceededQuota"
         case contentrejected = "ContentRejected"
-        case undefined = "Undefined"
+        case doesnotexist = "DoesNotExist"
+        case exceededquota = "ExceededQuota"
+        case messagetoolarge = "MessageTooLarge"
         case temporaryfailure = "TemporaryFailure"
+        case undefined = "Undefined"
         public var description: String { return self.rawValue }
     }
 
     public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
-        case success = "Success"
-        case messagerejected = "MessageRejected"
-        case mailfromdomainnotverified = "MailFromDomainNotVerified"
-        case configurationsetdoesnotexist = "ConfigurationSetDoesNotExist"
-        case templatedoesnotexist = "TemplateDoesNotExist"
+        case accountdailyquotaexceeded = "AccountDailyQuotaExceeded"
+        case accountsendingpaused = "AccountSendingPaused"
         case accountsuspended = "AccountSuspended"
         case accountthrottled = "AccountThrottled"
-        case accountdailyquotaexceeded = "AccountDailyQuotaExceeded"
-        case invalidsendingpoolname = "InvalidSendingPoolName"
-        case accountsendingpaused = "AccountSendingPaused"
+        case configurationsetdoesnotexist = "ConfigurationSetDoesNotExist"
         case configurationsetsendingpaused = "ConfigurationSetSendingPaused"
-        case invalidparametervalue = "InvalidParameterValue"
-        case transientfailure = "TransientFailure"
         case failed = "Failed"
+        case invalidparametervalue = "InvalidParameterValue"
+        case invalidsendingpoolname = "InvalidSendingPoolName"
+        case mailfromdomainnotverified = "MailFromDomainNotVerified"
+        case messagerejected = "MessageRejected"
+        case success = "Success"
+        case templatedoesnotexist = "TemplateDoesNotExist"
+        case transientfailure = "TransientFailure"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
-        case eventdestinations = "eventDestinations"
-        case trackingoptions = "trackingOptions"
         case deliveryoptions = "deliveryOptions"
+        case eventdestinations = "eventDestinations"
         case reputationoptions = "reputationOptions"
+        case trackingoptions = "trackingOptions"
         public var description: String { return self.rawValue }
     }
 
     public enum CustomMailFromStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case pending = "Pending"
         case success = "Success"
-        case failed = "Failed"
         case temporaryfailure = "TemporaryFailure"
         public var description: String { return self.rawValue }
     }
 
     public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messagetag = "messageTag"
         case emailheader = "emailHeader"
         case linktag = "linkTag"
+        case messagetag = "messageTag"
         public var description: String { return self.rawValue }
     }
 
     public enum DsnAction: String, CustomStringConvertible, Codable {
-        case failed
         case delayed
         case delivered
-        case relayed
         case expanded
+        case failed
+        case relayed
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case send
-        case reject
         case bounce
+        case click
         case complaint
         case delivery
         case open
-        case click
+        case reject
         case renderingfailure = "renderingFailure"
+        case send
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
-        case emailaddress = "EmailAddress"
         case domain = "Domain"
+        case emailaddress = "EmailAddress"
         public var description: String { return self.rawValue }
     }
 
@@ -118,14 +118,14 @@ extension SES {
     }
 
     public enum ReceiptFilterPolicy: String, CustomStringConvertible, Codable {
-        case block = "Block"
         case allow = "Allow"
+        case block = "Block"
         public var description: String { return self.rawValue }
     }
 
     public enum SNSActionEncoding: String, CustomStringConvertible, Codable {
-        case utf8 = "UTF-8"
         case base64 = "Base64"
+        case utf8 = "UTF-8"
         public var description: String { return self.rawValue }
     }
 
@@ -135,17 +135,17 @@ extension SES {
     }
 
     public enum TlsPolicy: String, CustomStringConvertible, Codable {
-        case require = "Require"
         case optional = "Optional"
+        case require = "Require"
         public var description: String { return self.rawValue }
     }
 
     public enum VerificationStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
+        case notstarted = "NotStarted"
         case pending = "Pending"
         case success = "Success"
-        case failed = "Failed"
         case temporaryfailure = "TemporaryFailure"
-        case notstarted = "NotStarted"
         public var description: String { return self.rawValue }
     }
 

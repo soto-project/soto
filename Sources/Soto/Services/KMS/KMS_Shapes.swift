@@ -21,91 +21,91 @@ extension KMS {
     // MARK: Enums
 
     public enum AlgorithmSpec: String, CustomStringConvertible, Codable {
-        case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
+        case rsaesPkcs1V15 = "RSAES_PKCS1_V1_5"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionErrorCodeType: String, CustomStringConvertible, Codable {
-        case invalidCredentials = "INVALID_CREDENTIALS"
         case clusterNotFound = "CLUSTER_NOT_FOUND"
-        case networkErrors = "NETWORK_ERRORS"
-        case internalError = "INTERNAL_ERROR"
         case insufficientCloudhsmHsms = "INSUFFICIENT_CLOUDHSM_HSMS"
-        case userLockedOut = "USER_LOCKED_OUT"
-        case userNotFound = "USER_NOT_FOUND"
-        case userLoggedIn = "USER_LOGGED_IN"
+        case internalError = "INTERNAL_ERROR"
+        case invalidCredentials = "INVALID_CREDENTIALS"
+        case networkErrors = "NETWORK_ERRORS"
         case subnetNotFound = "SUBNET_NOT_FOUND"
+        case userLockedOut = "USER_LOCKED_OUT"
+        case userLoggedIn = "USER_LOGGED_IN"
+        case userNotFound = "USER_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionStateType: String, CustomStringConvertible, Codable {
         case connected = "CONNECTED"
         case connecting = "CONNECTING"
-        case failed = "FAILED"
         case disconnected = "DISCONNECTED"
         case disconnecting = "DISCONNECTING"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum CustomerMasterKeySpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
         case eccSecgP256K1 = "ECC_SECG_P256K1"
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
         case symmetricDefault = "SYMMETRIC_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
     public enum DataKeyPairSpec: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa3072 = "RSA_3072"
-        case rsa4096 = "RSA_4096"
         case eccNistP256 = "ECC_NIST_P256"
         case eccNistP384 = "ECC_NIST_P384"
         case eccNistP521 = "ECC_NIST_P521"
         case eccSecgP256K1 = "ECC_SECG_P256K1"
+        case rsa2048 = "RSA_2048"
+        case rsa3072 = "RSA_3072"
+        case rsa4096 = "RSA_4096"
         public var description: String { return self.rawValue }
     }
 
     public enum DataKeySpec: String, CustomStringConvertible, Codable {
-        case aes256 = "AES_256"
         case aes128 = "AES_128"
+        case aes256 = "AES_256"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionAlgorithmSpec: String, CustomStringConvertible, Codable {
-        case symmetricDefault = "SYMMETRIC_DEFAULT"
         case rsaesOaepSha1 = "RSAES_OAEP_SHA_1"
         case rsaesOaepSha256 = "RSAES_OAEP_SHA_256"
+        case symmetricDefault = "SYMMETRIC_DEFAULT"
         public var description: String { return self.rawValue }
     }
 
     public enum ExpirationModelType: String, CustomStringConvertible, Codable {
-        case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
         case keyMaterialDoesNotExpire = "KEY_MATERIAL_DOES_NOT_EXPIRE"
+        case keyMaterialExpires = "KEY_MATERIAL_EXPIRES"
         public var description: String { return self.rawValue }
     }
 
     public enum GrantOperation: String, CustomStringConvertible, Codable {
+        case creategrant = "CreateGrant"
         case decrypt = "Decrypt"
+        case describekey = "DescribeKey"
         case encrypt = "Encrypt"
         case generatedatakey = "GenerateDataKey"
-        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
-        case reencryptfrom = "ReEncryptFrom"
-        case reencryptto = "ReEncryptTo"
-        case sign = "Sign"
-        case verify = "Verify"
-        case getpublickey = "GetPublicKey"
-        case creategrant = "CreateGrant"
-        case retiregrant = "RetireGrant"
-        case describekey = "DescribeKey"
         case generatedatakeypair = "GenerateDataKeyPair"
         case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
+        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
+        case getpublickey = "GetPublicKey"
+        case reencryptfrom = "ReEncryptFrom"
+        case reencryptto = "ReEncryptTo"
+        case retiregrant = "RetireGrant"
+        case sign = "Sign"
+        case verify = "Verify"
         public var description: String { return self.rawValue }
     }
 
@@ -116,8 +116,8 @@ extension KMS {
     }
 
     public enum KeyState: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         case pendingdeletion = "PendingDeletion"
         case pendingimport = "PendingImport"
         case unavailable = "Unavailable"
@@ -125,34 +125,34 @@ extension KMS {
     }
 
     public enum KeyUsageType: String, CustomStringConvertible, Codable {
-        case signVerify = "SIGN_VERIFY"
         case encryptDecrypt = "ENCRYPT_DECRYPT"
+        case signVerify = "SIGN_VERIFY"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageType: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
         case digest = "DIGEST"
+        case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
     public enum OriginType: String, CustomStringConvertible, Codable {
+        case awsCloudhsm = "AWS_CLOUDHSM"
         case awsKms = "AWS_KMS"
         case external = "EXTERNAL"
-        case awsCloudhsm = "AWS_CLOUDHSM"
         public var description: String { return self.rawValue }
     }
 
     public enum SigningAlgorithmSpec: String, CustomStringConvertible, Codable {
-        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
-        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
-        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
-        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
-        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
-        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
         case ecdsaSha256 = "ECDSA_SHA_256"
         case ecdsaSha384 = "ECDSA_SHA_384"
         case ecdsaSha512 = "ECDSA_SHA_512"
+        case rsassaPkcs1V15Sha256 = "RSASSA_PKCS1_V1_5_SHA_256"
+        case rsassaPkcs1V15Sha384 = "RSASSA_PKCS1_V1_5_SHA_384"
+        case rsassaPkcs1V15Sha512 = "RSASSA_PKCS1_V1_5_SHA_512"
+        case rsassaPssSha256 = "RSASSA_PSS_SHA_256"
+        case rsassaPssSha384 = "RSASSA_PSS_SHA_384"
+        case rsassaPssSha512 = "RSASSA_PSS_SHA_512"
         public var description: String { return self.rawValue }
     }
 

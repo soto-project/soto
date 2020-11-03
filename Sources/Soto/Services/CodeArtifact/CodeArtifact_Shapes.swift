@@ -40,9 +40,9 @@ extension CodeArtifact {
     }
 
     public enum PackageFormat: String, CustomStringConvertible, Codable {
+        case maven
         case npm
         case pypi
-        case maven
         public var description: String { return self.rawValue }
     }
 
@@ -62,12 +62,12 @@ extension CodeArtifact {
     }
 
     public enum PackageVersionStatus: String, CustomStringConvertible, Codable {
+        case archived = "Archived"
+        case deleted = "Deleted"
+        case disposed = "Disposed"
         case published = "Published"
         case unfinished = "Unfinished"
         case unlisted = "Unlisted"
-        case archived = "Archived"
-        case disposed = "Disposed"
-        case deleted = "Deleted"
         public var description: String { return self.rawValue }
     }
 

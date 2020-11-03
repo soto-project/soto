@@ -21,15 +21,15 @@ extension RDS {
     // MARK: Enums
 
     public enum ActivityStreamMode: String, CustomStringConvertible, Codable {
-        case sync
         case async
+        case sync
         public var description: String { return self.rawValue }
     }
 
     public enum ActivityStreamStatus: String, CustomStringConvertible, Codable {
-        case stopped
-        case starting
         case started
+        case starting
+        case stopped
         case stopping
         public var description: String { return self.rawValue }
     }
@@ -47,14 +47,14 @@ extension RDS {
 
     public enum DBProxyStatus: String, CustomStringConvertible, Codable {
         case available
-        case modifying
-        case incompatibleNetwork = "incompatible-network"
-        case insufficientResourceLimits = "insufficient-resource-limits"
         case creating
         case deleting
+        case incompatibleNetwork = "incompatible-network"
+        case insufficientResourceLimits = "insufficient-resource-limits"
+        case modifying
+        case reactivating
         case suspended
         case suspending
-        case reactivating
         public var description: String { return self.rawValue }
     }
 
@@ -71,32 +71,32 @@ extension RDS {
     }
 
     public enum ReplicaMode: String, CustomStringConvertible, Codable {
-        case openReadOnly = "open-read-only"
         case mounted
+        case openReadOnly = "open-read-only"
         public var description: String { return self.rawValue }
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
+        case dbCluster = "db-cluster"
+        case dbClusterSnapshot = "db-cluster-snapshot"
         case dbInstance = "db-instance"
         case dbParameterGroup = "db-parameter-group"
         case dbSecurityGroup = "db-security-group"
         case dbSnapshot = "db-snapshot"
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetHealthReason: String, CustomStringConvertible, Codable {
-        case unreachable = "UNREACHABLE"
-        case connectionFailed = "CONNECTION_FAILED"
         case authFailure = "AUTH_FAILURE"
+        case connectionFailed = "CONNECTION_FAILED"
         case pendingProxyCapacity = "PENDING_PROXY_CAPACITY"
+        case unreachable = "UNREACHABLE"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetState: String, CustomStringConvertible, Codable {
-        case registering = "REGISTERING"
         case available = "AVAILABLE"
+        case registering = "REGISTERING"
         case unavailable = "UNAVAILABLE"
         public var description: String { return self.rawValue }
     }
@@ -109,10 +109,10 @@ extension RDS {
     }
 
     public enum WriteForwardingStatus: String, CustomStringConvertible, Codable {
-        case enabled
         case disabled
-        case enabling
         case disabling
+        case enabled
+        case enabling
         case unknown
         public var description: String { return self.rawValue }
     }

@@ -21,45 +21,45 @@ extension ElasticLoadBalancingv2 {
     // MARK: Enums
 
     public enum ActionTypeEnum: String, CustomStringConvertible, Codable {
-        case forward
-        case authenticateOidc = "authenticate-oidc"
         case authenticateCognito = "authenticate-cognito"
-        case redirect
+        case authenticateOidc = "authenticate-oidc"
         case fixedResponse = "fixed-response"
+        case forward
+        case redirect
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateCognitoActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny
         case allow
         case authenticate
+        case deny
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticateOidcActionConditionalBehaviorEnum: String, CustomStringConvertible, Codable {
-        case deny
         case allow
         case authenticate
+        case deny
         public var description: String { return self.rawValue }
     }
 
     public enum IpAddressType: String, CustomStringConvertible, Codable {
-        case ipv4
         case dualstack
+        case ipv4
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerSchemeEnum: String, CustomStringConvertible, Codable {
-        case internetFacing = "internet-facing"
         case `internal`
+        case internetFacing = "internet-facing"
         public var description: String { return self.rawValue }
     }
 
     public enum LoadBalancerStateEnum: String, CustomStringConvertible, Codable {
         case active
-        case provisioning
         case activeImpaired = "active_impaired"
         case failed
+        case provisioning
         public var description: String { return self.rawValue }
     }
 
@@ -73,9 +73,9 @@ extension ElasticLoadBalancingv2 {
         case http = "HTTP"
         case https = "HTTPS"
         case tcp = "TCP"
+        case tcpUdp = "TCP_UDP"
         case tls = "TLS"
         case udp = "UDP"
-        case tcpUdp = "TCP_UDP"
         public var description: String { return self.rawValue }
     }
 
@@ -86,28 +86,28 @@ extension ElasticLoadBalancingv2 {
     }
 
     public enum TargetHealthReasonEnum: String, CustomStringConvertible, Codable {
-        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
         case elbInitialhealthchecking = "Elb.InitialHealthChecking"
-        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
-        case targetTimeout = "Target.Timeout"
-        case targetFailedhealthchecks = "Target.FailedHealthChecks"
-        case targetNotregistered = "Target.NotRegistered"
-        case targetNotinuse = "Target.NotInUse"
+        case elbInternalerror = "Elb.InternalError"
+        case elbRegistrationinprogress = "Elb.RegistrationInProgress"
         case targetDeregistrationinprogress = "Target.DeregistrationInProgress"
+        case targetFailedhealthchecks = "Target.FailedHealthChecks"
+        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
         case targetInvalidstate = "Target.InvalidState"
         case targetIpunusable = "Target.IpUnusable"
-        case targetHealthcheckdisabled = "Target.HealthCheckDisabled"
-        case elbInternalerror = "Elb.InternalError"
+        case targetNotinuse = "Target.NotInUse"
+        case targetNotregistered = "Target.NotRegistered"
+        case targetResponsecodemismatch = "Target.ResponseCodeMismatch"
+        case targetTimeout = "Target.Timeout"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetHealthStateEnum: String, CustomStringConvertible, Codable {
-        case initial
+        case draining
         case healthy
+        case initial
+        case unavailable
         case unhealthy
         case unused
-        case draining
-        case unavailable
         public var description: String { return self.rawValue }
     }
 

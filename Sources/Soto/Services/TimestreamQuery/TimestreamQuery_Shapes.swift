@@ -21,17 +21,17 @@ extension TimestreamQuery {
     // MARK: Enums
 
     public enum ScalarType: String, CustomStringConvertible, Codable {
-        case varchar = "VARCHAR"
-        case boolean = "BOOLEAN"
         case bigint = "BIGINT"
-        case double = "DOUBLE"
-        case timestamp = "TIMESTAMP"
+        case boolean = "BOOLEAN"
         case date = "DATE"
-        case time = "TIME"
+        case double = "DOUBLE"
+        case integer = "INTEGER"
         case intervalDayToSecond = "INTERVAL_DAY_TO_SECOND"
         case intervalYearToMonth = "INTERVAL_YEAR_TO_MONTH"
+        case time = "TIME"
+        case timestamp = "TIMESTAMP"
         case unknown = "UNKNOWN"
-        case integer = "INTEGER"
+        case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 

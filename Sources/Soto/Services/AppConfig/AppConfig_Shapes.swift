@@ -21,36 +21,36 @@ extension AppConfig {
     // MARK: Enums
 
     public enum DeploymentEventType: String, CustomStringConvertible, Codable {
-        case percentageUpdated = "PERCENTAGE_UPDATED"
-        case rollbackStarted = "ROLLBACK_STARTED"
-        case rollbackCompleted = "ROLLBACK_COMPLETED"
         case bakeTimeStarted = "BAKE_TIME_STARTED"
-        case deploymentStarted = "DEPLOYMENT_STARTED"
         case deploymentCompleted = "DEPLOYMENT_COMPLETED"
+        case deploymentStarted = "DEPLOYMENT_STARTED"
+        case percentageUpdated = "PERCENTAGE_UPDATED"
+        case rollbackCompleted = "ROLLBACK_COMPLETED"
+        case rollbackStarted = "ROLLBACK_STARTED"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentState: String, CustomStringConvertible, Codable {
         case baking = "BAKING"
-        case validating = "VALIDATING"
-        case deploying = "DEPLOYING"
         case complete = "COMPLETE"
-        case rollingBack = "ROLLING_BACK"
+        case deploying = "DEPLOYING"
         case rolledBack = "ROLLED_BACK"
+        case rollingBack = "ROLLING_BACK"
+        case validating = "VALIDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentState: String, CustomStringConvertible, Codable {
-        case readyForDeployment = "READY_FOR_DEPLOYMENT"
         case deploying = "DEPLOYING"
-        case rollingBack = "ROLLING_BACK"
+        case readyForDeployment = "READY_FOR_DEPLOYMENT"
         case rolledBack = "ROLLED_BACK"
+        case rollingBack = "ROLLING_BACK"
         public var description: String { return self.rawValue }
     }
 
     public enum GrowthType: String, CustomStringConvertible, Codable {
-        case linear = "LINEAR"
         case exponential = "EXPONENTIAL"
+        case linear = "LINEAR"
         public var description: String { return self.rawValue }
     }
 
@@ -61,10 +61,10 @@ extension AppConfig {
     }
 
     public enum TriggeredBy: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case appconfig = "APPCONFIG"
         case cloudwatchAlarm = "CLOUDWATCH_ALARM"
         case internalError = "INTERNAL_ERROR"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 

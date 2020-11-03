@@ -21,9 +21,9 @@ extension CodeDeploy {
     // MARK: Enums
 
     public enum ApplicationRevisionSortBy: String, CustomStringConvertible, Codable {
-        case registertime = "registerTime"
         case firstusedtime = "firstUsedTime"
         case lastusedtime = "lastUsedTime"
+        case registertime = "registerTime"
         public var description: String { return self.rawValue }
     }
 
@@ -35,28 +35,28 @@ extension CodeDeploy {
     }
 
     public enum BundleType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
         case tar
         case tgz
-        case zip
         case yaml = "YAML"
-        case json = "JSON"
+        case zip
         public var description: String { return self.rawValue }
     }
 
     public enum ComputePlatform: String, CustomStringConvertible, Codable {
-        case server = "Server"
-        case lambda = "Lambda"
         case ecs = "ECS"
+        case lambda = "Lambda"
+        case server = "Server"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentCreator: String, CustomStringConvertible, Codable {
-        case user
         case autoscaling
-        case codedeployrollback = "codeDeployRollback"
-        case codedeploy = "CodeDeploy"
         case cloudformation = "CloudFormation"
         case cloudformationrollback = "CloudFormationRollback"
+        case codedeploy = "CodeDeploy"
+        case codedeployrollback = "codeDeployRollback"
+        case user
         public var description: String { return self.rawValue }
     }
 
@@ -73,28 +73,28 @@ extension CodeDeploy {
     }
 
     public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case created = "Created"
-        case queued = "Queued"
-        case inprogress = "InProgress"
         case baking = "Baking"
-        case succeeded = "Succeeded"
+        case created = "Created"
         case failed = "Failed"
-        case stopped = "Stopped"
+        case inprogress = "InProgress"
+        case queued = "Queued"
         case ready = "Ready"
+        case stopped = "Stopped"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentTargetType: String, CustomStringConvertible, Codable {
+        case cloudformationtarget = "CloudFormationTarget"
+        case ecstarget = "ECSTarget"
         case instancetarget = "InstanceTarget"
         case lambdatarget = "LambdaTarget"
-        case ecstarget = "ECSTarget"
-        case cloudformationtarget = "CloudFormationTarget"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentType: String, CustomStringConvertible, Codable {
-        case inPlace = "IN_PLACE"
         case blueGreen = "BLUE_GREEN"
+        case inPlace = "IN_PLACE"
         public var description: String { return self.rawValue }
     }
 
@@ -105,9 +105,9 @@ extension CodeDeploy {
     }
 
     public enum EC2TagFilterType: String, CustomStringConvertible, Codable {
+        case keyAndValue = "KEY_AND_VALUE"
         case keyOnly = "KEY_ONLY"
         case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
         public var description: String { return self.rawValue }
     }
 
@@ -115,9 +115,10 @@ extension CodeDeploy {
         case agentIssue = "AGENT_ISSUE"
         case alarmActive = "ALARM_ACTIVE"
         case applicationMissing = "APPLICATION_MISSING"
-        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
         case autoScalingConfiguration = "AUTO_SCALING_CONFIGURATION"
         case autoScalingIamRolePermissions = "AUTO_SCALING_IAM_ROLE_PERMISSIONS"
+        case autoscalingValidationError = "AUTOSCALING_VALIDATION_ERROR"
+        case cloudformationStackFailure = "CLOUDFORMATION_STACK_FAILURE"
         case codedeployResourceCannotBeFound = "CODEDEPLOY_RESOURCE_CANNOT_BE_FOUND"
         case customerApplicationUnhealthy = "CUSTOMER_APPLICATION_UNHEALTHY"
         case deploymentGroupMissing = "DEPLOYMENT_GROUP_MISSING"
@@ -145,7 +146,6 @@ extension CodeDeploy {
         case revisionMissing = "REVISION_MISSING"
         case throttled = "THROTTLED"
         case timeout = "TIMEOUT"
-        case cloudformationStackFailure = "CLOUDFORMATION_STACK_FAILURE"
         public var description: String { return self.rawValue }
     }
 
@@ -157,25 +157,25 @@ extension CodeDeploy {
     }
 
     public enum GreenFleetProvisioningAction: String, CustomStringConvertible, Codable {
-        case discoverExisting = "DISCOVER_EXISTING"
         case copyAutoScalingGroup = "COPY_AUTO_SCALING_GROUP"
+        case discoverExisting = "DISCOVER_EXISTING"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceAction: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
         case keepAlive = "KEEP_ALIVE"
+        case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
         case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         case ready = "Ready"
+        case skipped = "Skipped"
+        case succeeded = "Succeeded"
+        case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -186,49 +186,49 @@ extension CodeDeploy {
     }
 
     public enum LifecycleErrorCode: String, CustomStringConvertible, Codable {
-        case success = "Success"
+        case scriptfailed = "ScriptFailed"
         case scriptmissing = "ScriptMissing"
         case scriptnotexecutable = "ScriptNotExecutable"
         case scripttimedout = "ScriptTimedOut"
-        case scriptfailed = "ScriptFailed"
+        case success = "Success"
         case unknownerror = "UnknownError"
         public var description: String { return self.rawValue }
     }
 
     public enum LifecycleEventStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         case skipped = "Skipped"
+        case succeeded = "Succeeded"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum ListStateFilterAction: String, CustomStringConvertible, Codable {
-        case include
         case exclude
         case ignore
+        case include
         public var description: String { return self.rawValue }
     }
 
     public enum MinimumHealthyHostsType: String, CustomStringConvertible, Codable {
-        case hostCount = "HOST_COUNT"
         case fleetPercent = "FLEET_PERCENT"
+        case hostCount = "HOST_COUNT"
         public var description: String { return self.rawValue }
     }
 
     public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case registered = "Registered"
         case deregistered = "Deregistered"
+        case registered = "Registered"
         public var description: String { return self.rawValue }
     }
 
     public enum RevisionLocationType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case github = "GitHub"
-        case string = "String"
         case appspeccontent = "AppSpecContent"
+        case github = "GitHub"
+        case s3 = "S3"
+        case string = "String"
         public var description: String { return self.rawValue }
     }
 
@@ -245,15 +245,15 @@ extension CodeDeploy {
     }
 
     public enum TagFilterType: String, CustomStringConvertible, Codable {
+        case keyAndValue = "KEY_AND_VALUE"
         case keyOnly = "KEY_ONLY"
         case valueOnly = "VALUE_ONLY"
-        case keyAndValue = "KEY_AND_VALUE"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetFilterName: String, CustomStringConvertible, Codable {
-        case targetstatus = "TargetStatus"
         case serverinstancelabel = "ServerInstanceLabel"
+        case targetstatus = "TargetStatus"
         public var description: String { return self.rawValue }
     }
 
@@ -264,34 +264,34 @@ extension CodeDeploy {
     }
 
     public enum TargetStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case succeeded = "Succeeded"
         case failed = "Failed"
-        case skipped = "Skipped"
-        case unknown = "Unknown"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         case ready = "Ready"
+        case skipped = "Skipped"
+        case succeeded = "Succeeded"
+        case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
     public enum TrafficRoutingType: String, CustomStringConvertible, Codable {
+        case allatonce = "AllAtOnce"
         case timebasedcanary = "TimeBasedCanary"
         case timebasedlinear = "TimeBasedLinear"
-        case allatonce = "AllAtOnce"
         public var description: String { return self.rawValue }
     }
 
     public enum TriggerEventType: String, CustomStringConvertible, Codable {
-        case deploymentstart = "DeploymentStart"
-        case deploymentsuccess = "DeploymentSuccess"
         case deploymentfailure = "DeploymentFailure"
-        case deploymentstop = "DeploymentStop"
-        case deploymentrollback = "DeploymentRollback"
         case deploymentready = "DeploymentReady"
-        case instancestart = "InstanceStart"
-        case instancesuccess = "InstanceSuccess"
+        case deploymentrollback = "DeploymentRollback"
+        case deploymentstart = "DeploymentStart"
+        case deploymentstop = "DeploymentStop"
+        case deploymentsuccess = "DeploymentSuccess"
         case instancefailure = "InstanceFailure"
         case instanceready = "InstanceReady"
+        case instancestart = "InstanceStart"
+        case instancesuccess = "InstanceSuccess"
         public var description: String { return self.rawValue }
     }
 

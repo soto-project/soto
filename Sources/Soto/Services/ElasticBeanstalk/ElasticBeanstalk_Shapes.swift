@@ -28,9 +28,9 @@ extension ElasticBeanstalk {
     }
 
     public enum ActionStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
         case pending = "Pending"
         case running = "Running"
+        case scheduled = "Scheduled"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
@@ -43,127 +43,127 @@ extension ElasticBeanstalk {
     }
 
     public enum ApplicationVersionStatus: String, CustomStringConvertible, Codable {
-        case processed = "Processed"
-        case unprocessed = "Unprocessed"
-        case failed = "Failed"
-        case processing = "Processing"
         case building = "Building"
+        case failed = "Failed"
+        case processed = "Processed"
+        case processing = "Processing"
+        case unprocessed = "Unprocessed"
         public var description: String { return self.rawValue }
     }
 
     public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
         case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationDeploymentStatus: String, CustomStringConvertible, Codable {
         case deployed
-        case pending
         case failed
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationOptionValueType: String, CustomStringConvertible, Codable {
-        case scalar = "Scalar"
         case list = "List"
+        case scalar = "Scalar"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentHealth: String, CustomStringConvertible, Codable {
         case green = "Green"
-        case yellow = "Yellow"
-        case red = "Red"
         case grey = "Grey"
+        case red = "Red"
+        case yellow = "Yellow"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
-        case status = "Status"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case instanceshealth = "InstancesHealth"
         case all = "All"
+        case applicationmetrics = "ApplicationMetrics"
+        case causes = "Causes"
+        case color = "Color"
         case healthstatus = "HealthStatus"
+        case instanceshealth = "InstancesHealth"
         case refreshedat = "RefreshedAt"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
-        case nodata = "NoData"
-        case unknown = "Unknown"
-        case pending = "Pending"
-        case ok = "Ok"
-        case info = "Info"
-        case warning = "Warning"
         case degraded = "Degraded"
+        case info = "Info"
+        case nodata = "NoData"
+        case ok = "Ok"
+        case pending = "Pending"
         case severe = "Severe"
         case suspended = "Suspended"
+        case unknown = "Unknown"
+        case warning = "Warning"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentInfoType: String, CustomStringConvertible, Codable {
-        case tail
         case bundle
+        case tail
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
         case aborting = "Aborting"
         case launching = "Launching"
-        case updating = "Updating"
         case linkingfrom = "LinkingFrom"
         case linkingto = "LinkingTo"
         case ready = "Ready"
-        case terminating = "Terminating"
         case terminated = "Terminated"
+        case terminating = "Terminating"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
     public enum EventSeverity: String, CustomStringConvertible, Codable {
-        case trace = "TRACE"
         case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
         case error = "ERROR"
         case fatal = "FATAL"
+        case info = "INFO"
+        case trace = "TRACE"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
     public enum FailureType: String, CustomStringConvertible, Codable {
-        case updatecancelled = "UpdateCancelled"
         case cancellationfailed = "CancellationFailed"
-        case rollbackfailed = "RollbackFailed"
-        case rollbacksuccessful = "RollbackSuccessful"
         case internalfailure = "InternalFailure"
         case invalidenvironmentstate = "InvalidEnvironmentState"
         case permissionserror = "PermissionsError"
+        case rollbackfailed = "RollbackFailed"
+        case rollbacksuccessful = "RollbackSuccessful"
+        case updatecancelled = "UpdateCancelled"
         public var description: String { return self.rawValue }
     }
 
     public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
-        case healthstatus = "HealthStatus"
-        case color = "Color"
-        case causes = "Causes"
-        case applicationmetrics = "ApplicationMetrics"
-        case refreshedat = "RefreshedAt"
-        case launchedat = "LaunchedAt"
-        case system = "System"
-        case deployment = "Deployment"
-        case availabilityzone = "AvailabilityZone"
-        case instancetype = "InstanceType"
         case all = "All"
+        case applicationmetrics = "ApplicationMetrics"
+        case availabilityzone = "AvailabilityZone"
+        case causes = "Causes"
+        case color = "Color"
+        case deployment = "Deployment"
+        case healthstatus = "HealthStatus"
+        case instancetype = "InstanceType"
+        case launchedat = "LaunchedAt"
+        case refreshedat = "RefreshedAt"
+        case system = "System"
         public var description: String { return self.rawValue }
     }
 
     public enum PlatformStatus: String, CustomStringConvertible, Codable {
         case creating = "Creating"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
         case failed = "Failed"
         case ready = "Ready"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
         public var description: String { return self.rawValue }
     }
 

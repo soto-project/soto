@@ -21,8 +21,8 @@ extension ImportExport {
     // MARK: Enums
 
     public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "Import"
         case export = "Export"
+        case `import` = "Import"
         public var description: String { return self.rawValue }
     }
 

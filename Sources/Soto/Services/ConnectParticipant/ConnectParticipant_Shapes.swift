@@ -21,15 +21,15 @@ extension ConnectParticipant {
     // MARK: Enums
 
     public enum ChatItemType: String, CustomStringConvertible, Codable {
-        case message = "MESSAGE"
-        case event = "EVENT"
         case connectionAck = "CONNECTION_ACK"
+        case event = "EVENT"
+        case message = "MESSAGE"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionType: String, CustomStringConvertible, Codable {
-        case websocket = "WEBSOCKET"
         case connectionCredentials = "CONNECTION_CREDENTIALS"
+        case websocket = "WEBSOCKET"
         public var description: String { return self.rawValue }
     }
 
@@ -41,14 +41,14 @@ extension ConnectParticipant {
     }
 
     public enum ScanDirection: String, CustomStringConvertible, Codable {
-        case forward = "FORWARD"
         case backward = "BACKWARD"
+        case forward = "FORWARD"
         public var description: String { return self.rawValue }
     }
 
     public enum SortKey: String, CustomStringConvertible, Codable {
-        case descending = "DESCENDING"
         case ascending = "ASCENDING"
+        case descending = "DESCENDING"
         public var description: String { return self.rawValue }
     }
 

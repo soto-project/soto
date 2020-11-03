@@ -23,9 +23,9 @@ extension Route53 {
     public enum AccountLimitType: String, CustomStringConvertible, Codable {
         case maxHealthChecksByOwner = "MAX_HEALTH_CHECKS_BY_OWNER"
         case maxHostedZonesByOwner = "MAX_HOSTED_ZONES_BY_OWNER"
-        case maxTrafficPolicyInstancesByOwner = "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
         case maxReusableDelegationSetsByOwner = "MAX_REUSABLE_DELEGATION_SETS_BY_OWNER"
         case maxTrafficPoliciesByOwner = "MAX_TRAFFIC_POLICIES_BY_OWNER"
+        case maxTrafficPolicyInstancesByOwner = "MAX_TRAFFIC_POLICY_INSTANCES_BY_OWNER"
         public var description: String { return self.rawValue }
     }
 
@@ -37,70 +37,70 @@ extension Route53 {
     }
 
     public enum ChangeStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case insync = "INSYNC"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum CloudWatchRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case caCentral1 = "ca-central-1"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
+        case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
-        case cnNorthwest1 = "cn-northwest-1"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
-        case afSouth1 = "af-south-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case euCentral1 = "eu-central-1"
+        case euNorth1 = "eu-north-1"
         case euSouth1 = "eu-south-1"
-        case usGovWest1 = "us-gov-west-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case meSouth1 = "me-south-1"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
         case usGovEast1 = "us-gov-east-1"
+        case usGovWest1 = "us-gov-west-1"
         case usIsoEast1 = "us-iso-east-1"
         case usIsobEast1 = "us-isob-east-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
         case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanthreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum HealthCheckRegion: String, CustomStringConvertible, Codable {
+        case apNortheast1 = "ap-northeast-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case euWest1 = "eu-west-1"
+        case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
         public var description: String { return self.rawValue }
     }
 
     public enum HealthCheckType: String, CustomStringConvertible, Codable {
-        case http = "HTTP"
-        case https = "HTTPS"
-        case httpStrMatch = "HTTP_STR_MATCH"
-        case httpsStrMatch = "HTTPS_STR_MATCH"
-        case tcp = "TCP"
         case calculated = "CALCULATED"
         case cloudwatchMetric = "CLOUDWATCH_METRIC"
+        case http = "HTTP"
+        case httpStrMatch = "HTTP_STR_MATCH"
+        case https = "HTTPS"
+        case httpsStrMatch = "HTTPS_STR_MATCH"
+        case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
@@ -112,32 +112,32 @@ extension Route53 {
 
     public enum InsufficientDataHealthStatus: String, CustomStringConvertible, Codable {
         case healthy = "Healthy"
-        case unhealthy = "Unhealthy"
         case lastknownstatus = "LastKnownStatus"
+        case unhealthy = "Unhealthy"
         public var description: String { return self.rawValue }
     }
 
     public enum RRType: String, CustomStringConvertible, Codable {
-        case soa = "SOA"
         case a = "A"
-        case txt = "TXT"
-        case ns = "NS"
+        case aaaa = "AAAA"
+        case caa = "CAA"
         case cname = "CNAME"
         case mx = "MX"
         case naptr = "NAPTR"
+        case ns = "NS"
         case ptr = "PTR"
-        case srv = "SRV"
+        case soa = "SOA"
         case spf = "SPF"
-        case aaaa = "AAAA"
-        case caa = "CAA"
+        case srv = "SRV"
+        case txt = "TXT"
         public var description: String { return self.rawValue }
     }
 
     public enum ResettableElementName: String, CustomStringConvertible, Codable {
+        case childhealthchecks = "ChildHealthChecks"
         case fullyqualifieddomainname = "FullyQualifiedDomainName"
         case regions = "Regions"
         case resourcepath = "ResourcePath"
-        case childhealthchecks = "ChildHealthChecks"
         public var description: String { return self.rawValue }
     }
 
@@ -148,29 +148,29 @@ extension Route53 {
     }
 
     public enum ResourceRecordSetRegion: String, CustomStringConvertible, Codable {
+        case afSouth1 = "af-south-1"
+        case apEast1 = "ap-east-1"
+        case apNortheast1 = "ap-northeast-1"
+        case apNortheast2 = "ap-northeast-2"
+        case apNortheast3 = "ap-northeast-3"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
+        case caCentral1 = "ca-central-1"
+        case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
+        case euCentral1 = "eu-central-1"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case meSouth1 = "me-south-1"
+        case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
-        case caCentral1 = "ca-central-1"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case apNortheast2 = "ap-northeast-2"
-        case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
-        case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case apSouth1 = "ap-south-1"
-        case afSouth1 = "af-south-1"
-        case euSouth1 = "eu-south-1"
         public var description: String { return self.rawValue }
     }
 
@@ -181,10 +181,10 @@ extension Route53 {
 
     public enum Statistic: String, CustomStringConvertible, Codable {
         case average = "Average"
-        case sum = "Sum"
-        case samplecount = "SampleCount"
         case maximum = "Maximum"
         case minimum = "Minimum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
@@ -195,32 +195,32 @@ extension Route53 {
     }
 
     public enum VPCRegion: String, CustomStringConvertible, Codable {
-        case usEast1 = "us-east-1"
-        case usEast2 = "us-east-2"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        case euWest1 = "eu-west-1"
-        case euWest2 = "eu-west-2"
-        case euWest3 = "eu-west-3"
-        case euCentral1 = "eu-central-1"
+        case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
-        case meSouth1 = "me-south-1"
-        case usGovWest1 = "us-gov-west-1"
-        case usGovEast1 = "us-gov-east-1"
-        case usIsoEast1 = "us-iso-east-1"
-        case usIsobEast1 = "us-isob-east-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case apSouth1 = "ap-south-1"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
-        case euNorth1 = "eu-north-1"
-        case saEast1 = "sa-east-1"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
-        case afSouth1 = "af-south-1"
+        case euCentral1 = "eu-central-1"
+        case euNorth1 = "eu-north-1"
         case euSouth1 = "eu-south-1"
+        case euWest1 = "eu-west-1"
+        case euWest2 = "eu-west-2"
+        case euWest3 = "eu-west-3"
+        case meSouth1 = "me-south-1"
+        case saEast1 = "sa-east-1"
+        case usEast1 = "us-east-1"
+        case usEast2 = "us-east-2"
+        case usGovEast1 = "us-gov-east-1"
+        case usGovWest1 = "us-gov-west-1"
+        case usIsoEast1 = "us-iso-east-1"
+        case usIsobEast1 = "us-isob-east-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
 

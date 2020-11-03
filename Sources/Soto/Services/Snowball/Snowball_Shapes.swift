@@ -22,33 +22,33 @@ extension Snowball {
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
         case awaitingquorum = "AwaitingQuorum"
-        case pending = "Pending"
-        case inuse = "InUse"
-        case complete = "Complete"
         case cancelled = "Cancelled"
+        case complete = "Complete"
+        case inuse = "InUse"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum JobState: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
+        case complete = "Complete"
+        case inprogress = "InProgress"
+        case intransittoaws = "InTransitToAWS"
+        case intransittocustomer = "InTransitToCustomer"
+        case listing = "Listing"
         case new = "New"
+        case pending = "Pending"
         case preparingappliance = "PreparingAppliance"
         case preparingshipment = "PreparingShipment"
-        case intransittocustomer = "InTransitToCustomer"
-        case withcustomer = "WithCustomer"
-        case intransittoaws = "InTransitToAWS"
-        case withawssortingfacility = "WithAWSSortingFacility"
         case withaws = "WithAWS"
-        case inprogress = "InProgress"
-        case complete = "Complete"
-        case cancelled = "Cancelled"
-        case listing = "Listing"
-        case pending = "Pending"
+        case withawssortingfacility = "WithAWSSortingFacility"
+        case withcustomer = "WithCustomer"
         public var description: String { return self.rawValue }
     }
 
     public enum JobType: String, CustomStringConvertible, Codable {
-        case `import` = "IMPORT"
         case export = "EXPORT"
+        case `import` = "IMPORT"
         case localUse = "LOCAL_USE"
         public var description: String { return self.rawValue }
     }
@@ -60,39 +60,39 @@ extension Snowball {
     }
 
     public enum ShippingLabelStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case timedout = "TimedOut"
-        case succeeded = "Succeeded"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case succeeded = "Succeeded"
+        case timedout = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
     public enum ShippingOption: String, CustomStringConvertible, Codable {
-        case secondDay = "SECOND_DAY"
-        case nextDay = "NEXT_DAY"
         case express = "EXPRESS"
+        case nextDay = "NEXT_DAY"
+        case secondDay = "SECOND_DAY"
         case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
     public enum SnowballCapacity: String, CustomStringConvertible, Codable {
-        case t50 = "T50"
-        case t80 = "T80"
+        case nopreference = "NoPreference"
         case t100 = "T100"
         case t42 = "T42"
-        case t98 = "T98"
+        case t50 = "T50"
         case t8 = "T8"
-        case nopreference = "NoPreference"
+        case t80 = "T80"
+        case t98 = "T98"
         public var description: String { return self.rawValue }
     }
 
     public enum SnowballType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case edge = "EDGE"
         case edgeC = "EDGE_C"
         case edgeCg = "EDGE_CG"
         case edgeS = "EDGE_S"
         case snc1Hdd = "SNC1_HDD"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 

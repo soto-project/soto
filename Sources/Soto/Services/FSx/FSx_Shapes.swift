@@ -27,18 +27,18 @@ extension FSx {
     }
 
     public enum AutoImportPolicyType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case new = "NEW"
         case newChanged = "NEW_CHANGED"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum BackupLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
-        case transferring = "TRANSFERRING"
         case deleted = "DELETED"
         case failed = "FAILED"
+        case transferring = "TRANSFERRING"
         public var description: String { return self.rawValue }
     }
 
@@ -49,11 +49,11 @@ extension FSx {
     }
 
     public enum DataRepositoryLifecycle: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         case misconfigured = "MISCONFIGURED"
         case updating = "UPDATING"
-        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -64,12 +64,12 @@ extension FSx {
     }
 
     public enum DataRepositoryTaskLifecycle: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case executing = "EXECUTING"
-        case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
         case canceled = "CANCELED"
         case canceling = "CANCELING"
+        case executing = "EXECUTING"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -87,36 +87,36 @@ extension FSx {
     public enum FileSystemLifecycle: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case creating = "CREATING"
-        case failed = "FAILED"
         case deleting = "DELETING"
+        case failed = "FAILED"
         case misconfigured = "MISCONFIGURED"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum FileSystemMaintenanceOperation: String, CustomStringConvertible, Codable {
-        case patching = "PATCHING"
         case backingUp = "BACKING_UP"
+        case patching = "PATCHING"
         public var description: String { return self.rawValue }
     }
 
     public enum FileSystemType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
         case lustre = "LUSTRE"
+        case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
     public enum FilterName: String, CustomStringConvertible, Codable {
-        case fileSystemId = "file-system-id"
         case backupType = "backup-type"
+        case fileSystemId = "file-system-id"
         case fileSystemType = "file-system-type"
         public var description: String { return self.rawValue }
     }
 
     public enum LustreDeploymentType: String, CustomStringConvertible, Codable {
+        case persistent1 = "PERSISTENT_1"
         case scratch1 = "SCRATCH_1"
         case scratch2 = "SCRATCH_2"
-        case persistent1 = "PERSISTENT_1"
         public var description: String { return self.rawValue }
     }
 
@@ -131,17 +131,17 @@ extension FSx {
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
-        case completed = "COMPLETED"
         case updatedOptimizing = "UPDATED_OPTIMIZING"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageType: String, CustomStringConvertible, Codable {
-        case ssd = "SSD"
         case hdd = "HDD"
+        case ssd = "SSD"
         public var description: String { return self.rawValue }
     }
 

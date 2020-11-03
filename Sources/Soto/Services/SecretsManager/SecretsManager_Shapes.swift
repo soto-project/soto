@@ -21,11 +21,11 @@ extension SecretsManager {
     // MARK: Enums
 
     public enum FilterNameStringType: String, CustomStringConvertible, Codable {
+        case all
         case description
         case name
         case tagKey = "tag-key"
         case tagValue = "tag-value"
-        case all
         public var description: String { return self.rawValue }
     }
 

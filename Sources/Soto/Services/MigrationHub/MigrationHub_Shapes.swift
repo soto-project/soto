@@ -21,31 +21,31 @@ extension MigrationHub {
     // MARK: Enums
 
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceAttributeType: String, CustomStringConvertible, Codable {
+        case biosId = "BIOS_ID"
+        case fqdn = "FQDN"
         case ipv4Address = "IPV4_ADDRESS"
         case ipv6Address = "IPV6_ADDRESS"
         case macAddress = "MAC_ADDRESS"
-        case fqdn = "FQDN"
-        case vmManagerId = "VM_MANAGER_ID"
+        case motherboardSerialNumber = "MOTHERBOARD_SERIAL_NUMBER"
         case vmManagedObjectReference = "VM_MANAGED_OBJECT_REFERENCE"
+        case vmManagerId = "VM_MANAGER_ID"
         case vmName = "VM_NAME"
         case vmPath = "VM_PATH"
-        case biosId = "BIOS_ID"
-        case motherboardSerialNumber = "MOTHERBOARD_SERIAL_NUMBER"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
         case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 

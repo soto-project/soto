@@ -28,19 +28,19 @@ extension Glacier {
     }
 
     public enum CannedACL: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case awsKms = "aws:kms"
         case aes256 = "AES256"
+        case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
@@ -50,18 +50,18 @@ extension Glacier {
     }
 
     public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
         case ignore = "IGNORE"
         case none = "NONE"
+        case use = "USE"
         public var description: String { return self.rawValue }
     }
 
     public enum Permission: String, CustomStringConvertible, Codable {
         case fullControl = "FULL_CONTROL"
-        case write = "WRITE"
-        case writeAcp = "WRITE_ACP"
         case read = "READ"
         case readAcp = "READ_ACP"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
         public var description: String { return self.rawValue }
     }
 
@@ -72,15 +72,15 @@ extension Glacier {
     }
 
     public enum StatusCode: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case inprogress = "InProgress"
         case succeeded = "Succeeded"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standard = "STANDARD"
         case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }

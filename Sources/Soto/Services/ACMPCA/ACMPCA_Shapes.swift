@@ -21,33 +21,33 @@ extension ACMPCA {
     // MARK: Enums
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case issuecertificate = "IssueCertificate"
         case getcertificate = "GetCertificate"
+        case issuecertificate = "IssueCertificate"
         case listpermissions = "ListPermissions"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditReportResponseFormat: String, CustomStringConvertible, Codable {
-        case json = "JSON"
         case csv = "CSV"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditReportStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case success = "SUCCESS"
         case failed = "FAILED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateAuthorityStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case pendingCertificate = "PENDING_CERTIFICATE"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleted = "DELETED"
         case disabled = "DISABLED"
         case expired = "EXPIRED"
         case failed = "FAILED"
+        case pendingCertificate = "PENDING_CERTIFICATE"
         public var description: String { return self.rawValue }
     }
 
@@ -58,52 +58,52 @@ extension ACMPCA {
     }
 
     public enum FailureReason: String, CustomStringConvertible, Codable {
+        case other = "OTHER"
         case requestTimedOut = "REQUEST_TIMED_OUT"
         case unsupportedAlgorithm = "UNSUPPORTED_ALGORITHM"
-        case other = "OTHER"
         public var description: String { return self.rawValue }
     }
 
     public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa4096 = "RSA_4096"
         case ecPrime256V1 = "EC_prime256v1"
         case ecSecp384R1 = "EC_secp384r1"
+        case rsa2048 = "RSA_2048"
+        case rsa4096 = "RSA_4096"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable {
-        case `self` = "SELF"
         case otherAccounts = "OTHER_ACCOUNTS"
+        case `self` = "SELF"
         public var description: String { return self.rawValue }
     }
 
     public enum RevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superseded = "SUPERSEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
         case aACompromise = "A_A_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case certificateAuthorityCompromise = "CERTIFICATE_AUTHORITY_COMPROMISE"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case keyCompromise = "KEY_COMPROMISE"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case superseded = "SUPERSEDED"
+        case unspecified = "UNSPECIFIED"
         public var description: String { return self.rawValue }
     }
 
     public enum SigningAlgorithm: String, CustomStringConvertible, Codable {
         case sha256withecdsa = "SHA256WITHECDSA"
-        case sha384withecdsa = "SHA384WITHECDSA"
-        case sha512withecdsa = "SHA512WITHECDSA"
         case sha256withrsa = "SHA256WITHRSA"
+        case sha384withecdsa = "SHA384WITHECDSA"
         case sha384withrsa = "SHA384WITHRSA"
+        case sha512withecdsa = "SHA512WITHECDSA"
         case sha512withrsa = "SHA512WITHRSA"
         public var description: String { return self.rawValue }
     }
 
     public enum ValidityPeriodType: String, CustomStringConvertible, Codable {
-        case endDate = "END_DATE"
         case absolute = "ABSOLUTE"
         case days = "DAYS"
+        case endDate = "END_DATE"
         case months = "MONTHS"
         case years = "YEARS"
         public var description: String { return self.rawValue }

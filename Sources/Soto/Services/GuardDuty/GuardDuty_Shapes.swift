@@ -21,22 +21,22 @@ extension GuardDuty {
     // MARK: Enums
 
     public enum AdminStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disableInProgress = "DISABLE_IN_PROGRESS"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSource: String, CustomStringConvertible, Codable {
-        case flowLogs = "FLOW_LOGS"
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
+        case flowLogs = "FLOW_LOGS"
         case s3Logs = "S3_LOGS"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -46,20 +46,20 @@ extension GuardDuty {
     }
 
     public enum DetectorStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum Feedback: String, CustomStringConvertible, Codable {
-        case useful = "USEFUL"
         case notUseful = "NOT_USEFUL"
+        case useful = "USEFUL"
         public var description: String { return self.rawValue }
     }
 
     public enum FilterAction: String, CustomStringConvertible, Codable {
-        case noop = "NOOP"
         case archive = "ARCHIVE"
+        case noop = "NOOP"
         public var description: String { return self.rawValue }
     }
 
@@ -76,23 +76,23 @@ extension GuardDuty {
     }
 
     public enum IpSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
         case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
         case fireEye = "FIRE_EYE"
+        case otxCsv = "OTX_CSV"
+        case proofPoint = "PROOF_POINT"
+        case stix = "STIX"
+        case txt = "TXT"
         public var description: String { return self.rawValue }
     }
 
     public enum IpSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
-        case error = "ERROR"
         case deletePending = "DELETE_PENDING"
         case deleted = "DELETED"
+        case error = "ERROR"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -105,29 +105,29 @@ extension GuardDuty {
     public enum PublishingStatus: String, CustomStringConvertible, Codable {
         case pendingVerification = "PENDING_VERIFICATION"
         case publishing = "PUBLISHING"
-        case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
         case stopped = "STOPPED"
+        case unableToPublishFixDestinationProperty = "UNABLE_TO_PUBLISH_FIX_DESTINATION_PROPERTY"
         public var description: String { return self.rawValue }
     }
 
     public enum ThreatIntelSetFormat: String, CustomStringConvertible, Codable {
-        case txt = "TXT"
-        case stix = "STIX"
-        case otxCsv = "OTX_CSV"
         case alienVault = "ALIEN_VAULT"
-        case proofPoint = "PROOF_POINT"
         case fireEye = "FIRE_EYE"
+        case otxCsv = "OTX_CSV"
+        case proofPoint = "PROOF_POINT"
+        case stix = "STIX"
+        case txt = "TXT"
         public var description: String { return self.rawValue }
     }
 
     public enum ThreatIntelSetStatus: String, CustomStringConvertible, Codable {
-        case inactive = "INACTIVE"
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deactivating = "DEACTIVATING"
-        case error = "ERROR"
         case deletePending = "DELETE_PENDING"
         case deleted = "DELETED"
+        case error = "ERROR"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 

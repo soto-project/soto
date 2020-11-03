@@ -29,52 +29,52 @@ extension DataExchange {
         case accessDeniedException = "ACCESS_DENIED_EXCEPTION"
         case internalServerException = "INTERNAL_SERVER_EXCEPTION"
         case malwareDetected = "MALWARE_DETECTED"
+        case malwareScanEncryptedFile = "MALWARE_SCAN_ENCRYPTED_FILE"
         case resourceNotFoundException = "RESOURCE_NOT_FOUND_EXCEPTION"
         case serviceQuotaExceededException = "SERVICE_QUOTA_EXCEEDED_EXCEPTION"
         case validationException = "VALIDATION_EXCEPTION"
-        case malwareScanEncryptedFile = "MALWARE_SCAN_ENCRYPTED_FILE"
         public var description: String { return self.rawValue }
     }
 
     public enum JobErrorLimitName: String, CustomStringConvertible, Codable {
-        case assetsPerRevision = "Assets per revision"
         case assetSizeInGb = "Asset size in GB"
+        case assetsPerRevision = "Assets per revision"
         public var description: String { return self.rawValue }
     }
 
     public enum JobErrorResourceTypes: String, CustomStringConvertible, Codable {
-        case revision = "REVISION"
         case asset = "ASSET"
+        case revision = "REVISION"
         public var description: String { return self.rawValue }
     }
 
     public enum Origin: String, CustomStringConvertible, Codable {
-        case owned = "OWNED"
         case entitled = "ENTITLED"
+        case owned = "OWNED"
         public var description: String { return self.rawValue }
     }
 
     public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable {
-        case awsKms = "aws:kms"
         case aes256 = "AES256"
+        case awsKms = "aws:kms"
         public var description: String { return self.rawValue }
     }
 
     public enum State: String, CustomStringConvertible, Codable {
-        case waiting = "WAITING"
-        case inProgress = "IN_PROGRESS"
-        case error = "ERROR"
-        case completed = "COMPLETED"
         case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
         case timedOut = "TIMED_OUT"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
-        case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
-        case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
+        case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
+        case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
+        case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
         public var description: String { return self.rawValue }
     }
 

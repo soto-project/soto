@@ -21,52 +21,52 @@ extension MTurk {
     // MARK: Enums
 
     public enum AssignmentStatus: String, CustomStringConvertible, Codable {
-        case submitted = "Submitted"
         case approved = "Approved"
         case rejected = "Rejected"
+        case submitted = "Submitted"
         public var description: String { return self.rawValue }
     }
 
     public enum Comparator: String, CustomStringConvertible, Codable {
-        case lessthan = "LessThan"
-        case lessthanorequalto = "LessThanOrEqualTo"
+        case doesnotexist = "DoesNotExist"
+        case equalto = "EqualTo"
+        case exists = "Exists"
         case greaterthan = "GreaterThan"
         case greaterthanorequalto = "GreaterThanOrEqualTo"
-        case equalto = "EqualTo"
-        case notequalto = "NotEqualTo"
-        case exists = "Exists"
-        case doesnotexist = "DoesNotExist"
         case `in` = "In"
+        case lessthan = "LessThan"
+        case lessthanorequalto = "LessThanOrEqualTo"
+        case notequalto = "NotEqualTo"
         case notin = "NotIn"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case assignmentaccepted = "AssignmentAccepted"
         case assignmentabandoned = "AssignmentAbandoned"
+        case assignmentaccepted = "AssignmentAccepted"
+        case assignmentapproved = "AssignmentApproved"
+        case assignmentrejected = "AssignmentRejected"
         case assignmentreturned = "AssignmentReturned"
         case assignmentsubmitted = "AssignmentSubmitted"
-        case assignmentrejected = "AssignmentRejected"
-        case assignmentapproved = "AssignmentApproved"
         case hitcreated = "HITCreated"
-        case hitexpired = "HITExpired"
-        case hitreviewable = "HITReviewable"
-        case hitextended = "HITExtended"
         case hitdisposed = "HITDisposed"
+        case hitexpired = "HITExpired"
+        case hitextended = "HITExtended"
+        case hitreviewable = "HITReviewable"
         case ping = "Ping"
         public var description: String { return self.rawValue }
     }
 
     public enum HITAccessActions: String, CustomStringConvertible, Codable {
         case accept = "Accept"
-        case previewandaccept = "PreviewAndAccept"
         case discoverpreviewandaccept = "DiscoverPreviewAndAccept"
+        case previewandaccept = "PreviewAndAccept"
         public var description: String { return self.rawValue }
     }
 
     public enum HITReviewStatus: String, CustomStringConvertible, Codable {
-        case notreviewed = "NotReviewed"
         case markedforreview = "MarkedForReview"
+        case notreviewed = "NotReviewed"
         case reviewedappropriate = "ReviewedAppropriate"
         case reviewedinappropriate = "ReviewedInappropriate"
         public var description: String { return self.rawValue }
@@ -74,23 +74,23 @@ extension MTurk {
 
     public enum HITStatus: String, CustomStringConvertible, Codable {
         case assignable = "Assignable"
-        case unassignable = "Unassignable"
+        case disposed = "Disposed"
         case reviewable = "Reviewable"
         case reviewing = "Reviewing"
-        case disposed = "Disposed"
+        case unassignable = "Unassignable"
         public var description: String { return self.rawValue }
     }
 
     public enum NotificationTransport: String, CustomStringConvertible, Codable {
         case email = "Email"
-        case sqs = "SQS"
         case sns = "SNS"
+        case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
     public enum NotifyWorkersFailureCode: String, CustomStringConvertible, Codable {
-        case softfailure = "SoftFailure"
         case hardfailure = "HardFailure"
+        case softfailure = "SoftFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -107,10 +107,10 @@ extension MTurk {
     }
 
     public enum ReviewActionStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "Cancelled"
+        case failed = "Failed"
         case intended = "Intended"
         case succeeded = "Succeeded"
-        case failed = "Failed"
-        case cancelled = "Cancelled"
         public var description: String { return self.rawValue }
     }
 

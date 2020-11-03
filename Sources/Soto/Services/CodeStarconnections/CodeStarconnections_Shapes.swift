@@ -21,9 +21,9 @@ extension CodeStarconnections {
     // MARK: Enums
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case error = "ERROR"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

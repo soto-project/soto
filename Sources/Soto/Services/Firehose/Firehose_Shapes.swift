@@ -21,55 +21,55 @@ extension Firehose {
     // MARK: Enums
 
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
-        case uncompressed = "UNCOMPRESSED"
         case gzip = "GZIP"
-        case zip = "ZIP"
-        case snappy = "Snappy"
         case hadoopSnappy = "HADOOP_SNAPPY"
+        case snappy = "Snappy"
+        case uncompressed = "UNCOMPRESSED"
+        case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
     public enum ContentEncoding: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case gzip = "GZIP"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryStreamEncryptionStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
-        case enablingFailed = "ENABLING_FAILED"
         case disabled = "DISABLED"
         case disabling = "DISABLING"
         case disablingFailed = "DISABLING_FAILED"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case enablingFailed = "ENABLING_FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryStreamFailureType: String, CustomStringConvertible, Codable {
-        case retireKmsGrantFailed = "RETIRE_KMS_GRANT_FAILED"
+        case createEniFailed = "CREATE_ENI_FAILED"
         case createKmsGrantFailed = "CREATE_KMS_GRANT_FAILED"
-        case kmsAccessDenied = "KMS_ACCESS_DENIED"
+        case deleteEniFailed = "DELETE_ENI_FAILED"
         case disabledKmsKey = "DISABLED_KMS_KEY"
+        case eniAccessDenied = "ENI_ACCESS_DENIED"
         case invalidKmsKey = "INVALID_KMS_KEY"
+        case kmsAccessDenied = "KMS_ACCESS_DENIED"
         case kmsKeyNotFound = "KMS_KEY_NOT_FOUND"
         case kmsOptInRequired = "KMS_OPT_IN_REQUIRED"
-        case createEniFailed = "CREATE_ENI_FAILED"
-        case deleteEniFailed = "DELETE_ENI_FAILED"
-        case subnetNotFound = "SUBNET_NOT_FOUND"
-        case securityGroupNotFound = "SECURITY_GROUP_NOT_FOUND"
-        case eniAccessDenied = "ENI_ACCESS_DENIED"
-        case subnetAccessDenied = "SUBNET_ACCESS_DENIED"
+        case retireKmsGrantFailed = "RETIRE_KMS_GRANT_FAILED"
         case securityGroupAccessDenied = "SECURITY_GROUP_ACCESS_DENIED"
+        case securityGroupNotFound = "SECURITY_GROUP_NOT_FOUND"
+        case subnetAccessDenied = "SUBNET_ACCESS_DENIED"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
         case unknownError = "UNKNOWN_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryStreamStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case creatingFailed = "CREATING_FAILED"
         case deleting = "DELETING"
         case deletingFailed = "DELETING_FAILED"
-        case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -81,28 +81,28 @@ extension Firehose {
 
     public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
         case norotation = "NoRotation"
-        case onehour = "OneHour"
         case oneday = "OneDay"
-        case oneweek = "OneWeek"
+        case onehour = "OneHour"
         case onemonth = "OneMonth"
+        case oneweek = "OneWeek"
         public var description: String { return self.rawValue }
     }
 
     public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
-        case faileddocumentsonly = "FailedDocumentsOnly"
         case alldocuments = "AllDocuments"
+        case faileddocumentsonly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
     public enum HECEndpointType: String, CustomStringConvertible, Codable {
-        case raw = "Raw"
         case event = "Event"
+        case raw = "Raw"
         public var description: String { return self.rawValue }
     }
 
     public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable {
-        case faileddataonly = "FailedDataOnly"
         case alldata = "AllData"
+        case faileddataonly = "FailedDataOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -119,8 +119,8 @@ extension Firehose {
 
     public enum OrcCompression: String, CustomStringConvertible, Codable {
         case none = "NONE"
-        case zlib = "ZLIB"
         case snappy = "SNAPPY"
+        case zlib = "ZLIB"
         public var description: String { return self.rawValue }
     }
 
@@ -131,9 +131,9 @@ extension Firehose {
     }
 
     public enum ParquetCompression: String, CustomStringConvertible, Codable {
-        case uncompressed = "UNCOMPRESSED"
         case gzip = "GZIP"
         case snappy = "SNAPPY"
+        case uncompressed = "UNCOMPRESSED"
         public var description: String { return self.rawValue }
     }
 
@@ -144,11 +144,11 @@ extension Firehose {
     }
 
     public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
+        case bufferintervalinseconds = "BufferIntervalInSeconds"
+        case buffersizeinmbs = "BufferSizeInMBs"
         case lambdaarn = "LambdaArn"
         case numberofretries = "NumberOfRetries"
         case rolearn = "RoleArn"
-        case buffersizeinmbs = "BufferSizeInMBs"
-        case bufferintervalinseconds = "BufferIntervalInSeconds"
         public var description: String { return self.rawValue }
     }
 
@@ -170,8 +170,8 @@ extension Firehose {
     }
 
     public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable {
-        case failedeventsonly = "FailedEventsOnly"
         case allevents = "AllEvents"
+        case failedeventsonly = "FailedEventsOnly"
         public var description: String { return self.rawValue }
     }
 

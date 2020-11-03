@@ -21,26 +21,26 @@ extension SESV2 {
     // MARK: Enums
 
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
-        case useDefaultValue = "USE_DEFAULT_VALUE"
         case rejectMessage = "REJECT_MESSAGE"
+        case useDefaultValue = "USE_DEFAULT_VALUE"
         public var description: String { return self.rawValue }
     }
 
     public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case messageRejected = "MESSAGE_REJECTED"
-        case mailFromDomainNotVerified = "MAIL_FROM_DOMAIN_NOT_VERIFIED"
-        case configurationSetNotFound = "CONFIGURATION_SET_NOT_FOUND"
-        case templateNotFound = "TEMPLATE_NOT_FOUND"
+        case accountDailyQuotaExceeded = "ACCOUNT_DAILY_QUOTA_EXCEEDED"
+        case accountSendingPaused = "ACCOUNT_SENDING_PAUSED"
         case accountSuspended = "ACCOUNT_SUSPENDED"
         case accountThrottled = "ACCOUNT_THROTTLED"
-        case accountDailyQuotaExceeded = "ACCOUNT_DAILY_QUOTA_EXCEEDED"
-        case invalidSendingPoolName = "INVALID_SENDING_POOL_NAME"
-        case accountSendingPaused = "ACCOUNT_SENDING_PAUSED"
+        case configurationSetNotFound = "CONFIGURATION_SET_NOT_FOUND"
         case configurationSetSendingPaused = "CONFIGURATION_SET_SENDING_PAUSED"
-        case invalidParameter = "INVALID_PARAMETER"
-        case transientFailure = "TRANSIENT_FAILURE"
         case failed = "FAILED"
+        case invalidParameter = "INVALID_PARAMETER"
+        case invalidSendingPoolName = "INVALID_SENDING_POOL_NAME"
+        case mailFromDomainNotVerified = "MAIL_FROM_DOMAIN_NOT_VERIFIED"
+        case messageRejected = "MESSAGE_REJECTED"
+        case success = "SUCCESS"
+        case templateNotFound = "TEMPLATE_NOT_FOUND"
+        case transientFailure = "TRANSIENT_FAILURE"
         public var description: String { return self.rawValue }
     }
 
@@ -58,21 +58,21 @@ extension SESV2 {
 
     public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case pendingExpiration = "PENDING_EXPIRATION"
         case disabled = "DISABLED"
+        case pendingExpiration = "PENDING_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messageTag = "MESSAGE_TAG"
         case emailHeader = "EMAIL_HEADER"
         case linkTag = "LINK_TAG"
+        case messageTag = "MESSAGE_TAG"
         public var description: String { return self.rawValue }
     }
 
@@ -83,30 +83,30 @@ extension SESV2 {
     }
 
     public enum DkimStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
         case pending = "PENDING"
         case success = "SUCCESS"
-        case failed = "FAILED"
         case temporaryFailure = "TEMPORARY_FAILURE"
-        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case send = "SEND"
-        case reject = "REJECT"
         case bounce = "BOUNCE"
+        case click = "CLICK"
         case complaint = "COMPLAINT"
         case delivery = "DELIVERY"
-        case open = "OPEN"
-        case click = "CLICK"
-        case renderingFailure = "RENDERING_FAILURE"
         case deliveryDelay = "DELIVERY_DELAY"
+        case open = "OPEN"
+        case reject = "REJECT"
+        case renderingFailure = "RENDERING_FAILURE"
+        case send = "SEND"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
-        case emailAddress = "EMAIL_ADDRESS"
         case domain = "DOMAIN"
+        case emailAddress = "EMAIL_ADDRESS"
         case managedDomain = "MANAGED_DOMAIN"
         public var description: String { return self.rawValue }
     }
@@ -117,17 +117,17 @@ extension SESV2 {
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case processing = "PROCESSING"
         case completed = "COMPLETED"
+        case created = "CREATED"
         case failed = "FAILED"
+        case processing = "PROCESSING"
         public var description: String { return self.rawValue }
     }
 
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
-        case failed = "FAILED"
         case temporaryFailure = "TEMPORARY_FAILURE"
         public var description: String { return self.rawValue }
     }
@@ -139,10 +139,10 @@ extension SESV2 {
     }
 
     public enum ReviewStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
+        case denied = "DENIED"
         case failed = "FAILED"
         case granted = "GRANTED"
-        case denied = "DENIED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -159,14 +159,14 @@ extension SESV2 {
     }
 
     public enum TlsPolicy: String, CustomStringConvertible, Codable {
-        case require = "REQUIRE"
         case optional = "OPTIONAL"
+        case require = "REQUIRE"
         public var description: String { return self.rawValue }
     }
 
     public enum WarmupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case done = "DONE"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 

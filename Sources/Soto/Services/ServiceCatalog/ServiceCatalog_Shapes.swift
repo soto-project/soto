@@ -28,9 +28,9 @@ extension ServiceCatalog {
     }
 
     public enum AccessStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
         case enabled = "ENABLED"
         case underChange = "UNDER_CHANGE"
-        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -47,29 +47,29 @@ extension ServiceCatalog {
     }
 
     public enum CopyProductStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
-        case inProgress = "IN_PROGRESS"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case `static` = "STATIC"
         case dynamic = "DYNAMIC"
+        case `static` = "STATIC"
         public var description: String { return self.rawValue }
     }
 
     public enum OrganizationNodeType: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
         case organization = "ORGANIZATION"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
-        case account = "ACCOUNT"
         public var description: String { return self.rawValue }
     }
 
     public enum PortfolioShareType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
-        case awsServicecatalog = "AWS_SERVICECATALOG"
         case awsOrganizations = "AWS_ORGANIZATIONS"
+        case awsServicecatalog = "AWS_SERVICECATALOG"
+        case imported = "IMPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -98,25 +98,25 @@ extension ServiceCatalog {
     }
 
     public enum ProductViewSortBy: String, CustomStringConvertible, Codable {
+        case creationdate = "CreationDate"
         case title = "Title"
         case versioncount = "VersionCount"
-        case creationdate = "CreationDate"
         public var description: String { return self.rawValue }
     }
 
     public enum PropertyKey: String, CustomStringConvertible, Codable {
-        case owner = "OWNER"
         case launchRole = "LAUNCH_ROLE"
+        case owner = "OWNER"
         public var description: String { return self.rawValue }
     }
 
     public enum ProvisionedProductPlanStatus: String, CustomStringConvertible, Codable {
+        case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
         case createSuccess = "CREATE_SUCCESS"
-        case createFailed = "CREATE_FAILED"
+        case executeFailed = "EXECUTE_FAILED"
         case executeInProgress = "EXECUTE_IN_PROGRESS"
         case executeSuccess = "EXECUTE_SUCCESS"
-        case executeFailed = "EXECUTE_FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -127,10 +127,10 @@ extension ServiceCatalog {
 
     public enum ProvisionedProductStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case underChange = "UNDER_CHANGE"
-        case tainted = "TAINTED"
         case error = "ERROR"
         case planInProgress = "PLAN_IN_PROGRESS"
+        case tainted = "TAINTED"
+        case underChange = "UNDER_CHANGE"
         public var description: String { return self.rawValue }
     }
 
@@ -159,34 +159,34 @@ extension ServiceCatalog {
 
     public enum RecordStatus: String, CustomStringConvertible, Codable {
         case created = "CREATED"
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case inProgressInError = "IN_PROGRESS_IN_ERROR"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum Replacement: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
         case conditional = "CONDITIONAL"
+        case `false` = "FALSE"
+        case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
     public enum RequiresRecreation: String, CustomStringConvertible, Codable {
-        case never = "NEVER"
-        case conditionally = "CONDITIONALLY"
         case always = "ALWAYS"
+        case conditionally = "CONDITIONALLY"
+        case never = "NEVER"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceAttribute: String, CustomStringConvertible, Codable {
-        case properties = "PROPERTIES"
-        case metadata = "METADATA"
         case creationpolicy = "CREATIONPOLICY"
-        case updatepolicy = "UPDATEPOLICY"
         case deletionpolicy = "DELETIONPOLICY"
+        case metadata = "METADATA"
+        case properties = "PROPERTIES"
         case tags = "TAGS"
+        case updatepolicy = "UPDATEPOLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -200,10 +200,10 @@ extension ServiceCatalog {
     }
 
     public enum ServiceActionDefinitionKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
-        case version = "Version"
         case assumerole = "AssumeRole"
+        case name = "Name"
         case parameters = "Parameters"
+        case version = "Version"
         public var description: String { return self.rawValue }
     }
 
@@ -213,11 +213,11 @@ extension ServiceCatalog {
     }
 
     public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
         case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
@@ -229,15 +229,15 @@ extension ServiceCatalog {
 
     public enum StackInstanceStatus: String, CustomStringConvertible, Codable {
         case current = "CURRENT"
-        case outdated = "OUTDATED"
         case inoperable = "INOPERABLE"
+        case outdated = "OUTDATED"
         public var description: String { return self.rawValue }
     }
 
     public enum StackSetOperationType: String, CustomStringConvertible, Codable {
         case create = "CREATE"
-        case update = "UPDATE"
         case delete = "DELETE"
+        case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 

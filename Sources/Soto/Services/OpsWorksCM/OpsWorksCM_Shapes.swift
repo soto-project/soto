@@ -21,10 +21,10 @@ extension OpsWorksCM {
     // MARK: Enums
 
     public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ok = "OK"
-        case failed = "FAILED"
-        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -35,15 +35,15 @@ extension OpsWorksCM {
     }
 
     public enum MaintenanceStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
         case failed = "FAILED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum NodeAssociationStatus: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
         case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -52,15 +52,15 @@ extension OpsWorksCM {
         case connectionLost = "CONNECTION_LOST"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case modifying = "MODIFYING"
         case failed = "FAILED"
         case healthy = "HEALTHY"
-        case running = "RUNNING"
+        case modifying = "MODIFYING"
         case restoring = "RESTORING"
+        case running = "RUNNING"
         case setup = "SETUP"
+        case terminated = "TERMINATED"
         case underMaintenance = "UNDER_MAINTENANCE"
         case unhealthy = "UNHEALTHY"
-        case terminated = "TERMINATED"
         public var description: String { return self.rawValue }
     }
 

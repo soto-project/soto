@@ -33,28 +33,28 @@ extension WorkSpaces {
     }
 
     public enum AssociationStatus: String, CustomStringConvertible, Codable {
-        case notAssociated = "NOT_ASSOCIATED"
         case associatedWithOwnerAccount = "ASSOCIATED_WITH_OWNER_ACCOUNT"
         case associatedWithSharedAccount = "ASSOCIATED_WITH_SHARED_ACCOUNT"
+        case notAssociated = "NOT_ASSOCIATED"
         case pendingAssociation = "PENDING_ASSOCIATION"
         case pendingDisassociation = "PENDING_DISASSOCIATION"
         public var description: String { return self.rawValue }
     }
 
     public enum Compute: String, CustomStringConvertible, Codable {
-        case value = "VALUE"
-        case standard = "STANDARD"
+        case graphics = "GRAPHICS"
+        case graphicspro = "GRAPHICSPRO"
         case performance = "PERFORMANCE"
         case power = "POWER"
-        case graphics = "GRAPHICS"
         case powerpro = "POWERPRO"
-        case graphicspro = "GRAPHICSPRO"
+        case standard = "STANDARD"
+        case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionAliasState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case created = "CREATED"
+        case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
@@ -67,9 +67,9 @@ extension WorkSpaces {
     }
 
     public enum DedicatedTenancyModificationStateEnum: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case completed = "COMPLETED"
         case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -79,8 +79,8 @@ extension WorkSpaces {
     }
 
     public enum DedicatedTenancySupportResultEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -91,39 +91,39 @@ extension WorkSpaces {
     }
 
     public enum ModificationResourceEnum: String, CustomStringConvertible, Codable {
+        case computeType = "COMPUTE_TYPE"
         case rootVolume = "ROOT_VOLUME"
         case userVolume = "USER_VOLUME"
-        case computeType = "COMPUTE_TYPE"
         public var description: String { return self.rawValue }
     }
 
     public enum ModificationStateEnum: String, CustomStringConvertible, Codable {
-        case updateInitiated = "UPDATE_INITIATED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updateInitiated = "UPDATE_INITIATED"
         public var description: String { return self.rawValue }
     }
 
     public enum OperatingSystemType: String, CustomStringConvertible, Codable {
-        case windows = "WINDOWS"
         case linux = "LINUX"
+        case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
     public enum ReconnectEnum: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum RunningMode: String, CustomStringConvertible, Codable {
-        case autoStop = "AUTO_STOP"
         case alwaysOn = "ALWAYS_ON"
+        case autoStop = "AUTO_STOP"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetWorkspaceState: String, CustomStringConvertible, Codable {
-        case available = "AVAILABLE"
         case adminMaintenance = "ADMIN_MAINTENANCE"
+        case available = "AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -134,58 +134,58 @@ extension WorkSpaces {
     }
 
     public enum WorkspaceDirectoryState: String, CustomStringConvertible, Codable {
-        case registering = "REGISTERING"
-        case registered = "REGISTERED"
-        case deregistering = "DEREGISTERING"
         case deregistered = "DEREGISTERED"
+        case deregistering = "DEREGISTERING"
         case error = "ERROR"
+        case registered = "REGISTERED"
+        case registering = "REGISTERING"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceDirectoryType: String, CustomStringConvertible, Codable {
-        case simpleAd = "SIMPLE_AD"
         case adConnector = "AD_CONNECTOR"
+        case simpleAd = "SIMPLE_AD"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
-        case byolRegular = "BYOL_REGULAR"
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
+        case byolRegular = "BYOL_REGULAR"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceImageRequiredTenancy: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
         case dedicated = "DEDICATED"
+        case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceImageState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case pending = "PENDING"
         case error = "ERROR"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkspaceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
+        case adminMaintenance = "ADMIN_MAINTENANCE"
         case available = "AVAILABLE"
+        case error = "ERROR"
         case impaired = "IMPAIRED"
-        case unhealthy = "UNHEALTHY"
+        case maintenance = "MAINTENANCE"
+        case pending = "PENDING"
         case rebooting = "REBOOTING"
-        case starting = "STARTING"
         case rebuilding = "REBUILDING"
         case restoring = "RESTORING"
-        case maintenance = "MAINTENANCE"
-        case adminMaintenance = "ADMIN_MAINTENANCE"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case suspended = "SUSPENDED"
-        case updating = "UPDATING"
-        case stopping = "STOPPING"
+        case starting = "STARTING"
         case stopped = "STOPPED"
-        case error = "ERROR"
+        case stopping = "STOPPING"
+        case suspended = "SUSPENDED"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
+        case unhealthy = "UNHEALTHY"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 

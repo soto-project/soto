@@ -26,13 +26,13 @@ extension Translate {
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
         case completedWithError = "COMPLETED_WITH_ERROR"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case stopRequested = "STOP_REQUESTED"
         case stopped = "STOPPED"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 

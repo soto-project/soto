@@ -21,30 +21,30 @@ extension CognitoSync {
     // MARK: Enums
 
     public enum BulkPublishStatus: String, CustomStringConvertible, Codable {
-        case notStarted = "NOT_STARTED"
-        case inProgress = "IN_PROGRESS"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
         case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum Operation: String, CustomStringConvertible, Codable {
-        case replace
         case remove
+        case replace
         public var description: String { return self.rawValue }
     }
 
     public enum Platform: String, CustomStringConvertible, Codable {
+        case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
         case gcm = "GCM"
-        case adm = "ADM"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 

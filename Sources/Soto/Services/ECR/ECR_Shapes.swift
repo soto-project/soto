@@ -27,11 +27,11 @@ extension ECR {
     }
 
     public enum FindingSeverity: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
         case informational = "INFORMATIONAL"
         case low = "LOW"
         case medium = "MEDIUM"
-        case high = "HIGH"
-        case critical = "CRITICAL"
         case undefined = "UNDEFINED"
         public var description: String { return self.rawValue }
     }
@@ -42,19 +42,19 @@ extension ECR {
     }
 
     public enum ImageFailureCode: String, CustomStringConvertible, Codable {
+        case imagenotfound = "ImageNotFound"
+        case imagereferencedbymanifestlist = "ImageReferencedByManifestList"
+        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
         case invalidimagedigest = "InvalidImageDigest"
         case invalidimagetag = "InvalidImageTag"
-        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
-        case imagenotfound = "ImageNotFound"
-        case missingdigestandtag = "MissingDigestAndTag"
-        case imagereferencedbymanifestlist = "ImageReferencedByManifestList"
         case kmserror = "KmsError"
+        case missingdigestandtag = "MissingDigestAndTag"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageTagMutability: String, CustomStringConvertible, Codable {
-        case mutable = "MUTABLE"
         case immutable = "IMMUTABLE"
+        case mutable = "MUTABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -71,24 +71,24 @@ extension ECR {
     }
 
     public enum LifecyclePolicyPreviewStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case complete = "COMPLETE"
         case expired = "EXPIRED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum ScanStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case complete = "COMPLETE"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum TagStatus: String, CustomStringConvertible, Codable {
+        case any = "ANY"
         case tagged = "TAGGED"
         case untagged = "UNTAGGED"
-        case any = "ANY"
         public var description: String { return self.rawValue }
     }
 

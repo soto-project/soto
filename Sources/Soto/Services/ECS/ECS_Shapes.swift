@@ -21,18 +21,18 @@ extension ECS {
     // MARK: Enums
 
     public enum AgentUpdateStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case staging = "STAGING"
-        case staged = "STAGED"
-        case updating = "UPDATING"
-        case updated = "UPDATED"
         case failed = "FAILED"
+        case pending = "PENDING"
+        case staged = "STAGED"
+        case staging = "STAGING"
+        case updated = "UPDATED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -48,9 +48,9 @@ extension ECS {
     }
 
     public enum CapacityProviderUpdateStatus: String, CustomStringConvertible, Codable {
-        case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -80,10 +80,10 @@ extension ECS {
     }
 
     public enum ContainerCondition: String, CustomStringConvertible, Codable {
-        case start = "START"
         case complete = "COMPLETE"
-        case success = "SUCCESS"
         case healthy = "HEALTHY"
+        case start = "START"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
@@ -94,43 +94,43 @@ extension ECS {
 
     public enum ContainerInstanceStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
+        case deregistering = "DEREGISTERING"
         case draining = "DRAINING"
         case registering = "REGISTERING"
-        case deregistering = "DEREGISTERING"
         case registrationFailed = "REGISTRATION_FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentControllerType: String, CustomStringConvertible, Codable {
-        case ecs = "ECS"
         case codeDeploy = "CODE_DEPLOY"
+        case ecs = "ECS"
         case external = "EXTERNAL"
         public var description: String { return self.rawValue }
     }
 
     public enum DesiredStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
         case pending = "PENDING"
+        case running = "RUNNING"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceCgroupPermission: String, CustomStringConvertible, Codable {
+        case mknod
         case read
         case write
-        case mknod
         public var description: String { return self.rawValue }
     }
 
     public enum EFSAuthorizationConfigIAM: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum EFSTransitEncryption: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -140,8 +140,8 @@ extension ECS {
     }
 
     public enum FirelensConfigurationType: String, CustomStringConvertible, Codable {
-        case fluentd
         case fluentbit
+        case fluentd
         public var description: String { return self.rawValue }
     }
 
@@ -154,8 +154,8 @@ extension ECS {
 
     public enum IpcMode: String, CustomStringConvertible, Codable {
         case host
-        case task
         case none
+        case task
         public var description: String { return self.rawValue }
     }
 
@@ -166,33 +166,33 @@ extension ECS {
     }
 
     public enum LogDriver: String, CustomStringConvertible, Codable {
-        case jsonFile = "json-file"
-        case syslog
-        case journald
-        case gelf
-        case fluentd
-        case awslogs
-        case splunk
         case awsfirelens
+        case awslogs
+        case fluentd
+        case gelf
+        case journald
+        case jsonFile = "json-file"
+        case splunk
+        case syslog
         public var description: String { return self.rawValue }
     }
 
     public enum ManagedScalingStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum ManagedTerminationProtection: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkMode: String, CustomStringConvertible, Codable {
+        case awsvpc
         case bridge
         case host
-        case awsvpc
         case none
         public var description: String { return self.rawValue }
     }
@@ -210,9 +210,9 @@ extension ECS {
     }
 
     public enum PlacementStrategyType: String, CustomStringConvertible, Codable {
+        case binpack
         case random
         case spread
-        case binpack
         public var description: String { return self.rawValue }
     }
 
@@ -222,9 +222,9 @@ extension ECS {
     }
 
     public enum PropagateTags: String, CustomStringConvertible, Codable {
-        case taskDefinition = "TASK_DEFINITION"
-        case service = "SERVICE"
         case none = "NONE"
+        case service = "SERVICE"
+        case taskDefinition = "TASK_DEFINITION"
         public var description: String { return self.rawValue }
     }
 
@@ -245,14 +245,14 @@ extension ECS {
     }
 
     public enum SchedulingStrategy: String, CustomStringConvertible, Codable {
-        case replica = "REPLICA"
         case daemon = "DAEMON"
+        case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
     public enum Scope: String, CustomStringConvertible, Codable {
-        case task
         case shared
+        case task
         public var description: String { return self.rawValue }
     }
 
@@ -262,11 +262,11 @@ extension ECS {
     }
 
     public enum SettingName: String, CustomStringConvertible, Codable {
-        case servicelongarnformat = "serviceLongArnFormat"
-        case tasklongarnformat = "taskLongArnFormat"
-        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
         case awsvpctrunking = "awsvpcTrunking"
         case containerinsights = "containerInsights"
+        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
+        case servicelongarnformat = "serviceLongArnFormat"
+        case tasklongarnformat = "taskLongArnFormat"
         public var description: String { return self.rawValue }
     }
 
@@ -277,8 +277,8 @@ extension ECS {
     }
 
     public enum StabilityStatus: String, CustomStringConvertible, Codable {
-        case steadyState = "STEADY_STATE"
         case stabilizing = "STABILIZING"
+        case steadyState = "STEADY_STATE"
         public var description: String { return self.rawValue }
     }
 
@@ -289,8 +289,8 @@ extension ECS {
 
     public enum TaskDefinitionFamilyStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case inactive = "INACTIVE"
         case all = "ALL"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -321,8 +321,8 @@ extension ECS {
     }
 
     public enum TaskStopCode: String, CustomStringConvertible, Codable {
-        case taskfailedtostart = "TaskFailedToStart"
         case essentialcontainerexited = "EssentialContainerExited"
+        case taskfailedtostart = "TaskFailedToStart"
         case userinitiated = "UserInitiated"
         public var description: String { return self.rawValue }
     }

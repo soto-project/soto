@@ -31,34 +31,34 @@ extension Inspector {
         case idle = "IDLE"
         case running = "RUNNING"
         case shutdown = "SHUTDOWN"
-        case unhealthy = "UNHEALTHY"
         case throttled = "THROTTLED"
+        case unhealthy = "UNHEALTHY"
         case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum AssessmentRunNotificationSnsStatusCode: String, CustomStringConvertible, Codable {
-        case success = "SUCCESS"
-        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
         case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
+        case success = "SUCCESS"
+        case topicDoesNotExist = "TOPIC_DOES_NOT_EXIST"
         public var description: String { return self.rawValue }
     }
 
     public enum AssessmentRunState: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
-        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
+        case canceled = "CANCELED"
         case collectingData = "COLLECTING_DATA"
-        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
-        case dataCollected = "DATA_COLLECTED"
-        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
-        case evaluatingRules = "EVALUATING_RULES"
-        case failed = "FAILED"
-        case error = "ERROR"
         case completed = "COMPLETED"
         case completedWithErrors = "COMPLETED_WITH_ERRORS"
-        case canceled = "CANCELED"
+        case created = "CREATED"
+        case dataCollected = "DATA_COLLECTED"
+        case error = "ERROR"
+        case evaluatingRules = "EVALUATING_RULES"
+        case failed = "FAILED"
+        case startDataCollectionInProgress = "START_DATA_COLLECTION_IN_PROGRESS"
+        case startDataCollectionPending = "START_DATA_COLLECTION_PENDING"
+        case startEvaluatingRulesPending = "START_EVALUATING_RULES_PENDING"
+        case stopDataCollectionPending = "STOP_DATA_COLLECTION_PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -68,18 +68,18 @@ extension Inspector {
     }
 
     public enum FailedItemErrorCode: String, CustomStringConvertible, Codable {
-        case invalidArn = "INVALID_ARN"
-        case duplicateArn = "DUPLICATE_ARN"
-        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
         case accessDenied = "ACCESS_DENIED"
-        case limitExceeded = "LIMIT_EXCEEDED"
+        case duplicateArn = "DUPLICATE_ARN"
         case internalError = "INTERNAL_ERROR"
+        case invalidArn = "INVALID_ARN"
+        case itemDoesNotExist = "ITEM_DOES_NOT_EXIST"
+        case limitExceeded = "LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum InspectorEvent: String, CustomStringConvertible, Codable {
-        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
         case assessmentRunCompleted = "ASSESSMENT_RUN_COMPLETED"
+        case assessmentRunStarted = "ASSESSMENT_RUN_STARTED"
         case assessmentRunStateChanged = "ASSESSMENT_RUN_STATE_CHANGED"
         case findingReported = "FINDING_REPORTED"
         case other = "OTHER"
@@ -92,8 +92,8 @@ extension Inspector {
     }
 
     public enum PreviewStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
         case completed = "COMPLETED"
+        case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -104,9 +104,9 @@ extension Inspector {
     }
 
     public enum ReportStatus: String, CustomStringConvertible, Codable {
-        case workInProgress = "WORK_IN_PROGRESS"
-        case failed = "FAILED"
         case completed = "COMPLETED"
+        case failed = "FAILED"
+        case workInProgress = "WORK_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -123,17 +123,17 @@ extension Inspector {
     }
 
     public enum Severity: String, CustomStringConvertible, Codable {
-        case low = "Low"
-        case medium = "Medium"
         case high = "High"
         case informational = "Informational"
+        case low = "Low"
+        case medium = "Medium"
         case undefined = "Undefined"
         public var description: String { return self.rawValue }
     }
 
     public enum StopAction: String, CustomStringConvertible, Codable {
-        case startEvaluation = "START_EVALUATION"
         case skipEvaluation = "SKIP_EVALUATION"
+        case startEvaluation = "START_EVALUATION"
         public var description: String { return self.rawValue }
     }
 

@@ -21,9 +21,9 @@ extension ElasticInference {
     // MARK: Enums
 
     public enum LocationType: String, CustomStringConvertible, Codable {
-        case region
         case availabilityZone = "availability-zone"
         case availabilityZoneId = "availability-zone-id"
+        case region
         public var description: String { return self.rawValue }
     }
 

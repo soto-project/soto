@@ -21,35 +21,35 @@ extension ElastiCache {
     // MARK: Enums
 
     public enum AZMode: String, CustomStringConvertible, Codable {
-        case singleAz = "single-az"
         case crossAz = "cross-az"
+        case singleAz = "single-az"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthTokenUpdateStatus: String, CustomStringConvertible, Codable {
-        case setting = "SETTING"
         case rotating = "ROTATING"
+        case setting = "SETTING"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthTokenUpdateStrategyType: String, CustomStringConvertible, Codable {
-        case set = "SET"
-        case rotate = "ROTATE"
         case delete = "DELETE"
+        case rotate = "ROTATE"
+        case set = "SET"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable {
-        case password
         case noPassword = "no-password"
+        case password
         public var description: String { return self.rawValue }
     }
 
     public enum AutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled
         case disabled
-        case enabling
         case disabling
+        case enabled
+        case enabling
         public var description: String { return self.rawValue }
     }
 
@@ -60,44 +60,44 @@ extension ElastiCache {
     }
 
     public enum MultiAZStatus: String, CustomStringConvertible, Codable {
-        case enabled
         case disabled
+        case enabled
         public var description: String { return self.rawValue }
     }
 
     public enum NodeUpdateInitiatedBy: String, CustomStringConvertible, Codable {
-        case system
         case customer
+        case system
         public var description: String { return self.rawValue }
     }
 
     public enum NodeUpdateStatus: String, CustomStringConvertible, Codable {
-        case notApplied = "not-applied"
-        case waitingToStart = "waiting-to-start"
-        case inProgress = "in-progress"
-        case stopping
-        case stopped
         case complete
+        case inProgress = "in-progress"
+        case notApplied = "not-applied"
+        case stopped
+        case stopping
+        case waitingToStart = "waiting-to-start"
         public var description: String { return self.rawValue }
     }
 
     public enum OutpostMode: String, CustomStringConvertible, Codable {
-        case singleOutpost = "single-outpost"
         case crossOutpost = "cross-outpost"
+        case singleOutpost = "single-outpost"
         public var description: String { return self.rawValue }
     }
 
     public enum PendingAutomaticFailoverStatus: String, CustomStringConvertible, Codable {
-        case enabled
         case disabled
+        case enabled
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceUpdateSeverity: String, CustomStringConvertible, Codable {
         case critical
         case important
-        case medium
         case low
+        case medium
         public var description: String { return self.rawValue }
     }
 
@@ -114,9 +114,9 @@ extension ElastiCache {
     }
 
     public enum SlaMet: String, CustomStringConvertible, Codable {
-        case yes
-        case no
         case nA = "n/a"
+        case no
+        case yes
         public var description: String { return self.rawValue }
     }
 
@@ -132,15 +132,15 @@ extension ElastiCache {
     }
 
     public enum UpdateActionStatus: String, CustomStringConvertible, Codable {
-        case notApplied = "not-applied"
-        case waitingToStart = "waiting-to-start"
-        case inProgress = "in-progress"
-        case stopping
-        case stopped
         case complete
-        case scheduling
-        case scheduled
+        case inProgress = "in-progress"
         case notApplicable = "not-applicable"
+        case notApplied = "not-applied"
+        case scheduled
+        case scheduling
+        case stopped
+        case stopping
+        case waitingToStart = "waiting-to-start"
         public var description: String { return self.rawValue }
     }
 
