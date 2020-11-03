@@ -27,15 +27,15 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listJobsPaginator<Result>(
         _ input: ListJobsInput,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListJobsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -52,13 +52,13 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobsPaginator(
         _ input: ListJobsInput,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -78,15 +78,15 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMultipartUploadsPaginator<Result>(
         _ input: ListMultipartUploadsInput,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -103,13 +103,13 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMultipartUploadsPaginator(
         _ input: ListMultipartUploadsInput,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMultipartUploadsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -129,15 +129,15 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listPartsPaginator<Result>(
         _ input: ListPartsInput,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListPartsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -154,13 +154,13 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listPartsPaginator(
         _ input: ListPartsInput,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListPartsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -180,15 +180,15 @@ extension Glacier {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listVaultsPaginator<Result>(
         _ input: ListVaultsInput,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListVaultsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -205,13 +205,13 @@ extension Glacier {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listVaultsPaginator(
         _ input: ListVaultsInput,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListVaultsOutput, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(

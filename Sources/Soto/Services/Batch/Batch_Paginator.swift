@@ -27,15 +27,15 @@ extension Batch {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeComputeEnvironmentsPaginator<Result>(
         _ input: DescribeComputeEnvironmentsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeComputeEnvironmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -52,13 +52,13 @@ extension Batch {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeComputeEnvironmentsPaginator(
         _ input: DescribeComputeEnvironmentsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeComputeEnvironmentsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -78,15 +78,15 @@ extension Batch {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeJobDefinitionsPaginator<Result>(
         _ input: DescribeJobDefinitionsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeJobDefinitionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -103,13 +103,13 @@ extension Batch {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeJobDefinitionsPaginator(
         _ input: DescribeJobDefinitionsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeJobDefinitionsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -129,15 +129,15 @@ extension Batch {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeJobQueuesPaginator<Result>(
         _ input: DescribeJobQueuesRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeJobQueuesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -154,13 +154,13 @@ extension Batch {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeJobQueuesPaginator(
         _ input: DescribeJobQueuesRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeJobQueuesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -180,15 +180,15 @@ extension Batch {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listJobsPaginator<Result>(
         _ input: ListJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -205,13 +205,13 @@ extension Batch {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listJobsPaginator(
         _ input: ListJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(

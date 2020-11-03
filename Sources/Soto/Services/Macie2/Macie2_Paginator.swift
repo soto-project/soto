@@ -27,15 +27,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func describeBucketsPaginator<Result>(
         _ input: DescribeBucketsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, DescribeBucketsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -52,13 +52,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func describeBucketsPaginator(
         _ input: DescribeBucketsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (DescribeBucketsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -78,15 +78,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func getUsageStatisticsPaginator<Result>(
         _ input: GetUsageStatisticsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -103,13 +103,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func getUsageStatisticsPaginator(
         _ input: GetUsageStatisticsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (GetUsageStatisticsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -129,15 +129,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listClassificationJobsPaginator<Result>(
         _ input: ListClassificationJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListClassificationJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -154,13 +154,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listClassificationJobsPaginator(
         _ input: ListClassificationJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListClassificationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -180,15 +180,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listCustomDataIdentifiersPaginator<Result>(
         _ input: ListCustomDataIdentifiersRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListCustomDataIdentifiersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -205,13 +205,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listCustomDataIdentifiersPaginator(
         _ input: ListCustomDataIdentifiersRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListCustomDataIdentifiersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -231,15 +231,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listFindingsPaginator<Result>(
         _ input: ListFindingsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListFindingsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -256,13 +256,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFindingsPaginator(
         _ input: ListFindingsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListFindingsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -282,15 +282,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listFindingsFiltersPaginator<Result>(
         _ input: ListFindingsFiltersRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListFindingsFiltersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -307,13 +307,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFindingsFiltersPaginator(
         _ input: ListFindingsFiltersRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListFindingsFiltersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -333,15 +333,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listInvitationsPaginator<Result>(
         _ input: ListInvitationsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListInvitationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -358,13 +358,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listInvitationsPaginator(
         _ input: ListInvitationsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListInvitationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -384,15 +384,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listMembersPaginator<Result>(
         _ input: ListMembersRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListMembersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -409,13 +409,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listMembersPaginator(
         _ input: ListMembersRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListMembersResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -435,15 +435,15 @@ extension Macie2 {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listOrganizationAdminAccountsPaginator<Result>(
         _ input: ListOrganizationAdminAccountsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -460,13 +460,13 @@ extension Macie2 {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listOrganizationAdminAccountsPaginator(
         _ input: ListOrganizationAdminAccountsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListOrganizationAdminAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(

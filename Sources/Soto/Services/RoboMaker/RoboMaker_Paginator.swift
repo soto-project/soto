@@ -27,15 +27,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listDeploymentJobsPaginator<Result>(
         _ input: ListDeploymentJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListDeploymentJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -52,13 +52,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listDeploymentJobsPaginator(
         _ input: ListDeploymentJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListDeploymentJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -78,15 +78,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listFleetsPaginator<Result>(
         _ input: ListFleetsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListFleetsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -103,13 +103,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListFleetsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -129,15 +129,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listRobotApplicationsPaginator<Result>(
         _ input: ListRobotApplicationsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListRobotApplicationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -154,13 +154,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRobotApplicationsPaginator(
         _ input: ListRobotApplicationsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRobotApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -180,15 +180,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listRobotsPaginator<Result>(
         _ input: ListRobotsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListRobotsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -205,13 +205,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listRobotsPaginator(
         _ input: ListRobotsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListRobotsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -231,15 +231,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSimulationApplicationsPaginator<Result>(
         _ input: ListSimulationApplicationsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSimulationApplicationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -256,13 +256,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSimulationApplicationsPaginator(
         _ input: ListSimulationApplicationsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSimulationApplicationsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -282,15 +282,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSimulationJobBatchesPaginator<Result>(
         _ input: ListSimulationJobBatchesRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSimulationJobBatchesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -307,13 +307,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSimulationJobBatchesPaginator(
         _ input: ListSimulationJobBatchesRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSimulationJobBatchesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -333,15 +333,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listSimulationJobsPaginator<Result>(
         _ input: ListSimulationJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListSimulationJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -358,13 +358,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listSimulationJobsPaginator(
         _ input: ListSimulationJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListSimulationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -384,15 +384,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listWorldExportJobsPaginator<Result>(
         _ input: ListWorldExportJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListWorldExportJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -409,13 +409,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorldExportJobsPaginator(
         _ input: ListWorldExportJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListWorldExportJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -435,15 +435,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listWorldGenerationJobsPaginator<Result>(
         _ input: ListWorldGenerationJobsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListWorldGenerationJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -460,13 +460,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorldGenerationJobsPaginator(
         _ input: ListWorldGenerationJobsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListWorldGenerationJobsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -486,15 +486,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listWorldTemplatesPaginator<Result>(
         _ input: ListWorldTemplatesRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListWorldTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -511,13 +511,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorldTemplatesPaginator(
         _ input: ListWorldTemplatesRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListWorldTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(
@@ -537,15 +537,15 @@ extension RoboMaker {
     /// Parameters:
     ///   - input: Input for request
     ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
     public func listWorldsPaginator<Result>(
         _ input: ListWorldsRequest,
         _ initialValue: Result,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (Result, ListWorldsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
     ) -> EventLoopFuture<Result> {
         return client.paginate(
@@ -562,13 +562,13 @@ extension RoboMaker {
     ///
     /// - Parameters:
     ///   - input: Input for request
-    ///   - eventLoop: EventLoop to run this process on
     ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
     public func listWorldsPaginator(
         _ input: ListWorldsRequest,
-        on eventLoop: EventLoop? = nil,
         logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
         onPage: @escaping (ListWorldsResponse, EventLoop) -> EventLoopFuture<Bool>
     ) -> EventLoopFuture<Void> {
         return client.paginate(

@@ -63,33 +63,33 @@ public struct Braket: AWSService {
     // MARK: API Calls
 
     ///  Cancels the specified task.
-    public func cancelQuantumTask(_ input: CancelQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelQuantumTaskResponse> {
-        return self.client.execute(operation: "CancelQuantumTask", path: "/quantum-task/{quantumTaskArn}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func cancelQuantumTask(_ input: CancelQuantumTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelQuantumTaskResponse> {
+        return self.client.execute(operation: "CancelQuantumTask", path: "/quantum-task/{quantumTaskArn}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a quantum task.
-    public func createQuantumTask(_ input: CreateQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateQuantumTaskResponse> {
-        return self.client.execute(operation: "CreateQuantumTask", path: "/quantum-task", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createQuantumTask(_ input: CreateQuantumTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateQuantumTaskResponse> {
+        return self.client.execute(operation: "CreateQuantumTask", path: "/quantum-task", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the devices available in Amazon Braket.
-    public func getDevice(_ input: GetDeviceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeviceResponse> {
-        return self.client.execute(operation: "GetDevice", path: "/device/{deviceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDevice(_ input: GetDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceResponse> {
+        return self.client.execute(operation: "GetDevice", path: "/device/{deviceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the specified quantum task.
-    public func getQuantumTask(_ input: GetQuantumTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetQuantumTaskResponse> {
-        return self.client.execute(operation: "GetQuantumTask", path: "/quantum-task/{quantumTaskArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getQuantumTask(_ input: GetQuantumTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetQuantumTaskResponse> {
+        return self.client.execute(operation: "GetQuantumTask", path: "/quantum-task/{quantumTaskArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Searches for devices using the specified filters.
-    public func searchDevices(_ input: SearchDevicesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchDevicesResponse> {
-        return self.client.execute(operation: "SearchDevices", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func searchDevices(_ input: SearchDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDevicesResponse> {
+        return self.client.execute(operation: "SearchDevices", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Searches for tasks that match the specified filter values.
-    public func searchQuantumTasks(_ input: SearchQuantumTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchQuantumTasksResponse> {
-        return self.client.execute(operation: "SearchQuantumTasks", path: "/quantum-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func searchQuantumTasks(_ input: SearchQuantumTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchQuantumTasksResponse> {
+        return self.client.execute(operation: "SearchQuantumTasks", path: "/quantum-tasks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

@@ -64,38 +64,38 @@ public struct Macie: AWSService {
     // MARK: API Calls
 
     ///  Associates a specified AWS account with Amazon Macie Classic as a member account.
-    @discardableResult public func associateMemberAccount(_ input: AssociateMemberAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func associateMemberAccount(_ input: AssociateMemberAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Associates specified S3 resources with Amazon Macie Classic for monitoring and data classification. If memberAccountId isn't specified, the action associates specified S3 resources with Macie Classic for the current master account. If memberAccountId is specified, the action associates specified S3 resources with Macie Classic for the specified member account.
-    public func associateS3Resources(_ input: AssociateS3ResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateS3ResourcesResult> {
-        return self.client.execute(operation: "AssociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func associateS3Resources(_ input: AssociateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateS3ResourcesResult> {
+        return self.client.execute(operation: "AssociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the specified member account from Amazon Macie Classic.
-    @discardableResult public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisassociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func disassociateMemberAccount(_ input: DisassociateMemberAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateMemberAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes specified S3 resources from being monitored by Amazon Macie Classic. If memberAccountId isn't specified, the action removes specified S3 resources from Macie Classic for the current master account. If memberAccountId is specified, the action removes specified S3 resources from Macie Classic for the specified member account.
-    public func disassociateS3Resources(_ input: DisassociateS3ResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateS3ResourcesResult> {
-        return self.client.execute(operation: "DisassociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func disassociateS3Resources(_ input: DisassociateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateS3ResourcesResult> {
+        return self.client.execute(operation: "DisassociateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all Amazon Macie Classic member accounts for the current Amazon Macie Classic master account.
-    public func listMemberAccounts(_ input: ListMemberAccountsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMemberAccountsResult> {
-        return self.client.execute(operation: "ListMemberAccounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listMemberAccounts(_ input: ListMemberAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMemberAccountsResult> {
+        return self.client.execute(operation: "ListMemberAccounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all the S3 resources associated with Amazon Macie Classic. If memberAccountId isn't specified, the action lists the S3 resources associated with Amazon Macie Classic for the current master account. If memberAccountId is specified, the action lists the S3 resources associated with Amazon Macie Classic for the specified member account.
-    public func listS3Resources(_ input: ListS3ResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListS3ResourcesResult> {
-        return self.client.execute(operation: "ListS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listS3Resources(_ input: ListS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListS3ResourcesResult> {
+        return self.client.execute(operation: "ListS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the classification types for the specified S3 resources. If memberAccountId isn't specified, the action updates the classification types of the S3 resources associated with Amazon Macie Classic for the current master account. If memberAccountId is specified, the action updates the classification types of the S3 resources associated with Amazon Macie Classic for the specified member account.
-    public func updateS3Resources(_ input: UpdateS3ResourcesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateS3ResourcesResult> {
-        return self.client.execute(operation: "UpdateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateS3Resources(_ input: UpdateS3ResourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateS3ResourcesResult> {
+        return self.client.execute(operation: "UpdateS3Resources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

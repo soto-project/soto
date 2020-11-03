@@ -63,8 +63,8 @@ public struct MobileAnalytics: AWSService {
     // MARK: API Calls
 
     ///  The PutEvents operation records one or more events. You can have up to 1,500 unique custom events per app, any combination of up to 40 attributes and metrics per custom event, and any number of attribute or metric values.
-    @discardableResult public func putEvents(_ input: PutEventsInput, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putEvents(_ input: PutEventsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutEvents", path: "/2014-06-05/events", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

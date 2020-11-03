@@ -299,10 +299,10 @@ class S3ExtensionTests: XCTestCase {
                     outputSerialization: output,
                     requestProgress: S3.RequestProgress(enabled: true)
                 )
-                return s3.selectObjectContentEventStream(request, on: runOnEventLoop) { eventStream, eventLoop in
+                return s3.selectObjectContentEventStream(request, logger: TestEnvironment.logger, on: runOnEventLoop) { eventStream, eventLoop in
                     XCTAssertTrue(eventLoop === runOnEventLoop)
                     if let records = eventStream.records?.payload {
-                        print(String(data: records, encoding: .utf8)!)
+                        print("Record size: \(records.count)")
                     }
                     return eventLoop.makeSucceededFuture(())
                 }

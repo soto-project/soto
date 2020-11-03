@@ -63,238 +63,238 @@ public struct Connect: AWSService {
     // MARK: API Calls
 
     ///  Associates a set of queues with a routing profile.
-    @discardableResult public func associateRoutingProfileQueues(_ input: AssociateRoutingProfileQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "AssociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func associateRoutingProfileQueues(_ input: AssociateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/associate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a contact flow for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language.
-    public func createContactFlow(_ input: CreateContactFlowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateContactFlowResponse> {
-        return self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createContactFlow(_ input: CreateContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateContactFlowResponse> {
+        return self.client.execute(operation: "CreateContactFlow", path: "/contact-flows/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new routing profile.
-    public func createRoutingProfile(_ input: CreateRoutingProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRoutingProfileResponse> {
-        return self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRoutingProfile(_ input: CreateRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoutingProfileResponse> {
+        return self.client.execute(operation: "CreateRoutingProfile", path: "/routing-profiles/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a user account for the specified Amazon Connect instance. For information about how to create user accounts using the Amazon Connect console, see Add Users in the Amazon Connect Administrator Guide.
-    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserResponse> {
-        return self.client.execute(operation: "CreateUser", path: "/users/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
+        return self.client.execute(operation: "CreateUser", path: "/users/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see Delete Users from Your Amazon Connect Instance in the Amazon Connect Administrator Guide.
-    @discardableResult public func deleteUser(_ input: DeleteUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteUser(_ input: DeleteUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
-    public func describeContactFlow(_ input: DescribeContactFlowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeContactFlowResponse> {
-        return self.client.execute(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeContactFlow(_ input: DescribeContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeContactFlowResponse> {
+        return self.client.execute(operation: "DescribeContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the specified routing profile.
-    public func describeRoutingProfile(_ input: DescribeRoutingProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeRoutingProfileResponse> {
-        return self.client.execute(operation: "DescribeRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeRoutingProfile(_ input: DescribeRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeRoutingProfileResponse> {
+        return self.client.execute(operation: "DescribeRoutingProfile", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the specified user account. You can find the instance ID in the console (it’s the final part of the ARN). The console does not display the user IDs. Instead, list the users and note the IDs provided in the output.
-    public func describeUser(_ input: DescribeUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserResponse> {
-        return self.client.execute(operation: "DescribeUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeUser(_ input: DescribeUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserResponse> {
+        return self.client.execute(operation: "DescribeUser", path: "/users/{InstanceId}/{UserId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the specified hierarchy group.
-    public func describeUserHierarchyGroup(_ input: DescribeUserHierarchyGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserHierarchyGroupResponse> {
-        return self.client.execute(operation: "DescribeUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeUserHierarchyGroup(_ input: DescribeUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserHierarchyGroupResponse> {
+        return self.client.execute(operation: "DescribeUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the hierarchy structure of the specified Amazon Connect instance.
-    public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeUserHierarchyStructureResponse> {
-        return self.client.execute(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserHierarchyStructureResponse> {
+        return self.client.execute(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates a set of queues from a routing profile.
-    @discardableResult public func disassociateRoutingProfileQueues(_ input: DisassociateRoutingProfileQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DisassociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func disassociateRoutingProfileQueues(_ input: DisassociateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/disassociate-queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the contact attributes for the specified contact.
-    public func getContactAttributes(_ input: GetContactAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetContactAttributesResponse> {
-        return self.client.execute(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getContactAttributes(_ input: GetContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetContactAttributesResponse> {
+        return self.client.execute(operation: "GetContactAttributes", path: "/contact/attributes/{InstanceId}/{InitialContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the real-time metric data from the specified Amazon Connect instance. For a description of each metric, see Real-time Metrics Definitions in the Amazon Connect Administrator Guide.
-    public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCurrentMetricDataResponse> {
-        return self.client.execute(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCurrentMetricData(_ input: GetCurrentMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCurrentMetricDataResponse> {
+        return self.client.execute(operation: "GetCurrentMetricData", path: "/metrics/current/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves a token for federation.
-    public func getFederationToken(_ input: GetFederationTokenRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetFederationTokenResponse> {
-        return self.client.execute(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getFederationToken(_ input: GetFederationTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFederationTokenResponse> {
+        return self.client.execute(operation: "GetFederationToken", path: "/user/federate/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets historical metric data from the specified Amazon Connect instance. For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
-    public func getMetricData(_ input: GetMetricDataRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMetricDataResponse> {
-        return self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMetricData(_ input: GetMetricDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataResponse> {
+        return self.client.execute(operation: "GetMetricData", path: "/metrics/historical/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
-    public func listContactFlows(_ input: ListContactFlowsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListContactFlowsResponse> {
-        return self.client.execute(operation: "ListContactFlows", path: "/contact-flows-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listContactFlows(_ input: ListContactFlowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListContactFlowsResponse> {
+        return self.client.execute(operation: "ListContactFlows", path: "/contact-flows-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
-    public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListHoursOfOperationsResponse> {
-        return self.client.execute(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHoursOfOperationsResponse> {
+        return self.client.execute(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides information about the phone numbers for the specified Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
-    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPhoneNumbersResponse> {
-        return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumbersResponse> {
+        return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides information about the prompts for the specified Amazon Connect instance.
-    public func listPrompts(_ input: ListPromptsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPromptsResponse> {
-        return self.client.execute(operation: "ListPrompts", path: "/prompts-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listPrompts(_ input: ListPromptsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPromptsResponse> {
+        return self.client.execute(operation: "ListPrompts", path: "/prompts-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides information about the queues for the specified Amazon Connect instance. For more information about queues, see Queues: Standard and Agent in the Amazon Connect Administrator Guide.
-    public func listQueues(_ input: ListQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListQueuesResponse> {
-        return self.client.execute(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listQueues(_ input: ListQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueuesResponse> {
+        return self.client.execute(operation: "ListQueues", path: "/queues-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  List the queues associated with a routing profile.
-    public func listRoutingProfileQueues(_ input: ListRoutingProfileQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoutingProfileQueuesResponse> {
-        return self.client.execute(operation: "ListRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRoutingProfileQueues(_ input: ListRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoutingProfileQueuesResponse> {
+        return self.client.execute(operation: "ListRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides summary information about the routing profiles for the specified Amazon Connect instance. For more information about routing profiles, see Routing Profiles and Create a Routing Profile in the Amazon Connect Administrator Guide.
-    public func listRoutingProfiles(_ input: ListRoutingProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoutingProfilesResponse> {
-        return self.client.execute(operation: "ListRoutingProfiles", path: "/routing-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRoutingProfiles(_ input: ListRoutingProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoutingProfilesResponse> {
+        return self.client.execute(operation: "ListRoutingProfiles", path: "/routing-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides summary information about the security profiles for the specified Amazon Connect instance. For more information about security profiles, see Security Profiles in the Amazon Connect Administrator Guide.
-    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListSecurityProfilesResponse> {
-        return self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listSecurityProfiles(_ input: ListSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSecurityProfilesResponse> {
+        return self.client.execute(operation: "ListSecurityProfiles", path: "/security-profiles-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tags for the specified resource. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides summary information about the hierarchy groups for the specified Amazon Connect instance. For more information about agent hierarchies, see Set Up Agent Hierarchies in the Amazon Connect Administrator Guide.
-    public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUserHierarchyGroupsResponse> {
-        return self.client.execute(operation: "ListUserHierarchyGroups", path: "/user-hierarchy-groups-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listUserHierarchyGroups(_ input: ListUserHierarchyGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUserHierarchyGroupsResponse> {
+        return self.client.execute(operation: "ListUserHierarchyGroups", path: "/user-hierarchy-groups-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides summary information about the users for the specified Amazon Connect instance.
-    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
+        return self.client.execute(operation: "ListUsers", path: "/users-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  When a contact is being recorded, and the recording has been suspended using SuspendContactRecording, this API resumes recording the call. Only voice recordings are supported at this time.
-    public func resumeContactRecording(_ input: ResumeContactRecordingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResumeContactRecordingResponse> {
-        return self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func resumeContactRecording(_ input: ResumeContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResumeContactRecordingResponse> {
+        return self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service. When a new chat contact is successfully created, clients need to subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.  A 429 error occurs in two situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception from the API Gateway.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.   For more information about how chat works, see Chat in the Amazon Connect Administrator Guide.
-    public func startChatContact(_ input: StartChatContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartChatContactResponse> {
-        return self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startChatContact(_ input: StartChatContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChatContactResponse> {
+        return self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  This API starts recording the contact when the agent joins the call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
-    public func startContactRecording(_ input: StartContactRecordingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartContactRecordingResponse> {
-        return self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startContactRecording(_ input: StartContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartContactRecordingResponse> {
+        return self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  This API places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId). Agents are not involved in initiating the outbound API (that is, dialing the contact). If the contact flow places an outbound call to a contact, and then puts the contact in queue, that's when the call is routed to the agent, like any other inbound case. There is a 60 second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
-    public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
-        return self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
+        return self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Ends the specified contact.
-    public func stopContact(_ input: StopContactRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopContactResponse> {
-        return self.client.execute(operation: "StopContact", path: "/contact/stop", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactResponse> {
+        return self.client.execute(operation: "StopContact", path: "/contact/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  When a contact is being recorded, this API stops recording the call. StopContactRecording is a one-time action. If you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend it for sensitive information (for example, to collect a credit card number), and then restart it, use SuspendContactRecording and ResumeContactRecording. Only voice recordings are supported at this time.
-    public func stopContactRecording(_ input: StopContactRecordingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopContactRecordingResponse> {
-        return self.client.execute(operation: "StopContactRecording", path: "/contact/stop-recording", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func stopContactRecording(_ input: StopContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactRecordingResponse> {
+        return self.client.execute(operation: "StopContactRecording", path: "/contact/stop-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  When a contact is being recorded, this API suspends recording the call. For example, you might suspend the call recording while collecting sensitive information, such as a credit card number. Then use ResumeContactRecording to restart recording.  The period of time that the recording is suspended is filled with silence in the final recording.  Only voice recordings are supported at this time.
-    public func suspendContactRecording(_ input: SuspendContactRecordingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SuspendContactRecordingResponse> {
-        return self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func suspendContactRecording(_ input: SuspendContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SuspendContactRecordingResponse> {
+        return self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, and contact flows. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the specified tags from the specified resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/tags/{resourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates or updates the contact attributes associated with the specified contact. You can add or update attributes for both ongoing and completed contacts. For example, you can update the customer's name or the reason the customer called while the call is active, or add notes about steps that the agent took during the call that are displayed to the next agent that takes the call. You can also update attributes for a contact using data from your CRM application and save the data with the contact in Amazon Connect. You could also flag calls for additional analysis, such as legal review or identifying abusive callers. Contact attributes are available in Amazon Connect for 24 months, and are then deleted. This operation is also available in the Amazon Connect Flow language. See UpdateContactAttributes.  Important: You cannot use the operation to update attributes for contacts that occurred prior to the release of the API, September 12, 2018. You can update attributes only for contacts that started after the release of the API. If you attempt to update attributes for a contact that occurred prior to the release of the API, a 400 error is returned. This applies also to queued callbacks that were initiated prior to the release of the API but are still active in your instance.
-    public func updateContactAttributes(_ input: UpdateContactAttributesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateContactAttributesResponse> {
-        return self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateContactAttributes(_ input: UpdateContactAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateContactAttributesResponse> {
+        return self.client.execute(operation: "UpdateContactAttributes", path: "/contact/attributes", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the specified contact flow. You can also create and update contact flows using the Amazon Connect Flow language.
-    @discardableResult public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateContactFlowContent(_ input: UpdateContactFlowContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateContactFlowContent", path: "/contact-flows/{InstanceId}/{ContactFlowId}/content", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  The name of the contact flow.
-    @discardableResult public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateContactFlowName(_ input: UpdateContactFlowNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateContactFlowName", path: "/contact-flows/{InstanceId}/{ContactFlowId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the channels that agents can handle in the Contact Control Panel (CCP) for a routing profile.
-    @discardableResult public func updateRoutingProfileConcurrency(_ input: UpdateRoutingProfileConcurrencyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRoutingProfileConcurrency", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRoutingProfileConcurrency(_ input: UpdateRoutingProfileConcurrencyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRoutingProfileConcurrency", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/concurrency", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the default outbound queue of a routing profile.
-    @discardableResult public func updateRoutingProfileDefaultOutboundQueue(_ input: UpdateRoutingProfileDefaultOutboundQueueRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRoutingProfileDefaultOutboundQueue", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRoutingProfileDefaultOutboundQueue(_ input: UpdateRoutingProfileDefaultOutboundQueueRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRoutingProfileDefaultOutboundQueue", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/default-outbound-queue", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the name and description of a routing profile. The request accepts the following data in JSON format. At least Name or Description must be provided.
-    @discardableResult public func updateRoutingProfileName(_ input: UpdateRoutingProfileNameRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRoutingProfileName", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRoutingProfileName(_ input: UpdateRoutingProfileNameRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRoutingProfileName", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/name", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the properties associated with a set of queues for a routing profile.
-    @discardableResult public func updateRoutingProfileQueues(_ input: UpdateRoutingProfileQueuesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateRoutingProfileQueues(_ input: UpdateRoutingProfileQueuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateRoutingProfileQueues", path: "/routing-profiles/{InstanceId}/{RoutingProfileId}/queues", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Assigns the specified hierarchy group to the specified user.
-    @discardableResult public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserHierarchy(_ input: UpdateUserHierarchyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserHierarchy", path: "/users/{InstanceId}/{UserId}/hierarchy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the identity information for the specified user.  Someone with the ability to invoke UpdateUserIndentityInfo can change the login credentials of other users by changing their email address. This poses a security risk to your organization. They can change the email address of a user to the attacker's email address, and then reset the password through email. We strongly recommend limiting who has the ability to invoke UpdateUserIndentityInfo. For more information, see Best Practices for Security Profiles in the Amazon Connect Administrator Guide.
-    @discardableResult public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserIdentityInfo(_ input: UpdateUserIdentityInfoRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserIdentityInfo", path: "/users/{InstanceId}/{UserId}/identity-info", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the phone configuration settings for the specified user.
-    @discardableResult public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserPhoneConfig(_ input: UpdateUserPhoneConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserPhoneConfig", path: "/users/{InstanceId}/{UserId}/phone-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Assigns the specified routing profile to the specified user.
-    @discardableResult public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserRoutingProfile(_ input: UpdateUserRoutingProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserRoutingProfile", path: "/users/{InstanceId}/{UserId}/routing-profile", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Assigns the specified security profiles to the specified user.
-    @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserSecurityProfiles(_ input: UpdateUserSecurityProfilesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserSecurityProfiles", path: "/users/{InstanceId}/{UserId}/security-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

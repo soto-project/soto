@@ -64,613 +64,613 @@ public struct SSM: AWSService {
     // MARK: API Calls
 
     ///  Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example: Key=Owner and Value=DbAdmin, SysAdmin, or Dev. Or Key=Stack and Value=Production, Pre-Production, or Test. Each resource can have a maximum of 50 tags.  We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters.  For more information about using tags with EC2 instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
-    public func addTagsToResource(_ input: AddTagsToResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AddTagsToResourceResult> {
-        return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func addTagsToResource(_ input: AddTagsToResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsToResourceResult> {
+        return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Attempts to cancel the command specified by the Command ID. There is no guarantee that the command will be terminated and the underlying process stopped.
-    public func cancelCommand(_ input: CancelCommandRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelCommandResult> {
-        return self.client.execute(operation: "CancelCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func cancelCommand(_ input: CancelCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelCommandResult> {
+        return self.client.execute(operation: "CancelCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Stops a maintenance window execution that is already in progress and cancels any tasks in the window that have not already starting running. (Tasks already in progress will continue to completion.)
-    public func cancelMaintenanceWindowExecution(_ input: CancelMaintenanceWindowExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CancelMaintenanceWindowExecutionResult> {
-        return self.client.execute(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func cancelMaintenanceWindowExecution(_ input: CancelMaintenanceWindowExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelMaintenanceWindowExecutionResult> {
+        return self.client.execute(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Generates an activation code and activation ID you can use to register your on-premises server or virtual machine (VM) with Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises instances and VMs using Systems Manager, see Setting up AWS Systems Manager for hybrid environments in the AWS Systems Manager User Guide.   On-premises servers or VMs that are registered with Systems Manager and EC2 instances that you manage with Systems Manager are all called managed instances.
-    public func createActivation(_ input: CreateActivationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateActivationResult> {
-        return self.client.execute(operation: "CreateActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createActivation(_ input: CreateActivationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateActivationResult> {
+        return self.client.execute(operation: "CreateActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A State Manager association defines the state that you want to maintain on your instances. For example, an association can specify that anti-virus software must be installed and running on your instances, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an AWS Resource Group or an AWS Autoscaling Group, State Manager applies the configuration when new instances are added to the group. The association also specifies actions to take when applying the configuration. For example, an association for anti-virus software might run once a day. If the software is not installed, then State Manager installs it. If the software is installed, but the service is not running, then the association might instruct State Manager to start the service.
-    public func createAssociation(_ input: CreateAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAssociationResult> {
-        return self.client.execute(operation: "CreateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createAssociation(_ input: CreateAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssociationResult> {
+        return self.client.execute(operation: "CreateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Associates the specified Systems Manager document with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, SSM Agent running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system returns the AssociationAlreadyExists exception.
-    public func createAssociationBatch(_ input: CreateAssociationBatchRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAssociationBatchResult> {
-        return self.client.execute(operation: "CreateAssociationBatch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createAssociationBatch(_ input: CreateAssociationBatchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssociationBatchResult> {
+        return self.client.execute(operation: "CreateAssociationBatch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a Systems Manager (SSM) document. An SSM document defines the actions that Systems Manager performs on your managed instances. For more information about SSM documents, including information about supported schemas, features, and syntax, see AWS Systems Manager Documents in the AWS Systems Manager User Guide.
-    public func createDocument(_ input: CreateDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateDocumentResult> {
-        return self.client.execute(operation: "CreateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createDocument(_ input: CreateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDocumentResult> {
+        return self.client.execute(operation: "CreateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new maintenance window.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
-    public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMaintenanceWindowResult> {
-        return self.client.execute(operation: "CreateMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createMaintenanceWindow(_ input: CreateMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMaintenanceWindowResult> {
+        return self.client.execute(operation: "CreateMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new OpsItem. You must have permission in AWS Identity and Access Management (IAM) to create a new OpsItem. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide.
-    public func createOpsItem(_ input: CreateOpsItemRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateOpsItemResponse> {
-        return self.client.execute(operation: "CreateOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createOpsItem(_ input: CreateOpsItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateOpsItemResponse> {
+        return self.client.execute(operation: "CreateOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a patch baseline.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter.
-    public func createPatchBaseline(_ input: CreatePatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePatchBaselineResult> {
-        return self.client.execute(operation: "CreatePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createPatchBaseline(_ input: CreatePatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePatchBaselineResult> {
+        return self.client.execute(operation: "CreatePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A resource data sync helps you view data from multiple sources in a single location. Systems Manager offers two types of resource data sync: SyncToDestination and SyncFromSource. You can configure Systems Manager Inventory to use the SyncToDestination type to synchronize Inventory data from multiple AWS Regions to a single S3 bucket. For more information, see Configuring Resource Data Sync for Inventory in the AWS Systems Manager User Guide. You can configure Systems Manager Explorer to use the SyncFromSource type to synchronize operational work items (OpsItems) and operational data (OpsData) from multiple AWS Regions to a single S3 bucket. This type can synchronize OpsItems and OpsData from multiple AWS accounts and Regions or EntireOrganization by using AWS Organizations. For more information, see Setting up Systems Manager Explorer to display data from multiple accounts and Regions in the AWS Systems Manager User Guide. A resource data sync is an asynchronous operation that returns immediately. After a successful initial sync is completed, the system continuously syncs data. To check the status of a sync, use the ListResourceDataSync.  By default, data is not encrypted in Amazon S3. We strongly recommend that you enable encryption in Amazon S3 to ensure secure data storage. We also recommend that you secure access to the Amazon S3 bucket by creating a restrictive bucket policy.
-    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateResourceDataSyncResult> {
-        return self.client.execute(operation: "CreateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createResourceDataSync(_ input: CreateResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateResourceDataSyncResult> {
+        return self.client.execute(operation: "CreateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an activation. You are not required to delete an activation. If you delete an activation, you can no longer use it to register additional managed instances. Deleting an activation does not de-register managed instances. You must manually de-register managed instances.
-    public func deleteActivation(_ input: DeleteActivationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteActivationResult> {
-        return self.client.execute(operation: "DeleteActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteActivation(_ input: DeleteActivationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteActivationResult> {
+        return self.client.execute(operation: "DeleteActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates the specified Systems Manager document from the specified instance. When you disassociate a document from an instance, it does not change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
-    public func deleteAssociation(_ input: DeleteAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAssociationResult> {
-        return self.client.execute(operation: "DeleteAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteAssociation(_ input: DeleteAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAssociationResult> {
+        return self.client.execute(operation: "DeleteAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the Systems Manager document and all instance associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
-    public func deleteDocument(_ input: DeleteDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteDocumentResult> {
-        return self.client.execute(operation: "DeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDocumentResult> {
+        return self.client.execute(operation: "DeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Delete a custom inventory type or the data associated with a custom Inventory type. Deleting a custom inventory type is also referred to as deleting a custom inventory schema.
-    public func deleteInventory(_ input: DeleteInventoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteInventoryResult> {
-        return self.client.execute(operation: "DeleteInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteInventory(_ input: DeleteInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteInventoryResult> {
+        return self.client.execute(operation: "DeleteInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a maintenance window.
-    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteMaintenanceWindowResult> {
-        return self.client.execute(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteMaintenanceWindow(_ input: DeleteMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMaintenanceWindowResult> {
+        return self.client.execute(operation: "DeleteMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Delete a parameter from the system.
-    public func deleteParameter(_ input: DeleteParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteParameterResult> {
-        return self.client.execute(operation: "DeleteParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteParameter(_ input: DeleteParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParameterResult> {
+        return self.client.execute(operation: "DeleteParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Delete a list of parameters.
-    public func deleteParameters(_ input: DeleteParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteParametersResult> {
-        return self.client.execute(operation: "DeleteParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteParameters(_ input: DeleteParametersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteParametersResult> {
+        return self.client.execute(operation: "DeleteParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a patch baseline.
-    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeletePatchBaselineResult> {
-        return self.client.execute(operation: "DeletePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deletePatchBaseline(_ input: DeletePatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePatchBaselineResult> {
+        return self.client.execute(operation: "DeletePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a Resource Data Sync configuration. After the configuration is deleted, changes to data on managed instances are no longer synced to or from the target. Deleting a sync configuration does not delete data.
-    public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteResourceDataSyncResult> {
-        return self.client.execute(operation: "DeleteResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourceDataSyncResult> {
+        return self.client.execute(operation: "DeleteResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
-    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterManagedInstanceResult> {
-        return self.client.execute(operation: "DeregisterManagedInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterManagedInstanceResult> {
+        return self.client.execute(operation: "DeregisterManagedInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a patch group from a patch baseline.
-    public func deregisterPatchBaselineForPatchGroup(_ input: DeregisterPatchBaselineForPatchGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterPatchBaselineForPatchGroupResult> {
-        return self.client.execute(operation: "DeregisterPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deregisterPatchBaselineForPatchGroup(_ input: DeregisterPatchBaselineForPatchGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterPatchBaselineForPatchGroupResult> {
+        return self.client.execute(operation: "DeregisterPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a target from a maintenance window.
-    public func deregisterTargetFromMaintenanceWindow(_ input: DeregisterTargetFromMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterTargetFromMaintenanceWindowResult> {
-        return self.client.execute(operation: "DeregisterTargetFromMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deregisterTargetFromMaintenanceWindow(_ input: DeregisterTargetFromMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterTargetFromMaintenanceWindowResult> {
+        return self.client.execute(operation: "DeregisterTargetFromMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a task from a maintenance window.
-    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeregisterTaskFromMaintenanceWindowResult> {
-        return self.client.execute(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deregisterTaskFromMaintenanceWindow(_ input: DeregisterTaskFromMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterTaskFromMaintenanceWindowResult> {
+        return self.client.execute(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the IAM role assigned to the instances in the activation, and the number of instances registered by using this activation.
-    public func describeActivations(_ input: DescribeActivationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeActivationsResult> {
-        return self.client.execute(operation: "DescribeActivations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeActivations(_ input: DescribeActivationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeActivationsResult> {
+        return self.client.execute(operation: "DescribeActivations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID. If you created the association by specifying an instance ID and a Systems Manager document, then you retrieve the association by specifying the document name and the instance ID.
-    public func describeAssociation(_ input: DescribeAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAssociationResult> {
-        return self.client.execute(operation: "DescribeAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAssociation(_ input: DescribeAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssociationResult> {
+        return self.client.execute(operation: "DescribeAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Use this API action to view information about a specific execution of a specific association.
-    public func describeAssociationExecutionTargets(_ input: DescribeAssociationExecutionTargetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAssociationExecutionTargetsResult> {
-        return self.client.execute(operation: "DescribeAssociationExecutionTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAssociationExecutionTargets(_ input: DescribeAssociationExecutionTargetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssociationExecutionTargetsResult> {
+        return self.client.execute(operation: "DescribeAssociationExecutionTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Use this API action to view all executions for a specific association ID.
-    public func describeAssociationExecutions(_ input: DescribeAssociationExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAssociationExecutionsResult> {
-        return self.client.execute(operation: "DescribeAssociationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAssociationExecutions(_ input: DescribeAssociationExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssociationExecutionsResult> {
+        return self.client.execute(operation: "DescribeAssociationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Provides details about all active and terminated Automation executions.
-    public func describeAutomationExecutions(_ input: DescribeAutomationExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAutomationExecutionsResult> {
-        return self.client.execute(operation: "DescribeAutomationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAutomationExecutions(_ input: DescribeAutomationExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAutomationExecutionsResult> {
+        return self.client.execute(operation: "DescribeAutomationExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Information about all active and terminated step executions in an Automation workflow.
-    public func describeAutomationStepExecutions(_ input: DescribeAutomationStepExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAutomationStepExecutionsResult> {
-        return self.client.execute(operation: "DescribeAutomationStepExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAutomationStepExecutions(_ input: DescribeAutomationStepExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAutomationStepExecutionsResult> {
+        return self.client.execute(operation: "DescribeAutomationStepExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all patches eligible to be included in a patch baseline.
-    public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeAvailablePatchesResult> {
-        return self.client.execute(operation: "DescribeAvailablePatches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeAvailablePatches(_ input: DescribeAvailablePatchesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAvailablePatchesResult> {
+        return self.client.execute(operation: "DescribeAvailablePatches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the specified Systems Manager document.
-    public func describeDocument(_ input: DescribeDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDocumentResult> {
-        return self.client.execute(operation: "DescribeDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeDocument(_ input: DescribeDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentResult> {
+        return self.client.execute(operation: "DescribeDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes the permissions for a Systems Manager document. If you created the document, you are the owner. If a document is shared, it can either be shared privately (by specifying a user's AWS account ID) or publicly (All).
-    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeDocumentPermissionResponse> {
-        return self.client.execute(operation: "DescribeDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeDocumentPermission(_ input: DescribeDocumentPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDocumentPermissionResponse> {
+        return self.client.execute(operation: "DescribeDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  All associations for the instance(s).
-    public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEffectiveInstanceAssociationsResult> {
-        return self.client.execute(operation: "DescribeEffectiveInstanceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEffectiveInstanceAssociationsResult> {
+        return self.client.execute(operation: "DescribeEffectiveInstanceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the current effective patches (the patch and the approval state) for the specified patch baseline. Note that this API applies only to Windows patch baselines.
-    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeEffectivePatchesForPatchBaselineResult> {
-        return self.client.execute(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeEffectivePatchesForPatchBaseline(_ input: DescribeEffectivePatchesForPatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEffectivePatchesForPatchBaselineResult> {
+        return self.client.execute(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  The status of the associations for the instance(s).
-    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInstanceAssociationsStatusResult> {
-        return self.client.execute(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceAssociationsStatusResult> {
+        return self.client.execute(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes one or more of your instances, including information about the operating system platform, the version of SSM Agent installed on the instance, instance status, and so on. If you specify one or more instance IDs, it returns information for those instances. If you do not specify instance IDs, it returns information for all your instances. If you specify an instance ID that is not valid or an instance that you do not own, you receive an error.  The IamRole field for this API action is the Amazon Identity and Access Management (IAM) role assigned to on-premises instances. This call does not return the IAM role for EC2 instances.
-    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInstanceInformationResult> {
-        return self.client.execute(operation: "DescribeInstanceInformation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceInformationResult> {
+        return self.client.execute(operation: "DescribeInstanceInformation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the high-level patch state of one or more instances.
-    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInstancePatchStatesResult> {
-        return self.client.execute(operation: "DescribeInstancePatchStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchStatesResult> {
+        return self.client.execute(operation: "DescribeInstancePatchStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the high-level patch state for the instances in the specified patch group.
-    public func describeInstancePatchStatesForPatchGroup(_ input: DescribeInstancePatchStatesForPatchGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInstancePatchStatesForPatchGroupResult> {
-        return self.client.execute(operation: "DescribeInstancePatchStatesForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInstancePatchStatesForPatchGroup(_ input: DescribeInstancePatchStatesForPatchGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchStatesForPatchGroupResult> {
+        return self.client.execute(operation: "DescribeInstancePatchStatesForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
-    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInstancePatchesResult> {
-        return self.client.execute(operation: "DescribeInstancePatches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInstancePatches(_ input: DescribeInstancePatchesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchesResult> {
+        return self.client.execute(operation: "DescribeInstancePatches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Describes a specific delete inventory operation.
-    public func describeInventoryDeletions(_ input: DescribeInventoryDeletionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeInventoryDeletionsResult> {
-        return self.client.execute(operation: "DescribeInventoryDeletions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeInventoryDeletions(_ input: DescribeInventoryDeletionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInventoryDeletionsResult> {
+        return self.client.execute(operation: "DescribeInventoryDeletions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the individual task executions (one per target) for a particular task run as part of a maintenance window execution.
-    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTaskInvocationsResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowExecutionTaskInvocations(_ input: DescribeMaintenanceWindowExecutionTaskInvocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTaskInvocationsResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowExecutionTaskInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  For a given maintenance window execution, lists the tasks that were run.
-    public func describeMaintenanceWindowExecutionTasks(_ input: DescribeMaintenanceWindowExecutionTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTasksResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowExecutionTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowExecutionTasks(_ input: DescribeMaintenanceWindowExecutionTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowExecutionTasksResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowExecutionTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the executions of a maintenance window. This includes information about when the maintenance window was scheduled to be active, and information about tasks registered and run with the maintenance window.
-    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowExecutionsResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowExecutions(_ input: DescribeMaintenanceWindowExecutionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowExecutionsResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowExecutions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about upcoming executions of a maintenance window.
-    public func describeMaintenanceWindowSchedule(_ input: DescribeMaintenanceWindowScheduleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowScheduleResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowSchedule(_ input: DescribeMaintenanceWindowScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowScheduleResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the targets registered with the maintenance window.
-    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowTargetsResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowTargets(_ input: DescribeMaintenanceWindowTargetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowTargetsResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowTargets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tasks in a maintenance window.
-    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowTasksResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowTasks(_ input: DescribeMaintenanceWindowTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowTasksResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the maintenance windows in an AWS account.
-    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowsResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindows(_ input: DescribeMaintenanceWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowsResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about the maintenance window targets or tasks that an instance is associated with.
-    public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeMaintenanceWindowsForTargetResult> {
-        return self.client.execute(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowsForTargetResult> {
+        return self.client.execute(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Query a set of OpsItems. You must have permission in AWS Identity and Access Management (IAM) to query a list of OpsItems. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide.
-    public func describeOpsItems(_ input: DescribeOpsItemsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeOpsItemsResponse> {
-        return self.client.execute(operation: "DescribeOpsItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeOpsItems(_ input: DescribeOpsItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOpsItemsResponse> {
+        return self.client.execute(operation: "DescribeOpsItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get information about a parameter.  Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
-    public func describeParameters(_ input: DescribeParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeParametersResult> {
-        return self.client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeParameters(_ input: DescribeParametersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeParametersResult> {
+        return self.client.execute(operation: "DescribeParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the patch baselines in your AWS account.
-    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePatchBaselinesResult> {
-        return self.client.execute(operation: "DescribePatchBaselines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describePatchBaselines(_ input: DescribePatchBaselinesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePatchBaselinesResult> {
+        return self.client.execute(operation: "DescribePatchBaselines", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns high-level aggregated patch compliance state for a patch group.
-    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePatchGroupStateResult> {
-        return self.client.execute(operation: "DescribePatchGroupState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describePatchGroupState(_ input: DescribePatchGroupStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePatchGroupStateResult> {
+        return self.client.execute(operation: "DescribePatchGroupState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists all patch groups that have been registered with patch baselines.
-    public func describePatchGroups(_ input: DescribePatchGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePatchGroupsResult> {
-        return self.client.execute(operation: "DescribePatchGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describePatchGroups(_ input: DescribePatchGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePatchGroupsResult> {
+        return self.client.execute(operation: "DescribePatchGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the properties of available patches organized by product, product family, classification, severity, and other properties of available patches. You can use the reported properties in the filters you specify in requests for actions such as CreatePatchBaseline, UpdatePatchBaseline, DescribeAvailablePatches, and DescribePatchBaselines. The following section lists the properties that can be used in filters for each major operating system type:  AMAZON_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  AMAZON_LINUX_2  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  CENTOS  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  DEBIAN  Valid properties: PRODUCT, PRIORITY  ORACLE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  REDHAT_ENTERPRISE_LINUX  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  SUSE  Valid properties: PRODUCT, CLASSIFICATION, SEVERITY  UBUNTU  Valid properties: PRODUCT, PRIORITY  WINDOWS  Valid properties: PRODUCT, PRODUCT_FAMILY, CLASSIFICATION, MSRC_SEVERITY
-    public func describePatchProperties(_ input: DescribePatchPropertiesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribePatchPropertiesResult> {
-        return self.client.execute(operation: "DescribePatchProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describePatchProperties(_ input: DescribePatchPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePatchPropertiesResult> {
+        return self.client.execute(operation: "DescribePatchProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves a list of all active sessions (both connected and disconnected) or terminated sessions from the past 30 days.
-    public func describeSessions(_ input: DescribeSessionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DescribeSessionsResponse> {
-        return self.client.execute(operation: "DescribeSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func describeSessions(_ input: DescribeSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSessionsResponse> {
+        return self.client.execute(operation: "DescribeSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get detailed information about a particular Automation execution.
-    public func getAutomationExecution(_ input: GetAutomationExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAutomationExecutionResult> {
-        return self.client.execute(operation: "GetAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAutomationExecution(_ input: GetAutomationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAutomationExecutionResult> {
+        return self.client.execute(operation: "GetAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the state of the AWS Systems Manager Change Calendar at an optional, specified time. If you specify a time, GetCalendarState returns the state of the calendar at a specific time, and returns the next time that the Change Calendar state will transition. If you do not specify a time, GetCalendarState assumes the current time. Change Calendar entries have two possible states: OPEN or CLOSED. If you specify more than one calendar in a request, the command returns the status of OPEN only if all calendars in the request are open. If one or more calendars in the request are closed, the status returned is CLOSED. For more information about Systems Manager Change Calendar, see AWS Systems Manager Change Calendar in the AWS Systems Manager User Guide.
-    public func getCalendarState(_ input: GetCalendarStateRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCalendarStateResponse> {
-        return self.client.execute(operation: "GetCalendarState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCalendarState(_ input: GetCalendarStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCalendarStateResponse> {
+        return self.client.execute(operation: "GetCalendarState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns detailed information about command execution for an invocation or plugin.
-    public func getCommandInvocation(_ input: GetCommandInvocationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetCommandInvocationResult> {
-        return self.client.execute(operation: "GetCommandInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getCommandInvocation(_ input: GetCommandInvocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommandInvocationResult> {
+        return self.client.execute(operation: "GetCommandInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the Session Manager connection status for an instance to determine whether it is running and ready to receive Session Manager connections.
-    public func getConnectionStatus(_ input: GetConnectionStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetConnectionStatusResponse> {
-        return self.client.execute(operation: "GetConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getConnectionStatus(_ input: GetConnectionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionStatusResponse> {
+        return self.client.execute(operation: "GetConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the default patch baseline. Note that Systems Manager supports creating multiple default patch baselines. For example, you can create a default patch baseline for each operating system. If you do not specify an operating system value, the default patch baseline for Windows is returned.
-    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDefaultPatchBaselineResult> {
-        return self.client.execute(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDefaultPatchBaseline(_ input: GetDefaultPatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDefaultPatchBaselineResult> {
+        return self.client.execute(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document.
-    public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDeployablePatchSnapshotForInstanceResult> {
-        return self.client.execute(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeployablePatchSnapshotForInstanceResult> {
+        return self.client.execute(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the contents of the specified Systems Manager document.
-    public func getDocument(_ input: GetDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetDocumentResult> {
-        return self.client.execute(operation: "GetDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getDocument(_ input: GetDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDocumentResult> {
+        return self.client.execute(operation: "GetDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Query inventory information.
-    public func getInventory(_ input: GetInventoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInventoryResult> {
-        return self.client.execute(operation: "GetInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getInventory(_ input: GetInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInventoryResult> {
+        return self.client.execute(operation: "GetInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Return a list of inventory type names for the account, or return a list of attribute names for a specific Inventory item type.
-    public func getInventorySchema(_ input: GetInventorySchemaRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetInventorySchemaResult> {
-        return self.client.execute(operation: "GetInventorySchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getInventorySchema(_ input: GetInventorySchemaRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInventorySchemaResult> {
+        return self.client.execute(operation: "GetInventorySchema", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves a maintenance window.
-    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMaintenanceWindowResult> {
-        return self.client.execute(operation: "GetMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMaintenanceWindow(_ input: GetMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMaintenanceWindowResult> {
+        return self.client.execute(operation: "GetMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details about a specific a maintenance window execution.
-    public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMaintenanceWindowExecutionResult> {
-        return self.client.execute(operation: "GetMaintenanceWindowExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMaintenanceWindowExecution(_ input: GetMaintenanceWindowExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMaintenanceWindowExecutionResult> {
+        return self.client.execute(operation: "GetMaintenanceWindowExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the details about a specific task run as part of a maintenance window execution.
-    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskResult> {
-        return self.client.execute(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMaintenanceWindowExecutionTask(_ input: GetMaintenanceWindowExecutionTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskResult> {
+        return self.client.execute(operation: "GetMaintenanceWindowExecutionTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about a specific task running on a specific target.
-    public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskInvocationResult> {
-        return self.client.execute(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMaintenanceWindowExecutionTaskInvocation(_ input: GetMaintenanceWindowExecutionTaskInvocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMaintenanceWindowExecutionTaskInvocationResult> {
+        return self.client.execute(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tasks in a maintenance window.
-    public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMaintenanceWindowTaskResult> {
-        return self.client.execute(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMaintenanceWindowTaskResult> {
+        return self.client.execute(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get information about an OpsItem by using the ID. You must have permission in AWS Identity and Access Management (IAM) to view information about an OpsItem. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide.
-    public func getOpsItem(_ input: GetOpsItemRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOpsItemResponse> {
-        return self.client.execute(operation: "GetOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getOpsItem(_ input: GetOpsItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOpsItemResponse> {
+        return self.client.execute(operation: "GetOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  View a summary of OpsItems based on specified filters and aggregators.
-    public func getOpsSummary(_ input: GetOpsSummaryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetOpsSummaryResult> {
-        return self.client.execute(operation: "GetOpsSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getOpsSummary(_ input: GetOpsSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOpsSummaryResult> {
+        return self.client.execute(operation: "GetOpsSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get information about a parameter by using the parameter name. Don't confuse this API action with the GetParameters API action.
-    public func getParameter(_ input: GetParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetParameterResult> {
-        return self.client.execute(operation: "GetParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getParameter(_ input: GetParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParameterResult> {
+        return self.client.execute(operation: "GetParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the history of all changes to a parameter.
-    public func getParameterHistory(_ input: GetParameterHistoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetParameterHistoryResult> {
-        return self.client.execute(operation: "GetParameterHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getParameterHistory(_ input: GetParameterHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParameterHistoryResult> {
+        return self.client.execute(operation: "GetParameterHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Get details of a parameter. Don't confuse this API action with the GetParameter API action.
-    public func getParameters(_ input: GetParametersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetParametersResult> {
-        return self.client.execute(operation: "GetParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getParameters(_ input: GetParametersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParametersResult> {
+        return self.client.execute(operation: "GetParameters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieve information about one or more parameters in a specific hierarchy.   Request results are returned on a best-effort basis. If you specify MaxResults in the request, the response includes information up to the limit specified. The number of items returned, however, can be between zero and the value of MaxResults. If the service reaches an internal limit while processing the results, it stops the operation and returns the matching values up to that point and a NextToken. You can specify the NextToken in a subsequent call to get the next set of results.
-    public func getParametersByPath(_ input: GetParametersByPathRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetParametersByPathResult> {
-        return self.client.execute(operation: "GetParametersByPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getParametersByPath(_ input: GetParametersByPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetParametersByPathResult> {
+        return self.client.execute(operation: "GetParametersByPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about a patch baseline.
-    public func getPatchBaseline(_ input: GetPatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPatchBaselineResult> {
-        return self.client.execute(operation: "GetPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPatchBaseline(_ input: GetPatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPatchBaselineResult> {
+        return self.client.execute(operation: "GetPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the patch baseline that should be used for the specified patch group.
-    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPatchBaselineForPatchGroupResult> {
-        return self.client.execute(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPatchBaselineForPatchGroup(_ input: GetPatchBaselineForPatchGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPatchBaselineForPatchGroupResult> {
+        return self.client.execute(operation: "GetPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the UpdateServiceSetting API action to change the default setting. Or use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Query the current service setting for the account.
-    public func getServiceSetting(_ input: GetServiceSettingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetServiceSettingResult> {
-        return self.client.execute(operation: "GetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getServiceSetting(_ input: GetServiceSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetServiceSettingResult> {
+        return self.client.execute(operation: "GetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A parameter label is a user-defined alias to help you manage different versions of a parameter. When you modify a parameter, Systems Manager automatically saves a new version and increments the version number by one. A label can help you remember the purpose of a parameter when there are multiple versions.  Parameter labels have the following requirements and restrictions.   A version of a parameter can have a maximum of 10 labels.   You can't attach the same label to different versions of the same parameter. For example, if version 1 has the label Production, then you can't attach Production to version 2.   You can move a label from one version of a parameter to another.   You can't create a label when you create a new parameter. You must attach a label to a specific version of a parameter.   You can't delete a parameter label. If you no longer want to use a parameter label, then you must move it to a different version of a parameter.   A label can have a maximum of 100 characters.   Labels can contain letters (case sensitive), numbers, periods (.), hyphens (-), or underscores (_).   Labels can't begin with a number, "aws," or "ssm" (not case sensitive). If a label fails to meet these requirements, then the label is not associated with a parameter and the system displays it in the list of InvalidLabels.
-    public func labelParameterVersion(_ input: LabelParameterVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<LabelParameterVersionResult> {
-        return self.client.execute(operation: "LabelParameterVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func labelParameterVersion(_ input: LabelParameterVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LabelParameterVersionResult> {
+        return self.client.execute(operation: "LabelParameterVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves all versions of an association for a specific association ID.
-    public func listAssociationVersions(_ input: ListAssociationVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAssociationVersionsResult> {
-        return self.client.execute(operation: "ListAssociationVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAssociationVersions(_ input: ListAssociationVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationVersionsResult> {
+        return self.client.execute(operation: "ListAssociationVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns all State Manager associations in the current AWS account and Region. You can limit the results to a specific State Manager association document or instance by specifying a filter.
-    public func listAssociations(_ input: ListAssociationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAssociationsResult> {
-        return self.client.execute(operation: "ListAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAssociations(_ input: ListAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationsResult> {
+        return self.client.execute(operation: "ListAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
-    public func listCommandInvocations(_ input: ListCommandInvocationsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCommandInvocationsResult> {
-        return self.client.execute(operation: "ListCommandInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listCommandInvocations(_ input: ListCommandInvocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCommandInvocationsResult> {
+        return self.client.execute(operation: "ListCommandInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the commands requested by users of the AWS account.
-    public func listCommands(_ input: ListCommandsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListCommandsResult> {
-        return self.client.execute(operation: "ListCommands", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listCommands(_ input: ListCommandsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCommandsResult> {
+        return self.client.execute(operation: "ListCommands", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  For a specified resource ID, this API action returns a list of compliance statuses for different resource types. Currently, you can only specify one resource ID per call. List results depend on the criteria specified in the filter.
-    public func listComplianceItems(_ input: ListComplianceItemsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListComplianceItemsResult> {
-        return self.client.execute(operation: "ListComplianceItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listComplianceItems(_ input: ListComplianceItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComplianceItemsResult> {
+        return self.client.execute(operation: "ListComplianceItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns a summary count of compliant and non-compliant resources for a compliance type. For example, this call can return State Manager associations, patches, or custom compliance types according to the filter criteria that you specify.
-    public func listComplianceSummaries(_ input: ListComplianceSummariesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListComplianceSummariesResult> {
-        return self.client.execute(operation: "ListComplianceSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listComplianceSummaries(_ input: ListComplianceSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListComplianceSummariesResult> {
+        return self.client.execute(operation: "ListComplianceSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  List all versions for a document.
-    public func listDocumentVersions(_ input: ListDocumentVersionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDocumentVersionsResult> {
-        return self.client.execute(operation: "ListDocumentVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listDocumentVersions(_ input: ListDocumentVersionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentVersionsResult> {
+        return self.client.execute(operation: "ListDocumentVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns all Systems Manager (SSM) documents in the current AWS account and Region. You can limit the results of this request by using a filter.
-    public func listDocuments(_ input: ListDocumentsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListDocumentsResult> {
-        return self.client.execute(operation: "ListDocuments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listDocuments(_ input: ListDocumentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDocumentsResult> {
+        return self.client.execute(operation: "ListDocuments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  A list of inventory items returned by the request.
-    public func listInventoryEntries(_ input: ListInventoryEntriesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListInventoryEntriesResult> {
-        return self.client.execute(operation: "ListInventoryEntries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listInventoryEntries(_ input: ListInventoryEntriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListInventoryEntriesResult> {
+        return self.client.execute(operation: "ListInventoryEntries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns a resource-level summary count. The summary includes information about compliant and non-compliant statuses and detailed compliance-item severity counts, according to the filter criteria you specify.
-    public func listResourceComplianceSummaries(_ input: ListResourceComplianceSummariesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourceComplianceSummariesResult> {
-        return self.client.execute(operation: "ListResourceComplianceSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listResourceComplianceSummaries(_ input: ListResourceComplianceSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceComplianceSummariesResult> {
+        return self.client.execute(operation: "ListResourceComplianceSummaries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists your resource data sync configurations. Includes information about the last time a sync attempted to start, the last sync status, and the last time a sync successfully completed. The number of sync configurations might be too large to return using a single call to ListResourceDataSync. You can limit the number of sync configurations returned by using the MaxResults parameter. To determine whether there are more sync configurations to list, check the value of NextToken in the output. If there are more sync configurations to list, you can request them by specifying the NextToken returned in the call to the parameter of a subsequent call.
-    public func listResourceDataSync(_ input: ListResourceDataSyncRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListResourceDataSyncResult> {
-        return self.client.execute(operation: "ListResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listResourceDataSync(_ input: ListResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListResourceDataSyncResult> {
+        return self.client.execute(operation: "ListResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns a list of the tags assigned to the specified resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResult> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResult> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Shares a Systems Manager document publicly or privately. If you share a document privately, you must specify the AWS user account IDs for those people who can use the document. If you share a document publicly, you must specify All as the account ID.
-    public func modifyDocumentPermission(_ input: ModifyDocumentPermissionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ModifyDocumentPermissionResponse> {
-        return self.client.execute(operation: "ModifyDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func modifyDocumentPermission(_ input: ModifyDocumentPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyDocumentPermissionResponse> {
+        return self.client.execute(operation: "ModifyDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Registers a compliance type and other compliance details on a designated resource. This action lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following:   ExecutionId: The execution ID when the patch, association, or custom compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.   ExecutionTime. The time the patch, association, or custom compliance item was applied to the instance.   Id: The patch, association, or custom compliance ID.   Title: A title.   Status: The status of the compliance item. For example, approved for patches, or Failed for associations.   Severity: A patch severity. For example, critical.   DocumentName: A SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document version number. For example, 4.   Classification: A patch classification. For example, security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch severity. For example, Critical.   PatchState: A patch state. For example, InstancesWithFailedPatches.   PatchGroup: The name of a patch group.   InstalledTime: The time the association, patch, or custom compliance item was applied to the resource. Specify the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
-    public func putComplianceItems(_ input: PutComplianceItemsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutComplianceItemsResult> {
-        return self.client.execute(operation: "PutComplianceItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putComplianceItems(_ input: PutComplianceItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutComplianceItemsResult> {
+        return self.client.execute(operation: "PutComplianceItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Bulk update custom inventory items on one more instance. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
-    public func putInventory(_ input: PutInventoryRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutInventoryResult> {
-        return self.client.execute(operation: "PutInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putInventory(_ input: PutInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInventoryResult> {
+        return self.client.execute(operation: "PutInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Add a parameter to the system.
-    public func putParameter(_ input: PutParameterRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutParameterResult> {
-        return self.client.execute(operation: "PutParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putParameter(_ input: PutParameterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutParameterResult> {
+        return self.client.execute(operation: "PutParameter", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Defines the default patch baseline for the relevant operating system. To reset the AWS predefined patch baseline as the default, specify the full patch baseline ARN as the baseline ID value. For example, for CentOS, specify arn:aws:ssm:us-east-2:733109147000:patchbaseline/pb-0574b43a65ea646ed instead of pb-0574b43a65ea646ed.
-    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterDefaultPatchBaselineResult> {
-        return self.client.execute(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func registerDefaultPatchBaseline(_ input: RegisterDefaultPatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterDefaultPatchBaselineResult> {
+        return self.client.execute(operation: "RegisterDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Registers a patch baseline for a patch group.
-    public func registerPatchBaselineForPatchGroup(_ input: RegisterPatchBaselineForPatchGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterPatchBaselineForPatchGroupResult> {
-        return self.client.execute(operation: "RegisterPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func registerPatchBaselineForPatchGroup(_ input: RegisterPatchBaselineForPatchGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterPatchBaselineForPatchGroupResult> {
+        return self.client.execute(operation: "RegisterPatchBaselineForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Registers a target with a maintenance window.
-    public func registerTargetWithMaintenanceWindow(_ input: RegisterTargetWithMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterTargetWithMaintenanceWindowResult> {
-        return self.client.execute(operation: "RegisterTargetWithMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func registerTargetWithMaintenanceWindow(_ input: RegisterTargetWithMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTargetWithMaintenanceWindowResult> {
+        return self.client.execute(operation: "RegisterTargetWithMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a new task to a maintenance window.
-    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegisterTaskWithMaintenanceWindowResult> {
-        return self.client.execute(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func registerTaskWithMaintenanceWindow(_ input: RegisterTaskWithMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterTaskWithMaintenanceWindowResult> {
+        return self.client.execute(operation: "RegisterTaskWithMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes tag keys from the specified resource.
-    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RemoveTagsFromResourceResult> {
-        return self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func removeTagsFromResource(_ input: RemoveTagsFromResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTagsFromResourceResult> {
+        return self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Use the UpdateServiceSetting API action to change the default setting.  Reset the service setting for the account to the default value as provisioned by the AWS service team.
-    public func resetServiceSetting(_ input: ResetServiceSettingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResetServiceSettingResult> {
-        return self.client.execute(operation: "ResetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func resetServiceSetting(_ input: ResetServiceSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetServiceSettingResult> {
+        return self.client.execute(operation: "ResetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Reconnects a session to an instance after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions.  This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It is not intended for any other use.
-    public func resumeSession(_ input: ResumeSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResumeSessionResponse> {
-        return self.client.execute(operation: "ResumeSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func resumeSession(_ input: ResumeSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResumeSessionResponse> {
+        return self.client.execute(operation: "ResumeSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sends a signal to an Automation execution to change the current behavior or status of the execution.
-    public func sendAutomationSignal(_ input: SendAutomationSignalRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendAutomationSignalResult> {
-        return self.client.execute(operation: "SendAutomationSignal", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func sendAutomationSignal(_ input: SendAutomationSignalRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendAutomationSignalResult> {
+        return self.client.execute(operation: "SendAutomationSignal", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Runs commands on one or more managed instances.
-    public func sendCommand(_ input: SendCommandRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SendCommandResult> {
-        return self.client.execute(operation: "SendCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func sendCommand(_ input: SendCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
+        return self.client.execute(operation: "SendCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Use this API action to run an association immediately and only one time. This action can be helpful when troubleshooting associations.
-    public func startAssociationsOnce(_ input: StartAssociationsOnceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartAssociationsOnceResult> {
-        return self.client.execute(operation: "StartAssociationsOnce", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startAssociationsOnce(_ input: StartAssociationsOnceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAssociationsOnceResult> {
+        return self.client.execute(operation: "StartAssociationsOnce", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Initiates execution of an Automation document.
-    public func startAutomationExecution(_ input: StartAutomationExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartAutomationExecutionResult> {
-        return self.client.execute(operation: "StartAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startAutomationExecution(_ input: StartAutomationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartAutomationExecutionResult> {
+        return self.client.execute(operation: "StartAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  AWS CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the AWS CLI in the AWS Systems Manager User Guide. AWS Tools for PowerShell usage: Start-SSMSession is not currently supported by AWS Tools for PowerShell on Windows local machines.
-    public func startSession(_ input: StartSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StartSessionResponse> {
-        return self.client.execute(operation: "StartSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSessionResponse> {
+        return self.client.execute(operation: "StartSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Stop an Automation that is currently running.
-    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<StopAutomationExecutionResult> {
-        return self.client.execute(operation: "StopAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func stopAutomationExecution(_ input: StopAutomationExecutionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopAutomationExecutionResult> {
+        return self.client.execute(operation: "StopAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the instance. A terminated session cannot be resumed.
-    public func terminateSession(_ input: TerminateSessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<TerminateSessionResponse> {
-        return self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateSessionResponse> {
+        return self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon S3 output.  In order to call this API action, your IAM user account, group, or role must be configured with permission to call the DescribeAssociation API action. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User: &lt;user_arn&gt; is not authorized to perform: ssm:DescribeAssociation on resource: &lt;resource_arn&gt;   When you update an association, the association immediately runs against the specified targets.
-    public func updateAssociation(_ input: UpdateAssociationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAssociationResult> {
-        return self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAssociation(_ input: UpdateAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAssociationResult> {
+        return self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the status of the Systems Manager document associated with the specified instance.
-    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAssociationStatusResult> {
-        return self.client.execute(operation: "UpdateAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAssociationStatusResult> {
+        return self.client.execute(operation: "UpdateAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates one or more values for an SSM document.
-    public func updateDocument(_ input: UpdateDocumentRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDocumentResult> {
-        return self.client.execute(operation: "UpdateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDocument(_ input: UpdateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDocumentResult> {
+        return self.client.execute(operation: "UpdateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Set the default version of a document.
-    public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateDocumentDefaultVersionResult> {
-        return self.client.execute(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDocumentDefaultVersionResult> {
+        return self.client.execute(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates an existing maintenance window. Only specified parameters are modified.  The value you specify for Duration determines the specific end time for the maintenance window based on the time it begins. No maintenance window tasks are permitted to start after the resulting endtime minus the number of hours you specify for Cutoff. For example, if the maintenance window starts at 3 PM, the duration is three hours, and the value you specify for Cutoff is one hour, no maintenance window tasks can start after 5 PM.
-    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMaintenanceWindowResult> {
-        return self.client.execute(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateMaintenanceWindow(_ input: UpdateMaintenanceWindowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMaintenanceWindowResult> {
+        return self.client.execute(operation: "UpdateMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Modifies the target of an existing maintenance window. You can change the following:   Name   Description   Owner   IDs for an ID target   Tags for a Tag target   From any supported tag type to another. The three supported tag types are ID target, Tag target, and resource group. For more information, see Target.    If a parameter is null, then the corresponding field is not modified.
-    public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMaintenanceWindowTargetResult> {
-        return self.client.execute(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateMaintenanceWindowTarget(_ input: UpdateMaintenanceWindowTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMaintenanceWindowTargetResult> {
+        return self.client.execute(operation: "UpdateMaintenanceWindowTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Modifies a task assigned to a maintenance window. You can't change the task type, but you can change the following values:   TaskARN. For example, you can change a RUN_COMMAND task from AWS-RunPowerShellScript to AWS-RunShellScript.   ServiceRoleArn   TaskInvocationParameters   Priority   MaxConcurrency   MaxErrors   If the value for a parameter in UpdateMaintenanceWindowTask is null, then the corresponding field is not modified. If you set Replace to true, then all fields required by the RegisterTaskWithMaintenanceWindow action are required for this request. Optional fields that aren't specified are set to null.  When you update a maintenance window task that has options specified in TaskInvocationParameters, you must provide again all the TaskInvocationParameters values that you want to retain. The values you do not specify again are removed. For example, suppose that when you registered a Run Command task, you specified TaskInvocationParameters values for Comment, NotificationConfig, and OutputS3BucketName. If you update the maintenance window task and specify only a different OutputS3BucketName value, the values for Comment and NotificationConfig are removed.
-    public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateMaintenanceWindowTaskResult> {
-        return self.client.execute(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateMaintenanceWindowTask(_ input: UpdateMaintenanceWindowTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMaintenanceWindowTaskResult> {
+        return self.client.execute(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Changes the Amazon Identity and Access Management (IAM) role that is assigned to the on-premises instance or virtual machines (VM). IAM roles are first assigned to these hybrid instances during the activation process. For more information, see CreateActivation.
-    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateManagedInstanceRoleResult> {
-        return self.client.execute(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateManagedInstanceRoleResult> {
+        return self.client.execute(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Edit or change an OpsItem. You must have permission in AWS Identity and Access Management (IAM) to update an OpsItem. For more information, see Getting started with OpsCenter in the AWS Systems Manager User Guide. Operations engineers and IT professionals use OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their AWS resources. For more information, see AWS Systems Manager OpsCenter in the AWS Systems Manager User Guide.
-    public func updateOpsItem(_ input: UpdateOpsItemRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateOpsItemResponse> {
-        return self.client.execute(operation: "UpdateOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateOpsItem(_ input: UpdateOpsItemRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOpsItemResponse> {
+        return self.client.execute(operation: "UpdateOpsItem", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Modifies an existing patch baseline. Fields not specified in the request are left unchanged.  For information about valid key and value pairs in PatchFilters for each supported operating system type, see PatchFilter.
-    public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePatchBaselineResult> {
-        return self.client.execute(operation: "UpdatePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePatchBaseline(_ input: UpdatePatchBaselineRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePatchBaselineResult> {
+        return self.client.execute(operation: "UpdatePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Update a resource data sync. After you create a resource data sync for a Region, you can't change the account options for that sync. For example, if you create a sync in the us-east-2 (Ohio) Region and you choose the Include only the current account option, you can't edit that sync later and choose the Include all accounts from my AWS Organizations configuration option. Instead, you must delete the first resource data sync, and create a new one.  This API action only supports a resource data sync that was created with a SyncFromSource SyncType.
-    public func updateResourceDataSync(_ input: UpdateResourceDataSyncRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateResourceDataSyncResult> {
-        return self.client.execute(operation: "UpdateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateResourceDataSync(_ input: UpdateResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateResourceDataSyncResult> {
+        return self.client.execute(operation: "UpdateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///   ServiceSetting is an account-level setting for an AWS service. This setting defines how a user interacts with or uses a service or a feature of a service. For example, if an AWS service charges money to the account based on feature or service usage, then the AWS service team might create a default setting of "false". This means the user can't use this feature unless they change the setting to "true" and intentionally opt in for a paid feature. Services map a SettingId object to a setting value. AWS services teams define the default value for a SettingId. You can't create a new SettingId, but you can overwrite the default value if you have the ssm:UpdateServiceSetting permission for the setting. Use the GetServiceSetting API action to view the current value. Or, use the ResetServiceSetting to change the value back to the original value defined by the AWS service team. Update the service setting for the account.
-    public func updateServiceSetting(_ input: UpdateServiceSettingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateServiceSettingResult> {
-        return self.client.execute(operation: "UpdateServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateServiceSetting(_ input: UpdateServiceSettingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceSettingResult> {
+        return self.client.execute(operation: "UpdateServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

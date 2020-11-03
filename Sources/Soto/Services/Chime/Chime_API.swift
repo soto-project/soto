@@ -63,598 +63,598 @@ public struct Chime: AWSService {
     // MARK: API Calls
 
     ///  Associates a phone number with the specified Amazon Chime user.
-    public func associatePhoneNumberWithUser(_ input: AssociatePhoneNumberWithUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociatePhoneNumberWithUserResponse> {
-        return self.client.execute(operation: "AssociatePhoneNumberWithUser", path: "/accounts/{accountId}/users/{userId}?operation=associate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func associatePhoneNumberWithUser(_ input: AssociatePhoneNumberWithUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePhoneNumberWithUserResponse> {
+        return self.client.execute(operation: "AssociatePhoneNumberWithUser", path: "/accounts/{accountId}/users/{userId}?operation=associate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Associates phone numbers with the specified Amazon Chime Voice Connector.
-    public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorResponse> {
-        return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func associatePhoneNumbersWithVoiceConnector(_ input: AssociatePhoneNumbersWithVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorResponse> {
+        return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Associates phone numbers with the specified Amazon Chime Voice Connector group.
-    public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorGroupResponse> {
-        return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func associatePhoneNumbersWithVoiceConnectorGroup(_ input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociatePhoneNumbersWithVoiceConnectorGroupResponse> {
+        return self.client.execute(operation: "AssociatePhoneNumbersWithVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=associate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Associates the specified sign-in delegate groups with the specified Amazon Chime account.
-    public func associateSigninDelegateGroupsWithAccount(_ input: AssociateSigninDelegateGroupsWithAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<AssociateSigninDelegateGroupsWithAccountResponse> {
-        return self.client.execute(operation: "AssociateSigninDelegateGroupsWithAccount", path: "/accounts/{accountId}?operation=associate-signin-delegate-groups", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func associateSigninDelegateGroupsWithAccount(_ input: AssociateSigninDelegateGroupsWithAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateSigninDelegateGroupsWithAccountResponse> {
+        return self.client.execute(operation: "AssociateSigninDelegateGroupsWithAccount", path: "/accounts/{accountId}?operation=associate-signin-delegate-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates up to 100 new attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchCreateAttendeeResponse> {
-        return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{meetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchCreateAttendee(_ input: BatchCreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateAttendeeResponse> {
+        return self.client.execute(operation: "BatchCreateAttendee", path: "/meetings/{meetingId}/attendees?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds up to 50 members to a chat room in an Amazon Chime Enterprise account. Members can be either users or bots. The member role designates whether the member is a chat room administrator or a general chat room member.
-    public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchCreateRoomMembershipResponse> {
-        return self.client.execute(operation: "BatchCreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchCreateRoomMembership(_ input: BatchCreateRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchCreateRoomMembershipResponse> {
+        return self.client.execute(operation: "BatchCreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships?operation=batch-create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Moves phone numbers into the Deletion queue. Phone numbers must be disassociated from any users or Amazon Chime Voice Connectors before they can be deleted. Phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
-    public func batchDeletePhoneNumber(_ input: BatchDeletePhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchDeletePhoneNumberResponse> {
-        return self.client.execute(operation: "BatchDeletePhoneNumber", path: "/phone-numbers?operation=batch-delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchDeletePhoneNumber(_ input: BatchDeletePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchDeletePhoneNumberResponse> {
+        return self.client.execute(operation: "BatchDeletePhoneNumber", path: "/phone-numbers?operation=batch-delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Suspends up to 50 users from a Team or EnterpriseLWA Amazon Chime account. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Users suspended from a Team account are disassociated from the account, but they can continue to use Amazon Chime as free users. To remove the suspension from suspended Team account users, invite them to the Team account again. You can use the InviteUsers action to do so. Users suspended from an EnterpriseLWA account are immediately signed out of Amazon Chime and can no longer sign in. To remove the suspension from suspended EnterpriseLWA account users, use the BatchUnsuspendUser action.  To sign out users without suspending them, use the LogoutUser action.
-    public func batchSuspendUser(_ input: BatchSuspendUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchSuspendUserResponse> {
-        return self.client.execute(operation: "BatchSuspendUser", path: "/accounts/{accountId}/users?operation=suspend", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchSuspendUser(_ input: BatchSuspendUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchSuspendUserResponse> {
+        return self.client.execute(operation: "BatchSuspendUser", path: "/accounts/{accountId}/users?operation=suspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes the suspension from up to 50 previously suspended users for the specified Amazon Chime EnterpriseLWA account. Only users on EnterpriseLWA accounts can be unsuspended using this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide. Previously suspended users who are unsuspended using this action are returned to Registered status. Users who are not previously suspended are ignored.
-    public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUnsuspendUserResponse> {
-        return self.client.execute(operation: "BatchUnsuspendUser", path: "/accounts/{accountId}/users?operation=unsuspend", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchUnsuspendUser(_ input: BatchUnsuspendUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUnsuspendUserResponse> {
+        return self.client.execute(operation: "BatchUnsuspendUser", path: "/accounts/{accountId}/users?operation=unsuspend", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates phone number product types or calling names. You can update one attribute at a time for each UpdatePhoneNumberRequestItem. For example, you can update either the product type or the calling name. For product types, choose from Amazon Chime Business Calling and Amazon Chime Voice Connector. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
-    public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdatePhoneNumberResponse> {
-        return self.client.execute(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchUpdatePhoneNumber(_ input: BatchUpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdatePhoneNumberResponse> {
+        return self.client.execute(operation: "BatchUpdatePhoneNumber", path: "/phone-numbers?operation=batch-update", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates user details within the UpdateUserRequestItem object for up to 20 users for the specified Amazon Chime account. Currently, only LicenseType updates are supported for this action.
-    public func batchUpdateUser(_ input: BatchUpdateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<BatchUpdateUserResponse> {
-        return self.client.execute(operation: "BatchUpdateUser", path: "/accounts/{accountId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func batchUpdateUser(_ input: BatchUpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchUpdateUserResponse> {
+        return self.client.execute(operation: "BatchUpdateUser", path: "/accounts/{accountId}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an Amazon Chime account under the administrator's AWS account. Only Team account types are currently supported for this action. For more information about different account types, see Managing Your Amazon Chime Accounts in the Amazon Chime Administration Guide.
-    public func createAccount(_ input: CreateAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAccountResponse> {
-        return self.client.execute(operation: "CreateAccount", path: "/accounts", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createAccount(_ input: CreateAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAccountResponse> {
+        return self.client.execute(operation: "CreateAccount", path: "/accounts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new attendee for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func createAttendee(_ input: CreateAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateAttendeeResponse> {
-        return self.client.execute(operation: "CreateAttendee", path: "/meetings/{meetingId}/attendees", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createAttendee(_ input: CreateAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAttendeeResponse> {
+        return self.client.execute(operation: "CreateAttendee", path: "/meetings/{meetingId}/attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a bot for an Amazon Chime Enterprise account.
-    public func createBot(_ input: CreateBotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateBotResponse> {
-        return self.client.execute(operation: "CreateBot", path: "/accounts/{accountId}/bots", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createBot(_ input: CreateBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateBotResponse> {
+        return self.client.execute(operation: "CreateBot", path: "/accounts/{accountId}/bots", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new Amazon Chime SDK meeting in the specified media Region with no initial attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func createMeeting(_ input: CreateMeetingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMeetingResponse> {
-        return self.client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createMeeting(_ input: CreateMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingResponse> {
+        return self.client.execute(operation: "CreateMeeting", path: "/meetings", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a new Amazon Chime SDK meeting in the specified media Region, with attendees. For more information about specifying media Regions, see Amazon Chime SDK Media Regions in the Amazon Chime Developer Guide. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func createMeetingWithAttendees(_ input: CreateMeetingWithAttendeesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateMeetingWithAttendeesResponse> {
-        return self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createMeetingWithAttendees(_ input: CreateMeetingWithAttendeesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMeetingWithAttendeesResponse> {
+        return self.client.execute(operation: "CreateMeetingWithAttendees", path: "/meetings?operation=create-attendees", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an order for phone numbers to be provisioned. Choose from Amazon Chime Business Calling and Amazon Chime Voice Connector product types. For toll-free numbers, you must use the Amazon Chime Voice Connector product type.
-    public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreatePhoneNumberOrderResponse> {
-        return self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createPhoneNumberOrder(_ input: CreatePhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePhoneNumberOrderResponse> {
+        return self.client.execute(operation: "CreatePhoneNumberOrder", path: "/phone-number-orders", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a proxy session on the specified Amazon Chime Voice Connector for the specified participant phone numbers.
-    public func createProxySession(_ input: CreateProxySessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateProxySessionResponse> {
-        return self.client.execute(operation: "CreateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createProxySession(_ input: CreateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProxySessionResponse> {
+        return self.client.execute(operation: "CreateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a chat room for the specified Amazon Chime Enterprise account.
-    public func createRoom(_ input: CreateRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRoomResponse> {
-        return self.client.execute(operation: "CreateRoom", path: "/accounts/{accountId}/rooms", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRoom(_ input: CreateRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoomResponse> {
+        return self.client.execute(operation: "CreateRoom", path: "/accounts/{accountId}/rooms", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a member to a chat room in an Amazon Chime Enterprise account. A member can be either a user or a bot. The member role designates whether the member is a chat room administrator or a general chat room member.
-    public func createRoomMembership(_ input: CreateRoomMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateRoomMembershipResponse> {
-        return self.client.execute(operation: "CreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createRoomMembership(_ input: CreateRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRoomMembershipResponse> {
+        return self.client.execute(operation: "CreateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates a user under the specified Amazon Chime account.
-    public func createUser(_ input: CreateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateUserResponse> {
-        return self.client.execute(operation: "CreateUser", path: "/accounts/{accountId}/users?operation=create", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createUser(_ input: CreateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateUserResponse> {
+        return self.client.execute(operation: "CreateUser", path: "/accounts/{accountId}/users?operation=create", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an Amazon Chime Voice Connector under the administrator's AWS account. You can choose to create an Amazon Chime Voice Connector in a specific AWS Region. Enabling CreateVoiceConnectorRequest$RequireEncryption configures your Amazon Chime Voice Connector to use TLS transport for SIP signaling and Secure RTP (SRTP) for media. Inbound calls use TLS transport, and unencrypted outbound calls are blocked.
-    public func createVoiceConnector(_ input: CreateVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVoiceConnectorResponse> {
-        return self.client.execute(operation: "CreateVoiceConnector", path: "/voice-connectors", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createVoiceConnector(_ input: CreateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVoiceConnectorResponse> {
+        return self.client.execute(operation: "CreateVoiceConnector", path: "/voice-connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an Amazon Chime Voice Connector group under the administrator's AWS account. You can associate Amazon Chime Voice Connectors with the Amazon Chime Voice Connector group by including VoiceConnectorItems in the request. You can include Amazon Chime Voice Connectors from different AWS Regions in your group. This creates a fault tolerant mechanism for fallback in case of availability events.
-    public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<CreateVoiceConnectorGroupResponse> {
-        return self.client.execute(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func createVoiceConnectorGroup(_ input: CreateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVoiceConnectorGroupResponse> {
+        return self.client.execute(operation: "CreateVoiceConnectorGroup", path: "/voice-connector-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified Amazon Chime account. You must suspend all users before deleting a Team account. You can use the BatchSuspendUser action to do so. For EnterpriseLWA and EnterpriseAD accounts, you must release the claimed domains for your Amazon Chime account before deletion. As soon as you release the domain, all users under that account are suspended. Deleted accounts appear in your Disabled accounts list for 90 days. To restore a deleted account from your Disabled accounts list, you must contact AWS Support. After 90 days, deleted accounts are permanently removed from your Disabled accounts list.
-    public func deleteAccount(_ input: DeleteAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DeleteAccountResponse> {
-        return self.client.execute(operation: "DeleteAccount", path: "/accounts/{accountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func deleteAccount(_ input: DeleteAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAccountResponse> {
+        return self.client.execute(operation: "DeleteAccount", path: "/accounts/{accountId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes an attendee from the specified Amazon Chime SDK meeting and deletes their JoinToken. Attendees are automatically deleted when a Amazon Chime SDK meeting is deleted. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteAttendee(_ input: DeleteAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the events configuration that allows a bot to receive outgoing events.
-    @discardableResult public func deleteEventsConfiguration(_ input: DeleteEventsConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteEventsConfiguration(_ input: DeleteEventsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified Amazon Chime SDK meeting. When a meeting is deleted, its attendees are also deleted and clients can no longer join it. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteMeeting", path: "/meetings/{meetingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteMeeting(_ input: DeleteMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteMeeting", path: "/meetings/{meetingId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Moves the specified phone number into the Deletion queue. A phone number must be disassociated from any users or Amazon Chime Voice Connectors before it can be deleted. Deleted phone numbers remain in the Deletion queue for 7 days before they are deleted permanently.
-    @discardableResult public func deletePhoneNumber(_ input: DeletePhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeletePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deletePhoneNumber(_ input: DeletePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeletePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified proxy session from the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteProxySession(_ input: DeleteProxySessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteProxySession(_ input: DeleteProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes a chat room in an Amazon Chime Enterprise account.
-    @discardableResult public func deleteRoom(_ input: DeleteRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRoom(_ input: DeleteRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a member from a chat room in an Amazon Chime Enterprise account.
-    @discardableResult public func deleteRoomMembership(_ input: DeleteRoomMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteRoomMembership(_ input: DeleteRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified Amazon Chime Voice Connector. Any phone numbers associated with the Amazon Chime Voice Connector must be disassociated from it before it can be deleted.
-    @discardableResult public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnector(_ input: DeleteVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the emergency calling configuration details from the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorEmergencyCallingConfiguration(_ input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorEmergencyCallingConfiguration(_ input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified Amazon Chime Voice Connector group. Any VoiceConnectorItems and phone numbers associated with the group must be removed before it can be deleted.
-    @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorGroup(_ input: DeleteVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the origination settings.
-    @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorOrigination(_ input: DeleteVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the proxy configuration from the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorProxy(_ input: DeleteVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the streaming configuration for the specified Amazon Chime Voice Connector.
-    @discardableResult public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorStreamingConfiguration(_ input: DeleteVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to deleting the termination settings.
-    @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .DELETE, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorTermination(_ input: DeleteVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Deletes the specified SIP credentials used by your equipment to authenticate during call termination.
-    @discardableResult public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func deleteVoiceConnectorTerminationCredentials(_ input: DeleteVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates the primary provisioned phone number from the specified Amazon Chime user.
-    public func disassociatePhoneNumberFromUser(_ input: DisassociatePhoneNumberFromUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociatePhoneNumberFromUserResponse> {
-        return self.client.execute(operation: "DisassociatePhoneNumberFromUser", path: "/accounts/{accountId}/users/{userId}?operation=disassociate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func disassociatePhoneNumberFromUser(_ input: DisassociatePhoneNumberFromUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePhoneNumberFromUserResponse> {
+        return self.client.execute(operation: "DisassociatePhoneNumberFromUser", path: "/accounts/{accountId}/users/{userId}?operation=disassociate-phone-number", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector.
-    public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorResponse> {
-        return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func disassociatePhoneNumbersFromVoiceConnector(_ input: DisassociatePhoneNumbersFromVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorResponse> {
+        return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnector", path: "/voice-connectors/{voiceConnectorId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates the specified phone numbers from the specified Amazon Chime Voice Connector group.
-    public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse> {
-        return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func disassociatePhoneNumbersFromVoiceConnectorGroup(_ input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociatePhoneNumbersFromVoiceConnectorGroupResponse> {
+        return self.client.execute(operation: "DisassociatePhoneNumbersFromVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}?operation=disassociate-phone-numbers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Disassociates the specified sign-in delegate groups from the specified Amazon Chime account.
-    public func disassociateSigninDelegateGroupsFromAccount(_ input: DisassociateSigninDelegateGroupsFromAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<DisassociateSigninDelegateGroupsFromAccountResponse> {
-        return self.client.execute(operation: "DisassociateSigninDelegateGroupsFromAccount", path: "/accounts/{accountId}?operation=disassociate-signin-delegate-groups", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func disassociateSigninDelegateGroupsFromAccount(_ input: DisassociateSigninDelegateGroupsFromAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateSigninDelegateGroupsFromAccountResponse> {
+        return self.client.execute(operation: "DisassociateSigninDelegateGroupsFromAccount", path: "/accounts/{accountId}?operation=disassociate-signin-delegate-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified Amazon Chime account, such as account type and supported licenses.
-    public func getAccount(_ input: GetAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAccountResponse> {
-        return self.client.execute(operation: "GetAccount", path: "/accounts/{accountId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAccount(_ input: GetAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountResponse> {
+        return self.client.execute(operation: "GetAccount", path: "/accounts/{accountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves account settings for the specified Amazon Chime account ID, such as remote control and dial out settings. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
-    public func getAccountSettings(_ input: GetAccountSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAccountSettingsResponse> {
-        return self.client.execute(operation: "GetAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAccountSettings(_ input: GetAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAccountSettingsResponse> {
+        return self.client.execute(operation: "GetAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the Amazon Chime SDK attendee details for a specified meeting ID and attendee ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func getAttendee(_ input: GetAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetAttendeeResponse> {
-        return self.client.execute(operation: "GetAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getAttendee(_ input: GetAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetAttendeeResponse> {
+        return self.client.execute(operation: "GetAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified bot, such as bot email address, bot type, status, and display name.
-    public func getBot(_ input: GetBotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetBotResponse> {
-        return self.client.execute(operation: "GetBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getBot(_ input: GetBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBotResponse> {
+        return self.client.execute(operation: "GetBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets details for an events configuration that allows a bot to receive outgoing events, such as an HTTPS endpoint or Lambda function ARN.
-    public func getEventsConfiguration(_ input: GetEventsConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetEventsConfigurationResponse> {
-        return self.client.execute(operation: "GetEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getEventsConfiguration(_ input: GetEventsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEventsConfigurationResponse> {
+        return self.client.execute(operation: "GetEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
-    public func getGlobalSettings(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetGlobalSettingsResponse> {
-        return self.client.execute(operation: "GetGlobalSettings", path: "/settings", httpMethod: .GET, serviceConfig: self.config, on: eventLoop, logger: logger)
+    public func getGlobalSettings(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetGlobalSettingsResponse> {
+        return self.client.execute(operation: "GetGlobalSettings", path: "/settings", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
     ///  Gets the Amazon Chime SDK meeting details for the specified meeting ID. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func getMeeting(_ input: GetMeetingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetMeetingResponse> {
-        return self.client.execute(operation: "GetMeeting", path: "/meetings/{meetingId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getMeeting(_ input: GetMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMeetingResponse> {
+        return self.client.execute(operation: "GetMeeting", path: "/meetings/{meetingId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified phone number ID, such as associations, capabilities, and product type.
-    public func getPhoneNumber(_ input: GetPhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPhoneNumberResponse> {
-        return self.client.execute(operation: "GetPhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPhoneNumber(_ input: GetPhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPhoneNumberResponse> {
+        return self.client.execute(operation: "GetPhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified phone number order, such as order creation timestamp, phone numbers in E.164 format, product type, and order status.
-    public func getPhoneNumberOrder(_ input: GetPhoneNumberOrderRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPhoneNumberOrderResponse> {
-        return self.client.execute(operation: "GetPhoneNumberOrder", path: "/phone-number-orders/{phoneNumberOrderId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getPhoneNumberOrder(_ input: GetPhoneNumberOrderRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPhoneNumberOrderResponse> {
+        return self.client.execute(operation: "GetPhoneNumberOrder", path: "/phone-number-orders/{phoneNumberOrderId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the phone number settings for the administrator's AWS account, such as the default outbound calling name.
-    public func getPhoneNumberSettings(on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetPhoneNumberSettingsResponse> {
-        return self.client.execute(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: .GET, serviceConfig: self.config, on: eventLoop, logger: logger)
+    public func getPhoneNumberSettings(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPhoneNumberSettingsResponse> {
+        return self.client.execute(operation: "GetPhoneNumberSettings", path: "/settings/phone-number", httpMethod: .GET, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
     ///  Gets the specified proxy session details for the specified Amazon Chime Voice Connector.
-    public func getProxySession(_ input: GetProxySessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetProxySessionResponse> {
-        return self.client.execute(operation: "GetProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getProxySession(_ input: GetProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetProxySessionResponse> {
+        return self.client.execute(operation: "GetProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the retention settings for the specified Amazon Chime Enterprise account. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
-    public func getRetentionSettings(_ input: GetRetentionSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRetentionSettingsResponse> {
-        return self.client.execute(operation: "GetRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRetentionSettings(_ input: GetRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRetentionSettingsResponse> {
+        return self.client.execute(operation: "GetRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves room details, such as the room name, for a room in an Amazon Chime Enterprise account.
-    public func getRoom(_ input: GetRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetRoomResponse> {
-        return self.client.execute(operation: "GetRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getRoom(_ input: GetRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoomResponse> {
+        return self.client.execute(operation: "GetRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified user ID, such as primary email address, license type, and personal meeting PIN. To retrieve user details with an email address instead of a user ID, use the ListUsers action, and then filter by email address.
-    public func getUser(_ input: GetUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserResponse> {
-        return self.client.execute(operation: "GetUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUser(_ input: GetUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserResponse> {
+        return self.client.execute(operation: "GetUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves settings for the specified user ID, such as any associated phone number settings.
-    public func getUserSettings(_ input: GetUserSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetUserSettingsResponse> {
-        return self.client.execute(operation: "GetUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getUserSettings(_ input: GetUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUserSettingsResponse> {
+        return self.client.execute(operation: "GetUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified Amazon Chime Voice Connector, such as timestamps, name, outbound host, and encryption requirements.
-    public func getVoiceConnector(_ input: GetVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorResponse> {
-        return self.client.execute(operation: "GetVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnector(_ input: GetVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorResponse> {
+        return self.client.execute(operation: "GetVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the emergency calling configuration details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorEmergencyCallingConfiguration(_ input: GetVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorEmergencyCallingConfigurationResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorEmergencyCallingConfiguration(_ input: GetVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorEmergencyCallingConfigurationResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves details for the specified Amazon Chime Voice Connector group, such as timestamps, name, and associated VoiceConnectorItems.
-    public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorGroupResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorGroup(_ input: GetVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorGroupResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the logging configuration details for the specified Amazon Chime Voice Connector. Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
-    public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorLoggingConfigurationResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorLoggingConfiguration(_ input: GetVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorLoggingConfigurationResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves origination setting details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorOriginationResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorOrigination(_ input: GetVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorOriginationResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Gets the proxy configuration details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorProxyResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorProxy(_ input: GetVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorProxyResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves the streaming configuration details for the specified Amazon Chime Voice Connector. Shows whether media streaming is enabled for sending to Amazon Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
-    public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorStreamingConfigurationResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorStreamingConfiguration(_ input: GetVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorStreamingConfigurationResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves termination setting details for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorTerminationResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorTermination(_ input: GetVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorTerminationResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Retrieves information about the last time a SIP OPTIONS ping was received from your SIP infrastructure for the specified Amazon Chime Voice Connector.
-    public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<GetVoiceConnectorTerminationHealthResponse> {
-        return self.client.execute(operation: "GetVoiceConnectorTerminationHealth", path: "/voice-connectors/{voiceConnectorId}/termination/health", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func getVoiceConnectorTerminationHealth(_ input: GetVoiceConnectorTerminationHealthRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetVoiceConnectorTerminationHealthResponse> {
+        return self.client.execute(operation: "GetVoiceConnectorTerminationHealth", path: "/voice-connectors/{voiceConnectorId}/termination/health", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Sends email to a maximum of 50 users, inviting them to the specified Amazon Chime Team account. Only Team account types are currently supported for this action.
-    public func inviteUsers(_ input: InviteUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<InviteUsersResponse> {
-        return self.client.execute(operation: "InviteUsers", path: "/accounts/{accountId}/users?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func inviteUsers(_ input: InviteUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InviteUsersResponse> {
+        return self.client.execute(operation: "InviteUsers", path: "/accounts/{accountId}/users?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the Amazon Chime accounts under the administrator's AWS account. You can filter accounts by account name prefix. To find out which Amazon Chime account a user belongs to, you can filter by the user's email address, which returns one account result.
-    public func listAccounts(_ input: ListAccountsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAccountsResponse> {
-        return self.client.execute(operation: "ListAccounts", path: "/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAccounts(_ input: ListAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAccountsResponse> {
+        return self.client.execute(operation: "ListAccounts", path: "/accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tags applied to an Amazon Chime SDK attendee resource.
-    public func listAttendeeTags(_ input: ListAttendeeTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAttendeeTagsResponse> {
-        return self.client.execute(operation: "ListAttendeeTags", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAttendeeTags(_ input: ListAttendeeTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttendeeTagsResponse> {
+        return self.client.execute(operation: "ListAttendeeTags", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the attendees for the specified Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func listAttendees(_ input: ListAttendeesRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListAttendeesResponse> {
-        return self.client.execute(operation: "ListAttendees", path: "/meetings/{meetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listAttendees(_ input: ListAttendeesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAttendeesResponse> {
+        return self.client.execute(operation: "ListAttendees", path: "/meetings/{meetingId}/attendees", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the bots associated with the administrator's Amazon Chime Enterprise account ID.
-    public func listBots(_ input: ListBotsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListBotsResponse> {
-        return self.client.execute(operation: "ListBots", path: "/accounts/{accountId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listBots(_ input: ListBotsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListBotsResponse> {
+        return self.client.execute(operation: "ListBots", path: "/accounts/{accountId}/bots", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tags applied to an Amazon Chime SDK meeting resource.
-    public func listMeetingTags(_ input: ListMeetingTagsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMeetingTagsResponse> {
-        return self.client.execute(operation: "ListMeetingTags", path: "/meetings/{meetingId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listMeetingTags(_ input: ListMeetingTagsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingTagsResponse> {
+        return self.client.execute(operation: "ListMeetingTags", path: "/meetings/{meetingId}/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists up to 100 active Amazon Chime SDK meetings. For more information about the Amazon Chime SDK, see Using the Amazon Chime SDK in the Amazon Chime Developer Guide.
-    public func listMeetings(_ input: ListMeetingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListMeetingsResponse> {
-        return self.client.execute(operation: "ListMeetings", path: "/meetings", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listMeetings(_ input: ListMeetingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMeetingsResponse> {
+        return self.client.execute(operation: "ListMeetings", path: "/meetings", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the phone number orders for the administrator's Amazon Chime account.
-    public func listPhoneNumberOrders(_ input: ListPhoneNumberOrdersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPhoneNumberOrdersResponse> {
-        return self.client.execute(operation: "ListPhoneNumberOrders", path: "/phone-number-orders", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listPhoneNumberOrders(_ input: ListPhoneNumberOrdersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumberOrdersResponse> {
+        return self.client.execute(operation: "ListPhoneNumberOrders", path: "/phone-number-orders", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the phone numbers for the specified Amazon Chime account, Amazon Chime user, Amazon Chime Voice Connector, or Amazon Chime Voice Connector group.
-    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListPhoneNumbersResponse> {
-        return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listPhoneNumbers(_ input: ListPhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPhoneNumbersResponse> {
+        return self.client.execute(operation: "ListPhoneNumbers", path: "/phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the proxy sessions for the specified Amazon Chime Voice Connector.
-    public func listProxySessions(_ input: ListProxySessionsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListProxySessionsResponse> {
-        return self.client.execute(operation: "ListProxySessions", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listProxySessions(_ input: ListProxySessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListProxySessionsResponse> {
+        return self.client.execute(operation: "ListProxySessions", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the membership details for the specified room in an Amazon Chime Enterprise account, such as the members' IDs, email addresses, and names.
-    public func listRoomMemberships(_ input: ListRoomMembershipsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoomMembershipsResponse> {
-        return self.client.execute(operation: "ListRoomMemberships", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRoomMemberships(_ input: ListRoomMembershipsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoomMembershipsResponse> {
+        return self.client.execute(operation: "ListRoomMemberships", path: "/accounts/{accountId}/rooms/{roomId}/memberships", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the room details for the specified Amazon Chime Enterprise account. Optionally, filter the results by a member ID (user ID or bot ID) to see a list of rooms that the member belongs to.
-    public func listRooms(_ input: ListRoomsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListRoomsResponse> {
-        return self.client.execute(operation: "ListRooms", path: "/accounts/{accountId}/rooms", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listRooms(_ input: ListRoomsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRoomsResponse> {
+        return self.client.execute(operation: "ListRooms", path: "/accounts/{accountId}/rooms", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the tags applied to an Amazon Chime SDK meeting resource.
-    public func listTagsForResource(_ input: ListTagsForResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListTagsForResourceResponse> {
-        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
+        return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the users that belong to the specified Amazon Chime account. You can specify an email address to list only the user that the email address belongs to.
-    public func listUsers(_ input: ListUsersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListUsersResponse> {
-        return self.client.execute(operation: "ListUsers", path: "/accounts/{accountId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listUsers(_ input: ListUsersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListUsersResponse> {
+        return self.client.execute(operation: "ListUsers", path: "/accounts/{accountId}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the Amazon Chime Voice Connector groups for the administrator's AWS account.
-    public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVoiceConnectorGroupsResponse> {
-        return self.client.execute(operation: "ListVoiceConnectorGroups", path: "/voice-connector-groups", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listVoiceConnectorGroups(_ input: ListVoiceConnectorGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorGroupsResponse> {
+        return self.client.execute(operation: "ListVoiceConnectorGroups", path: "/voice-connector-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the SIP credentials for the specified Amazon Chime Voice Connector.
-    public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVoiceConnectorTerminationCredentialsResponse> {
-        return self.client.execute(operation: "ListVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listVoiceConnectorTerminationCredentials(_ input: ListVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorTerminationCredentialsResponse> {
+        return self.client.execute(operation: "ListVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Lists the Amazon Chime Voice Connectors for the administrator's AWS account.
-    public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ListVoiceConnectorsResponse> {
-        return self.client.execute(operation: "ListVoiceConnectors", path: "/voice-connectors", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func listVoiceConnectors(_ input: ListVoiceConnectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListVoiceConnectorsResponse> {
+        return self.client.execute(operation: "ListVoiceConnectors", path: "/voice-connectors", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Logs out the specified user from all of the devices they are currently logged into.
-    public func logoutUser(_ input: LogoutUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<LogoutUserResponse> {
-        return self.client.execute(operation: "LogoutUser", path: "/accounts/{accountId}/users/{userId}?operation=logout", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func logoutUser(_ input: LogoutUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LogoutUserResponse> {
+        return self.client.execute(operation: "LogoutUser", path: "/accounts/{accountId}/users/{userId}?operation=logout", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Creates an events configuration that allows a bot to receive outgoing events sent by Amazon Chime. Choose either an HTTPS endpoint or a Lambda function ARN. For more information, see Bot.
-    public func putEventsConfiguration(_ input: PutEventsConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutEventsConfigurationResponse> {
-        return self.client.execute(operation: "PutEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putEventsConfiguration(_ input: PutEventsConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutEventsConfigurationResponse> {
+        return self.client.execute(operation: "PutEventsConfiguration", path: "/accounts/{accountId}/bots/{botId}/events-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Puts retention settings for the specified Amazon Chime Enterprise account. We recommend using AWS CloudTrail to monitor usage of this API for your account. For more information, see Logging Amazon Chime API Calls with AWS CloudTrail in the Amazon Chime Administration Guide. To turn off existing retention settings, remove the number of days from the corresponding RetentionDays field in the RetentionSettings object. For more information about retention settings, see Managing Chat Retention Policies in the Amazon Chime Administration Guide.
-    public func putRetentionSettings(_ input: PutRetentionSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutRetentionSettingsResponse> {
-        return self.client.execute(operation: "PutRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putRetentionSettings(_ input: PutRetentionSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRetentionSettingsResponse> {
+        return self.client.execute(operation: "PutRetentionSettings", path: "/accounts/{accountId}/retention-settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Puts emergency calling configuration details to the specified Amazon Chime Voice Connector, such as emergency phone numbers and calling countries. Origination and termination settings must be enabled for the Amazon Chime Voice Connector before emergency calling can be configured.
-    public func putVoiceConnectorEmergencyCallingConfiguration(_ input: PutVoiceConnectorEmergencyCallingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorEmergencyCallingConfigurationResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorEmergencyCallingConfiguration(_ input: PutVoiceConnectorEmergencyCallingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorEmergencyCallingConfigurationResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorEmergencyCallingConfiguration", path: "/voice-connectors/{voiceConnectorId}/emergency-calling-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a logging configuration for the specified Amazon Chime Voice Connector. The logging configuration specifies whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
-    public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorLoggingConfiguration(_ input: PutVoiceConnectorLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorLoggingConfigurationResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorLoggingConfiguration", path: "/voice-connectors/{voiceConnectorId}/logging-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds origination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off origination settings.
-    public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorOriginationResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorOrigination(_ input: PutVoiceConnectorOriginationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorOriginationResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorOrigination", path: "/voice-connectors/{voiceConnectorId}/origination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Puts the specified proxy configuration to the specified Amazon Chime Voice Connector.
-    public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorProxyResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorProxy(_ input: PutVoiceConnectorProxyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorProxyResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorProxy", path: "/voice-connectors/{voiceConnectorId}/programmable-numbers/proxy", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds a streaming configuration for the specified Amazon Chime Voice Connector. The streaming configuration specifies whether media streaming is enabled for sending to Amazon Kinesis. It also sets the retention period, in hours, for the Amazon Kinesis data.
-    public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorStreamingConfigurationResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorStreamingConfiguration(_ input: PutVoiceConnectorStreamingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorStreamingConfigurationResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorStreamingConfiguration", path: "/voice-connectors/{voiceConnectorId}/streaming-configuration", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds termination settings for the specified Amazon Chime Voice Connector.  If emergency calling is configured for the Amazon Chime Voice Connector, it must be deleted prior to turning off termination settings.
-    public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<PutVoiceConnectorTerminationResponse> {
-        return self.client.execute(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func putVoiceConnectorTermination(_ input: PutVoiceConnectorTerminationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutVoiceConnectorTerminationResponse> {
+        return self.client.execute(operation: "PutVoiceConnectorTermination", path: "/voice-connectors/{voiceConnectorId}/termination", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Adds termination SIP credentials for the specified Amazon Chime Voice Connector.
-    @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=put", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func putVoiceConnectorTerminationCredentials(_ input: PutVoiceConnectorTerminationCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "PutVoiceConnectorTerminationCredentials", path: "/voice-connectors/{voiceConnectorId}/termination/credentials?operation=put", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Redacts the specified message from the specified Amazon Chime conversation.
-    public func redactConversationMessage(_ input: RedactConversationMessageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RedactConversationMessageResponse> {
-        return self.client.execute(operation: "RedactConversationMessage", path: "/accounts/{accountId}/conversations/{conversationId}/messages/{messageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func redactConversationMessage(_ input: RedactConversationMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactConversationMessageResponse> {
+        return self.client.execute(operation: "RedactConversationMessage", path: "/accounts/{accountId}/conversations/{conversationId}/messages/{messageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Redacts the specified message from the specified Amazon Chime chat room.
-    public func redactRoomMessage(_ input: RedactRoomMessageRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RedactRoomMessageResponse> {
-        return self.client.execute(operation: "RedactRoomMessage", path: "/accounts/{accountId}/rooms/{roomId}/messages/{messageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func redactRoomMessage(_ input: RedactRoomMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactRoomMessageResponse> {
+        return self.client.execute(operation: "RedactRoomMessage", path: "/accounts/{accountId}/rooms/{roomId}/messages/{messageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Regenerates the security token for a bot.
-    public func regenerateSecurityToken(_ input: RegenerateSecurityTokenRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RegenerateSecurityTokenResponse> {
-        return self.client.execute(operation: "RegenerateSecurityToken", path: "/accounts/{accountId}/bots/{botId}?operation=regenerate-security-token", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func regenerateSecurityToken(_ input: RegenerateSecurityTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegenerateSecurityTokenResponse> {
+        return self.client.execute(operation: "RegenerateSecurityToken", path: "/accounts/{accountId}/bots/{botId}?operation=regenerate-security-token", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Resets the personal meeting PIN for the specified user on an Amazon Chime account. Returns the User object with the updated personal meeting PIN.
-    public func resetPersonalPIN(_ input: ResetPersonalPINRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<ResetPersonalPINResponse> {
-        return self.client.execute(operation: "ResetPersonalPIN", path: "/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func resetPersonalPIN(_ input: ResetPersonalPINRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResetPersonalPINResponse> {
+        return self.client.execute(operation: "ResetPersonalPIN", path: "/accounts/{accountId}/users/{userId}?operation=reset-personal-pin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Moves a phone number from the Deletion queue back into the phone number Inventory.
-    public func restorePhoneNumber(_ input: RestorePhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<RestorePhoneNumberResponse> {
-        return self.client.execute(operation: "RestorePhoneNumber", path: "/phone-numbers/{phoneNumberId}?operation=restore", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func restorePhoneNumber(_ input: RestorePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestorePhoneNumberResponse> {
+        return self.client.execute(operation: "RestorePhoneNumber", path: "/phone-numbers/{phoneNumberId}?operation=restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Searches phone numbers that can be ordered.
-    public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<SearchAvailablePhoneNumbersResponse> {
-        return self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func searchAvailablePhoneNumbers(_ input: SearchAvailablePhoneNumbersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchAvailablePhoneNumbersResponse> {
+        return self.client.execute(operation: "SearchAvailablePhoneNumbers", path: "/search?type=phone-numbers", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Applies the specified tags to the specified Amazon Chime SDK attendee.
-    @discardableResult public func tagAttendee(_ input: TagAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagAttendee(_ input: TagAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Applies the specified tags to the specified Amazon Chime SDK meeting.
-    @discardableResult public func tagMeeting(_ input: TagMeetingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagMeeting", path: "/meetings/{meetingId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagMeeting(_ input: TagMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagMeeting", path: "/meetings/{meetingId}/tags?operation=add", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Applies the specified tags to the specified Amazon Chime SDK meeting resource.
-    @discardableResult public func tagResource(_ input: TagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "TagResource", path: "/tags?operation=tag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Untags the specified tags from the specified Amazon Chime SDK attendee.
-    @discardableResult public func untagAttendee(_ input: UntagAttendeeRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagAttendee(_ input: UntagAttendeeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagAttendee", path: "/meetings/{meetingId}/attendees/{attendeeId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Untags the specified tags from the specified Amazon Chime SDK meeting.
-    @discardableResult public func untagMeeting(_ input: UntagMeetingRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagMeeting", path: "/meetings/{meetingId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagMeeting(_ input: UntagMeetingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagMeeting", path: "/meetings/{meetingId}/tags?operation=delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Untags the specified tags from the specified Amazon Chime SDK meeting resource.
-    @discardableResult public func untagResource(_ input: UntagResourceRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UntagResource", path: "/tags?operation=untag-resource", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates account details for the specified Amazon Chime account. Currently, only account name updates are supported for this action.
-    public func updateAccount(_ input: UpdateAccountRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAccountResponse> {
-        return self.client.execute(operation: "UpdateAccount", path: "/accounts/{accountId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAccount(_ input: UpdateAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountResponse> {
+        return self.client.execute(operation: "UpdateAccount", path: "/accounts/{accountId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the settings for the specified Amazon Chime account. You can update settings for remote control of shared screens, or for the dial-out option. For more information about these settings, see Use the Policies Page in the Amazon Chime Administration Guide.
-    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateAccountSettingsResponse> {
-        return self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateAccountSettings(_ input: UpdateAccountSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAccountSettingsResponse> {
+        return self.client.execute(operation: "UpdateAccountSettings", path: "/accounts/{accountId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the status of the specified bot, such as starting or stopping the bot from running in your Amazon Chime Enterprise account.
-    public func updateBot(_ input: UpdateBotRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateBotResponse> {
-        return self.client.execute(operation: "UpdateBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateBot(_ input: UpdateBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateBotResponse> {
+        return self.client.execute(operation: "UpdateBot", path: "/accounts/{accountId}/bots/{botId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates global settings for the administrator's AWS account, such as Amazon Chime Business Calling and Amazon Chime Voice Connector settings.
-    @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateGlobalSettings", path: "/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateGlobalSettings(_ input: UpdateGlobalSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateGlobalSettings", path: "/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates phone number details, such as product type or calling name, for the specified phone number ID. You can update one phone number detail at a time. For example, you can update either the product type or the calling name in one action. For toll-free numbers, you must use the Amazon Chime Voice Connector product type. Updates to outbound calling names can take up to 72 hours to complete. Pending updates to outbound calling names must be complete before you can request another update.
-    public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdatePhoneNumberResponse> {
-        return self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updatePhoneNumber(_ input: UpdatePhoneNumberRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePhoneNumberResponse> {
+        return self.client.execute(operation: "UpdatePhoneNumber", path: "/phone-numbers/{phoneNumberId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the phone number settings for the administrator's AWS account, such as the default outbound calling name. You can update the default outbound calling name once every seven days. Outbound calling names can take up to 72 hours to update.
-    @discardableResult public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updatePhoneNumberSettings(_ input: UpdatePhoneNumberSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdatePhoneNumberSettings", path: "/settings/phone-number", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the specified proxy session details, such as voice or SMS capabilities.
-    public func updateProxySession(_ input: UpdateProxySessionRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateProxySessionResponse> {
-        return self.client.execute(operation: "UpdateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateProxySession(_ input: UpdateProxySessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateProxySessionResponse> {
+        return self.client.execute(operation: "UpdateProxySession", path: "/voice-connectors/{voiceConnectorId}/proxy-sessions/{proxySessionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates room details, such as the room name, for a room in an Amazon Chime Enterprise account.
-    public func updateRoom(_ input: UpdateRoomRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRoomResponse> {
-        return self.client.execute(operation: "UpdateRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateRoom(_ input: UpdateRoomRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoomResponse> {
+        return self.client.execute(operation: "UpdateRoom", path: "/accounts/{accountId}/rooms/{roomId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates room membership details, such as the member role, for a room in an Amazon Chime Enterprise account. The member role designates whether the member is a chat room administrator or a general chat room member. The member role can be updated only for user IDs.
-    public func updateRoomMembership(_ input: UpdateRoomMembershipRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateRoomMembershipResponse> {
-        return self.client.execute(operation: "UpdateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateRoomMembership(_ input: UpdateRoomMembershipRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoomMembershipResponse> {
+        return self.client.execute(operation: "UpdateRoomMembership", path: "/accounts/{accountId}/rooms/{roomId}/memberships/{memberId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates user details for a specified user ID. Currently, only LicenseType updates are supported for this action.
-    public func updateUser(_ input: UpdateUserRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateUserResponse> {
-        return self.client.execute(operation: "UpdateUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: .POST, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateUser(_ input: UpdateUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateUserResponse> {
+        return self.client.execute(operation: "UpdateUser", path: "/accounts/{accountId}/users/{userId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the settings for the specified user, such as phone number settings.
-    @discardableResult public func updateUserSettings(_ input: UpdateUserSettingsRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "UpdateUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    @discardableResult public func updateUserSettings(_ input: UpdateUserSettingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "UpdateUserSettings", path: "/accounts/{accountId}/users/{userId}/settings", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates details for the specified Amazon Chime Voice Connector.
-    public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVoiceConnectorResponse> {
-        return self.client.execute(operation: "UpdateVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateVoiceConnector(_ input: UpdateVoiceConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceConnectorResponse> {
+        return self.client.execute(operation: "UpdateVoiceConnector", path: "/voice-connectors/{voiceConnectorId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates details for the specified Amazon Chime Voice Connector group, such as the name and Amazon Chime Voice Connector priority ranking.
-    public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest, on eventLoop: EventLoop? = nil, logger: Logger = AWSClient.loggingDisabled) -> EventLoopFuture<UpdateVoiceConnectorGroupResponse> {
-        return self.client.execute(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, on: eventLoop, logger: logger)
+    public func updateVoiceConnectorGroup(_ input: UpdateVoiceConnectorGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceConnectorGroupResponse> {
+        return self.client.execute(operation: "UpdateVoiceConnectorGroup", path: "/voice-connector-groups/{voiceConnectorGroupId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 
