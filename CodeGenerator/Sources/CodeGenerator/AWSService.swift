@@ -466,7 +466,7 @@ extension AWSService {
             valueContexts.append(EnumMemberContext(case: caseName, string: value))
         }
         // sort value contexts alphabetically and then reserve word escape
-        valueContexts = valueContexts.sorted { $0.case < $1.case }.map { .init(case: $0.case.reservedwordEscaped(), string: $0.string)}
+        valueContexts = valueContexts.sorted { $0.case < $1.case }.map { .init(case: $0.case.reservedwordEscaped(), string: $0.string) }
         return EnumContext(
             name: shape.name.toSwiftClassCase().reservedwordEscaped(),
             values: valueContexts,
