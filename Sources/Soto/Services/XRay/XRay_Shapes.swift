@@ -21,26 +21,26 @@ extension XRay {
     // MARK: Enums
 
     public enum EncryptionStatus: String, CustomStringConvertible, Codable {
-        case updating = "UPDATING"
         case active = "ACTIVE"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case kms = "KMS"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum SamplingStrategyName: String, CustomStringConvertible, Codable {
-        case partialscan = "PartialScan"
         case fixedrate = "FixedRate"
+        case partialscan = "PartialScan"
         public var description: String { return self.rawValue }
     }
 
     public enum TimeRangeType: String, CustomStringConvertible, Codable {
-        case traceid = "TraceId"
         case event = "Event"
+        case traceid = "TraceId"
         public var description: String { return self.rawValue }
     }
 

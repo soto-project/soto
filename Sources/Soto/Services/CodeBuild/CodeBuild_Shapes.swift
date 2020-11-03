@@ -21,8 +21,8 @@ extension CodeBuild {
     // MARK: Enums
 
     public enum ArtifactNamespace: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case buildId = "BUILD_ID"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -34,63 +34,63 @@ extension CodeBuild {
 
     public enum ArtifactsType: String, CustomStringConvertible, Codable {
         case codepipeline = "CODEPIPELINE"
-        case s3 = "S3"
         case noArtifacts = "NO_ARTIFACTS"
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthType: String, CustomStringConvertible, Codable {
-        case oauth = "OAUTH"
         case basicAuth = "BASIC_AUTH"
+        case oauth = "OAUTH"
         case personalAccessToken = "PERSONAL_ACCESS_TOKEN"
         public var description: String { return self.rawValue }
     }
 
     public enum BuildBatchPhaseType: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
-        case inProgress = "IN_PROGRESS"
         case combineArtifacts = "COMBINE_ARTIFACTS"
-        case succeeded = "SUCCEEDED"
+        case downloadBatchspec = "DOWNLOAD_BATCHSPEC"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case stopped = "STOPPED"
+        case submitted = "SUBMITTED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum BuildPhaseType: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case queued = "QUEUED"
-        case provisioning = "PROVISIONING"
-        case downloadSource = "DOWNLOAD_SOURCE"
-        case install = "INSTALL"
-        case preBuild = "PRE_BUILD"
         case build = "BUILD"
-        case postBuild = "POST_BUILD"
-        case uploadArtifacts = "UPLOAD_ARTIFACTS"
-        case finalizing = "FINALIZING"
         case completed = "COMPLETED"
+        case downloadSource = "DOWNLOAD_SOURCE"
+        case finalizing = "FINALIZING"
+        case install = "INSTALL"
+        case postBuild = "POST_BUILD"
+        case preBuild = "PRE_BUILD"
+        case provisioning = "PROVISIONING"
+        case queued = "QUEUED"
+        case submitted = "SUBMITTED"
+        case uploadArtifacts = "UPLOAD_ARTIFACTS"
         public var description: String { return self.rawValue }
     }
 
     public enum CacheMode: String, CustomStringConvertible, Codable {
+        case localCustomCache = "LOCAL_CUSTOM_CACHE"
         case localDockerLayerCache = "LOCAL_DOCKER_LAYER_CACHE"
         case localSourceCache = "LOCAL_SOURCE_CACHE"
-        case localCustomCache = "LOCAL_CUSTOM_CACHE"
         public var description: String { return self.rawValue }
     }
 
     public enum CacheType: String, CustomStringConvertible, Codable {
+        case local = "LOCAL"
         case noCache = "NO_CACHE"
         case s3 = "S3"
-        case local = "LOCAL"
         public var description: String { return self.rawValue }
     }
 
     public enum ComputeType: String, CustomStringConvertible, Codable {
-        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
-        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
-        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
         case buildGeneral12Xlarge = "BUILD_GENERAL1_2XLARGE"
+        case buildGeneral1Large = "BUILD_GENERAL1_LARGE"
+        case buildGeneral1Medium = "BUILD_GENERAL1_MEDIUM"
+        case buildGeneral1Small = "BUILD_GENERAL1_SMALL"
         public var description: String { return self.rawValue }
     }
 
@@ -100,17 +100,17 @@ extension CodeBuild {
     }
 
     public enum EnvironmentType: String, CustomStringConvertible, Codable {
-        case windowsContainer = "WINDOWS_CONTAINER"
+        case armContainer = "ARM_CONTAINER"
         case linuxContainer = "LINUX_CONTAINER"
         case linuxGpuContainer = "LINUX_GPU_CONTAINER"
-        case armContainer = "ARM_CONTAINER"
+        case windowsContainer = "WINDOWS_CONTAINER"
         case windowsServer2019Container = "WINDOWS_SERVER_2019_CONTAINER"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentVariableType: String, CustomStringConvertible, Codable {
-        case plaintext = "PLAINTEXT"
         case parameterStore = "PARAMETER_STORE"
+        case plaintext = "PLAINTEXT"
         case secretsManager = "SECRETS_MANAGER"
         public var description: String { return self.rawValue }
     }
@@ -127,77 +127,77 @@ extension CodeBuild {
     }
 
     public enum LanguageType: String, CustomStringConvertible, Codable {
-        case java = "JAVA"
-        case python = "PYTHON"
-        case nodeJs = "NODE_JS"
-        case ruby = "RUBY"
-        case golang = "GOLANG"
-        case docker = "DOCKER"
         case android = "ANDROID"
-        case dotnet = "DOTNET"
         case base = "BASE"
+        case docker = "DOCKER"
+        case dotnet = "DOTNET"
+        case golang = "GOLANG"
+        case java = "JAVA"
+        case nodeJs = "NODE_JS"
         case php = "PHP"
+        case python = "PYTHON"
+        case ruby = "RUBY"
         public var description: String { return self.rawValue }
     }
 
     public enum LogsConfigStatusType: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum PlatformType: String, CustomStringConvertible, Codable {
-        case debian = "DEBIAN"
         case amazonLinux = "AMAZON_LINUX"
+        case debian = "DEBIAN"
         case ubuntu = "UBUNTU"
         case windowsServer = "WINDOWS_SERVER"
         public var description: String { return self.rawValue }
     }
 
     public enum ProjectSortByType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportCodeCoverageSortByType: String, CustomStringConvertible, Codable {
-        case lineCoveragePercentage = "LINE_COVERAGE_PERCENTAGE"
         case filePath = "FILE_PATH"
+        case lineCoveragePercentage = "LINE_COVERAGE_PERCENTAGE"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportExportConfigType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
         case noExport = "NO_EXPORT"
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportGroupSortByType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
         case createdTime = "CREATED_TIME"
         case lastModifiedTime = "LAST_MODIFIED_TIME"
+        case name = "NAME"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportPackagingType: String, CustomStringConvertible, Codable {
-        case zip = "ZIP"
         case none = "NONE"
+        case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportStatusType: String, CustomStringConvertible, Codable {
-        case generating = "GENERATING"
-        case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case incomplete = "INCOMPLETE"
         case deleting = "DELETING"
+        case failed = "FAILED"
+        case generating = "GENERATING"
+        case incomplete = "INCOMPLETE"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportType: String, CustomStringConvertible, Codable {
-        case test = "TEST"
         case codeCoverage = "CODE_COVERAGE"
+        case test = "TEST"
         public var description: String { return self.rawValue }
     }
 
@@ -208,8 +208,8 @@ extension CodeBuild {
     }
 
     public enum ServerType: String, CustomStringConvertible, Codable {
-        case github = "GITHUB"
         case bitbucket = "BITBUCKET"
+        case github = "GITHUB"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         public var description: String { return self.rawValue }
     }
@@ -232,23 +232,23 @@ extension CodeBuild {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
+        case bitbucket = "BITBUCKET"
         case codecommit = "CODECOMMIT"
         case codepipeline = "CODEPIPELINE"
         case github = "GITHUB"
-        case s3 = "S3"
-        case bitbucket = "BITBUCKET"
         case githubEnterprise = "GITHUB_ENTERPRISE"
         case noSource = "NO_SOURCE"
+        case s3 = "S3"
         public var description: String { return self.rawValue }
     }
 
     public enum StatusType: String, CustomStringConvertible, Codable {
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
         case fault = "FAULT"
-        case timedOut = "TIMED_OUT"
         case inProgress = "IN_PROGRESS"
         case stopped = "STOPPED"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
@@ -259,12 +259,12 @@ extension CodeBuild {
     }
 
     public enum WebhookFilterType: String, CustomStringConvertible, Codable {
-        case event = "EVENT"
-        case baseRef = "BASE_REF"
-        case headRef = "HEAD_REF"
         case actorAccountId = "ACTOR_ACCOUNT_ID"
-        case filePath = "FILE_PATH"
+        case baseRef = "BASE_REF"
         case commitMessage = "COMMIT_MESSAGE"
+        case event = "EVENT"
+        case filePath = "FILE_PATH"
+        case headRef = "HEAD_REF"
         public var description: String { return self.rawValue }
     }
 

@@ -21,73 +21,73 @@ extension Pinpoint {
     // MARK: Enums
 
     public enum Action: String, CustomStringConvertible, Codable {
-        case openApp = "OPEN_APP"
         case deepLink = "DEEP_LINK"
+        case openApp = "OPEN_APP"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
-        case inclusive = "INCLUSIVE"
         case exclusive = "EXCLUSIVE"
+        case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum CampaignStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "SCHEDULED"
-        case executing = "EXECUTING"
-        case pendingNextRun = "PENDING_NEXT_RUN"
         case completed = "COMPLETED"
-        case paused = "PAUSED"
         case deleted = "DELETED"
+        case executing = "EXECUTING"
         case invalid = "INVALID"
+        case paused = "PAUSED"
+        case pendingNextRun = "PENDING_NEXT_RUN"
+        case scheduled = "SCHEDULED"
         public var description: String { return self.rawValue }
     }
 
     public enum ChannelType: String, CustomStringConvertible, Codable {
-        case push = "PUSH"
-        case gcm = "GCM"
+        case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
         case apnsVoip = "APNS_VOIP"
         case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
-        case adm = "ADM"
-        case sms = "SMS"
-        case voice = "VOICE"
-        case email = "EMAIL"
         case baidu = "BAIDU"
         case custom = "CUSTOM"
+        case email = "EMAIL"
+        case gcm = "GCM"
+        case push = "PUSH"
+        case sms = "SMS"
+        case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliveryStatus: String, CustomStringConvertible, Codable {
-        case successful = "SUCCESSFUL"
-        case throttled = "THROTTLED"
-        case temporaryFailure = "TEMPORARY_FAILURE"
-        case permanentFailure = "PERMANENT_FAILURE"
-        case unknownFailure = "UNKNOWN_FAILURE"
-        case optOut = "OPT_OUT"
         case duplicate = "DUPLICATE"
+        case optOut = "OPT_OUT"
+        case permanentFailure = "PERMANENT_FAILURE"
+        case successful = "SUCCESSFUL"
+        case temporaryFailure = "TEMPORARY_FAILURE"
+        case throttled = "THROTTLED"
+        case unknownFailure = "UNKNOWN_FAILURE"
         public var description: String { return self.rawValue }
     }
 
     public enum DimensionType: String, CustomStringConvertible, Codable {
-        case inclusive = "INCLUSIVE"
         case exclusive = "EXCLUSIVE"
+        case inclusive = "INCLUSIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum Duration: String, CustomStringConvertible, Codable {
-        case hr24 = "HR_24"
-        case day7 = "DAY_7"
         case day14 = "DAY_14"
         case day30 = "DAY_30"
+        case day7 = "DAY_7"
+        case hr24 = "HR_24"
         public var description: String { return self.rawValue }
     }
 
     public enum FilterType: String, CustomStringConvertible, Codable {
-        case system = "SYSTEM"
         case endpoint = "ENDPOINT"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
@@ -98,12 +98,12 @@ extension Pinpoint {
     }
 
     public enum Frequency: String, CustomStringConvertible, Codable {
-        case once = "ONCE"
-        case hourly = "HOURLY"
         case daily = "DAILY"
-        case weekly = "WEEKLY"
-        case monthly = "MONTHLY"
         case event = "EVENT"
+        case hourly = "HOURLY"
+        case monthly = "MONTHLY"
+        case once = "ONCE"
+        case weekly = "WEEKLY"
         public var description: String { return self.rawValue }
     }
 
@@ -115,21 +115,21 @@ extension Pinpoint {
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case created = "CREATED"
-        case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
-        case initializing = "INITIALIZING"
-        case processing = "PROCESSING"
-        case pendingJob = "PENDING_JOB"
-        case completing = "COMPLETING"
         case completed = "COMPLETED"
-        case failing = "FAILING"
+        case completing = "COMPLETING"
+        case created = "CREATED"
         case failed = "FAILED"
+        case failing = "FAILING"
+        case initializing = "INITIALIZING"
+        case pendingJob = "PENDING_JOB"
+        case preparingForInitialization = "PREPARING_FOR_INITIALIZATION"
+        case processing = "PROCESSING"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageType: String, CustomStringConvertible, Codable {
-        case transactional = "TRANSACTIONAL"
         case promotional = "PROMOTIONAL"
+        case transactional = "TRANSACTIONAL"
         public var description: String { return self.rawValue }
     }
 
@@ -165,19 +165,19 @@ extension Pinpoint {
     }
 
     public enum State: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
         case active = "ACTIVE"
-        case completed = "COMPLETED"
         case cancelled = "CANCELLED"
         case closed = "CLOSED"
+        case completed = "COMPLETED"
+        case draft = "DRAFT"
         public var description: String { return self.rawValue }
     }
 
     public enum TemplateType: String, CustomStringConvertible, Codable {
         case email = "EMAIL"
+        case push = "PUSH"
         case sms = "SMS"
         case voice = "VOICE"
-        case push = "PUSH"
         public var description: String { return self.rawValue }
     }
 
@@ -189,18 +189,18 @@ extension Pinpoint {
     }
 
     public enum Endpointtypeselement: String, CustomStringConvertible, Codable {
-        case push = "PUSH"
-        case gcm = "GCM"
+        case adm = "ADM"
         case apns = "APNS"
         case apnsSandbox = "APNS_SANDBOX"
         case apnsVoip = "APNS_VOIP"
         case apnsVoipSandbox = "APNS_VOIP_SANDBOX"
-        case adm = "ADM"
-        case sms = "SMS"
-        case voice = "VOICE"
-        case email = "EMAIL"
         case baidu = "BAIDU"
         case custom = "CUSTOM"
+        case email = "EMAIL"
+        case gcm = "GCM"
+        case push = "PUSH"
+        case sms = "SMS"
+        case voice = "VOICE"
         public var description: String { return self.rawValue }
     }
 

@@ -27,16 +27,16 @@ extension SecurityHub {
     }
 
     public enum ComplianceStatus: String, CustomStringConvertible, Codable {
-        case passed = "PASSED"
-        case warning = "WARNING"
         case failed = "FAILED"
         case notAvailable = "NOT_AVAILABLE"
+        case passed = "PASSED"
+        case warning = "WARNING"
         public var description: String { return self.rawValue }
     }
 
     public enum ControlStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -46,8 +46,8 @@ extension SecurityHub {
     }
 
     public enum IntegrationType: String, CustomStringConvertible, Codable {
-        case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
         case receiveFindingsFromSecurityHub = "RECEIVE_FINDINGS_FROM_SECURITY_HUB"
+        case sendFindingsToSecurityHub = "SEND_FINDINGS_TO_SECURITY_HUB"
         public var description: String { return self.rawValue }
     }
 
@@ -67,10 +67,10 @@ extension SecurityHub {
         case keylogger = "KEYLOGGER"
         case macro = "MACRO"
         case potentiallyUnwanted = "POTENTIALLY_UNWANTED"
-        case spyware = "SPYWARE"
         case ransomware = "RANSOMWARE"
         case remoteAccess = "REMOTE_ACCESS"
         case rootkit = "ROOTKIT"
+        case spyware = "SPYWARE"
         case trojan = "TROJAN"
         case virus = "VIRUS"
         case worm = "WORM"
@@ -103,19 +103,19 @@ extension SecurityHub {
     }
 
     public enum SeverityLabel: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
         case informational = "INFORMATIONAL"
         case low = "LOW"
         case medium = "MEDIUM"
-        case high = "HIGH"
-        case critical = "CRITICAL"
         public var description: String { return self.rawValue }
     }
 
     public enum SeverityRating: String, CustomStringConvertible, Codable {
+        case critical = "CRITICAL"
+        case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
-        case high = "HIGH"
-        case critical = "CRITICAL"
         public var description: String { return self.rawValue }
     }
 
@@ -126,18 +126,18 @@ extension SecurityHub {
     }
 
     public enum StandardsStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case incomplete = "INCOMPLETE"
         case pending = "PENDING"
         case ready = "READY"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case incomplete = "INCOMPLETE"
         public var description: String { return self.rawValue }
     }
 
     public enum StringFilterComparison: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
-        case prefix = "PREFIX"
         case notEquals = "NOT_EQUALS"
+        case prefix = "PREFIX"
         case prefixNotEquals = "PREFIX_NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
@@ -168,18 +168,18 @@ extension SecurityHub {
     }
 
     public enum VerificationState: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case truePositive = "TRUE_POSITIVE"
-        case falsePositive = "FALSE_POSITIVE"
         case benignPositive = "BENIGN_POSITIVE"
+        case falsePositive = "FALSE_POSITIVE"
+        case truePositive = "TRUE_POSITIVE"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum WorkflowState: String, CustomStringConvertible, Codable {
-        case new = "NEW"
         case assigned = "ASSIGNED"
-        case inProgress = "IN_PROGRESS"
         case deferred = "DEFERRED"
+        case inProgress = "IN_PROGRESS"
+        case new = "NEW"
         case resolved = "RESOLVED"
         public var description: String { return self.rawValue }
     }

@@ -27,103 +27,103 @@ extension DirectConnect {
     }
 
     public enum BGPPeerState: String, CustomStringConvertible, Codable {
-        case verifying
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
+        case verifying
         public var description: String { return self.rawValue }
     }
 
     public enum BGPStatus: String, CustomStringConvertible, Codable {
-        case up
         case down
         case unknown
+        case up
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionState: String, CustomStringConvertible, Codable {
-        case ordering
-        case requested
-        case pending
         case available
-        case down
-        case deleting
         case deleted
+        case deleting
+        case down
+        case ordering
+        case pending
         case rejected
+        case requested
         case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationProposalState: String, CustomStringConvertible, Codable {
-        case requested
         case accepted
         case deleted
+        case requested
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAssociationState: String, CustomStringConvertible, Codable {
-        case associating
         case associated
-        case disassociating
+        case associating
         case disassociated
+        case disassociating
         case updating
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAttachmentState: String, CustomStringConvertible, Codable {
-        case attaching
         case attached
-        case detaching
+        case attaching
         case detached
+        case detaching
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayAttachmentType: String, CustomStringConvertible, Codable {
-        case transitvirtualinterface = "TransitVirtualInterface"
         case privatevirtualinterface = "PrivateVirtualInterface"
+        case transitvirtualinterface = "TransitVirtualInterface"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectConnectGatewayState: String, CustomStringConvertible, Codable {
-        case pending
         case available
-        case deleting
         case deleted
+        case deleting
+        case pending
         public var description: String { return self.rawValue }
     }
 
     public enum GatewayType: String, CustomStringConvertible, Codable {
-        case virtualprivategateway = "virtualPrivateGateway"
         case transitgateway = "transitGateway"
+        case virtualprivategateway = "virtualPrivateGateway"
         public var description: String { return self.rawValue }
     }
 
     public enum HasLogicalRedundancy: String, CustomStringConvertible, Codable {
+        case no
         case unknown
         case yes
-        case no
         public var description: String { return self.rawValue }
     }
 
     public enum InterconnectState: String, CustomStringConvertible, Codable {
-        case requested
-        case pending
         case available
-        case down
-        case deleting
         case deleted
+        case deleting
+        case down
+        case pending
+        case requested
         case unknown
         public var description: String { return self.rawValue }
     }
 
     public enum LagState: String, CustomStringConvertible, Codable {
-        case requested
-        case pending
         case available
-        case down
-        case deleting
         case deleted
+        case deleting
+        case down
+        case pending
+        case requested
         case unknown
         public var description: String { return self.rawValue }
     }
@@ -134,15 +134,15 @@ extension DirectConnect {
     }
 
     public enum VirtualInterfaceState: String, CustomStringConvertible, Codable {
-        case confirming
-        case verifying
-        case pending
         case available
-        case down
-        case deleting
+        case confirming
         case deleted
+        case deleting
+        case down
+        case pending
         case rejected
         case unknown
+        case verifying
         public var description: String { return self.rawValue }
     }
 

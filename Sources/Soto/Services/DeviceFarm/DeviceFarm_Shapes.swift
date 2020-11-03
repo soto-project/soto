@@ -21,41 +21,41 @@ extension DeviceFarm {
     // MARK: Enums
 
     public enum ArtifactCategory: String, CustomStringConvertible, Codable {
-        case screenshot = "SCREENSHOT"
         case file = "FILE"
         case log = "LOG"
+        case screenshot = "SCREENSHOT"
         public var description: String { return self.rawValue }
     }
 
     public enum ArtifactType: String, CustomStringConvertible, Codable {
-        case unknown = "UNKNOWN"
-        case screenshot = "SCREENSHOT"
-        case deviceLog = "DEVICE_LOG"
-        case messageLog = "MESSAGE_LOG"
-        case videoLog = "VIDEO_LOG"
-        case resultLog = "RESULT_LOG"
-        case serviceLog = "SERVICE_LOG"
-        case webkitLog = "WEBKIT_LOG"
-        case instrumentationOutput = "INSTRUMENTATION_OUTPUT"
-        case exerciserMonkeyOutput = "EXERCISER_MONKEY_OUTPUT"
-        case calabashJsonOutput = "CALABASH_JSON_OUTPUT"
-        case calabashPrettyOutput = "CALABASH_PRETTY_OUTPUT"
-        case calabashStandardOutput = "CALABASH_STANDARD_OUTPUT"
-        case calabashJavaXmlOutput = "CALABASH_JAVA_XML_OUTPUT"
-        case automationOutput = "AUTOMATION_OUTPUT"
-        case appiumServerOutput = "APPIUM_SERVER_OUTPUT"
         case appiumJavaOutput = "APPIUM_JAVA_OUTPUT"
         case appiumJavaXmlOutput = "APPIUM_JAVA_XML_OUTPUT"
         case appiumPythonOutput = "APPIUM_PYTHON_OUTPUT"
         case appiumPythonXmlOutput = "APPIUM_PYTHON_XML_OUTPUT"
-        case explorerEventLog = "EXPLORER_EVENT_LOG"
-        case explorerSummaryLog = "EXPLORER_SUMMARY_LOG"
+        case appiumServerOutput = "APPIUM_SERVER_OUTPUT"
         case applicationCrashReport = "APPLICATION_CRASH_REPORT"
-        case xctestLog = "XCTEST_LOG"
-        case video = "VIDEO"
+        case automationOutput = "AUTOMATION_OUTPUT"
+        case calabashJavaXmlOutput = "CALABASH_JAVA_XML_OUTPUT"
+        case calabashJsonOutput = "CALABASH_JSON_OUTPUT"
+        case calabashPrettyOutput = "CALABASH_PRETTY_OUTPUT"
+        case calabashStandardOutput = "CALABASH_STANDARD_OUTPUT"
         case customerArtifact = "CUSTOMER_ARTIFACT"
         case customerArtifactLog = "CUSTOMER_ARTIFACT_LOG"
+        case deviceLog = "DEVICE_LOG"
+        case exerciserMonkeyOutput = "EXERCISER_MONKEY_OUTPUT"
+        case explorerEventLog = "EXPLORER_EVENT_LOG"
+        case explorerSummaryLog = "EXPLORER_SUMMARY_LOG"
+        case instrumentationOutput = "INSTRUMENTATION_OUTPUT"
+        case messageLog = "MESSAGE_LOG"
+        case resultLog = "RESULT_LOG"
+        case screenshot = "SCREENSHOT"
+        case serviceLog = "SERVICE_LOG"
         case testspecOutput = "TESTSPEC_OUTPUT"
+        case unknown = "UNKNOWN"
+        case video = "VIDEO"
+        case videoLog = "VIDEO_LOG"
+        case webkitLog = "WEBKIT_LOG"
+        case xctestLog = "XCTEST_LOG"
         public var description: String { return self.rawValue }
     }
 
@@ -71,43 +71,43 @@ extension DeviceFarm {
     }
 
     public enum DeviceAttribute: String, CustomStringConvertible, Codable {
-        case arn = "ARN"
-        case platform = "PLATFORM"
-        case formFactor = "FORM_FACTOR"
-        case manufacturer = "MANUFACTURER"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         case appiumVersion = "APPIUM_VERSION"
+        case arn = "ARN"
+        case availability = "AVAILABILITY"
+        case fleetType = "FLEET_TYPE"
+        case formFactor = "FORM_FACTOR"
         case instanceArn = "INSTANCE_ARN"
         case instanceLabels = "INSTANCE_LABELS"
-        case fleetType = "FLEET_TYPE"
-        case osVersion = "OS_VERSION"
+        case manufacturer = "MANUFACTURER"
         case model = "MODEL"
-        case availability = "AVAILABILITY"
+        case osVersion = "OS_VERSION"
+        case platform = "PLATFORM"
+        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
+        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceAvailability: String, CustomStringConvertible, Codable {
-        case temporaryNotAvailable = "TEMPORARY_NOT_AVAILABLE"
-        case busy = "BUSY"
         case available = "AVAILABLE"
+        case busy = "BUSY"
         case highlyAvailable = "HIGHLY_AVAILABLE"
+        case temporaryNotAvailable = "TEMPORARY_NOT_AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceFilterAttribute: String, CustomStringConvertible, Codable {
         case arn = "ARN"
-        case platform = "PLATFORM"
-        case osVersion = "OS_VERSION"
-        case model = "MODEL"
         case availability = "AVAILABILITY"
+        case fleetType = "FLEET_TYPE"
         case formFactor = "FORM_FACTOR"
-        case manufacturer = "MANUFACTURER"
-        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
-        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         case instanceArn = "INSTANCE_ARN"
         case instanceLabels = "INSTANCE_LABELS"
-        case fleetType = "FLEET_TYPE"
+        case manufacturer = "MANUFACTURER"
+        case model = "MODEL"
+        case osVersion = "OS_VERSION"
+        case platform = "PLATFORM"
+        case remoteAccessEnabled = "REMOTE_ACCESS_ENABLED"
+        case remoteDebugEnabled = "REMOTE_DEBUG_ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -130,13 +130,13 @@ extension DeviceFarm {
     }
 
     public enum ExecutionResult: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case passed = "PASSED"
-        case warned = "WARNED"
-        case failed = "FAILED"
-        case skipped = "SKIPPED"
         case errored = "ERRORED"
+        case failed = "FAILED"
+        case passed = "PASSED"
+        case pending = "PENDING"
+        case skipped = "SKIPPED"
         case stopped = "STOPPED"
+        case warned = "WARNED"
         public var description: String { return self.rawValue }
     }
 
@@ -147,23 +147,23 @@ extension DeviceFarm {
     }
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
         case pending = "PENDING"
         case pendingConcurrency = "PENDING_CONCURRENCY"
         case pendingDevice = "PENDING_DEVICE"
-        case processing = "PROCESSING"
-        case scheduling = "SCHEDULING"
         case preparing = "PREPARING"
+        case processing = "PROCESSING"
         case running = "RUNNING"
-        case completed = "COMPLETED"
+        case scheduling = "SCHEDULING"
         case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case inUse = "IN_USE"
-        case preparing = "PREPARING"
         case available = "AVAILABLE"
+        case inUse = "IN_USE"
         case notAvailable = "NOT_AVAILABLE"
+        case preparing = "PREPARING"
         public var description: String { return self.rawValue }
     }
 
@@ -198,48 +198,48 @@ extension DeviceFarm {
     }
 
     public enum RuleOperator: String, CustomStringConvertible, Codable {
+        case contains = "CONTAINS"
         case equals = "EQUALS"
-        case lessThan = "LESS_THAN"
-        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
         case greaterThan = "GREATER_THAN"
         case greaterThanOrEquals = "GREATER_THAN_OR_EQUALS"
         case `in` = "IN"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEquals = "LESS_THAN_OR_EQUALS"
         case notIn = "NOT_IN"
-        case contains = "CONTAINS"
         public var description: String { return self.rawValue }
     }
 
     public enum SampleType: String, CustomStringConvertible, Codable {
         case cpu = "CPU"
         case memory = "MEMORY"
-        case threads = "THREADS"
-        case rxRate = "RX_RATE"
-        case txRate = "TX_RATE"
-        case rx = "RX"
-        case tx = "TX"
-        case nativeFrames = "NATIVE_FRAMES"
-        case nativeFps = "NATIVE_FPS"
-        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
         case nativeAvgDrawtime = "NATIVE_AVG_DRAWTIME"
+        case nativeFps = "NATIVE_FPS"
+        case nativeFrames = "NATIVE_FRAMES"
         case nativeMaxDrawtime = "NATIVE_MAX_DRAWTIME"
-        case openglFrames = "OPENGL_FRAMES"
-        case openglFps = "OPENGL_FPS"
-        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
+        case nativeMinDrawtime = "NATIVE_MIN_DRAWTIME"
         case openglAvgDrawtime = "OPENGL_AVG_DRAWTIME"
+        case openglFps = "OPENGL_FPS"
+        case openglFrames = "OPENGL_FRAMES"
         case openglMaxDrawtime = "OPENGL_MAX_DRAWTIME"
+        case openglMinDrawtime = "OPENGL_MIN_DRAWTIME"
+        case rx = "RX"
+        case rxRate = "RX_RATE"
+        case threads = "THREADS"
+        case tx = "TX"
+        case txRate = "TX_RATE"
         public var description: String { return self.rawValue }
     }
 
     public enum TestGridSessionArtifactCategory: String, CustomStringConvertible, Codable {
-        case video = "VIDEO"
         case log = "LOG"
+        case video = "VIDEO"
         public var description: String { return self.rawValue }
     }
 
     public enum TestGridSessionArtifactType: String, CustomStringConvertible, Codable {
+        case seleniumLog = "SELENIUM_LOG"
         case unknown = "UNKNOWN"
         case video = "VIDEO"
-        case seleniumLog = "SELENIUM_LOG"
         public var description: String { return self.rawValue }
     }
 
@@ -251,27 +251,27 @@ extension DeviceFarm {
     }
 
     public enum TestType: String, CustomStringConvertible, Codable {
-        case builtinFuzz = "BUILTIN_FUZZ"
-        case builtinExplorer = "BUILTIN_EXPLORER"
-        case webPerformanceProfile = "WEB_PERFORMANCE_PROFILE"
         case appiumJavaJunit = "APPIUM_JAVA_JUNIT"
         case appiumJavaTestng = "APPIUM_JAVA_TESTNG"
-        case appiumPython = "APPIUM_PYTHON"
         case appiumNode = "APPIUM_NODE"
+        case appiumPython = "APPIUM_PYTHON"
         case appiumRuby = "APPIUM_RUBY"
         case appiumWebJavaJunit = "APPIUM_WEB_JAVA_JUNIT"
         case appiumWebJavaTestng = "APPIUM_WEB_JAVA_TESTNG"
-        case appiumWebPython = "APPIUM_WEB_PYTHON"
         case appiumWebNode = "APPIUM_WEB_NODE"
+        case appiumWebPython = "APPIUM_WEB_PYTHON"
         case appiumWebRuby = "APPIUM_WEB_RUBY"
+        case builtinExplorer = "BUILTIN_EXPLORER"
+        case builtinFuzz = "BUILTIN_FUZZ"
         case calabash = "CALABASH"
         case instrumentation = "INSTRUMENTATION"
-        case uiautomation = "UIAUTOMATION"
-        case uiautomator = "UIAUTOMATOR"
-        case xctest = "XCTEST"
-        case xctestUi = "XCTEST_UI"
         case remoteAccessRecord = "REMOTE_ACCESS_RECORD"
         case remoteAccessReplay = "REMOTE_ACCESS_REPLAY"
+        case uiautomation = "UIAUTOMATION"
+        case uiautomator = "UIAUTOMATOR"
+        case webPerformanceProfile = "WEB_PERFORMANCE_PROFILE"
+        case xctest = "XCTEST"
+        case xctestUi = "XCTEST_UI"
         public var description: String { return self.rawValue }
     }
 
@@ -282,45 +282,45 @@ extension DeviceFarm {
     }
 
     public enum UploadStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case initialized = "INITIALIZED"
         case processing = "PROCESSING"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum UploadType: String, CustomStringConvertible, Codable {
         case androidApp = "ANDROID_APP"
-        case iosApp = "IOS_APP"
-        case webApp = "WEB_APP"
-        case externalData = "EXTERNAL_DATA"
         case appiumJavaJunitTestPackage = "APPIUM_JAVA_JUNIT_TEST_PACKAGE"
+        case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"
         case appiumJavaTestngTestPackage = "APPIUM_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumPythonTestPackage = "APPIUM_PYTHON_TEST_PACKAGE"
+        case appiumJavaTestngTestSpec = "APPIUM_JAVA_TESTNG_TEST_SPEC"
         case appiumNodeTestPackage = "APPIUM_NODE_TEST_PACKAGE"
+        case appiumNodeTestSpec = "APPIUM_NODE_TEST_SPEC"
+        case appiumPythonTestPackage = "APPIUM_PYTHON_TEST_PACKAGE"
+        case appiumPythonTestSpec = "APPIUM_PYTHON_TEST_SPEC"
         case appiumRubyTestPackage = "APPIUM_RUBY_TEST_PACKAGE"
+        case appiumRubyTestSpec = "APPIUM_RUBY_TEST_SPEC"
         case appiumWebJavaJunitTestPackage = "APPIUM_WEB_JAVA_JUNIT_TEST_PACKAGE"
+        case appiumWebJavaJunitTestSpec = "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
         case appiumWebJavaTestngTestPackage = "APPIUM_WEB_JAVA_TESTNG_TEST_PACKAGE"
-        case appiumWebPythonTestPackage = "APPIUM_WEB_PYTHON_TEST_PACKAGE"
+        case appiumWebJavaTestngTestSpec = "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
         case appiumWebNodeTestPackage = "APPIUM_WEB_NODE_TEST_PACKAGE"
+        case appiumWebNodeTestSpec = "APPIUM_WEB_NODE_TEST_SPEC"
+        case appiumWebPythonTestPackage = "APPIUM_WEB_PYTHON_TEST_PACKAGE"
+        case appiumWebPythonTestSpec = "APPIUM_WEB_PYTHON_TEST_SPEC"
         case appiumWebRubyTestPackage = "APPIUM_WEB_RUBY_TEST_PACKAGE"
+        case appiumWebRubyTestSpec = "APPIUM_WEB_RUBY_TEST_SPEC"
         case calabashTestPackage = "CALABASH_TEST_PACKAGE"
+        case externalData = "EXTERNAL_DATA"
         case instrumentationTestPackage = "INSTRUMENTATION_TEST_PACKAGE"
+        case instrumentationTestSpec = "INSTRUMENTATION_TEST_SPEC"
+        case iosApp = "IOS_APP"
         case uiautomationTestPackage = "UIAUTOMATION_TEST_PACKAGE"
         case uiautomatorTestPackage = "UIAUTOMATOR_TEST_PACKAGE"
+        case webApp = "WEB_APP"
         case xctestTestPackage = "XCTEST_TEST_PACKAGE"
         case xctestUiTestPackage = "XCTEST_UI_TEST_PACKAGE"
-        case appiumJavaJunitTestSpec = "APPIUM_JAVA_JUNIT_TEST_SPEC"
-        case appiumJavaTestngTestSpec = "APPIUM_JAVA_TESTNG_TEST_SPEC"
-        case appiumPythonTestSpec = "APPIUM_PYTHON_TEST_SPEC"
-        case appiumNodeTestSpec = "APPIUM_NODE_TEST_SPEC"
-        case appiumRubyTestSpec = "APPIUM_RUBY_TEST_SPEC"
-        case appiumWebJavaJunitTestSpec = "APPIUM_WEB_JAVA_JUNIT_TEST_SPEC"
-        case appiumWebJavaTestngTestSpec = "APPIUM_WEB_JAVA_TESTNG_TEST_SPEC"
-        case appiumWebPythonTestSpec = "APPIUM_WEB_PYTHON_TEST_SPEC"
-        case appiumWebNodeTestSpec = "APPIUM_WEB_NODE_TEST_SPEC"
-        case appiumWebRubyTestSpec = "APPIUM_WEB_RUBY_TEST_SPEC"
-        case instrumentationTestSpec = "INSTRUMENTATION_TEST_SPEC"
         case xctestUiTestSpec = "XCTEST_UI_TEST_SPEC"
         public var description: String { return self.rawValue }
     }

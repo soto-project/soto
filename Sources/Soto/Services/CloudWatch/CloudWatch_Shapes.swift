@@ -28,26 +28,26 @@ extension CloudWatch {
 
     public enum AnomalyDetectorStateValue: String, CustomStringConvertible, Codable {
         case pendingTraining = "PENDING_TRAINING"
-        case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
         case trained = "TRAINED"
+        case trainedInsufficientData = "TRAINED_INSUFFICIENT_DATA"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
         case lessthanlowerorgreaterthanupperthreshold = "LessThanLowerOrGreaterThanUpperThreshold"
         case lessthanlowerthreshold = "LessThanLowerThreshold"
-        case greaterthanupperthreshold = "GreaterThanUpperThreshold"
+        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanthreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum HistoryItemType: String, CustomStringConvertible, Codable {
+        case action = "Action"
         case configurationupdate = "ConfigurationUpdate"
         case stateupdate = "StateUpdate"
-        case action = "Action"
         public var description: String { return self.rawValue }
     }
 
@@ -57,55 +57,55 @@ extension CloudWatch {
     }
 
     public enum ScanBy: String, CustomStringConvertible, Codable {
-        case timestampdescending = "TimestampDescending"
         case timestampascending = "TimestampAscending"
+        case timestampdescending = "TimestampDescending"
         public var description: String { return self.rawValue }
     }
 
     public enum StandardUnit: String, CustomStringConvertible, Codable {
-        case seconds = "Seconds"
+        case bits = "Bits"
+        case bitsSecond = "Bits/Second"
+        case bytes = "Bytes"
+        case bytesSecond = "Bytes/Second"
+        case count = "Count"
+        case countSecond = "Count/Second"
+        case gigabits = "Gigabits"
+        case gigabitsSecond = "Gigabits/Second"
+        case gigabytes = "Gigabytes"
+        case gigabytesSecond = "Gigabytes/Second"
+        case kilobits = "Kilobits"
+        case kilobitsSecond = "Kilobits/Second"
+        case kilobytes = "Kilobytes"
+        case kilobytesSecond = "Kilobytes/Second"
+        case megabits = "Megabits"
+        case megabitsSecond = "Megabits/Second"
+        case megabytes = "Megabytes"
+        case megabytesSecond = "Megabytes/Second"
         case microseconds = "Microseconds"
         case milliseconds = "Milliseconds"
-        case bytes = "Bytes"
-        case kilobytes = "Kilobytes"
-        case megabytes = "Megabytes"
-        case gigabytes = "Gigabytes"
-        case terabytes = "Terabytes"
-        case bits = "Bits"
-        case kilobits = "Kilobits"
-        case megabits = "Megabits"
-        case gigabits = "Gigabits"
-        case terabits = "Terabits"
-        case percent = "Percent"
-        case count = "Count"
-        case bytesSecond = "Bytes/Second"
-        case kilobytesSecond = "Kilobytes/Second"
-        case megabytesSecond = "Megabytes/Second"
-        case gigabytesSecond = "Gigabytes/Second"
-        case terabytesSecond = "Terabytes/Second"
-        case bitsSecond = "Bits/Second"
-        case kilobitsSecond = "Kilobits/Second"
-        case megabitsSecond = "Megabits/Second"
-        case gigabitsSecond = "Gigabits/Second"
-        case terabitsSecond = "Terabits/Second"
-        case countSecond = "Count/Second"
         case none = "None"
+        case percent = "Percent"
+        case seconds = "Seconds"
+        case terabits = "Terabits"
+        case terabitsSecond = "Terabits/Second"
+        case terabytes = "Terabytes"
+        case terabytesSecond = "Terabytes/Second"
         public var description: String { return self.rawValue }
     }
 
     public enum StateValue: String, CustomStringConvertible, Codable {
-        case ok = "OK"
         case alarm = "ALARM"
         case insufficientData = "INSUFFICIENT_DATA"
+        case ok = "OK"
         public var description: String { return self.rawValue }
     }
 
     public enum Statistic: String, CustomStringConvertible, Codable {
-        case samplecount = "SampleCount"
         case average = "Average"
-        case sum = "Sum"
-        case minimum = "Minimum"
         case maximum = "Maximum"
+        case minimum = "Minimum"
+        case samplecount = "SampleCount"
+        case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 

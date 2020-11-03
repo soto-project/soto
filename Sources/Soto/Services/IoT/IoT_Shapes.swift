@@ -26,10 +26,10 @@ extension IoT {
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case publish = "PUBLISH"
-        case subscribe = "SUBSCRIBE"
-        case receive = "RECEIVE"
         case connect = "CONNECT"
+        case publish = "PUBLISH"
+        case receive = "RECEIVE"
+        case subscribe = "SUBSCRIBE"
         public var description: String { return self.rawValue }
     }
 
@@ -39,46 +39,46 @@ extension IoT {
     }
 
     public enum AuditCheckRunStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
         case canceled = "CANCELED"
         case completedCompliant = "COMPLETED_COMPLIANT"
         case completedNonCompliant = "COMPLETED_NON_COMPLIANT"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case waitingForDataCollection = "WAITING_FOR_DATA_COLLECTION"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditFindingSeverity: String, CustomStringConvertible, Codable {
         case critical = "CRITICAL"
         case high = "HIGH"
-        case medium = "MEDIUM"
         case low = "LOW"
+        case medium = "MEDIUM"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditFrequency: String, CustomStringConvertible, Codable {
-        case daily = "DAILY"
-        case weekly = "WEEKLY"
         case biweekly = "BIWEEKLY"
+        case daily = "DAILY"
         case monthly = "MONTHLY"
+        case weekly = "WEEKLY"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditMitigationActionsExecutionStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
+        case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
-        case canceled = "CANCELED"
-        case skipped = "SKIPPED"
+        case inProgress = "IN_PROGRESS"
         case pending = "PENDING"
+        case skipped = "SKIPPED"
         public var description: String { return self.rawValue }
     }
 
     public enum AuditMitigationActionsTaskStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
+        case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
-        case canceled = "CANCELED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -88,10 +88,10 @@ extension IoT {
     }
 
     public enum AuditTaskStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
+        case canceled = "CANCELED"
         case completed = "COMPLETED"
         case failed = "FAILED"
-        case canceled = "CANCELED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -115,8 +115,8 @@ extension IoT {
     }
 
     public enum AutoRegistrationStatus: String, CustomStringConvertible, Codable {
-        case enable = "ENABLE"
         case disable = "DISABLE"
+        case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
@@ -126,10 +126,10 @@ extension IoT {
     }
 
     public enum AwsJobAbortCriteriaFailureType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
         case failed = "FAILED"
         case rejected = "REJECTED"
         case timedOut = "TIMED_OUT"
-        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -145,14 +145,14 @@ extension IoT {
     }
 
     public enum CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
+        case logDeliveryWrite = "log-delivery-write"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
-        case logDeliveryWrite = "log-delivery-write"
         public var description: String { return self.rawValue }
     }
 
@@ -165,33 +165,33 @@ extension IoT {
     public enum CertificateStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case inactive = "INACTIVE"
-        case revoked = "REVOKED"
+        case pendingActivation = "PENDING_ACTIVATION"
         case pendingTransfer = "PENDING_TRANSFER"
         case registerInactive = "REGISTER_INACTIVE"
-        case pendingActivation = "PENDING_ACTIVATION"
+        case revoked = "REVOKED"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case lessThan = "less-than"
-        case lessThanEquals = "less-than-equals"
         case greaterThan = "greater-than"
         case greaterThanEquals = "greater-than-equals"
         case inCidrSet = "in-cidr-set"
-        case notInCidrSet = "not-in-cidr-set"
         case inPortSet = "in-port-set"
+        case lessThan = "less-than"
+        case lessThanEquals = "less-than-equals"
+        case notInCidrSet = "not-in-cidr-set"
         case notInPortSet = "not-in-port-set"
         public var description: String { return self.rawValue }
     }
 
     public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case sun = "SUN"
+        case fri = "FRI"
         case mon = "MON"
+        case sat = "SAT"
+        case sun = "SUN"
+        case thu = "THU"
         case tue = "TUE"
         case wed = "WED"
-        case thu = "THU"
-        case fri = "FRI"
-        case sat = "SAT"
         public var description: String { return self.rawValue }
     }
 
@@ -212,15 +212,15 @@ extension IoT {
     }
 
     public enum DomainConfigurationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum DomainType: String, CustomStringConvertible, Codable {
-        case endpoint = "ENDPOINT"
         case awsManaged = "AWS_MANAGED"
         case customerManaged = "CUSTOMER_MANAGED"
+        case endpoint = "ENDPOINT"
         public var description: String { return self.rawValue }
     }
 
@@ -232,30 +232,30 @@ extension IoT {
     }
 
     public enum DynamoKeyType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
         case number = "NUMBER"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case thing = "THING"
-        case thingGroup = "THING_GROUP"
-        case thingType = "THING_TYPE"
-        case thingGroupMembership = "THING_GROUP_MEMBERSHIP"
-        case thingGroupHierarchy = "THING_GROUP_HIERARCHY"
-        case thingTypeAssociation = "THING_TYPE_ASSOCIATION"
+        case caCertificate = "CA_CERTIFICATE"
+        case certificate = "CERTIFICATE"
         case job = "JOB"
         case jobExecution = "JOB_EXECUTION"
         case policy = "POLICY"
-        case certificate = "CERTIFICATE"
-        case caCertificate = "CA_CERTIFICATE"
+        case thing = "THING"
+        case thingGroup = "THING_GROUP"
+        case thingGroupHierarchy = "THING_GROUP_HIERARCHY"
+        case thingGroupMembership = "THING_GROUP_MEMBERSHIP"
+        case thingType = "THING_TYPE"
+        case thingTypeAssociation = "THING_TYPE_ASSOCIATION"
         public var description: String { return self.rawValue }
     }
 
     public enum FieldType: String, CustomStringConvertible, Codable {
+        case boolean = "Boolean"
         case number = "Number"
         case string = "String"
-        case boolean = "Boolean"
         public var description: String { return self.rawValue }
     }
 
@@ -267,39 +267,39 @@ extension IoT {
     }
 
     public enum JobExecutionFailureType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
         case failed = "FAILED"
         case rejected = "REJECTED"
         case timedOut = "TIMED_OUT"
-        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
     public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
+        case canceled = "CANCELED"
         case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
         case rejected = "REJECTED"
         case removed = "REMOVED"
-        case canceled = "CANCELED"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case canceled = "CANCELED"
         case completed = "COMPLETED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum LogLevel: String, CustomStringConvertible, Codable {
         case debug = "DEBUG"
-        case info = "INFO"
-        case error = "ERROR"
-        case warn = "WARN"
         case disabled = "DISABLED"
+        case error = "ERROR"
+        case info = "INFO"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
@@ -310,26 +310,26 @@ extension IoT {
     }
 
     public enum MessageFormat: String, CustomStringConvertible, Codable {
-        case raw = "RAW"
         case json = "JSON"
+        case raw = "RAW"
         public var description: String { return self.rawValue }
     }
 
     public enum MitigationActionType: String, CustomStringConvertible, Codable {
-        case updateDeviceCertificate = "UPDATE_DEVICE_CERTIFICATE"
-        case updateCaCertificate = "UPDATE_CA_CERTIFICATE"
         case addThingsToThingGroup = "ADD_THINGS_TO_THING_GROUP"
-        case replaceDefaultPolicyVersion = "REPLACE_DEFAULT_POLICY_VERSION"
         case enableIotLogging = "ENABLE_IOT_LOGGING"
         case publishFindingToSns = "PUBLISH_FINDING_TO_SNS"
+        case replaceDefaultPolicyVersion = "REPLACE_DEFAULT_POLICY_VERSION"
+        case updateCaCertificate = "UPDATE_CA_CERTIFICATE"
+        case updateDeviceCertificate = "UPDATE_DEVICE_CERTIFICATE"
         public var description: String { return self.rawValue }
     }
 
     public enum OTAUpdateStatus: String, CustomStringConvertible, Codable {
-        case createPending = "CREATE_PENDING"
-        case createInProgress = "CREATE_IN_PROGRESS"
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -339,8 +339,8 @@ extension IoT {
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case mqtt = "MQTT"
         case http = "HTTP"
+        case mqtt = "MQTT"
         public var description: String { return self.rawValue }
     }
 
@@ -351,14 +351,14 @@ extension IoT {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case deviceCertificate = "DEVICE_CERTIFICATE"
-        case caCertificate = "CA_CERTIFICATE"
-        case iotPolicy = "IOT_POLICY"
-        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
-        case clientId = "CLIENT_ID"
         case accountSettings = "ACCOUNT_SETTINGS"
-        case roleAlias = "ROLE_ALIAS"
+        case caCertificate = "CA_CERTIFICATE"
+        case clientId = "CLIENT_ID"
+        case cognitoIdentityPool = "COGNITO_IDENTITY_POOL"
+        case deviceCertificate = "DEVICE_CERTIFICATE"
         case iamRole = "IAM_ROLE"
+        case iotPolicy = "IOT_POLICY"
+        case roleAlias = "ROLE_ALIAS"
         public var description: String { return self.rawValue }
     }
 
@@ -369,18 +369,18 @@ extension IoT {
     }
 
     public enum ServiceType: String, CustomStringConvertible, Codable {
-        case data = "DATA"
         case credentialProvider = "CREDENTIAL_PROVIDER"
+        case data = "DATA"
         case jobs = "JOBS"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case completed = "Completed"
-        case failed = "Failed"
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
+        case completed = "Completed"
+        case failed = "Failed"
+        case inprogress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
@@ -410,17 +410,17 @@ extension IoT {
     }
 
     public enum TopicRuleDestinationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case inProgress = "IN_PROGRESS"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum ViolationEventType: String, CustomStringConvertible, Codable {
-        case inAlarm = "in-alarm"
         case alarmCleared = "alarm-cleared"
         case alarmInvalidated = "alarm-invalidated"
+        case inAlarm = "in-alarm"
         public var description: String { return self.rawValue }
     }
 

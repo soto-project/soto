@@ -21,12 +21,12 @@ extension Greengrass {
     // MARK: Enums
 
     public enum BulkDeploymentStatus: String, CustomStringConvertible, Codable {
+        case completed = "Completed"
+        case failed = "Failed"
         case initializing = "Initializing"
         case running = "Running"
-        case completed = "Completed"
-        case stopping = "Stopping"
         case stopped = "Stopped"
-        case failed = "Failed"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -37,10 +37,10 @@ extension Greengrass {
     }
 
     public enum DeploymentType: String, CustomStringConvertible, Codable {
+        case forceresetdeployment = "ForceResetDeployment"
         case newdeployment = "NewDeployment"
         case redeployment = "Redeployment"
         case resetdeployment = "ResetDeployment"
-        case forceresetdeployment = "ForceResetDeployment"
         public var description: String { return self.rawValue }
     }
 
@@ -64,16 +64,16 @@ extension Greengrass {
 
     public enum LoggerLevel: String, CustomStringConvertible, Codable {
         case debug = "DEBUG"
-        case info = "INFO"
-        case warn = "WARN"
         case error = "ERROR"
         case fatal = "FATAL"
+        case info = "INFO"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
     public enum LoggerType: String, CustomStringConvertible, Codable {
-        case filesystem = "FileSystem"
         case awscloudwatch = "AWSCloudWatch"
+        case filesystem = "FileSystem"
         public var description: String { return self.rawValue }
     }
 
@@ -90,36 +90,36 @@ extension Greengrass {
     }
 
     public enum Telemetry: String, CustomStringConvertible, Codable {
-        case on = "On"
         case off = "Off"
+        case on = "On"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateAgentLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case trace = "TRACE"
         case debug = "DEBUG"
-        case verbose = "VERBOSE"
-        case info = "INFO"
-        case warn = "WARN"
         case error = "ERROR"
         case fatal = "FATAL"
+        case info = "INFO"
+        case none = "NONE"
+        case trace = "TRACE"
+        case verbose = "VERBOSE"
+        case warn = "WARN"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateTargetsArchitecture: String, CustomStringConvertible, Codable {
+        case aarch64
         case armv6l
         case armv7l
         case x8664 = "x86_64"
-        case aarch64
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateTargetsOperatingSystem: String, CustomStringConvertible, Codable {
-        case ubuntu
-        case raspbian
         case amazonLinux = "amazon_linux"
         case openwrt
+        case raspbian
+        case ubuntu
         public var description: String { return self.rawValue }
     }
 

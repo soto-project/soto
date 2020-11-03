@@ -28,31 +28,31 @@ extension Transfer {
     }
 
     public enum HomeDirectoryType: String, CustomStringConvertible, Codable {
-        case path = "PATH"
         case logical = "LOGICAL"
+        case path = "PATH"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityProviderType: String, CustomStringConvertible, Codable {
-        case serviceManaged = "SERVICE_MANAGED"
         case apiGateway = "API_GATEWAY"
+        case serviceManaged = "SERVICE_MANAGED"
         public var description: String { return self.rawValue }
     }
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
-        case sftp = "SFTP"
         case ftp = "FTP"
         case ftps = "FTPS"
+        case sftp = "SFTP"
         public var description: String { return self.rawValue }
     }
 
     public enum State: String, CustomStringConvertible, Codable {
         case offline = "OFFLINE"
         case online = "ONLINE"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
         case startFailed = "START_FAILED"
+        case starting = "STARTING"
         case stopFailed = "STOP_FAILED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 

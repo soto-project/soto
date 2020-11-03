@@ -23,47 +23,47 @@ extension CostandUsageReportService {
     public enum AWSRegion: String, CustomStringConvertible, Codable {
         case afSouth1 = "af-south-1"
         case apEast1 = "ap-east-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
         case apNortheast1 = "ap-northeast-1"
         case apNortheast2 = "ap-northeast-2"
         case apNortheast3 = "ap-northeast-3"
+        case apSouth1 = "ap-south-1"
+        case apSoutheast1 = "ap-southeast-1"
+        case apSoutheast2 = "ap-southeast-2"
         case caCentral1 = "ca-central-1"
+        case cnNorth1 = "cn-north-1"
+        case cnNorthwest1 = "cn-northwest-1"
         case euCentral1 = "eu-central-1"
+        case euNorth1 = "eu-north-1"
+        case euSouth1 = "eu-south-1"
         case euWest1 = "eu-west-1"
         case euWest2 = "eu-west-2"
         case euWest3 = "eu-west-3"
-        case euNorth1 = "eu-north-1"
-        case euSouth1 = "eu-south-1"
         case meSouth1 = "me-south-1"
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
-        case cnNorth1 = "cn-north-1"
-        case cnNorthwest1 = "cn-northwest-1"
         public var description: String { return self.rawValue }
     }
 
     public enum AdditionalArtifact: String, CustomStringConvertible, Codable {
-        case redshift = "REDSHIFT"
-        case quicksight = "QUICKSIGHT"
         case athena = "ATHENA"
+        case quicksight = "QUICKSIGHT"
+        case redshift = "REDSHIFT"
         public var description: String { return self.rawValue }
     }
 
     public enum CompressionFormat: String, CustomStringConvertible, Codable {
-        case zip = "ZIP"
         case gzip = "GZIP"
         case parquet = "Parquet"
+        case zip = "ZIP"
         public var description: String { return self.rawValue }
     }
 
     public enum ReportFormat: String, CustomStringConvertible, Codable {
-        case textorcsv = "textORcsv"
         case parquet = "Parquet"
+        case textorcsv = "textORcsv"
         public var description: String { return self.rawValue }
     }
 
@@ -79,8 +79,8 @@ extension CostandUsageReportService {
     }
 
     public enum TimeUnit: String, CustomStringConvertible, Codable {
-        case hourly = "HOURLY"
         case daily = "DAILY"
+        case hourly = "HOURLY"
         case monthly = "MONTHLY"
         public var description: String { return self.rawValue }
     }

@@ -21,8 +21,8 @@ extension DLM {
     // MARK: Enums
 
     public enum GettablePolicyStateValues: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         case error = "ERROR"
         public var description: String { return self.rawValue }
     }
@@ -38,22 +38,22 @@ extension DLM {
     }
 
     public enum ResourceTypeValues: String, CustomStringConvertible, Codable {
-        case volume = "VOLUME"
         case instance = "INSTANCE"
+        case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
     public enum RetentionIntervalUnitValues: String, CustomStringConvertible, Codable {
         case days = "DAYS"
-        case weeks = "WEEKS"
         case months = "MONTHS"
+        case weeks = "WEEKS"
         case years = "YEARS"
         public var description: String { return self.rawValue }
     }
 
     public enum SettablePolicyStateValues: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 

@@ -21,58 +21,58 @@ extension SWF {
     // MARK: Enums
 
     public enum ActivityTaskTimeoutType: String, CustomStringConvertible, Codable {
-        case startToClose = "START_TO_CLOSE"
-        case scheduleToStart = "SCHEDULE_TO_START"
-        case scheduleToClose = "SCHEDULE_TO_CLOSE"
         case heartbeat = "HEARTBEAT"
+        case scheduleToClose = "SCHEDULE_TO_CLOSE"
+        case scheduleToStart = "SCHEDULE_TO_START"
+        case startToClose = "START_TO_CLOSE"
         public var description: String { return self.rawValue }
     }
 
     public enum CancelTimerFailedCause: String, CustomStringConvertible, Codable {
-        case timerIdUnknown = "TIMER_ID_UNKNOWN"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case timerIdUnknown = "TIMER_ID_UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum CancelWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case unhandledDecision = "UNHANDLED_DECISION"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
     public enum ChildPolicy: String, CustomStringConvertible, Codable {
-        case terminate = "TERMINATE"
-        case requestCancel = "REQUEST_CANCEL"
         case abandon = "ABANDON"
+        case requestCancel = "REQUEST_CANCEL"
+        case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
     }
 
     public enum CloseStatus: String, CustomStringConvertible, Codable {
-        case completed = "COMPLETED"
-        case failed = "FAILED"
         case canceled = "CANCELED"
-        case terminated = "TERMINATED"
+        case completed = "COMPLETED"
         case continuedAsNew = "CONTINUED_AS_NEW"
+        case failed = "FAILED"
+        case terminated = "TERMINATED"
         case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
     public enum CompleteWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case unhandledDecision = "UNHANDLED_DECISION"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
     public enum ContinueAsNewWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
+        case continueAsNewWorkflowExecutionRateExceeded = "CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED"
+        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
+        case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
+        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
+        case defaultTaskStartToCloseTimeoutUndefined = "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED"
+        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         case unhandledDecision = "UNHANDLED_DECISION"
         case workflowTypeDeprecated = "WORKFLOW_TYPE_DEPRECATED"
         case workflowTypeDoesNotExist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
-        case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskStartToCloseTimeoutUndefined = "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
-        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
-        case continueAsNewWorkflowExecutionRateExceeded = "CONTINUE_AS_NEW_WORKFLOW_EXECUTION_RATE_EXCEEDED"
-        case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
     }
 
@@ -82,89 +82,89 @@ extension SWF {
     }
 
     public enum DecisionType: String, CustomStringConvertible, Codable {
-        case scheduleactivitytask = "ScheduleActivityTask"
-        case requestcancelactivitytask = "RequestCancelActivityTask"
-        case completeworkflowexecution = "CompleteWorkflowExecution"
-        case failworkflowexecution = "FailWorkflowExecution"
-        case cancelworkflowexecution = "CancelWorkflowExecution"
-        case continueasnewworkflowexecution = "ContinueAsNewWorkflowExecution"
-        case recordmarker = "RecordMarker"
-        case starttimer = "StartTimer"
         case canceltimer = "CancelTimer"
-        case signalexternalworkflowexecution = "SignalExternalWorkflowExecution"
+        case cancelworkflowexecution = "CancelWorkflowExecution"
+        case completeworkflowexecution = "CompleteWorkflowExecution"
+        case continueasnewworkflowexecution = "ContinueAsNewWorkflowExecution"
+        case failworkflowexecution = "FailWorkflowExecution"
+        case recordmarker = "RecordMarker"
+        case requestcancelactivitytask = "RequestCancelActivityTask"
         case requestcancelexternalworkflowexecution = "RequestCancelExternalWorkflowExecution"
-        case startchildworkflowexecution = "StartChildWorkflowExecution"
+        case scheduleactivitytask = "ScheduleActivityTask"
         case schedulelambdafunction = "ScheduleLambdaFunction"
+        case signalexternalworkflowexecution = "SignalExternalWorkflowExecution"
+        case startchildworkflowexecution = "StartChildWorkflowExecution"
+        case starttimer = "StartTimer"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case workflowexecutionstarted = "WorkflowExecutionStarted"
-        case workflowexecutioncancelrequested = "WorkflowExecutionCancelRequested"
-        case workflowexecutioncompleted = "WorkflowExecutionCompleted"
-        case completeworkflowexecutionfailed = "CompleteWorkflowExecutionFailed"
-        case workflowexecutionfailed = "WorkflowExecutionFailed"
-        case failworkflowexecutionfailed = "FailWorkflowExecutionFailed"
-        case workflowexecutiontimedout = "WorkflowExecutionTimedOut"
-        case workflowexecutioncanceled = "WorkflowExecutionCanceled"
-        case cancelworkflowexecutionfailed = "CancelWorkflowExecutionFailed"
-        case workflowexecutioncontinuedasnew = "WorkflowExecutionContinuedAsNew"
-        case continueasnewworkflowexecutionfailed = "ContinueAsNewWorkflowExecutionFailed"
-        case workflowexecutionterminated = "WorkflowExecutionTerminated"
-        case decisiontaskscheduled = "DecisionTaskScheduled"
-        case decisiontaskstarted = "DecisionTaskStarted"
-        case decisiontaskcompleted = "DecisionTaskCompleted"
-        case decisiontasktimedout = "DecisionTaskTimedOut"
-        case activitytaskscheduled = "ActivityTaskScheduled"
-        case scheduleactivitytaskfailed = "ScheduleActivityTaskFailed"
-        case activitytaskstarted = "ActivityTaskStarted"
-        case activitytaskcompleted = "ActivityTaskCompleted"
-        case activitytaskfailed = "ActivityTaskFailed"
-        case activitytasktimedout = "ActivityTaskTimedOut"
         case activitytaskcanceled = "ActivityTaskCanceled"
         case activitytaskcancelrequested = "ActivityTaskCancelRequested"
-        case requestcancelactivitytaskfailed = "RequestCancelActivityTaskFailed"
-        case workflowexecutionsignaled = "WorkflowExecutionSignaled"
-        case markerrecorded = "MarkerRecorded"
-        case recordmarkerfailed = "RecordMarkerFailed"
-        case timerstarted = "TimerStarted"
-        case starttimerfailed = "StartTimerFailed"
-        case timerfired = "TimerFired"
-        case timercanceled = "TimerCanceled"
+        case activitytaskcompleted = "ActivityTaskCompleted"
+        case activitytaskfailed = "ActivityTaskFailed"
+        case activitytaskscheduled = "ActivityTaskScheduled"
+        case activitytaskstarted = "ActivityTaskStarted"
+        case activitytasktimedout = "ActivityTaskTimedOut"
         case canceltimerfailed = "CancelTimerFailed"
-        case startchildworkflowexecutioninitiated = "StartChildWorkflowExecutionInitiated"
-        case startchildworkflowexecutionfailed = "StartChildWorkflowExecutionFailed"
-        case childworkflowexecutionstarted = "ChildWorkflowExecutionStarted"
+        case cancelworkflowexecutionfailed = "CancelWorkflowExecutionFailed"
+        case childworkflowexecutioncanceled = "ChildWorkflowExecutionCanceled"
         case childworkflowexecutioncompleted = "ChildWorkflowExecutionCompleted"
         case childworkflowexecutionfailed = "ChildWorkflowExecutionFailed"
-        case childworkflowexecutiontimedout = "ChildWorkflowExecutionTimedOut"
-        case childworkflowexecutioncanceled = "ChildWorkflowExecutionCanceled"
+        case childworkflowexecutionstarted = "ChildWorkflowExecutionStarted"
         case childworkflowexecutionterminated = "ChildWorkflowExecutionTerminated"
-        case signalexternalworkflowexecutioninitiated = "SignalExternalWorkflowExecutionInitiated"
-        case signalexternalworkflowexecutionfailed = "SignalExternalWorkflowExecutionFailed"
-        case externalworkflowexecutionsignaled = "ExternalWorkflowExecutionSignaled"
-        case requestcancelexternalworkflowexecutioninitiated = "RequestCancelExternalWorkflowExecutionInitiated"
-        case requestcancelexternalworkflowexecutionfailed = "RequestCancelExternalWorkflowExecutionFailed"
+        case childworkflowexecutiontimedout = "ChildWorkflowExecutionTimedOut"
+        case completeworkflowexecutionfailed = "CompleteWorkflowExecutionFailed"
+        case continueasnewworkflowexecutionfailed = "ContinueAsNewWorkflowExecutionFailed"
+        case decisiontaskcompleted = "DecisionTaskCompleted"
+        case decisiontaskscheduled = "DecisionTaskScheduled"
+        case decisiontaskstarted = "DecisionTaskStarted"
+        case decisiontasktimedout = "DecisionTaskTimedOut"
         case externalworkflowexecutioncancelrequested = "ExternalWorkflowExecutionCancelRequested"
-        case lambdafunctionscheduled = "LambdaFunctionScheduled"
-        case lambdafunctionstarted = "LambdaFunctionStarted"
+        case externalworkflowexecutionsignaled = "ExternalWorkflowExecutionSignaled"
+        case failworkflowexecutionfailed = "FailWorkflowExecutionFailed"
         case lambdafunctioncompleted = "LambdaFunctionCompleted"
         case lambdafunctionfailed = "LambdaFunctionFailed"
+        case lambdafunctionscheduled = "LambdaFunctionScheduled"
+        case lambdafunctionstarted = "LambdaFunctionStarted"
         case lambdafunctiontimedout = "LambdaFunctionTimedOut"
+        case markerrecorded = "MarkerRecorded"
+        case recordmarkerfailed = "RecordMarkerFailed"
+        case requestcancelactivitytaskfailed = "RequestCancelActivityTaskFailed"
+        case requestcancelexternalworkflowexecutionfailed = "RequestCancelExternalWorkflowExecutionFailed"
+        case requestcancelexternalworkflowexecutioninitiated = "RequestCancelExternalWorkflowExecutionInitiated"
+        case scheduleactivitytaskfailed = "ScheduleActivityTaskFailed"
         case schedulelambdafunctionfailed = "ScheduleLambdaFunctionFailed"
+        case signalexternalworkflowexecutionfailed = "SignalExternalWorkflowExecutionFailed"
+        case signalexternalworkflowexecutioninitiated = "SignalExternalWorkflowExecutionInitiated"
+        case startchildworkflowexecutionfailed = "StartChildWorkflowExecutionFailed"
+        case startchildworkflowexecutioninitiated = "StartChildWorkflowExecutionInitiated"
         case startlambdafunctionfailed = "StartLambdaFunctionFailed"
+        case starttimerfailed = "StartTimerFailed"
+        case timercanceled = "TimerCanceled"
+        case timerfired = "TimerFired"
+        case timerstarted = "TimerStarted"
+        case workflowexecutioncanceled = "WorkflowExecutionCanceled"
+        case workflowexecutioncancelrequested = "WorkflowExecutionCancelRequested"
+        case workflowexecutioncompleted = "WorkflowExecutionCompleted"
+        case workflowexecutioncontinuedasnew = "WorkflowExecutionContinuedAsNew"
+        case workflowexecutionfailed = "WorkflowExecutionFailed"
+        case workflowexecutionsignaled = "WorkflowExecutionSignaled"
+        case workflowexecutionstarted = "WorkflowExecutionStarted"
+        case workflowexecutionterminated = "WorkflowExecutionTerminated"
+        case workflowexecutiontimedout = "WorkflowExecutionTimedOut"
         public var description: String { return self.rawValue }
     }
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
         case closed = "CLOSED"
+        case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
     public enum FailWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case unhandledDecision = "UNHANDLED_DECISION"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case unhandledDecision = "UNHANDLED_DECISION"
         public var description: String { return self.rawValue }
     }
 
@@ -179,8 +179,8 @@ extension SWF {
     }
 
     public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case registered = "REGISTERED"
         case deprecated = "DEPRECATED"
+        case registered = "REGISTERED"
         public var description: String { return self.rawValue }
     }
 
@@ -191,54 +191,54 @@ extension SWF {
     }
 
     public enum RequestCancelExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
-        case requestCancelExternalWorkflowExecutionRateExceeded = "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case requestCancelExternalWorkflowExecutionRateExceeded = "REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
+        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         public var description: String { return self.rawValue }
     }
 
     public enum ScheduleActivityTaskFailedCause: String, CustomStringConvertible, Codable {
+        case activityCreationRateExceeded = "ACTIVITY_CREATION_RATE_EXCEEDED"
+        case activityIdAlreadyInUse = "ACTIVITY_ID_ALREADY_IN_USE"
         case activityTypeDeprecated = "ACTIVITY_TYPE_DEPRECATED"
         case activityTypeDoesNotExist = "ACTIVITY_TYPE_DOES_NOT_EXIST"
-        case activityIdAlreadyInUse = "ACTIVITY_ID_ALREADY_IN_USE"
-        case openActivitiesLimitExceeded = "OPEN_ACTIVITIES_LIMIT_EXCEEDED"
-        case activityCreationRateExceeded = "ACTIVITY_CREATION_RATE_EXCEEDED"
+        case defaultHeartbeatTimeoutUndefined = "DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED"
         case defaultScheduleToCloseTimeoutUndefined = "DEFAULT_SCHEDULE_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
         case defaultScheduleToStartTimeoutUndefined = "DEFAULT_SCHEDULE_TO_START_TIMEOUT_UNDEFINED"
         case defaultStartToCloseTimeoutUndefined = "DEFAULT_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultHeartbeatTimeoutUndefined = "DEFAULT_HEARTBEAT_TIMEOUT_UNDEFINED"
+        case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
+        case openActivitiesLimitExceeded = "OPEN_ACTIVITIES_LIMIT_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
         public var description: String { return self.rawValue }
     }
 
     public enum ScheduleLambdaFunctionFailedCause: String, CustomStringConvertible, Codable {
         case idAlreadyInUse = "ID_ALREADY_IN_USE"
-        case openLambdaFunctionsLimitExceeded = "OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED"
         case lambdaFunctionCreationRateExceeded = "LAMBDA_FUNCTION_CREATION_RATE_EXCEEDED"
         case lambdaServiceNotAvailableInRegion = "LAMBDA_SERVICE_NOT_AVAILABLE_IN_REGION"
+        case openLambdaFunctionsLimitExceeded = "OPEN_LAMBDA_FUNCTIONS_LIMIT_EXCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum SignalExternalWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
-        case signalExternalWorkflowExecutionRateExceeded = "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case signalExternalWorkflowExecutionRateExceeded = "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_RATE_EXCEEDED"
+        case unknownExternalWorkflowExecution = "UNKNOWN_EXTERNAL_WORKFLOW_EXECUTION"
         public var description: String { return self.rawValue }
     }
 
     public enum StartChildWorkflowExecutionFailedCause: String, CustomStringConvertible, Codable {
-        case workflowTypeDoesNotExist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
-        case workflowTypeDeprecated = "WORKFLOW_TYPE_DEPRECATED"
-        case openChildrenLimitExceeded = "OPEN_CHILDREN_LIMIT_EXCEEDED"
-        case openWorkflowsLimitExceeded = "OPEN_WORKFLOWS_LIMIT_EXCEEDED"
         case childCreationRateExceeded = "CHILD_CREATION_RATE_EXCEEDED"
-        case workflowAlreadyRunning = "WORKFLOW_ALREADY_RUNNING"
+        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
         case defaultExecutionStartToCloseTimeoutUndefined = "DEFAULT_EXECUTION_START_TO_CLOSE_TIMEOUT_UNDEFINED"
         case defaultTaskListUndefined = "DEFAULT_TASK_LIST_UNDEFINED"
         case defaultTaskStartToCloseTimeoutUndefined = "DEFAULT_TASK_START_TO_CLOSE_TIMEOUT_UNDEFINED"
-        case defaultChildPolicyUndefined = "DEFAULT_CHILD_POLICY_UNDEFINED"
+        case openChildrenLimitExceeded = "OPEN_CHILDREN_LIMIT_EXCEEDED"
+        case openWorkflowsLimitExceeded = "OPEN_WORKFLOWS_LIMIT_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case workflowAlreadyRunning = "WORKFLOW_ALREADY_RUNNING"
+        case workflowTypeDeprecated = "WORKFLOW_TYPE_DEPRECATED"
+        case workflowTypeDoesNotExist = "WORKFLOW_TYPE_DOES_NOT_EXIST"
         public var description: String { return self.rawValue }
     }
 
@@ -248,10 +248,10 @@ extension SWF {
     }
 
     public enum StartTimerFailedCause: String, CustomStringConvertible, Codable {
-        case timerIdAlreadyInUse = "TIMER_ID_ALREADY_IN_USE"
         case openTimersLimitExceeded = "OPEN_TIMERS_LIMIT_EXCEEDED"
-        case timerCreationRateExceeded = "TIMER_CREATION_RATE_EXCEEDED"
         case operationNotPermitted = "OPERATION_NOT_PERMITTED"
+        case timerCreationRateExceeded = "TIMER_CREATION_RATE_EXCEEDED"
+        case timerIdAlreadyInUse = "TIMER_ID_ALREADY_IN_USE"
         public var description: String { return self.rawValue }
     }
 

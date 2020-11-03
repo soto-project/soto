@@ -21,20 +21,20 @@ extension Mobile {
     // MARK: Enums
 
     public enum Platform: String, CustomStringConvertible, Codable {
-        case osx = "OSX"
-        case windows = "WINDOWS"
-        case linux = "LINUX"
-        case objc = "OBJC"
-        case swift = "SWIFT"
         case android = "ANDROID"
         case javascript = "JAVASCRIPT"
+        case linux = "LINUX"
+        case objc = "OBJC"
+        case osx = "OSX"
+        case swift = "SWIFT"
+        case windows = "WINDOWS"
         public var description: String { return self.rawValue }
     }
 
     public enum ProjectState: String, CustomStringConvertible, Codable {
+        case importing = "IMPORTING"
         case normal = "NORMAL"
         case syncing = "SYNCING"
-        case importing = "IMPORTING"
         public var description: String { return self.rawValue }
     }
 

@@ -26,59 +26,59 @@ extension IoTThingsGraph {
     }
 
     public enum DeploymentTarget: String, CustomStringConvertible, Codable {
-        case greengrass = "GREENGRASS"
         case cloud = "CLOUD"
+        case greengrass = "GREENGRASS"
         public var description: String { return self.rawValue }
     }
 
     public enum EntityFilterName: String, CustomStringConvertible, Codable {
         case name = "NAME"
         case namespace = "NAMESPACE"
-        case semanticTypePath = "SEMANTIC_TYPE_PATH"
         case referencedEntityId = "REFERENCED_ENTITY_ID"
+        case semanticTypePath = "SEMANTIC_TYPE_PATH"
         public var description: String { return self.rawValue }
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable {
-        case device = "DEVICE"
-        case service = "SERVICE"
-        case deviceModel = "DEVICE_MODEL"
-        case capability = "CAPABILITY"
-        case state = "STATE"
         case action = "ACTION"
-        case event = "EVENT"
-        case property = "PROPERTY"
-        case mapping = "MAPPING"
+        case capability = "CAPABILITY"
+        case device = "DEVICE"
+        case deviceModel = "DEVICE_MODEL"
         case `enum` = "ENUM"
+        case event = "EVENT"
+        case mapping = "MAPPING"
+        case property = "PROPERTY"
+        case service = "SERVICE"
+        case state = "STATE"
         public var description: String { return self.rawValue }
     }
 
     public enum FlowExecutionEventType: String, CustomStringConvertible, Codable {
-        case executionStarted = "EXECUTION_STARTED"
-        case executionFailed = "EXECUTION_FAILED"
-        case executionAborted = "EXECUTION_ABORTED"
-        case executionSucceeded = "EXECUTION_SUCCEEDED"
-        case stepStarted = "STEP_STARTED"
-        case stepFailed = "STEP_FAILED"
-        case stepSucceeded = "STEP_SUCCEEDED"
+        case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
+        case activityFailed = "ACTIVITY_FAILED"
         case activityScheduled = "ACTIVITY_SCHEDULED"
         case activityStarted = "ACTIVITY_STARTED"
-        case activityFailed = "ACTIVITY_FAILED"
         case activitySucceeded = "ACTIVITY_SUCCEEDED"
-        case startFlowExecutionTask = "START_FLOW_EXECUTION_TASK"
+        case executionAborted = "EXECUTION_ABORTED"
+        case executionFailed = "EXECUTION_FAILED"
+        case executionStarted = "EXECUTION_STARTED"
+        case executionSucceeded = "EXECUTION_SUCCEEDED"
         case scheduleNextReadyStepsTask = "SCHEDULE_NEXT_READY_STEPS_TASK"
+        case startFlowExecutionTask = "START_FLOW_EXECUTION_TASK"
+        case stepFailed = "STEP_FAILED"
+        case stepStarted = "STEP_STARTED"
+        case stepSucceeded = "STEP_SUCCEEDED"
         case thingActionTask = "THING_ACTION_TASK"
         case thingActionTaskFailed = "THING_ACTION_TASK_FAILED"
         case thingActionTaskSucceeded = "THING_ACTION_TASK_SUCCEEDED"
-        case acknowledgeTaskMessage = "ACKNOWLEDGE_TASK_MESSAGE"
         public var description: String { return self.rawValue }
     }
 
     public enum FlowExecutionStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
         case aborted = "ABORTED"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -88,9 +88,9 @@ extension IoTThingsGraph {
     }
 
     public enum NamespaceDeletionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -100,21 +100,21 @@ extension IoTThingsGraph {
     }
 
     public enum SystemInstanceDeploymentStatus: String, CustomStringConvertible, Codable {
-        case notDeployed = "NOT_DEPLOYED"
         case bootstrap = "BOOTSTRAP"
+        case deletedInTarget = "DELETED_IN_TARGET"
         case deployInProgress = "DEPLOY_IN_PROGRESS"
         case deployedInTarget = "DEPLOYED_IN_TARGET"
-        case undeployInProgress = "UNDEPLOY_IN_PROGRESS"
         case failed = "FAILED"
+        case notDeployed = "NOT_DEPLOYED"
         case pendingDelete = "PENDING_DELETE"
-        case deletedInTarget = "DELETED_IN_TARGET"
+        case undeployInProgress = "UNDEPLOY_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum SystemInstanceFilterName: String, CustomStringConvertible, Codable {
-        case systemTemplateId = "SYSTEM_TEMPLATE_ID"
-        case status = "STATUS"
         case greengrassGroupName = "GREENGRASS_GROUP_NAME"
+        case status = "STATUS"
+        case systemTemplateId = "SYSTEM_TEMPLATE_ID"
         public var description: String { return self.rawValue }
     }
 
@@ -124,9 +124,9 @@ extension IoTThingsGraph {
     }
 
     public enum UploadStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 

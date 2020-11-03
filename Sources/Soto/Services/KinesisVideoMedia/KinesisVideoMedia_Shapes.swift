@@ -21,12 +21,12 @@ extension KinesisVideoMedia {
     // MARK: Enums
 
     public enum StartSelectorType: String, CustomStringConvertible, Codable {
-        case fragmentNumber = "FRAGMENT_NUMBER"
-        case serverTimestamp = "SERVER_TIMESTAMP"
-        case producerTimestamp = "PRODUCER_TIMESTAMP"
-        case now = "NOW"
-        case earliest = "EARLIEST"
         case continuationToken = "CONTINUATION_TOKEN"
+        case earliest = "EARLIEST"
+        case fragmentNumber = "FRAGMENT_NUMBER"
+        case now = "NOW"
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 

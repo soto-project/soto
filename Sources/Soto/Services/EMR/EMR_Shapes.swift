@@ -21,69 +21,69 @@ extension EMR {
     // MARK: Enums
 
     public enum ActionOnFailure: String, CustomStringConvertible, Codable {
-        case terminateJobFlow = "TERMINATE_JOB_FLOW"
-        case terminateCluster = "TERMINATE_CLUSTER"
         case cancelAndWait = "CANCEL_AND_WAIT"
         case `continue` = "CONTINUE"
+        case terminateCluster = "TERMINATE_CLUSTER"
+        case terminateJobFlow = "TERMINATE_JOB_FLOW"
         public var description: String { return self.rawValue }
     }
 
     public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case changeInCapacity = "CHANGE_IN_CAPACITY"
-        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
         case exactCapacity = "EXACT_CAPACITY"
+        case percentChangeInCapacity = "PERCENT_CHANGE_IN_CAPACITY"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoScalingPolicyState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case attaching = "ATTACHING"
         case attached = "ATTACHED"
-        case detaching = "DETACHING"
+        case attaching = "ATTACHING"
         case detached = "DETACHED"
+        case detaching = "DETACHING"
         case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoScalingPolicyStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case userRequest = "USER_REQUEST"
-        case provisionFailure = "PROVISION_FAILURE"
         case cleanupFailure = "CLEANUP_FAILURE"
+        case provisionFailure = "PROVISION_FAILURE"
+        case userRequest = "USER_REQUEST"
         public var description: String { return self.rawValue }
     }
 
     public enum CancelStepsRequestStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
         case failed = "FAILED"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
         case bootstrapping = "BOOTSTRAPPING"
         case running = "RUNNING"
-        case waiting = "WAITING"
-        case terminating = "TERMINATING"
+        case starting = "STARTING"
         case terminated = "TERMINATED"
         case terminatedWithErrors = "TERMINATED_WITH_ERRORS"
+        case terminating = "TERMINATING"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
     public enum ClusterStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
+        case allStepsCompleted = "ALL_STEPS_COMPLETED"
+        case bootstrapFailure = "BOOTSTRAP_FAILURE"
         case instanceFailure = "INSTANCE_FAILURE"
         case instanceFleetTimeout = "INSTANCE_FLEET_TIMEOUT"
-        case bootstrapFailure = "BOOTSTRAP_FAILURE"
-        case userRequest = "USER_REQUEST"
+        case internalError = "INTERNAL_ERROR"
         case stepFailure = "STEP_FAILURE"
-        case allStepsCompleted = "ALL_STEPS_COMPLETED"
+        case userRequest = "USER_REQUEST"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
-        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
         case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqual = "GREATER_THAN_OR_EQUAL"
         case lessThan = "LESS_THAN"
         case lessThanOrEqual = "LESS_THAN_OR_EQUAL"
         public var description: String { return self.rawValue }
@@ -108,95 +108,95 @@ extension EMR {
     }
 
     public enum InstanceFleetState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
+        case provisioning = "PROVISIONING"
         case resizing = "RESIZING"
+        case running = "RUNNING"
         case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
         case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceFleetStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        case instanceFailure = "INSTANCE_FAILURE"
         case internalError = "INTERNAL_ERROR"
         case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceFleetType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
         case core = "CORE"
+        case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceGroupState: String, CustomStringConvertible, Codable {
-        case provisioning = "PROVISIONING"
+        case arrested = "ARRESTED"
         case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
+        case ended = "ENDED"
+        case provisioning = "PROVISIONING"
         case reconfiguring = "RECONFIGURING"
         case resizing = "RESIZING"
-        case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
-        case terminated = "TERMINATED"
-        case arrested = "ARRESTED"
+        case running = "RUNNING"
         case shuttingDown = "SHUTTING_DOWN"
-        case ended = "ENDED"
+        case suspended = "SUSPENDED"
+        case terminated = "TERMINATED"
+        case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceGroupStateChangeReasonCode: String, CustomStringConvertible, Codable {
+        case clusterTerminated = "CLUSTER_TERMINATED"
+        case instanceFailure = "INSTANCE_FAILURE"
         case internalError = "INTERNAL_ERROR"
         case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
-        case clusterTerminated = "CLUSTER_TERMINATED"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceGroupType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
         case core = "CORE"
+        case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceRoleType: String, CustomStringConvertible, Codable {
-        case master = "MASTER"
         case core = "CORE"
+        case master = "MASTER"
         case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceState: String, CustomStringConvertible, Codable {
         case awaitingFulfillment = "AWAITING_FULFILLMENT"
-        case provisioning = "PROVISIONING"
         case bootstrapping = "BOOTSTRAPPING"
+        case provisioning = "PROVISIONING"
         case running = "RUNNING"
         case terminated = "TERMINATED"
         public var description: String { return self.rawValue }
     }
 
     public enum InstanceStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
-        case validationError = "VALIDATION_ERROR"
-        case instanceFailure = "INSTANCE_FAILURE"
         case bootstrapFailure = "BOOTSTRAP_FAILURE"
         case clusterTerminated = "CLUSTER_TERMINATED"
+        case instanceFailure = "INSTANCE_FAILURE"
+        case internalError = "INTERNAL_ERROR"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum JobFlowExecutionState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
         case bootstrapping = "BOOTSTRAPPING"
-        case running = "RUNNING"
-        case waiting = "WAITING"
-        case shuttingDown = "SHUTTING_DOWN"
-        case terminated = "TERMINATED"
         case completed = "COMPLETED"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case shuttingDown = "SHUTTING_DOWN"
+        case starting = "STARTING"
+        case terminated = "TERMINATED"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
@@ -207,16 +207,16 @@ extension EMR {
     }
 
     public enum NotebookExecutionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case failing = "FAILING"
+        case finished = "FINISHED"
+        case finishing = "FINISHING"
+        case running = "RUNNING"
         case startPending = "START_PENDING"
         case starting = "STARTING"
-        case running = "RUNNING"
-        case finishing = "FINISHING"
-        case finished = "FINISHED"
-        case failing = "FAILING"
-        case failed = "FAILED"
         case stopPending = "STOP_PENDING"
-        case stopping = "STOPPING"
         case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -226,16 +226,16 @@ extension EMR {
     }
 
     public enum PlacementGroupStrategy: String, CustomStringConvertible, Codable {
-        case spread = "SPREAD"
-        case partition = "PARTITION"
         case cluster = "CLUSTER"
         case none = "NONE"
+        case partition = "PARTITION"
+        case spread = "SPREAD"
         public var description: String { return self.rawValue }
     }
 
     public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
-        case security = "SECURITY"
         case none = "NONE"
+        case security = "SECURITY"
         public var description: String { return self.rawValue }
     }
 
@@ -257,11 +257,11 @@ extension EMR {
     }
 
     public enum Statistic: String, CustomStringConvertible, Codable {
-        case sampleCount = "SAMPLE_COUNT"
         case average = "AVERAGE"
-        case sum = "SUM"
-        case minimum = "MINIMUM"
         case maximum = "MAXIMUM"
+        case minimum = "MINIMUM"
+        case sampleCount = "SAMPLE_COUNT"
+        case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
@@ -272,24 +272,24 @@ extension EMR {
     }
 
     public enum StepExecutionState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case running = "RUNNING"
-        case `continue` = "CONTINUE"
-        case completed = "COMPLETED"
         case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case `continue` = "CONTINUE"
         case failed = "FAILED"
         case interrupted = "INTERRUPTED"
+        case pending = "PENDING"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
     public enum StepState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case cancelPending = "CANCEL_PENDING"
-        case running = "RUNNING"
-        case completed = "COMPLETED"
         case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
         case failed = "FAILED"
         case interrupted = "INTERRUPTED"
+        case pending = "PENDING"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -299,33 +299,33 @@ extension EMR {
     }
 
     public enum Unit: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case seconds = "SECONDS"
+        case bits = "BITS"
+        case bitsPerSecond = "BITS_PER_SECOND"
+        case bytes = "BYTES"
+        case bytesPerSecond = "BYTES_PER_SECOND"
+        case count = "COUNT"
+        case countPerSecond = "COUNT_PER_SECOND"
+        case gigaBits = "GIGA_BITS"
+        case gigaBitsPerSecond = "GIGA_BITS_PER_SECOND"
+        case gigaBytes = "GIGA_BYTES"
+        case gigaBytesPerSecond = "GIGA_BYTES_PER_SECOND"
+        case kiloBits = "KILO_BITS"
+        case kiloBitsPerSecond = "KILO_BITS_PER_SECOND"
+        case kiloBytes = "KILO_BYTES"
+        case kiloBytesPerSecond = "KILO_BYTES_PER_SECOND"
+        case megaBits = "MEGA_BITS"
+        case megaBitsPerSecond = "MEGA_BITS_PER_SECOND"
+        case megaBytes = "MEGA_BYTES"
+        case megaBytesPerSecond = "MEGA_BYTES_PER_SECOND"
         case microSeconds = "MICRO_SECONDS"
         case milliSeconds = "MILLI_SECONDS"
-        case bytes = "BYTES"
-        case kiloBytes = "KILO_BYTES"
-        case megaBytes = "MEGA_BYTES"
-        case gigaBytes = "GIGA_BYTES"
-        case teraBytes = "TERA_BYTES"
-        case bits = "BITS"
-        case kiloBits = "KILO_BITS"
-        case megaBits = "MEGA_BITS"
-        case gigaBits = "GIGA_BITS"
-        case teraBits = "TERA_BITS"
+        case none = "NONE"
         case percent = "PERCENT"
-        case count = "COUNT"
-        case bytesPerSecond = "BYTES_PER_SECOND"
-        case kiloBytesPerSecond = "KILO_BYTES_PER_SECOND"
-        case megaBytesPerSecond = "MEGA_BYTES_PER_SECOND"
-        case gigaBytesPerSecond = "GIGA_BYTES_PER_SECOND"
-        case teraBytesPerSecond = "TERA_BYTES_PER_SECOND"
-        case bitsPerSecond = "BITS_PER_SECOND"
-        case kiloBitsPerSecond = "KILO_BITS_PER_SECOND"
-        case megaBitsPerSecond = "MEGA_BITS_PER_SECOND"
-        case gigaBitsPerSecond = "GIGA_BITS_PER_SECOND"
+        case seconds = "SECONDS"
+        case teraBits = "TERA_BITS"
         case teraBitsPerSecond = "TERA_BITS_PER_SECOND"
-        case countPerSecond = "COUNT_PER_SECOND"
+        case teraBytes = "TERA_BYTES"
+        case teraBytesPerSecond = "TERA_BYTES_PER_SECOND"
         public var description: String { return self.rawValue }
     }
 

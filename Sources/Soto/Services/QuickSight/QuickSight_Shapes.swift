@@ -22,15 +22,15 @@ extension QuickSight {
 
     public enum AnalysisErrorType: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
-        case sourceNotFound = "SOURCE_NOT_FOUND"
-        case dataSetNotFound = "DATA_SET_NOT_FOUND"
-        case internalFailure = "INTERNAL_FAILURE"
-        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
-        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
-        case parameterNotFound = "PARAMETER_NOT_FOUND"
-        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
         case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
         case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
+        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case parameterNotFound = "PARAMETER_NOT_FOUND"
+        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
+        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
+        case sourceNotFound = "SOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -40,37 +40,37 @@ extension QuickSight {
     }
 
     public enum AssignmentStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case draft = "DRAFT"
         case disabled = "DISABLED"
+        case draft = "DRAFT"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum ColumnDataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case decimal = "DECIMAL"
         case datetime = "DATETIME"
+        case decimal = "DECIMAL"
+        case integer = "INTEGER"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
     public enum DashboardBehavior: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum DashboardErrorType: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
-        case sourceNotFound = "SOURCE_NOT_FOUND"
-        case dataSetNotFound = "DATA_SET_NOT_FOUND"
-        case internalFailure = "INTERNAL_FAILURE"
-        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
-        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
-        case parameterNotFound = "PARAMETER_NOT_FOUND"
-        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
         case columnGeographicRoleMismatch = "COLUMN_GEOGRAPHIC_ROLE_MISMATCH"
         case columnReplacementMissing = "COLUMN_REPLACEMENT_MISSING"
+        case columnTypeMismatch = "COLUMN_TYPE_MISMATCH"
+        case dataSetNotFound = "DATA_SET_NOT_FOUND"
+        case internalFailure = "INTERNAL_FAILURE"
+        case parameterNotFound = "PARAMETER_NOT_FOUND"
+        case parameterTypeInvalid = "PARAMETER_TYPE_INVALID"
+        case parameterValueIncompatible = "PARAMETER_VALUE_INCOMPATIBLE"
+        case sourceNotFound = "SOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -80,26 +80,26 @@ extension QuickSight {
     }
 
     public enum DashboardUIState: String, CustomStringConvertible, Codable {
-        case expanded = "EXPANDED"
         case collapsed = "COLLAPSED"
+        case expanded = "EXPANDED"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSetImportMode: String, CustomStringConvertible, Codable {
-        case spice = "SPICE"
         case directQuery = "DIRECT_QUERY"
+        case spice = "SPICE"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceErrorInfoType: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
-        case copySourceNotFound = "COPY_SOURCE_NOT_FOUND"
-        case timeout = "TIMEOUT"
-        case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
-        case unknownHost = "UNKNOWN_HOST"
-        case genericSqlFailure = "GENERIC_SQL_FAILURE"
         case conflict = "CONFLICT"
+        case copySourceNotFound = "COPY_SOURCE_NOT_FOUND"
+        case engineVersionNotSupported = "ENGINE_VERSION_NOT_SUPPORTED"
+        case genericSqlFailure = "GENERIC_SQL_FAILURE"
+        case timeout = "TIMEOUT"
         case unknown = "UNKNOWN"
+        case unknownHost = "UNKNOWN_HOST"
         public var description: String { return self.rawValue }
     }
 
@@ -124,24 +124,24 @@ extension QuickSight {
         case spark = "SPARK"
         case sqlserver = "SQLSERVER"
         case teradata = "TERADATA"
-        case twitter = "TWITTER"
         case timestream = "TIMESTREAM"
+        case twitter = "TWITTER"
         public var description: String { return self.rawValue }
     }
 
     public enum Edition: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case enterprise = "ENTERPRISE"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 
     public enum FileFormat: String, CustomStringConvertible, Codable {
-        case csv = "CSV"
-        case tsv = "TSV"
         case clf = "CLF"
+        case csv = "CSV"
         case elf = "ELF"
-        case xlsx = "XLSX"
         case json = "JSON"
+        case tsv = "TSV"
+        case xlsx = "XLSX"
         public var description: String { return self.rawValue }
     }
 
@@ -156,13 +156,13 @@ extension QuickSight {
     }
 
     public enum GeoSpatialDataRole: String, CustomStringConvertible, Codable {
-        case country = "COUNTRY"
-        case state = "STATE"
-        case county = "COUNTY"
         case city = "CITY"
-        case postcode = "POSTCODE"
-        case longitude = "LONGITUDE"
+        case country = "COUNTRY"
+        case county = "COUNTY"
         case latitude = "LATITUDE"
+        case longitude = "LONGITUDE"
+        case postcode = "POSTCODE"
+        case state = "STATE"
         public var description: String { return self.rawValue }
     }
 
@@ -178,46 +178,46 @@ extension QuickSight {
     }
 
     public enum IngestionErrorType: String, CustomStringConvertible, Codable {
-        case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
-        case ingestionSuperseded = "INGESTION_SUPERSEDED"
-        case ingestionCanceled = "INGESTION_CANCELED"
+        case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
+        case connectionFailure = "CONNECTION_FAILURE"
+        case customerError = "CUSTOMER_ERROR"
         case dataSetDeleted = "DATA_SET_DELETED"
         case dataSetNotSpice = "DATA_SET_NOT_SPICE"
-        case s3UploadedFileDeleted = "S3_UPLOADED_FILE_DELETED"
-        case s3ManifestError = "S3_MANIFEST_ERROR"
-        case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
-        case spiceTableNotFound = "SPICE_TABLE_NOT_FOUND"
         case dataSetSizeLimitExceeded = "DATA_SET_SIZE_LIMIT_EXCEEDED"
-        case rowSizeLimitExceeded = "ROW_SIZE_LIMIT_EXCEEDED"
-        case accountCapacityLimitExceeded = "ACCOUNT_CAPACITY_LIMIT_EXCEEDED"
-        case customerError = "CUSTOMER_ERROR"
-        case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
-        case iamRoleNotAvailable = "IAM_ROLE_NOT_AVAILABLE"
-        case connectionFailure = "CONNECTION_FAILURE"
-        case sqlTableNotFound = "SQL_TABLE_NOT_FOUND"
-        case permissionDenied = "PERMISSION_DENIED"
-        case sslCertificateValidationFailure = "SSL_CERTIFICATE_VALIDATION_FAILURE"
-        case oauthTokenFailure = "OAUTH_TOKEN_FAILURE"
-        case sourceApiLimitExceededFailure = "SOURCE_API_LIMIT_EXCEEDED_FAILURE"
-        case passwordAuthenticationFailure = "PASSWORD_AUTHENTICATION_FAILURE"
-        case sqlSchemaMismatchError = "SQL_SCHEMA_MISMATCH_ERROR"
-        case invalidDateFormat = "INVALID_DATE_FORMAT"
-        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
-        case sourceResourceLimitExceeded = "SOURCE_RESOURCE_LIMIT_EXCEEDED"
-        case sqlInvalidParameterValue = "SQL_INVALID_PARAMETER_VALUE"
-        case queryTimeout = "QUERY_TIMEOUT"
-        case sqlNumericOverflow = "SQL_NUMERIC_OVERFLOW"
-        case unresolvableHost = "UNRESOLVABLE_HOST"
-        case unroutableHost = "UNROUTABLE_HOST"
-        case sqlException = "SQL_EXCEPTION"
-        case s3FileInaccessible = "S3_FILE_INACCESSIBLE"
-        case iotFileNotFound = "IOT_FILE_NOT_FOUND"
-        case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
-        case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
         case dataSourceAuthFailed = "DATA_SOURCE_AUTH_FAILED"
         case dataSourceConnectionFailed = "DATA_SOURCE_CONNECTION_FAILED"
+        case dataSourceNotFound = "DATA_SOURCE_NOT_FOUND"
+        case dataToleranceException = "DATA_TOLERANCE_EXCEPTION"
+        case failureToAssumeRole = "FAILURE_TO_ASSUME_ROLE"
         case failureToProcessJsonFile = "FAILURE_TO_PROCESS_JSON_FILE"
+        case iamRoleNotAvailable = "IAM_ROLE_NOT_AVAILABLE"
+        case ingestionCanceled = "INGESTION_CANCELED"
+        case ingestionSuperseded = "INGESTION_SUPERSEDED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case invalidDataSourceConfig = "INVALID_DATA_SOURCE_CONFIG"
+        case invalidDataprepSyntax = "INVALID_DATAPREP_SYNTAX"
+        case invalidDateFormat = "INVALID_DATE_FORMAT"
+        case iotDataSetFileEmpty = "IOT_DATA_SET_FILE_EMPTY"
+        case iotFileNotFound = "IOT_FILE_NOT_FOUND"
+        case oauthTokenFailure = "OAUTH_TOKEN_FAILURE"
+        case passwordAuthenticationFailure = "PASSWORD_AUTHENTICATION_FAILURE"
+        case permissionDenied = "PERMISSION_DENIED"
+        case queryTimeout = "QUERY_TIMEOUT"
+        case rowSizeLimitExceeded = "ROW_SIZE_LIMIT_EXCEEDED"
+        case s3FileInaccessible = "S3_FILE_INACCESSIBLE"
+        case s3ManifestError = "S3_MANIFEST_ERROR"
+        case s3UploadedFileDeleted = "S3_UPLOADED_FILE_DELETED"
+        case sourceApiLimitExceededFailure = "SOURCE_API_LIMIT_EXCEEDED_FAILURE"
+        case sourceResourceLimitExceeded = "SOURCE_RESOURCE_LIMIT_EXCEEDED"
+        case spiceTableNotFound = "SPICE_TABLE_NOT_FOUND"
+        case sqlException = "SQL_EXCEPTION"
+        case sqlInvalidParameterValue = "SQL_INVALID_PARAMETER_VALUE"
+        case sqlNumericOverflow = "SQL_NUMERIC_OVERFLOW"
+        case sqlSchemaMismatchError = "SQL_SCHEMA_MISMATCH_ERROR"
+        case sqlTableNotFound = "SQL_TABLE_NOT_FOUND"
+        case sslCertificateValidationFailure = "SSL_CERTIFICATE_VALIDATION_FAILURE"
+        case unresolvableHost = "UNRESOLVABLE_HOST"
+        case unroutableHost = "UNROUTABLE_HOST"
         public var description: String { return self.rawValue }
     }
 
@@ -228,45 +228,45 @@ extension QuickSight {
     }
 
     public enum IngestionRequestType: String, CustomStringConvertible, Codable {
-        case initialIngestion = "INITIAL_INGESTION"
         case edit = "EDIT"
-        case incrementalRefresh = "INCREMENTAL_REFRESH"
         case fullRefresh = "FULL_REFRESH"
+        case incrementalRefresh = "INCREMENTAL_REFRESH"
+        case initialIngestion = "INITIAL_INGESTION"
         public var description: String { return self.rawValue }
     }
 
     public enum IngestionStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
         case initialized = "INITIALIZED"
         case queued = "QUEUED"
         case running = "RUNNING"
-        case failed = "FAILED"
-        case completed = "COMPLETED"
-        case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
     }
 
     public enum InputColumnDataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case decimal = "DECIMAL"
-        case datetime = "DATETIME"
         case bit = "BIT"
         case boolean = "BOOLEAN"
+        case datetime = "DATETIME"
+        case decimal = "DECIMAL"
+        case integer = "INTEGER"
         case json = "JSON"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
     public enum JoinType: String, CustomStringConvertible, Codable {
         case inner = "INNER"
-        case outer = "OUTER"
         case left = "LEFT"
+        case outer = "OUTER"
         case right = "RIGHT"
         public var description: String { return self.rawValue }
     }
 
     public enum NamespaceErrorType: String, CustomStringConvertible, Codable {
-        case permissionDenied = "PERMISSION_DENIED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case permissionDenied = "PERMISSION_DENIED"
         public var description: String { return self.rawValue }
     }
 
@@ -274,33 +274,33 @@ extension QuickSight {
         case created = "CREATED"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case retryableFailure = "RETRYABLE_FAILURE"
         case nonRetryableFailure = "NON_RETRYABLE_FAILURE"
+        case retryableFailure = "RETRYABLE_FAILURE"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceStatus: String, CustomStringConvertible, Codable {
+        case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
         case creationSuccessful = "CREATION_SUCCESSFUL"
-        case creationFailed = "CREATION_FAILED"
+        case deleted = "DELETED"
+        case updateFailed = "UPDATE_FAILED"
         case updateInProgress = "UPDATE_IN_PROGRESS"
         case updateSuccessful = "UPDATE_SUCCESSFUL"
-        case updateFailed = "UPDATE_FAILED"
-        case deleted = "DELETED"
         public var description: String { return self.rawValue }
     }
 
     public enum RowLevelPermissionPolicy: String, CustomStringConvertible, Codable {
-        case grantAccess = "GRANT_ACCESS"
         case denyAccess = "DENY_ACCESS"
+        case grantAccess = "GRANT_ACCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum TemplateErrorType: String, CustomStringConvertible, Codable {
-        case sourceNotFound = "SOURCE_NOT_FOUND"
+        case accessDenied = "ACCESS_DENIED"
         case dataSetNotFound = "DATA_SET_NOT_FOUND"
         case internalFailure = "INTERNAL_FAILURE"
-        case accessDenied = "ACCESS_DENIED"
+        case sourceNotFound = "SOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -316,9 +316,9 @@ extension QuickSight {
     }
 
     public enum ThemeType: String, CustomStringConvertible, Codable {
-        case quicksight = "QUICKSIGHT"
-        case custom = "CUSTOM"
         case all = "ALL"
+        case custom = "CUSTOM"
+        case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
     }
 

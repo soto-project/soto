@@ -21,12 +21,12 @@ extension DirectoryService {
     // MARK: Enums
 
     public enum CertificateState: String, CustomStringConvertible, Codable {
-        case registering = "Registering"
-        case registered = "Registered"
-        case registerfailed = "RegisterFailed"
-        case deregistering = "Deregistering"
         case deregistered = "Deregistered"
         case deregisterfailed = "DeregisterFailed"
+        case deregistering = "Deregistering"
+        case registered = "Registered"
+        case registerfailed = "RegisterFailed"
+        case registering = "Registering"
         public var description: String { return self.rawValue }
     }
 
@@ -37,60 +37,60 @@ extension DirectoryService {
     }
 
     public enum DirectorySize: String, CustomStringConvertible, Codable {
-        case small = "Small"
         case large = "Large"
+        case small = "Small"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryStage: String, CustomStringConvertible, Codable {
-        case requested = "Requested"
-        case creating = "Creating"
-        case created = "Created"
         case active = "Active"
-        case inoperable = "Inoperable"
-        case impaired = "Impaired"
-        case restoring = "Restoring"
-        case restorefailed = "RestoreFailed"
-        case deleting = "Deleting"
+        case created = "Created"
+        case creating = "Creating"
         case deleted = "Deleted"
+        case deleting = "Deleting"
         case failed = "Failed"
+        case impaired = "Impaired"
+        case inoperable = "Inoperable"
+        case requested = "Requested"
+        case restorefailed = "RestoreFailed"
+        case restoring = "Restoring"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryType: String, CustomStringConvertible, Codable {
-        case simplead = "SimpleAD"
         case adconnector = "ADConnector"
         case microsoftad = "MicrosoftAD"
         case sharedmicrosoftad = "SharedMicrosoftAD"
+        case simplead = "SimpleAD"
         public var description: String { return self.rawValue }
     }
 
     public enum DomainControllerStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
         case active = "Active"
+        case creating = "Creating"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case failed = "Failed"
         case impaired = "Impaired"
         case restoring = "Restoring"
-        case deleting = "Deleting"
-        case deleted = "Deleted"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
-        case adding = "Adding"
         case added = "Added"
-        case removing = "Removing"
-        case removed = "Removed"
         case addfailed = "AddFailed"
+        case adding = "Adding"
+        case removed = "Removed"
         case removefailed = "RemoveFailed"
+        case removing = "Removing"
         public var description: String { return self.rawValue }
     }
 
     public enum LDAPSStatus: String, CustomStringConvertible, Codable {
-        case enabling = "Enabling"
+        case disabled = "Disabled"
         case enabled = "Enabled"
         case enablefailed = "EnableFailed"
-        case disabled = "Disabled"
+        case enabling = "Enabling"
         public var description: String { return self.rawValue }
     }
 
@@ -100,16 +100,16 @@ extension DirectoryService {
     }
 
     public enum RadiusAuthenticationProtocol: String, CustomStringConvertible, Codable {
-        case pap = "PAP"
         case chap = "CHAP"
         case msChapv1 = "MS-CHAPv1"
         case msChapv2 = "MS-CHAPv2"
+        case pap = "PAP"
         public var description: String { return self.rawValue }
     }
 
     public enum RadiusStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
         case completed = "Completed"
+        case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
@@ -120,46 +120,46 @@ extension DirectoryService {
     }
 
     public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case creatingsnapshot = "CreatingSnapshot"
-        case updatingschema = "UpdatingSchema"
-        case replicating = "Replicating"
         case cancelinprogress = "CancelInProgress"
-        case rollbackinprogress = "RollbackInProgress"
         case cancelled = "Cancelled"
-        case failed = "Failed"
         case completed = "Completed"
+        case creatingsnapshot = "CreatingSnapshot"
+        case failed = "Failed"
+        case initializing = "Initializing"
+        case replicating = "Replicating"
+        case rollbackinprogress = "RollbackInProgress"
+        case updatingschema = "UpdatingSchema"
         public var description: String { return self.rawValue }
     }
 
     public enum SelectiveAuth: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum ShareMethod: String, CustomStringConvertible, Codable {
-        case organizations = "ORGANIZATIONS"
         case handshake = "HANDSHAKE"
+        case organizations = "ORGANIZATIONS"
         public var description: String { return self.rawValue }
     }
 
     public enum ShareStatus: String, CustomStringConvertible, Codable {
-        case shared = "Shared"
-        case pendingacceptance = "PendingAcceptance"
-        case rejected = "Rejected"
-        case rejecting = "Rejecting"
-        case rejectfailed = "RejectFailed"
-        case sharing = "Sharing"
-        case sharefailed = "ShareFailed"
         case deleted = "Deleted"
         case deleting = "Deleting"
+        case pendingacceptance = "PendingAcceptance"
+        case rejected = "Rejected"
+        case rejectfailed = "RejectFailed"
+        case rejecting = "Rejecting"
+        case shared = "Shared"
+        case sharefailed = "ShareFailed"
+        case sharing = "Sharing"
         public var description: String { return self.rawValue }
     }
 
     public enum SnapshotStatus: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
         case completed = "Completed"
+        case creating = "Creating"
         case failed = "Failed"
         public var description: String { return self.rawValue }
     }
@@ -176,38 +176,38 @@ extension DirectoryService {
     }
 
     public enum TopicStatus: String, CustomStringConvertible, Codable {
+        case deleted = "Deleted"
+        case failed = "Failed"
         case registered = "Registered"
         case topicNotFound = "Topic not found"
-        case failed = "Failed"
-        case deleted = "Deleted"
         public var description: String { return self.rawValue }
     }
 
     public enum TrustDirection: String, CustomStringConvertible, Codable {
-        case oneWayOutgoing = "One-Way: Outgoing"
         case oneWayIncoming = "One-Way: Incoming"
+        case oneWayOutgoing = "One-Way: Outgoing"
         case twoWay = "Two-Way"
         public var description: String { return self.rawValue }
     }
 
     public enum TrustState: String, CustomStringConvertible, Codable {
-        case creating = "Creating"
         case created = "Created"
-        case verifying = "Verifying"
-        case verifyfailed = "VerifyFailed"
-        case verified = "Verified"
-        case updating = "Updating"
-        case updatefailed = "UpdateFailed"
-        case updated = "Updated"
-        case deleting = "Deleting"
+        case creating = "Creating"
         case deleted = "Deleted"
+        case deleting = "Deleting"
         case failed = "Failed"
+        case updated = "Updated"
+        case updatefailed = "UpdateFailed"
+        case updating = "Updating"
+        case verified = "Verified"
+        case verifyfailed = "VerifyFailed"
+        case verifying = "Verifying"
         public var description: String { return self.rawValue }
     }
 
     public enum TrustType: String, CustomStringConvertible, Codable {
-        case forest = "Forest"
         case external = "External"
+        case forest = "Forest"
         public var description: String { return self.rawValue }
     }
 

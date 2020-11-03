@@ -21,19 +21,19 @@ extension KinesisVideo {
     // MARK: Enums
 
     public enum APIName: String, CustomStringConvertible, Codable {
-        case putMedia = "PUT_MEDIA"
-        case getMedia = "GET_MEDIA"
-        case listFragments = "LIST_FRAGMENTS"
-        case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
-        case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
-        case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
         case getClip = "GET_CLIP"
+        case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
+        case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
+        case getMedia = "GET_MEDIA"
+        case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
+        case listFragments = "LIST_FRAGMENTS"
+        case putMedia = "PUT_MEDIA"
         public var description: String { return self.rawValue }
     }
 
     public enum ChannelProtocol: String, CustomStringConvertible, Codable {
-        case wss = "WSS"
         case https = "HTTPS"
+        case wss = "WSS"
         public var description: String { return self.rawValue }
     }
 
@@ -54,16 +54,16 @@ extension KinesisVideo {
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case updating = "UPDATING"
+        case creating = "CREATING"
         case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateDataRetentionOperation: String, CustomStringConvertible, Codable {
-        case increaseDataRetention = "INCREASE_DATA_RETENTION"
         case decreaseDataRetention = "DECREASE_DATA_RETENTION"
+        case increaseDataRetention = "INCREASE_DATA_RETENTION"
         public var description: String { return self.rawValue }
     }
 

@@ -21,11 +21,11 @@ extension EFS {
     // MARK: Enums
 
     public enum LifeCycleState: String, CustomStringConvertible, Codable {
-        case creating
         case available
-        case updating
-        case deleting
+        case creating
         case deleted
+        case deleting
+        case updating
         public var description: String { return self.rawValue }
     }
 
@@ -36,10 +36,10 @@ extension EFS {
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case enabling = "ENABLING"
         case disabled = "DISABLED"
         case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 
@@ -50,10 +50,10 @@ extension EFS {
     }
 
     public enum TransitionToIARules: String, CustomStringConvertible, Codable {
-        case after7Days = "AFTER_7_DAYS"
         case after14Days = "AFTER_14_DAYS"
         case after30Days = "AFTER_30_DAYS"
         case after60Days = "AFTER_60_DAYS"
+        case after7Days = "AFTER_7_DAYS"
         case after90Days = "AFTER_90_DAYS"
         public var description: String { return self.rawValue }
     }

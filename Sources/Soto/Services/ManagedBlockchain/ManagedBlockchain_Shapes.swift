@@ -21,8 +21,8 @@ extension ManagedBlockchain {
     // MARK: Enums
 
     public enum Edition: String, CustomStringConvertible, Codable {
-        case starter = "STARTER"
         case standard = "STANDARD"
+        case starter = "STARTER"
         public var description: String { return self.rawValue }
     }
 
@@ -32,56 +32,56 @@ extension ManagedBlockchain {
     }
 
     public enum InvitationStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case accepted = "ACCEPTED"
         case accepting = "ACCEPTING"
-        case rejected = "REJECTED"
         case expired = "EXPIRED"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
     public enum MemberStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum NetworkStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public enum NodeStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case available = "AVAILABLE"
         case createFailed = "CREATE_FAILED"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum ProposalStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case approved = "APPROVED"
-        case rejected = "REJECTED"
-        case expired = "EXPIRED"
         case actionFailed = "ACTION_FAILED"
+        case approved = "APPROVED"
+        case expired = "EXPIRED"
+        case inProgress = "IN_PROGRESS"
+        case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
     public enum StateDBType: String, CustomStringConvertible, Codable {
-        case leveldb = "LevelDB"
         case couchdb = "CouchDB"
+        case leveldb = "LevelDB"
         public var description: String { return self.rawValue }
     }
 
@@ -92,8 +92,8 @@ extension ManagedBlockchain {
     }
 
     public enum VoteValue: String, CustomStringConvertible, Codable {
-        case yes = "YES"
         case no = "NO"
+        case yes = "YES"
         public var description: String { return self.rawValue }
     }
 

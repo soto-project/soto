@@ -31,21 +31,21 @@ extension CloudTrail {
     }
 
     public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
+        case accesskeyid = "AccessKeyId"
         case eventid = "EventId"
         case eventname = "EventName"
-        case readonly = "ReadOnly"
-        case username = "Username"
-        case resourcetype = "ResourceType"
-        case resourcename = "ResourceName"
         case eventsource = "EventSource"
-        case accesskeyid = "AccessKeyId"
+        case readonly = "ReadOnly"
+        case resourcename = "ResourceName"
+        case resourcetype = "ResourceType"
+        case username = "Username"
         public var description: String { return self.rawValue }
     }
 
     public enum ReadWriteType: String, CustomStringConvertible, Codable {
+        case all = "All"
         case readonly = "ReadOnly"
         case writeonly = "WriteOnly"
-        case all = "All"
         public var description: String { return self.rawValue }
     }
 

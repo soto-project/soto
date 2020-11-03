@@ -28,8 +28,8 @@ extension AppStream {
     public enum Action: String, CustomStringConvertible, Codable {
         case clipboardCopyFromLocalDevice = "CLIPBOARD_COPY_FROM_LOCAL_DEVICE"
         case clipboardCopyToLocalDevice = "CLIPBOARD_COPY_TO_LOCAL_DEVICE"
-        case fileUpload = "FILE_UPLOAD"
         case fileDownload = "FILE_DOWNLOAD"
+        case fileUpload = "FILE_UPLOAD"
         case printingToLocalDevice = "PRINTING_TO_LOCAL_DEVICE"
         public var description: String { return self.rawValue }
     }
@@ -42,50 +42,50 @@ extension AppStream {
     }
 
     public enum FleetAttribute: String, CustomStringConvertible, Codable {
-        case vpcConfiguration = "VPC_CONFIGURATION"
-        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
+        case vpcConfiguration = "VPC_CONFIGURATION"
+        case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
         public var description: String { return self.rawValue }
     }
 
     public enum FleetErrorCode: String, CustomStringConvertible, Codable {
-        case iamServiceRoleMissingEniDescribeAction = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
-        case iamServiceRoleMissingEniCreateAction = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
-        case iamServiceRoleMissingEniDeleteAction = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
-        case networkInterfaceLimitExceeded = "NETWORK_INTERFACE_LIMIT_EXCEEDED"
-        case internalServiceError = "INTERNAL_SERVICE_ERROR"
-        case iamServiceRoleIsMissing = "IAM_SERVICE_ROLE_IS_MISSING"
-        case machineRoleIsMissing = "MACHINE_ROLE_IS_MISSING"
-        case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
-        case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
-        case iamServiceRoleMissingDescribeSubnetAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
-        case subnetNotFound = "SUBNET_NOT_FOUND"
-        case imageNotFound = "IMAGE_NOT_FOUND"
-        case invalidSubnetConfiguration = "INVALID_SUBNET_CONFIGURATION"
-        case securityGroupsNotFound = "SECURITY_GROUPS_NOT_FOUND"
-        case igwNotAttached = "IGW_NOT_ATTACHED"
-        case iamServiceRoleMissingDescribeSecurityGroupsAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
-        case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
         case domainJoinErrorAccessDenied = "DOMAIN_JOIN_ERROR_ACCESS_DENIED"
-        case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
+        case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
+        case domainJoinErrorFileNotFound = "DOMAIN_JOIN_ERROR_FILE_NOT_FOUND"
         case domainJoinErrorInvalidParameter = "DOMAIN_JOIN_ERROR_INVALID_PARAMETER"
+        case domainJoinErrorLogonFailure = "DOMAIN_JOIN_ERROR_LOGON_FAILURE"
         case domainJoinErrorMoreData = "DOMAIN_JOIN_ERROR_MORE_DATA"
         case domainJoinErrorNoSuchDomain = "DOMAIN_JOIN_ERROR_NO_SUCH_DOMAIN"
         case domainJoinErrorNotSupported = "DOMAIN_JOIN_ERROR_NOT_SUPPORTED"
-        case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
-        case domainJoinNerrWorkstationNotStarted = "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
-        case domainJoinErrorDsMachineAccountQuotaExceeded = "DOMAIN_JOIN_ERROR_DS_MACHINE_ACCOUNT_QUOTA_EXCEEDED"
-        case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
         case domainJoinInternalServiceError = "DOMAIN_JOIN_INTERNAL_SERVICE_ERROR"
+        case domainJoinNerrInvalidWorkgroupName = "DOMAIN_JOIN_NERR_INVALID_WORKGROUP_NAME"
+        case domainJoinNerrPasswordExpired = "DOMAIN_JOIN_NERR_PASSWORD_EXPIRED"
+        case domainJoinNerrWorkstationNotStarted = "DOMAIN_JOIN_NERR_WORKSTATION_NOT_STARTED"
+        case iamServiceRoleIsMissing = "IAM_SERVICE_ROLE_IS_MISSING"
+        case iamServiceRoleMissingDescribeSecurityGroupsAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SECURITY_GROUPS_ACTION"
+        case iamServiceRoleMissingDescribeSubnetAction = "IAM_SERVICE_ROLE_MISSING_DESCRIBE_SUBNET_ACTION"
+        case iamServiceRoleMissingEniCreateAction = "IAM_SERVICE_ROLE_MISSING_ENI_CREATE_ACTION"
+        case iamServiceRoleMissingEniDeleteAction = "IAM_SERVICE_ROLE_MISSING_ENI_DELETE_ACTION"
+        case iamServiceRoleMissingEniDescribeAction = "IAM_SERVICE_ROLE_MISSING_ENI_DESCRIBE_ACTION"
+        case igwNotAttached = "IGW_NOT_ATTACHED"
+        case imageNotFound = "IMAGE_NOT_FOUND"
+        case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case invalidSubnetConfiguration = "INVALID_SUBNET_CONFIGURATION"
+        case machineRoleIsMissing = "MACHINE_ROLE_IS_MISSING"
+        case networkInterfaceLimitExceeded = "NETWORK_INTERFACE_LIMIT_EXCEEDED"
+        case securityGroupsNotFound = "SECURITY_GROUPS_NOT_FOUND"
+        case stsDisabledInRegion = "STS_DISABLED_IN_REGION"
+        case subnetHasInsufficientIpAddresses = "SUBNET_HAS_INSUFFICIENT_IP_ADDRESSES"
+        case subnetNotFound = "SUBNET_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
     public enum FleetState: String, CustomStringConvertible, Codable {
-        case starting = "STARTING"
         case running = "RUNNING"
-        case stopping = "STOPPING"
+        case starting = "STARTING"
         case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -96,49 +96,49 @@ extension AppStream {
     }
 
     public enum ImageBuilderState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case updatingAgent = "UPDATING_AGENT"
-        case running = "RUNNING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case rebooting = "REBOOTING"
-        case snapshotting = "SNAPSHOTTING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case pending = "PENDING"
+        case rebooting = "REBOOTING"
+        case running = "RUNNING"
+        case snapshotting = "SNAPSHOTTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case updatingAgent = "UPDATING_AGENT"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageBuilderStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
         case imageUnavailable = "IMAGE_UNAVAILABLE"
+        case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
-        case failed = "FAILED"
         case copying = "COPYING"
         case deleting = "DELETING"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum ImageStateChangeReasonCode: String, CustomStringConvertible, Codable {
-        case internalError = "INTERNAL_ERROR"
         case imageBuilderNotAvailable = "IMAGE_BUILDER_NOT_AVAILABLE"
         case imageCopyFailure = "IMAGE_COPY_FAILURE"
+        case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageAction: String, CustomStringConvertible, Codable {
-        case suppress = "SUPPRESS"
         case resend = "RESEND"
+        case suppress = "SUPPRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum Permission: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -157,35 +157,35 @@ extension AppStream {
 
     public enum SessionState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case pending = "PENDING"
         case expired = "EXPIRED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum StackAttribute: String, CustomStringConvertible, Codable {
-        case storageConnectors = "STORAGE_CONNECTORS"
-        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
-        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
-        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
-        case redirectUrl = "REDIRECT_URL"
+        case accessEndpoints = "ACCESS_ENDPOINTS"
+        case embedHostDomains = "EMBED_HOST_DOMAINS"
         case feedbackUrl = "FEEDBACK_URL"
+        case iamRoleArn = "IAM_ROLE_ARN"
+        case redirectUrl = "REDIRECT_URL"
+        case storageConnectorGoogleDrive = "STORAGE_CONNECTOR_GOOGLE_DRIVE"
+        case storageConnectorHomefolders = "STORAGE_CONNECTOR_HOMEFOLDERS"
+        case storageConnectorOneDrive = "STORAGE_CONNECTOR_ONE_DRIVE"
+        case storageConnectors = "STORAGE_CONNECTORS"
         case themeName = "THEME_NAME"
         case userSettings = "USER_SETTINGS"
-        case embedHostDomains = "EMBED_HOST_DOMAINS"
-        case iamRoleArn = "IAM_ROLE_ARN"
-        case accessEndpoints = "ACCESS_ENDPOINTS"
         public var description: String { return self.rawValue }
     }
 
     public enum StackErrorCode: String, CustomStringConvertible, Codable {
-        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case storageConnectorError = "STORAGE_CONNECTOR_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageConnectorType: String, CustomStringConvertible, Codable {
-        case homefolders = "HOMEFOLDERS"
         case googleDrive = "GOOGLE_DRIVE"
+        case homefolders = "HOMEFOLDERS"
         case oneDrive = "ONE_DRIVE"
         public var description: String { return self.rawValue }
     }
@@ -197,9 +197,9 @@ extension AppStream {
     }
 
     public enum UsageReportExecutionErrorCode: String, CustomStringConvertible, Codable {
-        case resourceNotFound = "RESOURCE_NOT_FOUND"
         case accessDenied = "ACCESS_DENIED"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case resourceNotFound = "RESOURCE_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
@@ -209,16 +209,16 @@ extension AppStream {
     }
 
     public enum UserStackAssociationErrorCode: String, CustomStringConvertible, Codable {
-        case stackNotFound = "STACK_NOT_FOUND"
-        case userNameNotFound = "USER_NAME_NOT_FOUND"
         case directoryNotFound = "DIRECTORY_NOT_FOUND"
         case internalError = "INTERNAL_ERROR"
+        case stackNotFound = "STACK_NOT_FOUND"
+        case userNameNotFound = "USER_NAME_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
     public enum VisibilityType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
         case `private` = "PRIVATE"
+        case `public` = "PUBLIC"
         case shared = "SHARED"
         public var description: String { return self.rawValue }
     }

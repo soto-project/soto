@@ -27,10 +27,10 @@ extension CloudSearchDomain {
     }
 
     public enum QueryParser: String, CustomStringConvertible, Codable {
+        case dismax
+        case lucene
         case simple
         case structured
-        case lucene
-        case dismax
         public var description: String { return self.rawValue }
     }
 

@@ -32,40 +32,40 @@ extension Imagebuilder {
     }
 
     public enum EbsVolumeType: String, CustomStringConvertible, Codable {
-        case standard
+        case gp2
         case io1
         case io2
-        case gp2
         case sc1
         case st1
+        case standard
         public var description: String { return self.rawValue }
     }
 
     public enum ImageStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case creating = "CREATING"
-        case building = "BUILDING"
-        case testing = "TESTING"
-        case distributing = "DISTRIBUTING"
-        case integrating = "INTEGRATING"
         case available = "AVAILABLE"
+        case building = "BUILDING"
         case cancelled = "CANCELLED"
-        case failed = "FAILED"
-        case deprecated = "DEPRECATED"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deprecated = "DEPRECATED"
+        case distributing = "DISTRIBUTING"
+        case failed = "FAILED"
+        case integrating = "INTEGRATING"
+        case pending = "PENDING"
+        case testing = "TESTING"
         public var description: String { return self.rawValue }
     }
 
     public enum Ownership: String, CustomStringConvertible, Codable {
+        case amazon = "Amazon"
         case `self` = "Self"
         case shared = "Shared"
-        case amazon = "Amazon"
         public var description: String { return self.rawValue }
     }
 
     public enum PipelineExecutionStartCondition: String, CustomStringConvertible, Codable {
-        case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
         case expressionMatchAndDependencyUpdatesAvailable = "EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE"
+        case expressionMatchOnly = "EXPRESSION_MATCH_ONLY"
         public var description: String { return self.rawValue }
     }
 
@@ -76,8 +76,8 @@ extension Imagebuilder {
     }
 
     public enum Platform: String, CustomStringConvertible, Codable {
-        case windows = "Windows"
         case linux = "Linux"
+        case windows = "Windows"
         public var description: String { return self.rawValue }
     }
 

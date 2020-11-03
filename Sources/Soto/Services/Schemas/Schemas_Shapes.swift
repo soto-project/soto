@@ -21,9 +21,9 @@ extension Schemas {
     // MARK: Enums
 
     public enum CodeGenerationStatus: String, CustomStringConvertible, Codable {
-        case createInProgress = "CREATE_IN_PROGRESS"
         case createComplete = "CREATE_COMPLETE"
         case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 

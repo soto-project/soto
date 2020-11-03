@@ -27,41 +27,41 @@ extension Cloud9 {
     }
 
     public enum EnvironmentLifecycleStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case created = "CREATED"
         case createFailed = "CREATE_FAILED"
-        case deleting = "DELETING"
+        case created = "CREATED"
+        case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
-        case error
-        case creating
         case connecting
-        case ready
-        case stopping
-        case stopped
+        case creating
         case deleting
+        case error
+        case ready
+        case stopped
+        case stopping
         public var description: String { return self.rawValue }
     }
 
     public enum EnvironmentType: String, CustomStringConvertible, Codable {
-        case ssh
         case ec2
+        case ssh
         public var description: String { return self.rawValue }
     }
 
     public enum MemberPermissions: String, CustomStringConvertible, Codable {
-        case readWrite = "read-write"
         case readOnly = "read-only"
+        case readWrite = "read-write"
         public var description: String { return self.rawValue }
     }
 
     public enum Permissions: String, CustomStringConvertible, Codable {
         case owner
-        case readWrite = "read-write"
         case readOnly = "read-only"
+        case readWrite = "read-write"
         public var description: String { return self.rawValue }
     }
 

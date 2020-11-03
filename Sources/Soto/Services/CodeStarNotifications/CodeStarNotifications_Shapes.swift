@@ -33,32 +33,32 @@ extension CodeStarNotifications {
     }
 
     public enum ListNotificationRulesFilterName: String, CustomStringConvertible, Codable {
-        case eventTypeId = "EVENT_TYPE_ID"
         case createdBy = "CREATED_BY"
+        case eventTypeId = "EVENT_TYPE_ID"
         case resource = "RESOURCE"
         case targetAddress = "TARGET_ADDRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum ListTargetsFilterName: String, CustomStringConvertible, Codable {
-        case targetType = "TARGET_TYPE"
         case targetAddress = "TARGET_ADDRESS"
         case targetStatus = "TARGET_STATUS"
+        case targetType = "TARGET_TYPE"
         public var description: String { return self.rawValue }
     }
 
     public enum NotificationRuleStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case active = "ACTIVE"
-        case unreachable = "UNREACHABLE"
-        case inactive = "INACTIVE"
         case deactivated = "DEACTIVATED"
+        case inactive = "INACTIVE"
+        case pending = "PENDING"
+        case unreachable = "UNREACHABLE"
         public var description: String { return self.rawValue }
     }
 

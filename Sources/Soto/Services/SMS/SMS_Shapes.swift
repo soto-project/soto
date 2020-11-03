@@ -21,63 +21,63 @@ extension SMS {
     // MARK: Enums
 
     public enum AppLaunchConfigurationStatus: String, CustomStringConvertible, Codable {
-        case notConfigured = "NOT_CONFIGURED"
         case configured = "CONFIGURED"
+        case notConfigured = "NOT_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
     public enum AppLaunchStatus: String, CustomStringConvertible, Codable {
-        case readyForConfiguration = "READY_FOR_CONFIGURATION"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
         case configurationInvalid = "CONFIGURATION_INVALID"
-        case readyForLaunch = "READY_FOR_LAUNCH"
-        case validationInProgress = "VALIDATION_IN_PROGRESS"
-        case launchPending = "LAUNCH_PENDING"
+        case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
+        case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
+        case launchFailed = "LAUNCH_FAILED"
         case launchInProgress = "LAUNCH_IN_PROGRESS"
+        case launchPending = "LAUNCH_PENDING"
         case launched = "LAUNCHED"
         case partiallyLaunched = "PARTIALLY_LAUNCHED"
-        case deltaLaunchInProgress = "DELTA_LAUNCH_IN_PROGRESS"
-        case deltaLaunchFailed = "DELTA_LAUNCH_FAILED"
-        case launchFailed = "LAUNCH_FAILED"
-        case terminateInProgress = "TERMINATE_IN_PROGRESS"
+        case readyForConfiguration = "READY_FOR_CONFIGURATION"
+        case readyForLaunch = "READY_FOR_LAUNCH"
         case terminateFailed = "TERMINATE_FAILED"
+        case terminateInProgress = "TERMINATE_IN_PROGRESS"
         case terminated = "TERMINATED"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum AppReplicationConfigurationStatus: String, CustomStringConvertible, Codable {
-        case notConfigured = "NOT_CONFIGURED"
         case configured = "CONFIGURED"
+        case notConfigured = "NOT_CONFIGURED"
         public var description: String { return self.rawValue }
     }
 
     public enum AppReplicationStatus: String, CustomStringConvertible, Codable {
-        case readyForConfiguration = "READY_FOR_CONFIGURATION"
         case configurationInProgress = "CONFIGURATION_IN_PROGRESS"
         case configurationInvalid = "CONFIGURATION_INVALID"
-        case readyForReplication = "READY_FOR_REPLICATION"
-        case validationInProgress = "VALIDATION_IN_PROGRESS"
-        case replicationPending = "REPLICATION_PENDING"
-        case replicationInProgress = "REPLICATION_IN_PROGRESS"
-        case replicated = "REPLICATED"
-        case partiallyReplicated = "PARTIALLY_REPLICATED"
-        case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
         case deltaReplicated = "DELTA_REPLICATED"
         case deltaReplicationFailed = "DELTA_REPLICATION_FAILED"
+        case deltaReplicationInProgress = "DELTA_REPLICATION_IN_PROGRESS"
+        case partiallyReplicated = "PARTIALLY_REPLICATED"
+        case readyForConfiguration = "READY_FOR_CONFIGURATION"
+        case readyForReplication = "READY_FOR_REPLICATION"
+        case replicated = "REPLICATED"
         case replicationFailed = "REPLICATION_FAILED"
-        case replicationStopping = "REPLICATION_STOPPING"
+        case replicationInProgress = "REPLICATION_IN_PROGRESS"
+        case replicationPending = "REPLICATION_PENDING"
         case replicationStopFailed = "REPLICATION_STOP_FAILED"
         case replicationStopped = "REPLICATION_STOPPED"
+        case replicationStopping = "REPLICATION_STOPPING"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum AppStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
+        case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -87,11 +87,11 @@ extension SMS {
     }
 
     public enum ConnectorCapability: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
         case hypervManager = "HYPERV-MANAGER"
-        case snapshotBatching = "SNAPSHOT_BATCHING"
+        case scvmm = "SCVMM"
         case smsOptimized = "SMS_OPTIMIZED"
+        case snapshotBatching = "SNAPSHOT_BATCHING"
+        case vsphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 
@@ -114,46 +114,46 @@ extension SMS {
     }
 
     public enum ReplicationJobState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case active = "ACTIVE"
-        case failed = "FAILED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
         case completed = "COMPLETED"
-        case pausedOnFailure = "PAUSED_ON_FAILURE"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
         case failing = "FAILING"
+        case pausedOnFailure = "PAUSED_ON_FAILURE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplicationRunState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case missed = "MISSED"
         case active = "ACTIVE"
-        case failed = "FAILED"
         case completed = "COMPLETED"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case missed = "MISSED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplicationRunType: String, CustomStringConvertible, Codable {
-        case onDemand = "ON_DEMAND"
         case automatic = "AUTOMATIC"
+        case onDemand = "ON_DEMAND"
         public var description: String { return self.rawValue }
     }
 
     public enum ScriptType: String, CustomStringConvertible, Codable {
-        case shellScript = "SHELL_SCRIPT"
         case powershellScript = "POWERSHELL_SCRIPT"
+        case shellScript = "SHELL_SCRIPT"
         public var description: String { return self.rawValue }
     }
 
     public enum ServerCatalogStatus: String, CustomStringConvertible, Codable {
-        case notImported = "NOT_IMPORTED"
-        case importing = "IMPORTING"
         case available = "AVAILABLE"
         case deleted = "DELETED"
         case expired = "EXPIRED"
+        case importing = "IMPORTING"
+        case notImported = "NOT_IMPORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -168,18 +168,18 @@ extension SMS {
     }
 
     public enum ValidationStatus: String, CustomStringConvertible, Codable {
-        case readyForValidation = "READY_FOR_VALIDATION"
-        case pending = "PENDING"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case readyForValidation = "READY_FOR_VALIDATION"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum VmManagerType: String, CustomStringConvertible, Codable {
-        case vsphere = "VSPHERE"
-        case scvmm = "SCVMM"
         case hypervManager = "HYPERV-MANAGER"
+        case scvmm = "SCVMM"
+        case vsphere = "VSPHERE"
         public var description: String { return self.rawValue }
     }
 

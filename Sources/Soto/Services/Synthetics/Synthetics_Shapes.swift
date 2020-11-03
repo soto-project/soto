@@ -21,9 +21,9 @@ extension Synthetics {
     // MARK: Enums
 
     public enum CanaryRunState: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case passed = "PASSED"
         case failed = "FAILED"
+        case passed = "PASSED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -35,14 +35,14 @@ extension Synthetics {
 
     public enum CanaryState: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case ready = "READY"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case updating = "UPDATING"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case error = "ERROR"
         case deleting = "DELETING"
+        case error = "ERROR"
+        case ready = "READY"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 

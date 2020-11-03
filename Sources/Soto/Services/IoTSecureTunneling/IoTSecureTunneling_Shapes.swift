@@ -27,8 +27,8 @@ extension IoTSecureTunneling {
     }
 
     public enum TunnelStatus: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
         case closed = "CLOSED"
+        case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 

@@ -21,53 +21,53 @@ extension SageMaker {
     // MARK: Enums
 
     public enum AlgorithmSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum AlgorithmStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
         case completed = "Completed"
-        case failed = "Failed"
         case deleting = "Deleting"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum AppInstanceType: String, CustomStringConvertible, Codable {
-        case system
-        case mlT3Micro = "ml.t3.micro"
-        case mlT3Small = "ml.t3.small"
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM58Xlarge = "ml.m5.8xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM516Xlarge = "ml.m5.16xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC5Large = "ml.c5.large"
-        case mlC5Xlarge = "ml.c5.xlarge"
-        case mlC52Xlarge = "ml.c5.2xlarge"
-        case mlC54Xlarge = "ml.c5.4xlarge"
-        case mlC59Xlarge = "ml.c5.9xlarge"
         case mlC512Xlarge = "ml.c5.12xlarge"
         case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC524Xlarge = "ml.c5.24xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM516Xlarge = "ml.m5.16xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM58Xlarge = "ml.m5.8xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Micro = "ml.t3.micro"
+        case mlT3Small = "ml.t3.small"
+        case mlT3Xlarge = "ml.t3.xlarge"
+        case system
         public var description: String { return self.rawValue }
     }
 
@@ -99,14 +99,14 @@ extension SageMaker {
     }
 
     public enum AssemblyType: String, CustomStringConvertible, Codable {
-        case none = "None"
         case line = "Line"
+        case none = "None"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthMode: String, CustomStringConvertible, Codable {
-        case sso = "SSO"
         case iam = "IAM"
+        case sso = "SSO"
         public var description: String { return self.rawValue }
     }
 
@@ -117,23 +117,23 @@ extension SageMaker {
     }
 
     public enum AutoMLJobSecondaryStatus: String, CustomStringConvertible, Codable {
-        case starting = "Starting"
         case analyzingdata = "AnalyzingData"
-        case featureengineering = "FeatureEngineering"
-        case modeltuning = "ModelTuning"
-        case maxcandidatesreached = "MaxCandidatesReached"
-        case failed = "Failed"
-        case stopped = "Stopped"
-        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
-        case stopping = "Stopping"
         case candidatedefinitionsgenerated = "CandidateDefinitionsGenerated"
+        case failed = "Failed"
+        case featureengineering = "FeatureEngineering"
+        case maxautomljobruntimereached = "MaxAutoMLJobRuntimeReached"
+        case maxcandidatesreached = "MaxCandidatesReached"
+        case modeltuning = "ModelTuning"
+        case starting = "Starting"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum AutoMLJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case inprogress = "InProgress"
         case failed = "Failed"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -141,10 +141,10 @@ extension SageMaker {
 
     public enum AutoMLMetricEnum: String, CustomStringConvertible, Codable {
         case accuracy = "Accuracy"
-        case mse = "MSE"
+        case auc = "AUC"
         case f1 = "F1"
         case f1macro = "F1macro"
-        case auc = "AUC"
+        case mse = "MSE"
         public var description: String { return self.rawValue }
     }
 
@@ -155,8 +155,8 @@ extension SageMaker {
     }
 
     public enum AutoMLSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -187,24 +187,24 @@ extension SageMaker {
 
     public enum CandidateSortBy: String, CustomStringConvertible, Codable {
         case creationtime = "CreationTime"
-        case status = "Status"
         case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum CandidateStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case inprogress = "InProgress"
         case failed = "Failed"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum CandidateStepType: String, CustomStringConvertible, Codable {
+        case awsSagemakerProcessingjob = "AWS::SageMaker::ProcessingJob"
         case awsSagemakerTrainingjob = "AWS::SageMaker::TrainingJob"
         case awsSagemakerTransformjob = "AWS::SageMaker::TransformJob"
-        case awsSagemakerProcessingjob = "AWS::SageMaker::ProcessingJob"
         public var description: String { return self.rawValue }
     }
 
@@ -221,9 +221,9 @@ extension SageMaker {
     }
 
     public enum CodeRepositorySortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
         case lastmodifiedtime = "LastModifiedTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -234,52 +234,52 @@ extension SageMaker {
     }
 
     public enum CompilationJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "INPROGRESS"
         case completed = "COMPLETED"
         case failed = "FAILED"
+        case inprogress = "INPROGRESS"
         case starting = "STARTING"
-        case stopping = "STOPPING"
         case stopped = "STOPPED"
+        case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
     public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "None"
         case gzip = "Gzip"
+        case none = "None"
         public var description: String { return self.rawValue }
     }
 
     public enum ContainerMode: String, CustomStringConvertible, Codable {
-        case singlemodel = "SingleModel"
         case multimodel = "MultiModel"
+        case singlemodel = "SingleModel"
         public var description: String { return self.rawValue }
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         case freeofadultcontent = "FreeOfAdultContent"
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
     public enum DetailedAlgorithmStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case notstarted = "NotStarted"
         public var description: String { return self.rawValue }
     }
 
     public enum DetailedModelPackageStatus: String, CustomStringConvertible, Codable {
-        case notstarted = "NotStarted"
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case notstarted = "NotStarted"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectInternetAccess: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -292,44 +292,44 @@ extension SageMaker {
     }
 
     public enum EndpointConfigSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointStatus: String, CustomStringConvertible, Codable {
-        case outofservice = "OutOfService"
         case creating = "Creating"
-        case updating = "Updating"
-        case systemupdating = "SystemUpdating"
-        case rollingback = "RollingBack"
-        case inservice = "InService"
         case deleting = "Deleting"
         case failed = "Failed"
+        case inservice = "InService"
+        case outofservice = "OutOfService"
+        case rollingback = "RollingBack"
+        case systemupdating = "SystemUpdating"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
         case completed = "Completed"
         case completedwithviolations = "CompletedWithViolations"
-        case inprogress = "InProgress"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum FileSystemAccessMode: String, CustomStringConvertible, Codable {
-        case rw
         case ro
+        case rw
         public var description: String { return self.rawValue }
     }
 
@@ -340,21 +340,21 @@ extension SageMaker {
     }
 
     public enum FlowDefinitionStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
         case active = "Active"
-        case failed = "Failed"
         case deleting = "Deleting"
+        case failed = "Failed"
+        case initializing = "Initializing"
         public var description: String { return self.rawValue }
     }
 
     public enum Framework: String, CustomStringConvertible, Codable {
-        case tensorflow = "TENSORFLOW"
         case keras = "KERAS"
         case mxnet = "MXNET"
         case onnx = "ONNX"
         case pytorch = "PYTORCH"
-        case xgboost = "XGBOOST"
+        case tensorflow = "TENSORFLOW"
         case tflite = "TFLITE"
+        case xgboost = "XGBOOST"
         public var description: String { return self.rawValue }
     }
 
@@ -379,16 +379,16 @@ extension SageMaker {
     }
 
     public enum HyperParameterTuningJobSortByOptions: String, CustomStringConvertible, Codable {
+        case creationtime = "CreationTime"
         case name = "Name"
         case status = "Status"
-        case creationtime = "CreationTime"
         public var description: String { return self.rawValue }
     }
 
     public enum HyperParameterTuningJobStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
-        case inprogress = "InProgress"
         case failed = "Failed"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }
@@ -407,44 +407,44 @@ extension SageMaker {
     }
 
     public enum InstanceType: String, CustomStringConvertible, Codable {
-        case mlT2Medium = "ml.t2.medium"
-        case mlT2Large = "ml.t2.large"
-        case mlT2Xlarge = "ml.t2.xlarge"
-        case mlT22Xlarge = "ml.t2.2xlarge"
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5D18Xlarge = "ml.c5d.18xlarge"
         case mlC5D2Xlarge = "ml.c5d.2xlarge"
         case mlC5D4Xlarge = "ml.c5d.4xlarge"
         case mlC5D9Xlarge = "ml.c5d.9xlarge"
-        case mlC5D18Xlarge = "ml.c5d.18xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Xlarge = "ml.m5.xlarge"
         case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
         case mlP32Xlarge = "ml.p3.2xlarge"
         case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Medium = "ml.t2.medium"
+        case mlT2Xlarge = "ml.t2.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Xlarge = "ml.t3.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -455,18 +455,18 @@ extension SageMaker {
     }
 
     public enum LabelingJobStatus: String, CustomStringConvertible, Codable {
-        case initializing = "Initializing"
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case initializing = "Initializing"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ListCompilationJobsSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -477,35 +477,35 @@ extension SageMaker {
     }
 
     public enum ListWorkforcesSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case createdate = "CreateDate"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum ListWorkteamsSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case createdate = "CreateDate"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelPackageSortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelPackageStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
         case completed = "Completed"
-        case failed = "Failed"
         case deleting = "Deleting"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -517,26 +517,26 @@ extension SageMaker {
     }
 
     public enum MonitoringScheduleSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum NotebookInstanceAcceleratorType: String, CustomStringConvertible, Codable {
-        case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Large = "ml.eia1.large"
+        case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Xlarge = "ml.eia1.xlarge"
-        case mlEia2Medium = "ml.eia2.medium"
         case mlEia2Large = "ml.eia2.large"
+        case mlEia2Medium = "ml.eia2.medium"
         case mlEia2Xlarge = "ml.eia2.xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum NotebookInstanceLifecycleConfigSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
         case lastmodifiedtime = "LastModifiedTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -547,8 +547,8 @@ extension SageMaker {
     }
 
     public enum NotebookInstanceSortKey: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -560,12 +560,12 @@ extension SageMaker {
     }
 
     public enum NotebookInstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inservice = "InService"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case failed = "Failed"
         case deleting = "Deleting"
+        case failed = "Failed"
+        case inservice = "InService"
+        case pending = "Pending"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
         case updating = "Updating"
         public var description: String { return self.rawValue }
     }
@@ -577,23 +577,23 @@ extension SageMaker {
     }
 
     public enum ObjectiveStatus: String, CustomStringConvertible, Codable {
-        case succeeded = "Succeeded"
-        case pending = "Pending"
         case failed = "Failed"
+        case pending = "Pending"
+        case succeeded = "Succeeded"
         public var description: String { return self.rawValue }
     }
 
     public enum `Operator`: String, CustomStringConvertible, Codable {
+        case contains = "Contains"
         case equals = "Equals"
-        case notequals = "NotEquals"
+        case exists = "Exists"
         case greaterthan = "GreaterThan"
         case greaterthanorequalto = "GreaterThanOrEqualTo"
+        case `in` = "In"
         case lessthan = "LessThan"
         case lessthanorequalto = "LessThanOrEqualTo"
-        case contains = "Contains"
-        case exists = "Exists"
+        case notequals = "NotEquals"
         case notexists = "NotExists"
-        case `in` = "In"
         public var description: String { return self.rawValue }
     }
 
@@ -604,10 +604,10 @@ extension SageMaker {
     }
 
     public enum ParameterType: String, CustomStringConvertible, Codable {
-        case integer = "Integer"
-        case continuous = "Continuous"
         case categorical = "Categorical"
+        case continuous = "Continuous"
         case freetext = "FreeText"
+        case integer = "Integer"
         public var description: String { return self.rawValue }
     }
 
@@ -619,59 +619,59 @@ extension SageMaker {
     }
 
     public enum ProcessingInstanceType: String, CustomStringConvertible, Codable {
-        case mlT3Medium = "ml.t3.medium"
-        case mlT3Large = "ml.t3.large"
-        case mlT3Xlarge = "ml.t3.xlarge"
-        case mlT32Xlarge = "ml.t3.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlR5Large = "ml.r5.large"
-        case mlR5Xlarge = "ml.r5.xlarge"
-        case mlR52Xlarge = "ml.r5.2xlarge"
-        case mlR54Xlarge = "ml.r5.4xlarge"
-        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
         case mlR512Xlarge = "ml.r5.12xlarge"
         case mlR516Xlarge = "ml.r5.16xlarge"
         case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR58Xlarge = "ml.r5.8xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlT32Xlarge = "ml.t3.2xlarge"
+        case mlT3Large = "ml.t3.large"
+        case mlT3Medium = "ml.t3.medium"
+        case mlT3Xlarge = "ml.t3.xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessingS3CompressionType: String, CustomStringConvertible, Codable {
-        case none = "None"
         case gzip = "Gzip"
+        case none = "None"
         public var description: String { return self.rawValue }
     }
 
@@ -688,8 +688,8 @@ extension SageMaker {
     }
 
     public enum ProcessingS3InputMode: String, CustomStringConvertible, Codable {
-        case pipe = "Pipe"
         case file = "File"
+        case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
@@ -700,82 +700,82 @@ extension SageMaker {
     }
 
     public enum ProductionVariantAcceleratorType: String, CustomStringConvertible, Codable {
-        case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Large = "ml.eia1.large"
+        case mlEia1Medium = "ml.eia1.medium"
         case mlEia1Xlarge = "ml.eia1.xlarge"
-        case mlEia2Medium = "ml.eia2.medium"
         case mlEia2Large = "ml.eia2.large"
+        case mlEia2Medium = "ml.eia2.medium"
         case mlEia2Xlarge = "ml.eia2.xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum ProductionVariantInstanceType: String, CustomStringConvertible, Codable {
-        case mlT2Medium = "ml.t2.medium"
-        case mlT2Large = "ml.t2.large"
-        case mlT2Xlarge = "ml.t2.xlarge"
-        case mlT22Xlarge = "ml.t2.2xlarge"
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlM5DLarge = "ml.m5d.large"
-        case mlM5DXlarge = "ml.m5d.xlarge"
-        case mlM5D2Xlarge = "ml.m5d.2xlarge"
-        case mlM5D4Xlarge = "ml.m5d.4xlarge"
-        case mlM5D12Xlarge = "ml.m5d.12xlarge"
-        case mlM5D24Xlarge = "ml.m5d.24xlarge"
-        case mlC4Large = "ml.c4.large"
-        case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Large = "ml.c5.large"
-        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC4Large = "ml.c4.large"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC5DLarge = "ml.c5d.large"
-        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5D18Xlarge = "ml.c5d.18xlarge"
         case mlC5D2Xlarge = "ml.c5d.2xlarge"
         case mlC5D4Xlarge = "ml.c5d.4xlarge"
         case mlC5D9Xlarge = "ml.c5d.9xlarge"
-        case mlC5D18Xlarge = "ml.c5d.18xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlC5DLarge = "ml.c5d.large"
+        case mlC5DXlarge = "ml.c5d.xlarge"
+        case mlC5Large = "ml.c5.large"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
         case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
-        case mlR5Large = "ml.r5.large"
-        case mlR5Xlarge = "ml.r5.xlarge"
-        case mlR52Xlarge = "ml.r5.2xlarge"
-        case mlR54Xlarge = "ml.r5.4xlarge"
-        case mlR512Xlarge = "ml.r5.12xlarge"
-        case mlR524Xlarge = "ml.r5.24xlarge"
-        case mlR5DLarge = "ml.r5d.large"
-        case mlR5DXlarge = "ml.r5d.xlarge"
-        case mlR5D2Xlarge = "ml.r5d.2xlarge"
-        case mlR5D4Xlarge = "ml.r5d.4xlarge"
-        case mlR5D12Xlarge = "ml.r5d.12xlarge"
-        case mlR5D24Xlarge = "ml.r5d.24xlarge"
-        case mlInf1Xlarge = "ml.inf1.xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlInf124Xlarge = "ml.inf1.24xlarge"
         case mlInf12Xlarge = "ml.inf1.2xlarge"
         case mlInf16Xlarge = "ml.inf1.6xlarge"
-        case mlInf124Xlarge = "ml.inf1.24xlarge"
+        case mlInf1Xlarge = "ml.inf1.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5D12Xlarge = "ml.m5d.12xlarge"
+        case mlM5D24Xlarge = "ml.m5d.24xlarge"
+        case mlM5D2Xlarge = "ml.m5d.2xlarge"
+        case mlM5D4Xlarge = "ml.m5d.4xlarge"
+        case mlM5DLarge = "ml.m5d.large"
+        case mlM5DXlarge = "ml.m5d.xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlR512Xlarge = "ml.r5.12xlarge"
+        case mlR524Xlarge = "ml.r5.24xlarge"
+        case mlR52Xlarge = "ml.r5.2xlarge"
+        case mlR54Xlarge = "ml.r5.4xlarge"
+        case mlR5D12Xlarge = "ml.r5d.12xlarge"
+        case mlR5D24Xlarge = "ml.r5d.24xlarge"
+        case mlR5D2Xlarge = "ml.r5d.2xlarge"
+        case mlR5D4Xlarge = "ml.r5d.4xlarge"
+        case mlR5DLarge = "ml.r5d.large"
+        case mlR5DXlarge = "ml.r5d.xlarge"
+        case mlR5Large = "ml.r5.large"
+        case mlR5Xlarge = "ml.r5.xlarge"
+        case mlT22Xlarge = "ml.t2.2xlarge"
+        case mlT2Large = "ml.t2.large"
+        case mlT2Medium = "ml.t2.medium"
+        case mlT2Xlarge = "ml.t2.xlarge"
         public var description: String { return self.rawValue }
     }
 
@@ -792,32 +792,32 @@ extension SageMaker {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case trainingjob = "TrainingJob"
         case experiment = "Experiment"
         case experimenttrial = "ExperimentTrial"
         case experimenttrialcomponent = "ExperimentTrialComponent"
+        case trainingjob = "TrainingJob"
         public var description: String { return self.rawValue }
     }
 
     public enum RetentionType: String, CustomStringConvertible, Codable {
-        case retain = "Retain"
         case delete = "Delete"
+        case retain = "Retain"
         public var description: String { return self.rawValue }
     }
 
     public enum RootAccess: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum RuleEvaluationStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case noissuesfound = "NoIssuesFound"
-        case issuesfound = "IssuesFound"
         case error = "Error"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
+        case issuesfound = "IssuesFound"
+        case noissuesfound = "NoIssuesFound"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -828,15 +828,15 @@ extension SageMaker {
     }
 
     public enum S3DataType: String, CustomStringConvertible, Codable {
+        case augmentedmanifestfile = "AugmentedManifestFile"
         case manifestfile = "ManifestFile"
         case s3prefix = "S3Prefix"
-        case augmentedmanifestfile = "AugmentedManifestFile"
         public var description: String { return self.rawValue }
     }
 
     public enum ScheduleStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
         case failed = "Failed"
+        case pending = "Pending"
         case scheduled = "Scheduled"
         case stopped = "Stopped"
         public var description: String { return self.rawValue }
@@ -849,33 +849,33 @@ extension SageMaker {
     }
 
     public enum SecondaryStatus: String, CustomStringConvertible, Codable {
-        case starting = "Starting"
-        case launchingmlinstances = "LaunchingMLInstances"
-        case preparingtrainingstack = "PreparingTrainingStack"
+        case completed = "Completed"
         case downloading = "Downloading"
         case downloadingtrainingimage = "DownloadingTrainingImage"
-        case training = "Training"
-        case uploading = "Uploading"
-        case stopping = "Stopping"
-        case stopped = "Stopped"
-        case maxruntimeexceeded = "MaxRuntimeExceeded"
-        case completed = "Completed"
         case failed = "Failed"
         case interrupted = "Interrupted"
+        case launchingmlinstances = "LaunchingMLInstances"
+        case maxruntimeexceeded = "MaxRuntimeExceeded"
         case maxwaittimeexceeded = "MaxWaitTimeExceeded"
+        case preparingtrainingstack = "PreparingTrainingStack"
+        case starting = "Starting"
+        case stopped = "Stopped"
+        case stopping = "Stopping"
+        case training = "Training"
+        case uploading = "Uploading"
         public var description: String { return self.rawValue }
     }
 
     public enum SortBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum SortExperimentsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
@@ -886,53 +886,53 @@ extension SageMaker {
     }
 
     public enum SortTrialComponentsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SortTrialsBy: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
+        case name = "Name"
         public var description: String { return self.rawValue }
     }
 
     public enum SplitType: String, CustomStringConvertible, Codable {
-        case none = "None"
         case line = "Line"
+        case none = "None"
         case recordio = "RecordIO"
         case tfrecord = "TFRecord"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetDevice: String, CustomStringConvertible, Codable {
-        case lambda
-        case mlM4 = "ml_m4"
-        case mlM5 = "ml_m5"
-        case mlC4 = "ml_c4"
-        case mlC5 = "ml_c5"
-        case mlP2 = "ml_p2"
-        case mlP3 = "ml_p3"
-        case mlG4Dn = "ml_g4dn"
-        case mlInf1 = "ml_inf1"
+        case aisage
+        case ambaCv22 = "amba_cv22"
+        case coreml
+        case deeplens
+        case imx8qm
+        case jetsonNano = "jetson_nano"
         case jetsonTx1 = "jetson_tx1"
         case jetsonTx2 = "jetson_tx2"
-        case jetsonNano = "jetson_nano"
         case jetsonXavier = "jetson_xavier"
-        case rasp3b
-        case imx8qm
-        case deeplens
-        case rk3399
-        case rk3288
-        case aisage
-        case sbeC = "sbe_c"
-        case qcs605
+        case lambda
+        case mlC4 = "ml_c4"
+        case mlC5 = "ml_c5"
+        case mlG4Dn = "ml_g4dn"
+        case mlInf1 = "ml_inf1"
+        case mlM4 = "ml_m4"
+        case mlM5 = "ml_m5"
+        case mlP2 = "ml_p2"
+        case mlP3 = "ml_p3"
         case qcs603
+        case qcs605
+        case rasp3b
+        case rk3288
+        case rk3399
+        case sbeC = "sbe_c"
         case sitaraAm57X = "sitara_am57x"
-        case ambaCv22 = "amba_cv22"
         case x86Win32 = "x86_win32"
         case x86Win64 = "x86_win64"
-        case coreml
         public var description: String { return self.rawValue }
     }
 
@@ -944,11 +944,11 @@ extension SageMaker {
     }
 
     public enum TargetPlatformArch: String, CustomStringConvertible, Codable {
-        case x8664 = "X86_64"
-        case x86 = "X86"
         case arm64 = "ARM64"
         case armEabi = "ARM_EABI"
         case armEabihf = "ARM_EABIHF"
+        case x86 = "X86"
+        case x8664 = "X86_64"
         public var description: String { return self.rawValue }
     }
 
@@ -959,121 +959,121 @@ extension SageMaker {
     }
 
     public enum TrainingInputMode: String, CustomStringConvertible, Codable {
-        case pipe = "Pipe"
         case file = "File"
+        case pipe = "Pipe"
         public var description: String { return self.rawValue }
     }
 
     public enum TrainingInstanceType: String, CustomStringConvertible, Codable {
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlG4DnXlarge = "ml.g4dn.xlarge"
-        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
-        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
-        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
-        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
-        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
-        case mlM512Xlarge = "ml.m5.12xlarge"
-        case mlM524Xlarge = "ml.m5.24xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlC5NXlarge = "ml.c5n.xlarge"
+        case mlC5N18Xlarge = "ml.c5n.18xlarge"
         case mlC5N2Xlarge = "ml.c5n.2xlarge"
         case mlC5N4Xlarge = "ml.c5n.4xlarge"
         case mlC5N9Xlarge = "ml.c5n.9xlarge"
-        case mlC5N18Xlarge = "ml.c5n.18xlarge"
+        case mlC5NXlarge = "ml.c5n.xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum TrainingJobEarlyStoppingType: String, CustomStringConvertible, Codable {
-        case off = "Off"
         case auto = "Auto"
+        case off = "Off"
         public var description: String { return self.rawValue }
     }
 
     public enum TrainingJobSortByOptions: String, CustomStringConvertible, Codable {
-        case name = "Name"
         case creationtime = "CreationTime"
-        case status = "Status"
         case finalobjectivemetricvalue = "FinalObjectiveMetricValue"
+        case name = "Name"
+        case status = "Status"
         public var description: String { return self.rawValue }
     }
 
     public enum TrainingJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum TransformInstanceType: String, CustomStringConvertible, Codable {
-        case mlM4Xlarge = "ml.m4.xlarge"
-        case mlM42Xlarge = "ml.m4.2xlarge"
-        case mlM44Xlarge = "ml.m4.4xlarge"
-        case mlM410Xlarge = "ml.m4.10xlarge"
-        case mlM416Xlarge = "ml.m4.16xlarge"
-        case mlC4Xlarge = "ml.c4.xlarge"
         case mlC42Xlarge = "ml.c4.2xlarge"
         case mlC44Xlarge = "ml.c4.4xlarge"
         case mlC48Xlarge = "ml.c4.8xlarge"
-        case mlP2Xlarge = "ml.p2.xlarge"
-        case mlP28Xlarge = "ml.p2.8xlarge"
-        case mlP216Xlarge = "ml.p2.16xlarge"
-        case mlP32Xlarge = "ml.p3.2xlarge"
-        case mlP38Xlarge = "ml.p3.8xlarge"
-        case mlP316Xlarge = "ml.p3.16xlarge"
-        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
         case mlC52Xlarge = "ml.c5.2xlarge"
         case mlC54Xlarge = "ml.c5.4xlarge"
         case mlC59Xlarge = "ml.c5.9xlarge"
-        case mlC518Xlarge = "ml.c5.18xlarge"
-        case mlM5Large = "ml.m5.large"
-        case mlM5Xlarge = "ml.m5.xlarge"
-        case mlM52Xlarge = "ml.m5.2xlarge"
-        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum TransformJobStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
     public enum TrialComponentPrimaryStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
         case completed = "Completed"
         case failed = "Failed"
-        case stopping = "Stopping"
+        case inprogress = "InProgress"
         case stopped = "Stopped"
+        case stopping = "Stopping"
         public var description: String { return self.rawValue }
     }
 
@@ -1092,9 +1092,9 @@ extension SageMaker {
     }
 
     public enum VariantPropertyType: String, CustomStringConvertible, Codable {
+        case datacaptureconfig = "DataCaptureConfig"
         case desiredinstancecount = "DesiredInstanceCount"
         case desiredweight = "DesiredWeight"
-        case datacaptureconfig = "DataCaptureConfig"
         public var description: String { return self.rawValue }
     }
 

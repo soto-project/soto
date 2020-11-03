@@ -22,24 +22,24 @@ extension KinesisAnalytics {
 
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
         case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
         case ready = "READY"
         case running = "RUNNING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum InputStartingPosition: String, CustomStringConvertible, Codable {
+        case lastStoppedPoint = "LAST_STOPPED_POINT"
         case now = "NOW"
         case trimHorizon = "TRIM_HORIZON"
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
         public var description: String { return self.rawValue }
     }
 
     public enum RecordFormatType: String, CustomStringConvertible, Codable {
-        case json = "JSON"
         case csv = "CSV"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 

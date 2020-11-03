@@ -22,45 +22,45 @@ extension ApplicationAutoScaling {
 
     public enum AdjustmentType: String, CustomStringConvertible, Codable {
         case changeincapacity = "ChangeInCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
         case exactcapacity = "ExactCapacity"
+        case percentchangeincapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricAggregationType: String, CustomStringConvertible, Codable {
         case average = "Average"
-        case minimum = "Minimum"
         case maximum = "Maximum"
+        case minimum = "Minimum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricStatistic: String, CustomStringConvertible, Codable {
         case average = "Average"
-        case minimum = "Minimum"
         case maximum = "Maximum"
+        case minimum = "Minimum"
         case samplecount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
+        case appstreamaveragecapacityutilization = "AppStreamAverageCapacityUtilization"
+        case cassandrareadcapacityutilization = "CassandraReadCapacityUtilization"
+        case cassandrawritecapacityutilization = "CassandraWriteCapacityUtilization"
+        case comprehendinferenceutilization = "ComprehendInferenceUtilization"
         case dynamodbreadcapacityutilization = "DynamoDBReadCapacityUtilization"
         case dynamodbwritecapacityutilization = "DynamoDBWriteCapacityUtilization"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
-        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
         case ec2spotfleetrequestaveragecpuutilization = "EC2SpotFleetRequestAverageCPUUtilization"
         case ec2spotfleetrequestaveragenetworkin = "EC2SpotFleetRequestAverageNetworkIn"
         case ec2spotfleetrequestaveragenetworkout = "EC2SpotFleetRequestAverageNetworkOut"
-        case sagemakervariantinvocationsperinstance = "SageMakerVariantInvocationsPerInstance"
         case ecsserviceaveragecpuutilization = "ECSServiceAverageCPUUtilization"
         case ecsserviceaveragememoryutilization = "ECSServiceAverageMemoryUtilization"
-        case appstreamaveragecapacityutilization = "AppStreamAverageCapacityUtilization"
-        case comprehendinferenceutilization = "ComprehendInferenceUtilization"
-        case lambdaprovisionedconcurrencyutilization = "LambdaProvisionedConcurrencyUtilization"
-        case cassandrareadcapacityutilization = "CassandraReadCapacityUtilization"
-        case cassandrawritecapacityutilization = "CassandraWriteCapacityUtilization"
         case kafkabrokerstorageutilization = "KafkaBrokerStorageUtilization"
+        case lambdaprovisionedconcurrencyutilization = "LambdaProvisionedConcurrencyUtilization"
+        case rdsreaderaveragecpuutilization = "RDSReaderAverageCPUUtilization"
+        case rdsreaderaveragedatabaseconnections = "RDSReaderAverageDatabaseConnections"
+        case sagemakervariantinvocationsperinstance = "SageMakerVariantInvocationsPerInstance"
         public var description: String { return self.rawValue }
     }
 
@@ -71,49 +71,49 @@ extension ApplicationAutoScaling {
     }
 
     public enum ScalableDimension: String, CustomStringConvertible, Codable {
-        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
-        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
-        case elasticmapreduceInstancegroupInstancecount = "elasticmapreduce:instancegroup:InstanceCount"
         case appstreamFleetDesiredcapacity = "appstream:fleet:DesiredCapacity"
-        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
-        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
-        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
-        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
-        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
-        case sagemakerVariantDesiredinstancecount = "sagemaker:variant:DesiredInstanceCount"
-        case customResourceResourcetypeProperty = "custom-resource:ResourceType:Property"
-        case comprehendDocumentClassifierEndpointDesiredinferenceunits = "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
-        case comprehendEntityRecognizerEndpointDesiredinferenceunits = "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits"
-        case lambdaFunctionProvisionedconcurrency = "lambda:function:ProvisionedConcurrency"
         case cassandraTableReadcapacityunits = "cassandra:table:ReadCapacityUnits"
         case cassandraTableWritecapacityunits = "cassandra:table:WriteCapacityUnits"
+        case comprehendDocumentClassifierEndpointDesiredinferenceunits = "comprehend:document-classifier-endpoint:DesiredInferenceUnits"
+        case comprehendEntityRecognizerEndpointDesiredinferenceunits = "comprehend:entity-recognizer-endpoint:DesiredInferenceUnits"
+        case customResourceResourcetypeProperty = "custom-resource:ResourceType:Property"
+        case dynamodbIndexReadcapacityunits = "dynamodb:index:ReadCapacityUnits"
+        case dynamodbIndexWritecapacityunits = "dynamodb:index:WriteCapacityUnits"
+        case dynamodbTableReadcapacityunits = "dynamodb:table:ReadCapacityUnits"
+        case dynamodbTableWritecapacityunits = "dynamodb:table:WriteCapacityUnits"
+        case ec2SpotFleetRequestTargetcapacity = "ec2:spot-fleet-request:TargetCapacity"
+        case ecsServiceDesiredcount = "ecs:service:DesiredCount"
+        case elasticmapreduceInstancegroupInstancecount = "elasticmapreduce:instancegroup:InstanceCount"
         case kafkaBrokerStorageVolumesize = "kafka:broker-storage:VolumeSize"
+        case lambdaFunctionProvisionedconcurrency = "lambda:function:ProvisionedConcurrency"
+        case rdsClusterReadreplicacount = "rds:cluster:ReadReplicaCount"
+        case sagemakerVariantDesiredinstancecount = "sagemaker:variant:DesiredInstanceCount"
         public var description: String { return self.rawValue }
     }
 
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case successful = "Successful"
-        case overridden = "Overridden"
-        case unfulfilled = "Unfulfilled"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case overridden = "Overridden"
+        case pending = "Pending"
+        case successful = "Successful"
+        case unfulfilled = "Unfulfilled"
         public var description: String { return self.rawValue }
     }
 
     public enum ServiceNamespace: String, CustomStringConvertible, Codable {
+        case appstream
+        case cassandra
+        case comprehend
+        case customResource = "custom-resource"
+        case dynamodb
+        case ec2
         case ecs
         case elasticmapreduce
-        case ec2
-        case appstream
-        case dynamodb
+        case kafka
+        case lambda
         case rds
         case sagemaker
-        case customResource = "custom-resource"
-        case comprehend
-        case lambda
-        case cassandra
-        case kafka
         public var description: String { return self.rawValue }
     }
 

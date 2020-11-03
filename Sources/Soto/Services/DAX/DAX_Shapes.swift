@@ -27,9 +27,9 @@ extension DAX {
     }
 
     public enum IsModifiable: String, CustomStringConvertible, Codable {
-        case `true` = "TRUE"
-        case `false` = "FALSE"
         case conditional = "CONDITIONAL"
+        case `false` = "FALSE"
+        case `true` = "TRUE"
         public var description: String { return self.rawValue }
     }
 
@@ -40,10 +40,10 @@ extension DAX {
     }
 
     public enum SSEStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
         case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 

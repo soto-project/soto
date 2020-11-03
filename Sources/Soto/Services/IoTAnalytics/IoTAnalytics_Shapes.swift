@@ -21,8 +21,8 @@ extension IoTAnalytics {
     // MARK: Enums
 
     public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
@@ -34,28 +34,28 @@ extension IoTAnalytics {
     }
 
     public enum DatasetActionType: String, CustomStringConvertible, Codable {
-        case query = "QUERY"
         case container = "CONTAINER"
+        case query = "QUERY"
         public var description: String { return self.rawValue }
     }
 
     public enum DatasetContentState: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum DatasetStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public enum DatastoreStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
@@ -66,10 +66,10 @@ extension IoTAnalytics {
     }
 
     public enum ReprocessingStatus: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
-        case succeeded = "SUCCEEDED"
         case cancelled = "CANCELLED"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 

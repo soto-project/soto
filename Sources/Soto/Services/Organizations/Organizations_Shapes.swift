@@ -21,8 +21,8 @@ extension Organizations {
     // MARK: Enums
 
     public enum AccountJoinedMethod: String, CustomStringConvertible, Codable {
-        case invited = "INVITED"
         case created = "CREATED"
+        case invited = "INVITED"
         public var description: String { return self.rawValue }
     }
 
@@ -33,10 +33,10 @@ extension Organizations {
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case invite = "INVITE"
-        case enableAllFeatures = "ENABLE_ALL_FEATURES"
-        case approveAllFeatures = "APPROVE_ALL_FEATURES"
         case addOrganizationsServiceLinkedRole = "ADD_ORGANIZATIONS_SERVICE_LINKED_ROLE"
+        case approveAllFeatures = "APPROVE_ALL_FEATURES"
+        case enableAllFeatures = "ENABLE_ALL_FEATURES"
+        case invite = "INVITE"
         public var description: String { return self.rawValue }
     }
 
@@ -48,57 +48,57 @@ extension Organizations {
 
     public enum CreateAccountFailureReason: String, CustomStringConvertible, Codable {
         case accountLimitExceeded = "ACCOUNT_LIMIT_EXCEEDED"
+        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
         case emailAlreadyExists = "EMAIL_ALREADY_EXISTS"
+        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
+        case internalFailure = "INTERNAL_FAILURE"
         case invalidAddress = "INVALID_ADDRESS"
         case invalidEmail = "INVALID_EMAIL"
-        case concurrentAccountModification = "CONCURRENT_ACCOUNT_MODIFICATION"
-        case internalFailure = "INTERNAL_FAILURE"
-        case govcloudAccountAlreadyExists = "GOVCLOUD_ACCOUNT_ALREADY_EXISTS"
         case missingBusinessValidation = "MISSING_BUSINESS_VALIDATION"
         case missingPaymentInstrument = "MISSING_PAYMENT_INSTRUMENT"
         public var description: String { return self.rawValue }
     }
 
     public enum CreateAccountState: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum EffectivePolicyType: String, CustomStringConvertible, Codable {
-        case tagPolicy = "TAG_POLICY"
-        case backupPolicy = "BACKUP_POLICY"
         case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
+        case backupPolicy = "BACKUP_POLICY"
+        case tagPolicy = "TAG_POLICY"
         public var description: String { return self.rawValue }
     }
 
     public enum HandshakePartyType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
         case email = "EMAIL"
+        case organization = "ORGANIZATION"
         public var description: String { return self.rawValue }
     }
 
     public enum HandshakeResourceType: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
-        case organization = "ORGANIZATION"
-        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
         case email = "EMAIL"
         case masterEmail = "MASTER_EMAIL"
         case masterName = "MASTER_NAME"
         case notes = "NOTES"
+        case organization = "ORGANIZATION"
+        case organizationFeatureSet = "ORGANIZATION_FEATURE_SET"
         case parentHandshake = "PARENT_HANDSHAKE"
         public var description: String { return self.rawValue }
     }
 
     public enum HandshakeState: String, CustomStringConvertible, Codable {
-        case requested = "REQUESTED"
-        case open = "OPEN"
-        case canceled = "CANCELED"
         case accepted = "ACCEPTED"
+        case canceled = "CANCELED"
         case declined = "DECLINED"
         case expired = "EXPIRED"
+        case open = "OPEN"
+        case requested = "REQUESTED"
         public var description: String { return self.rawValue }
     }
 
@@ -115,23 +115,23 @@ extension Organizations {
     }
 
     public enum ParentType: String, CustomStringConvertible, Codable {
-        case root = "ROOT"
         case organizationalUnit = "ORGANIZATIONAL_UNIT"
+        case root = "ROOT"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
+        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
+        case backupPolicy = "BACKUP_POLICY"
         case serviceControlPolicy = "SERVICE_CONTROL_POLICY"
         case tagPolicy = "TAG_POLICY"
-        case backupPolicy = "BACKUP_POLICY"
-        case aiservicesOptOutPolicy = "AISERVICES_OPT_OUT_POLICY"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicyTypeStatus: String, CustomStringConvertible, Codable {
         case enabled = "ENABLED"
-        case pendingEnable = "PENDING_ENABLE"
         case pendingDisable = "PENDING_DISABLE"
+        case pendingEnable = "PENDING_ENABLE"
         public var description: String { return self.rawValue }
     }
 

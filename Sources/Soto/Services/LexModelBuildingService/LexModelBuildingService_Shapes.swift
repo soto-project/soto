@@ -21,24 +21,24 @@ extension LexModelBuildingService {
     // MARK: Enums
 
     public enum ChannelStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case created = "CREATED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum ChannelType: String, CustomStringConvertible, Codable {
         case facebook = "Facebook"
+        case kik = "Kik"
         case slack = "Slack"
         case twilioSms = "Twilio-Sms"
-        case kik = "Kik"
         public var description: String { return self.rawValue }
     }
 
     public enum ContentType: String, CustomStringConvertible, Codable {
+        case custompayload = "CustomPayload"
         case plaintext = "PlainText"
         case ssml = "SSML"
-        case custompayload = "CustomPayload"
         public var description: String { return self.rawValue }
     }
 
@@ -49,9 +49,9 @@ extension LexModelBuildingService {
     }
 
     public enum ExportStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case ready = "READY"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -62,15 +62,15 @@ extension LexModelBuildingService {
     }
 
     public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
-        case returnintent = "ReturnIntent"
         case codehook = "CodeHook"
+        case returnintent = "ReturnIntent"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case complete = "COMPLETE"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -90,20 +90,20 @@ extension LexModelBuildingService {
     }
 
     public enum MergeStrategy: String, CustomStringConvertible, Codable {
-        case overwriteLatest = "OVERWRITE_LATEST"
         case failOnConflict = "FAIL_ON_CONFLICT"
+        case overwriteLatest = "OVERWRITE_LATEST"
         public var description: String { return self.rawValue }
     }
 
     public enum ObfuscationSetting: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case defaultObfuscation = "DEFAULT_OBFUSCATION"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessBehavior: String, CustomStringConvertible, Codable {
-        case save = "SAVE"
         case build = "BUILD"
+        case save = "SAVE"
         public var description: String { return self.rawValue }
     }
 
@@ -115,8 +115,8 @@ extension LexModelBuildingService {
     }
 
     public enum SlotConstraint: String, CustomStringConvertible, Codable {
-        case required = "Required"
         case optional = "Optional"
+        case required = "Required"
         public var description: String { return self.rawValue }
     }
 
@@ -128,10 +128,10 @@ extension LexModelBuildingService {
 
     public enum Status: String, CustomStringConvertible, Codable {
         case building = "BUILDING"
-        case ready = "READY"
-        case readyBasicTesting = "READY_BASIC_TESTING"
         case failed = "FAILED"
         case notBuilt = "NOT_BUILT"
+        case ready = "READY"
+        case readyBasicTesting = "READY_BASIC_TESTING"
         public var description: String { return self.rawValue }
     }
 

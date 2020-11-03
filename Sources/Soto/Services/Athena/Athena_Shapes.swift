@@ -28,25 +28,25 @@ extension Athena {
     }
 
     public enum DataCatalogType: String, CustomStringConvertible, Codable {
-        case lambda = "LAMBDA"
         case glue = "GLUE"
         case hive = "HIVE"
+        case lambda = "LAMBDA"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionOption: String, CustomStringConvertible, Codable {
-        case sseS3 = "SSE_S3"
-        case sseKms = "SSE_KMS"
         case cseKms = "CSE_KMS"
+        case sseKms = "SSE_KMS"
+        case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
     public enum QueryExecutionState: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
         case queued = "QUEUED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
-        case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
     }
 
@@ -58,8 +58,8 @@ extension Athena {
     }
 
     public enum WorkGroupState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 

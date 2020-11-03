@@ -22,8 +22,8 @@ extension MediaPackageVod {
 
     public enum AdMarkers: String, CustomStringConvertible, Codable {
         case none = "NONE"
-        case scte35Enhanced = "SCTE35_ENHANCED"
         case passthrough = "PASSTHROUGH"
+        case scte35Enhanced = "SCTE35_ENHANCED"
         public var description: String { return self.rawValue }
     }
 
@@ -34,21 +34,21 @@ extension MediaPackageVod {
     }
 
     public enum ManifestLayout: String, CustomStringConvertible, Codable {
-        case full = "FULL"
         case compact = "COMPACT"
+        case full = "FULL"
         public var description: String { return self.rawValue }
     }
 
     public enum Profile: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case hbbtv15 = "HBBTV_1_5"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
+        case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
         case timeWithTimeline = "TIME_WITH_TIMELINE"
-        case numberWithDuration = "NUMBER_WITH_DURATION"
         public var description: String { return self.rawValue }
     }
 

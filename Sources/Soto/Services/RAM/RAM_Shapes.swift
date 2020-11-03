@@ -21,17 +21,17 @@ extension RAM {
     // MARK: Enums
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable {
-        case `self` = "SELF"
         case otherAccounts = "OTHER-ACCOUNTS"
+        case `self` = "SELF"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
-        case associating = "ASSOCIATING"
         case associated = "ASSOCIATED"
-        case failed = "FAILED"
-        case disassociating = "DISASSOCIATING"
+        case associating = "ASSOCIATING"
         case disassociated = "DISASSOCIATED"
+        case disassociating = "DISASSOCIATING"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -49,28 +49,28 @@ extension RAM {
     }
 
     public enum ResourceShareInvitationStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case accepted = "ACCEPTED"
-        case rejected = "REJECTED"
         case expired = "EXPIRED"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceShareStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case active = "ACTIVE"
-        case failed = "FAILED"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
-        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
         case limitExceeded = "LIMIT_EXCEEDED"
-        case unavailable = "UNAVAILABLE"
         case pending = "PENDING"
+        case unavailable = "UNAVAILABLE"
+        case zonalResourceInaccessible = "ZONAL_RESOURCE_INACCESSIBLE"
         public var description: String { return self.rawValue }
     }
 

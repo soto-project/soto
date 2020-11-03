@@ -27,9 +27,9 @@ extension ServiceDiscovery {
     }
 
     public enum FilterCondition: String, CustomStringConvertible, Codable {
+        case between = "BETWEEN"
         case eq = "EQ"
         case `in` = "IN"
-        case between = "BETWEEN"
         public var description: String { return self.rawValue }
     }
 
@@ -48,9 +48,9 @@ extension ServiceDiscovery {
     }
 
     public enum HealthStatusFilter: String, CustomStringConvertible, Codable {
+        case all = "ALL"
         case healthy = "HEALTHY"
         case unhealthy = "UNHEALTHY"
-        case all = "ALL"
         public var description: String { return self.rawValue }
     }
 
@@ -60,8 +60,8 @@ extension ServiceDiscovery {
     }
 
     public enum NamespaceType: String, CustomStringConvertible, Codable {
-        case dnsPublic = "DNS_PUBLIC"
         case dnsPrivate = "DNS_PRIVATE"
+        case dnsPublic = "DNS_PUBLIC"
         case http = "HTTP"
         public var description: String { return self.rawValue }
     }
@@ -76,34 +76,34 @@ extension ServiceDiscovery {
     }
 
     public enum OperationStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case pending = "PENDING"
-        case success = "SUCCESS"
         case fail = "FAIL"
+        case pending = "PENDING"
+        case submitted = "SUBMITTED"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationTargetType: String, CustomStringConvertible, Codable {
+        case instance = "INSTANCE"
         case namespace = "NAMESPACE"
         case service = "SERVICE"
-        case instance = "INSTANCE"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationType: String, CustomStringConvertible, Codable {
         case createNamespace = "CREATE_NAMESPACE"
         case deleteNamespace = "DELETE_NAMESPACE"
-        case updateService = "UPDATE_SERVICE"
-        case registerInstance = "REGISTER_INSTANCE"
         case deregisterInstance = "DEREGISTER_INSTANCE"
+        case registerInstance = "REGISTER_INSTANCE"
+        case updateService = "UPDATE_SERVICE"
         public var description: String { return self.rawValue }
     }
 
     public enum RecordType: String, CustomStringConvertible, Codable {
-        case srv = "SRV"
         case a = "A"
         case aaaa = "AAAA"
         case cname = "CNAME"
+        case srv = "SRV"
         public var description: String { return self.rawValue }
     }
 

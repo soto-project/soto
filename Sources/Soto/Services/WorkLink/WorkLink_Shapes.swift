@@ -32,22 +32,22 @@ extension WorkLink {
     }
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case associating = "ASSOCIATING"
         case active = "ACTIVE"
-        case inactive = "INACTIVE"
-        case disassociating = "DISASSOCIATING"
+        case associating = "ASSOCIATING"
         case disassociated = "DISASSOCIATED"
+        case disassociating = "DISASSOCIATING"
         case failedToAssociate = "FAILED_TO_ASSOCIATE"
         case failedToDisassociate = "FAILED_TO_DISASSOCIATE"
+        case inactive = "INACTIVE"
+        case pendingValidation = "PENDING_VALIDATION"
         public var description: String { return self.rawValue }
     }
 
     public enum FleetStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         case failedToCreate = "FAILED_TO_CREATE"
         case failedToDelete = "FAILED_TO_DELETE"
         public var description: String { return self.rawValue }

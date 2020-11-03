@@ -21,9 +21,9 @@ extension IoTEventsData {
     // MARK: Enums
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidrequestexception = "InvalidRequestException"
         case internalfailureexception = "InternalFailureException"
+        case invalidrequestexception = "InvalidRequestException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
         case serviceunavailableexception = "ServiceUnavailableException"
         case throttlingexception = "ThrottlingException"
         public var description: String { return self.rawValue }

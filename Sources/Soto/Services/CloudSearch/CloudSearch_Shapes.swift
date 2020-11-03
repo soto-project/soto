@@ -21,10 +21,10 @@ extension CloudSearch {
     // MARK: Enums
 
     public enum AlgorithmicStemming: String, CustomStringConvertible, Codable {
-        case none
-        case minimal
-        case light
         case full
+        case light
+        case minimal
+        case none
         public var description: String { return self.rawValue }
     }
 
@@ -68,44 +68,44 @@ extension CloudSearch {
     }
 
     public enum IndexFieldType: String, CustomStringConvertible, Codable {
-        case int
-        case double
-        case literal
-        case text
         case date
-        case latlon
-        case intArray = "int-array"
-        case doubleArray = "double-array"
-        case literalArray = "literal-array"
-        case textArray = "text-array"
         case dateArray = "date-array"
+        case double
+        case doubleArray = "double-array"
+        case int
+        case intArray = "int-array"
+        case latlon
+        case literal
+        case literalArray = "literal-array"
+        case text
+        case textArray = "text-array"
         public var description: String { return self.rawValue }
     }
 
     public enum OptionState: String, CustomStringConvertible, Codable {
-        case requiresindexdocuments = "RequiresIndexDocuments"
-        case processing = "Processing"
         case active = "Active"
         case failedtovalidate = "FailedToValidate"
+        case processing = "Processing"
+        case requiresindexdocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
     public enum PartitionInstanceType: String, CustomStringConvertible, Codable {
-        case searchM1Small = "search.m1.small"
         case searchM1Large = "search.m1.large"
-        case searchM2Xlarge = "search.m2.xlarge"
+        case searchM1Small = "search.m1.small"
         case searchM22Xlarge = "search.m2.2xlarge"
-        case searchM3Medium = "search.m3.medium"
-        case searchM3Large = "search.m3.large"
-        case searchM3Xlarge = "search.m3.xlarge"
+        case searchM2Xlarge = "search.m2.xlarge"
         case searchM32Xlarge = "search.m3.2xlarge"
+        case searchM3Large = "search.m3.large"
+        case searchM3Medium = "search.m3.medium"
+        case searchM3Xlarge = "search.m3.xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum SuggesterFuzzyMatching: String, CustomStringConvertible, Codable {
-        case none
-        case low
         case high
+        case low
+        case none
         public var description: String { return self.rawValue }
     }
 

@@ -21,18 +21,18 @@ extension DataPipeline {
     // MARK: Enums
 
     public enum OperatorType: String, CustomStringConvertible, Codable {
-        case eq = "EQ"
-        case refEq = "REF_EQ"
-        case le = "LE"
-        case ge = "GE"
         case between = "BETWEEN"
+        case eq = "EQ"
+        case ge = "GE"
+        case le = "LE"
+        case refEq = "REF_EQ"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case finished = "FINISHED"
         case failed = "FAILED"
         case `false` = "FALSE"
+        case finished = "FINISHED"
         public var description: String { return self.rawValue }
     }
 

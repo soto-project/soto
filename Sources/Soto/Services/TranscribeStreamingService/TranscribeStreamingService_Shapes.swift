@@ -27,12 +27,12 @@ extension TranscribeStreamingService {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
+        case enAu = "en-AU"
         case enGb = "en-GB"
+        case enUs = "en-US"
         case esUs = "es-US"
         case frCa = "fr-CA"
         case frFr = "fr-FR"
-        case enAu = "en-AU"
         public var description: String { return self.rawValue }
     }
 
@@ -42,8 +42,8 @@ extension TranscribeStreamingService {
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
-        case remove
         case mask
+        case remove
         case tag
         public var description: String { return self.rawValue }
     }

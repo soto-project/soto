@@ -21,19 +21,19 @@ extension Textract {
     // MARK: Enums
 
     public enum BlockType: String, CustomStringConvertible, Codable {
-        case keyValueSet = "KEY_VALUE_SET"
-        case page = "PAGE"
-        case line = "LINE"
-        case word = "WORD"
-        case table = "TABLE"
         case cell = "CELL"
+        case keyValueSet = "KEY_VALUE_SET"
+        case line = "LINE"
+        case page = "PAGE"
         case selectionElement = "SELECTION_ELEMENT"
+        case table = "TABLE"
+        case word = "WORD"
         public var description: String { return self.rawValue }
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         case freeofadultcontent = "FreeOfAdultContent"
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
@@ -44,29 +44,29 @@ extension Textract {
     }
 
     public enum FeatureType: String, CustomStringConvertible, Codable {
-        case tables = "TABLES"
         case forms = "FORMS"
+        case tables = "TABLES"
         public var description: String { return self.rawValue }
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case partialSuccess = "PARTIAL_SUCCESS"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum RelationshipType: String, CustomStringConvertible, Codable {
-        case value = "VALUE"
         case child = "CHILD"
         case complexFeatures = "COMPLEX_FEATURES"
+        case value = "VALUE"
         public var description: String { return self.rawValue }
     }
 
     public enum SelectionStatus: String, CustomStringConvertible, Codable {
-        case selected = "SELECTED"
         case notSelected = "NOT_SELECTED"
+        case selected = "SELECTED"
         public var description: String { return self.rawValue }
     }
 

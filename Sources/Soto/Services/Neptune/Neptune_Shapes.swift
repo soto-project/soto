@@ -27,12 +27,12 @@ extension Neptune {
     }
 
     public enum SourceType: String, CustomStringConvertible, Codable {
+        case dbCluster = "db-cluster"
+        case dbClusterSnapshot = "db-cluster-snapshot"
         case dbInstance = "db-instance"
         case dbParameterGroup = "db-parameter-group"
         case dbSecurityGroup = "db-security-group"
         case dbSnapshot = "db-snapshot"
-        case dbCluster = "db-cluster"
-        case dbClusterSnapshot = "db-cluster-snapshot"
         public var description: String { return self.rawValue }
     }
 

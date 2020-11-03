@@ -21,8 +21,8 @@ extension Comprehend {
     // MARK: Enums
 
     public enum DocumentClassifierDataFormat: String, CustomStringConvertible, Codable {
-        case comprehendCsv = "COMPREHEND_CSV"
         case augmentedManifest = "AUGMENTED_MANIFEST"
+        case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
@@ -42,21 +42,21 @@ extension Comprehend {
     }
 
     public enum EntityRecognizerDataFormat: String, CustomStringConvertible, Codable {
-        case comprehendCsv = "COMPREHEND_CSV"
         case augmentedManifest = "AUGMENTED_MANIFEST"
+        case comprehendCsv = "COMPREHEND_CSV"
         public var description: String { return self.rawValue }
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable {
-        case person = "PERSON"
+        case commercialItem = "COMMERCIAL_ITEM"
+        case date = "DATE"
+        case event = "EVENT"
         case location = "LOCATION"
         case organization = "ORGANIZATION"
-        case commercialItem = "COMMERCIAL_ITEM"
-        case event = "EVENT"
-        case date = "DATE"
+        case other = "OTHER"
+        case person = "PERSON"
         case quantity = "QUANTITY"
         case title = "TITLE"
-        case other = "OTHER"
         public var description: String { return self.rawValue }
     }
 
@@ -67,39 +67,39 @@ extension Comprehend {
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         case stopRequested = "STOP_REQUESTED"
         case stopped = "STOPPED"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
+        case ar
+        case de
         case en
         case es
         case fr
-        case de
-        case it
-        case pt
-        case ar
         case hi
+        case it
         case ja
         case ko
+        case pt
         case zh
         case zhTw = "zh-TW"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case training = "TRAINING"
         case deleting = "DELETING"
+        case inError = "IN_ERROR"
         case stopRequested = "STOP_REQUESTED"
         case stopped = "STOPPED"
-        case inError = "IN_ERROR"
+        case submitted = "SUBMITTED"
         case trained = "TRAINED"
+        case training = "TRAINING"
         public var description: String { return self.rawValue }
     }
 
@@ -108,8 +108,8 @@ extension Comprehend {
         case adp = "ADP"
         case adv = "ADV"
         case aux = "AUX"
-        case conj = "CONJ"
         case cconj = "CCONJ"
+        case conj = "CONJ"
         case det = "DET"
         case intj = "INTJ"
         case noun = "NOUN"
@@ -132,51 +132,51 @@ extension Comprehend {
     }
 
     public enum PiiEntitiesDetectionMode: String, CustomStringConvertible, Codable {
-        case onlyRedaction = "ONLY_REDACTION"
         case onlyOffsets = "ONLY_OFFSETS"
+        case onlyRedaction = "ONLY_REDACTION"
         public var description: String { return self.rawValue }
     }
 
     public enum PiiEntityType: String, CustomStringConvertible, Codable {
-        case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
-        case bankRouting = "BANK_ROUTING"
-        case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
-        case creditDebitCvv = "CREDIT_DEBIT_CVV"
-        case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
-        case pin = "PIN"
-        case email = "EMAIL"
         case address = "ADDRESS"
-        case name = "NAME"
-        case phone = "PHONE"
-        case ssn = "SSN"
-        case dateTime = "DATE_TIME"
-        case passportNumber = "PASSPORT_NUMBER"
-        case driverId = "DRIVER_ID"
-        case url = "URL"
         case age = "AGE"
-        case username = "USERNAME"
-        case password = "PASSWORD"
+        case all = "ALL"
         case awsAccessKey = "AWS_ACCESS_KEY"
         case awsSecretKey = "AWS_SECRET_KEY"
+        case bankAccountNumber = "BANK_ACCOUNT_NUMBER"
+        case bankRouting = "BANK_ROUTING"
+        case creditDebitCvv = "CREDIT_DEBIT_CVV"
+        case creditDebitExpiry = "CREDIT_DEBIT_EXPIRY"
+        case creditDebitNumber = "CREDIT_DEBIT_NUMBER"
+        case dateTime = "DATE_TIME"
+        case driverId = "DRIVER_ID"
+        case email = "EMAIL"
         case ipAddress = "IP_ADDRESS"
         case macAddress = "MAC_ADDRESS"
-        case all = "ALL"
+        case name = "NAME"
+        case passportNumber = "PASSPORT_NUMBER"
+        case password = "PASSWORD"
+        case phone = "PHONE"
+        case pin = "PIN"
+        case ssn = "SSN"
+        case url = "URL"
+        case username = "USERNAME"
         public var description: String { return self.rawValue }
     }
 
     public enum SentimentType: String, CustomStringConvertible, Codable {
-        case positive = "POSITIVE"
+        case mixed = "MIXED"
         case negative = "NEGATIVE"
         case neutral = "NEUTRAL"
-        case mixed = "MIXED"
+        case positive = "POSITIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum SyntaxLanguageCode: String, CustomStringConvertible, Codable {
+        case de
         case en
         case es
         case fr
-        case de
         case it
         case pt
         public var description: String { return self.rawValue }

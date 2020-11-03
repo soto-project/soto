@@ -21,27 +21,27 @@ extension Kinesis {
     // MARK: Enums
 
     public enum ConsumerStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum EncryptionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case kms = "KMS"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricsName: String, CustomStringConvertible, Codable {
+        case all = "ALL"
         case incomingbytes = "IncomingBytes"
         case incomingrecords = "IncomingRecords"
+        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
         case outgoingbytes = "OutgoingBytes"
         case outgoingrecords = "OutgoingRecords"
-        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
         case readprovisionedthroughputexceeded = "ReadProvisionedThroughputExceeded"
-        case iteratoragemilliseconds = "IteratorAgeMilliseconds"
-        case all = "ALL"
+        case writeprovisionedthroughputexceeded = "WriteProvisionedThroughputExceeded"
         public var description: String { return self.rawValue }
     }
 
@@ -52,27 +52,27 @@ extension Kinesis {
 
     public enum ShardFilterType: String, CustomStringConvertible, Codable {
         case afterShardId = "AFTER_SHARD_ID"
-        case atTrimHorizon = "AT_TRIM_HORIZON"
-        case fromTrimHorizon = "FROM_TRIM_HORIZON"
         case atLatest = "AT_LATEST"
         case atTimestamp = "AT_TIMESTAMP"
+        case atTrimHorizon = "AT_TRIM_HORIZON"
         case fromTimestamp = "FROM_TIMESTAMP"
+        case fromTrimHorizon = "FROM_TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
     public enum ShardIteratorType: String, CustomStringConvertible, Codable {
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
+        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case atTimestamp = "AT_TIMESTAMP"
+        case latest = "LATEST"
+        case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case active = "ACTIVE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }

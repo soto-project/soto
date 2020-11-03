@@ -21,32 +21,32 @@ extension Amplify {
     // MARK: Enums
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
-        case pendingVerification = "PENDING_VERIFICATION"
-        case inProgress = "IN_PROGRESS"
         case available = "AVAILABLE"
-        case pendingDeployment = "PENDING_DEPLOYMENT"
-        case failed = "FAILED"
         case creating = "CREATING"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pendingDeployment = "PENDING_DEPLOYMENT"
+        case pendingVerification = "PENDING_VERIFICATION"
         case requestingCertificate = "REQUESTING_CERTIFICATE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case failed = "FAILED"
         case pending = "PENDING"
         case provisioning = "PROVISIONING"
         case running = "RUNNING"
-        case failed = "FAILED"
         case succeed = "SUCCEED"
-        case cancelling = "CANCELLING"
-        case cancelled = "CANCELLED"
         public var description: String { return self.rawValue }
     }
 
     public enum JobType: String, CustomStringConvertible, Codable {
+        case manual = "MANUAL"
         case release = "RELEASE"
         case retry = "RETRY"
-        case manual = "MANUAL"
         case webHook = "WEB_HOOK"
         public var description: String { return self.rawValue }
     }
@@ -57,10 +57,10 @@ extension Amplify {
     }
 
     public enum Stage: String, CustomStringConvertible, Codable {
-        case production = "PRODUCTION"
         case beta = "BETA"
         case development = "DEVELOPMENT"
         case experimental = "EXPERIMENTAL"
+        case production = "PRODUCTION"
         case pullRequest = "PULL_REQUEST"
         public var description: String { return self.rawValue }
     }

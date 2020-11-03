@@ -21,17 +21,17 @@ extension MQ {
     // MARK: Enums
 
     public enum AuthenticationStrategy: String, CustomStringConvertible, Codable {
-        case simple = "SIMPLE"
         case ldap = "LDAP"
+        case simple = "SIMPLE"
         public var description: String { return self.rawValue }
     }
 
     public enum BrokerState: String, CustomStringConvertible, Codable {
-        case creationInProgress = "CREATION_IN_PROGRESS"
         case creationFailed = "CREATION_FAILED"
+        case creationInProgress = "CREATION_IN_PROGRESS"
         case deletionInProgress = "DELETION_IN_PROGRESS"
-        case running = "RUNNING"
         case rebootInProgress = "REBOOT_IN_PROGRESS"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -43,25 +43,25 @@ extension MQ {
 
     public enum ChangeType: String, CustomStringConvertible, Codable {
         case create = "CREATE"
-        case update = "UPDATE"
         case delete = "DELETE"
+        case update = "UPDATE"
         public var description: String { return self.rawValue }
     }
 
     public enum DayOfWeek: String, CustomStringConvertible, Codable {
-        case monday = "MONDAY"
-        case tuesday = "TUESDAY"
-        case wednesday = "WEDNESDAY"
-        case thursday = "THURSDAY"
         case friday = "FRIDAY"
+        case monday = "MONDAY"
         case saturday = "SATURDAY"
         case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
         public var description: String { return self.rawValue }
     }
 
     public enum DeploymentMode: String, CustomStringConvertible, Codable {
-        case singleInstance = "SINGLE_INSTANCE"
         case activeStandbyMultiAz = "ACTIVE_STANDBY_MULTI_AZ"
+        case singleInstance = "SINGLE_INSTANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -71,8 +71,8 @@ extension MQ {
     }
 
     public enum SanitizationWarningReason: String, CustomStringConvertible, Codable {
-        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
         case disallowedAttributeRemoved = "DISALLOWED_ATTRIBUTE_REMOVED"
+        case disallowedElementRemoved = "DISALLOWED_ELEMENT_REMOVED"
         case invalidAttributeValueRemoved = "INVALID_ATTRIBUTE_VALUE_REMOVED"
         public var description: String { return self.rawValue }
     }

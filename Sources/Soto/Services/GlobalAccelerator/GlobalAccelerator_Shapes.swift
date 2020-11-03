@@ -27,17 +27,17 @@ extension GlobalAccelerator {
     }
 
     public enum ByoipCidrState: String, CustomStringConvertible, Codable {
-        case pendingProvisioning = "PENDING_PROVISIONING"
-        case ready = "READY"
-        case pendingAdvertising = "PENDING_ADVERTISING"
         case advertising = "ADVERTISING"
-        case pendingWithdrawing = "PENDING_WITHDRAWING"
-        case pendingDeprovisioning = "PENDING_DEPROVISIONING"
         case deprovisioned = "DEPROVISIONED"
-        case failedProvision = "FAILED_PROVISION"
         case failedAdvertising = "FAILED_ADVERTISING"
-        case failedWithdraw = "FAILED_WITHDRAW"
         case failedDeprovision = "FAILED_DEPROVISION"
+        case failedProvision = "FAILED_PROVISION"
+        case failedWithdraw = "FAILED_WITHDRAW"
+        case pendingAdvertising = "PENDING_ADVERTISING"
+        case pendingDeprovisioning = "PENDING_DEPROVISIONING"
+        case pendingProvisioning = "PENDING_PROVISIONING"
+        case pendingWithdrawing = "PENDING_WITHDRAWING"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 
@@ -48,15 +48,15 @@ extension GlobalAccelerator {
     }
 
     public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
-        case tcp = "TCP"
         case http = "HTTP"
         case https = "HTTPS"
+        case tcp = "TCP"
         public var description: String { return self.rawValue }
     }
 
     public enum HealthState: String, CustomStringConvertible, Codable {
-        case initial = "INITIAL"
         case healthy = "HEALTHY"
+        case initial = "INITIAL"
         case unhealthy = "UNHEALTHY"
         public var description: String { return self.rawValue }
     }

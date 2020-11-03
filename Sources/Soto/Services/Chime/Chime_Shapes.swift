@@ -21,10 +21,10 @@ extension Chime {
     // MARK: Enums
 
     public enum AccountType: String, CustomStringConvertible, Codable {
-        case team = "Team"
         case enterprisedirectory = "EnterpriseDirectory"
         case enterpriselwa = "EnterpriseLWA"
         case enterpriseoidc = "EnterpriseOIDC"
+        case team = "Team"
         public var description: String { return self.rawValue }
     }
 
@@ -35,54 +35,54 @@ extension Chime {
 
     public enum CallingNameStatus: String, CustomStringConvertible, Codable {
         case unassigned = "Unassigned"
+        case updatefailed = "UpdateFailed"
         case updateinprogress = "UpdateInProgress"
         case updatesucceeded = "UpdateSucceeded"
-        case updatefailed = "UpdateFailed"
         public var description: String { return self.rawValue }
     }
 
     public enum Capability: String, CustomStringConvertible, Codable {
-        case voice = "Voice"
         case sms = "SMS"
+        case voice = "Voice"
         public var description: String { return self.rawValue }
     }
 
     public enum EmailStatus: String, CustomStringConvertible, Codable {
+        case failed = "Failed"
         case notsent = "NotSent"
         case sent = "Sent"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case accessdenied = "AccessDenied"
         case badrequest = "BadRequest"
         case conflict = "Conflict"
         case forbidden = "Forbidden"
         case notfound = "NotFound"
+        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
         case preconditionfailed = "PreconditionFailed"
         case resourcelimitexceeded = "ResourceLimitExceeded"
         case servicefailure = "ServiceFailure"
-        case accessdenied = "AccessDenied"
         case serviceunavailable = "ServiceUnavailable"
         case throttled = "Throttled"
         case throttling = "Throttling"
         case unauthorized = "Unauthorized"
         case unprocessable = "Unprocessable"
         case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
-        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
         public var description: String { return self.rawValue }
     }
 
     public enum GeoMatchLevel: String, CustomStringConvertible, Codable {
-        case country = "Country"
         case areacode = "AreaCode"
+        case country = "Country"
         public var description: String { return self.rawValue }
     }
 
     public enum InviteStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
         case accepted = "Accepted"
         case failed = "Failed"
+        case pending = "Pending"
         public var description: String { return self.rawValue }
     }
 
@@ -95,8 +95,8 @@ extension Chime {
     }
 
     public enum MemberType: String, CustomStringConvertible, Codable {
-        case user = "User"
         case bot = "Bot"
+        case user = "User"
         case webhook = "Webhook"
         public var description: String { return self.rawValue }
     }
@@ -109,15 +109,15 @@ extension Chime {
     }
 
     public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable {
-        case prefersticky = "PreferSticky"
         case avoidsticky = "AvoidSticky"
+        case prefersticky = "PreferSticky"
         public var description: String { return self.rawValue }
     }
 
     public enum OrderedPhoneNumberStatus: String, CustomStringConvertible, Codable {
-        case processing = "Processing"
         case acquired = "Acquired"
         case failed = "Failed"
+        case processing = "Processing"
         public var description: String { return self.rawValue }
     }
 
@@ -130,16 +130,16 @@ extension Chime {
     public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable {
         case accountid = "AccountId"
         case userid = "UserId"
-        case voiceconnectorid = "VoiceConnectorId"
         case voiceconnectorgroupid = "VoiceConnectorGroupId"
+        case voiceconnectorid = "VoiceConnectorId"
         public var description: String { return self.rawValue }
     }
 
     public enum PhoneNumberOrderStatus: String, CustomStringConvertible, Codable {
-        case processing = "Processing"
-        case successful = "Successful"
         case failed = "Failed"
         case partial = "Partial"
+        case processing = "Processing"
+        case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
@@ -150,14 +150,14 @@ extension Chime {
     }
 
     public enum PhoneNumberStatus: String, CustomStringConvertible, Codable {
-        case acquireinprogress = "AcquireInProgress"
         case acquirefailed = "AcquireFailed"
-        case unassigned = "Unassigned"
+        case acquireinprogress = "AcquireInProgress"
         case assigned = "Assigned"
-        case releaseinprogress = "ReleaseInProgress"
+        case deletefailed = "DeleteFailed"
         case deleteinprogress = "DeleteInProgress"
         case releasefailed = "ReleaseFailed"
-        case deletefailed = "DeleteFailed"
+        case releaseinprogress = "ReleaseInProgress"
+        case unassigned = "Unassigned"
         public var description: String { return self.rawValue }
     }
 
@@ -168,16 +168,16 @@ extension Chime {
     }
 
     public enum ProxySessionStatus: String, CustomStringConvertible, Codable {
-        case open = "Open"
-        case inprogress = "InProgress"
         case closed = "Closed"
+        case inprogress = "InProgress"
+        case open = "Open"
         public var description: String { return self.rawValue }
     }
 
     public enum RegistrationStatus: String, CustomStringConvertible, Codable {
-        case unregistered = "Unregistered"
         case registered = "Registered"
         case suspended = "Suspended"
+        case unregistered = "Unregistered"
         public var description: String { return self.rawValue }
     }
 

@@ -32,10 +32,10 @@ extension S3 {
     }
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
         public var description: String { return self.rawValue }
     }
 
@@ -66,12 +66,12 @@ extension S3 {
         public static var euWest3: Self { .init(rawValue: "eu-west-3") }
         public static var meSouth1: Self { .init(rawValue: "me-south-1") }
         public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        public static var usEast1: Self { .init(rawValue: "us-east-1") }
         public static var usEast2: Self { .init(rawValue: "us-east-2") }
         public static var usGovEast1: Self { .init(rawValue: "us-gov-east-1") }
         public static var usGovWest1: Self { .init(rawValue: "us-gov-west-1") }
         public static var usWest1: Self { .init(rawValue: "us-west-1") }
         public static var usWest2: Self { .init(rawValue: "us-west-2") }
-        public static var usEast1: Self { .init(rawValue: "us-east-1") }
     }
 
     public enum BucketLogsPermission: String, CustomStringConvertible, Codable {
@@ -88,15 +88,15 @@ extension S3 {
     }
 
     public enum CompressionType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case gzip = "GZIP"
         case bzip2 = "BZIP2"
+        case gzip = "GZIP"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeleteMarkerReplicationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -106,35 +106,35 @@ extension S3 {
     }
 
     public enum Event: String, CustomStringConvertible, Codable {
-        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
         case s3ObjectcreatedAll = "s3:ObjectCreated:*"
-        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
-        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
-        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
         case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
+        case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
+        case s3ObjectcreatedPost = "s3:ObjectCreated:Post"
+        case s3ObjectcreatedPut = "s3:ObjectCreated:Put"
         case s3ObjectremovedAll = "s3:ObjectRemoved:*"
         case s3ObjectremovedDelete = "s3:ObjectRemoved:Delete"
         case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
         case s3ObjectrestoreAll = "s3:ObjectRestore:*"
-        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
         case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+        case s3ObjectrestorePost = "s3:ObjectRestore:Post"
+        case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
         case s3ReplicationAll = "s3:Replication:*"
         case s3ReplicationOperationfailedreplication = "s3:Replication:OperationFailedReplication"
-        case s3ReplicationOperationnottracked = "s3:Replication:OperationNotTracked"
         case s3ReplicationOperationmissedthreshold = "s3:Replication:OperationMissedThreshold"
+        case s3ReplicationOperationnottracked = "s3:Replication:OperationNotTracked"
         case s3ReplicationOperationreplicatedafterthreshold = "s3:Replication:OperationReplicatedAfterThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum ExistingObjectReplicationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum ExpirationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -144,9 +144,9 @@ extension S3 {
     }
 
     public enum FileHeaderInfo: String, CustomStringConvertible, Codable {
-        case use = "USE"
         case ignore = "IGNORE"
         case none = "NONE"
+        case use = "USE"
         public var description: String { return self.rawValue }
     }
 
@@ -176,17 +176,17 @@ extension S3 {
     }
 
     public enum InventoryOptionalField: String, CustomStringConvertible, Codable {
-        case size = "Size"
-        case lastmodifieddate = "LastModifiedDate"
-        case storageclass = "StorageClass"
-        case etag = "ETag"
-        case ismultipartuploaded = "IsMultipartUploaded"
-        case replicationstatus = "ReplicationStatus"
         case encryptionstatus = "EncryptionStatus"
-        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
-        case objectlockmode = "ObjectLockMode"
-        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
+        case etag = "ETag"
         case intelligenttieringaccesstier = "IntelligentTieringAccessTier"
+        case ismultipartuploaded = "IsMultipartUploaded"
+        case lastmodifieddate = "LastModifiedDate"
+        case objectlocklegalholdstatus = "ObjectLockLegalHoldStatus"
+        case objectlockmode = "ObjectLockMode"
+        case objectlockretainuntildate = "ObjectLockRetainUntilDate"
+        case replicationstatus = "ReplicationStatus"
+        case size = "Size"
+        case storageclass = "StorageClass"
         public var description: String { return self.rawValue }
     }
 
@@ -197,14 +197,14 @@ extension S3 {
     }
 
     public enum MFADelete: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum MFADeleteStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -215,19 +215,19 @@ extension S3 {
     }
 
     public enum MetricsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectCannedACL: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
-        case awsExecRead = "aws-exec-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
         public var description: String { return self.rawValue }
     }
 
@@ -237,20 +237,20 @@ extension S3 {
     }
 
     public enum ObjectLockLegalHoldStatus: String, CustomStringConvertible, Codable {
-        case on = "ON"
         case off = "OFF"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectLockMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
         case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectLockRetentionMode: String, CustomStringConvertible, Codable {
-        case governance = "GOVERNANCE"
         case compliance = "COMPLIANCE"
+        case governance = "GOVERNANCE"
         public var description: String { return self.rawValue }
     }
 
@@ -261,14 +261,14 @@ extension S3 {
     }
 
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
         case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
         case outposts = "OUTPOSTS"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
@@ -283,17 +283,17 @@ extension S3 {
     }
 
     public enum Payer: String, CustomStringConvertible, Codable {
-        case requester = "Requester"
         case bucketowner = "BucketOwner"
+        case requester = "Requester"
         public var description: String { return self.rawValue }
     }
 
     public enum Permission: String, CustomStringConvertible, Codable {
         case fullControl = "FULL_CONTROL"
-        case write = "WRITE"
-        case writeAcp = "WRITE_ACP"
         case read = "READ"
         case readAcp = "READ_ACP"
+        case write = "WRITE"
+        case writeAcp = "WRITE_ACP"
         public var description: String { return self.rawValue }
     }
 
@@ -310,22 +310,22 @@ extension S3 {
     }
 
     public enum ReplicationRuleStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplicationStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
-        case pending = "PENDING"
         case failed = "FAILED"
+        case pending = "PENDING"
         case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplicationTimeStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
@@ -351,20 +351,20 @@ extension S3 {
     }
 
     public enum SseKmsEncryptedObjectsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case reducedRedundancy = "REDUCED_REDUNDANCY"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case glacier = "GLACIER"
         case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
         case outposts = "OUTPOSTS"
+        case reducedRedundancy = "REDUCED_REDUNDANCY"
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
@@ -380,24 +380,24 @@ extension S3 {
     }
 
     public enum Tier: String, CustomStringConvertible, Codable {
-        case standard = "Standard"
         case bulk = "Bulk"
         case expedited = "Expedited"
+        case standard = "Standard"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
         case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
+        case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
     public enum `Type`: String, CustomStringConvertible, Codable {
-        case canonicaluser = "CanonicalUser"
         case amazoncustomerbyemail = "AmazonCustomerByEmail"
+        case canonicaluser = "CanonicalUser"
         case group = "Group"
         public var description: String { return self.rawValue }
     }

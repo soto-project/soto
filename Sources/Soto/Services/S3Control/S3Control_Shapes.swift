@@ -21,37 +21,37 @@ extension S3Control {
     // MARK: Enums
 
     public enum BucketCannedACL: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case authenticatedRead = "authenticated-read"
         public var description: String { return self.rawValue }
     }
 
     public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case eu = "EU"
-        case euWest1 = "eu-west-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
+        case apNortheast1 = "ap-northeast-1"
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
-        case apNortheast1 = "ap-northeast-1"
-        case saEast1 = "sa-east-1"
         case cnNorth1 = "cn-north-1"
+        case eu = "EU"
         case euCentral1 = "eu-central-1"
+        case euWest1 = "eu-west-1"
+        case saEast1 = "sa-east-1"
+        case usWest1 = "us-west-1"
+        case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
 
     public enum ExpirationStatus: String, CustomStringConvertible, Codable {
-        case enabled = "Enabled"
         case disabled = "Disabled"
+        case enabled = "Enabled"
         public var description: String { return self.rawValue }
     }
 
     public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
-        case ignore = "Ignore"
         case bucket = "Bucket"
+        case ignore = "Ignore"
         case key = "Key"
         case versionid = "VersionId"
         public var description: String { return self.rawValue }
@@ -99,12 +99,12 @@ extension S3Control {
 
     public enum OperationName: String, CustomStringConvertible, Codable {
         case lambdainvoke = "LambdaInvoke"
-        case s3putobjectcopy = "S3PutObjectCopy"
-        case s3putobjectacl = "S3PutObjectAcl"
-        case s3putobjecttagging = "S3PutObjectTagging"
         case s3initiaterestoreobject = "S3InitiateRestoreObject"
+        case s3putobjectacl = "S3PutObjectAcl"
+        case s3putobjectcopy = "S3PutObjectCopy"
         case s3putobjectlegalhold = "S3PutObjectLegalHold"
         case s3putobjectretention = "S3PutObjectRetention"
+        case s3putobjecttagging = "S3PutObjectTagging"
         public var description: String { return self.rawValue }
     }
 
@@ -115,13 +115,13 @@ extension S3Control {
     }
 
     public enum S3CannedAccessControlList: String, CustomStringConvertible, Codable {
+        case authenticatedRead = "authenticated-read"
+        case awsExecRead = "aws-exec-read"
+        case bucketOwnerFullControl = "bucket-owner-full-control"
+        case bucketOwnerRead = "bucket-owner-read"
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
-        case awsExecRead = "aws-exec-read"
-        case authenticatedRead = "authenticated-read"
-        case bucketOwnerRead = "bucket-owner-read"
-        case bucketOwnerFullControl = "bucket-owner-full-control"
         public var description: String { return self.rawValue }
     }
 
@@ -132,8 +132,8 @@ extension S3Control {
     }
 
     public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
-        case id
         case emailaddress = "emailAddress"
+        case id
         case uri
         public var description: String { return self.rawValue }
     }
@@ -165,8 +165,8 @@ extension S3Control {
     public enum S3Permission: String, CustomStringConvertible, Codable {
         case fullControl = "FULL_CONTROL"
         case read = "READ"
-        case write = "WRITE"
         case readAcp = "READ_ACP"
+        case write = "WRITE"
         case writeAcp = "WRITE_ACP"
         public var description: String { return self.rawValue }
     }
@@ -178,21 +178,21 @@ extension S3Control {
     }
 
     public enum S3StorageClass: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
+        case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
         case intelligentTiering = "INTELLIGENT_TIERING"
-        case deepArchive = "DEEP_ARCHIVE"
+        case onezoneIa = "ONEZONE_IA"
+        case standard = "STANDARD"
+        case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 
     public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
-        case glacier = "GLACIER"
-        case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
         case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
+        case standardIa = "STANDARD_IA"
         public var description: String { return self.rawValue }
     }
 

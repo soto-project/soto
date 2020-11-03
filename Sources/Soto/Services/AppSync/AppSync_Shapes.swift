@@ -24,27 +24,27 @@ extension AppSync {
         case available = "AVAILABLE"
         case creating = "CREATING"
         case deleting = "DELETING"
-        case modifying = "MODIFYING"
         case failed = "FAILED"
+        case modifying = "MODIFYING"
         public var description: String { return self.rawValue }
     }
 
     public enum ApiCacheType: String, CustomStringConvertible, Codable {
-        case t2Small = "T2_SMALL"
-        case t2Medium = "T2_MEDIUM"
-        case r4Large = "R4_LARGE"
-        case r4Xlarge = "R4_XLARGE"
-        case r42Xlarge = "R4_2XLARGE"
-        case r44Xlarge = "R4_4XLARGE"
-        case r48Xlarge = "R4_8XLARGE"
-        case small = "SMALL"
-        case medium = "MEDIUM"
         case large = "LARGE"
-        case xlarge = "XLARGE"
+        case large12X = "LARGE_12X"
         case large2X = "LARGE_2X"
         case large4X = "LARGE_4X"
         case large8X = "LARGE_8X"
-        case large12X = "LARGE_12X"
+        case medium = "MEDIUM"
+        case r42Xlarge = "R4_2XLARGE"
+        case r44Xlarge = "R4_4XLARGE"
+        case r48Xlarge = "R4_8XLARGE"
+        case r4Large = "R4_LARGE"
+        case r4Xlarge = "R4_XLARGE"
+        case small = "SMALL"
+        case t2Medium = "T2_MEDIUM"
+        case t2Small = "T2_SMALL"
+        case xlarge = "XLARGE"
         public var description: String { return self.rawValue }
     }
 
@@ -55,9 +55,9 @@ extension AppSync {
     }
 
     public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
         case awsIam = "AWS_IAM"
-        case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case openidConnect = "OPENID_CONNECT"
         public var description: String { return self.rawValue }
     }
@@ -68,25 +68,25 @@ extension AppSync {
     }
 
     public enum ConflictDetectionType: String, CustomStringConvertible, Codable {
-        case version = "VERSION"
         case none = "NONE"
+        case version = "VERSION"
         public var description: String { return self.rawValue }
     }
 
     public enum ConflictHandlerType: String, CustomStringConvertible, Codable {
-        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
-        case lambda = "LAMBDA"
         case automerge = "AUTOMERGE"
+        case lambda = "LAMBDA"
         case none = "NONE"
+        case optimisticConcurrency = "OPTIMISTIC_CONCURRENCY"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case awsLambda = "AWS_LAMBDA"
         case amazonDynamodb = "AMAZON_DYNAMODB"
         case amazonElasticsearch = "AMAZON_ELASTICSEARCH"
-        case none = "NONE"
+        case awsLambda = "AWS_LAMBDA"
         case http = "HTTP"
+        case none = "NONE"
         case relationalDatabase = "RELATIONAL_DATABASE"
         public var description: String { return self.rawValue }
     }
@@ -98,15 +98,15 @@ extension AppSync {
     }
 
     public enum FieldLogLevel: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case error = "ERROR"
         case all = "ALL"
+        case error = "ERROR"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum OutputType: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
         case json = "JSON"
+        case sdl = "SDL"
         public var description: String { return self.rawValue }
     }
 
@@ -116,24 +116,24 @@ extension AppSync {
     }
 
     public enum ResolverKind: String, CustomStringConvertible, Codable {
-        case unit = "UNIT"
         case pipeline = "PIPELINE"
+        case unit = "UNIT"
         public var description: String { return self.rawValue }
     }
 
     public enum SchemaStatus: String, CustomStringConvertible, Codable {
-        case processing = "PROCESSING"
         case active = "ACTIVE"
         case deleting = "DELETING"
         case failed = "FAILED"
-        case success = "SUCCESS"
         case notApplicable = "NOT_APPLICABLE"
+        case processing = "PROCESSING"
+        case success = "SUCCESS"
         public var description: String { return self.rawValue }
     }
 
     public enum TypeDefinitionFormat: String, CustomStringConvertible, Codable {
-        case sdl = "SDL"
         case json = "JSON"
+        case sdl = "SDL"
         public var description: String { return self.rawValue }
     }
 

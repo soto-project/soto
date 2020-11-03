@@ -25,8 +25,8 @@ extension IoTSiteWise {
         case count = "COUNT"
         case maximum = "MAXIMUM"
         case minimum = "MINIMUM"
-        case sum = "SUM"
         case standardDeviation = "STANDARD_DEVIATION"
+        case sum = "SUM"
         public var description: String { return self.rawValue }
     }
 
@@ -36,21 +36,21 @@ extension IoTSiteWise {
     }
 
     public enum AssetModelState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case updating = "UPDATING"
-        case propagating = "PROPAGATING"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case propagating = "PROPAGATING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum AssetState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case updating = "UPDATING"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -61,15 +61,15 @@ extension IoTSiteWise {
     }
 
     public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable {
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case invalidrequestexception = "InvalidRequestException"
+        case accessdeniedexception = "AccessDeniedException"
+        case conflictingoperationexception = "ConflictingOperationException"
         case internalfailureexception = "InternalFailureException"
+        case invalidrequestexception = "InvalidRequestException"
+        case limitexceededexception = "LimitExceededException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
         case serviceunavailableexception = "ServiceUnavailableException"
         case throttlingexception = "ThrottlingException"
-        case limitexceededexception = "LimitExceededException"
-        case conflictingoperationexception = "ConflictingOperationException"
         case timestampoutofrangeexception = "TimestampOutOfRangeException"
-        case accessdeniedexception = "AccessDeniedException"
         public var description: String { return self.rawValue }
     }
 
@@ -81,15 +81,15 @@ extension IoTSiteWise {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case validationError = "VALIDATION_ERROR"
         case internalFailure = "INTERNAL_FAILURE"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case group = "GROUP"
         case iam = "IAM"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
@@ -113,8 +113,8 @@ extension IoTSiteWise {
 
     public enum MonitorErrorCode: String, CustomStringConvertible, Codable {
         case internalFailure = "INTERNAL_FAILURE"
-        case validationError = "VALIDATION_ERROR"
         case limitExceeded = "LIMIT_EXCEEDED"
+        case validationError = "VALIDATION_ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -125,31 +125,31 @@ extension IoTSiteWise {
     }
 
     public enum PortalState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum PropertyDataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case double = "DOUBLE"
         case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case integer = "INTEGER"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
     public enum PropertyNotificationState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum Quality: String, CustomStringConvertible, Codable {
-        case good = "GOOD"
         case bad = "BAD"
+        case good = "GOOD"
         case uncertain = "UNCERTAIN"
         public var description: String { return self.rawValue }
     }
@@ -167,8 +167,8 @@ extension IoTSiteWise {
     }
 
     public enum TraversalDirection: String, CustomStringConvertible, Codable {
-        case parent = "PARENT"
         case child = "CHILD"
+        case parent = "PARENT"
         public var description: String { return self.rawValue }
     }
 

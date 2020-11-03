@@ -26,42 +26,42 @@ extension Kendra {
     }
 
     public enum ContentType: String, CustomStringConvertible, Codable {
-        case pdf = "PDF"
         case html = "HTML"
         case msWord = "MS_WORD"
+        case pdf = "PDF"
         case plainText = "PLAIN_TEXT"
         case ppt = "PPT"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case updating = "UPDATING"
-        case active = "ACTIVE"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceSyncJobStatus: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
         case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
-        case syncing = "SYNCING"
         case incomplete = "INCOMPLETE"
         case stopping = "STOPPING"
-        case aborted = "ABORTED"
+        case succeeded = "SUCCEEDED"
+        case syncing = "SYNCING"
         case syncingIndexing = "SYNCING_INDEXING"
         public var description: String { return self.rawValue }
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
-        case s3 = "S3"
-        case sharepoint = "SHAREPOINT"
-        case database = "DATABASE"
-        case salesforce = "SALESFORCE"
-        case onedrive = "ONEDRIVE"
-        case servicenow = "SERVICENOW"
         case custom = "CUSTOM"
+        case database = "DATABASE"
+        case onedrive = "ONEDRIVE"
+        case s3 = "S3"
+        case salesforce = "SALESFORCE"
+        case servicenow = "SERVICENOW"
+        case sharepoint = "SHAREPOINT"
         public var description: String { return self.rawValue }
     }
 
@@ -74,10 +74,10 @@ extension Kendra {
     }
 
     public enum DocumentAttributeValueType: String, CustomStringConvertible, Codable {
-        case stringValue = "STRING_VALUE"
-        case stringListValue = "STRING_LIST_VALUE"
-        case longValue = "LONG_VALUE"
         case dateValue = "DATE_VALUE"
+        case longValue = "LONG_VALUE"
+        case stringListValue = "STRING_LIST_VALUE"
+        case stringValue = "STRING_VALUE"
         public var description: String { return self.rawValue }
     }
 
@@ -95,11 +95,11 @@ extension Kendra {
     }
 
     public enum FaqStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -110,12 +110,12 @@ extension Kendra {
     }
 
     public enum IndexStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
-        case updating = "UPDATING"
         case systemUpdating = "SYSTEM_UPDATING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -126,8 +126,8 @@ extension Kendra {
     }
 
     public enum PrincipalType: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case group = "GROUP"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
@@ -138,9 +138,9 @@ extension Kendra {
     }
 
     public enum QueryResultType: String, CustomStringConvertible, Codable {
+        case answer = "ANSWER"
         case document = "DOCUMENT"
         case questionAnswer = "QUESTION_ANSWER"
-        case answer = "ANSWER"
         public var description: String { return self.rawValue }
     }
 
@@ -151,8 +151,8 @@ extension Kendra {
     }
 
     public enum RelevanceType: String, CustomStringConvertible, Codable {
-        case relevant = "RELEVANT"
         case notRelevant = "NOT_RELEVANT"
+        case relevant = "RELEVANT"
         public var description: String { return self.rawValue }
     }
 
@@ -163,9 +163,9 @@ extension Kendra {
     }
 
     public enum SalesforceKnowledgeArticleState: String, CustomStringConvertible, Codable {
+        case archived = "ARCHIVED"
         case draft = "DRAFT"
         case published = "PUBLISHED"
-        case archived = "ARCHIVED"
         public var description: String { return self.rawValue }
     }
 
@@ -191,10 +191,10 @@ extension Kendra {
     }
 
     public enum ScoreConfidence: String, CustomStringConvertible, Codable {
-        case veryHigh = "VERY_HIGH"
         case high = "HIGH"
-        case medium = "MEDIUM"
         case low = "LOW"
+        case medium = "MEDIUM"
+        case veryHigh = "VERY_HIGH"
         public var description: String { return self.rawValue }
     }
 
@@ -210,8 +210,8 @@ extension Kendra {
     }
 
     public enum SortOrder: String, CustomStringConvertible, Codable {
-        case desc = "DESC"
         case asc = "ASC"
+        case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 

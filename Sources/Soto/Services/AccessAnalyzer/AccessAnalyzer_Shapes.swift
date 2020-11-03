@@ -29,8 +29,8 @@ extension AccessAnalyzer {
     }
 
     public enum FindingSourceType: String, CustomStringConvertible, Codable {
-        case policy = "POLICY"
         case bucketAcl = "BUCKET_ACL"
+        case policy = "POLICY"
         case s3AccessPoint = "S3_ACCESS_POINT"
         public var description: String { return self.rawValue }
     }
@@ -63,12 +63,12 @@ extension AccessAnalyzer {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case awsS3Bucket = "AWS::S3::Bucket"
         case awsIamRole = "AWS::IAM::Role"
-        case awsSqsQueue = "AWS::SQS::Queue"
+        case awsKmsKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
-        case awsKmsKey = "AWS::KMS::Key"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSqsQueue = "AWS::SQS::Queue"
         public var description: String { return self.rawValue }
     }
 

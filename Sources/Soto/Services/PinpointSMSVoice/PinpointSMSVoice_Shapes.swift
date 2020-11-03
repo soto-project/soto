@@ -21,13 +21,13 @@ extension PinpointSMSVoice {
     // MARK: Enums
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case initiatedCall = "INITIATED_CALL"
-        case ringing = "RINGING"
         case answered = "ANSWERED"
-        case completedCall = "COMPLETED_CALL"
         case busy = "BUSY"
+        case completedCall = "COMPLETED_CALL"
         case failed = "FAILED"
+        case initiatedCall = "INITIATED_CALL"
         case noAnswer = "NO_ANSWER"
+        case ringing = "RINGING"
         public var description: String { return self.rawValue }
     }
 

@@ -27,21 +27,21 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanOfferingFilterAttribute: String, CustomStringConvertible, Codable {
-        case region
         case instancefamily = "instanceFamily"
+        case region
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanOfferingPropertyKey: String, CustomStringConvertible, Codable {
-        case region
         case instancefamily = "instanceFamily"
+        case region
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanPaymentOption: String, CustomStringConvertible, Codable {
         case allUpfront = "All Upfront"
-        case partialUpfront = "Partial Upfront"
         case noUpfront = "No Upfront"
+        case partialUpfront = "Partial Upfront"
         public var description: String { return self.rawValue }
     }
 
@@ -53,32 +53,32 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanRateFilterAttribute: String, CustomStringConvertible, Codable {
-        case region
         case instancefamily = "instanceFamily"
         case instancetype = "instanceType"
         case productdescription = "productDescription"
-        case tenancy
         case productid = "productId"
+        case region
+        case tenancy
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRateFilterName: String, CustomStringConvertible, Codable {
-        case region
         case instancetype = "instanceType"
-        case productdescription = "productDescription"
-        case tenancy
-        case producttype = "productType"
-        case servicecode = "serviceCode"
-        case usagetype = "usageType"
         case operation
+        case productdescription = "productDescription"
+        case producttype = "productType"
+        case region
+        case servicecode = "serviceCode"
+        case tenancy
+        case usagetype = "usageType"
         public var description: String { return self.rawValue }
     }
 
     public enum SavingsPlanRatePropertyKey: String, CustomStringConvertible, Codable {
-        case region
-        case instancetype = "instanceType"
         case instancefamily = "instanceFamily"
+        case instancetype = "instanceType"
         case productdescription = "productDescription"
+        case region
         case tenancy
         public var description: String { return self.rawValue }
     }
@@ -98,12 +98,12 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlanState: String, CustomStringConvertible, Codable {
-        case paymentPending = "payment-pending"
-        case paymentFailed = "payment-failed"
         case active
-        case retired
+        case paymentFailed = "payment-failed"
+        case paymentPending = "payment-pending"
         case queued
         case queuedDeleted = "queued-deleted"
+        case retired
         public var description: String { return self.rawValue }
     }
 
@@ -114,15 +114,15 @@ extension SavingsPlans {
     }
 
     public enum SavingsPlansFilterName: String, CustomStringConvertible, Codable {
-        case region
-        case ec2InstanceFamily = "ec2-instance-family"
         case commitment
-        case upfront
-        case term
-        case savingsPlanType = "savings-plan-type"
-        case paymentOption = "payment-option"
-        case start
+        case ec2InstanceFamily = "ec2-instance-family"
         case end
+        case paymentOption = "payment-option"
+        case region
+        case savingsPlanType = "savings-plan-type"
+        case start
+        case term
+        case upfront
         public var description: String { return self.rawValue }
     }
 

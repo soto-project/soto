@@ -33,16 +33,16 @@ extension GameLift {
     }
 
     public enum BalancingStrategy: String, CustomStringConvertible, Codable {
+        case onDemandOnly = "ON_DEMAND_ONLY"
         case spotOnly = "SPOT_ONLY"
         case spotPreferred = "SPOT_PREFERRED"
-        case onDemandOnly = "ON_DEMAND_ONLY"
         public var description: String { return self.rawValue }
     }
 
     public enum BuildStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case initialized = "INITIALIZED"
         case ready = "READY"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -55,107 +55,107 @@ extension GameLift {
     public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
         case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
         case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanthreshold = "LessThanThreshold"
         case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
+        case lessthanthreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
     public enum EC2InstanceType: String, CustomStringConvertible, Codable {
-        case t2Micro = "t2.micro"
-        case t2Small = "t2.small"
-        case t2Medium = "t2.medium"
-        case t2Large = "t2.large"
-        case c3Large = "c3.large"
-        case c3Xlarge = "c3.xlarge"
         case c32Xlarge = "c3.2xlarge"
         case c34Xlarge = "c3.4xlarge"
         case c38Xlarge = "c3.8xlarge"
-        case c4Large = "c4.large"
-        case c4Xlarge = "c4.xlarge"
+        case c3Large = "c3.large"
+        case c3Xlarge = "c3.xlarge"
         case c42Xlarge = "c4.2xlarge"
         case c44Xlarge = "c4.4xlarge"
         case c48Xlarge = "c4.8xlarge"
-        case c5Large = "c5.large"
-        case c5Xlarge = "c5.xlarge"
-        case c52Xlarge = "c5.2xlarge"
-        case c54Xlarge = "c5.4xlarge"
-        case c59Xlarge = "c5.9xlarge"
+        case c4Large = "c4.large"
+        case c4Xlarge = "c4.xlarge"
         case c512Xlarge = "c5.12xlarge"
         case c518Xlarge = "c5.18xlarge"
         case c524Xlarge = "c5.24xlarge"
-        case r3Large = "r3.large"
-        case r3Xlarge = "r3.xlarge"
-        case r32Xlarge = "r3.2xlarge"
-        case r34Xlarge = "r3.4xlarge"
-        case r38Xlarge = "r3.8xlarge"
-        case r4Large = "r4.large"
-        case r4Xlarge = "r4.xlarge"
-        case r42Xlarge = "r4.2xlarge"
-        case r44Xlarge = "r4.4xlarge"
-        case r48Xlarge = "r4.8xlarge"
-        case r416Xlarge = "r4.16xlarge"
-        case r5Large = "r5.large"
-        case r5Xlarge = "r5.xlarge"
-        case r52Xlarge = "r5.2xlarge"
-        case r54Xlarge = "r5.4xlarge"
-        case r58Xlarge = "r5.8xlarge"
-        case r512Xlarge = "r5.12xlarge"
-        case r516Xlarge = "r5.16xlarge"
-        case r524Xlarge = "r5.24xlarge"
-        case m3Medium = "m3.medium"
-        case m3Large = "m3.large"
-        case m3Xlarge = "m3.xlarge"
+        case c52Xlarge = "c5.2xlarge"
+        case c54Xlarge = "c5.4xlarge"
+        case c59Xlarge = "c5.9xlarge"
+        case c5Large = "c5.large"
+        case c5Xlarge = "c5.xlarge"
         case m32Xlarge = "m3.2xlarge"
-        case m4Large = "m4.large"
-        case m4Xlarge = "m4.xlarge"
+        case m3Large = "m3.large"
+        case m3Medium = "m3.medium"
+        case m3Xlarge = "m3.xlarge"
+        case m410Xlarge = "m4.10xlarge"
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
-        case m410Xlarge = "m4.10xlarge"
-        case m5Large = "m5.large"
-        case m5Xlarge = "m5.xlarge"
-        case m52Xlarge = "m5.2xlarge"
-        case m54Xlarge = "m5.4xlarge"
-        case m58Xlarge = "m5.8xlarge"
+        case m4Large = "m4.large"
+        case m4Xlarge = "m4.xlarge"
         case m512Xlarge = "m5.12xlarge"
         case m516Xlarge = "m5.16xlarge"
         case m524Xlarge = "m5.24xlarge"
+        case m52Xlarge = "m5.2xlarge"
+        case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
+        case m5Large = "m5.large"
+        case m5Xlarge = "m5.xlarge"
+        case r32Xlarge = "r3.2xlarge"
+        case r34Xlarge = "r3.4xlarge"
+        case r38Xlarge = "r3.8xlarge"
+        case r3Large = "r3.large"
+        case r3Xlarge = "r3.xlarge"
+        case r416Xlarge = "r4.16xlarge"
+        case r42Xlarge = "r4.2xlarge"
+        case r44Xlarge = "r4.4xlarge"
+        case r48Xlarge = "r4.8xlarge"
+        case r4Large = "r4.large"
+        case r4Xlarge = "r4.xlarge"
+        case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
+        case r524Xlarge = "r5.24xlarge"
+        case r52Xlarge = "r5.2xlarge"
+        case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
+        case r5Large = "r5.large"
+        case r5Xlarge = "r5.xlarge"
+        case t2Large = "t2.large"
+        case t2Medium = "t2.medium"
+        case t2Micro = "t2.micro"
+        case t2Small = "t2.small"
         public var description: String { return self.rawValue }
     }
 
     public enum EventCode: String, CustomStringConvertible, Codable {
-        case genericEvent = "GENERIC_EVENT"
-        case fleetCreated = "FLEET_CREATED"
-        case fleetDeleted = "FLEET_DELETED"
-        case fleetScalingEvent = "FLEET_SCALING_EVENT"
-        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
-        case fleetStateValidating = "FLEET_STATE_VALIDATING"
-        case fleetStateBuilding = "FLEET_STATE_BUILDING"
-        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
-        case fleetStateActive = "FLEET_STATE_ACTIVE"
-        case fleetStateError = "FLEET_STATE_ERROR"
-        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
-        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
-        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
-        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
-        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
         case fleetActivationFailed = "FLEET_ACTIVATION_FAILED"
         case fleetActivationFailedNoInstances = "FLEET_ACTIVATION_FAILED_NO_INSTANCES"
-        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
-        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
-        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
-        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
-        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
-        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
-        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
-        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
-        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
+        case fleetBinaryDownloadFailed = "FLEET_BINARY_DOWNLOAD_FAILED"
+        case fleetCreated = "FLEET_CREATED"
         case fleetCreationExtractingBuild = "FLEET_CREATION_EXTRACTING_BUILD"
         case fleetCreationRunningInstaller = "FLEET_CREATION_RUNNING_INSTALLER"
         case fleetCreationValidatingRuntimeConfig = "FLEET_CREATION_VALIDATING_RUNTIME_CONFIG"
-        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
-        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
+        case fleetDeleted = "FLEET_DELETED"
+        case fleetInitializationFailed = "FLEET_INITIALIZATION_FAILED"
+        case fleetNewGameSessionProtectionPolicyUpdated = "FLEET_NEW_GAME_SESSION_PROTECTION_POLICY_UPDATED"
+        case fleetScalingEvent = "FLEET_SCALING_EVENT"
+        case fleetStateActivating = "FLEET_STATE_ACTIVATING"
+        case fleetStateActive = "FLEET_STATE_ACTIVE"
+        case fleetStateBuilding = "FLEET_STATE_BUILDING"
+        case fleetStateDownloading = "FLEET_STATE_DOWNLOADING"
+        case fleetStateError = "FLEET_STATE_ERROR"
+        case fleetStateValidating = "FLEET_STATE_VALIDATING"
+        case fleetValidationExecutableRuntimeFailure = "FLEET_VALIDATION_EXECUTABLE_RUNTIME_FAILURE"
+        case fleetValidationLaunchPathNotFound = "FLEET_VALIDATION_LAUNCH_PATH_NOT_FOUND"
+        case fleetValidationTimedOut = "FLEET_VALIDATION_TIMED_OUT"
         case fleetVpcPeeringDeleted = "FLEET_VPC_PEERING_DELETED"
+        case fleetVpcPeeringFailed = "FLEET_VPC_PEERING_FAILED"
+        case fleetVpcPeeringSucceeded = "FLEET_VPC_PEERING_SUCCEEDED"
+        case gameSessionActivationTimeout = "GAME_SESSION_ACTIVATION_TIMEOUT"
+        case genericEvent = "GENERIC_EVENT"
         case instanceInterrupted = "INSTANCE_INTERRUPTED"
+        case serverProcessCrashed = "SERVER_PROCESS_CRASHED"
+        case serverProcessForceTerminated = "SERVER_PROCESS_FORCE_TERMINATED"
+        case serverProcessInvalidPath = "SERVER_PROCESS_INVALID_PATH"
+        case serverProcessProcessExitTimeout = "SERVER_PROCESS_PROCESS_EXIT_TIMEOUT"
+        case serverProcessProcessReadyTimeout = "SERVER_PROCESS_PROCESS_READY_TIMEOUT"
+        case serverProcessSdkInitializationTimeout = "SERVER_PROCESS_SDK_INITIALIZATION_TIMEOUT"
+        case serverProcessTerminatedUnhealthy = "SERVER_PROCESS_TERMINATED_UNHEALTHY"
         public var description: String { return self.rawValue }
     }
 
@@ -165,15 +165,15 @@ extension GameLift {
     }
 
     public enum FleetStatus: String, CustomStringConvertible, Codable {
-        case new = "NEW"
-        case downloading = "DOWNLOADING"
-        case validating = "VALIDATING"
-        case building = "BUILDING"
         case activating = "ACTIVATING"
         case active = "ACTIVE"
+        case building = "BUILDING"
         case deleting = "DELETING"
+        case downloading = "DOWNLOADING"
         case error = "ERROR"
+        case new = "NEW"
         case terminated = "TERMINATED"
+        case validating = "VALIDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -194,64 +194,64 @@ extension GameLift {
     }
 
     public enum GameServerGroupDeleteOption: String, CustomStringConvertible, Codable {
-        case safeDelete = "SAFE_DELETE"
         case forceDelete = "FORCE_DELETE"
         case retain = "RETAIN"
+        case safeDelete = "SAFE_DELETE"
         public var description: String { return self.rawValue }
     }
 
     public enum GameServerGroupInstanceType: String, CustomStringConvertible, Codable {
-        case c4Large = "c4.large"
-        case c4Xlarge = "c4.xlarge"
         case c42Xlarge = "c4.2xlarge"
         case c44Xlarge = "c4.4xlarge"
         case c48Xlarge = "c4.8xlarge"
-        case c5Large = "c5.large"
-        case c5Xlarge = "c5.xlarge"
-        case c52Xlarge = "c5.2xlarge"
-        case c54Xlarge = "c5.4xlarge"
-        case c59Xlarge = "c5.9xlarge"
+        case c4Large = "c4.large"
+        case c4Xlarge = "c4.xlarge"
         case c512Xlarge = "c5.12xlarge"
         case c518Xlarge = "c5.18xlarge"
         case c524Xlarge = "c5.24xlarge"
-        case r4Large = "r4.large"
-        case r4Xlarge = "r4.xlarge"
-        case r42Xlarge = "r4.2xlarge"
-        case r44Xlarge = "r4.4xlarge"
-        case r48Xlarge = "r4.8xlarge"
-        case r416Xlarge = "r4.16xlarge"
-        case r5Large = "r5.large"
-        case r5Xlarge = "r5.xlarge"
-        case r52Xlarge = "r5.2xlarge"
-        case r54Xlarge = "r5.4xlarge"
-        case r58Xlarge = "r5.8xlarge"
-        case r512Xlarge = "r5.12xlarge"
-        case r516Xlarge = "r5.16xlarge"
-        case r524Xlarge = "r5.24xlarge"
-        case m4Large = "m4.large"
-        case m4Xlarge = "m4.xlarge"
+        case c52Xlarge = "c5.2xlarge"
+        case c54Xlarge = "c5.4xlarge"
+        case c59Xlarge = "c5.9xlarge"
+        case c5Large = "c5.large"
+        case c5Xlarge = "c5.xlarge"
+        case m410Xlarge = "m4.10xlarge"
         case m42Xlarge = "m4.2xlarge"
         case m44Xlarge = "m4.4xlarge"
-        case m410Xlarge = "m4.10xlarge"
-        case m5Large = "m5.large"
-        case m5Xlarge = "m5.xlarge"
-        case m52Xlarge = "m5.2xlarge"
-        case m54Xlarge = "m5.4xlarge"
-        case m58Xlarge = "m5.8xlarge"
+        case m4Large = "m4.large"
+        case m4Xlarge = "m4.xlarge"
         case m512Xlarge = "m5.12xlarge"
         case m516Xlarge = "m5.16xlarge"
         case m524Xlarge = "m5.24xlarge"
+        case m52Xlarge = "m5.2xlarge"
+        case m54Xlarge = "m5.4xlarge"
+        case m58Xlarge = "m5.8xlarge"
+        case m5Large = "m5.large"
+        case m5Xlarge = "m5.xlarge"
+        case r416Xlarge = "r4.16xlarge"
+        case r42Xlarge = "r4.2xlarge"
+        case r44Xlarge = "r4.4xlarge"
+        case r48Xlarge = "r4.8xlarge"
+        case r4Large = "r4.large"
+        case r4Xlarge = "r4.xlarge"
+        case r512Xlarge = "r5.12xlarge"
+        case r516Xlarge = "r5.16xlarge"
+        case r524Xlarge = "r5.24xlarge"
+        case r52Xlarge = "r5.2xlarge"
+        case r54Xlarge = "r5.4xlarge"
+        case r58Xlarge = "r5.8xlarge"
+        case r5Large = "r5.large"
+        case r5Xlarge = "r5.xlarge"
         public var description: String { return self.rawValue }
     }
 
     public enum GameServerGroupStatus: String, CustomStringConvertible, Codable {
-        case new = "NEW"
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case deleteScheduled = "DELETE_SCHEDULED"
-        case deleting = "DELETING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         case error = "ERROR"
+        case new = "NEW"
         public var description: String { return self.rawValue }
     }
 
@@ -268,8 +268,8 @@ extension GameLift {
     }
 
     public enum GameServerProtectionPolicy: String, CustomStringConvertible, Codable {
-        case noProtection = "NO_PROTECTION"
         case fullProtection = "FULL_PROTECTION"
+        case noProtection = "NO_PROTECTION"
         public var description: String { return self.rawValue }
     }
 
@@ -280,20 +280,20 @@ extension GameLift {
     }
 
     public enum GameSessionPlacementState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case fulfilled = "FULFILLED"
         case cancelled = "CANCELLED"
-        case timedOut = "TIMED_OUT"
         case failed = "FAILED"
+        case fulfilled = "FULFILLED"
+        case pending = "PENDING"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
     public enum GameSessionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
         case activating = "ACTIVATING"
+        case active = "ACTIVE"
+        case error = "ERROR"
         case terminated = "TERMINATED"
         case terminating = "TERMINATING"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -303,8 +303,8 @@ extension GameLift {
     }
 
     public enum InstanceStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case active = "ACTIVE"
+        case pending = "PENDING"
         case terminating = "TERMINATING"
         public var description: String { return self.rawValue }
     }
@@ -343,9 +343,9 @@ extension GameLift {
     }
 
     public enum OperatingSystem: String, CustomStringConvertible, Codable {
-        case windows2012 = "WINDOWS_2012"
         case amazonLinux = "AMAZON_LINUX"
         case amazonLinux2 = "AMAZON_LINUX_2"
+        case windows2012 = "WINDOWS_2012"
         public var description: String { return self.rawValue }
     }
 
@@ -356,9 +356,9 @@ extension GameLift {
     }
 
     public enum PlayerSessionStatus: String, CustomStringConvertible, Codable {
-        case reserved = "RESERVED"
         case active = "ACTIVE"
         case completed = "COMPLETED"
+        case reserved = "RESERVED"
         case timedout = "TIMEDOUT"
         public var description: String { return self.rawValue }
     }
@@ -370,8 +370,8 @@ extension GameLift {
     }
 
     public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
-        case noprotection = "NoProtection"
         case fullprotection = "FullProtection"
+        case noprotection = "NoProtection"
         public var description: String { return self.rawValue }
     }
 
@@ -390,12 +390,12 @@ extension GameLift {
 
     public enum ScalingStatusType: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
+        case deleteRequested = "DELETE_REQUESTED"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case error = "ERROR"
         case updateRequested = "UPDATE_REQUESTED"
         case updating = "UPDATING"
-        case deleteRequested = "DELETE_REQUESTED"
-        case deleting = "DELETING"
-        case deleted = "DELETED"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 

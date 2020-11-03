@@ -33,46 +33,46 @@ extension AutoScaling {
     }
 
     public enum InstanceRefreshStatus: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case inprogress = "InProgress"
-        case successful = "Successful"
-        case failed = "Failed"
-        case cancelling = "Cancelling"
         case cancelled = "Cancelled"
+        case cancelling = "Cancelling"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case pending = "Pending"
+        case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
     public enum LifecycleState: String, CustomStringConvertible, Codable {
-        case pending = "Pending"
-        case pendingWait = "Pending:Wait"
-        case pendingProceed = "Pending:Proceed"
-        case quarantined = "Quarantined"
-        case inservice = "InService"
-        case terminating = "Terminating"
-        case terminatingWait = "Terminating:Wait"
-        case terminatingProceed = "Terminating:Proceed"
-        case terminated = "Terminated"
-        case detaching = "Detaching"
         case detached = "Detached"
+        case detaching = "Detaching"
         case enteringstandby = "EnteringStandby"
+        case inservice = "InService"
+        case pending = "Pending"
+        case pendingProceed = "Pending:Proceed"
+        case pendingWait = "Pending:Wait"
+        case quarantined = "Quarantined"
         case standby = "Standby"
+        case terminated = "Terminated"
+        case terminating = "Terminating"
+        case terminatingProceed = "Terminating:Proceed"
+        case terminatingWait = "Terminating:Wait"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricStatistic: String, CustomStringConvertible, Codable {
         case average = "Average"
-        case minimum = "Minimum"
         case maximum = "Maximum"
+        case minimum = "Minimum"
         case samplecount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
+        case albrequestcountpertarget = "ALBRequestCountPerTarget"
         case asgaveragecpuutilization = "ASGAverageCPUUtilization"
         case asgaveragenetworkin = "ASGAverageNetworkIn"
         case asgaveragenetworkout = "ASGAverageNetworkOut"
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
         public var description: String { return self.rawValue }
     }
 
@@ -82,18 +82,18 @@ extension AutoScaling {
     }
 
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
-        case pendingspotbidplacement = "PendingSpotBidPlacement"
-        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
-        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
-        case waitingforinstanceid = "WaitingForInstanceId"
-        case preinservice = "PreInService"
-        case inprogress = "InProgress"
-        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
-        case midlifecycleaction = "MidLifecycleAction"
-        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
-        case successful = "Successful"
-        case failed = "Failed"
         case cancelled = "Cancelled"
+        case failed = "Failed"
+        case inprogress = "InProgress"
+        case midlifecycleaction = "MidLifecycleAction"
+        case pendingspotbidplacement = "PendingSpotBidPlacement"
+        case preinservice = "PreInService"
+        case successful = "Successful"
+        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
+        case waitingforinstanceid = "WaitingForInstanceId"
+        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
+        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
+        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
         public var description: String { return self.rawValue }
     }
 

@@ -21,16 +21,16 @@ extension ApiGatewayV2 {
     // MARK: Enums
 
     public enum AuthorizationType: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case awsIam = "AWS_IAM"
         case custom = "CUSTOM"
         case jwt = "JWT"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum AuthorizerType: String, CustomStringConvertible, Codable {
-        case request = "REQUEST"
         case jwt = "JWT"
+        case request = "REQUEST"
         public var description: String { return self.rawValue }
     }
 
@@ -47,9 +47,9 @@ extension ApiGatewayV2 {
     }
 
     public enum DeploymentStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
-        case failed = "FAILED"
         case deployed = "DEPLOYED"
+        case failed = "FAILED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -60,17 +60,17 @@ extension ApiGatewayV2 {
     }
 
     public enum EndpointType: String, CustomStringConvertible, Codable {
-        case regional = "REGIONAL"
         case edge = "EDGE"
+        case regional = "REGIONAL"
         public var description: String { return self.rawValue }
     }
 
     public enum IntegrationType: String, CustomStringConvertible, Codable {
         case aws = "AWS"
-        case http = "HTTP"
-        case mock = "MOCK"
-        case httpProxy = "HTTP_PROXY"
         case awsProxy = "AWS_PROXY"
+        case http = "HTTP"
+        case httpProxy = "HTTP_PROXY"
+        case mock = "MOCK"
         public var description: String { return self.rawValue }
     }
 
@@ -82,15 +82,15 @@ extension ApiGatewayV2 {
     }
 
     public enum PassthroughBehavior: String, CustomStringConvertible, Codable {
-        case whenNoMatch = "WHEN_NO_MATCH"
         case never = "NEVER"
+        case whenNoMatch = "WHEN_NO_MATCH"
         case whenNoTemplates = "WHEN_NO_TEMPLATES"
         public var description: String { return self.rawValue }
     }
 
     public enum ProtocolType: String, CustomStringConvertible, Codable {
-        case websocket = "WEBSOCKET"
         case http = "HTTP"
+        case websocket = "WEBSOCKET"
         public var description: String { return self.rawValue }
     }
 
@@ -101,11 +101,11 @@ extension ApiGatewayV2 {
     }
 
     public enum VpcLinkStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
         case deleting = "DELETING"
         case failed = "FAILED"
         case inactive = "INACTIVE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

@@ -21,34 +21,34 @@ extension ForecastService {
     // MARK: Enums
 
     public enum AttributeType: String, CustomStringConvertible, Codable {
-        case string
-        case integer
         case float
+        case integer
+        case string
         case timestamp
         public var description: String { return self.rawValue }
     }
 
     public enum DatasetType: String, CustomStringConvertible, Codable {
-        case targetTimeSeries = "TARGET_TIME_SERIES"
-        case relatedTimeSeries = "RELATED_TIME_SERIES"
         case itemMetadata = "ITEM_METADATA"
+        case relatedTimeSeries = "RELATED_TIME_SERIES"
+        case targetTimeSeries = "TARGET_TIME_SERIES"
         public var description: String { return self.rawValue }
     }
 
     public enum Domain: String, CustomStringConvertible, Codable {
-        case retail = "RETAIL"
         case custom = "CUSTOM"
-        case inventoryPlanning = "INVENTORY_PLANNING"
         case ec2Capacity = "EC2_CAPACITY"
-        case workForce = "WORK_FORCE"
-        case webTraffic = "WEB_TRAFFIC"
+        case inventoryPlanning = "INVENTORY_PLANNING"
         case metrics = "METRICS"
+        case retail = "RETAIL"
+        case webTraffic = "WEB_TRAFFIC"
+        case workForce = "WORK_FORCE"
         public var description: String { return self.rawValue }
     }
 
     public enum EvaluationType: String, CustomStringConvertible, Codable {
-        case summary = "SUMMARY"
         case computed = "COMPUTED"
+        case summary = "SUMMARY"
         public var description: String { return self.rawValue }
     }
 

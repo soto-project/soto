@@ -21,16 +21,16 @@ extension Route53Resolver {
     // MARK: Enums
 
     public enum IpAddressStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case failedCreation = "FAILED_CREATION"
-        case attaching = "ATTACHING"
         case attached = "ATTACHED"
-        case remapDetaching = "REMAP_DETACHING"
-        case remapAttaching = "REMAP_ATTACHING"
-        case detaching = "DETACHING"
-        case failedResourceGone = "FAILED_RESOURCE_GONE"
-        case deleting = "DELETING"
+        case attaching = "ATTACHING"
+        case creating = "CREATING"
         case deleteFailedFasExpired = "DELETE_FAILED_FAS_EXPIRED"
+        case deleting = "DELETING"
+        case detaching = "DETACHING"
+        case failedCreation = "FAILED_CREATION"
+        case failedResourceGone = "FAILED_RESOURCE_GONE"
+        case remapAttaching = "REMAP_ATTACHING"
+        case remapDetaching = "REMAP_DETACHING"
         public var description: String { return self.rawValue }
     }
 
@@ -41,43 +41,43 @@ extension Route53Resolver {
     }
 
     public enum ResolverEndpointStatus: String, CustomStringConvertible, Codable {
+        case actionNeeded = "ACTION_NEEDED"
+        case autoRecovering = "AUTO_RECOVERING"
         case creating = "CREATING"
+        case deleting = "DELETING"
         case operational = "OPERATIONAL"
         case updating = "UPDATING"
-        case autoRecovering = "AUTO_RECOVERING"
-        case actionNeeded = "ACTION_NEEDED"
-        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public enum ResolverQueryLogConfigAssociationError: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case destinationNotFound = "DESTINATION_NOT_FOUND"
         case accessDenied = "ACCESS_DENIED"
+        case destinationNotFound = "DESTINATION_NOT_FOUND"
         case internalServiceError = "INTERNAL_SERVICE_ERROR"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum ResolverQueryLogConfigAssociationStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case active = "ACTIVE"
         case actionNeeded = "ACTION_NEEDED"
+        case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum ResolverQueryLogConfigStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case created = "CREATED"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum ResolverRuleAssociationStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case complete = "COMPLETE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case overridden = "OVERRIDDEN"
@@ -87,22 +87,22 @@ extension Route53Resolver {
     public enum ResolverRuleStatus: String, CustomStringConvertible, Codable {
         case complete = "COMPLETE"
         case deleting = "DELETING"
-        case updating = "UPDATING"
         case failed = "FAILED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum RuleTypeOption: String, CustomStringConvertible, Codable {
         case forward = "FORWARD"
-        case system = "SYSTEM"
         case recursive = "RECURSIVE"
+        case system = "SYSTEM"
         public var description: String { return self.rawValue }
     }
 
     public enum ShareStatus: String, CustomStringConvertible, Codable {
         case notShared = "NOT_SHARED"
-        case sharedWithMe = "SHARED_WITH_ME"
         case sharedByMe = "SHARED_BY_ME"
+        case sharedWithMe = "SHARED_WITH_ME"
         public var description: String { return self.rawValue }
     }
 

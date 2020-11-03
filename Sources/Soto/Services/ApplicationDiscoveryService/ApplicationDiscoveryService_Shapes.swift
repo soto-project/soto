@@ -21,38 +21,38 @@ extension ApplicationDiscoveryService {
     // MARK: Enums
 
     public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case healthy = "HEALTHY"
-        case unhealthy = "UNHEALTHY"
-        case running = "RUNNING"
-        case unknown = "UNKNOWN"
         case blacklisted = "BLACKLISTED"
+        case healthy = "HEALTHY"
+        case running = "RUNNING"
         case shutdown = "SHUTDOWN"
+        case unhealthy = "UNHEALTHY"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum BatchDeleteImportDataErrorCode: String, CustomStringConvertible, Codable {
-        case notFound = "NOT_FOUND"
         case internalServerError = "INTERNAL_SERVER_ERROR"
+        case notFound = "NOT_FOUND"
         case overLimit = "OVER_LIMIT"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationItemType: String, CustomStringConvertible, Codable {
-        case server = "SERVER"
-        case process = "PROCESS"
-        case connection = "CONNECTION"
         case application = "APPLICATION"
+        case connection = "CONNECTION"
+        case process = "PROCESS"
+        case server = "SERVER"
         public var description: String { return self.rawValue }
     }
 
     public enum ContinuousExportStatus: String, CustomStringConvertible, Codable {
-        case startInProgress = "START_IN_PROGRESS"
-        case startFailed = "START_FAILED"
         case active = "ACTIVE"
         case error = "ERROR"
-        case stopInProgress = "STOP_IN_PROGRESS"
-        case stopFailed = "STOP_FAILED"
         case inactive = "INACTIVE"
+        case startFailed = "START_FAILED"
+        case startInProgress = "START_IN_PROGRESS"
+        case stopFailed = "STOP_FAILED"
+        case stopInProgress = "STOP_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -69,30 +69,30 @@ extension ApplicationDiscoveryService {
 
     public enum ExportStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
-        case succeeded = "SUCCEEDED"
         case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportStatus: String, CustomStringConvertible, Codable {
-        case importInProgress = "IMPORT_IN_PROGRESS"
-        case importComplete = "IMPORT_COMPLETE"
-        case importCompleteWithErrors = "IMPORT_COMPLETE_WITH_ERRORS"
-        case importFailed = "IMPORT_FAILED"
-        case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
-        case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
-        case deleteInProgress = "DELETE_IN_PROGRESS"
         case deleteComplete = "DELETE_COMPLETE"
         case deleteFailed = "DELETE_FAILED"
         case deleteFailedLimitExceeded = "DELETE_FAILED_LIMIT_EXCEEDED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        case importComplete = "IMPORT_COMPLETE"
+        case importCompleteWithErrors = "IMPORT_COMPLETE_WITH_ERRORS"
+        case importFailed = "IMPORT_FAILED"
+        case importFailedRecordLimitExceeded = "IMPORT_FAILED_RECORD_LIMIT_EXCEEDED"
+        case importFailedServerLimitExceeded = "IMPORT_FAILED_SERVER_LIMIT_EXCEEDED"
+        case importInProgress = "IMPORT_IN_PROGRESS"
         case internalError = "INTERNAL_ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportTaskFilterName: String, CustomStringConvertible, Codable {
         case importTaskId = "IMPORT_TASK_ID"
-        case status = "STATUS"
         case name = "NAME"
+        case status = "STATUS"
         public var description: String { return self.rawValue }
     }
 

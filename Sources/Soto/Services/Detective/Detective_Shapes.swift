@@ -27,11 +27,11 @@ extension Detective {
     }
 
     public enum MemberStatus: String, CustomStringConvertible, Codable {
-        case invited = "INVITED"
-        case verificationInProgress = "VERIFICATION_IN_PROGRESS"
-        case verificationFailed = "VERIFICATION_FAILED"
-        case enabled = "ENABLED"
         case acceptedButDisabled = "ACCEPTED_BUT_DISABLED"
+        case enabled = "ENABLED"
+        case invited = "INVITED"
+        case verificationFailed = "VERIFICATION_FAILED"
+        case verificationInProgress = "VERIFICATION_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 

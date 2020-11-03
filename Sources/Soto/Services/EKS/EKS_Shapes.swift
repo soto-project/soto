@@ -21,15 +21,15 @@ extension EKS {
     // MARK: Enums
 
     public enum AMITypes: String, CustomStringConvertible, Codable {
+        case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
         case al2X8664Gpu = "AL2_x86_64_GPU"
-        case al2Arm64 = "AL2_ARM_64"
         public var description: String { return self.rawValue }
     }
 
     public enum ClusterStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case updating = "UPDATING"
@@ -37,27 +37,27 @@ extension EKS {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case subnetnotfound = "SubnetNotFound"
-        case securitygroupnotfound = "SecurityGroupNotFound"
-        case enilimitreached = "EniLimitReached"
-        case ipnotavailable = "IpNotAvailable"
         case accessdenied = "AccessDenied"
-        case operationnotpermitted = "OperationNotPermitted"
-        case vpcidnotfound = "VpcIdNotFound"
-        case unknown = "Unknown"
-        case nodecreationfailure = "NodeCreationFailure"
-        case podevictionfailure = "PodEvictionFailure"
-        case insufficientfreeaddresses = "InsufficientFreeAddresses"
         case clusterunreachable = "ClusterUnreachable"
+        case enilimitreached = "EniLimitReached"
+        case insufficientfreeaddresses = "InsufficientFreeAddresses"
+        case ipnotavailable = "IpNotAvailable"
+        case nodecreationfailure = "NodeCreationFailure"
+        case operationnotpermitted = "OperationNotPermitted"
+        case podevictionfailure = "PodEvictionFailure"
+        case securitygroupnotfound = "SecurityGroupNotFound"
+        case subnetnotfound = "SubnetNotFound"
+        case unknown = "Unknown"
+        case vpcidnotfound = "VpcIdNotFound"
         public var description: String { return self.rawValue }
     }
 
     public enum FargateProfileStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case deleting = "DELETING"
         case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
         case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -71,67 +71,67 @@ extension EKS {
     }
 
     public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
-        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
+        case accessdenied = "AccessDenied"
+        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
         case autoscalinggroupinvalidconfiguration = "AutoScalingGroupInvalidConfiguration"
-        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
-        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
+        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
+        case clusterunreachable = "ClusterUnreachable"
         case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
         case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
-        case ec2subnetnotfound = "Ec2SubnetNotFound"
+        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
+        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
         case ec2subnetinvalidconfiguration = "Ec2SubnetInvalidConfiguration"
+        case ec2subnetnotfound = "Ec2SubnetNotFound"
         case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
         case iamlimitexceeded = "IamLimitExceeded"
         case iamnoderolenotfound = "IamNodeRoleNotFound"
-        case nodecreationfailure = "NodeCreationFailure"
-        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
         case instancelimitexceeded = "InstanceLimitExceeded"
         case insufficientfreeaddresses = "InsufficientFreeAddresses"
-        case accessdenied = "AccessDenied"
         case internalfailure = "InternalFailure"
-        case clusterunreachable = "ClusterUnreachable"
+        case nodecreationfailure = "NodeCreationFailure"
         public var description: String { return self.rawValue }
     }
 
     public enum NodegroupStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case createFailed = "CREATE_FAILED"
-        case deleteFailed = "DELETE_FAILED"
+        case creating = "CREATING"
         case degraded = "DEGRADED"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateParamType: String, CustomStringConvertible, Codable {
-        case version = "Version"
-        case platformversion = "PlatformVersion"
-        case endpointprivateaccess = "EndpointPrivateAccess"
-        case endpointpublicaccess = "EndpointPublicAccess"
         case clusterlogging = "ClusterLogging"
         case desiredsize = "DesiredSize"
+        case endpointprivateaccess = "EndpointPrivateAccess"
+        case endpointpublicaccess = "EndpointPublicAccess"
         case labelstoadd = "LabelsToAdd"
         case labelstoremove = "LabelsToRemove"
         case maxsize = "MaxSize"
         case minsize = "MinSize"
-        case releaseversion = "ReleaseVersion"
+        case platformversion = "PlatformVersion"
         case publicaccesscidrs = "PublicAccessCidrs"
+        case releaseversion = "ReleaseVersion"
+        case version = "Version"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateStatus: String, CustomStringConvertible, Codable {
-        case inprogress = "InProgress"
-        case failed = "Failed"
         case cancelled = "Cancelled"
+        case failed = "Failed"
+        case inprogress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateType: String, CustomStringConvertible, Codable {
-        case versionupdate = "VersionUpdate"
+        case configupdate = "ConfigUpdate"
         case endpointaccessupdate = "EndpointAccessUpdate"
         case loggingupdate = "LoggingUpdate"
-        case configupdate = "ConfigUpdate"
+        case versionupdate = "VersionUpdate"
         public var description: String { return self.rawValue }
     }
 

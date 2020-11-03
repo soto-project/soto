@@ -21,15 +21,15 @@ extension EventBridge {
     // MARK: Enums
 
     public enum AssignPublicIp: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum EventSourceState: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case active = "ACTIVE"
         case deleted = "DELETED"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -40,8 +40,8 @@ extension EventBridge {
     }
 
     public enum RuleState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 

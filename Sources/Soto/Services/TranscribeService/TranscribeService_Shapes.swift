@@ -72,20 +72,20 @@ extension TranscribeService {
     }
 
     public enum MediaFormat: String, CustomStringConvertible, Codable {
+        case amr
+        case flac
         case mp3
         case mp4
-        case wav
-        case flac
         case ogg
-        case amr
+        case wav
         case webm
         public var description: String { return self.rawValue }
     }
 
     public enum ModelStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
         case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -112,10 +112,10 @@ extension TranscribeService {
     }
 
     public enum TranscriptionJobStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case failed = "FAILED"
         case completed = "COMPLETED"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
         public var description: String { return self.rawValue }
     }
 
@@ -126,15 +126,15 @@ extension TranscribeService {
     }
 
     public enum VocabularyFilterMethod: String, CustomStringConvertible, Codable {
-        case remove
         case mask
+        case remove
         public var description: String { return self.rawValue }
     }
 
     public enum VocabularyState: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pending = "PENDING"
         case ready = "READY"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 

@@ -21,76 +21,76 @@ extension PinpointEmail {
     // MARK: Enums
 
     public enum BehaviorOnMxFailure: String, CustomStringConvertible, Codable {
-        case useDefaultValue = "USE_DEFAULT_VALUE"
         case rejectMessage = "REJECT_MESSAGE"
+        case useDefaultValue = "USE_DEFAULT_VALUE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliverabilityDashboardAccountStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case pendingExpiration = "PENDING_EXPIRATION"
         case disabled = "DISABLED"
+        case pendingExpiration = "PENDING_EXPIRATION"
         public var description: String { return self.rawValue }
     }
 
     public enum DeliverabilityTestStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case messageTag = "MESSAGE_TAG"
         case emailHeader = "EMAIL_HEADER"
         case linkTag = "LINK_TAG"
+        case messageTag = "MESSAGE_TAG"
         public var description: String { return self.rawValue }
     }
 
     public enum DkimStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case notStarted = "NOT_STARTED"
         case pending = "PENDING"
         case success = "SUCCESS"
-        case failed = "FAILED"
         case temporaryFailure = "TEMPORARY_FAILURE"
-        case notStarted = "NOT_STARTED"
         public var description: String { return self.rawValue }
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case send = "SEND"
-        case reject = "REJECT"
         case bounce = "BOUNCE"
+        case click = "CLICK"
         case complaint = "COMPLAINT"
         case delivery = "DELIVERY"
         case open = "OPEN"
-        case click = "CLICK"
+        case reject = "REJECT"
         case renderingFailure = "RENDERING_FAILURE"
+        case send = "SEND"
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
-        case emailAddress = "EMAIL_ADDRESS"
         case domain = "DOMAIN"
+        case emailAddress = "EMAIL_ADDRESS"
         case managedDomain = "MANAGED_DOMAIN"
         public var description: String { return self.rawValue }
     }
 
     public enum MailFromDomainStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pending = "PENDING"
         case success = "SUCCESS"
-        case failed = "FAILED"
         case temporaryFailure = "TEMPORARY_FAILURE"
         public var description: String { return self.rawValue }
     }
 
     public enum TlsPolicy: String, CustomStringConvertible, Codable {
-        case require = "REQUIRE"
         case optional = "OPTIONAL"
+        case require = "REQUIRE"
         public var description: String { return self.rawValue }
     }
 
     public enum WarmupStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
         case done = "DONE"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 

@@ -21,8 +21,8 @@ extension MediaStore {
     // MARK: Enums
 
     public enum ContainerLevelMetrics: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -34,10 +34,10 @@ extension MediaStore {
     }
 
     public enum MethodName: String, CustomStringConvertible, Codable {
-        case put = "PUT"
-        case get = "GET"
         case delete = "DELETE"
+        case get = "GET"
         case head = "HEAD"
+        case put = "PUT"
         public var description: String { return self.rawValue }
     }
 

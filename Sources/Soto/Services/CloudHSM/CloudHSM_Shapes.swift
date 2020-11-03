@@ -27,20 +27,20 @@ extension CloudHSM {
     }
 
     public enum CloudHsmObjectState: String, CustomStringConvertible, Codable {
+        case degraded = "DEGRADED"
         case ready = "READY"
         case updating = "UPDATING"
-        case degraded = "DEGRADED"
         public var description: String { return self.rawValue }
     }
 
     public enum HsmStatus: String, CustomStringConvertible, Codable {
+        case degraded = "DEGRADED"
         case pending = "PENDING"
         case running = "RUNNING"
-        case updating = "UPDATING"
         case suspended = "SUSPENDED"
-        case terminating = "TERMINATING"
         case terminated = "TERMINATED"
-        case degraded = "DEGRADED"
+        case terminating = "TERMINATING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 

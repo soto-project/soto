@@ -21,14 +21,14 @@ extension IoTJobsDataPlane {
     // MARK: Enums
 
     public enum JobExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
-        case inProgress = "IN_PROGRESS"
-        case succeeded = "SUCCEEDED"
+        case canceled = "CANCELED"
         case failed = "FAILED"
-        case timedOut = "TIMED_OUT"
+        case inProgress = "IN_PROGRESS"
+        case queued = "QUEUED"
         case rejected = "REJECTED"
         case removed = "REMOVED"
-        case canceled = "CANCELED"
+        case succeeded = "SUCCEEDED"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 

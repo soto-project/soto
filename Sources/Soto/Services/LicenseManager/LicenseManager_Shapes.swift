@@ -21,10 +21,10 @@ extension LicenseManager {
     // MARK: Enums
 
     public enum InventoryFilterCondition: String, CustomStringConvertible, Codable {
-        case equals = "EQUALS"
-        case notEquals = "NOT_EQUALS"
         case beginsWith = "BEGINS_WITH"
         case contains = "CONTAINS"
+        case equals = "EQUALS"
+        case notEquals = "NOT_EQUALS"
         public var description: String { return self.rawValue }
     }
 
@@ -35,17 +35,17 @@ extension LicenseManager {
     }
 
     public enum LicenseCountingType: String, CustomStringConvertible, Codable {
-        case vcpu = "vCPU"
-        case instance = "Instance"
         case core = "Core"
+        case instance = "Instance"
         case socket = "Socket"
+        case vcpu = "vCPU"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case ec2Instance = "EC2_INSTANCE"
-        case ec2Host = "EC2_HOST"
         case ec2Ami = "EC2_AMI"
+        case ec2Host = "EC2_HOST"
+        case ec2Instance = "EC2_INSTANCE"
         case rds = "RDS"
         case systemsManagerManagedInstance = "SYSTEMS_MANAGER_MANAGED_INSTANCE"
         public var description: String { return self.rawValue }

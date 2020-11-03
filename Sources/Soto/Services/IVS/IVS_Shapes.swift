@@ -21,8 +21,8 @@ extension IVS {
     // MARK: Enums
 
     public enum ChannelLatencyMode: String, CustomStringConvertible, Codable {
-        case normal = "NORMAL"
         case low = "LOW"
+        case normal = "NORMAL"
         public var description: String { return self.rawValue }
     }
 

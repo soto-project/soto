@@ -21,95 +21,95 @@ extension ACM {
     // MARK: Enums
 
     public enum CertificateStatus: String, CustomStringConvertible, Codable {
-        case pendingValidation = "PENDING_VALIDATION"
-        case issued = "ISSUED"
-        case inactive = "INACTIVE"
         case expired = "EXPIRED"
-        case validationTimedOut = "VALIDATION_TIMED_OUT"
-        case revoked = "REVOKED"
         case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case issued = "ISSUED"
+        case pendingValidation = "PENDING_VALIDATION"
+        case revoked = "REVOKED"
+        case validationTimedOut = "VALIDATION_TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateTransparencyLoggingPreference: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateType: String, CustomStringConvertible, Codable {
-        case imported = "IMPORTED"
         case amazonIssued = "AMAZON_ISSUED"
+        case imported = "IMPORTED"
         case `private` = "PRIVATE"
         public var description: String { return self.rawValue }
     }
 
     public enum DomainStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum ExtendedKeyUsageName: String, CustomStringConvertible, Codable {
-        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
-        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
+        case any = "ANY"
         case codeSigning = "CODE_SIGNING"
+        case custom = "CUSTOM"
         case emailProtection = "EMAIL_PROTECTION"
-        case timeStamping = "TIME_STAMPING"
-        case ocspSigning = "OCSP_SIGNING"
         case ipsecEndSystem = "IPSEC_END_SYSTEM"
         case ipsecTunnel = "IPSEC_TUNNEL"
         case ipsecUser = "IPSEC_USER"
-        case any = "ANY"
         case none = "NONE"
-        case custom = "CUSTOM"
+        case ocspSigning = "OCSP_SIGNING"
+        case timeStamping = "TIME_STAMPING"
+        case tlsWebClientAuthentication = "TLS_WEB_CLIENT_AUTHENTICATION"
+        case tlsWebServerAuthentication = "TLS_WEB_SERVER_AUTHENTICATION"
         public var description: String { return self.rawValue }
     }
 
     public enum FailureReason: String, CustomStringConvertible, Codable {
-        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
         case additionalVerificationRequired = "ADDITIONAL_VERIFICATION_REQUIRED"
-        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
-        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
-        case domainValidationDenied = "DOMAIN_VALIDATION_DENIED"
         case caaError = "CAA_ERROR"
-        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
-        case pcaInvalidArn = "PCA_INVALID_ARN"
-        case pcaInvalidState = "PCA_INVALID_STATE"
-        case pcaRequestFailed = "PCA_REQUEST_FAILED"
-        case pcaNameConstraintsValidation = "PCA_NAME_CONSTRAINTS_VALIDATION"
-        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
-        case pcaInvalidArgs = "PCA_INVALID_ARGS"
-        case pcaInvalidDuration = "PCA_INVALID_DURATION"
-        case pcaAccessDenied = "PCA_ACCESS_DENIED"
-        case slrNotFound = "SLR_NOT_FOUND"
+        case domainNotAllowed = "DOMAIN_NOT_ALLOWED"
+        case domainValidationDenied = "DOMAIN_VALIDATION_DENIED"
+        case invalidPublicDomain = "INVALID_PUBLIC_DOMAIN"
+        case noAvailableContacts = "NO_AVAILABLE_CONTACTS"
         case other = "OTHER"
+        case pcaAccessDenied = "PCA_ACCESS_DENIED"
+        case pcaInvalidArgs = "PCA_INVALID_ARGS"
+        case pcaInvalidArn = "PCA_INVALID_ARN"
+        case pcaInvalidDuration = "PCA_INVALID_DURATION"
+        case pcaInvalidState = "PCA_INVALID_STATE"
+        case pcaLimitExceeded = "PCA_LIMIT_EXCEEDED"
+        case pcaNameConstraintsValidation = "PCA_NAME_CONSTRAINTS_VALIDATION"
+        case pcaRequestFailed = "PCA_REQUEST_FAILED"
+        case pcaResourceNotFound = "PCA_RESOURCE_NOT_FOUND"
+        case slrNotFound = "SLR_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
     public enum KeyAlgorithm: String, CustomStringConvertible, Codable {
-        case rsa2048 = "RSA_2048"
-        case rsa1024 = "RSA_1024"
-        case rsa4096 = "RSA_4096"
         case ecPrime256V1 = "EC_prime256v1"
         case ecSecp384R1 = "EC_secp384r1"
         case ecSecp521R1 = "EC_secp521r1"
+        case rsa1024 = "RSA_1024"
+        case rsa2048 = "RSA_2048"
+        case rsa4096 = "RSA_4096"
         public var description: String { return self.rawValue }
     }
 
     public enum KeyUsageName: String, CustomStringConvertible, Codable {
-        case digitalSignature = "DIGITAL_SIGNATURE"
-        case nonRepudiation = "NON_REPUDIATION"
-        case keyEncipherment = "KEY_ENCIPHERMENT"
-        case dataEncipherment = "DATA_ENCIPHERMENT"
-        case keyAgreement = "KEY_AGREEMENT"
+        case any = "ANY"
         case certificateSigning = "CERTIFICATE_SIGNING"
         case crlSigning = "CRL_SIGNING"
-        case encipherOnly = "ENCIPHER_ONLY"
-        case decipherOnly = "DECIPHER_ONLY"
-        case any = "ANY"
         case custom = "CUSTOM"
+        case dataEncipherment = "DATA_ENCIPHERMENT"
+        case decipherOnly = "DECIPHER_ONLY"
+        case digitalSignature = "DIGITAL_SIGNATURE"
+        case encipherOnly = "ENCIPHER_ONLY"
+        case keyAgreement = "KEY_AGREEMENT"
+        case keyEncipherment = "KEY_ENCIPHERMENT"
+        case nonRepudiation = "NON_REPUDIATION"
         public var description: String { return self.rawValue }
     }
 
@@ -125,30 +125,30 @@ extension ACM {
     }
 
     public enum RenewalStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case pendingAutoRenewal = "PENDING_AUTO_RENEWAL"
         case pendingValidation = "PENDING_VALIDATION"
         case success = "SUCCESS"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum RevocationReason: String, CustomStringConvertible, Codable {
-        case unspecified = "UNSPECIFIED"
-        case keyCompromise = "KEY_COMPROMISE"
-        case caCompromise = "CA_COMPROMISE"
-        case affiliationChanged = "AFFILIATION_CHANGED"
-        case superceded = "SUPERCEDED"
-        case cessationOfOperation = "CESSATION_OF_OPERATION"
-        case certificateHold = "CERTIFICATE_HOLD"
-        case removeFromCrl = "REMOVE_FROM_CRL"
-        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
         case aACompromise = "A_A_COMPROMISE"
+        case affiliationChanged = "AFFILIATION_CHANGED"
+        case caCompromise = "CA_COMPROMISE"
+        case certificateHold = "CERTIFICATE_HOLD"
+        case cessationOfOperation = "CESSATION_OF_OPERATION"
+        case keyCompromise = "KEY_COMPROMISE"
+        case privilegeWithdrawn = "PRIVILEGE_WITHDRAWN"
+        case removeFromCrl = "REMOVE_FROM_CRL"
+        case superceded = "SUPERCEDED"
+        case unspecified = "UNSPECIFIED"
         public var description: String { return self.rawValue }
     }
 
     public enum ValidationMethod: String, CustomStringConvertible, Codable {
-        case email = "EMAIL"
         case dns = "DNS"
+        case email = "EMAIL"
         public var description: String { return self.rawValue }
     }
 

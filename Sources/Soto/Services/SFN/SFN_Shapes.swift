@@ -21,11 +21,11 @@ extension SFN {
     // MARK: Enums
 
     public enum ExecutionStatus: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
+        case failed = "FAILED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         case timedOut = "TIMED_OUT"
-        case aborted = "ABORTED"
         public var description: String { return self.rawValue }
     }
 
@@ -103,8 +103,8 @@ extension SFN {
     }
 
     public enum StateMachineType: String, CustomStringConvertible, Codable {
-        case standard = "STANDARD"
         case express = "EXPRESS"
+        case standard = "STANDARD"
         public var description: String { return self.rawValue }
     }
 

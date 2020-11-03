@@ -22,22 +22,22 @@ extension FraudDetector {
 
     public enum DataSource: String, CustomStringConvertible, Codable {
         case event = "EVENT"
-        case modelScore = "MODEL_SCORE"
         case externalModelScore = "EXTERNAL_MODEL_SCORE"
+        case modelScore = "MODEL_SCORE"
         public var description: String { return self.rawValue }
     }
 
     public enum DataType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
-        case integer = "INTEGER"
-        case float = "FLOAT"
         case boolean = "BOOLEAN"
+        case float = "FLOAT"
+        case integer = "INTEGER"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 
     public enum DetectorVersionStatus: String, CustomStringConvertible, Codable {
-        case draft = "DRAFT"
         case active = "ACTIVE"
+        case draft = "DRAFT"
         case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
@@ -54,14 +54,14 @@ extension FraudDetector {
     }
 
     public enum ModelInputDataFormat: String, CustomStringConvertible, Codable {
-        case textCsv = "TEXT_CSV"
         case applicationJson = "APPLICATION_JSON"
+        case textCsv = "TEXT_CSV"
         public var description: String { return self.rawValue }
     }
 
     public enum ModelOutputDataFormat: String, CustomStringConvertible, Codable {
-        case textCsv = "TEXT_CSV"
         case applicationJsonlines = "APPLICATION_JSONLINES"
+        case textCsv = "TEXT_CSV"
         public var description: String { return self.rawValue }
     }
 

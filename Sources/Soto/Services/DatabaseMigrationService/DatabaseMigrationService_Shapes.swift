@@ -34,15 +34,15 @@ extension DatabaseMigrationService {
     }
 
     public enum CharLengthSemantics: String, CustomStringConvertible, Codable {
-        case `default`
-        case char
         case byte
+        case char
+        case `default`
         public var description: String { return self.rawValue }
     }
 
     public enum CompressionTypeValue: String, CustomStringConvertible, Codable {
-        case none
         case gzip
+        case none
         public var description: String { return self.rawValue }
     }
 
@@ -53,19 +53,19 @@ extension DatabaseMigrationService {
     }
 
     public enum DatePartitionDelimiterValue: String, CustomStringConvertible, Codable {
-        case slash = "SLASH"
-        case underscore = "UNDERSCORE"
         case dash = "DASH"
         case none = "NONE"
+        case slash = "SLASH"
+        case underscore = "UNDERSCORE"
         public var description: String { return self.rawValue }
     }
 
     public enum DatePartitionSequenceValue: String, CustomStringConvertible, Codable {
+        case ddmmyyyy = "DDMMYYYY"
+        case mmyyyydd = "MMYYYYDD"
+        case yyyymm = "YYYYMM"
         case yyyymmdd = "YYYYMMDD"
         case yyyymmddhh = "YYYYMMDDHH"
-        case yyyymm = "YYYYMM"
-        case mmyyyydd = "MMYYYYDD"
-        case ddmmyyyy = "DDMMYYYY"
         public var description: String { return self.rawValue }
     }
 
@@ -85,8 +85,8 @@ extension DatabaseMigrationService {
     }
 
     public enum EncryptionModeValue: String, CustomStringConvertible, Codable {
-        case sseS3 = "sse-s3"
         case sseKms = "sse-kms"
+        case sseS3 = "sse-s3"
         public var description: String { return self.rawValue }
     }
 
@@ -97,8 +97,8 @@ extension DatabaseMigrationService {
     }
 
     public enum MigrationTypeValue: String, CustomStringConvertible, Codable {
-        case fullLoad = "full-load"
         case cdc
+        case fullLoad = "full-load"
         case fullLoadAndCdc = "full-load-and-cdc"
         public var description: String { return self.rawValue }
     }
@@ -116,9 +116,9 @@ extension DatabaseMigrationService {
     }
 
     public enum RefreshSchemasStatusTypeValue: String, CustomStringConvertible, Codable {
-        case successful
         case failed
         case refreshing
+        case successful
         public var description: String { return self.rawValue }
     }
 
@@ -140,8 +140,8 @@ extension DatabaseMigrationService {
     }
 
     public enum SafeguardPolicy: String, CustomStringConvertible, Codable {
-        case relyOnSqlServerReplicationAgent = "rely-on-sql-server-replication-agent"
         case exclusiveAutomaticTruncation = "exclusive-automatic-truncation"
+        case relyOnSqlServerReplicationAgent = "rely-on-sql-server-replication-agent"
         case sharedAutomaticTruncation = "shared-automatic-truncation"
         public var description: String { return self.rawValue }
     }
@@ -152,15 +152,15 @@ extension DatabaseMigrationService {
     }
 
     public enum StartReplicationTaskTypeValue: String, CustomStringConvertible, Codable {
-        case startReplication = "start-replication"
-        case resumeProcessing = "resume-processing"
         case reloadTarget = "reload-target"
+        case resumeProcessing = "resume-processing"
+        case startReplication = "start-replication"
         public var description: String { return self.rawValue }
     }
 
     public enum TargetDbType: String, CustomStringConvertible, Codable {
-        case specificDatabase = "specific-database"
         case multipleDatabases = "multiple-databases"
+        case specificDatabase = "specific-database"
         public var description: String { return self.rawValue }
     }
 

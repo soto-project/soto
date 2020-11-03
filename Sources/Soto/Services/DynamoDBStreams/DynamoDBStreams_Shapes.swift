@@ -34,26 +34,26 @@ extension DynamoDBStreams {
     }
 
     public enum ShardIteratorType: String, CustomStringConvertible, Codable {
-        case trimHorizon = "TRIM_HORIZON"
-        case latest = "LATEST"
-        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
         case afterSequenceNumber = "AFTER_SEQUENCE_NUMBER"
+        case atSequenceNumber = "AT_SEQUENCE_NUMBER"
+        case latest = "LATEST"
+        case trimHorizon = "TRIM_HORIZON"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
         case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamViewType: String, CustomStringConvertible, Codable {
+        case keysOnly = "KEYS_ONLY"
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
         case newImage = "NEW_IMAGE"
         case oldImage = "OLD_IMAGE"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case keysOnly = "KEYS_ONLY"
         public var description: String { return self.rawValue }
     }
 

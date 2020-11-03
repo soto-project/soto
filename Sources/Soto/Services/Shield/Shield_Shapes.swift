@@ -21,8 +21,8 @@ extension Shield {
     // MARK: Enums
 
     public enum AttackLayer: String, CustomStringConvertible, Codable {
-        case network = "NETWORK"
         case application = "APPLICATION"
+        case network = "NETWORK"
         public var description: String { return self.rawValue }
     }
 
@@ -39,14 +39,14 @@ extension Shield {
     }
 
     public enum AutoRenew: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum ProactiveEngagementStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         case pending = "PENDING"
         public var description: String { return self.rawValue }
     }

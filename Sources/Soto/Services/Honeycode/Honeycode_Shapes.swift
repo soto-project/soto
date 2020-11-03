@@ -21,17 +21,17 @@ extension Honeycode {
     // MARK: Enums
 
     public enum Format: String, CustomStringConvertible, Codable {
+        case accounting = "ACCOUNTING"
         case auto = "AUTO"
-        case number = "NUMBER"
+        case contact = "CONTACT"
         case currency = "CURRENCY"
         case date = "DATE"
-        case time = "TIME"
         case dateTime = "DATE_TIME"
+        case number = "NUMBER"
         case percentage = "PERCENTAGE"
-        case text = "TEXT"
-        case accounting = "ACCOUNTING"
-        case contact = "CONTACT"
         case rowlink = "ROWLINK"
+        case text = "TEXT"
+        case time = "TIME"
         public var description: String { return self.rawValue }
     }
 

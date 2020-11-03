@@ -27,26 +27,26 @@ extension WorkMail {
     }
 
     public enum EntityState: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
-        case disabled = "DISABLED"
         case deleted = "DELETED"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum FolderName: String, CustomStringConvertible, Codable {
-        case inbox = "INBOX"
         case deletedItems = "DELETED_ITEMS"
-        case sentItems = "SENT_ITEMS"
         case drafts = "DRAFTS"
+        case inbox = "INBOX"
         case junkEmail = "JUNK_EMAIL"
+        case sentItems = "SENT_ITEMS"
         public var description: String { return self.rawValue }
     }
 
     public enum MailboxExportJobState: String, CustomStringConvertible, Codable {
-        case running = "RUNNING"
+        case cancelled = "CANCELLED"
         case completed = "COMPLETED"
         case failed = "FAILED"
-        case cancelled = "CANCELLED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -64,22 +64,22 @@ extension WorkMail {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case room = "ROOM"
         case equipment = "EQUIPMENT"
+        case room = "ROOM"
         public var description: String { return self.rawValue }
     }
 
     public enum RetentionAction: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case delete = "DELETE"
+        case none = "NONE"
         case permanentlyDelete = "PERMANENTLY_DELETE"
         public var description: String { return self.rawValue }
     }
 
     public enum UserRole: String, CustomStringConvertible, Codable {
-        case user = "USER"
         case resource = "RESOURCE"
         case systemUser = "SYSTEM_USER"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 

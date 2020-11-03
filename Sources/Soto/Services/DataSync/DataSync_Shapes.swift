@@ -21,21 +21,21 @@ extension DataSync {
     // MARK: Enums
 
     public enum AgentStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
         case offline = "OFFLINE"
+        case online = "ONLINE"
         public var description: String { return self.rawValue }
     }
 
     public enum Atime: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case bestEffort = "BEST_EFFORT"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum EndpointType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case privateLink = "PRIVATE_LINK"
         case fips = "FIPS"
+        case privateLink = "PRIVATE_LINK"
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
@@ -45,23 +45,23 @@ extension DataSync {
     }
 
     public enum Gid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
+        case both = "BOTH"
         case intValue = "INT_VALUE"
         case name = "NAME"
-        case both = "BOTH"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum LocationFilterName: String, CustomStringConvertible, Codable {
-        case locationuri = "LocationUri"
-        case locationtype = "LocationType"
         case creationtime = "CreationTime"
+        case locationtype = "LocationType"
+        case locationuri = "LocationUri"
         public var description: String { return self.rawValue }
     }
 
     public enum LogLevel: String, CustomStringConvertible, Codable {
-        case off = "OFF"
         case basic = "BASIC"
+        case off = "OFF"
         case transfer = "TRANSFER"
         public var description: String { return self.rawValue }
     }
@@ -81,22 +81,22 @@ extension DataSync {
     }
 
     public enum ObjectStorageServerProtocol: String, CustomStringConvertible, Codable {
-        case https = "HTTPS"
         case http = "HTTP"
+        case https = "HTTPS"
         public var description: String { return self.rawValue }
     }
 
     public enum `Operator`: String, CustomStringConvertible, Codable {
-        case equals = "Equals"
-        case notequals = "NotEquals"
-        case `in` = "In"
-        case lessthanorequal = "LessThanOrEqual"
-        case lessthan = "LessThan"
-        case greaterthanorequal = "GreaterThanOrEqual"
-        case greaterthan = "GreaterThan"
-        case contains = "Contains"
-        case notcontains = "NotContains"
         case beginswith = "BeginsWith"
+        case contains = "Contains"
+        case equals = "Equals"
+        case greaterthan = "GreaterThan"
+        case greaterthanorequal = "GreaterThanOrEqual"
+        case `in` = "In"
+        case lessthan = "LessThan"
+        case lessthanorequal = "LessThanOrEqual"
+        case notcontains = "NotContains"
+        case notequals = "NotEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -107,9 +107,9 @@ extension DataSync {
     }
 
     public enum PhaseStatus: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
         case pending = "PENDING"
         case success = "SUCCESS"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
@@ -132,13 +132,13 @@ extension DataSync {
     }
 
     public enum S3StorageClass: String, CustomStringConvertible, Codable {
+        case deepArchive = "DEEP_ARCHIVE"
+        case glacier = "GLACIER"
+        case intelligentTiering = "INTELLIGENT_TIERING"
+        case onezoneIa = "ONEZONE_IA"
+        case outposts = "OUTPOSTS"
         case standard = "STANDARD"
         case standardIa = "STANDARD_IA"
-        case onezoneIa = "ONEZONE_IA"
-        case intelligentTiering = "INTELLIGENT_TIERING"
-        case glacier = "GLACIER"
-        case deepArchive = "DEEP_ARCHIVE"
-        case outposts = "OUTPOSTS"
         public var description: String { return self.rawValue }
     }
 
@@ -150,25 +150,25 @@ extension DataSync {
     }
 
     public enum TaskExecutionStatus: String, CustomStringConvertible, Codable {
-        case queued = "QUEUED"
+        case error = "ERROR"
         case launching = "LAUNCHING"
         case preparing = "PREPARING"
+        case queued = "QUEUED"
+        case success = "SUCCESS"
         case transferring = "TRANSFERRING"
         case verifying = "VERIFYING"
-        case success = "SUCCESS"
-        case error = "ERROR"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskFilterName: String, CustomStringConvertible, Codable {
-        case locationid = "LocationId"
         case creationtime = "CreationTime"
+        case locationid = "LocationId"
         public var description: String { return self.rawValue }
     }
 
     public enum TaskQueueing: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -182,23 +182,23 @@ extension DataSync {
     }
 
     public enum TransferMode: String, CustomStringConvertible, Codable {
-        case changed = "CHANGED"
         case all = "ALL"
+        case changed = "CHANGED"
         public var description: String { return self.rawValue }
     }
 
     public enum Uid: String, CustomStringConvertible, Codable {
-        case none = "NONE"
+        case both = "BOTH"
         case intValue = "INT_VALUE"
         case name = "NAME"
-        case both = "BOTH"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
     public enum VerifyMode: String, CustomStringConvertible, Codable {
-        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
-        case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
         case none = "NONE"
+        case onlyFilesTransferred = "ONLY_FILES_TRANSFERRED"
+        case pointInTimeConsistent = "POINT_IN_TIME_CONSISTENT"
         public var description: String { return self.rawValue }
     }
 

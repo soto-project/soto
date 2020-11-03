@@ -22,53 +22,53 @@ extension DynamoDB {
 
     public enum AttributeAction: String, CustomStringConvertible, Codable {
         case add = "ADD"
-        case put = "PUT"
         case delete = "DELETE"
+        case put = "PUT"
         public var description: String { return self.rawValue }
     }
 
     public enum BackupStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
         case creating = "CREATING"
         case deleted = "DELETED"
-        case available = "AVAILABLE"
         public var description: String { return self.rawValue }
     }
 
     public enum BackupType: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case system = "SYSTEM"
         case awsBackup = "AWS_BACKUP"
+        case system = "SYSTEM"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
     public enum BackupTypeFilter: String, CustomStringConvertible, Codable {
-        case user = "USER"
-        case system = "SYSTEM"
-        case awsBackup = "AWS_BACKUP"
         case all = "ALL"
+        case awsBackup = "AWS_BACKUP"
+        case system = "SYSTEM"
+        case user = "USER"
         public var description: String { return self.rawValue }
     }
 
     public enum BillingMode: String, CustomStringConvertible, Codable {
-        case provisioned = "PROVISIONED"
         case payPerRequest = "PAY_PER_REQUEST"
+        case provisioned = "PROVISIONED"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case beginsWith = "BEGINS_WITH"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
         case eq = "EQ"
-        case ne = "NE"
+        case ge = "GE"
+        case gt = "GT"
         case `in` = "IN"
         case le = "LE"
         case lt = "LT"
-        case ge = "GE"
-        case gt = "GT"
-        case between = "BETWEEN"
+        case ne = "NE"
+        case notContains = "NOT_CONTAINS"
         case notNull = "NOT_NULL"
         case null = "NULL"
-        case contains = "CONTAINS"
-        case notContains = "NOT_CONTAINS"
-        case beginsWith = "BEGINS_WITH"
         public var description: String { return self.rawValue }
     }
 
@@ -79,39 +79,39 @@ extension DynamoDB {
     }
 
     public enum ContinuousBackupsStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum ContributorInsightsAction: String, CustomStringConvertible, Codable {
-        case enable = "ENABLE"
         case disable = "DISABLE"
+        case enable = "ENABLE"
         public var description: String { return self.rawValue }
     }
 
     public enum ContributorInsightsStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
         case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum GlobalTableStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum IndexStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -122,47 +122,47 @@ extension DynamoDB {
     }
 
     public enum PointInTimeRecoveryStatus: String, CustomStringConvertible, Codable {
-        case enabled = "ENABLED"
         case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
     public enum ProjectionType: String, CustomStringConvertible, Codable {
         case all = "ALL"
-        case keysOnly = "KEYS_ONLY"
         case include = "INCLUDE"
+        case keysOnly = "KEYS_ONLY"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplicaStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case creating = "CREATING"
         case creationFailed = "CREATION_FAILED"
-        case updating = "UPDATING"
         case deleting = "DELETING"
-        case active = "ACTIVE"
         case regionDisabled = "REGION_DISABLED"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum ReturnConsumedCapacity: String, CustomStringConvertible, Codable {
         case indexes = "INDEXES"
-        case total = "TOTAL"
         case none = "NONE"
+        case total = "TOTAL"
         public var description: String { return self.rawValue }
     }
 
     public enum ReturnItemCollectionMetrics: String, CustomStringConvertible, Codable {
-        case size = "SIZE"
         case none = "NONE"
+        case size = "SIZE"
         public var description: String { return self.rawValue }
     }
 
     public enum ReturnValue: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case allOld = "ALL_OLD"
-        case updatedOld = "UPDATED_OLD"
         case allNew = "ALL_NEW"
+        case allOld = "ALL_OLD"
+        case none = "NONE"
         case updatedNew = "UPDATED_NEW"
+        case updatedOld = "UPDATED_OLD"
         public var description: String { return self.rawValue }
     }
 
@@ -173,10 +173,10 @@ extension DynamoDB {
     }
 
     public enum SSEStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
-        case enabled = "ENABLED"
-        case disabling = "DISABLING"
         case disabled = "DISABLED"
+        case disabling = "DISABLING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -188,44 +188,44 @@ extension DynamoDB {
     }
 
     public enum ScalarAttributeType: String, CustomStringConvertible, Codable {
-        case s = "S"
-        case n = "N"
         case b = "B"
+        case n = "N"
+        case s = "S"
         public var description: String { return self.rawValue }
     }
 
     public enum Select: String, CustomStringConvertible, Codable {
         case allAttributes = "ALL_ATTRIBUTES"
         case allProjectedAttributes = "ALL_PROJECTED_ATTRIBUTES"
-        case specificAttributes = "SPECIFIC_ATTRIBUTES"
         case count = "COUNT"
+        case specificAttributes = "SPECIFIC_ATTRIBUTES"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamViewType: String, CustomStringConvertible, Codable {
+        case keysOnly = "KEYS_ONLY"
+        case newAndOldImages = "NEW_AND_OLD_IMAGES"
         case newImage = "NEW_IMAGE"
         case oldImage = "OLD_IMAGE"
-        case newAndOldImages = "NEW_AND_OLD_IMAGES"
-        case keysOnly = "KEYS_ONLY"
         public var description: String { return self.rawValue }
     }
 
     public enum TableStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
-        case deleting = "DELETING"
         case active = "ACTIVE"
-        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
-        case archiving = "ARCHIVING"
         case archived = "ARCHIVED"
+        case archiving = "ARCHIVING"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case inaccessibleEncryptionCredentials = "INACCESSIBLE_ENCRYPTION_CREDENTIALS"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum TimeToLiveStatus: String, CustomStringConvertible, Codable {
-        case enabling = "ENABLING"
+        case disabled = "DISABLED"
         case disabling = "DISABLING"
         case enabled = "ENABLED"
-        case disabled = "DISABLED"
+        case enabling = "ENABLING"
         public var description: String { return self.rawValue }
     }
 

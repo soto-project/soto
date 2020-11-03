@@ -28,8 +28,8 @@ extension CodeCommit {
 
     public enum ChangeTypeEnum: String, CustomStringConvertible, Codable {
         case a = "A"
-        case m = "M"
         case d = "D"
+        case m = "M"
         public var description: String { return self.rawValue }
     }
 
@@ -40,10 +40,10 @@ extension CodeCommit {
     }
 
     public enum ConflictResolutionStrategyTypeEnum: String, CustomStringConvertible, Codable {
-        case none = "NONE"
-        case acceptSource = "ACCEPT_SOURCE"
         case acceptDestination = "ACCEPT_DESTINATION"
+        case acceptSource = "ACCEPT_SOURCE"
         case automerge = "AUTOMERGE"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -62,8 +62,8 @@ extension CodeCommit {
     }
 
     public enum ObjectTypeEnum: String, CustomStringConvertible, Codable {
-        case file = "FILE"
         case directory = "DIRECTORY"
+        case file = "FILE"
         case gitLink = "GIT_LINK"
         case symbolicLink = "SYMBOLIC_LINK"
         public var description: String { return self.rawValue }
@@ -82,49 +82,49 @@ extension CodeCommit {
     }
 
     public enum PullRequestEventType: String, CustomStringConvertible, Codable {
-        case pullRequestCreated = "PULL_REQUEST_CREATED"
-        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
-        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
-        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
         case pullRequestApprovalRuleCreated = "PULL_REQUEST_APPROVAL_RULE_CREATED"
-        case pullRequestApprovalRuleUpdated = "PULL_REQUEST_APPROVAL_RULE_UPDATED"
         case pullRequestApprovalRuleDeleted = "PULL_REQUEST_APPROVAL_RULE_DELETED"
         case pullRequestApprovalRuleOverridden = "PULL_REQUEST_APPROVAL_RULE_OVERRIDDEN"
+        case pullRequestApprovalRuleUpdated = "PULL_REQUEST_APPROVAL_RULE_UPDATED"
         case pullRequestApprovalStateChanged = "PULL_REQUEST_APPROVAL_STATE_CHANGED"
+        case pullRequestCreated = "PULL_REQUEST_CREATED"
+        case pullRequestMergeStateChanged = "PULL_REQUEST_MERGE_STATE_CHANGED"
+        case pullRequestSourceReferenceUpdated = "PULL_REQUEST_SOURCE_REFERENCE_UPDATED"
+        case pullRequestStatusChanged = "PULL_REQUEST_STATUS_CHANGED"
         public var description: String { return self.rawValue }
     }
 
     public enum PullRequestStatusEnum: String, CustomStringConvertible, Codable {
-        case open = "OPEN"
         case closed = "CLOSED"
+        case open = "OPEN"
         public var description: String { return self.rawValue }
     }
 
     public enum RelativeFileVersionEnum: String, CustomStringConvertible, Codable {
-        case before = "BEFORE"
         case after = "AFTER"
+        case before = "BEFORE"
         public var description: String { return self.rawValue }
     }
 
     public enum ReplacementTypeEnum: String, CustomStringConvertible, Codable {
         case keepBase = "KEEP_BASE"
-        case keepSource = "KEEP_SOURCE"
         case keepDestination = "KEEP_DESTINATION"
+        case keepSource = "KEEP_SOURCE"
         case useNewContent = "USE_NEW_CONTENT"
         public var description: String { return self.rawValue }
     }
 
     public enum RepositoryTriggerEventEnum: String, CustomStringConvertible, Codable {
         case all
-        case updatereference = "updateReference"
         case createreference = "createReference"
         case deletereference = "deleteReference"
+        case updatereference = "updateReference"
         public var description: String { return self.rawValue }
     }
 
     public enum SortByEnum: String, CustomStringConvertible, Codable {
-        case repositoryname = "repositoryName"
         case lastmodifieddate = "lastModifiedDate"
+        case repositoryname = "repositoryName"
         public var description: String { return self.rawValue }
     }
 

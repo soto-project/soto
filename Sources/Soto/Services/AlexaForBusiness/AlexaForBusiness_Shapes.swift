@@ -22,8 +22,8 @@ extension AlexaForBusiness {
 
     public enum BusinessReportFailureCode: String, CustomStringConvertible, Codable {
         case accessDenied = "ACCESS_DENIED"
-        case noSuchBucket = "NO_SUCH_BUCKET"
         case internalFailure = "INTERNAL_FAILURE"
+        case noSuchBucket = "NO_SUCH_BUCKET"
         public var description: String { return self.rawValue }
     }
 
@@ -41,22 +41,23 @@ extension AlexaForBusiness {
     }
 
     public enum BusinessReportStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case running = "RUNNING"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
     public enum CommsProtocol: String, CustomStringConvertible, Codable {
+        case h323 = "H323"
         case sip = "SIP"
         case sips = "SIPS"
-        case h323 = "H323"
         public var description: String { return self.rawValue }
     }
 
     public enum ConferenceProviderType: String, CustomStringConvertible, Codable {
-        case chime = "CHIME"
         case bluejeans = "BLUEJEANS"
+        case chime = "CHIME"
+        case custom = "CUSTOM"
         case fuze = "FUZE"
         case googleHangouts = "GOOGLE_HANGOUTS"
         case polycom = "POLYCOM"
@@ -64,13 +65,12 @@ extension AlexaForBusiness {
         case skypeForBusiness = "SKYPE_FOR_BUSINESS"
         case webex = "WEBEX"
         case zoom = "ZOOM"
-        case custom = "CUSTOM"
         public var description: String { return self.rawValue }
     }
 
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
-        case online = "ONLINE"
         case offline = "OFFLINE"
+        case online = "ONLINE"
         public var description: String { return self.rawValue }
     }
 
@@ -81,32 +81,32 @@ extension AlexaForBusiness {
     }
 
     public enum DeviceStatus: String, CustomStringConvertible, Codable {
-        case ready = "READY"
-        case pending = "PENDING"
-        case wasOffline = "WAS_OFFLINE"
         case deregistered = "DEREGISTERED"
         case failed = "FAILED"
+        case pending = "PENDING"
+        case ready = "READY"
+        case wasOffline = "WAS_OFFLINE"
         public var description: String { return self.rawValue }
     }
 
     public enum DeviceStatusDetailCode: String, CustomStringConvertible, Codable {
-        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
-        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
-        case credentialsAccessFailure = "CREDENTIALS_ACCESS_FAILURE"
-        case tlsVersionMismatch = "TLS_VERSION_MISMATCH"
         case associationRejection = "ASSOCIATION_REJECTION"
         case authenticationFailure = "AUTHENTICATION_FAILURE"
-        case dhcpFailure = "DHCP_FAILURE"
-        case internetUnavailable = "INTERNET_UNAVAILABLE"
-        case dnsFailure = "DNS_FAILURE"
-        case unknownFailure = "UNKNOWN_FAILURE"
-        case certificateIssuingLimitExceeded = "CERTIFICATE_ISSUING_LIMIT_EXCEEDED"
-        case invalidCertificateAuthority = "INVALID_CERTIFICATE_AUTHORITY"
-        case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
-        case invalidPasswordState = "INVALID_PASSWORD_STATE"
-        case passwordNotFound = "PASSWORD_NOT_FOUND"
-        case passwordManagerAccessDenied = "PASSWORD_MANAGER_ACCESS_DENIED"
         case certificateAuthorityAccessDenied = "CERTIFICATE_AUTHORITY_ACCESS_DENIED"
+        case certificateIssuingLimitExceeded = "CERTIFICATE_ISSUING_LIMIT_EXCEEDED"
+        case credentialsAccessFailure = "CREDENTIALS_ACCESS_FAILURE"
+        case deviceSoftwareUpdateNeeded = "DEVICE_SOFTWARE_UPDATE_NEEDED"
+        case deviceWasOffline = "DEVICE_WAS_OFFLINE"
+        case dhcpFailure = "DHCP_FAILURE"
+        case dnsFailure = "DNS_FAILURE"
+        case internetUnavailable = "INTERNET_UNAVAILABLE"
+        case invalidCertificateAuthority = "INVALID_CERTIFICATE_AUTHORITY"
+        case invalidPasswordState = "INVALID_PASSWORD_STATE"
+        case networkProfileNotFound = "NETWORK_PROFILE_NOT_FOUND"
+        case passwordManagerAccessDenied = "PASSWORD_MANAGER_ACCESS_DENIED"
+        case passwordNotFound = "PASSWORD_NOT_FOUND"
+        case tlsVersionMismatch = "TLS_VERSION_MISMATCH"
+        case unknownFailure = "UNKNOWN_FAILURE"
         public var description: String { return self.rawValue }
     }
 
@@ -116,8 +116,8 @@ extension AlexaForBusiness {
     }
 
     public enum DistanceUnit: String, CustomStringConvertible, Codable {
-        case metric = "METRIC"
         case imperial = "IMPERIAL"
+        case metric = "METRIC"
         public var description: String { return self.rawValue }
     }
 
@@ -142,23 +142,23 @@ extension AlexaForBusiness {
     }
 
     public enum EnrollmentStatus: String, CustomStringConvertible, Codable {
+        case deregistering = "DEREGISTERING"
+        case disassociating = "DISASSOCIATING"
         case initialized = "INITIALIZED"
         case pending = "PENDING"
         case registered = "REGISTERED"
-        case disassociating = "DISASSOCIATING"
-        case deregistering = "DEREGISTERING"
         public var description: String { return self.rawValue }
     }
 
     public enum Feature: String, CustomStringConvertible, Codable {
-        case bluetooth = "BLUETOOTH"
-        case volume = "VOLUME"
-        case notifications = "NOTIFICATIONS"
-        case lists = "LISTS"
-        case skills = "SKILLS"
-        case networkProfile = "NETWORK_PROFILE"
-        case settings = "SETTINGS"
         case all = "ALL"
+        case bluetooth = "BLUETOOTH"
+        case lists = "LISTS"
+        case networkProfile = "NETWORK_PROFILE"
+        case notifications = "NOTIFICATIONS"
+        case settings = "SETTINGS"
+        case skills = "SKILLS"
+        case volume = "VOLUME"
         public var description: String { return self.rawValue }
     }
 
@@ -175,23 +175,23 @@ extension AlexaForBusiness {
     public enum NetworkSecurityType: String, CustomStringConvertible, Codable {
         case open = "OPEN"
         case wep = "WEP"
-        case wpaPsk = "WPA_PSK"
-        case wpa2Psk = "WPA2_PSK"
         case wpa2Enterprise = "WPA2_ENTERPRISE"
+        case wpa2Psk = "WPA2_PSK"
+        case wpaPsk = "WPA_PSK"
         public var description: String { return self.rawValue }
     }
 
     public enum PhoneNumberType: String, CustomStringConvertible, Codable {
+        case home = "HOME"
         case mobile = "MOBILE"
         case work = "WORK"
-        case home = "HOME"
         public var description: String { return self.rawValue }
     }
 
     public enum RequirePin: String, CustomStringConvertible, Codable {
-        case yes = "YES"
         case no = "NO"
         case optional = "OPTIONAL"
+        case yes = "YES"
         public var description: String { return self.rawValue }
     }
 
@@ -201,15 +201,15 @@ extension AlexaForBusiness {
     }
 
     public enum SkillType: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
         case `private` = "PRIVATE"
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
     public enum SkillTypeFilter: String, CustomStringConvertible, Codable {
-        case `public` = "PUBLIC"
-        case `private` = "PRIVATE"
         case all = "ALL"
+        case `private` = "PRIVATE"
+        case `public` = "PUBLIC"
         public var description: String { return self.rawValue }
     }
 
@@ -220,16 +220,16 @@ extension AlexaForBusiness {
     }
 
     public enum TemperatureUnit: String, CustomStringConvertible, Codable {
-        case fahrenheit = "FAHRENHEIT"
         case celsius = "CELSIUS"
+        case fahrenheit = "FAHRENHEIT"
         public var description: String { return self.rawValue }
     }
 
     public enum WakeWord: String, CustomStringConvertible, Codable {
         case alexa = "ALEXA"
         case amazon = "AMAZON"
-        case echo = "ECHO"
         case computer = "COMPUTER"
+        case echo = "ECHO"
         public var description: String { return self.rawValue }
     }
 

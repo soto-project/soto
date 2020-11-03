@@ -24,77 +24,77 @@ extension ComputeOptimizer {
         case accountid = "AccountId"
         case autoscalinggrouparn = "AutoScalingGroupArn"
         case autoscalinggroupname = "AutoScalingGroupName"
-        case finding = "Finding"
-        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
-        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
-        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
-        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
-        case lookbackperiodindays = "LookbackPeriodInDays"
-        case currentconfigurationinstancetype = "CurrentConfigurationInstanceType"
         case currentconfigurationdesiredcapacity = "CurrentConfigurationDesiredCapacity"
-        case currentconfigurationminsize = "CurrentConfigurationMinSize"
+        case currentconfigurationinstancetype = "CurrentConfigurationInstanceType"
         case currentconfigurationmaxsize = "CurrentConfigurationMaxSize"
+        case currentconfigurationminsize = "CurrentConfigurationMinSize"
+        case currentmemory = "CurrentMemory"
+        case currentnetwork = "CurrentNetwork"
         case currentondemandprice = "CurrentOnDemandPrice"
         case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
         case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
-        case currentvcpus = "CurrentVCpus"
-        case currentmemory = "CurrentMemory"
         case currentstorage = "CurrentStorage"
-        case currentnetwork = "CurrentNetwork"
-        case recommendationoptionsconfigurationinstancetype = "RecommendationOptionsConfigurationInstanceType"
+        case currentvcpus = "CurrentVCpus"
+        case finding = "Finding"
+        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        case lookbackperiodindays = "LookbackPeriodInDays"
         case recommendationoptionsconfigurationdesiredcapacity = "RecommendationOptionsConfigurationDesiredCapacity"
-        case recommendationoptionsconfigurationminsize = "RecommendationOptionsConfigurationMinSize"
+        case recommendationoptionsconfigurationinstancetype = "RecommendationOptionsConfigurationInstanceType"
         case recommendationoptionsconfigurationmaxsize = "RecommendationOptionsConfigurationMaxSize"
+        case recommendationoptionsconfigurationminsize = "RecommendationOptionsConfigurationMinSize"
+        case recommendationoptionsmemory = "RecommendationOptionsMemory"
+        case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
+        case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
+        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
         case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
         case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
-        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
-        case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
         case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
-        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
-        case recommendationoptionsmemory = "RecommendationOptionsMemory"
         case recommendationoptionsstorage = "RecommendationOptionsStorage"
-        case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
-        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
+        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
+        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
+        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
+        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
         public var description: String { return self.rawValue }
     }
 
     public enum ExportableInstanceField: String, CustomStringConvertible, Codable {
         case accountid = "AccountId"
-        case instancearn = "InstanceArn"
-        case instancename = "InstanceName"
-        case finding = "Finding"
-        case lookbackperiodindays = "LookbackPeriodInDays"
         case currentinstancetype = "CurrentInstanceType"
-        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
-        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
-        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
-        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
-        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
-        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
+        case currentmemory = "CurrentMemory"
+        case currentnetwork = "CurrentNetwork"
         case currentondemandprice = "CurrentOnDemandPrice"
         case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
         case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
-        case currentvcpus = "CurrentVCpus"
-        case currentmemory = "CurrentMemory"
         case currentstorage = "CurrentStorage"
-        case currentnetwork = "CurrentNetwork"
+        case currentvcpus = "CurrentVCpus"
+        case finding = "Finding"
+        case instancearn = "InstanceArn"
+        case instancename = "InstanceName"
+        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        case lookbackperiodindays = "LookbackPeriodInDays"
         case recommendationoptionsinstancetype = "RecommendationOptionsInstanceType"
-        case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
-        case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
-        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
-        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
         case recommendationoptionsmemory = "RecommendationOptionsMemory"
-        case recommendationoptionsstorage = "RecommendationOptionsStorage"
         case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
         case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
+        case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
+        case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+        case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
         case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
+        case recommendationoptionsstorage = "RecommendationOptionsStorage"
+        case recommendationoptionsvcpus = "RecommendationOptionsVcpus"
         case recommendationssourcesrecommendationsourcearn = "RecommendationsSourcesRecommendationSourceArn"
         case recommendationssourcesrecommendationsourcetype = "RecommendationsSourcesRecommendationSourceType"
-        case lastrefreshtimestamp = "LastRefreshTimestamp"
+        case utilizationmetricscpumaximum = "UtilizationMetricsCpuMaximum"
+        case utilizationmetricsebsreadbytespersecondmaximum = "UtilizationMetricsEbsReadBytesPerSecondMaximum"
+        case utilizationmetricsebsreadopspersecondmaximum = "UtilizationMetricsEbsReadOpsPerSecondMaximum"
+        case utilizationmetricsebswritebytespersecondmaximum = "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
+        case utilizationmetricsebswriteopspersecondmaximum = "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+        case utilizationmetricsmemorymaximum = "UtilizationMetricsMemoryMaximum"
         public var description: String { return self.rawValue }
     }
 
@@ -110,60 +110,60 @@ extension ComputeOptimizer {
     }
 
     public enum Finding: String, CustomStringConvertible, Codable {
-        case underprovisioned = "Underprovisioned"
-        case overprovisioned = "Overprovisioned"
-        case optimized = "Optimized"
         case notoptimized = "NotOptimized"
+        case optimized = "Optimized"
+        case overprovisioned = "Overprovisioned"
+        case underprovisioned = "Underprovisioned"
         public var description: String { return self.rawValue }
     }
 
     public enum JobFilterName: String, CustomStringConvertible, Codable {
-        case resourcetype = "ResourceType"
         case jobstatus = "JobStatus"
+        case resourcetype = "ResourceType"
         public var description: String { return self.rawValue }
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case queued = "Queued"
-        case inprogress = "InProgress"
         case complete = "Complete"
         case failed = "Failed"
+        case inprogress = "InProgress"
+        case queued = "Queued"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricName: String, CustomStringConvertible, Codable {
         case cpu = "Cpu"
-        case memory = "Memory"
-        case ebsReadOpsPerSecond = "EBS_READ_OPS_PER_SECOND"
-        case ebsWriteOpsPerSecond = "EBS_WRITE_OPS_PER_SECOND"
         case ebsReadBytesPerSecond = "EBS_READ_BYTES_PER_SECOND"
+        case ebsReadOpsPerSecond = "EBS_READ_OPS_PER_SECOND"
         case ebsWriteBytesPerSecond = "EBS_WRITE_BYTES_PER_SECOND"
+        case ebsWriteOpsPerSecond = "EBS_WRITE_OPS_PER_SECOND"
+        case memory = "Memory"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricStatistic: String, CustomStringConvertible, Codable {
-        case maximum = "Maximum"
         case average = "Average"
+        case maximum = "Maximum"
         public var description: String { return self.rawValue }
     }
 
     public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
-        case ec2instance = "Ec2Instance"
         case autoscalinggroup = "AutoScalingGroup"
+        case ec2instance = "Ec2Instance"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case ec2instance = "Ec2Instance"
         case autoscalinggroup = "AutoScalingGroup"
+        case ec2instance = "Ec2Instance"
         public var description: String { return self.rawValue }
     }
 
     public enum Status: String, CustomStringConvertible, Codable {
         case active = "Active"
+        case failed = "Failed"
         case inactive = "Inactive"
         case pending = "Pending"
-        case failed = "Failed"
         public var description: String { return self.rawValue }
     }
 

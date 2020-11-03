@@ -21,21 +21,21 @@ extension KinesisAnalyticsV2 {
     // MARK: Enums
 
     public enum ApplicationRestoreType: String, CustomStringConvertible, Codable {
-        case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
-        case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
         case restoreFromCustomSnapshot = "RESTORE_FROM_CUSTOM_SNAPSHOT"
+        case restoreFromLatestSnapshot = "RESTORE_FROM_LATEST_SNAPSHOT"
+        case skipRestoreFromSnapshot = "SKIP_RESTORE_FROM_SNAPSHOT"
         public var description: String { return self.rawValue }
     }
 
     public enum ApplicationStatus: String, CustomStringConvertible, Codable {
+        case autoscaling = "AUTOSCALING"
         case deleting = "DELETING"
-        case starting = "STARTING"
-        case stopping = "STOPPING"
+        case forceStopping = "FORCE_STOPPING"
         case ready = "READY"
         case running = "RUNNING"
+        case starting = "STARTING"
+        case stopping = "STOPPING"
         case updating = "UPDATING"
-        case autoscaling = "AUTOSCALING"
-        case forceStopping = "FORCE_STOPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -46,52 +46,52 @@ extension KinesisAnalyticsV2 {
     }
 
     public enum ConfigurationType: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
         case custom = "CUSTOM"
+        case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
     public enum InputStartingPosition: String, CustomStringConvertible, Codable {
+        case lastStoppedPoint = "LAST_STOPPED_POINT"
         case now = "NOW"
         case trimHorizon = "TRIM_HORIZON"
-        case lastStoppedPoint = "LAST_STOPPED_POINT"
         public var description: String { return self.rawValue }
     }
 
     public enum LogLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
+        case error = "ERROR"
         case info = "INFO"
         case warn = "WARN"
-        case error = "ERROR"
-        case debug = "DEBUG"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricsLevel: String, CustomStringConvertible, Codable {
         case application = "APPLICATION"
-        case task = "TASK"
         case `operator` = "OPERATOR"
         case parallelism = "PARALLELISM"
+        case task = "TASK"
         public var description: String { return self.rawValue }
     }
 
     public enum RecordFormatType: String, CustomStringConvertible, Codable {
-        case json = "JSON"
         case csv = "CSV"
+        case json = "JSON"
         public var description: String { return self.rawValue }
     }
 
     public enum RuntimeEnvironment: String, CustomStringConvertible, Codable {
-        case sql10 = "SQL-1_0"
         case flink16 = "FLINK-1_6"
         case flink18 = "FLINK-1_8"
+        case sql10 = "SQL-1_0"
         public var description: String { return self.rawValue }
     }
 
     public enum SnapshotStatus: String, CustomStringConvertible, Codable {
         case creating = "CREATING"
-        case ready = "READY"
         case deleting = "DELETING"
         case failed = "FAILED"
+        case ready = "READY"
         public var description: String { return self.rawValue }
     }
 

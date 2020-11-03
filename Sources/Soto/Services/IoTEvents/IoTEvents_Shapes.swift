@@ -21,13 +21,13 @@ extension IoTEvents {
     // MARK: Enums
 
     public enum DetectorModelVersionStatus: String, CustomStringConvertible, Codable {
-        case active = "ACTIVE"
         case activating = "ACTIVATING"
-        case inactive = "INACTIVE"
+        case active = "ACTIVE"
         case deprecated = "DEPRECATED"
         case draft = "DRAFT"
-        case paused = "PAUSED"
         case failed = "FAILED"
+        case inactive = "INACTIVE"
+        case paused = "PAUSED"
         public var description: String { return self.rawValue }
     }
 
@@ -38,23 +38,23 @@ extension IoTEvents {
     }
 
     public enum InputStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
-        case updating = "UPDATING"
         case active = "ACTIVE"
+        case creating = "CREATING"
         case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
     public enum LoggingLevel: String, CustomStringConvertible, Codable {
+        case debug = "DEBUG"
         case error = "ERROR"
         case info = "INFO"
-        case debug = "DEBUG"
         public var description: String { return self.rawValue }
     }
 
     public enum PayloadType: String, CustomStringConvertible, Codable {
-        case string = "STRING"
         case json = "JSON"
+        case string = "STRING"
         public var description: String { return self.rawValue }
     }
 

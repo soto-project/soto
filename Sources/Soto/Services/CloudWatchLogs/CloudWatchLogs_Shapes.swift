@@ -21,8 +21,8 @@ extension CloudWatchLogs {
     // MARK: Enums
 
     public enum Distribution: String, CustomStringConvertible, Codable {
-        case random = "Random"
         case bylogstream = "ByLogStream"
+        case random = "Random"
         public var description: String { return self.rawValue }
     }
 
@@ -37,17 +37,17 @@ extension CloudWatchLogs {
     }
 
     public enum OrderBy: String, CustomStringConvertible, Codable {
-        case logstreamname = "LogStreamName"
         case lasteventtime = "LastEventTime"
+        case logstreamname = "LogStreamName"
         public var description: String { return self.rawValue }
     }
 
     public enum QueryStatus: String, CustomStringConvertible, Codable {
-        case scheduled = "Scheduled"
-        case running = "Running"
+        case cancelled = "Cancelled"
         case complete = "Complete"
         case failed = "Failed"
-        case cancelled = "Cancelled"
+        case running = "Running"
+        case scheduled = "Scheduled"
         public var description: String { return self.rawValue }
     }
 

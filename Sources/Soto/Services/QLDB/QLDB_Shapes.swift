@@ -21,23 +21,23 @@ extension QLDB {
     // MARK: Enums
 
     public enum ErrorCause: String, CustomStringConvertible, Codable {
-        case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
         case iamPermissionRevoked = "IAM_PERMISSION_REVOKED"
+        case kinesisStreamNotFound = "KINESIS_STREAM_NOT_FOUND"
         public var description: String { return self.rawValue }
     }
 
     public enum ExportStatus: String, CustomStringConvertible, Codable {
-        case inProgress = "IN_PROGRESS"
-        case completed = "COMPLETED"
         case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case inProgress = "IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
     public enum LedgerState: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case active = "ACTIVE"
-        case deleting = "DELETING"
+        case creating = "CREATING"
         case deleted = "DELETED"
+        case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
@@ -47,16 +47,16 @@ extension QLDB {
     }
 
     public enum S3ObjectEncryptionType: String, CustomStringConvertible, Codable {
+        case noEncryption = "NO_ENCRYPTION"
         case sseKms = "SSE_KMS"
         case sseS3 = "SSE_S3"
-        case noEncryption = "NO_ENCRYPTION"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
-        case completed = "COMPLETED"
         case canceled = "CANCELED"
+        case completed = "COMPLETED"
         case failed = "FAILED"
         case impaired = "IMPAIRED"
         public var description: String { return self.rawValue }

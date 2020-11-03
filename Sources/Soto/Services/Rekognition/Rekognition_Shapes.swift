@@ -21,8 +21,8 @@ extension Rekognition {
     // MARK: Enums
 
     public enum Attribute: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
         case all = "ALL"
+        case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
@@ -41,8 +41,8 @@ extension Rekognition {
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         case freeofadultcontent = "FreeOfAdultContent"
+        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
@@ -53,21 +53,21 @@ extension Rekognition {
     }
 
     public enum EmotionName: String, CustomStringConvertible, Codable {
-        case happy = "HAPPY"
-        case sad = "SAD"
         case angry = "ANGRY"
+        case calm = "CALM"
         case confused = "CONFUSED"
         case disgusted = "DISGUSTED"
-        case surprised = "SURPRISED"
-        case calm = "CALM"
-        case unknown = "UNKNOWN"
         case fear = "FEAR"
+        case happy = "HAPPY"
+        case sad = "SAD"
+        case surprised = "SURPRISED"
+        case unknown = "UNKNOWN"
         public var description: String { return self.rawValue }
     }
 
     public enum FaceAttributes: String, CustomStringConvertible, Codable {
-        case `default` = "DEFAULT"
         case all = "ALL"
+        case `default` = "DEFAULT"
         public var description: String { return self.rawValue }
     }
 
@@ -78,8 +78,8 @@ extension Rekognition {
     }
 
     public enum GenderType: String, CustomStringConvertible, Codable {
-        case male = "Male"
         case female = "Female"
+        case male = "Male"
         public var description: String { return self.rawValue }
     }
 
@@ -90,44 +90,44 @@ extension Rekognition {
     }
 
     public enum LandmarkType: String, CustomStringConvertible, Codable {
+        case chinbottom = "chinBottom"
         case eyeleft = "eyeLeft"
         case eyeright = "eyeRight"
-        case nose
-        case mouthleft = "mouthLeft"
-        case mouthright = "mouthRight"
         case lefteyebrowleft = "leftEyeBrowLeft"
         case lefteyebrowright = "leftEyeBrowRight"
         case lefteyebrowup = "leftEyeBrowUp"
-        case righteyebrowleft = "rightEyeBrowLeft"
-        case righteyebrowright = "rightEyeBrowRight"
-        case righteyebrowup = "rightEyeBrowUp"
+        case lefteyedown = "leftEyeDown"
         case lefteyeleft = "leftEyeLeft"
         case lefteyeright = "leftEyeRight"
         case lefteyeup = "leftEyeUp"
-        case lefteyedown = "leftEyeDown"
+        case leftpupil = "leftPupil"
+        case midjawlineleft = "midJawlineLeft"
+        case midjawlineright = "midJawlineRight"
+        case mouthdown = "mouthDown"
+        case mouthleft = "mouthLeft"
+        case mouthright = "mouthRight"
+        case mouthup = "mouthUp"
+        case nose
+        case noseleft = "noseLeft"
+        case noseright = "noseRight"
+        case righteyebrowleft = "rightEyeBrowLeft"
+        case righteyebrowright = "rightEyeBrowRight"
+        case righteyebrowup = "rightEyeBrowUp"
+        case righteyedown = "rightEyeDown"
         case righteyeleft = "rightEyeLeft"
         case righteyeright = "rightEyeRight"
         case righteyeup = "rightEyeUp"
-        case righteyedown = "rightEyeDown"
-        case noseleft = "noseLeft"
-        case noseright = "noseRight"
-        case mouthup = "mouthUp"
-        case mouthdown = "mouthDown"
-        case leftpupil = "leftPupil"
         case rightpupil = "rightPupil"
         case upperjawlineleft = "upperJawlineLeft"
-        case midjawlineleft = "midJawlineLeft"
-        case chinbottom = "chinBottom"
-        case midjawlineright = "midJawlineRight"
         case upperjawlineright = "upperJawlineRight"
         public var description: String { return self.rawValue }
     }
 
     public enum OrientationCorrection: String, CustomStringConvertible, Codable {
         case rotate0 = "ROTATE_0"
-        case rotate90 = "ROTATE_90"
         case rotate180 = "ROTATE_180"
         case rotate270 = "ROTATE_270"
+        case rotate90 = "ROTATE_90"
         public var description: String { return self.rawValue }
     }
 
@@ -138,22 +138,22 @@ extension Rekognition {
     }
 
     public enum ProjectStatus: String, CustomStringConvertible, Codable {
-        case creating = "CREATING"
         case created = "CREATED"
+        case creating = "CREATING"
         case deleting = "DELETING"
         public var description: String { return self.rawValue }
     }
 
     public enum ProjectVersionStatus: String, CustomStringConvertible, Codable {
-        case trainingInProgress = "TRAINING_IN_PROGRESS"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
         case trainingCompleted = "TRAINING_COMPLETED"
         case trainingFailed = "TRAINING_FAILED"
-        case starting = "STARTING"
-        case running = "RUNNING"
-        case failed = "FAILED"
-        case stopping = "STOPPING"
-        case stopped = "STOPPED"
-        case deleting = "DELETING"
+        case trainingInProgress = "TRAINING_IN_PROGRESS"
         public var description: String { return self.rawValue }
     }
 
@@ -165,11 +165,11 @@ extension Rekognition {
     }
 
     public enum QualityFilter: String, CustomStringConvertible, Codable {
-        case none = "NONE"
         case auto = "AUTO"
+        case high = "HIGH"
         case low = "LOW"
         case medium = "MEDIUM"
-        case high = "HIGH"
+        case none = "NONE"
         public var description: String { return self.rawValue }
     }
 
@@ -177,32 +177,32 @@ extension Rekognition {
         case exceedsMaxFaces = "EXCEEDS_MAX_FACES"
         case extremePose = "EXTREME_POSE"
         case lowBrightness = "LOW_BRIGHTNESS"
-        case lowSharpness = "LOW_SHARPNESS"
         case lowConfidence = "LOW_CONFIDENCE"
-        case smallBoundingBox = "SMALL_BOUNDING_BOX"
         case lowFaceQuality = "LOW_FACE_QUALITY"
+        case lowSharpness = "LOW_SHARPNESS"
+        case smallBoundingBox = "SMALL_BOUNDING_BOX"
         public var description: String { return self.rawValue }
     }
 
     public enum SegmentType: String, CustomStringConvertible, Codable {
-        case technicalCue = "TECHNICAL_CUE"
         case shot = "SHOT"
+        case technicalCue = "TECHNICAL_CUE"
         public var description: String { return self.rawValue }
     }
 
     public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
-        case stopped = "STOPPED"
-        case starting = "STARTING"
-        case running = "RUNNING"
         case failed = "FAILED"
+        case running = "RUNNING"
+        case starting = "STARTING"
+        case stopped = "STOPPED"
         case stopping = "STOPPING"
         public var description: String { return self.rawValue }
     }
 
     public enum TechnicalCueType: String, CustomStringConvertible, Codable {
+        case blackframes = "BlackFrames"
         case colorbars = "ColorBars"
         case endcredits = "EndCredits"
-        case blackframes = "BlackFrames"
         public var description: String { return self.rawValue }
     }
 
@@ -213,9 +213,9 @@ extension Rekognition {
     }
 
     public enum VideoJobStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
         case inProgress = "IN_PROGRESS"
         case succeeded = "SUCCEEDED"
-        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 

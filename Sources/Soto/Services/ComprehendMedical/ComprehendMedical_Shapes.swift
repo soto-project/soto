@@ -21,58 +21,58 @@ extension ComprehendMedical {
     // MARK: Enums
 
     public enum AttributeName: String, CustomStringConvertible, Codable {
-        case sign = "SIGN"
-        case symptom = "SYMPTOM"
         case diagnosis = "DIAGNOSIS"
         case negation = "NEGATION"
+        case sign = "SIGN"
+        case symptom = "SYMPTOM"
         public var description: String { return self.rawValue }
     }
 
     public enum EntitySubType: String, CustomStringConvertible, Codable {
-        case name = "NAME"
+        case acuity = "ACUITY"
+        case address = "ADDRESS"
+        case age = "AGE"
+        case brandName = "BRAND_NAME"
+        case contactPoint = "CONTACT_POINT"
+        case date = "DATE"
+        case direction = "DIRECTION"
         case dosage = "DOSAGE"
-        case routeOrMode = "ROUTE_OR_MODE"
+        case duration = "DURATION"
+        case dxName = "DX_NAME"
+        case email = "EMAIL"
         case form = "FORM"
         case frequency = "FREQUENCY"
-        case duration = "DURATION"
         case genericName = "GENERIC_NAME"
-        case brandName = "BRAND_NAME"
-        case strength = "STRENGTH"
-        case rate = "RATE"
-        case acuity = "ACUITY"
-        case testName = "TEST_NAME"
-        case testValue = "TEST_VALUE"
-        case testUnits = "TEST_UNITS"
-        case procedureName = "PROCEDURE_NAME"
-        case treatmentName = "TREATMENT_NAME"
-        case date = "DATE"
-        case age = "AGE"
-        case contactPoint = "CONTACT_POINT"
-        case email = "EMAIL"
         case identifier = "IDENTIFIER"
-        case url = "URL"
-        case address = "ADDRESS"
+        case name = "NAME"
+        case procedureName = "PROCEDURE_NAME"
         case profession = "PROFESSION"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
-        case direction = "DIRECTION"
         case quality = "QUALITY"
         case quantity = "QUANTITY"
+        case rate = "RATE"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case strength = "STRENGTH"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testName = "TEST_NAME"
+        case testUnits = "TEST_UNITS"
+        case testValue = "TEST_VALUE"
         case timeExpression = "TIME_EXPRESSION"
-        case timeToMedicationName = "TIME_TO_MEDICATION_NAME"
         case timeToDxName = "TIME_TO_DX_NAME"
-        case timeToTestName = "TIME_TO_TEST_NAME"
+        case timeToMedicationName = "TIME_TO_MEDICATION_NAME"
         case timeToProcedureName = "TIME_TO_PROCEDURE_NAME"
+        case timeToTestName = "TIME_TO_TEST_NAME"
         case timeToTreatmentName = "TIME_TO_TREATMENT_NAME"
-        case dxName = "DX_NAME"
+        case treatmentName = "TREATMENT_NAME"
+        case url = "URL"
         public var description: String { return self.rawValue }
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable {
-        case medication = "MEDICATION"
+        case anatomy = "ANATOMY"
         case medicalCondition = "MEDICAL_CONDITION"
+        case medication = "MEDICATION"
         case protectedHealthInformation = "PROTECTED_HEALTH_INFORMATION"
         case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
-        case anatomy = "ANATOMY"
         case timeExpression = "TIME_EXPRESSION"
         public var description: String { return self.rawValue }
     }
@@ -80,9 +80,9 @@ extension ComprehendMedical {
     public enum ICD10CMAttributeType: String, CustomStringConvertible, Codable {
         case acuity = "ACUITY"
         case direction = "DIRECTION"
-        case systemOrganSite = "SYSTEM_ORGAN_SITE"
         case quality = "QUALITY"
         case quantity = "QUANTITY"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
         public var description: String { return self.rawValue }
     }
 
@@ -97,21 +97,21 @@ extension ComprehendMedical {
     }
 
     public enum ICD10CMTraitName: String, CustomStringConvertible, Codable {
-        case negation = "NEGATION"
         case diagnosis = "DIAGNOSIS"
+        case negation = "NEGATION"
         case sign = "SIGN"
         case symptom = "SYMPTOM"
         public var description: String { return self.rawValue }
     }
 
     public enum JobStatus: String, CustomStringConvertible, Codable {
-        case submitted = "SUBMITTED"
-        case inProgress = "IN_PROGRESS"
         case completed = "COMPLETED"
-        case partialSuccess = "PARTIAL_SUCCESS"
         case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case partialSuccess = "PARTIAL_SUCCESS"
         case stopRequested = "STOP_REQUESTED"
         case stopped = "STOPPED"
+        case submitted = "SUBMITTED"
         public var description: String { return self.rawValue }
     }
 
@@ -121,24 +121,24 @@ extension ComprehendMedical {
     }
 
     public enum RelationshipType: String, CustomStringConvertible, Codable {
-        case every = "EVERY"
-        case withDosage = "WITH_DOSAGE"
+        case acuity = "ACUITY"
         case administeredVia = "ADMINISTERED_VIA"
-        case `for` = "FOR"
-        case negative = "NEGATIVE"
-        case overlap = "OVERLAP"
+        case direction = "DIRECTION"
         case dosage = "DOSAGE"
-        case routeOrMode = "ROUTE_OR_MODE"
+        case duration = "DURATION"
+        case every = "EVERY"
+        case `for` = "FOR"
         case form = "FORM"
         case frequency = "FREQUENCY"
-        case duration = "DURATION"
-        case strength = "STRENGTH"
+        case negative = "NEGATIVE"
+        case overlap = "OVERLAP"
         case rate = "RATE"
-        case acuity = "ACUITY"
-        case testValue = "TEST_VALUE"
-        case testUnits = "TEST_UNITS"
-        case direction = "DIRECTION"
+        case routeOrMode = "ROUTE_OR_MODE"
+        case strength = "STRENGTH"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testUnits = "TEST_UNITS"
+        case testValue = "TEST_VALUE"
+        case withDosage = "WITH_DOSAGE"
         public var description: String { return self.rawValue }
     }
 

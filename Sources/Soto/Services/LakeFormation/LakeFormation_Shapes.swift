@@ -21,46 +21,46 @@ extension LakeFormation {
     // MARK: Enums
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
+        case beginsWith = "BEGINS_WITH"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
         case eq = "EQ"
-        case ne = "NE"
-        case le = "LE"
-        case lt = "LT"
         case ge = "GE"
         case gt = "GT"
-        case contains = "CONTAINS"
-        case notContains = "NOT_CONTAINS"
-        case beginsWith = "BEGINS_WITH"
         case `in` = "IN"
-        case between = "BETWEEN"
+        case le = "LE"
+        case lt = "LT"
+        case ne = "NE"
+        case notContains = "NOT_CONTAINS"
         public var description: String { return self.rawValue }
     }
 
     public enum DataLakeResourceType: String, CustomStringConvertible, Codable {
         case catalog = "CATALOG"
+        case dataLocation = "DATA_LOCATION"
         case database = "DATABASE"
         case table = "TABLE"
-        case dataLocation = "DATA_LOCATION"
         public var description: String { return self.rawValue }
     }
 
     public enum FieldNameString: String, CustomStringConvertible, Codable {
+        case lastModified = "LAST_MODIFIED"
         case resourceArn = "RESOURCE_ARN"
         case roleArn = "ROLE_ARN"
-        case lastModified = "LAST_MODIFIED"
         public var description: String { return self.rawValue }
     }
 
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
-        case select = "SELECT"
         case alter = "ALTER"
-        case drop = "DROP"
-        case delete = "DELETE"
-        case insert = "INSERT"
-        case describe = "DESCRIBE"
         case createDatabase = "CREATE_DATABASE"
         case createTable = "CREATE_TABLE"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
+        case delete = "DELETE"
+        case describe = "DESCRIBE"
+        case drop = "DROP"
+        case insert = "INSERT"
+        case select = "SELECT"
         public var description: String { return self.rawValue }
     }
 

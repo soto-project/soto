@@ -21,8 +21,8 @@ extension Polly {
     // MARK: Enums
 
     public enum Engine: String, CustomStringConvertible, Codable {
-        case standard
         case neural
+        case standard
         public var description: String { return self.rawValue }
     }
 
@@ -48,10 +48,10 @@ extension Polly {
         case esUs = "es-US"
         case frCa = "fr-CA"
         case frFr = "fr-FR"
+        case hiIn = "hi-IN"
         case isIs = "is-IS"
         case itIt = "it-IT"
         case jaJp = "ja-JP"
-        case hiIn = "hi-IN"
         case koKr = "ko-KR"
         case nbNo = "nb-NO"
         case nlNl = "nl-NL"
@@ -82,10 +82,10 @@ extension Polly {
     }
 
     public enum TaskStatus: String, CustomStringConvertible, Codable {
-        case scheduled
-        case inprogress = "inProgress"
         case completed
         case failed
+        case inprogress = "inProgress"
+        case scheduled
         public var description: String { return self.rawValue }
     }
 

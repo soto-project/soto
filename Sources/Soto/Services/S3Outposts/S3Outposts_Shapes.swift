@@ -21,8 +21,8 @@ extension S3Outposts {
     // MARK: Enums
 
     public enum EndpointStatus: String, CustomStringConvertible, Codable {
-        case pending = "PENDING"
         case available = "AVAILABLE"
+        case pending = "PENDING"
         public var description: String { return self.rawValue }
     }
 

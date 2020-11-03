@@ -26,10 +26,10 @@ extension TimestreamWrite {
     }
 
     public enum MeasureValueType: String, CustomStringConvertible, Codable {
-        case double = "DOUBLE"
         case bigint = "BIGINT"
-        case varchar = "VARCHAR"
         case boolean = "BOOLEAN"
+        case double = "DOUBLE"
+        case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }
 
@@ -40,10 +40,10 @@ extension TimestreamWrite {
     }
 
     public enum TimeUnit: String, CustomStringConvertible, Codable {
-        case milliseconds = "MILLISECONDS"
-        case seconds = "SECONDS"
         case microseconds = "MICROSECONDS"
+        case milliseconds = "MILLISECONDS"
         case nanoseconds = "NANOSECONDS"
+        case seconds = "SECONDS"
         public var description: String { return self.rawValue }
     }
 
