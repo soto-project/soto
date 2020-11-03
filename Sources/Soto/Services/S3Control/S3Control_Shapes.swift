@@ -28,19 +28,24 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
-    public enum BucketLocationConstraint: String, CustomStringConvertible, Codable {
-        case apNortheast1 = "ap-northeast-1"
-        case apSouth1 = "ap-south-1"
-        case apSoutheast1 = "ap-southeast-1"
-        case apSoutheast2 = "ap-southeast-2"
-        case cnNorth1 = "cn-north-1"
-        case eu = "EU"
-        case euCentral1 = "eu-central-1"
-        case euWest1 = "eu-west-1"
-        case saEast1 = "sa-east-1"
-        case usWest1 = "us-west-1"
-        case usWest2 = "us-west-2"
-        public var description: String { return self.rawValue }
+    public struct BucketLocationConstraint: RawRepresentable, Equatable, Codable {
+        public var rawValue: String
+
+        public init(rawValue: String) {
+            self.rawValue = rawValue
+        }
+
+        public static var apNortheast1: Self { .init(rawValue: "ap-northeast-1") }
+        public static var apSouth1: Self { .init(rawValue: "ap-south-1") }
+        public static var apSoutheast1: Self { .init(rawValue: "ap-southeast-1") }
+        public static var apSoutheast2: Self { .init(rawValue: "ap-southeast-2") }
+        public static var cnNorth1: Self { .init(rawValue: "cn-north-1") }
+        public static var eu: Self { .init(rawValue: "EU") }
+        public static var euCentral1: Self { .init(rawValue: "eu-central-1") }
+        public static var euWest1: Self { .init(rawValue: "eu-west-1") }
+        public static var saEast1: Self { .init(rawValue: "sa-east-1") }
+        public static var usWest1: Self { .init(rawValue: "us-west-1") }
+        public static var usWest2: Self { .init(rawValue: "us-west-2") }
     }
 
     public enum ExpirationStatus: String, CustomStringConvertible, Codable {

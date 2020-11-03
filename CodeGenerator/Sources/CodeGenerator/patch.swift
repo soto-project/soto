@@ -71,6 +71,9 @@ extension API {
             ReplacePatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.isExtensible), value: true, originalValue: false),
             AddPatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.cases), value: "us-east-1"),
         ],
+        "S3Control": [
+            ReplacePatch(PatchKeyPath3(\.shapes["BucketLocationConstraint"], \.type.enum, \.isExtensible), value: true, originalValue: false),
+        ],
     ]
 
     struct ReplacePatch<Value: Equatable, P: PatchKeyPath>: Patch where P.Base == API, P.Value == Value {
