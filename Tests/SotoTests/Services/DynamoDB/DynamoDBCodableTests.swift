@@ -90,7 +90,7 @@ final class DynamoDBCodableTests: XCTestCase {
             let pets: [String]?
         }
         let id = UUID().uuidString
-        let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["cat", "dog"])
+        let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["zebra", "cat", "dog", "cat"])
 
         let tableName = TestEnvironment.generateResourceName()
         let response = self.createTable(name: tableName)
