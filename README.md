@@ -152,7 +152,7 @@ Reasons you might want to provide your own client.
 
 ## Using Soto with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If Soto is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 4 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If Soto is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
@@ -168,18 +168,14 @@ final class MyController {
         let message: String
     }
     func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return try req.content.decode(EmailData.self)
-            .flatMap { (emailData)->EventLoopFuture<SES.SendEmailResponse> in
-                let destination = SES.Destination(toAddresses: [emailData.address])
-                let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
-                let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
+        let emailData = try req.content.decode(EmailData.self)
+        let destination = SES.Destination(toAddresses: [emailData.address])
+        let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
+        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
 
-                return client.sendEmail(sendEmailRequest)
-            }
+        return client.sendEmail(sendEmailRequest)
             .hopTo(eventLoop: req.eventLoop)
-            .map { response -> HTTPResponseStatus in
-                return HTTPStatus.ok
-        }
+            .transform(to: .ok)
     }
 }
 ```
