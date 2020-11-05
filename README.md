@@ -152,7 +152,7 @@ Reasons you might want to provide your own client.
 
 ## Using Soto with Vapor
 
-Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 3 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If Soto is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
+Integration with Vapor is pretty straight forward. Although be sure you use the correct version of Soto. See the [compatibility](#compatibility) section for details. Below is a simple Vapor 4 example that extracts an email address, subject and message from a request and then sends an email using these details. Take note of the `hopTo(eventLoop:)` call. If Soto is not working off the same `EventLoopGroup` as the Vapor `Request` this is a requirement.
 
 ```swift
 import Vapor
