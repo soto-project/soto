@@ -168,14 +168,12 @@ final class MyController {
         let message: String
     }
     func sendUserEmailFromJSON(_ req: Request) throws -> EventLoopFuture<HTTPStatus> {
-        return try req.content.decode(EmailData.self)
-            .flatMap { (emailData)->EventLoopFuture<SES.SendEmailResponse> in
-                let destination = SES.Destination(toAddresses: [emailData.address])
-                let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
-                let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
+        let emailData = try req.content.decode(EmailData.self)
+        let destination = SES.Destination(toAddresses: [emailData.address])
+        let message = SES.Message(body:SES.Body(text:SES.Content(data:emailData.message)), subject:SES.Content(data:emailData.subject))
+        let sendEmailRequest = SES.SendEmailRequest(destination: destination, message: message, source:"awssdkswift@me.com")
 
-                return client.sendEmail(sendEmailRequest)
-            }
+        return client.sendEmail(sendEmailRequest)
             .hopTo(eventLoop: req.eventLoop)
             .map { response -> HTTPResponseStatus in
                 return HTTPStatus.ok
