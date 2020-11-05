@@ -175,9 +175,7 @@ final class MyController {
 
         return client.sendEmail(sendEmailRequest)
             .hopTo(eventLoop: req.eventLoop)
-            .map { response -> HTTPResponseStatus in
-                return HTTPStatus.ok
-        }
+            .transform(to: .ok)
     }
 }
 ```
