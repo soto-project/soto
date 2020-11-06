@@ -476,7 +476,7 @@ extension S3 {
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
-            resumeMultipartUpload(
+            self.resumeMultipartUpload(
                 input,
                 partSize: partSize,
                 fileHandle: fileHandle,
