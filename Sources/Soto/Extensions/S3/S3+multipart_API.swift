@@ -237,6 +237,55 @@ extension S3 {
     /// - parameters:
     ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
     ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - fileHandle: File handle for file to upload
+    ///     - fileIO: NIO non blocking file io manager
+    ///     - uploadSize: Size of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - eventLoop: Eventloop to run upload on
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete (1.0 meaning finished).
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartUpload(
+        _ input: CreateMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        fileHandle: NIOFileHandle,
+        fileIO: NonBlockingFileIO,
+        uploadSize: Int,
+        abortOnFail: Bool = true,
+        on eventLoop: EventLoop? = nil,
+        progress: @escaping (Double) throws -> Void = { _ in }
+    ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        var progressAmount: Int = 0
+        var prevProgressAmount: Int = 0
+
+        return self.multipartUpload(input, abortOnFail: abortOnFail, on: eventLoop) { eventLoop in
+            let size = min(partSize, uploadSize - progressAmount)
+            guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
+            prevProgressAmount = progressAmount
+            progressAmount += size
+            let payload = AWSPayload.fileHandle(
+                fileHandle,
+                size: size,
+                fileIO: fileIO,
+                byteBufferAllocator: self.config.byteBufferAllocator
+            ) { downloaded in
+                try progress(Double(downloaded + prevProgressAmount) / Double(uploadSize))
+            }
+            return eventLoop.makeSucceededFuture(payload)
+        }
+    }
+
+    /// Multipart upload of file to S3.
+    ///
+    /// Uploads file using multipart upload commands. If you want the function to not abort the multipart upload when it receives an error then set `abortOnFail` to false. With this you
+    /// can then use `resumeMultipartUpload` to resume the failed upload. If you set `abortOnFail` to false but don't call `resumeMultipartUpload` on failure you will have
+    /// to call `abortMultipartUpload` yourself.
+    ///
+    /// - parameters:
+    ///     - input: The CreateMultipartUploadRequest structure that contains the details about the upload
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
     ///     - filename: Full path of file to upload
     ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
     ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
@@ -260,26 +309,16 @@ extension S3 {
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
-            var progressAmount: Int = 0
-            var prevProgressAmount: Int = 0
-
-            let fileSize = fileRegion.readableBytes
-
-            return self.multipartUpload(input, abortOnFail: abortOnFail, on: eventLoop) { eventLoop in
-                let size = min(partSize, fileSize - progressAmount)
-                guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
-                prevProgressAmount = progressAmount
-                progressAmount += size
-                let payload = AWSPayload.fileHandle(
-                    fileHandle,
-                    size: size,
-                    fileIO: fileIO,
-                    byteBufferAllocator: self.config.byteBufferAllocator
-                ) { downloaded in
-                    try progress(Double(downloaded + prevProgressAmount) / Double(fileSize))
-                }
-                return eventLoop.makeSucceededFuture(payload)
-            }
+            self.multipartUpload(
+                input,
+                partSize: partSize,
+                fileHandle: fileHandle,
+                fileIO: fileIO,
+                uploadSize: fileRegion.readableBytes,
+                abortOnFail: abortOnFail,
+                on: eventLoop,
+                progress: progress
+            )
         }
     }
 
@@ -348,8 +387,68 @@ extension S3 {
 
     /// Resume multipart upload of file to S3.
     ///
-    /// When calling this make sure you are using the same `input`, `partSize`and `filename` as you used when calling `multipartUpload`. The `uploadId` will come
-    /// from the `abortedUpload` error thrown by the previous `multipartUpload`
+    /// Call this with `ResumeMultipartUploadRequest`returned by the failed multipart upload. Make sure you are using the same `partSize`, the `fileHandle` points to the
+    /// same file and is in the same position in that file and the uploadSize is the same as you used when calling `multipartUpload`.
+    ///
+    /// - parameters:
+    ///     - input: The `ResumeMultipartUploadRequest` structure returned in upload fail error from previous upload call
+    ///     - partSize: Size of each part to upload. This has to be at least 5MB
+    ///     - fileHandle: File handle for file to upload
+    ///     - fileIO: NIO non blocking file io manager
+    ///     - uploadSize: Size of file to upload
+    ///     - abortOnFail: Whether should abort multipart upload if it fails. If you want to attempt to resume after a fail this should be set to false
+    ///     - on: EventLoop to process parts for upload, if nil an eventLoop is taken from the clients eventLoopGroup
+    ///     - eventLoop: Eventloop to run upload on
+    ///     - progress: Callback that returns the progress of the upload. It is called after each part is uploaded with a value between 0.0 and 1.0 indicating how far the upload is complete
+    ///      (1.0 meaning finished).
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func resumeMultipartUpload(
+        _ input: ResumeMultipartUploadRequest,
+        partSize: Int = 5 * 1024 * 1024,
+        fileHandle: NIOFileHandle,
+        fileIO: NonBlockingFileIO,
+        uploadSize: Int,
+        abortOnFail: Bool = true,
+        on eventLoop: EventLoop? = nil,
+        progress: @escaping (Double) throws -> Void = { _ in }
+    ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        var progressAmount: Int = 0
+        var prevProgressAmount: Int = 0
+
+        return self.resumeMultipartUpload(
+            input,
+            abortOnFail: abortOnFail,
+            on: eventLoop,
+            inputStream: { eventLoop in
+                let size = min(partSize, uploadSize - progressAmount)
+                guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
+                prevProgressAmount = progressAmount
+                let payload = AWSPayload.fileHandle(
+                    fileHandle,
+                    offset: progressAmount,
+                    size: size,
+                    fileIO: fileIO,
+                    byteBufferAllocator: self.config.byteBufferAllocator
+                ) { downloaded in
+                    try progress(Double(downloaded + prevProgressAmount) / Double(uploadSize))
+                }
+                progressAmount += size
+                return eventLoop.makeSucceededFuture(payload)
+            },
+            skipStream: { eventLoop in
+                let size = min(partSize, uploadSize - progressAmount)
+                progressAmount += size
+                return eventLoop.makeSucceededFuture(size == 0)
+            }
+        )
+    }
+
+    /// Resume multipart upload of file to S3.
+    ///
+    /// Call this with `ResumeMultipartUploadRequest`returned by the failed multipart upload. Make sure you are using the same `partSize`and `filename` as you used when calling
+    /// `multipartUpload`. `
     ///
     /// - parameters:
     ///     - input: The `ResumeMultipartUploadRequest` structure returned in upload fail error from previous upload call
@@ -377,36 +476,15 @@ extension S3 {
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
-            var progressAmount: Int = 0
-            var prevProgressAmount: Int = 0
-
-            let fileSize = fileRegion.readableBytes
-
-            return self.resumeMultipartUpload(
+            self.resumeMultipartUpload(
                 input,
+                partSize: partSize,
+                fileHandle: fileHandle,
+                fileIO: fileIO,
+                uploadSize: fileRegion.readableBytes,
                 abortOnFail: abortOnFail,
                 on: eventLoop,
-                inputStream: { eventLoop in
-                    let size = min(partSize, fileSize - progressAmount)
-                    guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
-                    prevProgressAmount = progressAmount
-                    let payload = AWSPayload.fileHandle(
-                        fileHandle,
-                        offset: progressAmount,
-                        size: size,
-                        fileIO: fileIO,
-                        byteBufferAllocator: self.config.byteBufferAllocator
-                    ) { downloaded in
-                        try progress(Double(downloaded + prevProgressAmount) / Double(fileSize))
-                    }
-                    progressAmount += size
-                    return eventLoop.makeSucceededFuture(payload)
-                },
-                skipStream: { eventLoop in
-                    let size = min(partSize, fileSize - progressAmount)
-                    progressAmount += size
-                    return eventLoop.makeSucceededFuture(size == 0)
-                }
+                progress: progress
             )
         }
     }
