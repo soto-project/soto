@@ -390,7 +390,63 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testStreamObject() {
+    func testStreamRequestObject() {
+        // testing eventLoop so need to use MultiThreadedEventLoopGroup
+        let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
+        let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
+        let client = AWSClient(
+            credentialProvider: TestEnvironment.credentialProvider,
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .shared(httpClient)
+        )
+        let s3 = S3(
+            client: client,
+            region: .euwest1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
+        defer {
+            XCTAssertNoThrow(try client.syncShutdown())
+            XCTAssertNoThrow(try httpClient.syncShutdown())
+            XCTAssertNoThrow(try elg.syncShutdownGracefully())
+        }
+
+        let runOnEventLoop = s3.client.eventLoopGroup.next()
+
+        // create buffer
+        let dataSize = 457_017
+        var data = Data(count: dataSize)
+        for i in 0..<dataSize {
+            data[i] = UInt8.random(in: 0...255)
+        }
+        var byteBuffer = ByteBufferAllocator().buffer(data: data)
+        let payload = AWSPayload.stream(size: dataSize) { eventLoop in
+            XCTAssertTrue(eventLoop === runOnEventLoop)
+            let size = min(100_000, byteBuffer.readableBytes)
+            let slice = byteBuffer.readSlice(length: size)!
+            return eventLoop.makeSucceededFuture(.byteBuffer(slice))
+        }
+        let name = TestEnvironment.generateResourceName()
+
+        let response = Self.createBucket(name: name, s3: s3)
+            .hop(to: runOnEventLoop)
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(body: payload, bucket: name, key: "tempfile")
+                return s3.putObject(putRequest, on: runOnEventLoop)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
+                return s3.getObject(getRequest, on: runOnEventLoop)
+            }
+            .map { response in
+                XCTAssertEqual(data, response.body?.asData())
+            }
+            .flatAlways { _ in
+                return Self.deleteBucket(name: name, s3: s3)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testStreamResponseObject() {
         // testing eventLoop so need to use MultiThreadedEventLoopGroup
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
