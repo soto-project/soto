@@ -491,7 +491,7 @@ extension S3 {
         }
     }
 
-    /// Multipart copy of file to S3. 
+    /// Multipart copy of file to S3.
     ///
     /// - parameters:
     ///     - input: The CopyObjectRequest structure that contains the details about the copy
