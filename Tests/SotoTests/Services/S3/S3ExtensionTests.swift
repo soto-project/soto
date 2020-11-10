@@ -261,6 +261,68 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertNoThrow(try response2.wait())
     }
 
+    func testMultipartCopy() {
+        let s3 = Self.s3.with(timeout: .minutes(2))
+        let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
+        let name = TestEnvironment.generateResourceName()
+        let name2 = name + "2"
+        let filename = "S3MultipartUploadTest"
+        let filename2 = "S3MultipartUploadTest2"
+
+        XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
+        defer {
+            XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
+        }
+        let s3Euwest2 = S3(
+            client: S3ExtensionTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
+        let response = S3Tests.createBucket(name: name, s3: s3)
+            .and(S3Tests.createBucket(name: name2, s3: s3Euwest2))
+            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CreateMultipartUploadRequest(
+                    bucket: name,
+                    key: filename
+                )
+                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
+            }
+            .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
+                let request = S3.CopyObjectRequest(
+                    bucket: name2,
+                    copySource: "/\(name)/\(filename)",
+                    key: filename2
+                )
+                return s3Euwest2.multipartCopy(request, objectSize: 6 * 1024 * 1024, partSize: 5 * 1024 * 1024)
+            }
+            .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
+                return s3Euwest2.getObject(.init(bucket: name2, key: filename2))
+            }
+            .map { response -> Void in
+                XCTAssertEqual(response.body?.asData(), data)
+            }
+            .flatAlways { _ in
+                return S3Tests.deleteBucket(name: name, s3: s3)
+            }
+            .flatAlways { _ in
+                return S3Tests.deleteBucket(name: name2, s3: s3Euwest2)
+            }
+        XCTAssertNoThrow(try response.wait())
+    }
+
+    func testCopySourceBucketKeyExtraction() {
+        let values = Self.s3.getBucketKeyVersion(from: "test-bucket/test-key/path")
+        XCTAssertEqual(values?.bucket, "test-bucket")
+        XCTAssertEqual(values?.key, "test-key/path")
+        let values2 = Self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path")
+        XCTAssertEqual(values2?.bucket, "test-bucket")
+        XCTAssertEqual(values2?.key, "test-key/path")
+        let values3 = Self.s3.getBucketKeyVersion(from: "/test-bucket/test-key/path?versionId=5")
+        XCTAssertEqual(values3?.bucket, "test-bucket")
+        XCTAssertEqual(values3?.key, "test-key/path")
+        XCTAssertEqual(values3?.versionId, "5")
+    }
+
     func testSelectObjectContent() {
         // This doesnt work with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
