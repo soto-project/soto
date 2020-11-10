@@ -491,42 +491,36 @@ extension S3 {
         }
     }
 
-    /// Multipart copy of file to S3. Currently this only works within one region as it uses HeadObject to read the source file size
+    /// Multipart copy of file to S3. 
     ///
     /// - parameters:
     ///     - input: The CopyObjectRequest structure that contains the details about the copy
+    ///     - objectSize: Size of object to copy
     ///     - partSize: Size of each part to copy. This has to be at least 5MB
     ///     - eventLoop: an EventLoop to process each part to upload
     /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
     public func multipartCopy(
         _ input: CopyObjectRequest,
+        objectSize: Int,
         partSize: Int = 8 * 1024 * 1024,
         on eventLoop: EventLoop? = nil
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
 
-        // get object bucket, key and version from copySource
-        guard let copySourceValues = getBucketKeyVersion(from: input.copySource) else { return eventLoop.makeFailedFuture(AWSClientError.validationError) }
-
-        // get object size from headObject
-        let headResult = self.headObject(.init(bucket: copySourceValues.bucket, key: copySourceValues.key, versionId: copySourceValues.versionId))
         var uploadId: String = ""
 
         // initialize multipart upload
         let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, sSEKMSEncryptionContext: input.sSEKMSEncryptionContext, sSEKMSKeyId: input.sSEKMSKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
         let result = createMultipartUpload(request, on: eventLoop)
-            .and(headResult)
-            .flatMap { (upload, copySourceHead) -> EventLoopFuture<[CompletedPart]> in
-                guard let uploadResponseId = upload.uploadId else {
+            .flatMap { uploadResponse -> EventLoopFuture<[CompletedPart]> in
+                guard let uploadResponseId = uploadResponse.uploadId else {
                     return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
                 }
                 uploadId = uploadResponseId
 
-                let size = copySourceHead.contentLength ?? 0
-
                 // calculate number of upload part calls and the size of the final upload
-                let numParts = ((Int(size) - 1) / partSize) + 1
-                let finalPartSize = Int(size) - (numParts - 1) * partSize
+                let numParts = ((Int(objectSize) - 1) / partSize) + 1
+                let finalPartSize = Int(objectSize) - (numParts - 1) * partSize
                 // create array of upload part call futures.
                 let uploadPartFutures: [EventLoopFuture<CompletedPart>] = (1...numParts).map { part in
                     let copyRange: String
@@ -565,6 +559,31 @@ extension S3 {
                 throw error
             }
         return result
+    }
+
+    /// Multipart copy of file to S3. Currently this only works within one region as it uses HeadObject to read the source file size
+    ///
+    /// - parameters:
+    ///     - input: The CopyObjectRequest structure that contains the details about the copy
+    ///     - partSize: Size of each part to copy. This has to be at least 5MB
+    ///     - eventLoop: an EventLoop to process each part to upload
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartCopy(
+        _ input: CopyObjectRequest,
+        partSize: Int = 8 * 1024 * 1024,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        // get object bucket, key and version from copySource
+        guard let copySourceValues = getBucketKeyVersion(from: input.copySource) else { return eventLoop.makeFailedFuture(AWSClientError.validationError) }
+
+        // get object size from headObject
+        return self.headObject(.init(bucket: copySourceValues.bucket, key: copySourceValues.key, versionId: copySourceValues.versionId))
+            .flatMap { response in
+                let size = response.contentLength ?? 0
+                return self.multipartCopy(input, objectSize: Int(size), partSize: partSize, on: eventLoop)
+            }
     }
 }
 

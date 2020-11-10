@@ -263,9 +263,9 @@ class S3ExtensionTests: XCTestCase {
 
     func testMultipartCopy() {
         let s3 = Self.s3.with(timeout: .minutes(2))
-        let data = S3Tests.createRandomBuffer(size: 7 * 1024 * 1024)
+        let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
-        let name2 = name + "copy2"
+        let name2 = name + "2"
         let filename = "S3MultipartUploadTest"
         let filename2 = "S3MultipartUploadTest2"
 
@@ -273,8 +273,13 @@ class S3ExtensionTests: XCTestCase {
         defer {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
+        let s3Euwest2 = S3(
+            client: S3ExtensionTests.client,
+            region: .useast1,
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+        )
         let response = S3Tests.createBucket(name: name, s3: s3)
-            .and(S3Tests.createBucket(name: name2, s3: s3))
+            .and(S3Tests.createBucket(name: name2, s3: s3Euwest2))
             .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(
                     bucket: name,
@@ -288,10 +293,10 @@ class S3ExtensionTests: XCTestCase {
                     copySource: "/\(name)/\(filename)",
                     key: filename2
                 )
-                return s3.multipartCopy(request, partSize: 5 * 1024 * 1024)
+                return s3Euwest2.multipartCopy(request, objectSize: 6 * 1024 * 1024, partSize: 5 * 1024 * 1024)
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-                return s3.getObject(.init(bucket: name2, key: filename2))
+                return s3Euwest2.getObject(.init(bucket: name2, key: filename2))
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asData(), data)
@@ -300,7 +305,7 @@ class S3ExtensionTests: XCTestCase {
                 return S3Tests.deleteBucket(name: name, s3: s3)
             }
             .flatAlways { _ in
-                return S3Tests.deleteBucket(name: name2, s3: s3)
+                return S3Tests.deleteBucket(name: name2, s3: s3Euwest2)
             }
         XCTAssertNoThrow(try response.wait())
     }
