@@ -22,6 +22,8 @@ extension S3ErrorType {
     public enum multipart: Error {
         /// CreateMultipartUpload did not return an uploadId
         case noUploadId
+        /// Copy Source in multipartCopy has no content length
+        case noCopyPartResult
         /// An empty download was returned
         case downloadEmpty(message: String)
         /// returned if an upload fails and `abortOnFail` is set to false. `uploadId` can be used in `resumeMultipartUpload`. `error` is the original error
@@ -488,6 +490,82 @@ extension S3 {
             )
         }
     }
+
+    /// Multipart copy of file to S3. Currently this only works within one region as it uses HeadObject to read the source file size
+    ///
+    /// - parameters:
+    ///     - input: The CopyObjectRequest structure that contains the details about the copy
+    ///     - partSize: Size of each part to copy. This has to be at least 5MB
+    ///     - eventLoop: an EventLoop to process each part to upload
+    /// - returns: An EventLoopFuture that will receive a CompleteMultipartUploadOutput once the multipart upload has finished.
+    public func multipartCopy(
+        _ input: CopyObjectRequest,
+        partSize: Int = 8 * 1024 * 1024,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
+        let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
+
+        // get object bucket, key and version from copySource
+        guard let copySourceValues = getBucketKeyVersion(from: input.copySource) else { return eventLoop.makeFailedFuture(AWSClientError.validationError) }
+
+        // get object size from headObject
+        let headResult = self.headObject(.init(bucket: copySourceValues.bucket, key: copySourceValues.key, versionId: copySourceValues.versionId))
+        var uploadId: String = ""
+
+        // initialize multipart upload
+        let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, sSEKMSEncryptionContext: input.sSEKMSEncryptionContext, sSEKMSKeyId: input.sSEKMSKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
+        let result = createMultipartUpload(request, on: eventLoop)
+            .and(headResult)
+            .flatMap { (upload, copySourceHead) -> EventLoopFuture<[CompletedPart]> in
+                guard let uploadResponseId = upload.uploadId else {
+                    return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
+                }
+                uploadId = uploadResponseId
+
+                let size = copySourceHead.contentLength ?? 0
+
+                // calculate number of upload part calls and the size of the final upload
+                let numParts = ((Int(size) - 1) / partSize) + 1
+                let finalPartSize = Int(size) - (numParts - 1) * partSize
+                // create array of upload part call futures.
+                let uploadPartFutures: [EventLoopFuture<CompletedPart>] = (1...numParts).map { part in
+                    let copyRange: String
+                    if part != numParts {
+                        copyRange = "bytes=\((part - 1) * partSize)-\(part * partSize - 1)"
+                    } else {
+                        copyRange = "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
+                    }
+                    return self.uploadPartCopy(
+                        .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, uploadId: uploadId)
+                    ).flatMapThrowing { response in
+                        // map completed UploadCopyPart response to S3.CompletedPart
+                        guard let copyPartResult = response.copyPartResult else { throw S3ErrorType.multipart.noCopyPartResult }
+                        return S3.CompletedPart(eTag: copyPartResult.eTag, partNumber: part)
+                    }
+                }
+                return EventLoopFuture.whenAllSucceed(uploadPartFutures, on: eventLoop)
+            }.flatMap { parts -> EventLoopFuture<CompleteMultipartUploadOutput> in
+                let request = S3.CompleteMultipartUploadRequest(
+                    bucket: input.bucket,
+                    key: input.key,
+                    multipartUpload: S3.CompletedMultipartUpload(parts: parts),
+                    requestPayer: input.requestPayer,
+                    uploadId: uploadId
+                )
+                return self.completeMultipartUpload(request, on: eventLoop)
+            }.flatMapErrorThrowing { error in
+                // if failure then abort the multipart upload
+                let request = S3.AbortMultipartUploadRequest(
+                    bucket: input.bucket,
+                    key: input.key,
+                    requestPayer: input.requestPayer,
+                    uploadId: uploadId
+                )
+                _ = self.abortMultipartUpload(request, on: eventLoop)
+                throw error
+            }
+        return result
+    }
 }
 
 extension S3 {
@@ -591,5 +669,37 @@ extension S3 {
         multipartUploadPart(partNumber: 1, uploadId: uploadId)
 
         return promise.futureResult
+    }
+
+    // from bucket, key and version id from a copySource string
+    func getBucketKeyVersion(from copySource: String) -> (bucket: String, key: String, versionId: String?)? {
+        let path: Substring
+        // drop first slash if it exists
+        if copySource.first == "/" {
+            path = copySource.dropFirst()
+        } else {
+            path = Substring(copySource)
+        }
+        // find first slash
+        guard let slashIndex = path.firstIndex(of: "/") else { return nil }
+        // find first question mark
+        let questionMarkIndex = path.firstIndex(of: "?")
+        // key is between first slash and either end index or question mark index
+        let keyStartIndex = path.index(after: slashIndex)
+        let keyEndIndex = questionMarkIndex ?? path.endIndex
+        // bucket is from start to first slash
+        let bucket = path[path.startIndex..<slashIndex]
+        let key = path[keyStartIndex..<keyEndIndex]
+        var versionId: String?
+        // if there was a question mark then check for version id
+        if questionMarkIndex != nil {
+            let versionParameter = path[questionMarkIndex!..<path.endIndex]
+            if versionParameter.hasPrefix("?versionId=") {
+                versionId = String(versionParameter.dropFirst(11))
+            } else {
+                return nil
+            }
+        }
+        return (bucket: String(bucket), key: String(key), versionId: versionId)
     }
 }
