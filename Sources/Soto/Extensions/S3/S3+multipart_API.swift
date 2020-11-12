@@ -625,7 +625,7 @@ extension S3 {
             (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
 
             logger.debug("Open file \(filename)")
-            
+
             let uploadFuture = uploadCallback(fileHandle, fileRegion, fileIO)
 
             uploadFuture.whenComplete { _ in
