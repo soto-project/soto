@@ -70,7 +70,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRole(request, on: eventLoop)
+                self.sts.assumeRole(request, logger: logger, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -96,7 +96,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRoleWithSAML(request, on: eventLoop)
+                self.sts.assumeRoleWithSAML(request, logger: logger, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -122,7 +122,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.assumeRoleWithWebIdentity(request, on: eventLoop)
+                self.sts.assumeRoleWithWebIdentity(request, logger: logger, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -148,7 +148,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.getFederationToken(request, on: eventLoop)
+                self.sts.getFederationToken(request, logger: logger, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(
@@ -174,7 +174,7 @@ extension STS {
 
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return requestProvider.request(on: eventLoop).flatMap { request in
-                self.sts.getSessionToken(request, on: eventLoop)
+                self.sts.getSessionToken(request, logger: logger, on: eventLoop)
             }.flatMapThrowing { response in
                 guard let credentials = response.credentials else { throw CredentialProviderError.noProvider }
                 return RotatingCredential(

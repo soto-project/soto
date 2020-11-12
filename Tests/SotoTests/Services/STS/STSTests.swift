@@ -30,7 +30,12 @@ class STSTests: XCTestCase {
             print("Connecting to AWS")
         }
 
-        Self.client = AWSClient(credentialProvider: TestEnvironment.credentialProvider, middlewares: TestEnvironment.middlewares, httpClientProvider: .createNew)
+        Self.client = AWSClient(
+            credentialProvider: TestEnvironment.credentialProvider,
+            middlewares: TestEnvironment.middlewares,
+            httpClientProvider: .createNew,
+            logger: Logger(label: "Soto")
+        )
         Self.sts = STS(
             client: STSTests.client,
             region: .useast1,
@@ -49,7 +54,7 @@ class STSTests: XCTestCase {
 
     func testSTSCredentialProviderShutdown() {
         let credentialProvider = CredentialProviderFactory.stsAssumeRole(request: .init(roleArn: "arn:aws:iam::000000000000:role/Admin", roleSessionName: "test-session"), region: .euwest2)
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew)
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: Logger(label: "Soto"))
         XCTAssertNoThrow(try client.syncShutdown())
     }
 
@@ -62,7 +67,7 @@ class STSTests: XCTestCase {
                 return request
             }.futureResult
         }
-        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew)
+        let client = AWSClient(credentialProvider: credentialProvider, httpClientProvider: .createNew, logger: Logger(label: "Soto"))
         XCTAssertNoThrow(try client.syncShutdown())
         XCTAssertEqual(request.roleSessionName, returnedRequest?.roleSessionName)
     }
@@ -94,7 +99,8 @@ class STSTests: XCTestCase {
                 credentialProvider: TestEnvironment.credentialProvider,
                 region: .useast1
             ),
-            httpClientProvider: .createNew
+            httpClientProvider: .createNew,
+            logger: Logger(label: "Soto")
         )
         defer { XCTAssertNoThrow(try client.syncShutdown()) }
         let s3 = S3(client: client, region: .euwest1)
