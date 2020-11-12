@@ -54,6 +54,7 @@ extension S3 {
     public func multipartDownload(
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         outputStream: @escaping (ByteBuffer, Int64, EventLoop) -> EventLoopFuture<Void>
     ) -> EventLoopFuture<Int64> {
@@ -78,7 +79,7 @@ extension S3 {
                 sSECustomerKeyMD5: input.sSECustomerKeyMD5,
                 versionId: input.versionId
             )
-            getObject(getRequest, on: eventLoop)
+            getObject(getRequest, logger: logger, on: eventLoop)
                 .and(prevPartSave)
                 .map { (output, _) -> Void in
                     // should never happen
@@ -108,7 +109,7 @@ extension S3 {
             sSECustomerKeyMD5: input.sSECustomerKeyMD5,
             versionId: input.versionId
         )
-        headObject(headRequest, on: eventLoop)
+        headObject(headRequest, logger: logger, on: eventLoop)
             .map { (object) -> Void in
                 guard let contentLength = object.contentLength else {
                     return promise.fail(S3ErrorType.multipart.downloadEmpty(message: "Content length is unexpectedly zero"))
@@ -133,6 +134,7 @@ extension S3 {
         _ input: GetObjectRequest,
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         progress: @escaping (Double) throws -> Void = { _ in }
@@ -153,7 +155,7 @@ extension S3 {
             (fileHandle) -> EventLoopFuture<Int64> in
             var progressValue: Int64 = 0
 
-            let download = self.multipartDownload(input, partSize: partSize, on: eventLoop) { byteBuffer, fileSize, eventLoop in
+            let download = self.multipartDownload(input, partSize: partSize, logger: logger, on: eventLoop) { byteBuffer, fileSize, eventLoop in
                 let bufferSize = byteBuffer.readableBytes
                 return fileIO.write(fileHandle: fileHandle, buffer: byteBuffer, eventLoop: eventLoop).flatMapThrowing { _ in
                     progressValue += Int64(bufferSize)
@@ -190,18 +192,20 @@ extension S3 {
     public func multipartUpload(
         _ input: CreateMultipartUploadRequest,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
         let eventLoop = eventLoop ?? self.client.eventLoopGroup.next()
         // initialize multipart upload
-        let result = createMultipartUpload(input, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
+        let result = createMultipartUpload(input, logger: logger, on: eventLoop).flatMap { upload -> EventLoopFuture<CompleteMultipartUploadOutput> in
             guard let uploadId = upload.uploadId else {
                 return eventLoop.makeFailedFuture(S3ErrorType.multipart.noUploadId)
             }
             // upload all the parts
             return self.multipartUploadParts(
                 input, uploadId: uploadId,
+                logger: logger,
                 on: eventLoop,
                 inputStream: inputStream,
                 skipStream: { $0.makeSucceededFuture(true) }
@@ -213,7 +217,7 @@ extension S3 {
                     requestPayer: input.requestPayer,
                     uploadId: uploadId
                 )
-                return self.completeMultipartUpload(request, on: eventLoop)
+                return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
             }.flatMapErrorThrowing { error in
                 guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: .init(uploadRequest: input, uploadId: uploadId), error: error) }
                 // if failure then abort the multipart upload
@@ -223,7 +227,7 @@ extension S3 {
                     requestPayer: input.requestPayer,
                     uploadId: uploadId
                 )
-                _ = self.abortMultipartUpload(request, on: eventLoop)
+                _ = self.abortMultipartUpload(request, logger: logger, on: eventLoop)
                 throw error
             }
         }
@@ -254,6 +258,7 @@ extension S3 {
         fileIO: NonBlockingFileIO,
         uploadSize: Int,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
@@ -262,7 +267,7 @@ extension S3 {
         var progressAmount: Int = 0
         var prevProgressAmount: Int = 0
 
-        return self.multipartUpload(input, abortOnFail: abortOnFail, on: eventLoop) { eventLoop in
+        return self.multipartUpload(input, abortOnFail: abortOnFail, logger: logger, on: eventLoop) { eventLoop in
             let size = min(partSize, uploadSize - progressAmount)
             guard size > 0 else { return eventLoop.makeSucceededFuture(.empty) }
             prevProgressAmount = progressAmount
@@ -300,6 +305,7 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         progress: @escaping (Double) throws -> Void = { _ in }
@@ -308,6 +314,7 @@ extension S3 {
 
         return openFileForMultipartUpload(
             filename: filename,
+            logger: logger,
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
@@ -318,6 +325,7 @@ extension S3 {
                 fileIO: fileIO,
                 uploadSize: fileRegion.readableBytes,
                 abortOnFail: abortOnFail,
+                logger: logger,
                 on: eventLoop,
                 progress: progress
             )
@@ -336,6 +344,7 @@ extension S3 {
     public func resumeMultipartUpload(
         _ input: ResumeMultipartUploadRequest,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
@@ -349,7 +358,7 @@ extension S3 {
             requestPayer: uploadRequest.requestPayer,
             uploadId: input.uploadId
         )
-        return listPartsPaginator(listPartsRequest, on: eventLoop) { output, eventLoop in
+        return listPartsPaginator(listPartsRequest, logger: logger, on: eventLoop) { output, eventLoop in
             if let parts = output.parts {
                 completedParts += parts.map { CompletedPart(eTag: $0.eTag, partNumber: $0.partNumber) }
             }
@@ -360,6 +369,7 @@ extension S3 {
                 uploadRequest,
                 uploadId: input.uploadId,
                 parts: completedParts,
+                logger: logger,
                 on: eventLoop,
                 inputStream: inputStream,
                 skipStream: skipStream
@@ -371,7 +381,7 @@ extension S3 {
                     requestPayer: uploadRequest.requestPayer,
                     uploadId: input.uploadId
                 )
-                return self.completeMultipartUpload(request, on: eventLoop)
+                return self.completeMultipartUpload(request, logger: logger, on: eventLoop)
             }.flatMapErrorThrowing { error in
                 guard abortOnFail else { throw S3ErrorType.multipart.abortedUpload(resumeRequest: input, error: error) }
                 // if failure then abort the multipart upload
@@ -381,7 +391,7 @@ extension S3 {
                     requestPayer: uploadRequest.requestPayer,
                     uploadId: input.uploadId
                 )
-                _ = self.abortMultipartUpload(request, on: eventLoop)
+                _ = self.abortMultipartUpload(request, logger: logger, on: eventLoop)
                 throw error
             }
         }
@@ -411,6 +421,7 @@ extension S3 {
         fileIO: NonBlockingFileIO,
         uploadSize: Int,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         progress: @escaping (Double) throws -> Void = { _ in }
     ) -> EventLoopFuture<CompleteMultipartUploadOutput> {
@@ -422,6 +433,7 @@ extension S3 {
         return self.resumeMultipartUpload(
             input,
             abortOnFail: abortOnFail,
+            logger: logger,
             on: eventLoop,
             inputStream: { eventLoop in
                 let size = min(partSize, uploadSize - progressAmount)
@@ -467,6 +479,7 @@ extension S3 {
         partSize: Int = 5 * 1024 * 1024,
         filename: String,
         abortOnFail: Bool = true,
+        logger: Logger = AWSClient.loggingDisabled,
         on eventLoop: EventLoop? = nil,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         progress: @escaping (Double) throws -> Void = { _ in }
@@ -475,6 +488,7 @@ extension S3 {
 
         return openFileForMultipartUpload(
             filename: filename,
+            logger: logger,
             on: eventLoop,
             threadPoolProvider: threadPoolProvider
         ) { fileHandle, fileRegion, fileIO in
@@ -485,6 +499,7 @@ extension S3 {
                 fileIO: fileIO,
                 uploadSize: fileRegion.readableBytes,
                 abortOnFail: abortOnFail,
+                logger: logger,
                 on: eventLoop,
                 progress: progress
             )
@@ -591,6 +606,7 @@ extension S3 {
     /// Do all the work for opening a file and closing it for MultiUpload function
     func openFileForMultipartUpload(
         filename: String,
+        logger: Logger,
         on eventLoop: EventLoop,
         threadPoolProvider: ThreadPoolProvider = .createNew,
         uploadCallback: @escaping (NIOFileHandle, FileRegion, NonBlockingFileIO) -> EventLoopFuture<CompleteMultipartUploadOutput>
@@ -608,6 +624,8 @@ extension S3 {
         return fileIO.openFile(path: filename, eventLoop: eventLoop).flatMap {
             (fileHandle, fileRegion) -> EventLoopFuture<CompleteMultipartUploadOutput> in
 
+            logger.debug("Open file \(filename)")
+            
             let uploadFuture = uploadCallback(fileHandle, fileRegion, fileIO)
 
             uploadFuture.whenComplete { _ in
@@ -631,6 +649,7 @@ extension S3 {
         _ input: CreateMultipartUploadRequest,
         uploadId: String,
         parts: [S3.CompletedPart] = [],
+        logger: Logger,
         on eventLoop: EventLoop,
         inputStream: @escaping (EventLoop) -> EventLoopFuture<AWSPayload>,
         skipStream: @escaping (EventLoop) -> EventLoopFuture<Bool>
@@ -669,7 +688,7 @@ extension S3 {
                         uploadId: uploadId
                     )
                     // request upload future
-                    return self.uploadPart(request, on: eventLoop).map { output -> Bool in
+                    return self.uploadPart(request, logger: logger, on: eventLoop).map { output -> Bool in
                         let part = S3.CompletedPart(eTag: output.eTag, partNumber: partNumber)
                         completedParts.append(part)
                         return false
