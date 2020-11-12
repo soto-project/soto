@@ -24,15 +24,22 @@ extension CognitoIdentity {
         let cognitoIdentity: CognitoIdentity
         let idPromise: EventLoopPromise<String>
 
-        init(identityPoolId: String, logins: [String: String]?, region: Region, eventLoop: EventLoop, httpClient: AWSHTTPClient) {
-            self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient))
+        init(
+            identityPoolId: String,
+            logins: [String: String]?,
+            region: Region,
+            httpClient: AWSHTTPClient,
+            logger: Logger = AWSClient.loggingDisabled,
+            eventLoop: EventLoop
+        ) {
+            self.client = AWSClient(credentialProvider: .empty, httpClientProvider: .shared(httpClient), logger: logger)
             self.cognitoIdentity = CognitoIdentity(client: self.client, region: region)
             self.logins = logins
             self.idPromise = eventLoop.makePromise(of: String.self)
 
             // only getId once and store in promise
             let request = CognitoIdentity.GetIdInput(identityPoolId: identityPoolId, logins: logins)
-            cognitoIdentity.getId(request, on: eventLoop).flatMapThrowing { response -> String in
+            cognitoIdentity.getId(request, logger: logger, on: eventLoop).flatMapThrowing { response -> String in
                 guard let identityId = response.identityId else { throw CredentialProviderError.noProvider }
                 return identityId
             }.cascade(to: idPromise)
@@ -41,7 +48,7 @@ extension CognitoIdentity {
         func getCredential(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<Credential> {
             return self.idPromise.futureResult.flatMap { identityId -> EventLoopFuture<GetCredentialsForIdentityResponse> in
                 let credentialsRequest = CognitoIdentity.GetCredentialsForIdentityInput(identityId: identityId, logins: self.logins)
-                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, on: eventLoop)
+                return self.cognitoIdentity.getCredentialsForIdentity(credentialsRequest, logger: logger, on: eventLoop)
             }
             .flatMapThrowing { response in
                 guard let credentials = response.credentials,
@@ -82,14 +89,20 @@ extension CredentialProviderFactory {
     ///   - identityPoolId: Identity pool to get identity from
     ///   - logins: Optional tokens for authenticating login
     ///   - region: Region where we can find the identity pool
-    public static func cognitoIdentity(identityPoolId: String, logins: [String: String]?, region: Region) -> CredentialProviderFactory {
+    public static func cognitoIdentity(
+        identityPoolId: String,
+        logins: [String: String]?,
+        region: Region,
+        logger: Logger = AWSClient.loggingDisabled
+    ) -> CredentialProviderFactory {
         .custom { context in
             let provider = CognitoIdentity.IdentityCredentialProvider(
                 identityPoolId: identityPoolId,
                 logins: logins,
                 region: region,
-                eventLoop: context.eventLoop,
-                httpClient: context.httpClient
+                httpClient: context.httpClient,
+                logger: logger,
+                eventLoop: context.eventLoop
             )
             return RotatingCredentialProvider(context: context, provider: provider)
         }

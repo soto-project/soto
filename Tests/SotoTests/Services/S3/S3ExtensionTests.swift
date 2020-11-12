@@ -95,11 +95,11 @@ class S3ExtensionTests: XCTestCase {
         let response = S3Tests.createBucket(name: name, s3: s3)
             .flatMap { (_) -> EventLoopFuture<S3.PutObjectOutput> in
                 let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, contentLength: Int64(data.count), key: filename)
-                return s3.putObject(putRequest)
+                return s3.putObject(putRequest, logger: TestEnvironment.logger)
             }
             .flatMap { _ -> EventLoopFuture<Int64> in
                 let request = S3.GetObjectRequest(bucket: name, key: filename)
-                return s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
+                return s3.multipartDownload(request, partSize: 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
             }
             .flatMapErrorThrowing { error in
                 print("\(error)")
@@ -121,7 +121,7 @@ class S3ExtensionTests: XCTestCase {
         let response = S3Tests.createBucket(name: name, s3: Self.s3)
             .flatMap { _ -> EventLoopFuture<Int64> in
                 let request = S3.GetObjectRequest(bucket: name, key: name)
-                return Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name) { print("Progress \($0 * 100)%") }
+                return Self.s3.multipartDownload(request, partSize: 1024 * 1024, filename: name, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
             }
             .map { _ in
                 XCTFail("testMultiPartDownloadFailure: should have failed")
@@ -158,10 +158,10 @@ class S3ExtensionTests: XCTestCase {
                     bucket: name,
                     key: name
                 )
-                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)%") }
+                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)%") }
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
-                return s3.getObject(.init(bucket: name, key: name))
+                return s3.getObject(.init(bucket: name, key: name), logger: TestEnvironment.logger)
             }
             .map { response -> Void in
                 XCTAssertEqual(response.body?.asData(), data)
@@ -187,7 +187,7 @@ class S3ExtensionTests: XCTestCase {
         let response = S3Tests.createBucket(name: name, s3: s3)
             .flatMap { (_) -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
-                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false) {
+                return s3.multipartUpload(request, partSize: 5 * 1024 * 1024, filename: filename, abortOnFail: false, logger: TestEnvironment.logger) {
                     guard $0 < 0.95 else { throw CancelError() }
                     print("Progress \($0 * 100)")
                 }
@@ -203,7 +203,7 @@ class S3ExtensionTests: XCTestCase {
                     throw CancelError()
                 }
             }.flatMap { resumeRequest -> EventLoopFuture<S3.CompleteMultipartUploadOutput> in
-                return s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename) { print("Progress \($0 * 100)") }
+                return s3.resumeMultipartUpload(resumeRequest, partSize: 5 * 1024 * 1024, filename: filename, logger: TestEnvironment.logger) { print("Progress \($0 * 100)") }
             }
             .flatMap { _ -> EventLoopFuture<S3.GetObjectOutput> in
                 return s3.getObject(.init(bucket: name, key: name))
